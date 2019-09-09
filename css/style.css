@@ -27,7 +27,7 @@
 
 .join-now-col {
     text-align: center;
-    background-color: #c01414;
+    background-color: #aa0201;
     color: #ffffff;
     padding: 2rem 0.25rem !important;
 }
@@ -67,7 +67,7 @@
 }
 
 .heading {
-    color: #c01414;
+    color: #aa0201;
     font-size: 1rem;
     font-weight: bold;
 }
@@ -77,8 +77,8 @@
 }
 
 .bar-code-image {
-    max-width: 150px;
-    max-height: 150px;
+    height: 80%;
+    width: 100%;
 }
 
 .list {
