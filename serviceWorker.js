@@ -2,6 +2,7 @@ const cacheName = 'connect-app';
 
 const staticAssets = [
   '/',
+  '/*',
   '/index.html',
   '/app.js',
   '/css/style.css',

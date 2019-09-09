@@ -59,7 +59,6 @@ const router = () => {
 const homePage = () => {
     const mainContent = document.getElementById('root');
     mainContent.innerHTML = `
-        <h1>Welcome to Connect Cohort Study!</h1>
         <div class="row">
             <div class="col-sm-9 images-grid">
                 <div class="row images-row">
