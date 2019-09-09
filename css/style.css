@@ -1,0 +1,86 @@
+.required {
+    color: red;
+}
+
+.container {
+    min-height: calc(100vh - 65px);
+    padding-top: 5rem;
+}
+
+#root {
+    height: 100%;
+}
+
+.landing-page-images {
+    height: 100%;
+    width: 100%;
+}
+
+.row {
+    padding: .5rem;
+}
+
+.images-col {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.join-now-col {
+    text-align: center;
+    background-color: #c01414;
+    color: #ffffff;
+    padding: 0px !important;
+}
+
+.join-now-btn {
+    background-color: transparent !important;
+    border-color: #ffffff !important;
+    margin-bottom: 0.25rem;
+    margin-top: 0.5rem;
+    color: #ffffff !important;
+}
+
+.eligibility-form {
+    margin: 0 0.5rem;
+}
+
+.join-now-heading {
+    white-space: normal;
+    font-size: 1.5vw;
+}
+
+.images-grid {
+    padding: 0px !important;
+}
+
+.images-row {
+    padding: 0px !important;
+    margin: 0px !important;
+}
+
+.active {
+    color: #000000 !important;
+}
+
+.nav-item {
+    color: rgba(0,0,0,.5) !important;
+}
+
+.bar-code {
+    text-align: center;
+}
+
+.heading {
+    color: #c01414;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.description {
+    font-size: 0.8rem;
+}
+
+.bar-code-image {
+    max-width: 150px;
+    max-height: 150px;
+}
