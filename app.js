@@ -117,7 +117,7 @@ const homePage = () => {
                 </span>
             </div>
             <div class="col bar-code">
-                <span class="heading">Share connect</span> <i class="fas fa-share"></i>
+                <span class="heading">Share Connect</span> <i class="fas fa-share"></i>
                 </br></br>
                 <img class="bar-code-image" src="./images/connectApp.png">
             </div>
