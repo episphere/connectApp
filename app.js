@@ -90,7 +90,7 @@ const homePage = () => {
                 </br></br>
                 <span class="description">
                     The Connect Study wants to better understand:
-                    <ul>
+                    <ul class="list">
                         <li><strong>What causes cancer,</strong></li>
                         <li><strong>Ways to prevent cancer, and</strong></li>
                         <li><strong>How to improve early detection of cancer.</strong></li>
@@ -109,7 +109,7 @@ const homePage = () => {
                 <span class="heading">Who can join Connect?</span> <i class="fas fa-female"></i><i class="fas fa-male"></i>
                 </br></br>
                 <span class="description">
-                    <ul>
+                    <ul class="list">
                         <li><strong>Men and women between the ages of 40 and 65</strong></li>
                         <li><strong>Current (patients/members) of participating sites</strong></li>
                         <li><strong>No previous history of cancer</strong> (other than non-melanoma skin cancer)</li>
