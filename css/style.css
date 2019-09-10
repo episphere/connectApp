@@ -88,3 +88,22 @@
 .about-connect {
     padding: 15px !important;
 }
+
+.auth-details-table{
+    font-size: 10px;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.fa-times {
+    color: #fc0000;
+}
+
+.h4 {
+    margin-top: 2rem;
+}
+
+.table-heading {
+    font-weight: bold;
+    font-size: 1rem;
+}

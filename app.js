@@ -320,9 +320,104 @@ const signIn = () => {
     // removeActiveClass('nav-link', 'active');
     // document.getElementById('signIn').classList.add('active');
     
-    document.getElementById('root').innerHTML = '';
+    const root = document.getElementById('root');
+    root.innerHTML = '';
+    const signInDiv = document.createElement('div');
+    signInDiv.id = 'signInDiv';
+    signInDiv.className = 'row';
+    root.appendChild(signInDiv)
+
+    const tableDiv = document.createElement('div');
+    tableDiv.id = 'tableDiv';
+    tableDiv.className = 'row';
+    root.appendChild(tableDiv);
+    
     const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
-    ui.start('#root', signInConfig());
+    ui.start('#signInDiv', signInConfig());
+
+    const table = document.getElementById('tableDiv');
+    table.innerHTML = `
+        <span class="table-heading">Information returned by different Auth providers.</span>
+        <table class="table table-bordered table-striped auth-details-table">
+            <thead>
+                <tr>
+                    <th>Auth provider</th>
+                    <th>Display Name</th>
+                    <th>Email</th>
+                    <th>Phone number</th>
+                    <th>Email verified</th>
+                    <th>Profile pic URL</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Password Authentication</td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-times"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-times"></i></td>
+                </tr>
+                <tr>
+                    <td>Email Link Authentication</td>
+                    <td><i class="fas fa-times"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-times"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-times"></i></td>
+                </tr>
+                <tr>
+                    <td>Google</td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-times"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                </tr>
+                <tr>
+                    <td>Facebook</td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-times"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                </tr>
+                <tr>
+                    <td>Twitter</td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-times"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                </tr>
+                <tr>
+                    <td>GitHub</td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-times"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                </tr>
+                <tr>
+                    <td>Yahoo</td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-times"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                </tr>
+                <tr>
+                    <td>Phone number</td>
+                    <td><i class="fas fa-times"></i></td>
+                    <td><i class="fas fa-times"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-times"></i></td>
+                    <td><i class="fas fa-times"></i></td>
+                </tr>
+            </tbody>
+        </table>
+    `;
+
     auth.onAuthStateChanged(user => {
         if(user){
             document.getElementById('navbarNavAltMarkup').innerHTML = userNavBar();
