@@ -84,7 +84,7 @@ const homePage = () => {
             <div class="col-sm-3 join-now-col" id="joinNow"></div>
         </div>
         <div class="row">
-            <div class="col">
+            <div class="col about-connect">
                 <span class="heading">Advancing Cancer Research</span> <i class="fab fa-searchengin"></i>
                 </br></br>
                 <span class="description">
@@ -96,7 +96,7 @@ const homePage = () => {
                     </ul>
                 </span>
             </div>
-            <div class="col">
+            <div class="col about-connect">
                 <span class="heading">Why should I join Connect?</span> <i class="fas fa-users"></i>
                 </br></br>
                 <span class="description">
@@ -104,7 +104,7 @@ const homePage = () => {
                     With your help, Connect will be one of the largest and most important cancer studies in the United States.    
                 </span>
             </div>
-            <div class="col">
+            <div class="col about-connect">
                 <span class="heading">Who can join Connect?</span> <i class="fas fa-female"></i><i class="fas fa-male"></i>
                 </br></br>
                 <span class="description">
@@ -115,7 +115,7 @@ const homePage = () => {
                     </ul>
                 </span>
             </div>
-            <div class="col">
+            <div class="col about-connect">
                 <span class="heading">Share Connect</span> <i class="fas fa-share"></i>
                 </br></br>
                 <img class="bar-code-image" src="./images/connectApp.png">
