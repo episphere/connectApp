@@ -355,7 +355,7 @@ const signIn = () => {
                     <td><i class="fas fa-check"></i></td>
                     <td><i class="fas fa-check"></i></td>
                     <td><i class="fas fa-times"></i></td>
-                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-times"></i></td>
                     <td><i class="fas fa-times"></i></td>
                 </tr>
                 <tr>
