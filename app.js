@@ -290,7 +290,6 @@ const createAccountConfig = () => {
         signInSuccessUrl: '#account_created',
         signInOptions: [
             firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-            firebase.auth.GithubAuthProvider.PROVIDER_ID,
             firebase.auth.EmailAuthProvider.PROVIDER_ID,
             firebase.auth.PhoneAuthProvider.PROVIDER_ID
         ]
@@ -402,7 +401,6 @@ const signInConfig = () => {
         signInSuccessUrl: '#profile',
         signInOptions: [
             firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-            firebase.auth.GithubAuthProvider.PROVIDER_ID,
             firebase.auth.EmailAuthProvider.PROVIDER_ID,
             firebase.auth.PhoneAuthProvider.PROVIDER_ID
         ]
