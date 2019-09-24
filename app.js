@@ -32,7 +32,7 @@ const router = () => {
     const parameters = index !== -1 ? getparameters(hash.slice(index+1, hash.length)) : {};
     if(parameters.token){
         if(localStorage.connectApp){
-            localStorage.connectApp = JSON.stringify(JSON.parse(localStorage.connectApp).token = parameters.token);
+            localStorage.connectApp = JSON.stringify({token : parameters.token});
         }
         else{
             let obj = {};
@@ -45,13 +45,13 @@ const router = () => {
     }
     toggleNavBar();
     const route =  index !== -1 ? hash.slice(0, index) : hash || '#';
+    const eligibilityQuestionnaire = localStorage.eligibilityQuestionnaire ? JSON.parse(localStorage.eligibilityQuestionnaire) : {};
     if(route === '#') homePage();
-    else if(route === '#eligibility_screener' && !checkSession()) eligibilityScreener();
-    else if(route === '#eligible' && !checkSession()) eligibleParticipant();
-    else if(route === '#ineligible' && !checkSession()) ineligible();
-    else if(route === '#ineligible_site' && !checkSession()) ineligible_site();
-    else if(route === '#sign_in' && !checkSession()) signIn();
-    else if (route === '#profile' && checkSession()) accountCreated();
+    else if (route === '#join_now' && !checkSession()) eligibilityScreener();
+    else if (route === '#sign_in' && !checkSession()) signIn();
+    else if (route === '#profile' && checkSession()) userProfile();
+    else if (route === '#create_account' && !checkSession() && eligibilityQuestionnaire.RcrtES_AgeQualify_v1r0 === 1 && eligibilityQuestionnaire.RcrtES_CancerHist_v1r0 === 0 && eligibilityQuestionnaire.RcrtES_Site_v1r0 !== 88) createAccountPage();
+    else if (route === '#account_created') accountCreatedPage();
     else if (route === '#sign_out') signOut();
     else window.location.hash = '#';
 }
@@ -122,8 +122,6 @@ const homePage = () => {
             </div>
         </div>
     `;
-    // removeActiveClass('nav-link', 'active');
-    // document.getElementById('home').classList.add('active');
 }
 
 const sites = () => {
@@ -148,91 +146,90 @@ const eligibilityScreener = () => {
     <div class="col eligibility-form">
         <h4>Please fill out this form to determine your eligibility for Connect.</h4></br>
         <label>Are you between the ages of 40-65?<span class="required"> *</span></label>
-        <div class="form-group">
-            <div class="radio">
-                <label><input type="radio" id="radio1" name="RcrtES_AgeQualify_v1r0" value=1 checked> Yes</label>
+        <form method="POST" id="eligibilityForm">
+            <div class="form-group">
+                <div class="radio">
+                    <label><input type="radio" id="radio1" name="RcrtES_AgeQualify_v1r0" value=1 required> Yes</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" id="radio2" name="RcrtES_AgeQualify_v1r0" value=0> No</label>
+                </div>
             </div>
-            <div class="radio">
-                <label><input type="radio" id="radio2" name="RcrtES_AgeQualify_v1r0" value=0> No</label>
-            </div>
-        </div>
 
-        <label>Have you ever had cancer (other than non-melanoma skin cancer)?<span class="required"> *</span></label>
-        <div class="form-group">
-            <div class="radio">
-                <label><input type="radio" name="RcrtES_CancerHist_v1r0" id="radio3" checked value=1> Yes</label>
+            <label>Have you ever had cancer (other than non-melanoma skin cancer)?<span class="required"> *</span></label>
+            <div class="form-group">
+                <div class="radio">
+                    <label><input type="radio" name="RcrtES_CancerHist_v1r0" id="radio3" required value=1> Yes</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" id="radio4" name="RcrtES_CancerHist_v1r0" value=0> No</label>
+                </div>
             </div>
-            <div class="radio">
-                <label><input type="radio" id="radio4" name="RcrtES_CancerHist_v1r0" value=0> No</label>
-            </div>
-        </div>
 
-        <div class="form-group">
-            <label for="RcrtES_Site_v1r0">Who is your healthcare provider?<span class="required"> *</span></label>
-            <select class="form-control" id="RcrtES_Site_v1r0">
-                <option value=1>Health Partners</option>
-                <option value=2>Henry Ford Health System</option>
-                <option value=3>Kaiser Permanente Colorado</option>
-                <option value=4>Kaiser Permanente Georgia</option>
-                <option value=5>Kaiser Permanente Hawaii</option>
-                <option value=6>Kaiser Permanente Northwest</option>
-                <option value=7>Marshfield Clinic</option>
-                <option value=8>Sanford Health</option>
-                <option value=9>University of Chicago Medicine</option>
-                <option value=13>Natiocal Cancer Institute</option>
-                <option value=88>None of these</option>
-            </select>
-        </div>
+            <div class="form-group">
+                <label for="RcrtES_Site_v1r0">Who is your healthcare provider?<span class="required"> *</span></label>
+                <select class="form-control" id="RcrtES_Site_v1r0" required>
+                    <option value="">-- Select healthcare provider --</option>    
+                    <option value=1>Health Partners</option>
+                    <option value=2>Henry Ford Health System</option>
+                    <option value=3>Kaiser Permanente Colorado</option>
+                    <option value=4>Kaiser Permanente Georgia</option>
+                    <option value=5>Kaiser Permanente Hawaii</option>
+                    <option value=6>Kaiser Permanente Northwest</option>
+                    <option value=7>Marshfield Clinic</option>
+                    <option value=8>Sanford Health</option>
+                    <option value=9>University of Chicago Medicine</option>
+                    <option value=13>Natiocal Cancer Institute</option>
+                    <option value=88>None of these</option>
+                </select>
+            </div>
 
-        <label>How did you hear about this study?</label>
-        <div class="form-group">
-            <div class="checkbox">
-                <label><input type="checkbox" id="checkbox1"> Physician or other medical staff</label>
+            <label>How did you hear about this study?</label>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label><input type="checkbox" id="checkbox1"> Physician or other medical staff</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" id="checkbox2"> Email or text from my healthcare provider</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" id="checkbox3"> Postcard or mail</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" id="checkbox4"> News article or website</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" id="checkbox5"> Social media</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" id="checkbox6"> MyChart invitation</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" id="checkbox7"> Family or friend</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" id="checkbox8"> Another Connect participant</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" id="checkbox9"> Poster, brochure, or flyer</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" id="checkbox10"> Study table at public event</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox"  id="checkbox11"> Other</label>
+                </div>
             </div>
-            <div class="checkbox">
-                <label><input type="checkbox" id="checkbox2"> Email or text from my healthcare provider</label>
-            </div>
-            <div class="checkbox">
-                <label><input type="checkbox" id="checkbox3"> Postcard or mail</label>
-            </div>
-            <div class="checkbox">
-                <label><input type="checkbox" id="checkbox4"> News article or website</label>
-            </div>
-            <div class="checkbox">
-                <label><input type="checkbox" id="checkbox5"> Social media</label>
-            </div>
-            <div class="checkbox">
-                <label><input type="checkbox" id="checkbox6"> MyChart invitation</label>
-            </div>
-            <div class="checkbox">
-                <label><input type="checkbox" id="checkbox7"> Family or friend</label>
-            </div>
-            <div class="checkbox">
-                <label><input type="checkbox" id="checkbox8"> Another Connect participant</label>
-            </div>
-            <div class="checkbox">
-                <label><input type="checkbox" id="checkbox9"> Poster, brochure, or flyer</label>
-            </div>
-            <div class="checkbox">
-                <label><input type="checkbox" id="checkbox10"> Study table at public event</label>
-            </div>
-            <div class="checkbox">
-                <label><input type="checkbox"  id="checkbox11"> Other</label>
-            </div>
-        </div>
-        <button onclick="eligibilityQuestionnaire()" class="btn btn-primary">Submit</button></br></br>
+            <button type="submit" class="btn btn-primary">Submit</button></br></br>
+        </form>
     </div>
     `;
-}
 
-const eligibleParticipant = () => {
-    const mainContent = document.getElementById('root');
-    mainContent.innerHTML = `
-        <div class="col">
-            <h1>You are eligible! Thank you for joining Connect.</h1>
-            <button class="btn btn-primary">Create Account</button>
-        </div>
-    `;
+    const form = document.getElementById('eligibilityForm');
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        eligibilityQuestionnaire();
+    })
 }
 
 const eligibilityQuestionnaire = () => {
@@ -256,14 +253,66 @@ const eligibilityQuestionnaire = () => {
     localStorage.eligibilityQuestionnaire = JSON.stringify(formData);
     if(formData.RcrtES_AgeQualify_v1r0 === 1 && formData.RcrtES_CancerHist_v1r0 === 0 && formData.RcrtES_Site_v1r0 !== 88){
         storeResponse(formData);
-        window.location.hash = '#eligible';
+        eligibleParticipant();
     }
     else if(formData.RcrtES_AgeQualify_v1r0 === 1 && formData.RcrtES_CancerHist_v1r0 === 0 && formData.RcrtES_Site_v1r0 === 88){
-        window.location.hash = "#ineligible_site";
+        ineligibleSite();
     }
     else{
-        window.location.hash = '#ineligible';
+        ineligible();
     }
+}
+
+const eligibleParticipant = () => {
+    const mainContent = document.getElementById('root');
+    mainContent.innerHTML = `
+        <div class="col">
+            <h1>You are eligible! Thank you for joining Connect.</h1>
+            <a href="#create_account"><button class="btn btn-primary" id="createAccount">Create Account</button></a>
+        </div>
+    `;
+}
+
+const createAccountPage = () => {
+    const root = document.getElementById('root');
+    root.innerHTML = '';
+    const signInDiv = document.createElement('div');
+    signInDiv.id = 'signInDiv';
+    signInDiv.className = 'row';
+    root.appendChild(signInDiv)
+    
+    const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
+    ui.start('#signInDiv', createAccountConfig());
+}
+
+const createAccountConfig = () => {
+    return {
+        signInSuccessUrl: '#account_created',
+        signInOptions: [
+            firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+            firebase.auth.GithubAuthProvider.PROVIDER_ID,
+            firebase.auth.EmailAuthProvider.PROVIDER_ID,
+            firebase.auth.PhoneAuthProvider.PROVIDER_ID
+        ]
+    }
+}
+
+const accountCreatedPage = () => {
+    auth.onAuthStateChanged(user => {
+        if(user){
+            if(user.metadata.a !== user.metadata.b) {
+                alert('Account already exists please use sign in');
+                firebase.auth().signOut();
+                window.location.hash = '#';
+            }
+            else {
+                window.location.hash = '#profile';
+            }
+        }
+        else{
+            window.location.hash = '#';
+        }
+    });
 }
 
 const ineligible = () => {
@@ -336,87 +385,7 @@ const signIn = () => {
     ui.start('#signInDiv', signInConfig());
 
     const table = document.getElementById('tableDiv');
-    table.innerHTML = `
-        <span class="table-heading">Information returned by different Auth providers.</span>
-        <table class="table table-bordered table-striped auth-details-table">
-            <thead>
-                <tr>
-                    <th>Auth provider</th>
-                    <th>Display Name</th>
-                    <th>Email</th>
-                    <th>Phone number</th>
-                    <th>Email verified</th>
-                    <th>Profile pic URL</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Password Authentication</td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-times"></i></td>
-                    <td><i class="fas fa-times"></i></td>
-                    <td><i class="fas fa-times"></i></td>
-                </tr>
-                <tr>
-                    <td>Email Link Authentication</td>
-                    <td><i class="fas fa-times"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-times"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-times"></i></td>
-                </tr>
-                <tr>
-                    <td>Google</td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-times"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                </tr>
-                <tr>
-                    <td>Facebook</td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-times"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                </tr>
-                <tr>
-                    <td>Twitter</td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-times"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                </tr>
-                <tr>
-                    <td>GitHub</td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-times"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                </tr>
-                <tr>
-                    <td>Yahoo</td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-times"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                </tr>
-                <tr>
-                    <td>Phone number</td>
-                    <td><i class="fas fa-times"></i></td>
-                    <td><i class="fas fa-times"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-times"></i></td>
-                    <td><i class="fas fa-times"></i></td>
-                </tr>
-            </tbody>
-        </table>
-    `;
+    table.innerHTML = tempTable();
 
     auth.onAuthStateChanged(user => {
         if(user){
@@ -440,11 +409,24 @@ const signInConfig = () => {
     }
 }
 
-const accountCreated = () => {
+const userProfile = () => {
     auth.onAuthStateChanged(user => {
         if(user){
-            const mainContent = document.getElementById('root');
-            mainContent.innerHTML = `<pre>${JSON.stringify(user, null, 3)}</pre>`;
+            if(user.email && !user.emailVerified){
+                const mainContent = document.getElementById('root');
+                mainContent.innerHTML = '<div>Please verify your email by clicking <a href="#" id="verifyEmail">here</a></div>'
+
+                document.getElementById('verifyEmail').addEventListener('click', () => {
+                    user.sendEmailVerification().then(function() {
+                    
+                    }).catch(function(error) {
+                        
+                    });
+                });
+            }else{
+                const mainContent = document.getElementById('root');
+                mainContent.innerHTML = `<pre>${JSON.stringify(user, null, 3)}</pre>`;
+            }
         }
         else{
             window.location.hash = '#';
@@ -528,7 +510,7 @@ const checkSession = () => {
 const joinNowBtn = (bool) => {
     if(bool){
         return `<span class="join-now-heading">What causes and prevents cancer? Help researchers answer this question for future generations</span>
-        </br><a class="btn join-now-btn" href="#eligibility_screener">Join Now</a>`
+        </br><a class="btn join-now-btn" href="#join_now">Join Now</a>`
     }
     else {
         return `<span class="join-now-heading">Thanks for joining Connect Cohort Study!</span>`
@@ -540,4 +522,88 @@ const removeActiveClass = (className, activeClass) => {
     Array.from(fileIconElement).forEach(elm => {
         elm.classList.remove(activeClass);
     });
+}
+
+const tempTable = () => {
+    return `
+        <span class="table-heading">Information returned by different Auth providers.</span>
+        <table class="table table-bordered table-striped auth-details-table">
+            <thead>
+                <tr>
+                    <th>Auth provider</th>
+                    <th>Display Name</th>
+                    <th>Email</th>
+                    <th>Phone number</th>
+                    <th>Email verified</th>
+                    <th>Profile pic URL</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Password Authentication</td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-times"></i></td>
+                    <td><i class="fas fa-times"></i></td>
+                    <td><i class="fas fa-times"></i></td>
+                </tr>
+                <tr>
+                    <td>Email Link Authentication</td>
+                    <td><i class="fas fa-times"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-times"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-times"></i></td>
+                </tr>
+                <tr>
+                    <td>Google</td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-times"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                </tr>
+                <tr>
+                    <td>Facebook</td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-times"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                </tr>
+                <tr>
+                    <td>Twitter</td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-times"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                </tr>
+                <tr>
+                    <td>GitHub</td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-times"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                </tr>
+                <tr>
+                    <td>Yahoo</td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-times"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                </tr>
+                <tr>
+                    <td>Phone number</td>
+                    <td><i class="fas fa-times"></i></td>
+                    <td><i class="fas fa-times"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-times"></i></td>
+                    <td><i class="fas fa-times"></i></td>
+                </tr>
+            </tbody>
+        </table>
+    `;
 }
