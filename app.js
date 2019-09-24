@@ -47,11 +47,11 @@ const router = () => {
     const route =  index !== -1 ? hash.slice(0, index) : hash || '#';
     const eligibilityQuestionnaire = localStorage.eligibilityQuestionnaire ? JSON.parse(localStorage.eligibilityQuestionnaire) : {};
     if(route === '#') homePage();
-    else if (route === '#join_now' && !checkSession()) eligibilityScreener();
+    // else if (route === '#join_now' && !checkSession()) eligibilityScreener();
     else if (route === '#sign_in' && !checkSession()) signIn();
     else if (route === '#profile' && checkSession()) userProfile();
-    else if (route === '#create_account' && !checkSession() && eligibilityQuestionnaire.RcrtES_AgeQualify_v1r0 === 1 && eligibilityQuestionnaire.RcrtES_CancerHist_v1r0 === 0 && eligibilityQuestionnaire.RcrtES_Site_v1r0 !== 88) createAccountPage();
-    else if (route === '#account_created') accountCreatedPage();
+    // else if (route === '#create_account' && !checkSession() && eligibilityQuestionnaire.RcrtES_AgeQualify_v1r0 === 1 && eligibilityQuestionnaire.RcrtES_CancerHist_v1r0 === 0 && eligibilityQuestionnaire.RcrtES_Site_v1r0 !== 88) createAccountPage();
+    // else if (route === '#account_created') accountCreatedPage();
     else if (route === '#sign_out') signOut();
     else window.location.hash = '#';
 }
@@ -82,6 +82,15 @@ const homePage = () => {
                 </div>
             </div>
             <div class="col-sm-3 join-now-col" id="joinNow"></div>
+        </div>
+        <div class="row" id="siteLogos">
+            <div class="col"><img src="./images/Chicago Vector.png" class="site-logo"></div>
+            <div class="col"><img src="./images/hf vector.png" class="site-logo"></div>
+            <div class="col"><img src="./images/hp vector.png" class="site-logo"></div>
+            <div class="col"><img src="./images/kp vector.png" class="site-logo"></div>
+            <div class="col"><img src="./images/marsh vector.png" class="site-logo"></div>
+            <div class="col"><img src="./images/norc vector.png" class="site-logo"></div>
+            <div class="col"><img src="./images/sanford vector.png" class="site-logo"></div>
         </div>
         <div class="row">
             <div class="col about-connect">
@@ -375,16 +384,16 @@ const signIn = () => {
     signInDiv.className = 'row';
     root.appendChild(signInDiv)
 
-    const tableDiv = document.createElement('div');
-    tableDiv.id = 'tableDiv';
-    tableDiv.className = 'row';
-    root.appendChild(tableDiv);
+    // const tableDiv = document.createElement('div');
+    // tableDiv.id = 'tableDiv';
+    // tableDiv.className = 'row';
+    // root.appendChild(tableDiv);
     
     const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
     ui.start('#signInDiv', signInConfig());
 
-    const table = document.getElementById('tableDiv');
-    table.innerHTML = tempTable();
+    // const table = document.getElementById('tableDiv');
+    // table.innerHTML = tempTable();
 
     auth.onAuthStateChanged(user => {
         if(user){
@@ -412,8 +421,12 @@ const userProfile = () => {
         if(user){
             if(user.email && !user.emailVerified){
                 const mainContent = document.getElementById('root');
-                mainContent.innerHTML = '<div>Please verify your email by clicking <a href="#" id="verifyEmail">here</a></div>'
+                mainContent.innerHTML = '<div>Please verify your email by clicking <a id="verifyEmail"><button class="btn btn-primary">Verify Email</button></a></div>'
 
+                document.getElementById('verifyEmail').addEventListener('click', () => {
+                    mainContent.innerHTML = `<div>Please click on the verification link we sent on <strong>${user.email}</strong></div>` 
+                });
+                
                 document.getElementById('verifyEmail').addEventListener('click', () => {
                     user.sendEmailVerification().then(function() {
                     
@@ -461,7 +474,7 @@ const userNavBar = () => {
         </div>
         <div class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="#profile" id="profile" title="Sign In"><i class="fas fa-user"></i> Profile</a>
+                <a class="nav-link" href="#profile" id="profile" title="User Profile"><i class="fas fa-user"></i> Profile</a>
             </li>
         </div>
         <div class="navbar-nav">
@@ -508,7 +521,7 @@ const checkSession = () => {
 const joinNowBtn = (bool) => {
     if(bool){
         return `<span class="join-now-heading">What causes and prevents cancer? Help researchers answer this question for future generations</span>
-        </br><a class="btn join-now-btn" href="#join_now">Join Now</a>`
+        </br><a class="btn join-now-btn" href="#sign_in">Join Now</a>`
     }
     else {
         return `<span class="join-now-heading">Thanks for joining Connect Cohort Study!</span>`

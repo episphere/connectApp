@@ -85,10 +85,6 @@
     padding-left: 0.75rem;
 }
 
-.about-connect {
-    padding: 15px !important;
-}
-
 .auth-details-table{
     font-size: 10px;
     text-align: center;
@@ -106,4 +102,15 @@
 .table-heading {
     font-weight: bold;
     font-size: 1rem;
+}
+
+.site-logo {
+    height: 80%;
+    width: 75%; 
+}
+
+#siteLogos {
+    background-color: #ffffff;
+    border-left: 8px solid #ffffff;
+    border-right: 8px solid #ffffff;
 }
