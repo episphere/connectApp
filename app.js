@@ -135,7 +135,7 @@ const homePage = () => {
 
 const sites = () => {
     return {
-        1: 'Health Partners',
+        1: 'HealthPartners',
         2: 'Henry Ford Health System',
         3: 'Kaiser Permanente Colorado',
         4: 'Kaiser Permanente Georgia',
@@ -179,7 +179,7 @@ const eligibilityScreener = () => {
                 <label for="RcrtES_Site_v1r0">Who is your healthcare provider?<span class="required"> *</span></label>
                 <select class="form-control" id="RcrtES_Site_v1r0" required>
                     <option value="">-- Select healthcare provider --</option>    
-                    <option value=1>Health Partners</option>
+                    <option value=1>HealthPartners</option>
                     <option value=2>Henry Ford Health System</option>
                     <option value=3>Kaiser Permanente Colorado</option>
                     <option value=4>Kaiser Permanente Georgia</option>
@@ -443,7 +443,7 @@ const userProfile = () => {
                             <label for="RcrtES_Site_v1r0">Who is your healthcare provider?<span class="required"> *</span>
                                 <select class="form-control" id="RcrtES_Site_v1r0" required>
                                     <option value="">-- Select healthcare provider --</option>    
-                                    <option value=1>Health Partners</option>
+                                    <option value=1>HealthPartners</option>
                                     <option value=2>Henry Ford Health System</option>
                                     <option value=3>Kaiser Permanente Colorado</option>
                                     <option value=4>Kaiser Permanente Georgia</option>
