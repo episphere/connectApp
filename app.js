@@ -519,8 +519,84 @@ const userProfile = () => {
                     
                     localStorage.eligibilityQuestionnaire = JSON.stringify(formData);
                     storeResponse(formData);
-                    mainContent.innerHTML = `<h3>Consent</h3>`
-                })
+                    mainContent.innerHTML = ` 
+                        <div class="row">
+                            <object data="./consent_draft.pdf" class="embedPdf" type="application/pdf"></object> 
+                        </div>
+                        <form id="consentForm">
+                            <div class="row">
+                                <label class="color-red"><input type="checkbox" required> I have read the explanation about this study and have been given the opportunity to discuss it and ask questions. I consent to participate in this study.</label>
+                            </div>
+                            <div class="row">
+                                <div class="col form-group consent-form">
+                                    <label>
+                                        First name<span class="required">*</span>
+                                        <input required type="text" name="RcrutCS_Fname_v1r0" id="CSFirstName" class="form-control" placeholder="Enter first name">
+                                    </label>
+                                </div>
+                                <div class="col form-group consent-form">
+                                    <label>
+                                        Last name<span class="required">*</span>
+                                        <input required type="text" name="RcrutCS_Lname_v1r0" id="CSLastName" class="form-control" placeholder="Enter last name">
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col form-group consent-form">
+                                    <label>
+                                        Digital signature<span class="required">*</span>
+                                        <input disabled required type="text" name="RcrutCS_Sign_v1r0" id="CSSign" class="form-control consentSign">
+                                    </label>
+                                </div>
+                            </div>
+                            ${localStorage.eligibilityQuestionnaire ? JSON.parse(localStorage.eligibilityQuestionnaire).RcrtES_Site_v1r0 === 9 ? `
+                                <div class="row">
+                                    <div class="col form-group consent-form">
+                                        <label>
+                                            Witness first name<span class="required">*</span>
+                                            <input required type="text" name="RcrutCS_WFname_v1r0" id="CSWFirstName" class="form-control" placeholder="Enter first name">
+                                        </label>
+                                    </div>
+                                    <div class="col form-group consent-form">
+                                        <label>
+                                            Witness last name<span class="required">*</span>
+                                            <input required type="text" name="RcrutCS_WLname_v1r0" id="CSWLastName" class="form-control" placeholder="Enter last name">
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col form-group consent-form">
+                                        <label>
+                                            Witness digital signature<span class="required">*</span>
+                                            <input disabled required type="text" name="RcrutCSW_Sign_v1r0" id="CSWSign" class="form-control consentSign">
+                                        </label>
+                                    </div>
+                                </div>
+                            ` : '' : ''}
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
+                    `;
+                    document.getElementById('CSFirstName').addEventListener('keyup', () => {
+                        document.getElementById('CSSign').value = document.getElementById('CSFirstName').value.trim() +' '+document.getElementById('CSLastName').value.trim()
+                    });
+                    document.getElementById('CSLastName').addEventListener('keyup', () => {
+                        document.getElementById('CSSign').value = document.getElementById('CSFirstName').value.trim() +' '+document.getElementById('CSLastName').value.trim()
+                    });
+
+                    const CSWFirstName = document.getElementById('CSWFirstName');
+                    const CSWLastName = document.getElementById('CSWLastName');
+
+                    if(CSWFirstName && CSWLastName){
+                        CSWFirstName.addEventListener('keyup', () => {
+                            document.getElementById('CSWSign').value = CSWFirstName.value.trim() +' '+CSWLastName.value.trim()
+                        });
+                        CSWLastName.addEventListener('keyup', () => {
+                            document.getElementById('CSWSign').value = CSWFirstName.value.trim() +' '+CSWLastName.value.trim()
+                        });
+                    }
+                });
             }
         }
         else{
