@@ -547,6 +547,11 @@ const userProfile = () => {
                                         <input disabled required type="text" name="RcrutCS_Sign_v1r0" id="CSSign" class="form-control consentSign">
                                     </label>
                                 </div>
+                                <div class="col form-group consent-form">
+                                    <label>
+                                        <strong>Today's date:</strong> ${new Date().toDateString()}
+                                    </label>
+                                </div>
                             </div>
                             ${localStorage.eligibilityQuestionnaire ? JSON.parse(localStorage.eligibilityQuestionnaire).RcrtES_Site_v1r0 === 9 ? `
                                 <div class="row">
@@ -568,6 +573,11 @@ const userProfile = () => {
                                         <label>
                                             Witness digital signature<span class="required">*</span>
                                             <input disabled required type="text" name="RcrutCSW_Sign_v1r0" id="CSWSign" class="form-control consentSign">
+                                        </label>
+                                    </div>
+                                    <div class="col form-group consent-form">
+                                        <label>
+                                            <strong>Today's date:</strong> ${new Date().toDateString()}
                                         </label>
                                     </div>
                                 </div>
