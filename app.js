@@ -528,13 +528,13 @@ const userProfile = () => {
                             </div>
                             <div class="row">
                                 <div class="col form-group consent-form">
-                                    <label>
+                                    <label class="consent-form-label">
                                         First name<span class="required">*</span>
                                         <input required type="text" name="RcrutCS_Fname_v1r0" id="CSFirstName" class="form-control" placeholder="Enter first name">
                                     </label>
                                 </div>
                                 <div class="col form-group consent-form">
-                                    <label>
+                                    <label class="consent-form-label">
                                         Last name<span class="required">*</span>
                                         <input required type="text" name="RcrutCS_Lname_v1r0" id="CSLastName" class="form-control" placeholder="Enter last name">
                                     </label>
@@ -542,27 +542,28 @@ const userProfile = () => {
                             </div>
                             <div class="row">
                                 <div class="col form-group consent-form">
-                                    <label>
+                                    <label class="consent-form-label">
                                         Digital signature<span class="required">*</span>
                                         <input disabled required type="text" name="RcrutCS_Sign_v1r0" id="CSSign" class="form-control consentSign">
                                     </label>
                                 </div>
                                 <div class="col form-group consent-form">
-                                    <label>
-                                        <strong>Today's date:</strong> ${new Date().toDateString()}
+                                    <label class="consent-form-label">
+                                        Today's date: 
                                     </label>
+                                    <span>${todaysDate()}</span>
                                 </div>
                             </div>
                             ${localStorage.eligibilityQuestionnaire ? JSON.parse(localStorage.eligibilityQuestionnaire).RcrtES_Site_v1r0 === 9 ? `
                                 <div class="row">
                                     <div class="col form-group consent-form">
-                                        <label>
+                                        <label class="consent-form-label">
                                             Witness first name<span class="required">*</span>
                                             <input required type="text" name="RcrutCS_WFname_v1r0" id="CSWFirstName" class="form-control" placeholder="Enter first name">
                                         </label>
                                     </div>
                                     <div class="col form-group consent-form">
-                                        <label>
+                                        <label class="consent-form-label">
                                             Witness last name<span class="required">*</span>
                                             <input required type="text" name="RcrutCS_WLname_v1r0" id="CSWLastName" class="form-control" placeholder="Enter last name">
                                         </label>
@@ -570,15 +571,16 @@ const userProfile = () => {
                                 </div>
                                 <div class="row">
                                     <div class="col form-group consent-form">
-                                        <label>
+                                        <label class="consent-form-label">
                                             Witness digital signature<span class="required">*</span>
                                             <input disabled required type="text" name="RcrutCSW_Sign_v1r0" id="CSWSign" class="form-control consentSign">
                                         </label>
                                     </div>
                                     <div class="col form-group consent-form">
-                                        <label>
-                                            <strong>Today's date:</strong> ${new Date().toDateString()}
+                                        <label class="consent-form-label">
+                                            Today's date: 
                                         </label>
+                                        <span>${todaysDate()}</span>
                                     </div>
                                 </div>
                             ` : '' : ''}
@@ -744,86 +746,19 @@ const removeActiveClass = (className, activeClass) => {
     });
 }
 
-const tempTable = () => {
-    return `
-        <span class="table-heading">Information returned by different Auth providers.</span>
-        <table class="table table-bordered table-striped auth-details-table">
-            <thead>
-                <tr>
-                    <th>Auth provider</th>
-                    <th>Display Name</th>
-                    <th>Email</th>
-                    <th>Phone number</th>
-                    <th>Email verified</th>
-                    <th>Profile pic URL</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Password Authentication</td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-times"></i></td>
-                    <td><i class="fas fa-times"></i></td>
-                    <td><i class="fas fa-times"></i></td>
-                </tr>
-                <tr>
-                    <td>Email Link Authentication</td>
-                    <td><i class="fas fa-times"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-times"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-times"></i></td>
-                </tr>
-                <tr>
-                    <td>Google</td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-times"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                </tr>
-                <tr>
-                    <td>Facebook</td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-times"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                </tr>
-                <tr>
-                    <td>Twitter</td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-times"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                </tr>
-                <tr>
-                    <td>GitHub</td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-times"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                </tr>
-                <tr>
-                    <td>Yahoo</td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-times"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                </tr>
-                <tr>
-                    <td>Phone number</td>
-                    <td><i class="fas fa-times"></i></td>
-                    <td><i class="fas fa-times"></i></td>
-                    <td><i class="fas fa-check"></i></td>
-                    <td><i class="fas fa-times"></i></td>
-                    <td><i class="fas fa-times"></i></td>
-                </tr>
-            </tbody>
-        </table>
-    `;
+const todaysDate = () => {
+    const today = new Date();
+    let dd = today.getDate();
+    let mm = today.getMonth()+1; 
+    const yyyy = today.getFullYear();
+    if(dd<10) 
+    {
+        dd='0'+dd;
+    } 
+
+    if(mm<10) 
+    {
+        mm='0'+mm;
+    } 
+    return mm+'/'+dd+'/'+yyyy;
 }
