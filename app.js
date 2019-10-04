@@ -519,10 +519,9 @@ const userProfile = () => {
                     
                     localStorage.eligibilityQuestionnaire = JSON.stringify(formData);
                     storeResponse(formData);
+                    
                     mainContent.innerHTML = ` 
-                        <div class="row">
-                            <object data="./consent_draft.pdf" class="embedPdf" type="application/pdf"></object> 
-                        </div>
+                        <div class="row" id="canvasContainer"></div>
                         <form id="consentForm">
                             <div class="row">
                                 <label class="color-red"><input type="checkbox" required> I have read the explanation about this study and have been given the opportunity to discuss it and ask questions. I consent to participate in this study.</label>
@@ -578,6 +577,18 @@ const userProfile = () => {
                             </div>
                         </form>
                     `;
+
+                    let scale = 1;
+                    if(window.innerWidth > 1000) scale = 1.5;
+                    if(window.innerWidth < 700) scale = 0.7;
+                    drawCanvas(scale);
+                    window.addEventListener('resize', () => {
+                        let scale = 1;
+                        if(window.innerWidth > 1000) scale = 1.5;
+                        if(window.innerWidth < 700) scale = 0.7
+                        drawCanvas(scale);
+                    }, false);
+
                     document.getElementById('CSFirstName').addEventListener('keyup', () => {
                         document.getElementById('CSSign').value = document.getElementById('CSFirstName').value.trim() +' '+document.getElementById('CSLastName').value.trim()
                     });
@@ -605,6 +616,27 @@ const userProfile = () => {
     });
     // removeActiveClass('nav-link', 'active');
     // document.getElementById('profile').classList.add('active');
+}
+
+const drawCanvas = (scale) => {
+    let thePdf = null;
+
+    pdfjsLib.getDocument('./consent_draft.pdf').promise.then(function(pdf) {
+        thePdf = pdf;
+        const viewer = document.getElementById('canvasContainer');
+        viewer.innerHTML = '';
+        for(pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
+            const canvas = document.createElement("canvas");    
+            canvas.className = 'pdf-page-canvas';         
+            viewer.appendChild(canvas);
+            thePdf.getPage(pageNumber).then(function(page) {
+                viewport = page.getViewport(scale);
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;         
+                page.render({canvasContext: canvas.getContext('2d'), viewport: viewport});
+            });
+        }
+    });
 }
 
 const signOut = () => {
@@ -675,6 +707,13 @@ const toggleNavBar = () => {
 
 const checkSession = () => {
     const user = firebase.auth().currentUser;
+    if(user){
+        firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
+        }).catch(function(error) {
+        // Handle error
+        });
+    }
+    
     return user ? true : false;
 }
 
