@@ -661,7 +661,7 @@ const signOut = () => {
 const firebaseConfig = () => {
     return {
         apiKey: "AIzaSyDe3Ewzl4x7hEX30EiQJ0tvXBtzd2Hghiw",
-        authDomain: "episphere.github.io/connectApp",
+        authDomain: "nih-nci-dceg-episphere-dev.firebaseapp.com",
         projectId: "nih-nci-dceg-episphere-dev",
         storageBucket: "nih-nci-dceg-episphere-dev.appspot.com",
         messagingSenderId: "1061219778575",
