@@ -1,3 +1,6 @@
+import { getKey, storeResponse, sites } from "./js/shared.js";
+import { renderUserProfile } from "./js/components/form.js";
+
 let auth = '';
 
 window.onload = () => {
@@ -12,8 +15,6 @@ window.onhashchange = () => {
     document.getElementById('navbarNavAltMarkup').classList.remove('show');
     router();
 }
-
-const api = 'https://us-central1-nih-nci-dceg-episphere-dev.cloudfunctions.net/';
 
 const main = () => {
     if('serviceWorker' in navigator){
@@ -131,22 +132,6 @@ const homePage = () => {
             </div>
         </div>
     `;
-}
-
-const sites = () => {
-    return {
-        1: 'HealthPartners',
-        2: 'Henry Ford Health System',
-        3: 'Kaiser Permanente Colorado',
-        4: 'Kaiser Permanente Georgia',
-        5: 'Kaiser Permanente Hawaii',
-        6: 'Kaiser Permanente Northwest',
-        7: 'Marshfield Clinic',
-        8: 'Sanford Health',
-        9: 'University of Chicago Medicine',
-        13: 'Natiocal Cancer Institute',
-        88: 'None of these'
-    }
 }
 
 const eligibilityScreener = () => {
@@ -351,28 +336,6 @@ const getparameters = (query) => {
     return obj;
 }
 
-const getKey = async () => {
-    const response = await fetch(api+'getKey');
-    const data = await response.json();
-    if(data.code === 200) {
-        let obj = { access_token: data.access_token, token: data.token };
-        localStorage.connectApp = JSON.stringify(obj);
-    }
-}
-
-const storeResponse = async (formData) => {
-    formData.token = JSON.parse(localStorage.connectApp).token;
-    const response = await fetch(api+'recruit/submit',
-    {
-        method: 'POST',
-        headers:{
-            Authorization:"Bearer "+JSON.parse(localStorage.connectApp).access_token,
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData)
-    });
-}
-
 const signIn = () => {
     // removeActiveClass('nav-link', 'active');
     // document.getElementById('signIn').classList.add('active');
@@ -522,7 +485,7 @@ const userProfile = () => {
                     
                     mainContent.innerHTML = ` 
                         <div class="row" id="canvasContainer"></div>
-                        <form id="consentForm">
+                        <form id="consentForm" method="POST">
                             <div class="row">
                                 <label class="color-red"><input type="checkbox" required> I have read the explanation about this study and have been given the opportunity to discuss it and ask questions. I consent to participate in this study.</label>
                             </div>
@@ -530,13 +493,13 @@ const userProfile = () => {
                                 <div class="col form-group consent-form">
                                     <label class="consent-form-label">
                                         First name<span class="required">*</span>
-                                        <input required type="text" name="RcrutCS_Fname_v1r0" id="CSFirstName" class="form-control" placeholder="Enter first name">
+                                        <input required type="text" name="RcrutCS_Fname_v1r0" autocomplete="off" id="CSFirstName" class="form-control" placeholder="Enter first name">
                                     </label>
                                 </div>
                                 <div class="col form-group consent-form">
                                     <label class="consent-form-label">
                                         Last name<span class="required">*</span>
-                                        <input required type="text" name="RcrutCS_Lname_v1r0" id="CSLastName" class="form-control" placeholder="Enter last name">
+                                        <input required type="text" name="RcrutCS_Lname_v1r0" autocomplete="off" id="CSLastName" class="form-control" placeholder="Enter last name">
                                     </label>
                                 </div>
                             </div>
@@ -551,7 +514,7 @@ const userProfile = () => {
                                     <label class="consent-form-label">
                                         Today's date: 
                                     </label>
-                                    <span>${todaysDate()}</span>
+                                    <span id="CSDate">${todaysDate()}</span>
                                 </div>
                             </div>
                             ${localStorage.eligibilityQuestionnaire ? JSON.parse(localStorage.eligibilityQuestionnaire).RcrtES_Site_v1r0 === 9 ? `
@@ -559,13 +522,13 @@ const userProfile = () => {
                                     <div class="col form-group consent-form">
                                         <label class="consent-form-label">
                                             Witness first name<span class="required">*</span>
-                                            <input required type="text" name="RcrutCS_WFname_v1r0" id="CSWFirstName" class="form-control" placeholder="Enter first name">
+                                            <input required type="text" name="RcrutCS_WFname_v1r0" autocomplete="off" id="CSWFirstName" class="form-control" placeholder="Enter first name">
                                         </label>
                                     </div>
                                     <div class="col form-group consent-form">
                                         <label class="consent-form-label">
                                             Witness last name<span class="required">*</span>
-                                            <input required type="text" name="RcrutCS_WLname_v1r0" id="CSWLastName" class="form-control" placeholder="Enter last name">
+                                            <input required type="text" name="RcrutCS_WLname_v1r0" autocomplete="off" id="CSWLastName" class="form-control" placeholder="Enter last name">
                                         </label>
                                     </div>
                                 </div>
@@ -580,7 +543,7 @@ const userProfile = () => {
                                         <label class="consent-form-label">
                                             Today's date: 
                                         </label>
-                                        <span>${todaysDate()}</span>
+                                        <span id="CSWDate">${todaysDate()}</span>
                                     </div>
                                 </div>
                             ` : '' : ''}
@@ -619,7 +582,12 @@ const userProfile = () => {
                             document.getElementById('CSWSign').value = CSWFirstName.value.trim() +' '+CSWLastName.value.trim()
                         });
                     }
+
+                    const consentForm = document.getElementById('consentForm');
+                    consentForm.addEventListener('submit', consentSubmit)
                 });
+
+                
             }
         }
         else{
@@ -630,19 +598,48 @@ const userProfile = () => {
     // document.getElementById('profile').classList.add('active');
 }
 
+const consentSubmit = async e => {
+    e.preventDefault();
+    let formData = {};
+    const CSFirstName = document.getElementById('CSFirstName');
+    const CSLastName = document.getElementById('CSLastName');
+    const CSDate = document.getElementById('CSDate').innerHTML;
+
+    formData.RcrutCS_Version_v1r0 = 'Consent-v1.0';
+    formData.RcrutCS_Fname_v1r0 = CSFirstName.value;
+    formData.RcrutCS_Lname_v1r0 = CSLastName.value;
+    formData.RcrutCS_Pdate_v1r0 = CSDate.split('/')[2]+CSDate.split('/')[1]+CSDate.split('/')[0];
+
+
+    const CSWFirstName = document.getElementById('CSWFirstName');
+    const CSWLastName = document.getElementById('CSWLastName');
+    
+    if(CSWFirstName && CSWLastName){
+        const CSWDate = document.getElementById('CSWDate').innerHTML;
+
+        formData.RcrutCS_WFname_v1r0 = CSWFirstName.value;
+        formData.RcrutCS_WLname_v1r0 = CSWLastName.value;
+        formData.RcrutCS_Wdate_v1r0 = CSWDate.split('/')[2] + CSWDate.split('/')[1] + CSWDate.split('/')[0]
+    }
+
+    formData.RcrutCS_Consented_v1r0 = 1;
+    const response = await storeResponse(formData);
+    // if(response.code === 200) renderUserProfile();
+}
+
 const drawCanvas = (scale) => {
     let thePdf = null;
 
     pdfjsLib.getDocument('./consent_draft.pdf').promise.then(function(pdf) {
         thePdf = pdf;
-        const viewer = document.getElementById('canvasContainer');
+        let viewer = document.getElementById('canvasContainer');
         viewer.innerHTML = '';
-        for(pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
+        for(let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
             const canvas = document.createElement("canvas");    
             canvas.className = 'pdf-page-canvas';         
             viewer.appendChild(canvas);
             thePdf.getPage(pageNumber).then(function(page) {
-                viewport = page.getViewport(scale);
+                let viewport = page.getViewport(scale);
                 canvas.width = viewport.width;
                 canvas.height = viewport.height;         
                 page.render({canvasContext: canvas.getContext('2d'), viewport: viewport});

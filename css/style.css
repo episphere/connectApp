@@ -155,3 +155,7 @@ canvas {
 .consent-form-label {
     font-weight: bold;
 }
+
+#userProfileForm {
+    margin-top: 1rem;
+}
