@@ -1,5 +1,10 @@
-import { getKey, storeResponse, sites } from "./js/shared.js";
-import { renderUserProfile } from "./js/components/form.js";
+import { getKey, storeResponse, getparameters } from "./js/shared.js";
+import { userNavBar, homeNavBar } from "./js/components/navbar.js";
+import { homePage, joinNowBtn } from "./js/pages/homePage.js";
+import { signIn } from "./js/pages/signIn.js";
+import { firebaseConfig } from "./js/config.js";
+import { consentTemplate, initializeCanvas, addEventConsentSubmit } from "./js/pages/consent.js";
+import { addEventsConsentSign } from "./js/event.js";
 
 let auth = '';
 
@@ -46,337 +51,12 @@ const router = () => {
     }
     toggleNavBar();
     const route =  index !== -1 ? hash.slice(0, index) : hash || '#';
-    const eligibilityQuestionnaire = localStorage.eligibilityQuestionnaire ? JSON.parse(localStorage.eligibilityQuestionnaire) : {};
+    
     if(route === '#') homePage();
-    // else if (route === '#join_now' && !checkSession()) eligibilityScreener();
     else if (route === '#sign_in' && !checkSession()) signIn();
     else if (route === '#user' && checkSession()) userProfile();
-    // else if (route === '#create_account' && !checkSession() && eligibilityQuestionnaire.RcrtES_AgeQualify_v1r0 === 1 && eligibilityQuestionnaire.RcrtES_CancerHist_v1r0 === 0 && eligibilityQuestionnaire.RcrtES_Site_v1r0 !== 88) createAccountPage();
-    // else if (route === '#account_created') accountCreatedPage();
     else if (route === '#sign_out') signOut();
     else window.location.hash = '#';
-}
-
-const homePage = () => {
-    const mainContent = document.getElementById('root');
-    mainContent.innerHTML = `
-        <div class="row">
-            <div class="col-sm-9 images-grid">
-                <div class="row images-row">
-                    <div class="col-sm-4 images-col">
-                        <img class="landing-page-images" src="./images/1.jpg">
-                    </div>
-                    <div class="col-sm-4 images-col">
-                        <img class="landing-page-images" src="./images/2.jpg">
-                    </div>
-                    <div class="col-sm-4 images-col">
-                        <img class="landing-page-images" src="./images/3.jpg">
-                    </div>
-                </div>
-                <div class="row images-row">
-                    <div class="col-sm-6 images-col">
-                        <img class="landing-page-images" src="./images/4.jpg">
-                    </div>
-                    <div class="col-sm-6 images-col">
-                        <img class="landing-page-images" src="./images/5.jpg">
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3 join-now-col" id="joinNow"></div>
-        </div>
-        <div class="row" id="siteLogos">
-            <div class="col"><img src="./images/Chicago Vector.png" class="site-logo"></div>
-            <div class="col"><img src="./images/hf vector.png" class="site-logo"></div>
-            <div class="col"><img src="./images/hp vector.png" class="site-logo"></div>
-            <div class="col"><img src="./images/kp vector.png" class="site-logo"></div>
-            <div class="col"><img src="./images/marsh vector.png" class="site-logo"></div>
-            <div class="col"><img src="./images/norc vector.png" class="site-logo"></div>
-            <div class="col"><img src="./images/sanford vector.png" class="site-logo"></div>
-        </div>
-        <div class="row">
-            <div class="col about-connect">
-                <span class="heading">Advancing Cancer Research</span> <i class="fab fa-searchengin"></i>
-                </br></br>
-                <span class="description">
-                    The Connect Study wants to better understand:
-                    <ul class="list">
-                        <li><strong>What causes cancer,</strong></li>
-                        <li><strong>Ways to prevent cancer, and</strong></li>
-                        <li><strong>How to improve early detection of cancer.</strong></li>
-                    </ul>
-                </span>
-            </div>
-            <div class="col about-connect">
-                <span class="heading">Why should I join Connect?</span> <i class="fas fa-users"></i>
-                </br></br>
-                <span class="description">
-                    <strong>Being a part of Connect means you are contributing to the future of cancer prevention for our families and communities.</strong></br>
-                    With your help, Connect will be one of the largest and most important cancer studies in the United States.    
-                </span>
-            </div>
-            <div class="col about-connect">
-                <span class="heading">Who can join Connect?</span> <i class="fas fa-female"></i><i class="fas fa-male"></i>
-                </br></br>
-                <span class="description">
-                    <ul class="list">
-                        <li><strong>Men and women between the ages of 40 and 65</strong></li>
-                        <li><strong>Current (patients/members) of participating sites</strong></li>
-                        <li><strong>No previous history of cancer</strong> (other than non-melanoma skin cancer)</li>
-                    </ul>
-                </span>
-            </div>
-            <div class="col about-connect">
-                <span class="heading">Share Connect</span> <i class="fas fa-share"></i>
-                </br></br>
-                <img class="bar-code-image" src="./images/connectApp.png">
-            </div>
-        </div>
-    `;
-}
-
-const eligibilityScreener = () => {
-    const mainContent = document.getElementById('root');
-    mainContent.innerHTML = `
-    <div class="col eligibility-form">
-        <h4>Please fill out this form to determine your eligibility for Connect.</h4></br>
-        <label>Are you between the ages of 40-65?<span class="required"> *</span></label>
-        <form method="POST" id="eligibilityForm">
-            <div class="form-group">
-                <div class="radio">
-                    <label><input type="radio" id="radio1" name="RcrtES_AgeQualify_v1r0" value=1 required> Yes</label>
-                </div>
-                <div class="radio">
-                    <label><input type="radio" id="radio2" name="RcrtES_AgeQualify_v1r0" value=0> No</label>
-                </div>
-            </div>
-
-            <label>Have you ever had cancer (other than non-melanoma skin cancer)?<span class="required"> *</span></label>
-            <div class="form-group">
-                <div class="radio">
-                    <label><input type="radio" name="RcrtES_CancerHist_v1r0" id="radio3" required value=1> Yes</label>
-                </div>
-                <div class="radio">
-                    <label><input type="radio" id="radio4" name="RcrtES_CancerHist_v1r0" value=0> No</label>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="RcrtES_Site_v1r0">Who is your healthcare provider?<span class="required"> *</span></label>
-                <select class="form-control" id="RcrtES_Site_v1r0" required>
-                    <option value="">-- Select healthcare provider --</option>    
-                    <option value=1>HealthPartners</option>
-                    <option value=2>Henry Ford Health System</option>
-                    <option value=3>Kaiser Permanente Colorado</option>
-                    <option value=4>Kaiser Permanente Georgia</option>
-                    <option value=5>Kaiser Permanente Hawaii</option>
-                    <option value=6>Kaiser Permanente Northwest</option>
-                    <option value=7>Marshfield Clinic</option>
-                    <option value=8>Sanford Health</option>
-                    <option value=9>University of Chicago Medicine</option>
-                    <option value=13>Natiocal Cancer Institute</option>
-                    <option value=88>None of these</option>
-                </select>
-            </div>
-
-            <label>How did you hear about this study?</label>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox1"> Physician or other medical staff</label>
-                </div>
-                <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox2"> Email or text from my healthcare provider</label>
-                </div>
-                <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox3"> Postcard or mail</label>
-                </div>
-                <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox4"> News article or website</label>
-                </div>
-                <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox5"> Social media</label>
-                </div>
-                <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox6"> MyChart invitation</label>
-                </div>
-                <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox7"> Family or friend</label>
-                </div>
-                <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox8"> Another Connect participant</label>
-                </div>
-                <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox9"> Poster, brochure, or flyer</label>
-                </div>
-                <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox10"> Study table at public event</label>
-                </div>
-                <div class="checkbox">
-                    <label><input type="checkbox"  id="checkbox11"> Other</label>
-                </div>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button></br></br>
-        </form>
-    </div>
-    `;
-
-    const form = document.getElementById('eligibilityForm');
-    form.addEventListener('submit', e => {
-        e.preventDefault();
-        eligibilityQuestionnaire();
-    })
-}
-
-const eligibilityQuestionnaire = () => {
-    let formData = {};
-    formData["RcrtES_AgeQualify_v1r0"] = document.getElementById('radio1').checked ? 1 : document.getElementById('radio2').checked ? 0 : 0;
-    formData["RcrtES_CancerHist_v1r0"] = document.getElementById('radio3').checked ? 1 : document.getElementById('radio4').checked ? 0 : 0;
-    formData["RcrtES_Site_v1r0"] = parseInt(document.getElementById('RcrtES_Site_v1r0').value);
-    formData["RcrtES_Aware_v1r0"] = {};
-    formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_phys"] = document.getElementById('checkbox1').checked ? 1 : 0;
-    formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_Email"] = document.getElementById('checkbox2').checked ? 1 : 0;
-    formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_Post"] = document.getElementById('checkbox3').checked ? 1 : 0;
-    formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_News"] = document.getElementById('checkbox4').checked ? 1 : 0;
-    formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_Social"] = document.getElementById('checkbox5').checked ? 1 : 0;
-    formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_Invite"] = document.getElementById('checkbox6').checked ? 1 : 0;
-    formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_Family"] = document.getElementById('checkbox7').checked ? 1 : 0;
-    formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_Member"] = document.getElementById('checkbox8').checked ? 1 : 0;
-    formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_Poster"] = document.getElementById('checkbox9').checked ? 1 : 0;
-    formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_Table"] = document.getElementById('checkbox10').checked ? 1 : 0;
-    formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_Other"] = document.getElementById('checkbox11').checked ? 1 : 0;
-    
-    localStorage.eligibilityQuestionnaire = JSON.stringify(formData);
-    if(formData.RcrtES_AgeQualify_v1r0 === 1 && formData.RcrtES_CancerHist_v1r0 === 0 && formData.RcrtES_Site_v1r0 !== 88){
-        storeResponse(formData);
-        eligibleParticipant();
-    }
-    else if(formData.RcrtES_AgeQualify_v1r0 === 1 && formData.RcrtES_CancerHist_v1r0 === 0 && formData.RcrtES_Site_v1r0 === 88){
-        ineligibleSite();
-    }
-    else{
-        ineligible();
-    }
-}
-
-const eligibleParticipant = () => {
-    const mainContent = document.getElementById('root');
-    mainContent.innerHTML = `
-        <div class="col">
-            <h1>You are eligible! Thank you for joining Connect.</h1>
-            <a href="#create_account"><button class="btn btn-primary" id="createAccount">Create Account</button></a>
-        </div>
-    `;
-}
-
-const createAccountPage = () => {
-    const root = document.getElementById('root');
-    root.innerHTML = '';
-    const signInDiv = document.createElement('div');
-    signInDiv.id = 'signInDiv';
-    signInDiv.className = 'row';
-    root.appendChild(signInDiv)
-    
-    const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
-    ui.start('#signInDiv', createAccountConfig());
-}
-
-const createAccountConfig = () => {
-    return {
-        signInSuccessUrl: '#account_created',
-        signInOptions: [
-            firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-            firebase.auth.EmailAuthProvider.PROVIDER_ID,
-            firebase.auth.PhoneAuthProvider.PROVIDER_ID
-        ]
-    }
-}
-
-const accountCreatedPage = () => {
-    auth.onAuthStateChanged(user => {
-        if(user){
-            if(user.metadata.a !== user.metadata.b) {
-                alert('Account already exists please use sign in');
-                firebase.auth().signOut();
-                window.location.hash = '#';
-            }
-            else {
-                window.location.hash = '#user';
-            }
-        }
-        else{
-            window.location.hash = '#';
-        }
-    });
-}
-
-const ineligible = () => {
-    const mainContent = document.getElementById('root');
-    mainContent.innerHTML = `
-        <h4>Thank you for your interest, but you are not eligible for the Connect study.</h4>
-        <h4>Would you like us to let ${ localStorage.eligibilityQuestionnaire ? sites()[JSON.parse(localStorage.eligibilityQuestionnaire).RcrtES_Site_v1r0] : ''} know that you are not eligible? We will not use this information for any other purpose.</h4>
-
-        </br></br>
-        <button class="btn btn-primary">Yes</button>  <button class="btn btn-primary">No</button>
-    `;
-}
-
-const ineligibleSite = () => {
-    const mainContent = document.getElementById('root');
-    mainContent.innerHTML = `
-        <h4>Thank you for your interest, but you are not eligible for the Connect study as the study is only being conducted through these institutions at this time.</h4>
-        <h4>Please check back in the future as we add more study sites. If you have any questions, please contact the Connect help desk.</h4>
-    `;
-}
-
-const getparameters = (query) => {
-    const array = query.split('&');
-    let obj = {};
-    array.forEach(value => {
-        obj[value.split('=')[0]] = value.split('=')[1];
-    });
-    return obj;
-}
-
-const signIn = () => {
-    // removeActiveClass('nav-link', 'active');
-    // document.getElementById('signIn').classList.add('active');
-    
-    const root = document.getElementById('root');
-    root.innerHTML = '';
-    const signInDiv = document.createElement('div');
-    signInDiv.id = 'signInDiv';
-    signInDiv.className = 'row';
-    root.appendChild(signInDiv)
-
-    // const tableDiv = document.createElement('div');
-    // tableDiv.id = 'tableDiv';
-    // tableDiv.className = 'row';
-    // root.appendChild(tableDiv);
-    
-    const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
-    ui.start('#signInDiv', signInConfig());
-
-    // const table = document.getElementById('tableDiv');
-    // table.innerHTML = tempTable();
-
-    auth.onAuthStateChanged(user => {
-        if(user){
-            document.getElementById('navbarNavAltMarkup').innerHTML = userNavBar();
-        }
-        else{
-            document.getElementById('navbarNavAltMarkup').innerHTML = homeNavBar();
-        }
-    });
-}
-
-const signInConfig = () => {
-    return {
-        signInSuccessUrl: '#user',
-        signInOptions: [
-            firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-            firebase.auth.EmailAuthProvider.PROVIDER_ID,
-            firebase.auth.PhoneAuthProvider.PROVIDER_ID
-        ]
-    }
 }
 
 const userProfile = () => {
@@ -483,222 +163,25 @@ const userProfile = () => {
                     localStorage.eligibilityQuestionnaire = JSON.stringify(formData);
                     storeResponse(formData);
                     
-                    mainContent.innerHTML = ` 
-                        <div class="row" id="canvasContainer"></div>
-                        <form id="consentForm" method="POST">
-                            <div class="row">
-                                <label class="color-red"><input type="checkbox" required> I have read the explanation about this study and have been given the opportunity to discuss it and ask questions. I consent to participate in this study.</label>
-                            </div>
-                            <div class="row">
-                                <div class="col form-group consent-form">
-                                    <label class="consent-form-label">
-                                        First name<span class="required">*</span>
-                                        <input required type="text" name="RcrutCS_Fname_v1r0" autocomplete="off" id="CSFirstName" class="form-control" placeholder="Enter first name">
-                                    </label>
-                                </div>
-                                <div class="col form-group consent-form">
-                                    <label class="consent-form-label">
-                                        Last name<span class="required">*</span>
-                                        <input required type="text" name="RcrutCS_Lname_v1r0" autocomplete="off" id="CSLastName" class="form-control" placeholder="Enter last name">
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col form-group consent-form">
-                                    <label class="consent-form-label">
-                                        Digital signature<span class="required">*</span>
-                                        <input disabled required type="text" name="RcrutCS_Sign_v1r0" id="CSSign" class="form-control consentSign">
-                                    </label>
-                                </div>
-                                <div class="col form-group consent-form">
-                                    <label class="consent-form-label">
-                                        Today's date: 
-                                    </label>
-                                    <span id="CSDate">${todaysDate()}</span>
-                                </div>
-                            </div>
-                            ${localStorage.eligibilityQuestionnaire ? JSON.parse(localStorage.eligibilityQuestionnaire).RcrtES_Site_v1r0 === 9 ? `
-                                <div class="row">
-                                    <div class="col form-group consent-form">
-                                        <label class="consent-form-label">
-                                            Witness first name<span class="required">*</span>
-                                            <input required type="text" name="RcrutCS_WFname_v1r0" autocomplete="off" id="CSWFirstName" class="form-control" placeholder="Enter first name">
-                                        </label>
-                                    </div>
-                                    <div class="col form-group consent-form">
-                                        <label class="consent-form-label">
-                                            Witness last name<span class="required">*</span>
-                                            <input required type="text" name="RcrutCS_WLname_v1r0" autocomplete="off" id="CSWLastName" class="form-control" placeholder="Enter last name">
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col form-group consent-form">
-                                        <label class="consent-form-label">
-                                            Witness digital signature<span class="required">*</span>
-                                            <input disabled required type="text" name="RcrutCSW_Sign_v1r0" id="CSWSign" class="form-control consentSign">
-                                        </label>
-                                    </div>
-                                    <div class="col form-group consent-form">
-                                        <label class="consent-form-label">
-                                            Today's date: 
-                                        </label>
-                                        <span id="CSWDate">${todaysDate()}</span>
-                                    </div>
-                                </div>
-                            ` : '' : ''}
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
-                        </form>
-                    `;
+                    mainContent.innerHTML = consentTemplate();
 
-                    let scale = 1;
-                    if(window.innerWidth > 1000) scale = 1.5;
-                    if(window.innerWidth < 700) scale = 0.7;
-                    drawCanvas(scale);
-                    window.addEventListener('resize', () => {
-                        let scale = 1;
-                        if(window.innerWidth > 1000) scale = 1.5;
-                        if(window.innerWidth < 700) scale = 0.7
-                        drawCanvas(scale);
-                    }, false);
+                    initializeCanvas();
 
-                    document.getElementById('CSFirstName').addEventListener('keyup', () => {
-                        document.getElementById('CSSign').value = document.getElementById('CSFirstName').value.trim() +' '+document.getElementById('CSLastName').value.trim()
-                    });
-                    document.getElementById('CSLastName').addEventListener('keyup', () => {
-                        document.getElementById('CSSign').value = document.getElementById('CSFirstName').value.trim() +' '+document.getElementById('CSLastName').value.trim()
-                    });
+                    addEventsConsentSign();
 
-                    const CSWFirstName = document.getElementById('CSWFirstName');
-                    const CSWLastName = document.getElementById('CSWLastName');
-
-                    if(CSWFirstName && CSWLastName){
-                        CSWFirstName.addEventListener('keyup', () => {
-                            document.getElementById('CSWSign').value = CSWFirstName.value.trim() +' '+CSWLastName.value.trim()
-                        });
-                        CSWLastName.addEventListener('keyup', () => {
-                            document.getElementById('CSWSign').value = CSWFirstName.value.trim() +' '+CSWLastName.value.trim()
-                        });
-                    }
-
-                    const consentForm = document.getElementById('consentForm');
-                    consentForm.addEventListener('submit', consentSubmit)
+                    addEventConsentSubmit();
                 });
-
-                
             }
         }
         else{
             window.location.hash = '#';
         }
     });
-    // removeActiveClass('nav-link', 'active');
-    // document.getElementById('profile').classList.add('active');
-}
-
-const consentSubmit = async e => {
-    e.preventDefault();
-    let formData = {};
-    const CSFirstName = document.getElementById('CSFirstName');
-    const CSLastName = document.getElementById('CSLastName');
-    const CSDate = document.getElementById('CSDate').innerHTML;
-
-    formData.RcrutCS_Version_v1r0 = 'Consent-v1.0';
-    formData.RcrutCS_Fname_v1r0 = CSFirstName.value;
-    formData.RcrutCS_Lname_v1r0 = CSLastName.value;
-    formData.RcrutCS_Pdate_v1r0 = CSDate.split('/')[2]+CSDate.split('/')[1]+CSDate.split('/')[0];
-
-
-    const CSWFirstName = document.getElementById('CSWFirstName');
-    const CSWLastName = document.getElementById('CSWLastName');
-    
-    if(CSWFirstName && CSWLastName){
-        const CSWDate = document.getElementById('CSWDate').innerHTML;
-
-        formData.RcrutCS_WFname_v1r0 = CSWFirstName.value;
-        formData.RcrutCS_WLname_v1r0 = CSWLastName.value;
-        formData.RcrutCS_Wdate_v1r0 = CSWDate.split('/')[2] + CSWDate.split('/')[1] + CSWDate.split('/')[0]
-    }
-
-    formData.RcrutCS_Consented_v1r0 = 1;
-    const response = await storeResponse(formData);
-    // if(response.code === 200) renderUserProfile();
-}
-
-const drawCanvas = (scale) => {
-    let thePdf = null;
-
-    pdfjsLib.getDocument('./consent_draft.pdf').promise.then(function(pdf) {
-        thePdf = pdf;
-        let viewer = document.getElementById('canvasContainer');
-        viewer.innerHTML = '';
-        for(let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
-            const canvas = document.createElement("canvas");    
-            canvas.className = 'pdf-page-canvas';         
-            viewer.appendChild(canvas);
-            thePdf.getPage(pageNumber).then(function(page) {
-                let viewport = page.getViewport(scale);
-                canvas.width = viewport.width;
-                canvas.height = viewport.height;         
-                page.render({canvasContext: canvas.getContext('2d'), viewport: viewport});
-            });
-        }
-    });
 }
 
 const signOut = () => {
-    // removeActiveClass('nav-link', 'active');
-    // document.getElementById('signOut').classList.add('active');
     firebase.auth().signOut();
     window.location.hash = '#';
-}
-
-const firebaseConfig = () => {
-    return {
-        apiKey: "AIzaSyDe3Ewzl4x7hEX30EiQJ0tvXBtzd2Hghiw",
-        authDomain: "nih-nci-dceg-episphere-dev.firebaseapp.com",
-        projectId: "nih-nci-dceg-episphere-dev",
-        storageBucket: "nih-nci-dceg-episphere-dev.appspot.com",
-        messagingSenderId: "1061219778575",
-        appId: "1:1061219778575:web:c9f40bbc7ec2cdccc5637a"
-    };
-}
-
-const userNavBar = () => {
-    return `
-        <div class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="#" id="home" title="Home"><i class="fas fa-home"></i> Home</a>
-            </li>
-        </div>
-        <div class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="#user" id="userProfile" title="User"><i class="fas fa-user"></i> User</a>
-            </li>
-        </div>
-        <div class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="#sign_out" id="signOut" title="Sign Out"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
-            </li>
-        </div>
-    `;
-}
-
-const homeNavBar = () => {
-    return `
-        <div class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="#" id="home" title="Home"><i class="fas fa-home"></i> Home</a>
-            </li>
-        </div>
-        <div class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="#sign_in" id="signIn" title="Sign In"><i class="fas fa-sign-in-alt"></i> Sign In</a>
-            </li>
-        </div>
-    `;
 }
 
 const toggleNavBar = () => {
@@ -722,18 +205,7 @@ const checkSession = () => {
         // Handle error
         });
     }
-    
     return user ? true : false;
-}
-
-const joinNowBtn = (bool) => {
-    if(bool){
-        return `<span class="join-now-heading">What causes and prevents cancer? Help researchers answer this question for future generations</span>
-        </br><a class="btn join-now-btn" href="#sign_in">Join Now</a>`
-    }
-    else {
-        return `<span class="join-now-heading">Thanks for joining Connect Cohort Study!</span>`
-    }
 }
 
 const removeActiveClass = (className, activeClass) => {
@@ -741,21 +213,4 @@ const removeActiveClass = (className, activeClass) => {
     Array.from(fileIconElement).forEach(elm => {
         elm.classList.remove(activeClass);
     });
-}
-
-const todaysDate = () => {
-    const today = new Date();
-    let dd = today.getDate();
-    let mm = today.getMonth()+1; 
-    const yyyy = today.getFullYear();
-    if(dd<10) 
-    {
-        dd='0'+dd;
-    } 
-
-    if(mm<10) 
-    {
-        mm='0'+mm;
-    } 
-    return mm+'/'+dd+'/'+yyyy;
 }

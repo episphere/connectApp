@@ -77,3 +77,24 @@ const addAnotherEmailField = () => {
     input2.id = 'UPEmail3';
     div.appendChild(input2);
 }
+
+export const addEventsConsentSign = () => {
+    document.getElementById('CSFirstName').addEventListener('keyup', () => {
+        document.getElementById('CSSign').value = document.getElementById('CSFirstName').value.trim() +' '+document.getElementById('CSLastName').value.trim()
+    });
+    document.getElementById('CSLastName').addEventListener('keyup', () => {
+        document.getElementById('CSSign').value = document.getElementById('CSFirstName').value.trim() +' '+document.getElementById('CSLastName').value.trim()
+    });
+
+    const CSWFirstName = document.getElementById('CSWFirstName');
+    const CSWLastName = document.getElementById('CSWLastName');
+
+    if(CSWFirstName && CSWLastName){
+        CSWFirstName.addEventListener('keyup', () => {
+            document.getElementById('CSWSign').value = CSWFirstName.value.trim() +' '+CSWLastName.value.trim()
+        });
+        CSWLastName.addEventListener('keyup', () => {
+            document.getElementById('CSWSign').value = CSWFirstName.value.trim() +' '+CSWLastName.value.trim()
+        });
+    }
+}
