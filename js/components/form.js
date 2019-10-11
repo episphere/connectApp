@@ -3,8 +3,11 @@ import { addEventAdditionalEmail, addEventAdditionalPhone, addEventDifferentAddr
 export const renderUserProfile = () => {
     const mainContent = document.getElementById('root');
     const localData = localStorage.eligibilityQuestionnaire ? JSON.parse(localStorage.eligibilityQuestionnaire) : undefined
+    const js = document.createElement("script");
+    js.type = "text/javascript";
+    js.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDe3Ewzl4x7hEX30EiQJ0tvXBtzd2Hghiw&libraries=places";
+    document.body.appendChild(js);
     mainContent.innerHTML = `
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDe3Ewzl4x7hEX30EiQJ0tvXBtzd2Hghiw&libraries=places"></script>
         </br></br>
         <h4>User Profile</h4>
         <span>The National Cancer Institute and ${localData ? sites()[localData.RcrtES_Site_v1r0] : ''} thank you for your participation in this important study. Before we begin, we will need some basic contact information. We will only use this information to contact you about study-related activities and updates. We will not share your contact information with other people or groups.</span>
