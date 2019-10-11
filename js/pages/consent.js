@@ -139,5 +139,5 @@ const consentSubmit = async e => {
 
     formData.RcrutCS_Consented_v1r0 = 1;
     const response = await storeResponse(formData);
-    if(response.code === 200) renderUserProfile();
+    // if(response.code === 200) renderUserProfile();
 }
