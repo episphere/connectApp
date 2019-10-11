@@ -92,6 +92,7 @@ const drawCanvas = (scale) => {
     pdfjsLib.getDocument('./consent_draft.pdf').promise.then(function(pdf) {
         thePdf = pdf;
         let viewer = document.getElementById('canvasContainer');
+        if(!viewer) return;
         viewer.innerHTML = '';
         for(let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
             const canvas = document.createElement("canvas");    
@@ -138,5 +139,5 @@ const consentSubmit = async e => {
 
     formData.RcrutCS_Consented_v1r0 = 1;
     const response = await storeResponse(formData);
-    // if(response.code === 200) renderUserProfile();
+    if(response.code === 200) renderUserProfile();
 }

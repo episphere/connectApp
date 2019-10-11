@@ -1,6 +1,5 @@
-import { sites } from "../shared.js";
-import { addEventAdditionalEmail, addEventAdditionalPhone } from "../event.js";
-
+import { sites, allStates, allCountries } from "../shared.js";
+import { addEventAdditionalEmail, addEventAdditionalPhone, addEventDifferentAddress, addEventAddressAutoComplete, addEventMoreAlternateContact } from "../event.js";
 export const renderUserProfile = () => {
     const mainContent = document.getElementById('root');
     const localData = localStorage.eligibilityQuestionnaire ? JSON.parse(localStorage.eligibilityQuestionnaire) : undefined
@@ -102,9 +101,11 @@ export const renderUserProfile = () => {
             <div class="form-group">
                 <label>
                     <strong>At birth, how was your physical sex assigned? </strong><span class="required">*</span>
-                    </br><input type="radio" required name="UPRadio" id="UPFemale"> Female
-                    </br><input type="radio" required name="UPRadio" id="UPMale"> Male
-                    </br><input type="radio" required name="UPRadio" id="UPOther"> Intersex or other
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <label class="btn btn-light"><input type="radio" required name="UPRadio" id="UPMale" value="0">Male</label>
+                        <label class="btn btn-light"><input type="radio" required name="UPRadio" id="UPFemale" value="1">Female</label>
+                        <label class="btn btn-light"><input type="radio" required name="UPRadio" id="UPOther" value="2">Intersex or other</label>
+                    </div>
                 </label>
             </div>
 
@@ -141,7 +142,7 @@ export const renderUserProfile = () => {
                 <label>
                     <strong>What is your preferred method of contact?</strong>
                     <div class="btn-group btn-group-toggle" data-toggle="buttons" id="methodOfContactFields">
-                        <label class="btn btn-light active"><input type="radio" checked name="methodOfContact" id="UPMethodOfContactEmail1" >Email 1</label>
+                        <label class="btn btn-light"><input type="radio" name="methodOfContact" id="UPMethodOfContactEmail1" >Email 1</label>
                         <label class="btn btn-light"><input type="radio" name="methodOfContact" id="UPMethodOfContactEmail2" >Email 2</label>
                         <label class="btn btn-light"><input type="radio" name="methodOfContact" id="UPMethodOfContactPhone1" >Phone 1</label>
                         <label class="btn btn-light"><input type="radio" name="methodOfContact" id="UPMethodOfContactPhone2" >Phone 2</label>
@@ -149,16 +150,111 @@ export const renderUserProfile = () => {
                 </label>
             </div>
 
+            ${renderMailingAddress('', 1, true)}
+            
             <div class="form-group">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <label>
+                    <strong>Do you spend a month or more at a different address over the course of the year?</strong>
+                </label> 
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-light"><input type="radio" name="RcrutUP_2ndResid_v1r0" id="UPDifferentAddress1" value="1">Yes</label>
+                    <label class="btn btn-light"><input type="radio" name="RcrutUP_2ndResid_v1r0" id="UPDifferentAddress2" value="0">No</label>
+                </div>
             </div>
-            </br></br>
+
+            <div class="form-group" id="addressFollowUp"></div>
+
+            <div id="secondaryAddress"></div>
+
+            <label>
+                <strong>Alternative Contacts</strong>
+            </label><br>
+            <span class="sub-heading">We would like to be able to contact you throughout the study. Please provide contact information for at least one person who will know where to reach you. This person will only be contacted if we are otherwise unable to reach you.</span>
+            ${renderAlternateContact(5, true)}
+
+            <div id="multipleAlternateContact">
+                <button type="button" class="btn btn-light" id="addMoreAlternateContact" title="Add more alternate contact">Add <i class="fas fa-plus"></i></button>
+            </div>
+            
         </form>
+        </br></br>
     `;
 
     addEventAdditionalEmail();
     addEventAdditionalPhone();
+    addEventDifferentAddress();
+    addEventAddressAutoComplete(1);
+    addEventAddressAutoComplete(5, true);
+    addEventMoreAlternateContact();
+};
+
+
+
+export const renderAlternateContact = (id, required) => {
+    return `
+        <div class="form-group">
+            <label>
+                <strong>First name</strong> ${required ? '<span class="required">*</span>': ''}
+                <input type="text" class="form-control" ${required ? 'required' : ''} id="UPFirstName${id}" placeholder="Enter first name">
+            </label><br>
+            <label>
+                <strong>Middle initial</strong>
+                <input type="text" class="form-control" id="UPMiddleInitial${id}" placeholder="Enter middle initial">
+            </label><br>
+            <label>
+                <strong>Last name</strong> ${required ? '<span class="required">*</span>': ''}
+                <input type="text" class="form-control" ${required ? 'required' : ''} id="UPLastName${id}" placeholder="Enter last name">
+            </label><br>
+            <label>
+                <strong>Phone number</strong> ${required ? '<span class="required">*</span>': ''}
+                <input type="text" class="form-control" id="UPPhoneNumber${id}" ${required ? 'required' : ''} size="10" maxlength="10" Placeholder="Enter phone number">
+            </label><br>
+        </div>
+        ${renderMailingAddress('', id, required, true)}
+    `;
 }
+
+export const renderMailingAddress = (type, id, required, showCountry) => {
+    return `
+    <label>
+        <strong>${type}Mailing Address</strong>
+        <div class="form-group">
+            <label>
+                <strong>Line 1 (street, PO box, rural route)</strong> ${required ? '<span class="required">*</span>': ''}
+                <input type=text id="UPAddress${id}Line1" autocomplete="off" class="form-control" ${required ? 'required' : ''} placeholder="Enter street, PO box, rural route">
+            </label><br>
+            <label>
+                <strong>Line 2 (apartment, suite, unit, building)</strong>
+                <input type=text id="UPAddress${id}Line2" class="form-control" placeholder="apartment, suite, unit, building">
+            </label><br>
+            <label>
+                <strong>City</strong> ${required ? '<span class="required">*</span>': ''}
+                <input type=text id="UPAddress${id}City" class="form-control" ${required ? 'required' : ''} placeholder="Enter City">
+            </label><br>
+            <label>
+                <strong>State</strong> ${required ? '<span class="required">*</span>': ''}
+                <select class="form-control" ${required ? 'required' : ''} id="UPAddress${id}State">
+                    <option value="">-- Select State --</option>
+                    ${renderStates()}
+                </select>
+            </label><br>
+            <label>
+                <strong>Zip</strong> ${required ? '<span class="required">*</span>': ''}
+                <input type=text id="UPAddress${id}Zip" class="form-control" size="5" maxlength="5" ${required ? 'required' : ''} placeholder="Enter zip">
+            </label>
+            ${showCountry ? `<br>
+            <label>
+                <strong>Country</strong> ${required ? '<span class="required">*</span>': ''}
+                <select class="form-control" ${required ? 'required' : ''} id="UPAddress${id}Country">
+                    <option value="">-- Select Country --</option>
+                    ${renderCountries()}
+                </select>
+            </label>
+            `:``}
+        </div>
+    </label>
+    `
+};
 
 export const renderPhoneNumber = (number) => {
     return `
@@ -170,19 +266,35 @@ export const renderPhoneNumber = (number) => {
         <label>
         <strong>Phone number ${number} type</strong>
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-light active"><input type="radio" checked name="phoneNumberType${number}" id="UPPhoneType${number}1" >Mobile</label>
-                <label class="btn btn-light"><input type="radio" name="phoneNumberType${number}" id="UPPhoneType${number}2" >Home</label>
-                <label class="btn btn-light"><input type="radio" name="phoneNumberType${number}" id="UPPhoneType${number}3" >Work</label>
-                <label class="btn btn-light"><input type="radio" name="phoneNumberType${number}" id="UPPhoneType${number}4" >Other</label>
+                <label class="btn btn-light"><input type="radio" name="phoneNumberType${number}" id="UPPhoneType${number}1" value="1">Mobile</label>
+                <label class="btn btn-light"><input type="radio" name="phoneNumberType${number}" id="UPPhoneType${number}2" value="2">Home</label>
+                <label class="btn btn-light"><input type="radio" name="phoneNumberType${number}" id="UPPhoneType${number}3" value="3">Work</label>
+                <label class="btn btn-light"><input type="radio" name="phoneNumberType${number}" id="UPPhoneType${number}4" value="4">Other</label>
             </div>
         </label><br>
         <label>
         <strong>Do we have permission to text this number?</strong>
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-light active"><input type="radio" checked name="phoneNumberPermission${number}" id="UPPhonePermission${number}1">Yes</label>
-                <label class="btn btn-light"><input type="radio" name="phoneNumberPermission${number}" id="UPPhonePermission${number}2">No</label>
+                <label class="btn btn-light"><input type="radio" name="phoneNumberPermission${number}" id="UPPhonePermission${number}1" value="1">Yes</label>
+                <label class="btn btn-light"><input type="radio" name="phoneNumberPermission${number}" id="UPPhonePermission${number}2" value="0">No</label>
             </div>
         </label>
     </div>
     `;
+}
+
+const renderStates = () => {
+    let options = '';
+    for(const state in allStates){
+        options += `<option value="${allStates[state]}">${state}</option>`
+    }
+    return options;
+}
+
+const renderCountries = () => {
+    let options = '';
+    for(const country in allCountries){
+        options += `<option value="${allCountries[country]}">${country}</option>`
+    }
+    return options;
 }
