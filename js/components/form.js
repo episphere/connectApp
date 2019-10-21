@@ -100,8 +100,8 @@ export const renderUserProfile = () => {
             <div class="form-group">
                 <label>
                     <strong>How can we reach you?</strong></br>
-                    <strong>Email address</strong>
-                    <input type="email" class="form-control" id="UPEmail" Placeholder="Enter email"></br>
+                    <strong>Email address</strong> <span class="required">*</span>
+                    <input type="email" class="form-control" required id="UPEmail" Placeholder="Enter email"></br>
                     <div id="multipleEmail">
                         <button type="button" class="btn btn-light" id="addMoreEmail" title="Add more email">Add <i class="fas fa-plus"></i></button>
                     </div>
@@ -166,6 +166,7 @@ export const renderUserProfile = () => {
     addEventAddressAutoComplete(1);
     addEventAddressAutoComplete(5, true);
     addEventMoreAlternateContact();
+    addEventUPSubmit();
 };
 
 

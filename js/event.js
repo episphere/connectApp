@@ -228,3 +228,10 @@ export const addEventMonthSelection = () => {
         document.getElementById('UPDay').innerHTML = template;
     });
 }
+
+export const addEventUPSubmit = () => {
+    const userProfileForm = document.getElementById('userProfileForm');
+    userProfileForm.addEventListener('submit', e => {
+        e.preventDefault();
+    });
+}
