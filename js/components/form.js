@@ -188,7 +188,7 @@ export const renderAlternateContact = (id, required) => {
             </label><br>
             <label>
                 <strong>Phone number</strong> ${required ? '<span class="required">*</span>': ''}
-                <input type="text" class="form-control" id="UPPhoneNumber${id}" ${required ? 'required' : ''} size="10" maxlength="10" Placeholder="Enter phone number">
+                <input type="text" class="form-control" id="UPPhoneNumber${id}" ${required ? 'required' : ''} pattern="[1-9]{1}[0-9]{9}" size="10" maxlength="10" Placeholder="Enter phone number">
             </label><br>
         </div>
         ${renderMailingAddress('', id, required, true)}
@@ -242,7 +242,7 @@ export const renderPhoneNumber = (number) => {
     <div class="form-group">
         <label>
             <strong>Phone number ${number}</strong>
-            <input type="text" class="form-control" id="UPPhoneNumber${number}" size="10" maxlength="10" Placeholder="Enter phone number ${number}">
+            <input type="text" class="form-control" id="UPPhoneNumber${number}" pattern="[1-9]{1}[0-9]{9}" size="10" maxlength="10" Placeholder="Enter phone number ${number}">
         </label><br>
         <label>
         <strong>Phone number ${number} type</strong>
