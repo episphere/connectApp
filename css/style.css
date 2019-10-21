@@ -163,3 +163,7 @@ canvas {
 .sub-heading{
     font-size: 0.75rem;
 }
+
+.sub-form {
+    padding-left: 2rem;
+}

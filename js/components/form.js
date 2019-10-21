@@ -1,5 +1,5 @@
 import { sites, allStates, allCountries } from "../shared.js";
-import { addEventAdditionalEmail, addEventAdditionalPhone, addEventDifferentAddress, addEventAddressAutoComplete, addEventMoreAlternateContact } from "../event.js";
+import { addEventAdditionalEmail, addEventAdditionalPhone, addEventDifferentAddress, addEventAddressAutoComplete, addEventMoreAlternateContact, addEventMonthSelection } from "../event.js";
 export const renderUserProfile = () => {
     const mainContent = document.getElementById('root');
     const localData = localStorage.eligibilityQuestionnaire ? JSON.parse(localStorage.eligibilityQuestionnaire) : undefined
@@ -9,7 +9,7 @@ export const renderUserProfile = () => {
     document.body.appendChild(js);
     mainContent.innerHTML = `
         </br></br>
-        <h4>User Profile</h4>
+        <h4>Contact Information</h4>
         <span>The National Cancer Institute and ${localData ? sites()[localData.RcrtES_Site_v1r0] : ''} thank you for your participation in this important study. Before we begin, we will need some basic contact information. We will only use this information to contact you about study-related activities and updates. We will not share your contact information with other people or groups.</span>
         <form id="userProfileForm" method="POST">
             <div class="form-group">
@@ -36,73 +36,46 @@ export const renderUserProfile = () => {
                     <input type="text" class="form-control" id="UPSuffix" placeholder="Enter suffix">
                 </label>
             </div>
-            <div class="form-group">
-                <label>
-                    <strong>Month </strong><span class="required">*</span>
-                    <select class="form-control" required id="UPMonth">
-                        <option value="">-- Select Month --</option>
-                        <option value="01">JAN</option>
-                        <option value="02">FEB</option>
-                        <option value="03">MAR</option>
-                        <option value="04">APR</option>
-                        <option value="05">MAY</option>
-                        <option value="06">JUN</option>
-                        <option value="07">JUL</option>
-                        <option value="08">AUG</option>
-                        <option value="09">SEP</option>
-                        <option value="10">OCT</option>
-                        <option value="11">NOV</option>
-                        <option value="12">DEC</option>
-                    </select>
-                </label>
-            </div>
-            <div class="form-group">
-                <label>
-                    <strong>Day </strong><span class="required">*</span>
-                    <select class="form-control" required id="UPDay">
-                    <option value="">-- Select day --</option>
-                        <option value="01">01</option>
-                        <option value="02">02</option>
-                        <option value="03">03</option>
-                        <option value="04">04</option>
-                        <option value="05">05</option>
-                        <option value="06">06</option>
-                        <option value="07">07</option>
-                        <option value="08">08</option>
-                        <option value="09">09</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-                        <option value="13">13</option>
-                        <option value="14">14</option>
-                        <option value="15">15</option>
-                        <option value="16">16</option>
-                        <option value="17">17</option>
-                        <option value="18">18</option>
-                        <option value="19">19</option>
-                        <option value="20">20</option>
-                        <option value="21">21</option>
-                        <option value="22">22</option>
-                        <option value="23">23</option>
-                        <option value="24">24</option>
-                        <option value="25">25</option>
-                        <option value="26">26</option>
-                        <option value="27">27</option>
-                        <option value="28">28</option>
-                        <option value="29">29</option>
-                        <option value="30">30</option>
-                        <option value="31">31</option>
-                    </select>
-                </label>
-            </div>
-            <div class="form-group">
-                <label>
-                    <strong>Year </strong><span class="required">*</span>
-                    <input type="text" required class="form-control" id="UPYear" Placeholder="Enter birth year">
-                </label>
-            </div>
+            
+            <label><strong>Date of Birth</strong>
+                <div class="form-group">
+                    <label>
+                        <strong>Month </strong><span class="required">*</span>
+                        <select class="form-control" required id="UPMonth">
+                            <option value="">-- Select Month --</option>
+                            <option value="01">JAN</option>
+                            <option value="02">FEB</option>
+                            <option value="03">MAR</option>
+                            <option value="04">APR</option>
+                            <option value="05">MAY</option>
+                            <option value="06">JUN</option>
+                            <option value="07">JUL</option>
+                            <option value="08">AUG</option>
+                            <option value="09">SEP</option>
+                            <option value="10">OCT</option>
+                            <option value="11">NOV</option>
+                            <option value="12">DEC</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <strong>Day </strong><span class="required">*</span>
+                        <select class="form-control" required id="UPDay">
+                            
+                        </select>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <strong>Year </strong><span class="required">*</span>
+                        <input type="text" required class="form-control" id="UPYear" pattern="19[0-9]{2}" title="Birth year, must be in 1900s" Placeholder="Enter birth year">
+                    </label>
+                </div>
+            </label>
 
             <div class="form-group">
+                Later in this survey, we will ask about some health conditions that are related to a person’s biological sex (male or female). We want to make sure that you are asked the right questions.  Later in the questionnaires, there will be an opportunity to tell us more about your gender and sexual orientation
                 <label>
                     <strong>At birth, how was your physical sex assigned? </strong><span class="required">*</span>
                     <div class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -126,7 +99,8 @@ export const renderUserProfile = () => {
 
             <div class="form-group">
                 <label>
-                    <strong>Email</strong>
+                    <strong>How can we reach you?</strong></br>
+                    <strong>Email address</strong>
                     <input type="email" class="form-control" id="UPEmail" Placeholder="Enter email"></br>
                     <div id="multipleEmail">
                         <button type="button" class="btn btn-light" id="addMoreEmail" title="Add more email">Add <i class="fas fa-plus"></i></button>
@@ -171,7 +145,7 @@ export const renderUserProfile = () => {
             <div id="secondaryAddress"></div>
 
             <label>
-                <strong>Alternative Contacts</strong>
+                <strong>Alternative Contact Information</strong>
             </label><br>
             <span class="sub-heading">We would like to be able to contact you throughout the study. Please provide contact information for at least one person who will know where to reach you. This person will only be contacted if we are otherwise unable to reach you.</span>
             ${renderAlternateContact(5, true)}
@@ -179,11 +153,13 @@ export const renderUserProfile = () => {
             <div id="multipleAlternateContact">
                 <button type="button" class="btn btn-light" id="addMoreAlternateContact" title="Add more alternate contact">Add <i class="fas fa-plus"></i></button>
             </div>
-            
+            </br></br>
+            <button type="submit" class="btn btn-primary">Submit</button>
         </form>
         </br></br>
     `;
 
+    addEventMonthSelection();
     addEventAdditionalEmail();
     addEventAdditionalPhone();
     addEventDifferentAddress();

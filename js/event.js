@@ -171,8 +171,9 @@ export const addEventAddressAutoComplete = (id, country) => {
             UPAddress1City.value = addressCity;
             const lowerCaseStates = Object.keys(allStates).map(s => s.trim().toLowerCase());
             const stateValue = lowerCaseStates.indexOf(addressState.trim().toLowerCase()) + 1;
-            UPAddress1State.value = stateValue;
+            UPAddress1State.value = stateValue === 0 ? 52 : stateValue;
             UPAddress1Zip.value = addressZip;
+            
             if(country){
                 const UPAddress1Country = document.getElementById(`UPAddress${id}Country`);
                 const lowerCaseCountries = Object.keys(allCountries).map(s => s.trim().toLowerCase());
@@ -199,5 +200,31 @@ export const addEventMoreAlternateContact = () => {
     btn.addEventListener('click', () => {
         div.innerHTML = renderAlternateContact(6, false);
         addEventAddressAutoComplete(6, true)
+    });
+}
+
+export const addEventMonthSelection = () => {
+    const UPMonth = document.getElementById('UPMonth');
+    UPMonth.addEventListener('change', () => {
+        const value = UPMonth.value;
+        let template = '<option value="">-- Select day --</option>';
+
+        if(value === '02'){
+            for(let i = 1; i < 30; i++){
+                template += `<option value=${i}>${i}</option>`
+            }
+        }
+        if(value === '01' || value === '03' || value === '05' || value === '07' || value === '08' || value === '10' || value === '12'){
+            for(let i = 1; i < 32; i++){
+                template += `<option value=${i}>${i}</option>`
+            }
+        }
+        if(value === '04' || value === '06' || value === '09' || value === '11'){
+            for(let i = 1; i < 31; i++){
+                template += `<option value=${i}>${i}</option>`
+            }
+        }
+
+        document.getElementById('UPDay').innerHTML = template;
     });
 }
