@@ -221,7 +221,7 @@ export const renderMailingAddress = (type, id, required, showCountry) => {
             </label><br>
             <label>
                 <strong>Zip</strong> ${required ? '<span class="required">*</span>': ''}
-                <input type=text id="UPAddress${id}Zip" class="form-control" size="5" maxlength="5" ${required ? 'required' : ''} placeholder="Enter zip">
+                <input type=text id="UPAddress${id}Zip" pattern="[0-9]{5}" class="form-control" size="5" maxlength="5" ${required ? 'required' : ''} placeholder="Enter zip">
             </label>
             ${showCountry ? `<br>
             <label>
