@@ -101,7 +101,7 @@ const userProfile = () => {
                             </label>
                         </div>
             
-                        <label>How did you hear about this study? (Check all that apply)</label>
+                        <label>How did you hear about this study? (Select all that apply)</label>
                         <div class="form-group">
                             <div class="checkbox">
                                 <label><input type="checkbox" id="checkbox1"> Physician or other medical staff</label>
