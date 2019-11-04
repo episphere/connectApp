@@ -26,7 +26,7 @@ self.addEventListener('fetch', event => {
         event.respondWith(cacheFirst(request));
     } else {
         event.respondWith(networkFirst(request));
-    }   
+    }
 });
   
 async function cacheFirst(request) {

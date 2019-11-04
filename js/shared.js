@@ -1,21 +1,21 @@
 const api = 'https://us-central1-nih-nci-dceg-episphere-dev.cloudfunctions.net/';
 
-export const getKey = async () => {
-    const response = await fetch(api+'getKey');
+export const validateToken = async (token) => {
+    const idToken = await getIdToken();
+    const response = await fetch(api+`validateToken${token? `?token=${token}` : ``}`, {
+        headers: {
+            Authorization:"Bearer "+idToken
+        }
+    });
     const data = await response.json();
-    if(data.code === 200) {
-        let obj = { access_token: data.access_token, token: data.token };
-        localStorage.connectApp = JSON.stringify(obj);
-    }
 }
 
 export const storeResponse = async (formData) => {
-    formData.token = JSON.parse(localStorage.connectApp).token;
-    const response = await fetch(api+'recruit/submit',
-    {
+    const idToken = await getIdToken();
+    const response = await fetch(api+'recruit/submit',{
         method: 'POST',
         headers:{
-            Authorization:"Bearer "+JSON.parse(localStorage.connectApp).access_token,
+            Authorization:"Bearer "+idToken,
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData)
@@ -56,13 +56,39 @@ export const todaysDate = () => {
     return mm+'/'+dd+'/'+yyyy;
 }
 
-export const getparameters = (query) => {
-    const array = query.split('&');
-    let obj = {};
-    array.forEach(value => {
-        obj[value.split('=')[0]] = value.split('=')[1];
+const getIdToken = () => {
+    return new Promise((resolve, reject) => {
+        const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+            unsubscribe();
+            if (user) {
+            user.getIdToken().then((idToken) => {
+                resolve(idToken);
+            }, (error) => {
+                resolve(null);
+            });
+            } else {
+            resolve(null);
+            }
+        });
     });
-    return obj;
+};
+
+export const getparameters = () => {
+    const hash = decodeURIComponent(window.location.href);
+    const index = hash.indexOf('?');
+
+    if(index !== -1){
+        const query = hash.slice(index+1, hash.length);
+        const array = query.split('&');
+        let obj = {};
+        array.forEach(value => {
+            obj[value.split('=')[0]] = value.split('=')[1];
+        });
+        return obj;
+    }
+    else{
+        return null;
+    }
 }
 
 export const allStates = {

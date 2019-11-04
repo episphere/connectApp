@@ -1,4 +1,4 @@
-import { getKey, storeResponse, getparameters } from "./js/shared.js";
+import { storeResponse, getparameters, validateToken } from "./js/shared.js";
 import { userNavBar, homeNavBar } from "./js/components/navbar.js";
 import { homePage, joinNowBtn } from "./js/pages/homePage.js";
 import { signIn } from "./js/pages/signIn.js";
@@ -33,35 +33,29 @@ const main = () => {
 }
 
 const router = () => {
-    const hash = decodeURIComponent(window.location.hash);
-    const index = hash.indexOf('?');
-    const parameters = index !== -1 ? getparameters(hash.slice(index+1, hash.length)) : {};
-    if(parameters.token){
-        if(localStorage.connectApp){
-            localStorage.connectApp = JSON.stringify({token : parameters.token});
-        }
-        else{
-            let obj = {};
-            obj["token"] = parameters.token;
-            localStorage.connectApp = JSON.stringify(obj);
-        }
-    }
-    else{
-        getKey();
+    const parameters = getparameters();
+    if(parameters && parameters.token && !checkSession()){
+        window.location.hash = '#sign_in';
     }
     toggleNavBar();
-    const route =  index !== -1 ? hash.slice(0, index) : hash || '#';
+    const route =  window.location.hash || '#';
     
     if(route === '#') homePage();
     else if (route === '#sign_in' && !checkSession()) signIn();
-    else if (route === '#user' && checkSession()) userProfile();
+    else if (route === '#user') userProfile();
     else if (route === '#sign_out') signOut();
     else window.location.hash = '#';
 }
 
 const userProfile = () => {
-    auth.onAuthStateChanged(user => {
+    auth.onAuthStateChanged(async user => {
         if(user){
+            const parameters = getparameters();
+            if(user.metadata.a === user.metadata.b){ // Validate Participant token
+                const token = parameters && parameters.token ? parameters.token : null;
+                const response = await validateToken(token);
+            }
+            
             if(user.email && !user.emailVerified){
                 const mainContent = document.getElementById('root');
                 mainContent.innerHTML = '<div>Please verify your email by clicking <a id="verifyEmail"><button class="btn btn-primary">Verify Email</button></a></div>'
@@ -161,15 +155,17 @@ const userProfile = () => {
                     formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_Other"] = document.getElementById('checkbox11').checked ? 1 : 0;
                     
                     localStorage.eligibilityQuestionnaire = JSON.stringify(formData);
-                    storeResponse(formData);
                     
-                    mainContent.innerHTML = consentTemplate();
+                    const response = await storeResponse(formData);
+                    if(response.code === 200) {
+                        mainContent.innerHTML = consentTemplate();
 
-                    initializeCanvas();
+                        initializeCanvas();
 
-                    addEventsConsentSign();
+                        addEventsConsentSign();
 
-                    addEventConsentSubmit();
+                        addEventConsentSubmit();
+                    }
                 });
             }
         }
@@ -199,12 +195,6 @@ const toggleNavBar = () => {
 
 const checkSession = () => {
     const user = firebase.auth().currentUser;
-    if(user){
-        firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
-        }).catch(function(error) {
-        // Handle error
-        });
-    }
     return user ? true : false;
 }
 
