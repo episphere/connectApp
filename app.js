@@ -137,7 +137,7 @@ const userProfile = () => {
                 `;
 
                 const form = document.getElementById('eligibilityForm');
-                form.addEventListener('submit', e => {
+                form.addEventListener('submit', async e => {
                     e.preventDefault();
                     let formData = {};
                     formData["RcrtES_Site_v1r0"] = parseInt(document.getElementById('RcrtES_Site_v1r0').value);
