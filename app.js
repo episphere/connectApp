@@ -51,7 +51,7 @@ const userProfile = () => {
     auth.onAuthStateChanged(async user => {
         if(user){
             const parameters = getparameters();
-            if(user.metadata.a === user.metadata.b){ // Validate Participant token
+            if(user.metadata.a === user.metadata.b || user.phoneNumber){ // Validate Participant token
                 const token = parameters && parameters.token ? parameters.token : null;
                 const response = await validateToken(token);
             }
