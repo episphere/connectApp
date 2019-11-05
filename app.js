@@ -39,7 +39,6 @@ const router = () => {
     }
     toggleNavBar();
     const route =  window.location.hash || '#';
-    
     if(route === '#') homePage();
     else if (route === '#sign_in' && !checkSession()) signIn();
     else if (route === '#user') userProfile();
