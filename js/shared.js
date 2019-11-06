@@ -73,6 +73,19 @@ const getIdToken = () => {
     });
 };
 
+export const userLoggedIn = () => {
+    return new Promise((resolve, reject) => {
+        const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+            unsubscribe();
+            if (user) {
+                resolve(true);
+            } else {
+                resolve(false);
+            }
+        });
+    });
+}
+
 export const getparameters = () => {
     const hash = decodeURIComponent(window.location.href);
     const index = hash.indexOf('?');
