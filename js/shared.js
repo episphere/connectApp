@@ -95,6 +95,7 @@ export const getparameters = () => {
         const array = query.split('&');
         let obj = {};
         array.forEach(value => {
+            if(value.split('=')[1].trim() === "") return;
             obj[value.split('=')[0]] = value.split('=')[1];
         });
         return obj;
