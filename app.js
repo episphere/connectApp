@@ -1,4 +1,4 @@
-import { storeResponse, getparameters, validateToken, userLoggedIn } from "./js/shared.js";
+import { storeResponse, getParameters, validateToken, userLoggedIn } from "./js/shared.js";
 import { userNavBar, homeNavBar } from "./js/components/navbar.js";
 import { homePage, joinNowBtn } from "./js/pages/homePage.js";
 import { signIn } from "./js/pages/signIn.js";
@@ -33,7 +33,7 @@ const main = () => {
 }
 
 const router = async () => {
-    const parameters = getparameters(window.location.href);
+    const parameters = getParameters(window.location.href);
     if(parameters && parameters.token && await userLoggedIn() === false){
         window.location.hash = '#sign_in';
     }
@@ -49,7 +49,7 @@ const router = async () => {
 const userProfile = () => {
     auth.onAuthStateChanged(async user => {
         if(user){
-            const parameters = getparameters(window.location.href);
+            const parameters = getParameters(window.location.href);
             if(user.email && !user.emailVerified){
                 const mainContent = document.getElementById('root');
                 mainContent.innerHTML = '<div>Please verify your email by clicking <a id="verifyEmail"><button class="btn btn-primary">Verify Email</button></a></div>'

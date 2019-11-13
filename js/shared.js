@@ -86,7 +86,7 @@ export const userLoggedIn = () => {
     });
 }
 
-export const getparameters = (URL) => {
+export const getParameters = (URL) => {
     const hash = decodeURIComponent(URL);
     const index = hash.indexOf('?');
 
