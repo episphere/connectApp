@@ -86,8 +86,8 @@ export const userLoggedIn = () => {
     });
 }
 
-export const getparameters = () => {
-    const hash = decodeURIComponent(window.location.href);
+export const getparameters = (URL) => {
+    const hash = decodeURIComponent(URL);
     const index = hash.indexOf('?');
 
     if(index !== -1){

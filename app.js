@@ -33,7 +33,7 @@ const main = () => {
 }
 
 const router = async () => {
-    const parameters = getparameters();
+    const parameters = getparameters(window.location.href);
     if(parameters && parameters.token && await userLoggedIn() === false){
         window.location.hash = '#sign_in';
     }
@@ -49,7 +49,7 @@ const router = async () => {
 const userProfile = () => {
     auth.onAuthStateChanged(async user => {
         if(user){
-            const parameters = getparameters();
+            const parameters = getparameters(window.location.href);
             if(user.email && !user.emailVerified){
                 const mainContent = document.getElementById('root');
                 mainContent.innerHTML = '<div>Please verify your email by clicking <a id="verifyEmail"><button class="btn btn-primary">Verify Email</button></a></div>'
