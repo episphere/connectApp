@@ -390,6 +390,7 @@ export const addEventUPSubmit = (siteId) => {
         if(document.getElementById('UPAddress6State') && document.getElementById('UPAddress6State').value) formData['RcrtUP_Alt2State_v1r0'] = document.getElementById('UPAddress6State').value;
         if(document.getElementById('UPAddress6Zip') && document.getElementById('UPAddress6Zip').value) formData['RcrtUP_Alt2Zip_v1r0'] = document.getElementById('UPAddress6Zip').value;
         if(document.getElementById('UPAddress6Country') && document.getElementById('UPAddress6Country').value) formData['RcrtUP_Alt2Ctry_v1r0'] = document.getElementById('UPAddress6Country').value;
+        formData['RcrtUP_Submitted_v1r0'] = 1;
         const response = await storeResponse(formData);
         if(response.code === 200) questionnaire();
     });
