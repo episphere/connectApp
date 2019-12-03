@@ -1,10 +1,12 @@
-import { storeResponse, getParameters, validateToken, userLoggedIn, dataSavingBtn } from "./js/shared.js";
+import { storeResponse, getParameters, validateToken, userLoggedIn, dataSavingBtn, getMyData } from "./js/shared.js";
 import { userNavBar, homeNavBar } from "./js/components/navbar.js";
 import { homePage, joinNowBtn } from "./js/pages/homePage.js";
 import { signIn } from "./js/pages/signIn.js";
 import { firebaseConfig } from "./js/config.js";
 import { consentTemplate, initializeCanvas, addEventConsentSubmit } from "./js/pages/consent.js";
 import { addEventsConsentSign } from "./js/event.js";
+import { renderUserProfile } from "./js/components/form.js";
+import { questionnaire } from "./js/pages/questionnaire.js";
 
 let auth = '';
 
@@ -49,6 +51,7 @@ const router = async () => {
 const userProfile = () => {
     auth.onAuthStateChanged(async user => {
         if(user){
+            const mainContent = document.getElementById('root');
             const parameters = getParameters(window.location.href);
             if(user.email && !user.emailVerified){
                 const mainContent = document.getElementById('root');
@@ -72,7 +75,28 @@ const userProfile = () => {
                 const response = await validateToken(token);
             }
 
-            const mainContent = document.getElementById('root');
+            const myData = await getMyData();
+            if(myData.code === 200 && myData.data.RcrtES_Site_v1r0){
+                if(myData.data.RcrutCS_Consented_v1r0 === 1){
+                    if(myData.data.RcrtUP_Fname_v1r0){
+                        questionnaire();
+                        return;
+                    }
+                    renderUserProfile();
+                    return;
+                }
+                mainContent.innerHTML = consentTemplate();
+
+                initializeCanvas();
+
+                addEventsConsentSign();
+
+                addEventConsentSubmit();
+
+                return;
+            }
+
+            
             mainContent.innerHTML = `
             <div class="col eligibility-form">
                 <form method="POST" id="eligibilityForm">

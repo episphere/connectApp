@@ -23,6 +23,16 @@ export const storeResponse = async (formData) => {
     return response.json();
 }
 
+export const getMyData = async () => {
+    const idToken = await getIdToken();
+    const response = await fetch(api+'getUserProfile', {
+        headers: {
+            Authorization: "Bearer "+idToken
+        }
+    })
+    return response.json();
+}
+
 export const sites = () => {
     return {
         1: 'HealthPartners',
