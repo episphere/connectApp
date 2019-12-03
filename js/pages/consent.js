@@ -1,4 +1,4 @@
-import { todaysDate, storeResponse } from "../shared.js";
+import { todaysDate, storeResponse, dataSavingBtn } from "../shared.js";
 import { renderUserProfile } from "../components/form.js";
 
 export const consentTemplate = () => {
@@ -67,7 +67,7 @@ export const consentTemplate = () => {
                 </div>
             ` : '' : ''}
             <div class="form-group">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary save-data">Submit</button>
             </div>
         </form>
     `
@@ -114,6 +114,7 @@ export const addEventConsentSubmit = () => {
 }
 
 const consentSubmit = async e => {
+    dataSavingBtn('save-data');
     e.preventDefault();
     let formData = {};
     const CSFirstName = document.getElementById('CSFirstName');

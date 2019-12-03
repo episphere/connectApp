@@ -105,6 +105,11 @@ export const getParameters = (URL) => {
     }
 }
 
+export const dataSavingBtn = (className) => {
+    const btn = document.getElementsByClassName(className)[0];
+    btn.innerHTML = `<div class="spinner-border spinner-saving" role="status"><span class="sr-only">Loading...</span></div> Saving`;
+}
+
 export const allStates = {
     "Alabama":1,
     "Alaska":2,

@@ -1,4 +1,4 @@
-import { storeResponse, getParameters, validateToken, userLoggedIn } from "./js/shared.js";
+import { storeResponse, getParameters, validateToken, userLoggedIn, dataSavingBtn } from "./js/shared.js";
 import { userNavBar, homeNavBar } from "./js/components/navbar.js";
 import { homePage, joinNowBtn } from "./js/pages/homePage.js";
 import { signIn } from "./js/pages/signIn.js";
@@ -131,13 +131,14 @@ const userProfile = () => {
                             <label><input type="checkbox"  id="checkbox11"> Other</label>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button></br></br>
+                    <button type="submit" class="btn btn-primary save-data">Submit</button></br></br>
                 </form>
             </div>
             `;
 
             const form = document.getElementById('eligibilityForm');
             form.addEventListener('submit', async e => {
+                dataSavingBtn('save-data');
                 e.preventDefault();
                 let formData = {};
                 formData["RcrtES_Site_v1r0"] = parseInt(document.getElementById('RcrtES_Site_v1r0').value);

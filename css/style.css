@@ -134,6 +134,11 @@
     min-height: 500px;
 }
 
+.spinner-saving {
+    height: 1rem !important;
+    width: 1rem !important;
+}
+
 .consent-form{
     padding: 0px !important
 }

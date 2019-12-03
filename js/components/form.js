@@ -1,5 +1,5 @@
 import { sites, allStates, allCountries } from "../shared.js";
-import { addEventAdditionalEmail, addEventAdditionalPhone, addEventDifferentAddress, addEventAddressAutoComplete, addEventMoreAlternateContact, addEventMonthSelection } from "../event.js";
+import { addEventAdditionalEmail, addEventAdditionalPhone, addEventDifferentAddress, addEventAddressAutoComplete, addEventMoreAlternateContact, addEventMonthSelection, addEventUPSubmit } from "../event.js";
 export const renderUserProfile = () => {
     const mainContent = document.getElementById('root');
     const localData = localStorage.eligibilityQuestionnaire ? JSON.parse(localStorage.eligibilityQuestionnaire) : undefined
@@ -154,7 +154,7 @@ export const renderUserProfile = () => {
                 <button type="button" class="btn btn-light" id="addMoreAlternateContact" title="Add more alternate contact">Add <i class="fas fa-plus"></i></button>
             </div>
             </br></br>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary save-data">Submit</button>
         </form>
         </br></br>
     `;
@@ -206,7 +206,7 @@ export const renderMailingAddress = (type, id, required, showCountry) => {
             </label><br>
             <label>
                 <strong>Line 2 (apartment, suite, unit, building)</strong>
-                <input type=text id="UPAddress${id}Line2" class="form-control" placeholder="apartment, suite, unit, building">
+                <input type=text id="UPAddress${id}Line2" autocomplete="off" class="form-control" placeholder="apartment, suite, unit, building">
             </label><br>
             <label>
                 <strong>City</strong> ${required ? '<span class="required">*</span>': ''}
