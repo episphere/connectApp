@@ -230,7 +230,7 @@ export const addEventMonthSelection = () => {
     });
 }
 
-export const addEventUPSubmit = () => {
+export const addEventUPSubmit = (siteId) => {
     const userProfileForm = document.getElementById('userProfileForm');
     userProfileForm.addEventListener('submit', async e => {
         dataSavingBtn('save-data');
@@ -250,12 +250,11 @@ export const addEventUPSubmit = () => {
             if(radioBtn.checked) formData['RcrtUP_DOB_Sex_v1r0'] = radioBtn.value;
         });
 
-        const localData = localStorage.eligibilityQuestionnaire ? JSON.parse(localStorage.eligibilityQuestionnaire) : undefined
-        if(localData){
-            if(localData.RcrtES_Site_v1r0 === 3 && document.getElementById('UPMRN').value) formData['RcrtUP_KPMRN_CO_v1r0'] = document.getElementById('UPMRN').value;
-            if(localData.RcrtES_Site_v1r0 === 4 && document.getElementById('UPMRN').value) formData['RcrtUP_KPMRN_GA_v1r0'] = document.getElementById('UPMRN').value;
-            if(localData.RcrtES_Site_v1r0 === 5 && document.getElementById('UPMRN').value) formData['RcrtUP_KPMRN_HI_v1r0'] = document.getElementById('UPMRN').value;
-            if(localData.RcrtES_Site_v1r0 === 6 && document.getElementById('UPMRN').value) formData['RcrtUP_KPMRN_NW_v1r0'] = document.getElementById('UPMRN').value;
+        if(siteId){
+            if(siteId === 3 && document.getElementById('UPMRN').value) formData['RcrtUP_KPMRN_CO_v1r0'] = document.getElementById('UPMRN').value;
+            if(siteId === 4 && document.getElementById('UPMRN').value) formData['RcrtUP_KPMRN_GA_v1r0'] = document.getElementById('UPMRN').value;
+            if(siteId === 5 && document.getElementById('UPMRN').value) formData['RcrtUP_KPMRN_HI_v1r0'] = document.getElementById('UPMRN').value;
+            if(siteId === 6 && document.getElementById('UPMRN').value) formData['RcrtUP_KPMRN_NW_v1r0'] = document.getElementById('UPMRN').value;
         }
 
         formData['RcrtUP_Email1_v1r0'] = document.getElementById('UPEmail').value;

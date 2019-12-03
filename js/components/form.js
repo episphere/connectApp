@@ -1,8 +1,7 @@
 import { sites, allStates, allCountries } from "../shared.js";
 import { addEventAdditionalEmail, addEventAdditionalPhone, addEventDifferentAddress, addEventAddressAutoComplete, addEventMoreAlternateContact, addEventMonthSelection, addEventUPSubmit } from "../event.js";
-export const renderUserProfile = () => {
+export const renderUserProfile = (siteId) => {
     const mainContent = document.getElementById('root');
-    const localData = localStorage.eligibilityQuestionnaire ? JSON.parse(localStorage.eligibilityQuestionnaire) : undefined
     const js = document.createElement("script");
     js.type = "text/javascript";
     js.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDe3Ewzl4x7hEX30EiQJ0tvXBtzd2Hghiw&libraries=places";
@@ -10,7 +9,7 @@ export const renderUserProfile = () => {
     mainContent.innerHTML = `
         </br></br>
         <h4>Contact Information</h4>
-        <span>The National Cancer Institute and ${localData ? sites()[localData.RcrtES_Site_v1r0] : ''} thank you for your participation in this important study. Before we begin, we will need some basic contact information. We will only use this information to contact you about study-related activities and updates. We will not share your contact information with other people or groups.</span>
+        <span>The National Cancer Institute and ${siteId ? sites()[siteId] : ''} thank you for your participation in this important study. Before we begin, we will need some basic contact information. We will only use this information to contact you about study-related activities and updates. We will not share your contact information with other people or groups.</span>
         <form id="userProfileForm" method="POST">
             <div class="form-group">
                 <label>
@@ -86,7 +85,7 @@ export const renderUserProfile = () => {
                 </label>
             </div>
 
-            ${localData.RcrtES_Site_v1r0 === 3 || localData.RcrtES_Site_v1r0 === 4 || localData.RcrtES_Site_v1r0 === 5 || localData.RcrtES_Site_v1r0 === 6 ? `
+            ${siteId === 3 || siteId === 4 || siteId === 5 || siteId === 6 ? `
             
             <div class="form-group">
                 <label>
@@ -166,7 +165,7 @@ export const renderUserProfile = () => {
     addEventAddressAutoComplete(1);
     addEventAddressAutoComplete(5, true);
     addEventMoreAlternateContact();
-    addEventUPSubmit();
+    addEventUPSubmit(siteId);
 };
 
 

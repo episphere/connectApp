@@ -76,13 +76,15 @@ const userProfile = () => {
             }
 
             const myData = await getMyData();
+            
             if(myData.code === 200 && myData.data.RcrtES_Site_v1r0){
+                const siteId = myData.data.RcrtES_Site_v1r0;
                 if(myData.data.RcrutCS_Consented_v1r0 === 1){
                     if(myData.data.RcrtUP_Fname_v1r0){
                         questionnaire();
                         return;
                     }
-                    renderUserProfile();
+                    renderUserProfile(siteId);
                     return;
                 }
                 mainContent.innerHTML = consentTemplate();
