@@ -22,7 +22,7 @@ export const userNavBar = () => {
         </div>
         <div class="navbar-nav">
             <li class="nav-item">
-                <a target="_blank" class="nav-link" href="https://github.com/episphere/connect/projects/1" title="GitHub Projects page"><i class="fas fa-tasks"> GitHub Projects</i></a>
+                <a target="_blank" class="nav-link" href="https://github.com/episphere/connect/projects/1" title="GitHub Projects page"><i class="fas fa-tasks"></i> GitHub Projects</a>
             </li>
         </div>
         <div class="navbar-nav">
@@ -52,7 +52,7 @@ export const homeNavBar = () => {
         </div>
         <div class="navbar-nav">
             <li class="nav-item">
-                <a target="_blank" class="nav-link" href="https://github.com/episphere/connect/projects/1" title="GitHub Projects page"><i class="fas fa-tasks"> GitHub Projects</i></a>
+                <a target="_blank" class="nav-link" href="https://github.com/episphere/connect/projects/1" title="GitHub Projects page"><i class="fas fa-tasks"></i> GitHub Projects</a>
             </li>
         </div>
         <div class="navbar-nav">
