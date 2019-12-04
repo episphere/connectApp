@@ -17,7 +17,7 @@ export const userNavBar = () => {
         </div>
         <div class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="https://github.com/episphere/connect/issues" title="Please create an issue if you encounter any."><i class="fas fa-bug"> Report issue</i></a>
+                <a target="_blank" class="nav-link" href="https://github.com/episphere/connect/issues" title="Please create an issue if you encounter any."><i class="fas fa-bug"> Report issue</i></a>
             </li>
         </div>
     `;
@@ -37,7 +37,7 @@ export const homeNavBar = () => {
         </div>
         <div class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="https://github.com/episphere/connect/issues" id="signIn" title="Please create an issue if you encounter any."><i class="fas fa-bug"> Report issue</i></a>
+                <a target="_blank" class="nav-link" href="https://github.com/episphere/connect/issues" id="signIn" title="Please create an issue if you encounter any."><i class="fas fa-bug"> Report issue</i></a>
             </li>
         </div>
     `;
