@@ -70,11 +70,11 @@ const userProfile = () => {
                 });
                 return;
             }
-            if(user.metadata.a === user.metadata.b || user.phoneNumber){ // Validate Participant token
-                const token = parameters && parameters.token ? parameters.token : null;
-                const response = await validateToken(token);
-            }
-
+            // if(user.metadata.a === user.metadata.b || user.phoneNumber){ // Validate Participant token
+               
+            // }
+            const token = parameters && parameters.token ? parameters.token : null;
+            const response = await validateToken(token);
             const myData = await getMyData();
             
             if(myData.code === 200 && myData.data.RcrtES_Site_v1r0){
