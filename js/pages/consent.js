@@ -1,4 +1,4 @@
-import { todaysDate, storeResponse, dataSavingBtn } from "../shared.js";
+import { todaysDate, storeResponse, dataSavingBtn, dateTime } from "../shared.js";
 import { renderUserProfile } from "../components/form.js";
 
 export const consentTemplate = () => {
@@ -121,10 +121,12 @@ const consentSubmit = async e => {
     const CSLastName = document.getElementById('CSLastName');
     const CSDate = document.getElementById('CSDate').innerHTML;
 
-    formData.RcrutCS_Version_v1r0 = 'Consent-v1.0';
-    formData.RcrutCS_Fname_v1r0 = CSFirstName.value;
-    formData.RcrutCS_Lname_v1r0 = CSLastName.value;
-    formData.RcrutCS_Pdate_v1r0 = CSDate.split('/')[2]+CSDate.split('/')[1]+CSDate.split('/')[0];
+    formData.RcrtCS_Version_v1r0 = 'Consent-v1.0';
+    formData.RcrtCS_Fname_v1r0 = CSFirstName.value;
+    formData.RcrtCS_Lname_v1r0 = CSLastName.value;
+    formData.RcrtCS_Pdate_v1r0 = CSDate.split('/')[2]+CSDate.split('/')[1]+CSDate.split('/')[0];
+    formData.RcrutCS_Consented_v1r0 = 1;
+    formData.RcrtCS_ConsentSumit_v1r0 = dateTime();
 
     const CSWFirstName = document.getElementById('CSWFirstName');
     const CSWLastName = document.getElementById('CSWLastName');
@@ -132,12 +134,12 @@ const consentSubmit = async e => {
     if(CSWFirstName && CSWLastName){
         const CSWDate = document.getElementById('CSWDate').innerHTML;
 
-        formData.RcrutCS_WFname_v1r0 = CSWFirstName.value;
-        formData.RcrutCS_WLname_v1r0 = CSWLastName.value;
-        formData.RcrutCS_Wdate_v1r0 = CSWDate.split('/')[2] + CSWDate.split('/')[1] + CSWDate.split('/')[0]
+        formData.RcrtCS_WFname_v1r0 = CSWFirstName.value;
+        formData.RcrtCS_WLname_v1r0 = CSWLastName.value;
+        formData.RcrtCS_Wdate_v1r0 = CSWDate.split('/')[2] + CSWDate.split('/')[1] + CSWDate.split('/')[0]
     }
 
-    formData.RcrutCS_Consented_v1r0 = 1;
+    
     const response = await storeResponse(formData);
     if(response.code === 200) renderUserProfile();
 }

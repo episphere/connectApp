@@ -116,7 +116,6 @@ const userProfile = () => {
                                 <option value=8>Sanford Health</option>
                                 <option value=9>University of Chicago Medicine</option>
                                 <option value=13>Natiocal Cancer Institute</option>
-                                <option value=88>None of these</option>
                             </select>
                         </label>
                     </div>

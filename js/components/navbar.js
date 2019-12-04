@@ -17,7 +17,17 @@ export const userNavBar = () => {
         </div>
         <div class="navbar-nav">
             <li class="nav-item">
-                <a target="_blank" class="nav-link" href="https://github.com/episphere/connect/issues" title="Please create an issue if you encounter any."><i class="fas fa-bug"> Report issue</i></a>
+                <a target="_blank" class="nav-link" href="https://github.com/episphere/connect/issues" title="Please create an issue if you encounter any"><i class="fas fa-bug"></i> Report issue</a>
+            </li>
+        </div>
+        <div class="navbar-nav">
+            <li class="nav-item">
+                <a target="_blank" class="nav-link" href="https://github.com/episphere/connect/projects/1" title="GitHub Projects page"><i class="fas fa-tasks"> GitHub Projects</i></a>
+            </li>
+        </div>
+        <div class="navbar-nav">
+            <li class="nav-item">
+                <a target="_blank" class="nav-link" href="https://gitter.im/episphere/Connect-AlphaTest" title="Chat with us"><i class="fas fa-comments"></i> Chat with us</a>
             </li>
         </div>
     `;
@@ -37,7 +47,17 @@ export const homeNavBar = () => {
         </div>
         <div class="navbar-nav">
             <li class="nav-item">
-                <a target="_blank" class="nav-link" href="https://github.com/episphere/connect/issues" id="signIn" title="Please create an issue if you encounter any."><i class="fas fa-bug"> Report issue</i></a>
+                <a target="_blank" class="nav-link" href="https://github.com/episphere/connect/issues" title="Please create an issue if you encounter any"><i class="fas fa-bug"></i> Report issue</a>
+            </li>
+        </div>
+        <div class="navbar-nav">
+            <li class="nav-item">
+                <a target="_blank" class="nav-link" href="https://github.com/episphere/connect/projects/1" title="GitHub Projects page"><i class="fas fa-tasks"> GitHub Projects</i></a>
+            </li>
+        </div>
+        <div class="navbar-nav">
+            <li class="nav-item">
+                <a target="_blank" class="nav-link" href="https://gitter.im/episphere/Connect-AlphaTest" title="Chat with us"><i class="fas fa-comments"></i> Chat with us</a>
             </li>
         </div>
     `;

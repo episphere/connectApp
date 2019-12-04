@@ -66,6 +66,37 @@ export const todaysDate = () => {
     return mm+'/'+dd+'/'+yyyy;
 }
 
+export const dateTime = () => {
+    const today = new Date();
+    let dd = today.getDate();
+    let mm = today.getMonth() + 1; 
+    const yyyy = today.getFullYear();
+    let hh = today.getHours();
+    let mi = today.getMinutes();
+    let se = today.getSeconds();
+    
+    if(dd<10) dd=`0${dd}`;
+
+    if(mm === 1) mm = 'JAN'
+    if(mm === 2) mm = 'FEB'
+    if(mm === 3) mm = 'MAR'
+    if(mm === 4) mm = 'APR'
+    if(mm === 5) mm = 'MAY'
+    if(mm === 6) mm = 'JUN'
+    if(mm === 7) mm = 'JUL'
+    if(mm === 8) mm = 'AUG'
+    if(mm === 9) mm = 'SEP'
+    if(mm === 10) mm = 'OCT'
+    if(mm === 11) mm = 'NOV'
+    if(mm === 12) mm = 'DEC'
+    
+    if(hh < 10) hh = `0${hh}`;
+    if(mi < 10) mi = `0${mi}`;
+    if(se < 10) se = `0${se}`;
+
+    return `${dd}${mm}${yyyy}:${hh}:${mi}:${se}`
+}
+
 const getIdToken = () => {
     return new Promise((resolve, reject) => {
         const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
