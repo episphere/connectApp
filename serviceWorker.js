@@ -20,13 +20,13 @@ self.addEventListener('activate', event => {
 });
   
 self.addEventListener('fetch', event => {
-    const request = event.request;
-    const url = new URL(request.url);
-    if (url.origin === location.origin) {
-        event.respondWith(cacheFirst(request));
-    } else {
-        event.respondWith(networkFirst(request));
-    }
+    // const request = event.request;
+    // const url = new URL(request.url);
+    // if (url.origin === location.origin) {
+    //     event.respondWith(cacheFirst(request));
+    // } else {
+    //     event.respondWith(networkFirst(request));
+    // }
 });
   
 async function cacheFirst(request) {
