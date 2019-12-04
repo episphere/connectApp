@@ -247,7 +247,7 @@ export const addEventUPSubmit = (siteId) => {
 
         const gender = document.getElementsByName('UPRadio');
         Array.from(gender).forEach(radioBtn => {
-            if(radioBtn.checked) formData['RcrtUP_DOB_Sex_v1r0'] = radioBtn.value;
+            if(radioBtn.checked) formData['SEX'] = radioBtn.value;
         });
 
         if(siteId){
@@ -393,5 +393,21 @@ export const addEventUPSubmit = (siteId) => {
         formData['RcrtUP_Submitted_v1r0'] = 1;
         const response = await storeResponse(formData);
         if(response.code === 200) questionnaire();
+    });
+}
+
+export const addEventHealthCareSelector = () => {
+    const element = document.getElementById('RcrtES_Site_v1r0');
+    element.addEventListener('change', () => {
+        const div = document.getElementById('requestPIN');
+        if(element.value === '8'){
+            div.innerHTML = `
+                <label><strong>Enter PIN you received in study invitation</strong></label>
+                <label><input type="text" id="participantPIN" class="form-control" placeholder="Enter PIN"></label>
+            `;
+        }
+        else{
+            div.innerHTML = ``;
+        }
     });
 }

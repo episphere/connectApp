@@ -4,7 +4,7 @@ import { homePage, joinNowBtn } from "./js/pages/homePage.js";
 import { signIn } from "./js/pages/signIn.js";
 import { firebaseConfig } from "./js/config.js";
 import { consentTemplate, initializeCanvas, addEventConsentSubmit } from "./js/pages/consent.js";
-import { addEventsConsentSign } from "./js/event.js";
+import { addEventsConsentSign, addEventHealthCareSelector } from "./js/event.js";
 import { renderUserProfile } from "./js/components/form.js";
 import { questionnaire } from "./js/pages/questionnaire.js";
 
@@ -103,7 +103,7 @@ const userProfile = () => {
             <div class="col eligibility-form">
                 <form method="POST" id="eligibilityForm">
                     <div class="form-group">
-                        <label for="RcrtES_Site_v1r0">Who is your healthcare provider?<span class="required"> *</span>
+                        <label for="RcrtES_Site_v1r0"><strong>Who is your healthcare provider?<span class="required"> *</span></strong>
                             <select class="form-control" id="RcrtES_Site_v1r0" required>
                                 <option value="">-- Select healthcare provider --</option>    
                                 <option value=1>HealthPartners</option>
@@ -120,8 +120,10 @@ const userProfile = () => {
                             </select>
                         </label>
                     </div>
+
+                    <div id="requestPIN" class="form-group"></div>
         
-                    <label>How did you hear about this study? (Select all that apply)</label>
+                    <label><strong>How did you hear about this study? (Select all that apply)</strong></label>
                     <div class="form-group">
                         <div class="checkbox">
                             <label><input type="checkbox" id="checkbox1"> Physician or other medical staff</label>
@@ -161,6 +163,8 @@ const userProfile = () => {
                 </form>
             </div>
             `;
+
+            // addEventHealthCareSelector();
 
             const form = document.getElementById('eligibilityForm');
             form.addEventListener('submit', async e => {

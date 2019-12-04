@@ -126,7 +126,6 @@ const consentSubmit = async e => {
     formData.RcrutCS_Lname_v1r0 = CSLastName.value;
     formData.RcrutCS_Pdate_v1r0 = CSDate.split('/')[2]+CSDate.split('/')[1]+CSDate.split('/')[0];
 
-
     const CSWFirstName = document.getElementById('CSWFirstName');
     const CSWLastName = document.getElementById('CSWLastName');
     
