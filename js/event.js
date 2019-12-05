@@ -1,6 +1,7 @@
 import { renderPhoneNumber, renderMailingAddress, renderAlternateContact } from "./components/form.js";
 import { allStates, allCountries, dataSavingBtn, storeResponse } from "./shared.js";
 import { questionnaire } from "./pages/questionnaire.js";
+import { initializeCanvas, addEventConsentSubmit, consentTemplate } from "./pages/consent.js";
 
 export const addEventAdditionalEmail = () => {
     const addMoreEmail = document.getElementById('addMoreEmail');
@@ -227,6 +228,41 @@ export const addEventMonthSelection = () => {
         }
 
         document.getElementById('UPDay').innerHTML = template;
+    });
+}
+
+export const addEventHealthCareProviderSubmit = () => {
+    const form = document.getElementById('eligibilityForm');
+    form.addEventListener('submit', async e => {
+        dataSavingBtn('save-data');
+        e.preventDefault();
+        let formData = {};
+        formData["RcrtES_Site_v1r0"] = parseInt(document.getElementById('RcrtES_Site_v1r0').value);
+        formData["RcrtES_Aware_v1r0"] = {};
+        formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_phys"] = document.getElementById('checkbox1').checked ? 1 : 0;
+        formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_Email"] = document.getElementById('checkbox2').checked ? 1 : 0;
+        formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_Post"] = document.getElementById('checkbox3').checked ? 1 : 0;
+        formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_News"] = document.getElementById('checkbox4').checked ? 1 : 0;
+        formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_Social"] = document.getElementById('checkbox5').checked ? 1 : 0;
+        formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_Invite"] = document.getElementById('checkbox6').checked ? 1 : 0;
+        formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_Family"] = document.getElementById('checkbox7').checked ? 1 : 0;
+        formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_Member"] = document.getElementById('checkbox8').checked ? 1 : 0;
+        formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_Poster"] = document.getElementById('checkbox9').checked ? 1 : 0;
+        formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_Table"] = document.getElementById('checkbox10').checked ? 1 : 0;
+        formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_Other"] = document.getElementById('checkbox11').checked ? 1 : 0;
+        
+        localStorage.eligibilityQuestionnaire = JSON.stringify(formData);
+        const response = await storeResponse(formData);
+        if(response.code === 200) {
+            const mainContent = document.getElementById('root');
+            mainContent.innerHTML = consentTemplate();
+
+            initializeCanvas();
+
+            addEventsConsentSign();
+
+            addEventConsentSubmit();
+        }
     });
 }
 

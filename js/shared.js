@@ -8,6 +8,7 @@ export const validateToken = async (token) => {
         }
     });
     const data = await response.json();
+    return data;
 }
 
 export const storeResponse = async (formData) => {
@@ -44,8 +45,7 @@ export const sites = () => {
         7: 'Marshfield Clinic',
         8: 'Sanford Health',
         9: 'University of Chicago Medicine',
-        13: 'Natiocal Cancer Institute',
-        88: 'None of these'
+        13: 'Natiocal Cancer Institute'
     }
 }
 
@@ -66,8 +66,8 @@ export const todaysDate = () => {
     return mm+'/'+dd+'/'+yyyy;
 }
 
-export const dateTime = () => {
-    const today = new Date();
+export const dateTime = (date) => {
+    const today = date ? new Date(date) : new Date();
     let dd = today.getDate();
     let mm = today.getMonth() + 1; 
     const yyyy = today.getFullYear();

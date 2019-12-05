@@ -125,7 +125,7 @@ const consentSubmit = async e => {
     formData.RcrtCS_Fname_v1r0 = CSFirstName.value;
     formData.RcrtCS_Lname_v1r0 = CSLastName.value;
     formData.RcrtCS_Pdate_v1r0 = CSDate.split('/')[2]+CSDate.split('/')[1]+CSDate.split('/')[0];
-    formData.RcrutCS_Consented_v1r0 = 1;
+    formData.RcrtCS_Consented_v1r0 = 1;
     formData.RcrtCS_ConsentSumit_v1r0 = dateTime();
 
     const CSWFirstName = document.getElementById('CSWFirstName');
