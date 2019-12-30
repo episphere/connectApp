@@ -13,7 +13,7 @@ export const validateToken = async (token) => {
 
 export const storeResponse = async (formData) => {
     const idToken = await getIdToken();
-    const response = await fetch(api+'recruit/submit',{
+    const response = await fetch(api+'submit',{
         method: 'POST',
         headers:{
             Authorization:"Bearer "+idToken,

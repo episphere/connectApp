@@ -1,6 +1,8 @@
 export const homePage = () => {
     const mainContent = document.getElementById('root');
+    const isIE = /*@cc_on!@*/false || !!document.documentMode;
     mainContent.innerHTML = `
+        ${isIE ? `<span class="not-compatible">Connect web application is not compatible with Internet Explorer, please use Chrome, Safari, Firefox or Edge</span>` : ``}
         <div class="row">
             <div class="col-sm-9 images-grid">
                 <div class="row images-row">

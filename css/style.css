@@ -139,6 +139,11 @@
     width: 1rem !important;
 }
 
+.not-compatible{
+    color: #aa0201;
+    font-weight: bold;
+}
+
 .consent-form{
     padding: 0px !important
 }

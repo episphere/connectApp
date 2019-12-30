@@ -9,7 +9,10 @@ export const renderUserProfile = (siteId) => {
     mainContent.innerHTML = `
         </br></br>
         <h4>Contact Information</h4>
-        <span>The National Cancer Institute and ${siteId ? sites()[siteId] : ''} thank you for your participation in this important study. Before we begin, we will need some basic contact information. We will only use this information to contact you about study-related activities and updates. We will not share your contact information with other people or groups.</span>
+        <span>The National Cancer Institute and ${siteId ? sites()[siteId] : ''} thank you for your participation in this important study. 
+            Before we begin, we will need some basic contact information. We will only use this information to contact you about study-related activities and updates. 
+            We will not share your contact information with other people or groups.
+        </span>
         <form id="userProfileForm" method="POST">
             <div class="form-group">
                 <label>

@@ -4,14 +4,19 @@ import { homePage, joinNowBtn } from "./js/pages/homePage.js";
 import { signIn } from "./js/pages/signIn.js";
 import { firebaseConfig } from "./js/config.js";
 import { consentTemplate, initializeCanvas, addEventConsentSubmit } from "./js/pages/consent.js";
-import { addEventsConsentSign, addEventHealthCareSelector, addEventHealthCareProviderSubmit } from "./js/event.js";
+import { addEventsConsentSign, addEventHealthCareProviderSubmit } from "./js/event.js";
 import { renderUserProfile } from "./js/components/form.js";
 import { questionnaire } from "./js/pages/questionnaire.js";
 import { healthCareProvider } from "./js/pages/healthCareProvider.js";
 
 let auth = '';
 
-window.onload = () => {
+window.onload = function() {
+    const isIE = /*@cc_on!@*/false || !!document.documentMode;
+    if(isIE) {
+        const mainContent = document.getElementById('root');
+        mainContent.innerHTML = `<span class="not-compatible">Connect web application is not compatible with Internet Explorer, please use Chrome, Safari, Firefox or Edge.</span>`;
+    }
     const config = firebaseConfig();
     !firebase.apps.length ? firebase.initializeApp(config) : firebase.app();
     auth = firebase.auth();
