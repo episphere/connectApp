@@ -1,8 +1,31 @@
 const api = 'https://us-central1-nih-nci-dceg-episphere-dev.cloudfunctions.net/';
+// const api = 'http://localhost:8010/nih-nci-dceg-episphere-dev/us-central1/';
 
 export const validateToken = async (token) => {
     const idToken = await getIdToken();
     const response = await fetch(api+`validateToken${token? `?token=${token}` : ``}`, {
+        headers: {
+            Authorization:"Bearer "+idToken
+        }
+    });
+    const data = await response.json();
+    return data;
+}
+
+export const validatePin = async (pin) => {
+    const idToken = await getIdToken();
+    const response = await fetch(api+`validateToken${pin? `?pin=${pin}` : ``}`, {
+        headers: {
+            Authorization:"Bearer "+idToken
+        }
+    });
+    const data = await response.json();
+    return data;
+}
+
+export const generateNewToken = async () => {
+    const idToken = await getIdToken();
+    const response = await fetch(`${api}generateToken`, {
         headers: {
             Authorization:"Bearer "+idToken
         }
@@ -17,7 +40,7 @@ export const storeResponse = async (formData) => {
         method: 'POST',
         headers:{
             Authorization:"Bearer "+idToken,
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify(formData)
     });
@@ -54,47 +77,18 @@ export const todaysDate = () => {
     let dd = today.getDate();
     let mm = today.getMonth()+1; 
     const yyyy = today.getFullYear();
-    if(dd<10) 
-    {
+    if(dd < 10) {
         dd='0'+dd;
     } 
 
-    if(mm<10) 
-    {
+    if(mm < 10) {
         mm='0'+mm;
     } 
     return mm+'/'+dd+'/'+yyyy;
 }
 
 export const dateTime = (date) => {
-    const today = date ? new Date(date) : new Date();
-    let dd = today.getDate();
-    let mm = today.getMonth() + 1; 
-    const yyyy = today.getFullYear();
-    let hh = today.getHours();
-    let mi = today.getMinutes();
-    let se = today.getSeconds();
-    
-    if(dd<10) dd=`0${dd}`;
-
-    if(mm === 1) mm = 'JAN'
-    if(mm === 2) mm = 'FEB'
-    if(mm === 3) mm = 'MAR'
-    if(mm === 4) mm = 'APR'
-    if(mm === 5) mm = 'MAY'
-    if(mm === 6) mm = 'JUN'
-    if(mm === 7) mm = 'JUL'
-    if(mm === 8) mm = 'AUG'
-    if(mm === 9) mm = 'SEP'
-    if(mm === 10) mm = 'OCT'
-    if(mm === 11) mm = 'NOV'
-    if(mm === 12) mm = 'DEC'
-    
-    if(hh < 10) hh = `0${hh}`;
-    if(mi < 10) mi = `0${mi}`;
-    if(se < 10) se = `0${se}`;
-
-    return `${dd}${mm}${yyyy}:${hh}:${mi}:${se}`
+    return new Date().toISOString();
 }
 
 const getIdToken = () => {
@@ -447,4 +441,13 @@ export const allCountries = {
     "Yemen":238,
     "Zambia":239,
     "Zimbabwe":240
+}
+
+
+export const showAnimation = () => {
+    document.getElementById('loadingAnimation').style.display = '';
+}
+
+export const hideAnimation = () => {
+    document.getElementById('loadingAnimation').style.display = 'none';
 }

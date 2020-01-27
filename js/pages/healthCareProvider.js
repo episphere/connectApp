@@ -1,5 +1,19 @@
 import { sites } from "../shared.js";
 
+export const requestPINTemplate = () => {
+    return `
+        <div class="col eligibility-form">
+            <form method="POST" id="requestPINForm">
+                <div class="form-group">
+                    <label><strong>If you received a PIN as part of study invitation, please enter it here</strong></label>
+                    <label><input type="text" id="participantPIN" class="form-control" placeholder="Enter PIN"></label>
+                </div>
+                <button type="submit" class="btn btn-primary save-data">Submit</button></br></br>
+            </form>
+        </div>
+    `
+}
+
 export const healthCareProvider = (siteId) => {
     let template = '';
     template += `
@@ -19,9 +33,16 @@ export const healthCareProvider = (siteId) => {
                     </select>
                 </label>
             </div>
+            <button type="submit" class="btn btn-primary save-data">Submit</button></br></br>
+        </form>
+    </div>
+    `;
+    return template;
+}
 
-            <div id="requestPIN" class="form-group"></div>
-
+export const heardAboutStudy = () => {
+    return `
+        <form method="POST" id="heardAboutStudyForm">
             <label><strong>How did you hear about this study? (Select all that apply)</strong></label>
             <div class="form-group">
                 <div class="checkbox">
@@ -60,7 +81,5 @@ export const healthCareProvider = (siteId) => {
             </div>
             <button type="submit" class="btn btn-primary save-data">Submit</button></br></br>
         </form>
-    </div>
-    `;
-    return template;
+    `
 }

@@ -1,7 +1,8 @@
 import { renderPhoneNumber, renderMailingAddress, renderAlternateContact } from "./components/form.js";
-import { allStates, allCountries, dataSavingBtn, storeResponse } from "./shared.js";
+import { allStates, allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken } from "./shared.js";
 import { questionnaire } from "./pages/questionnaire.js";
 import { initializeCanvas, addEventConsentSubmit, consentTemplate } from "./pages/consent.js";
+import { heardAboutStudy, healthCareProvider } from "./pages/healthCareProvider.js";
 
 export const addEventAdditionalEmail = () => {
     const addMoreEmail = document.getElementById('addMoreEmail');
@@ -234,10 +235,27 @@ export const addEventMonthSelection = () => {
 export const addEventHealthCareProviderSubmit = () => {
     const form = document.getElementById('eligibilityForm');
     form.addEventListener('submit', async e => {
-        dataSavingBtn('save-data');
         e.preventDefault();
+        dataSavingBtn('save-data');
         let formData = {};
         formData["RcrtES_Site_v1r0"] = parseInt(document.getElementById('RcrtES_Site_v1r0').value);
+        
+        localStorage.eligibilityQuestionnaire = JSON.stringify(formData);
+        const response = await storeResponse(formData);
+        if(response.code === 200) {
+            const mainContent = document.getElementById('root');
+            mainContent.innerHTML = heardAboutStudy();
+            addEventHeardAboutStudy();
+        }
+    });
+}
+
+export const addEventHeardAboutStudy = () => {
+    const form = document.getElementById('heardAboutStudyForm');
+    form.addEventListener('submit', async e => {
+        e.preventDefault();
+        dataSavingBtn('save-data');
+        let formData = {};
         formData["RcrtES_Aware_v1r0"] = {};
         formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_phys"] = document.getElementById('checkbox1').checked ? 1 : 0;
         formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_Email"] = document.getElementById('checkbox2').checked ? 1 : 0;
@@ -251,19 +269,28 @@ export const addEventHealthCareProviderSubmit = () => {
         formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_Table"] = document.getElementById('checkbox10').checked ? 1 : 0;
         formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_Other"] = document.getElementById('checkbox11').checked ? 1 : 0;
         
-        localStorage.eligibilityQuestionnaire = JSON.stringify(formData);
         const response = await storeResponse(formData);
         if(response.code === 200) {
             const mainContent = document.getElementById('root');
             mainContent.innerHTML = consentTemplate();
 
             initializeCanvas();
-
+            // addEventSaveConsentBtn()
             addEventsConsentSign();
 
             addEventConsentSubmit();
         }
     });
+}
+
+export const addEventSaveConsentBtn = () => {
+    const btn = document.getElementById('saveConsentBtn');
+    btn.addEventListener('click', () => {
+        html2canvas(document.getElementById('canvasContainer')).then(function(canvas) {
+            // document.body.appendChild(canvas);
+            document.getElementById("consentImg").src= canvas.toDataURL();
+        });
+    })
 }
 
 export const addEventUPSubmit = (siteId) => {
@@ -432,18 +459,27 @@ export const addEventUPSubmit = (siteId) => {
     });
 }
 
-export const addEventHealthCareSelector = () => {
-    const element = document.getElementById('RcrtES_Site_v1r0');
-    element.addEventListener('change', () => {
-        const div = document.getElementById('requestPIN');
-        if(element.value === '8'){
-            div.innerHTML = `
-                <label><strong>Enter PIN you received in study invitation</strong></label>
-                <label><input type="text" id="participantPIN" class="form-control" placeholder="Enter PIN"></label>
-            `;
+
+export const addEventRequestPINForm = () => {
+    const form = document.getElementById('requestPINForm');
+    form.addEventListener('submit', async e => {
+        e.preventDefault();
+        dataSavingBtn('save-data');
+        const pin = document.getElementById('participantPIN').value;
+        
+        if(pin && pin !== ""){
+            const response = await validatePin(pin);
+            if(response.code !== 200){
+                await generateNewToken();
+            }
+            let formData = {};
+            formData["RcrtES_PIN_v1r0"] = pin;
+            await storeResponse(formData);
+        }else{
+            await generateNewToken();
         }
-        else{
-            div.innerHTML = ``;
-        }
-    });
+        const mainContent = document.getElementById('root');
+        mainContent.innerHTML = healthCareProvider();
+        addEventHealthCareProviderSubmit();
+    })
 }

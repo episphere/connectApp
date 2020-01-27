@@ -1,13 +1,13 @@
-import { storeResponse, getParameters, validateToken, userLoggedIn, dataSavingBtn, getMyData, dateTime } from "./js/shared.js";
+import { storeResponse, getParameters, validateToken, userLoggedIn, dataSavingBtn, getMyData, dateTime, showAnimation, hideAnimation } from "./js/shared.js";
 import { userNavBar, homeNavBar } from "./js/components/navbar.js";
 import { homePage, joinNowBtn } from "./js/pages/homePage.js";
 import { signIn } from "./js/pages/signIn.js";
 import { firebaseConfig } from "./js/config.js";
 import { consentTemplate, initializeCanvas, addEventConsentSubmit } from "./js/pages/consent.js";
-import { addEventsConsentSign, addEventHealthCareProviderSubmit } from "./js/event.js";
+import { addEventsConsentSign, addEventHealthCareProviderSubmit, addEventHeardAboutStudy, addEventSaveConsentBtn, addEventRequestPINForm } from "./js/event.js";
 import { renderUserProfile } from "./js/components/form.js";
-import { questionnaire } from "./js/pages/questionnaire.js";
-import { healthCareProvider } from "./js/pages/healthCareProvider.js";
+import { questionnaire, blockParticipant } from "./js/pages/questionnaire.js";
+import { healthCareProvider, heardAboutStudy, requestPINTemplate } from "./js/pages/healthCareProvider.js";
 
 let auth = '';
 
@@ -59,6 +59,7 @@ const userProfile = () => {
         if(user){
             const mainContent = document.getElementById('root');
             const parameters = getParameters(window.location.href);
+            showAnimation();
             if(user.email && !user.emailVerified){
                 const mainContent = document.getElementById('root');
                 mainContent.innerHTML = '<div>Please verify your email by clicking <a id="verifyEmail"><button class="btn btn-primary">Verify Email</button></a></div>'
@@ -76,51 +77,64 @@ const userProfile = () => {
                 });
                 return;
             }
-            // console.log(user)
-            // if(user.metadata.a === user.metadata.b || user.phoneNumber){ // Validate Participant token
-               
-            // }
-            const token = parameters && parameters.token ? parameters.token : null;
-            const response = await validateToken(token);
-            // console.log(dateTime(new Date(user.metadata.creationTime).toLocaleString()));
-
-            if(response.code === 200) {
-                // await storeResponse({RcrtSI_Account_v1r0: 1, RcrtSI_AccountTime_v1r0: });
+            
+            if(parameters && parameters.token){
+                const response = await validateToken(parameters.token);
+                if(response.code === 200) {
+                    // await storeResponse({RcrtSI_Account_v1r0: 1, RcrtSI_AccountTime_v1r0: });
+                }
             }
-
+            window.history.replaceState({},'', './#user');
             const myData = await getMyData();
             
             if(myData.code === 200){
                 if(myData.data.RcrtES_Site_v1r0 && myData.data.RcrtES_Aware_v1r0){
                     const siteId = myData.data.RcrtES_Site_v1r0;
                     if(myData.data.RcrtCS_Consented_v1r0 === 1){
+                        if(myData.data.RcrtUP_Fname_v1r0 && myData.data.RcrtSI_RecruitType_v1r0 && myData.data.RcrtSI_RecruitType_v1r0 === 2){
+                            blockParticipant();
+                            hideAnimation();
+                            return;
+                        }
                         if(myData.data.RcrtUP_Fname_v1r0){
                             questionnaire();
+                            hideAnimation();
                             return;
                         }
                         renderUserProfile(siteId);
+                        hideAnimation();
                         return;
                     }
                     mainContent.innerHTML = consentTemplate();
-
                     initializeCanvas();
-
+                    // addEventSaveConsentBtn();
                     addEventsConsentSign();
 
                     addEventConsentSubmit();
-
+                    hideAnimation();
                     return;
                 }
                 else if(myData.data.RcrtES_Site_v1r0 && !myData.data.RcrtES_Aware_v1r0){
-                    mainContent.innerHTML = healthCareProvider(myData.data.RcrtES_Site_v1r0);
-                    addEventHealthCareProviderSubmit();
+                    mainContent.innerHTML =  heardAboutStudy();
+                    addEventHeardAboutStudy();
+                    hideAnimation();
+                }
+                else if(myData.RcrtES_PIN_v1r0){
+                    mainContent.innerHTML = requestPINTemplate();
+                    addEventRequestPINForm();
+                    hideAnimation();
                 }
                 else{
                     mainContent.innerHTML = healthCareProvider();
                     addEventHealthCareProviderSubmit();
+                    hideAnimation();
                 }
             }
-            // addEventHealthCareSelector();
+            else {
+                mainContent.innerHTML = requestPINTemplate();
+                addEventRequestPINForm();
+                hideAnimation();
+            }
         }
         else{
             window.location.hash = '#';

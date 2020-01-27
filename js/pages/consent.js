@@ -3,7 +3,8 @@ import { renderUserProfile } from "../components/form.js";
 
 export const consentTemplate = () => {
     return ` 
-        <div class="row" id="canvasContainer"></div>
+        <div class="row">Download consent form:&nbsp<a href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="coonect_consent.pdf"><i class="fas fa-file-download"></i></a></div>
+        <div class="row" style="" id="canvasContainer"></div>
         <form id="consentForm" method="POST">
             <div class="row">
                 <label class="color-red"><input type="checkbox" required> I have read the explanation about this study and have been given the opportunity to discuss it and ask questions. I consent to participate in this study.</label>
@@ -88,7 +89,6 @@ export const initializeCanvas = () => {
 
 const drawCanvas = (scale) => {
     let thePdf = null;
-
     pdfjsLib.getDocument('./consent_draft.pdf').promise.then(function(pdf) {
         thePdf = pdf;
         let viewer = document.getElementById('canvasContainer');
