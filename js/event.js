@@ -1,6 +1,6 @@
 import { renderPhoneNumber, renderMailingAddress, renderAlternateContact } from "./components/form.js";
-import { allStates, allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken } from "./shared.js";
-import { questionnaire } from "./pages/questionnaire.js";
+import { allStates, allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, getMyData } from "./shared.js";
+import { questionnaire, blockParticipant } from "./pages/questionnaire.js";
 import { initializeCanvas, addEventConsentSubmit, consentTemplate } from "./pages/consent.js";
 import { heardAboutStudy, healthCareProvider } from "./pages/healthCareProvider.js";
 
@@ -455,7 +455,15 @@ export const addEventUPSubmit = (siteId) => {
         if(document.getElementById('UPAddress6Country') && document.getElementById('UPAddress6Country').value) formData['RcrtUP_Alt2Ctry_v1r0'] = document.getElementById('UPAddress6Country').value;
         formData['RcrtUP_Submitted_v1r0'] = 1;
         const response = await storeResponse(formData);
-        if(response.code === 200) questionnaire();
+        if(response.code === 200) {
+            const myData = await getMyData();
+            if(myData.code === 200 && myData.data.RcrtUP_Fname_v1r0 && myData.data.RcrtSI_RecruitType_v1r0 && myData.data.RcrtSI_RecruitType_v1r0 === 2){
+                blockParticipant();
+            }
+            else {
+                questionnaire();
+            }
+        }
     });
 }
 
