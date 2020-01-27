@@ -70,7 +70,7 @@ const userProfile = () => {
                 
                 document.getElementById('verifyEmail').addEventListener('click', () => {
                     user.sendEmailVerification().then(function() {
-                    
+                        hideAnimation();
                     }).catch(function(error) {
                         
                     });
