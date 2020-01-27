@@ -67,10 +67,10 @@ const userProfile = () => {
                 document.getElementById('verifyEmail').addEventListener('click', () => {
                     mainContent.innerHTML = `<div>Please click on the verification link you will receive on <strong>${user.email}</strong></div>` 
                 });
-                
+                hideAnimation();
                 document.getElementById('verifyEmail').addEventListener('click', () => {
                     user.sendEmailVerification().then(function() {
-                        hideAnimation();
+                        
                     }).catch(function(error) {
                         
                     });
