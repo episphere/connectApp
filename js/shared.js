@@ -445,9 +445,9 @@ export const allCountries = {
 
 
 export const showAnimation = () => {
-    document.getElementById('loadingAnimation').style.display = '';
+    if(document.getElementById('loadingAnimation')) document.getElementById('loadingAnimation').style.display = '';
 }
 
 export const hideAnimation = () => {
-    document.getElementById('loadingAnimation').style.display = 'none';
+    if(document.getElementById('loadingAnimation')) document.getElementById('loadingAnimation').style.display = 'none';
 }
