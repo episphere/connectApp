@@ -8,6 +8,7 @@ export const requestPINTemplate = () => {
                     <label><strong>If you received a PIN as part of study invitation, please enter it here</strong></label>
                     <label><input type="text" id="participantPIN" class="form-control" placeholder="Enter PIN"></label>
                 </div>
+                <button type="submit" class="btn btn-primary save-data">I do not have a pin</button>&nbsp;&nbsp;
                 <button type="submit" class="btn btn-primary save-data">Submit</button></br></br>
             </form>
         </div>

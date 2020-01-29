@@ -1,5 +1,5 @@
 import { renderPhoneNumber, renderMailingAddress, renderAlternateContact } from "./components/form.js";
-import { allStates, allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, getMyData } from "./shared.js";
+import { allStates, allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, getMyData, showAnimation, hideAnimation } from "./shared.js";
 import { questionnaire, blockParticipant } from "./pages/questionnaire.js";
 import { initializeCanvas, addEventConsentSubmit, consentTemplate } from "./pages/consent.js";
 import { heardAboutStudy, healthCareProvider } from "./pages/healthCareProvider.js";
@@ -472,7 +472,7 @@ export const addEventRequestPINForm = () => {
     const form = document.getElementById('requestPINForm');
     form.addEventListener('submit', async e => {
         e.preventDefault();
-        dataSavingBtn('save-data');
+        showAnimation();
         const pin = document.getElementById('participantPIN').value;
         
         if(pin && pin !== ""){
@@ -486,6 +486,7 @@ export const addEventRequestPINForm = () => {
         }else{
             await generateNewToken();
         }
+        hideAnimation();
         const mainContent = document.getElementById('root');
         mainContent.innerHTML = healthCareProvider();
         addEventHealthCareProviderSubmit();
