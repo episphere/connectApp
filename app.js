@@ -121,7 +121,7 @@ const userProfile = () => {
                 }
                 else if(myData.RcrtES_PIN_v1r0){
                     mainContent.innerHTML = requestPINTemplate();
-                    addEventRequestPINForm();
+                    addEventRequestPINForm(user.metadata.a);
                     hideAnimation();
                 }
                 else{
@@ -132,7 +132,7 @@ const userProfile = () => {
             }
             else {
                 mainContent.innerHTML = requestPINTemplate();
-                addEventRequestPINForm();
+                addEventRequestPINForm(user.metadata.a);
                 hideAnimation();
             }
         }

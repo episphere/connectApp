@@ -468,27 +468,43 @@ export const addEventUPSubmit = (siteId) => {
 }
 
 
-export const addEventRequestPINForm = () => {
+export const addEventRequestPINForm = (accountCreatedAt) => {
     const form = document.getElementById('requestPINForm');
     form.addEventListener('submit', async e => {
         e.preventDefault();
         showAnimation();
         const pin = document.getElementById('participantPIN').value;
-        
+        const mainContent = document.getElementById('root');
         if(pin && pin !== ""){
             const response = await validatePin(pin);
             if(response.code !== 200){
                 await generateNewToken();
+                let formData = {};
+                formData["RcrtES_PIN_v1r0"] = pin;
+                formData["RcrtSI_SignTime_v1r0"] = (new Date(parseInt(accountCreatedAt))).toISOString(); // Store account creation time
+                await storeResponse(formData);
+                hideAnimation();
+                mainContent.innerHTML = healthCareProvider();
+                addEventHealthCareProviderSubmit();
             }
-            let formData = {};
-            formData["RcrtES_PIN_v1r0"] = pin;
-            await storeResponse(formData);
+            if(response.code === 200){
+                let formData = {};
+                formData["RcrtES_PIN_v1r0"] = pin;
+                formData["RcrtSI_SignTime_v1r0"] = (new Date(parseInt(accountCreatedAt))).toISOString(); // Store account creation time
+                await storeResponse(formData);
+                hideAnimation();
+                mainContent.innerHTML =  heardAboutStudy();
+                addEventHeardAboutStudy();
+            }
+            
         }else{
             await generateNewToken();
+            let formData = {};
+            formData["RcrtSI_SignTime_v1r0"] = (new Date(parseInt(accountCreatedAt))).toISOString(); // Store account creation time
+            await storeResponse(formData);
+            hideAnimation();
+            mainContent.innerHTML = healthCareProvider();
+            addEventHealthCareProviderSubmit();
         }
-        hideAnimation();
-        const mainContent = document.getElementById('root');
-        mainContent.innerHTML = healthCareProvider();
-        addEventHealthCareProviderSubmit();
     })
 }
