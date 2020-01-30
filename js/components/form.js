@@ -1,6 +1,8 @@
-import { sites, allStates, allCountries } from "../shared.js";
+import { sites, allStates, allCountries, getMyData } from "../shared.js";
 import { addEventAdditionalEmail, addEventAdditionalPhone, addEventDifferentAddress, addEventAddressAutoComplete, addEventMoreAlternateContact, addEventMonthSelection, addEventUPSubmit } from "../event.js";
-export const renderUserProfile = (siteId) => {
+export const renderUserProfile = async () => {
+    const myData = await getMyData();
+    const siteId = myData.data ? myData.data.RcrtES_Site_v1r0 : undefined;
     const mainContent = document.getElementById('root');
     const js = document.createElement("script");
     js.type = "text/javascript";
