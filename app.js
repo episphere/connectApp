@@ -89,7 +89,8 @@ const userProfile = () => {
             
             if(myData.code === 200){
                 if(myData.data.RcrtES_Site_v1r0 && myData.data.RcrtES_Aware_v1r0){
-                    const siteId = myData.data.RcrtES_Site_v1r0;
+                    const localSiteID = localStorage.eligibilityQuestionnaire ? JSON.parse(localStorage.eligibilityQuestionnaire).RcrtES_Site_v1r0 : undefined;
+                    const siteId = myData.data.RcrtES_Site_v1r0 || localSiteID;
                     if(myData.data.RcrtCS_Consented_v1r0 === 1){
                         if(myData.data.RcrtUP_Fname_v1r0 && myData.data.RcrtSI_RecruitType_v1r0 && myData.data.RcrtSI_RecruitType_v1r0 === 2){
                             blockParticipant();
