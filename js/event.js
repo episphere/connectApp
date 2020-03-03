@@ -456,14 +456,6 @@ export const addEventUPSubmit = (siteId) => {
         if(document.getElementById('UPAddress6Country') && document.getElementById('UPAddress6Country').value) formData['RcrtUP_Alt2Ctry_v1r0'] = document.getElementById('UPAddress6Country').value;
         formData['RcrtUP_Submitted_v1r0'] = 1;
 
-        const ssn1 = document.getElementById('ssn1').value;
-        const ssn2 = document.getElementById('ssn2').value;
-        const ssn3 = document.getElementById('ssn3').value;
-        const fullSSN = ssn1+ssn2+ssn3
-        formData['RCRTUP_SSN_V1R0'] = fullSSN;
-        formData['RCRTUP_SSN_GIVEN_V1R0'] = 1;
-        formData['RCRTUP_SSNTIME_V1R0'] = new Date().toISOString();
-
         const response = await storeResponse(formData);
         console.log(formData);
         if(response.code === 200) {

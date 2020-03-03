@@ -114,14 +114,6 @@ export const renderUserProfile = async () => {
 
             ${renderMailingAddress('', 1, true)}
 
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label"><strong>Please enter your Social Security Number</strong></label>
-                <input type="text" class="form-control col-sm-1" id="ssn1" maxlength=3 Placeholder="***" pattern="[0-9]{3}">&nbsp;-&nbsp;
-                <input type="text" class="form-control col-sm-1" id="ssn2" maxlength=2 Placeholder="**" pattern="[0-9]{2}">&nbsp;-&nbsp;
-                <input type="text" class="form-control col-sm-1" id="ssn3" maxlength=4 Placeholder="****" pattern="[0-9]{4}">
-            </div>
-            <span>This is used for identification purposes only. We will keep your Social Security Number confidential.</span>
-            </br></br>
             <button type="submit" class="btn btn-primary save-data">Submit</button>
         </form>
         </br></br>
