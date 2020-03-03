@@ -209,3 +209,7 @@ canvas {
     -webkit-animation: spin .8s linear infinite;
     animation: spin .8s linear infinite;
 }
+
+.btn-light {
+    background-color: #c5c6c8 !important;
+}

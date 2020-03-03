@@ -82,7 +82,7 @@ const addEmailFields = () => {
     const br = document.createElement('BR');
 
     const input = document.createElement('input');
-    input.className = 'form-control';
+    input.classList = ['form-control col-sm-4'];
     input.placeholder = 'Enter secondary email';
     input.type = 'email';
     input.id = 'UPEmail2';
@@ -109,7 +109,7 @@ const addAnotherEmailField = () => {
     const br = document.createElement('BR');
 
     const input = document.createElement('input');
-    input.className = 'form-control';
+    input.classList = ['form-control col-sm-4'];
     input.placeholder = 'Enter secondary email 1';
     input.type = 'email';
     input.id = 'UPEmail2';
@@ -117,7 +117,7 @@ const addAnotherEmailField = () => {
     div.appendChild(br);
 
     const input2 = document.createElement('input');
-    input2.className = 'form-control';
+    input2.classList = ['form-control col-sm-4'];
     input2.placeholder = 'Enter secondary email 2';
     input2.type = 'email';
     input2.id = 'UPEmail3';
@@ -151,6 +151,7 @@ export const addEventAddressAutoComplete = (id, country) => {
     const UPAddress1City = document.getElementById(`UPAddress${id}City`);
     const UPAddress1State = document.getElementById(`UPAddress${id}State`);
     const UPAddress1Zip = document.getElementById(`UPAddress${id}Zip`);
+    if(!UPAddress1Line1) return;
     UPAddress1Line1.addEventListener('focus', () => {
         autocomplete = new google.maps.places.Autocomplete(document.getElementById(`UPAddress${id}Line1`), {types: ['geocode']});
         autocomplete.setFields(['address_component']);
@@ -314,10 +315,10 @@ export const addEventUPSubmit = (siteId) => {
         });
 
         if(siteId){
-            if(siteId === 3 && document.getElementById('UPMRN').value) formData['RcrtUP_KPMRN_CO_v1r0'] = document.getElementById('UPMRN').value;
-            if(siteId === 4 && document.getElementById('UPMRN').value) formData['RcrtUP_KPMRN_GA_v1r0'] = document.getElementById('UPMRN').value;
-            if(siteId === 5 && document.getElementById('UPMRN').value) formData['RcrtUP_KPMRN_HI_v1r0'] = document.getElementById('UPMRN').value;
-            if(siteId === 6 && document.getElementById('UPMRN').value) formData['RcrtUP_KPMRN_NW_v1r0'] = document.getElementById('UPMRN').value;
+            if(siteId === 30 && document.getElementById('UPMRN').value) formData['RcrtUP_KPMRN_CO_v1r0'] = document.getElementById('UPMRN').value;
+            if(siteId === 40 && document.getElementById('UPMRN').value) formData['RcrtUP_KPMRN_GA_v1r0'] = document.getElementById('UPMRN').value;
+            if(siteId === 50 && document.getElementById('UPMRN').value) formData['RcrtUP_KPMRN_HI_v1r0'] = document.getElementById('UPMRN').value;
+            if(siteId === 60 && document.getElementById('UPMRN').value) formData['RcrtUP_KPMRN_NW_v1r0'] = document.getElementById('UPMRN').value;
         }
 
         formData['RcrtUP_Email1_v1r0'] = document.getElementById('UPEmail').value;
@@ -454,7 +455,17 @@ export const addEventUPSubmit = (siteId) => {
         if(document.getElementById('UPAddress6Zip') && document.getElementById('UPAddress6Zip').value) formData['RcrtUP_Alt2Zip_v1r0'] = document.getElementById('UPAddress6Zip').value;
         if(document.getElementById('UPAddress6Country') && document.getElementById('UPAddress6Country').value) formData['RcrtUP_Alt2Ctry_v1r0'] = document.getElementById('UPAddress6Country').value;
         formData['RcrtUP_Submitted_v1r0'] = 1;
+
+        const ssn1 = document.getElementById('ssn1').value;
+        const ssn2 = document.getElementById('ssn2').value;
+        const ssn3 = document.getElementById('ssn3').value;
+        const fullSSN = ssn1+ssn2+ssn3
+        formData['RCRTUP_SSN_V1R0'] = fullSSN;
+        formData['RCRTUP_SSN_GIVEN_V1R0'] = 1;
+        formData['RCRTUP_SSNTIME_V1R0'] = new Date().toISOString();
+
         const response = await storeResponse(formData);
+        console.log(formData);
         if(response.code === 200) {
             const myData = await getMyData();
             if(myData.code === 200 && myData.data.RcrtUP_Fname_v1r0 && myData.data.RcrtSI_RecruitType_v1r0 && myData.data.RcrtSI_RecruitType_v1r0 === 2){

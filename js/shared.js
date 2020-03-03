@@ -87,7 +87,7 @@ export const todaysDate = () => {
     return mm+'/'+dd+'/'+yyyy;
 }
 
-export const dateTime = (date) => {
+export const dateTime = () => {
     return new Date().toISOString();
 }
 
