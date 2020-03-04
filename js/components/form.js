@@ -62,29 +62,23 @@ export const renderUserProfile = async () => {
                 </select>
             </div>
             <div class="form-group row">
-                <label class="col-sm-3 col-form-label">
-                    <strong>Year </strong><span class="required">*</span>
-                </label>
+                <label class="col-sm-3 col-form-label"><strong>Year </strong><span class="required">*</span></label>
                 <input type="text" required class="form-control col-sm-4" id="UPYear" pattern="19[0-9]{2}" title="Birth year, must be in 1900s" Placeholder="Enter birth year">
             </div>
 
             <div class="form-group row">
                 Later in this survey, we will ask about some health conditions that are related to a person’s biological sex (male or female). We want to make sure that you are asked the right questions.  Later in the questionnaires, there will be an opportunity to tell us more about your gender and sexual orientation
-                <label class="col-form-label">
-                    <strong>At birth, how was your physical sex assigned? </strong><span class="required">*</span>
-                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                        <label class="btn btn-light"><input type="radio" required name="UPRadio" id="UPMale" value="0">Male</label>
-                        <label class="btn btn-light"><input type="radio" required name="UPRadio" id="UPFemale" value="1">Female</label>
-                        <label class="btn btn-light"><input type="radio" required name="UPRadio" id="UPOther" value="2">Intersex or other</label>
-                    </div>
-                </label>
+                <label class="col-form-label"><strong>At birth, how was your physical sex assigned? </strong><span class="required">*</span></label>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-light"><input type="radio" required name="UPRadio" id="UPMale" value="0">Male</label>
+                    <label class="btn btn-light"><input type="radio" required name="UPRadio" id="UPFemale" value="1">Female</label>
+                    <label class="btn btn-light"><input type="radio" required name="UPRadio" id="UPOther" value="2">Intersex or other</label>
+                </div>
             </div>
 
             <strong>How can we reach you?</strong>
             <div class="form-group row">
-                <label class="col-sm-3 col-form-label">
-                    <strong>Email address</strong> <span class="required">*</span>
-                </label>
+                <label class="col-sm-3 col-form-label"><strong>Email address</strong> <span class="required">*</span></label>
                 <input type="email" class="form-control col-sm-4" required id="UPEmail" Placeholder="Enter email"></br>
             </div>
             <div id="multipleEmail">
@@ -100,9 +94,7 @@ export const renderUserProfile = async () => {
             </div>
 
             <div class="form-group">
-                <label>
-                    <strong>What is your preferred method of contact?</strong>
-                </label>
+                <label><strong>What is your preferred method of contact?</strong></label>
                 <div class="btn-group btn-group-toggle" data-toggle="buttons" id="methodOfContactFields">
                     <label class="btn btn-light"><input type="radio" name="methodOfContact" id="UPMethodOfContactEmail1" >Email 1</label>
                     <label class="btn btn-light"><input type="radio" name="methodOfContact" id="UPMethodOfContactEmail2" >Email 2</label>
@@ -158,55 +150,53 @@ export const renderAlternateContact = (id, required) => {
 
 export const renderMailingAddress = (type, id, required, showCountry) => {
     return `
-    <label>
         <strong>${type}Mailing Address</strong>
         <div class="form-group row">
-            <label class="col col-form-label">
+            <label class="col-sm-3 col-form-label">
                 <strong>Line 1 (street, PO box, rural route)</strong> ${required ? '<span class="required">*</span>': ''}
             </label>
-            <input type=text id="UPAddress${id}Line1" autocomplete="off" class="form-control col" ${required ? 'required' : ''} placeholder="Enter street, PO box, rural route">
+            <input type=text id="UPAddress${id}Line1" autocomplete="off" class="form-control col-sm-4" ${required ? 'required' : ''} placeholder="Enter street, PO box, rural route">
         </div>
         <div class="form-group row">
-            <label class="col col-form-label">
+            <label class="col-sm-3 col-form-label">
                 <strong>Line 2 (apartment, suite, unit, building)</strong>
             </label>
-            <input type=text id="UPAddress${id}Line2" autocomplete="off" class="form-control col" placeholder="apartment, suite, unit, building">
+            <input type=text id="UPAddress${id}Line2" autocomplete="off" class="form-control col-sm-4" placeholder="apartment, suite, unit, building">
         </div>
         <div class="form-group row">
-            <label class="col col-form-label">
+            <label class="col-sm-3 col-form-label">
                 <strong>City</strong> ${required ? '<span class="required">*</span>': ''}
             </label>
-            <input type=text id="UPAddress${id}City" class="form-control col" ${required ? 'required' : ''} placeholder="Enter City">
+            <input type=text id="UPAddress${id}City" class="form-control col-sm-4" ${required ? 'required' : ''} placeholder="Enter City">
         </div>
         <div class="form-group row">
-            <label class="col col-form-label">
+            <label class="col-sm-3 col-form-label">
                 <strong>State</strong> ${required ? '<span class="required">*</span>': ''}
             </label>
-            <select class="form-control col" ${required ? 'required' : ''} id="UPAddress${id}State">
+            <select class="form-control col-sm-4" ${required ? 'required' : ''} id="UPAddress${id}State">
                 <option value="">-- Select State --</option>
                 ${renderStates()}
             </select>
         </div>
         <div class="form-group row">
-            <label class="col col-form-label">
+            <label class="col-sm-3 col-form-label">
                 <strong>Zip</strong> ${required ? '<span class="required">*</span>': ''}
             </label>
-            <input type=text id="UPAddress${id}Zip" pattern="[0-9]{5}" class="form-control col" size="5" maxlength="5" ${required ? 'required' : ''} placeholder="Enter zip">
+            <input type=text id="UPAddress${id}Zip" pattern="[0-9]{5}" class="form-control col-sm-4" size="5" maxlength="5" ${required ? 'required' : ''} placeholder="Enter zip">
             
         </div>
         ${showCountry ? `<br>
         <div class="form-group row">
-            <label class="col col-form-label">
+            <label class="col-sm-3 col-form-label">
                 <strong>Country</strong> ${required ? '<span class="required">*</span>': ''}
             </label>
-            <select class="form-control col" ${required ? 'required' : ''} id="UPAddress${id}Country">
+            <select class="form-control col-sm-4" ${required ? 'required' : ''} id="UPAddress${id}Country">
                 <option value="">-- Select Country --</option>
                 ${renderCountries()}
             </select>
             
         </div>
         `:``}
-    </label>
     `
 };
 
