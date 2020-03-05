@@ -35,7 +35,7 @@ const handleVerifyEmail = (auth, actionCode) => {
     });
 }
 
-function handleResetPassword(auth, actionCode) {
+const handleResetPassword = (auth, actionCode) => {
     auth.verifyPasswordResetCode(actionCode).then(function(email) {
         
         document.getElementById('root').innerHTML = `
@@ -89,7 +89,7 @@ window.onhashchange = () => {
         const mode = parameters['mode'];
         const actionCode = parameters['oobCode'];
         switch (mode) {
-          case 'resetPassword':
+            case 'resetPassword':
             handleResetPassword(auth, actionCode);
             break;
         //   case 'recoverEmail':
