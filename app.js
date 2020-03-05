@@ -24,7 +24,40 @@ window.onload = function() {
     main();
 }
 
+const handleVerifyEmail = (auth, actionCode) => {
+    auth.applyActionCode(actionCode).then(function(resp) {
+        window.location.hash = '#user';
+        location.reload();
+    }).catch(function(error) {
+        console.log(error);
+      // Code is invalid or expired. Ask the user to verify their email address
+      // again.
+    });
+  }
+
 window.onhashchange = () => {
+    const parameters = getParameters(window.location.href);
+    if(parameters && parameters['mode']){
+        const mode = parameters['mode'];
+        const actionCode = parameters['oobCode'];
+        switch (mode) {
+        //   case 'resetPassword':
+            // Display reset password handler and UI.
+            // handleResetPassword(auth, actionCode, continueUrl, lang);
+            // break;
+        //   case 'recoverEmail':
+            // Display email recovery handler and UI.
+            // handleRecoverEmail(auth, actionCode, lang);
+            // break;
+            case 'verifyEmail':
+            // Display email verification handler and UI.
+            handleVerifyEmail(auth, actionCode);
+            break;
+            default:
+            // Error: invalid mode.
+        }
+    }
+    
     document.getElementById('navbarNavAltMarkup').classList.remove('show');
     router();
 }

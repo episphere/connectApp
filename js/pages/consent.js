@@ -7,7 +7,7 @@ export const consentTemplate = () => {
         <div class="row" style="" id="canvasContainer"></div>
         <form id="consentForm" method="POST">
             <div class="row">
-                <label class="color-red"><input type="checkbox" required> I have read the explanation about this study and have been given the opportunity to discuss it and ask questions. I consent to participate in this study.</label>
+                <label class="color-red"><input type="checkbox" required> I have read the explanation about this study and have been given the opportunity to discuss it and ask questions. I consent to participate in this study.<span class="required">*</span></label>
             </div>
             <div class="row">
                 <div class="col form-group consent-form">
