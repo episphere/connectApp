@@ -33,7 +33,55 @@ const handleVerifyEmail = (auth, actionCode) => {
       // Code is invalid or expired. Ask the user to verify their email address
       // again.
     });
-  }
+}
+
+function handleResetPassword(auth, actionCode) {
+    auth.verifyPasswordResetCode(actionCode).then(function(email) {
+        
+        document.getElementById('root').innerHTML = `
+            Reset password for <strong>${email}</strong>
+            <form id="resetPasswordForm" method="POST">
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Enter new password: -</label>
+                    <input type="password" id="resetPassword" pattern="[A-Za-z0-9]{6,}" title="Strong passwords have at least 6 characters and a mix of letters and numbers" class="form-control col-sm-4">
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="showPassword">Show Password
+                </div>
+                <button type="submit" class="btn btn-primary">Update password</button>
+            </form>
+        `;
+        const form = document.getElementById('resetPasswordForm');
+
+        const show = document.getElementById('showPassword');
+        show.addEventListener('click', () => {
+            const element = document.getElementById('resetPassword');
+            if(element.type === 'password') element.type = 'text';
+            else element.type = 'password';
+        });
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            const newPassword = document.getElementById('resetPassword').value;
+            if(!newPassword) return;
+            if(newPassword.trim() === '') return;
+            // Save the new password.
+            auth.confirmPasswordReset(actionCode, newPassword).then(function(resp) {
+                document.getElementById('root').innerHTML = `
+                    Password reset successfully! Please <a href="#sign_in">sign in</a> again to continue.
+                `;
+                auth.signInWithEmailAndPassword(accountEmail, newPassword);
+            }).catch(function(error) {
+                // Error occurred during confirmation. The code might have expired or the
+                // password is too weak.
+            });
+        })
+        
+    }).catch(function(error) {
+      // Invalid or expired action code. Ask user to try to reset the password
+      // again.
+    });
+}
 
 window.onhashchange = () => {
     const parameters = getParameters(window.location.href);
@@ -41,16 +89,14 @@ window.onhashchange = () => {
         const mode = parameters['mode'];
         const actionCode = parameters['oobCode'];
         switch (mode) {
-        //   case 'resetPassword':
-            // Display reset password handler and UI.
-            // handleResetPassword(auth, actionCode, continueUrl, lang);
-            // break;
+          case 'resetPassword':
+            handleResetPassword(auth, actionCode);
+            break;
         //   case 'recoverEmail':
             // Display email recovery handler and UI.
             // handleRecoverEmail(auth, actionCode, lang);
             // break;
             case 'verifyEmail':
-            // Display email verification handler and UI.
             handleVerifyEmail(auth, actionCode);
             break;
             default:
