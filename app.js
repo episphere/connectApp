@@ -43,7 +43,7 @@ const handleResetPassword = (auth, actionCode) => {
             <form id="resetPasswordForm" method="POST">
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label">Enter new password: -</label>
-                    <input type="password" id="resetPassword" pattern="[A-Za-z0-9]{6,}" title="Strong passwords have at least 6 characters and a mix of letters and numbers" class="form-control col-sm-4">
+                    <input type="password" id="resetPassword" pattern="[A-Za-z0-9@_]{6,}" title="Strong passwords have at least 6 characters and a mix of letters and numbers" class="form-control col-sm-4">
                 </div>
                 <div class="form-group">
                     <input type="checkbox" id="showPassword">Show Password
@@ -92,7 +92,7 @@ window.onhashchange = () => {
             case 'resetPassword':
             handleResetPassword(auth, actionCode);
             break;
-        //   case 'recoverEmail':
+            //   case 'recoverEmail':
             // Display email recovery handler and UI.
             // handleRecoverEmail(auth, actionCode, lang);
             // break;
