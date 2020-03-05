@@ -84,19 +84,6 @@ const handleResetPassword = (auth, actionCode) => {
 }
 
 window.onhashchange = () => {
-    document.getElementById('navbarNavAltMarkup').classList.remove('show');
-    router();
-}
-
-const main = () => {
-    if('serviceWorker' in navigator){
-        try {
-            navigator.serviceWorker.register('./serviceWorker.js');
-        }
-        catch (error) {
-            console.log(error);
-        }
-    }
     const parameters = getParameters(window.location.href);
     if(parameters && parameters['mode']){
         const mode = parameters['mode'];
@@ -114,6 +101,20 @@ const main = () => {
             break;
             default:
             // Error: invalid mode.
+        }
+    }
+    
+    document.getElementById('navbarNavAltMarkup').classList.remove('show');
+    router();
+}
+
+const main = () => {
+    if('serviceWorker' in navigator){
+        try {
+            navigator.serviceWorker.register('./serviceWorker.js');
+        }
+        catch (error) {
+            console.log(error);
         }
     }
 }
@@ -133,25 +134,6 @@ const router = async () => {
 }
 
 const userProfile = () => {
-    const parameters = getParameters(window.location.href);
-    if(parameters && parameters['mode']){
-        const mode = parameters['mode'];
-        const actionCode = parameters['oobCode'];
-        switch (mode) {
-            case 'resetPassword':
-            handleResetPassword(auth, actionCode);
-            break;
-            //   case 'recoverEmail':
-            // Display email recovery handler and UI.
-            // handleRecoverEmail(auth, actionCode, lang);
-            // break;
-            case 'verifyEmail':
-            handleVerifyEmail(auth, actionCode);
-            break;
-            default:
-            // Error: invalid mode.
-        }
-    }
     auth.onAuthStateChanged(async user => {
         if(user){
             const mainContent = document.getElementById('root');
