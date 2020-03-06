@@ -66,6 +66,14 @@
     color: rgba(0,0,0,.5) !important;
 }
 
+.form-group {
+    padding-left: 0px !important;
+}
+
+.btn:hover {
+    cursor: pointer;
+}
+
 .heading {
     color: #aa0201;
     font-size: 1rem;
