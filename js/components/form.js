@@ -1,5 +1,5 @@
 import { sites, allStates, allCountries, getMyData } from "../shared.js";
-import { addEventAdditionalEmail, addEventAdditionalPhone, addEventDifferentAddress, addEventAddressAutoComplete, addEventMoreAlternateContact, addEventMonthSelection, addEventUPSubmit } from "../event.js";
+import { addEventAdditionalEmail, addEventAdditionalPhone, addEventDifferentAddress, addEventAddressAutoComplete, addEventMoreAlternateContact, addEventMonthSelection, addEventUPSubmit, addEventCancerFollowUp } from "../event.js";
 export const renderUserProfile = async () => {
     const myData = await getMyData();
     const siteId = myData.data ? myData.data.RcrtES_Site_v1r0 : undefined;
@@ -67,9 +67,9 @@ export const renderUserProfile = async () => {
             </div>
             
             Later in this survey, we will ask about some health conditions that are related to a person’s biological sex (male or female). We want to make sure that you are asked the right questions.  Later in the questionnaires, there will be an opportunity to tell us more about your gender and sexual orientation.
-            <div class="form-group row">
-                <label class="col-sm-5 col-form-label">At birth, how was your physical sex assigned? <span class="required">*</span></label>
-                <div class="btn-group btn-group-toggle col-sm-4" data-toggle="buttons">
+            <div class="form-group">
+                <label class="col-form-label">At birth, how was your physical sex assigned? <span class="required">*</span></label>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
                     <label class="btn btn-light"><input type="radio" required name="UPRadio" id="UPMale" value="0">Male</label>
                     <label class="btn btn-light"><input type="radio" required name="UPRadio" id="UPFemale" value="1">Female</label>
                     <label class="btn btn-light"><input type="radio" required name="UPRadio" id="UPOther" value="2">Intersex or other</label>
@@ -101,22 +101,32 @@ export const renderUserProfile = async () => {
                     <label class="btn btn-light"><input type="radio" name="methodOfContact" id="UPMethodOfContactPhone1" >Phone 1</label>
                     <label class="btn btn-light"><input type="radio" name="methodOfContact" id="UPMethodOfContactPhone2" >Phone 2</label>
                 </div>
-                
             </div>
 
             ${renderMailingAddress('', 1, true)}
+
+            <div class="form-group">
+                <label>Have you ever been diagnosed with cancer (other than non-melanoma skin cancer)?</label>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-light" id="UPCancer1Btn"><input type="radio" name="cancerHistory" id="UPCancer1" value=1>Yes</label>
+                    <label class="btn btn-light" id="UPCancer2Btn"><input type="radio" name="cancerHistory" id="UPCancer2" value=0>No</label>
+                </div>
+            </div>
+
+            <div id="cancerFollowUp"></div>
 
             </br></br>
             <button type="submit" class="btn btn-primary save-data">Submit</button>
         </form>
         </br></br>
     `;
-
+    addEventCancerFollowUp();
     addEventMonthSelection();
     addEventAdditionalEmail();
     addEventAdditionalPhone();
     addEventDifferentAddress();
     addEventAddressAutoComplete(1);
+    
     addEventAddressAutoComplete(5, true);
     // addEventMoreAlternateContact();
     addEventUPSubmit(siteId);

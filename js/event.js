@@ -456,8 +456,17 @@ export const addEventUPSubmit = (siteId) => {
         if(document.getElementById('UPAddress6Country') && document.getElementById('UPAddress6Country').value) formData['RcrtUP_Alt2Ctry_v1r0'] = document.getElementById('UPAddress6Country').value;
         formData['RcrtUP_Submitted_v1r0'] = 1;
 
+
+        const cancer = document.getElementsByName('cancerHistory');
+        Array.from(cancer).forEach(radioBtn => {
+            if(radioBtn.checked) formData['RCRTUP_CANCER_V1R0'] = radioBtn.value;
+        });
+
+        if(document.getElementById('UPCancerYear') && document.getElementById('UPCancerYear').value) formData['RCRTUP_CANCERYR_V1R0'] = document.getElementById('UPCancerYear').value;
+        if(document.getElementById('UPCancerType') && document.getElementById('UPCancerType').value) formData['RCRTUP_CANCERTYPE_V1R0'] = document.getElementById('UPCancerType').value;
+        if(document.getElementById('UPCancerDiagnosis') && document.getElementById('UPCancerDiagnosis').value) formData['RCRTUP_CANCERCOMTS_V1R0'] = document.getElementById('UPCancerDiagnosis').value;
+
         const response = await storeResponse(formData);
-        console.log(formData);
         if(response.code === 200) {
             const myData = await getMyData();
             if(myData.code === 200 && myData.data.RcrtUP_Fname_v1r0 && myData.data.RcrtSI_RecruitType_v1r0 && myData.data.RcrtSI_RecruitType_v1r0 === 2){
@@ -510,4 +519,31 @@ export const addEventRequestPINForm = (accountCreatedAt) => {
             addEventHealthCareProviderSubmit();
         }
     })
+}
+
+export const addEventCancerFollowUp = () => {
+    const UPCancer1 = document.getElementById('UPCancer1Btn');
+    UPCancer1.addEventListener('click', () => {
+        document.getElementById('cancerFollowUp').innerHTML = `
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">What year were you diagnosed?</label>
+                <input type="text" class="form-control col-sm-4" maxlength="4" id="UPCancerYear" pattern="[19|20]{2}[0-9]{2}" title="(require a four-digit numeric year starting with 19XX or 20XX" Placeholder="YYYY">
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">What type of cancer did you have?</label>
+                <input type="text" class="form-control col-sm-4" maxlength="4" id="UPCancerType" Placeholder="Please enter type of cancer">
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Please tell us anythning you would like us to know about your cancer diagnosis:</label>
+                <textarea class="form-control col-sm-4" id="UPCancerDiagnosis"></textarea>
+            </div>
+        `;
+    });
+
+    const UPCancer2 = document.getElementById('UPCancer2Btn');
+    UPCancer2.addEventListener('click', () => {
+        document.getElementById('cancerFollowUp').innerHTML = ``;
+    });
 }
