@@ -84,6 +84,11 @@ const handleResetPassword = (auth, actionCode) => {
 }
 
 window.onhashchange = () => {
+    document.getElementById('navbarNavAltMarkup').classList.remove('show');
+    router();
+}
+
+const manageEmailActions = () => {
     const parameters = getParameters(window.location.href);
     if(parameters && parameters['mode']){
         const mode = parameters['mode'];
@@ -103,9 +108,6 @@ window.onhashchange = () => {
             // Error: invalid mode.
         }
     }
-    
-    document.getElementById('navbarNavAltMarkup').classList.remove('show');
-    router();
 }
 
 const main = () => {
@@ -120,6 +122,7 @@ const main = () => {
 }
 
 const router = async () => {
+    manageEmailActions()
     const parameters = getParameters(window.location.href);
     if(parameters && parameters.token && await userLoggedIn() === false){
         window.location.hash = '#sign_in';
