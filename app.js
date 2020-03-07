@@ -39,15 +39,14 @@ const handleResetPassword = (auth, actionCode) => {
     auth.verifyPasswordResetCode(actionCode).then(function(email) {
         
         document.getElementById('root').innerHTML = `
-            Reset password for <strong>${email}</strong>
+            <h2>Reset password</h2> for <strong>${email}</strong>
             <form id="resetPasswordForm" method="POST">
                 <div class="form-group row">
-                    <label class="col-sm-3 col-form-label">Enter new password: -</label>
+                    <label class="col-sm-3 col-form-label">Enter new password</label>
                     <input type="password" id="resetPassword" pattern="[A-Za-z0-9@_]{6,}" title="Strong passwords have at least 6 characters and a mix of letters and numbers" class="form-control col-sm-4">
+                    <i class="fas fa-eye show-text" id="showPassword" title="Show password"></i>
                 </div>
-                <div class="form-group">
-                    <input type="checkbox" id="showPassword">Show Password
-                </div>
+                </br>
                 <button type="submit" class="btn btn-primary">Update password</button>
             </form>
         `;
@@ -56,8 +55,16 @@ const handleResetPassword = (auth, actionCode) => {
         const show = document.getElementById('showPassword');
         show.addEventListener('click', () => {
             const element = document.getElementById('resetPassword');
-            if(element.type === 'password') element.type = 'text';
-            else element.type = 'password';
+            if(element.type === 'password') {
+                element.type = 'text';
+                show.classList = ['fas fa-eye-slash show-text'];
+                show.title = "Hide password";
+            }
+            else {
+                element.type = 'password';
+                show.classList = ['fas fa-eye show-text'];
+                show.title = "Show password";
+            }
         });
 
         form.addEventListener('submit', e => {

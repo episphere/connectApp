@@ -58,6 +58,13 @@
     margin: 0px !important;
 }
 
+.show-text {
+    padding: 10px 0px;
+    margin-left: -27px;
+    z-index: 9;
+    cursor: pointer;
+}
+
 .active {
     color: #000000 !important;
 }
