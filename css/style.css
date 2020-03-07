@@ -65,6 +65,10 @@
     cursor: pointer;
 }
 
+#resetPassword {
+    padding-right: 2rem;
+}
+
 .active {
     color: #000000 !important;
 }
