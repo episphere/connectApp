@@ -1,5 +1,5 @@
 import { renderPhoneNumber, renderMailingAddress, renderAlternateContact } from "./components/form.js";
-import { allStates, allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, getMyData, showAnimation, hideAnimation } from "./shared.js";
+import { allStates, allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, getMyData, showAnimation, hideAnimation, sites } from "./shared.js";
 import { questionnaire, blockParticipant } from "./pages/questionnaire.js";
 import { initializeCanvas, addEventConsentSubmit, consentTemplate } from "./pages/consent.js";
 import { heardAboutStudy, healthCareProvider } from "./pages/healthCareProvider.js";
@@ -237,16 +237,20 @@ export const addEventHealthCareProviderSubmit = () => {
     const form = document.getElementById('eligibilityForm');
     form.addEventListener('submit', async e => {
         e.preventDefault();
-        dataSavingBtn('save-data');
-        let formData = {};
-        formData["RcrtES_Site_v1r0"] = parseInt(document.getElementById('RcrtES_Site_v1r0').value);
         
-        localStorage.eligibilityQuestionnaire = JSON.stringify(formData);
-        const response = await storeResponse(formData);
-        if(response.code === 200) {
-            const mainContent = document.getElementById('root');
-            mainContent.innerHTML = heardAboutStudy();
-            addEventHeardAboutStudy();
+        const value = parseInt(document.getElementById('RcrtES_Site_v1r0').value);
+        const r = confirm(`Are you sure ${sites()[value]} is your healthcare provider?`)
+        if(r){
+            dataSavingBtn('save-data');
+            let formData = {};
+            formData["RcrtES_Site_v1r0"] = value;
+            localStorage.eligibilityQuestionnaire = JSON.stringify(formData);
+            const response = await storeResponse(formData);
+            if(response.code === 200) {
+                const mainContent = document.getElementById('root');
+                mainContent.innerHTML = heardAboutStudy();
+                addEventHeardAboutStudy();
+            }
         }
     });
 }
