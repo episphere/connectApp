@@ -532,7 +532,7 @@ export const addEventCancerFollowUp = () => {
 
             <div class="form-group row">
                 <label class="col-sm-3 col-form-label">What type of cancer did you have?</label>
-                <input type="text" class="form-control col-sm-4" maxlength="4" id="UPCancerType" Placeholder="Please enter type of cancer">
+                <input type="text" class="form-control col-sm-4" id="UPCancerType" Placeholder="Please enter type of cancer">
             </div>
 
             <div class="form-group row">

@@ -102,14 +102,14 @@ const manageEmailActions = () => {
         const actionCode = parameters['oobCode'];
         switch (mode) {
             case 'resetPassword':
-            handleResetPassword(auth, actionCode);
+                handleResetPassword(auth, actionCode);
             break;
             //   case 'recoverEmail':
             // Display email recovery handler and UI.
             // handleRecoverEmail(auth, actionCode, lang);
             // break;
             case 'verifyEmail':
-            handleVerifyEmail(auth, actionCode);
+                handleVerifyEmail(auth, actionCode);
             break;
             default:
             // Error: invalid mode.
