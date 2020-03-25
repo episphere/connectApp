@@ -178,6 +178,7 @@ const userProfile = () => {
             
             if(myData.code === 200){
                 if(myData.data.RcrtES_Site_v1r0 && myData.data.RcrtES_Aware_v1r0){
+                    localStorage.eligibilityQuestionnaire = JSON.stringify({RcrtES_Site_v1r0: myData.data.RcrtES_Site_v1r0})
                     if(myData.data.RcrtCS_Consented_v1r0 === 1){
                         if(myData.data.RcrtUP_Fname_v1r0 && myData.data.RcrtSI_RecruitType_v1r0 && myData.data.RcrtSI_RecruitType_v1r0 === 2){
                             blockParticipant();
