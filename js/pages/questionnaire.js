@@ -1,9 +1,7 @@
 import { storeResponse } from "../shared.js";
 
 export const questionnaire = async () => {
-    const mainContent = document.getElementById('root');
-    const rawText = await (await fetch('https://jonasalmeida.github.io/privatequest/demo2.txt')).text();
-    mainContent.innerHTML = transform.render(rawText)
+    transform.render({url: 'https://jonasalmeida.github.io/privatequest/demo2.txt&run'}, 'root');
 }
 
 export const blockParticipant = () => {
