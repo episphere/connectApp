@@ -1,6 +1,7 @@
-export const questionnaire = () => {
-    const mainContent = document.getElementById('root');
-    mainContent.innerHTML = `<h4>Questionnaire...</h4>`
+import { storeResponse } from "../shared.js";
+
+export const questionnaire = async () => {
+    transform.render({url: 'https://jonasalmeida.github.io/privatequest/demo2.txt&run'}, 'root');
 }
 
 export const blockParticipant = () => {
