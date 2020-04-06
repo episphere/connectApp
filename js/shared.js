@@ -35,21 +35,48 @@ export const generateNewToken = async () => {
 }
 
 export const storeResponse = async (formData) => {
-    const idToken = await getIdToken();
-    const response = await fetch(api+'submit',{
-        method: 'POST',
+    const idToken = await new Promise((resolve, reject) => {
+        const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+            unsubscribe();
+            if (user) {
+                user.getIdToken().then((idToken) => {
+                    resolve(idToken);
+            }, (error) => {
+                resolve(null);
+            });
+            } else {
+            resolve(null);
+            }
+        });
+    });
+    let requestObj = {
+        method: "POST",
         headers:{
             Authorization:"Bearer "+idToken,
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json"
         },
         body: JSON.stringify(formData)
-    });
+    }
+    const response = await fetch(`https://us-central1-nih-nci-dceg-episphere-dev.cloudfunctions.net/submit`, requestObj);
     return response.json();
 }
 
 export const getMyData = async () => {
-    const idToken = await getIdToken();
-    const response = await fetch(api+'getUserProfile', {
+    const idToken = await new Promise((resolve, reject) => {
+        const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+            unsubscribe();
+            if (user) {
+                user.getIdToken().then((idToken) => {
+                    resolve(idToken);
+            }, (error) => {
+                resolve(null);
+            });
+            } else {
+            resolve(null);
+            }
+        });
+    });
+    const response = await fetch(`https://us-central1-nih-nci-dceg-episphere-dev.cloudfunctions.net/getUserProfile`, {
         headers: {
             Authorization: "Bearer "+idToken
         }
@@ -91,13 +118,13 @@ export const dateTime = () => {
     return new Date().toISOString();
 }
 
-const getIdToken = () => {
+export const getIdToken = () => {
     return new Promise((resolve, reject) => {
         const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             unsubscribe();
             if (user) {
-            user.getIdToken().then((idToken) => {
-                resolve(idToken);
+                user.getIdToken().then((idToken) => {
+                    resolve(idToken);
             }, (error) => {
                 resolve(null);
             });

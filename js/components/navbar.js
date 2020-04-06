@@ -7,7 +7,7 @@ export const userNavBar = () => {
         </div>
         <div class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="#user" id="userProfile" title="User"><i class="fas fa-user"></i> User</a>
+                <a class="nav-link" href="#dashboard" id="userProfile" title="User"><i class="fas fa-user"></i> Dashboard</a>
             </li>
         </div>
         <div class="navbar-nav">
