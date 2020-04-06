@@ -26,7 +26,7 @@ window.onload = function() {
 
 const handleVerifyEmail = (auth, actionCode) => {
     auth.applyActionCode(actionCode).then(function(resp) {
-        window.location.hash = '#user';
+        window.location.hash = '#dashboard';
         location.reload();
     }).catch(function(error) {
         console.log(error);
@@ -138,7 +138,7 @@ const router = async () => {
     const route =  window.location.hash || '#';
     if(route === '#') homePage();
     else if (route === '#sign_in' && await userLoggedIn() === false) signIn();
-    else if (route === '#user') userProfile();
+    else if (route === '#dashboard') userProfile();
     else if (route === '#sign_out') signOut();
     else window.location.hash = '#';
 }
@@ -173,7 +173,7 @@ const userProfile = () => {
                     // await storeResponse({RcrtSI_Account_v1r0: 1, RcrtSI_AccountTime_v1r0: });
                 }
             }
-            window.history.replaceState({},'', './#user');
+            window.history.replaceState({},'', './#dashboard');
             const myData = await getMyData();
             
             if(myData.code === 200){

@@ -21,7 +21,7 @@ export const signIn = () => {
 
 const signInConfig = () => {
     return {
-        signInSuccessUrl: '#user',
+        signInSuccessUrl: '#dashboard',
         signInOptions: [
             firebase.auth.GoogleAuthProvider.PROVIDER_ID,
             firebase.auth.EmailAuthProvider.PROVIDER_ID,
