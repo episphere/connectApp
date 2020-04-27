@@ -48,7 +48,7 @@ export const myToDoList = (data) => {
         addEventHeardAboutStudy();
         hideAnimation();
     }
-    else if(myData.RcrtES_PIN_v1r0){
+    else if(data.RcrtES_PIN_v1r0){
         mainContent.innerHTML = requestPINTemplate();
         addEventRequestPINForm(user.metadata.a);
         hideAnimation();
