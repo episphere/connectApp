@@ -7,7 +7,27 @@ export const userNavBar = () => {
         </div>
         <div class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="#dashboard" id="userProfile" title="User"><i class="fas fa-user"></i> Dashboard</a>
+                <a class="nav-link" href="#dashboard" id="userDashboard"><i class="fas fa-file-alt"></i> Dashboard</a>
+            </li>
+        </div>
+        <div class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="#my_data" id="userData"><i class="fas fa-user"></i> My Data</a>
+            </li>
+        </div>
+        <div class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="#agreements" id="userAgreements"><i class="fas fa-file-contract"></i> Agreements</a>
+            </li>
+        </div>
+        <div class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="#settings" id="userSettings"><i class="fas fa-user-cog"></i> Settings</a>
+            </li>
+        </div>
+        <div class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="#support" id="connectSupport"><i class="fas fa-headset"></i> Support</a>
             </li>
         </div>
         <div class="navbar-nav">

@@ -175,6 +175,7 @@
     width: 100%;
     border: 1px solid #000000;
     background-color: #ffffff;
+    margin: 0px;
 }
 
 canvas {
@@ -191,6 +192,58 @@ canvas {
 
 .sub-heading{
     font-size: 0.75rem;
+}
+
+.sub-div-shadow {
+    box-shadow: 5px 3px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
+}
+
+.questionnaire-module-list {
+    list-style: none;
+    padding: 0;
+}
+
+.settings-header {
+    border-bottom: 1px dotted #b6b6b6;
+}
+
+#editUserProfile {
+    color: #cf2d59;
+}
+
+#editUserProfile:hover {
+    cursor: pointer;
+}
+
+.list-item {
+    margin: 2px;
+    width: max-content;
+    padding-right: 0.25rem;
+    padding-left: 0.25rem;
+    font-size: larger;
+}
+
+.list-item-active {
+    background-color: #b1cee7;
+    cursor: pointer;
+}
+
+.no-text-decoration {
+    color: #000000 !important;
+    text-decoration: none !important;
+}
+
+.list-item-active:hover {
+    background-color: #609acc;
+}
+
+.list-item-disable {
+    background-color: #c4c4c4;
+    cursor: not-allowed;
+}
+
+.topic {
+    font-weight: bold;
 }
 
 .sub-form {

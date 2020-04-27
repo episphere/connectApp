@@ -4,7 +4,7 @@ import { renderUserProfile } from "../components/form.js";
 export const consentTemplate = () => {
     return ` 
         <div class="row">Download consent form:&nbsp<a href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="coonect_consent.pdf"><i class="fas fa-file-download"></i></a></div>
-        <div class="row" style="" id="canvasContainer"></div>
+        <div class="row" id="canvasContainer"></div>
         <form id="consentForm" method="POST">
             <div class="row">
                 <label class="color-red"><input type="checkbox" required> I have read the explanation about this study and have been given the opportunity to discuss it and ask questions. I consent to participate in this study.<span class="required">*</span></label>
@@ -74,10 +74,11 @@ export const consentTemplate = () => {
     `
 }
 
-export const initializeCanvas = () => {
+export const initializeCanvas = (customScale) => {
     let scale = 1;
     if(window.innerWidth > 1000) scale = 1.5;
     if(window.innerWidth < 700) scale = 0.7;
+    if(customScale) scale = customScale
     drawCanvas(scale);
     window.addEventListener('resize', () => {
         let scale = 1;
