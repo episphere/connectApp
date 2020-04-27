@@ -1,8 +1,9 @@
 import { renderPhoneNumber, renderMailingAddress, renderAlternateContact } from "./components/form.js";
 import { allStates, allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, getMyData, showAnimation, hideAnimation, sites } from "./shared.js";
-import { questionnaire, blockParticipant } from "./pages/questionnaire.js";
+import { blockParticipant } from "./pages/questionnaire.js";
 import { initializeCanvas, addEventConsentSubmit, consentTemplate } from "./pages/consent.js";
 import { heardAboutStudy, healthCareProvider } from "./pages/healthCareProvider.js";
+import { myToDoList } from "./pages/myToDoList.js";
 
 export const addEventAdditionalEmail = () => {
     const addMoreEmail = document.getElementById('addMoreEmail');
@@ -476,8 +477,8 @@ export const addEventUPSubmit = (siteId) => {
             if(myData.code === 200 && myData.data.RcrtUP_Fname_v1r0 && myData.data.RcrtSI_RecruitType_v1r0 && myData.data.RcrtSI_RecruitType_v1r0 === 2){
                 blockParticipant();
             }
-            else {
-                questionnaire();
+            else if(myData.code === 200){
+                myToDoList(myData.data);
             }
         }
     });
