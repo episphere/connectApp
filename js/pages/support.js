@@ -71,19 +71,23 @@ export const renderSupportPage = () => {
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-6">
-                Can't find the answer?
+        <div class="row align-center">
+            <div class="col-md-12">
+                <strong>Can't find the answer?</strong>
             </div>
-            <div class="col-md-6">
+        </div>
+        <div class="row align-center">
+            <div class="col-md-12">
                 <button class="btn btn-primary btn-disbaled">Help Form</button>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-6">
-                You can also contant our support line at:
+        <div class="row align-center">
+            <div class="col-md-12">
+                <strong>You can also contant our support line at</strong>
             </div>
-            <div class="col-md-6">
+        </div>
+        <div class="row align-center">
+            <div class="col-md-12">
                 1-800-CONNECT</br>
                 helpdesk@connect.gov
             </div>

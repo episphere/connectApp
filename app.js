@@ -12,6 +12,7 @@ import { myToDoList } from "./js/pages/myToDoList.js";
 import { renderAgreements } from "./js/pages/agreements.js";
 import { renderSettingsPage } from "./js/pages/settings.js";
 import { renderSupportPage } from "./js/pages/support.js";
+import { renderMyDataPage } from "./js/pages/myData.js";
 
 let auth = '';
 
@@ -147,6 +148,7 @@ const router = async () => {
     else if (route === '#agreements') renderAgreements();
     else if (route === '#settings') renderSettingsPage();
     else if (route === '#support') renderSupportPage();
+    else if (route === '#my_data') renderMyDataPage();
     else window.location.hash = '#';
 }
 

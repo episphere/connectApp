@@ -215,6 +215,10 @@ canvas {
     /* align-content: start; */
 }
 
+.align-center {
+    text-align: center;
+}
+
 .btn-disbaled {
     cursor: not-allowed !important;
 }
