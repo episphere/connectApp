@@ -95,7 +95,7 @@ export const sites = () => {
         7: 'Marshfield Clinic',
         8: 'Sanford Health',
         9: 'University of Chicago Medicine',
-        13: 'Natiocal Cancer Institute'
+        13: 'National Cancer Institute'
     }
 }
 

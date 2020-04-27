@@ -8,6 +8,9 @@ import { addEventsConsentSign, addEventHealthCareProviderSubmit, addEventHeardAb
 import { renderUserProfile } from "./js/components/form.js";
 import { questionnaire, blockParticipant } from "./js/pages/questionnaire.js";
 import { healthCareProvider, heardAboutStudy, requestPINTemplate } from "./js/pages/healthCareProvider.js";
+import { myToDoList } from "./js/pages/myToDoList.js";
+import { renderAgreements } from "./js/pages/agreements.js";
+import { renderSettingsPage } from "./js/pages/settings.js";
 
 let auth = '';
 
@@ -140,6 +143,8 @@ const router = async () => {
     else if (route === '#sign_in' && await userLoggedIn() === false) signIn();
     else if (route === '#dashboard') userProfile();
     else if (route === '#sign_out') signOut();
+    else if (route === '#agreements') renderAgreements();
+    else if (route === '#settings') renderSettingsPage();
     else window.location.hash = '#';
 }
 
@@ -175,49 +180,8 @@ const userProfile = () => {
             }
             window.history.replaceState({},'', './#dashboard');
             const myData = await getMyData();
-            
-            if(myData.code === 200){
-                if(myData.data.RcrtES_Site_v1r0 && myData.data.RcrtES_Aware_v1r0){
-                    localStorage.eligibilityQuestionnaire = JSON.stringify({RcrtES_Site_v1r0: myData.data.RcrtES_Site_v1r0})
-                    if(myData.data.RcrtCS_Consented_v1r0 === 1){
-                        if(myData.data.RcrtUP_Fname_v1r0 && myData.data.RcrtSI_RecruitType_v1r0 && myData.data.RcrtSI_RecruitType_v1r0 === 2){
-                            blockParticipant();
-                            hideAnimation();
-                            return;
-                        }
-                        if(myData.data.RcrtUP_Fname_v1r0){
-                            questionnaire();
-                            hideAnimation();
-                            return;
-                        }
-                        renderUserProfile();
-                        hideAnimation();
-                        return;
-                    }
-                    mainContent.innerHTML = consentTemplate();
-                    initializeCanvas();
-                    // addEventSaveConsentBtn();
-                    addEventsConsentSign();
-
-                    addEventConsentSubmit();
-                    hideAnimation();
-                    return;
-                }
-                else if(myData.data.RcrtES_Site_v1r0 && !myData.data.RcrtES_Aware_v1r0){
-                    mainContent.innerHTML =  heardAboutStudy();
-                    addEventHeardAboutStudy();
-                    hideAnimation();
-                }
-                else if(myData.RcrtES_PIN_v1r0){
-                    mainContent.innerHTML = requestPINTemplate();
-                    addEventRequestPINForm(user.metadata.a);
-                    hideAnimation();
-                }
-                else{
-                    mainContent.innerHTML = healthCareProvider();
-                    addEventHealthCareProviderSubmit();
-                    hideAnimation();
-                }
+            if(myData.code === 200) {
+                myToDoList(myData.data);
             }
             else {
                 mainContent.innerHTML = requestPINTemplate();
