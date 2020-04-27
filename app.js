@@ -11,6 +11,7 @@ import { healthCareProvider, heardAboutStudy, requestPINTemplate } from "./js/pa
 import { myToDoList } from "./js/pages/myToDoList.js";
 import { renderAgreements } from "./js/pages/agreements.js";
 import { renderSettingsPage } from "./js/pages/settings.js";
+import { renderSupportPage } from "./js/pages/support.js";
 
 let auth = '';
 
@@ -145,6 +146,7 @@ const router = async () => {
     else if (route === '#sign_out') signOut();
     else if (route === '#agreements') renderAgreements();
     else if (route === '#settings') renderSettingsPage();
+    else if (route === '#support') renderSupportPage();
     else window.location.hash = '#';
 }
 

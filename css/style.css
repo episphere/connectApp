@@ -203,6 +203,22 @@ canvas {
     padding: 0;
 }
 
+.faq-btn {
+    width: 100%;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border: 1px solid #000000 !important;
+}
+
+.align-left {
+    text-align: left;
+    /* align-content: start; */
+}
+
+.btn-disbaled {
+    cursor: not-allowed !important;
+}
+
 .settings-header {
     border-bottom: 1px dotted #b6b6b6;
 }
