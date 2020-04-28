@@ -13,6 +13,7 @@ import { renderAgreements } from "./js/pages/agreements.js";
 import { renderSettingsPage } from "./js/pages/settings.js";
 import { renderSupportPage } from "./js/pages/support.js";
 import { renderMyDataPage } from "./js/pages/myData.js";
+import { footerTemplate } from "./js/pages/footer.js";
 
 let auth = '';
 
@@ -131,6 +132,8 @@ const main = () => {
             console.log(error);
         }
     }
+    const footer = document.getElementById('footer');
+    footer.innerHTML = footerTemplate();
 }
 
 const router = async () => {

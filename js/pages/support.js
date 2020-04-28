@@ -92,8 +92,6 @@ export const renderSupportPage = () => {
                 helpdesk@connect.gov
             </div>
         </div>
-        </br>
-        </br>
     `;
     document.getElementById('root').innerHTML = template;
     const btns = document.getElementsByClassName('faq-btn');
