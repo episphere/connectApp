@@ -42,7 +42,7 @@ export const userNavBar = () => {
         </div>
         <div class="navbar-nav">
             <li class="nav-item">
-                <a target="_blank" class="nav-link" href="https://gitter.im/episphere/Connect-AlphaTest" title="Chat with us"><i class="fas fa-comments"></i> Chat with us</a>
+                <a target="_blank" class="nav-link" href="https://gitter.im/episphere/connect" title="Chat with us"><i class="fas fa-comments"></i> Chat with us</a>
             </li>
         </div>
         <div class="navbar-nav ml-auto">
@@ -77,7 +77,7 @@ export const homeNavBar = () => {
         </div>
         <div class="navbar-nav">
             <li class="nav-item">
-                <a target="_blank" class="nav-link" href="https://gitter.im/episphere/Connect-AlphaTest" title="Chat with us"><i class="fas fa-comments"></i> Chat with us</a>
+                <a target="_blank" class="nav-link" href="https://gitter.im/episphere/connect" title="Chat with us"><i class="fas fa-comments"></i> Chat with us</a>
             </li>
         </div>
     `;
