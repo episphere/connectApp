@@ -1,6 +1,6 @@
 import { storeResponse, getMyData } from "../shared.js";
 
-export const questionnaire = async () => {
+export const questionnaire = () => {
     transform.render({
         url: 'https://jonasalmeida.github.io/privatequest/mod1_abridged.txt&run',
         store: storeResponse,
