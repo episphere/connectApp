@@ -23,9 +23,35 @@ window.onload = function() {
         const mainContent = document.getElementById('root');
         mainContent.innerHTML = `<span class="not-compatible">Connect web application is not compatible with Internet Explorer, please use Chrome, Safari, Firefox or Edge.</span>`;
     }
-    const config = firebaseConfig();
-    !firebase.apps.length ? firebase.initializeApp(config) : firebase.app();
+    !firebase.apps.length ? firebase.initializeApp(firebaseConfig()) : firebase.app();
     auth = firebase.auth();
+    // const messaging = firebase.messaging();
+    // messaging.requestPermission()
+    //     .then(() => {
+    //         console.log('Have permission');
+    //         return messaging.getToken();
+    //     })
+    //     .then(token => {
+    //         console.log(token)
+    //     })
+    //     .catch(err => {
+    //         console.log(err)
+    //     })
+
+    // messaging.onMessage(payload => {
+    //     console.log(payload)
+    // });
+
+    // messaging.onTokenRefresh(() => {
+    //         messaging.getToken().then((refreshedToken) => {
+    //         console.log('Token refreshed.');
+    //         setTokenSentToServer(false);
+    //         sendTokenToServer(refreshedToken);
+    //     }).catch((err) => {
+    //         console.log('Unable to retrieve refreshed token ', err);
+    //         showToken('Unable to retrieve refreshed token ', err);
+    //     });
+    // });
     router();
     main();
 }
