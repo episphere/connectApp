@@ -1,13 +1,10 @@
-import { storeResponse, getParameters, validateToken, userLoggedIn, dataSavingBtn, getMyData, dateTime, showAnimation, hideAnimation } from "./js/shared.js";
+import { getParameters, validateToken, userLoggedIn, getMyData, showAnimation, hideAnimation } from "./js/shared.js";
 import { userNavBar, homeNavBar } from "./js/components/navbar.js";
 import { homePage, joinNowBtn } from "./js/pages/homePage.js";
 import { signIn } from "./js/pages/signIn.js";
 import { firebaseConfig } from "./js/config.js";
-import { consentTemplate, initializeCanvas, addEventConsentSubmit } from "./js/pages/consent.js";
-import { addEventsConsentSign, addEventHealthCareProviderSubmit, addEventHeardAboutStudy, addEventSaveConsentBtn, addEventRequestPINForm } from "./js/event.js";
-import { renderUserProfile } from "./js/components/form.js";
-import { questionnaire, blockParticipant } from "./js/pages/questionnaire.js";
-import { healthCareProvider, heardAboutStudy, requestPINTemplate } from "./js/pages/healthCareProvider.js";
+import { addEventRequestPINForm } from "./js/event.js";
+import { requestPINTemplate } from "./js/pages/healthCareProvider.js";
 import { myToDoList } from "./js/pages/myToDoList.js";
 import { renderAgreements } from "./js/pages/agreements.js";
 import { renderSettingsPage } from "./js/pages/settings.js";
