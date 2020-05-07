@@ -7,10 +7,6 @@ const { ExpirationPlugin } = workbox.expiration;
 const { BackgroundSyncPlugin } = workbox.backgroundSync
 const googleAnalytics = workbox.googleAnalytics;
 
-const bgSyncPlugin = new BackgroundSyncPlugin('ConnectAppBgSync', {
-    maxRetentionTime: 24 * 60 // Retry for max of 24 Hours (specified in minutes)
-});
-
 googleAnalytics.initialize();
 registerRoute(/\.(?:js|css)$/, new NetworkFirst({cacheName: 'static-cache'}));
 registerRoute(/\.(?:png|jpg|jpeg|svg|gif|ico)$/,
@@ -38,6 +34,10 @@ registerRoute(
     'GET'
 );
 
+const bgSyncPlugin = new BackgroundSyncPlugin('ConnectAppBgSync', {
+    maxRetentionTime: 24 * 60 // Retry for max of 24 Hours (specified in minutes)
+});
+
 registerRoute(
     new RegExp('https://us-central1-nih-nci-dceg-episphere-dev.cloudfunctions.net/.+'),
     new NetworkOnly({
@@ -59,14 +59,6 @@ workbox.precaching.precacheAndRoute([{url: 'index.html', revision: `${new Date()
 //     messagingSenderId: "1061219778575",
 //     appId: "1:1061219778575:web:c9f40bbc7ec2cdccc5637a"
 // });
+
 // const messaging = firebase.messaging();
-// messaging.setBackgroundMessageHandler(function(payload) {
-//     console.log(payload);
-//     const notificationTitle = 'Background Message Title';
-//     const notificationOptions = {
-//       body: 'Background Message body.',
-//       icon: '/firebase-logo.png'
-//     };
-  
-//     return self.registration.showNotification(notificationTitle, notificationOptions);
-// });
+

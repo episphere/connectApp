@@ -14,7 +14,7 @@ import { footerTemplate } from "./js/pages/footer.js";
 
 let auth = '';
 
-window.onload = function() {
+window.onload = async () => {
     const isIE = /*@cc_on!@*/false || !!document.documentMode;
     if(isIE) {
         const mainContent = document.getElementById('root');
@@ -23,34 +23,31 @@ window.onload = function() {
     !firebase.apps.length ? firebase.initializeApp(firebaseConfig()) : firebase.app();
     auth = firebase.auth();
     // const messaging = firebase.messaging();
-    // messaging.requestPermission()
-    //     .then(() => {
-    //         console.log('Have permission');
-    //         return messaging.getToken();
-    //     })
-    //     .then(token => {
-    //         console.log(token)
-    //     })
-    //     .catch(err => {
-    //         console.log(err)
-    //     })
+    if('serviceWorker' in navigator){
+        try {
+            navigator.serviceWorker.register('./serviceWorker.js')
+                .then(registration => {
+                    // messaging.useServiceWorker(registration);
+                });
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+    
+    // await messaging.requestPermission();
+    // const token = await messaging.getToken();
+    // console.log('token :', token);
 
+    const footer = document.getElementById('footer');
+    footer.innerHTML = footerTemplate();
+    
+    
     // messaging.onMessage(payload => {
     //     console.log(payload)
     // });
 
-    // messaging.onTokenRefresh(() => {
-    //         messaging.getToken().then((refreshedToken) => {
-    //         console.log('Token refreshed.');
-    //         setTokenSentToServer(false);
-    //         sendTokenToServer(refreshedToken);
-    //     }).catch((err) => {
-    //         console.log('Unable to retrieve refreshed token ', err);
-    //         showToken('Unable to retrieve refreshed token ', err);
-    //     });
-    // });
     router();
-    main();
 }
 
 const handleVerifyEmail = (auth, actionCode) => {
@@ -144,19 +141,6 @@ const manageEmailActions = () => {
             // Error: invalid mode.
         }
     }
-}
-
-const main = () => {
-    if('serviceWorker' in navigator){
-        try {
-            navigator.serviceWorker.register('./serviceWorker.js');
-        }
-        catch (error) {
-            console.log(error);
-        }
-    }
-    const footer = document.getElementById('footer');
-    footer.innerHTML = footerTemplate();
 }
 
 const router = async () => {
