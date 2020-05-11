@@ -9,7 +9,7 @@ export const renderUserProfile = async () => {
     js.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDe3Ewzl4x7hEX30EiQJ0tvXBtzd2Hghiw&libraries=places";
     document.body.appendChild(js);
     mainContent.innerHTML = `
-        </br></br>
+        </br>
         <h2>User profile</h2>
         Thank you for joining Connect for Cancer Prevention! Before you are officially enrolled, 
         ${siteId ? sites()[siteId] : ''} will use this information to verify your eligibility. 
