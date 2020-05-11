@@ -209,6 +209,45 @@ export const addEventSaveConsentBtn = () => {
     })
 }
 
+export const addEventAdditionalEmail = () => {	
+    const addMoreEmail = document.getElementById('addMoreEmail');	
+    addMoreEmail.addEventListener('click', addEmailFields);	
+}
+
+const addEmailFields = () => {	
+    const div = document.getElementById('multipleEmail1');	
+    div.innerHTML = '';	
+    div.classList = ['form-group row'];
+
+    const input = document.createElement('input');	
+    input.classList = ['form-control col-md-4 offset-md-4'];	
+    input.placeholder = 'Enter additional email 2';	
+    input.type = 'email';	
+    input.id = 'UPAdditionalEmail2';	
+
+    div.appendChild(input);
+	
+    document.getElementById('additionalEmailBtn').innerHTML = `<button type="button" class="btn btn-light" id="addMoreEmail2" title="Add more email">Add more <i class="fas fa-plus"></i></button>`;
+    
+    const addMoreEmail2 = document.getElementById('addMoreEmail2');	
+    addMoreEmail2.addEventListener('click', addAnotherEmailField)	
+}
+
+const addAnotherEmailField = () => {	
+    const div = document.getElementById('multipleEmail2');	
+    div.innerHTML = '';	
+    div.classList = ['form-group row']; 
+    const br = document.createElement('BR');	
+
+    const input2 = document.createElement('input');	
+    input2.classList = ['form-control col-md-4 offset-md-4'];	
+    input2.placeholder = 'Enter additional email 3';	
+    input2.type = 'email';	
+    input2.id = 'UPAdditionalEmail3';	
+    div.appendChild(input2);
+    document.getElementById('additionalEmailBtn').innerHTML = '';
+}
+
 export const addEventUPSubmit = () => {
     const userProfileForm = document.getElementById('userProfileForm');
     userProfileForm.addEventListener('submit', async e => {
@@ -266,6 +305,8 @@ export const addEventUPSubmit = () => {
         if(document.getElementById('UPEmail').value) formData['RcrtUP_Email1_v1r0'] = document.getElementById('UPEmail').value;
 
         if(document.getElementById('UPEmail2').value) formData['RcrtUP_Email2_v1r0'] = document.getElementById('UPEmail2').value;
+        if(document.getElementById('UPAdditionalEmail2').value) formData['RcrtUP_Email3_v1r0'] = document.getElementById('UPAdditionalEmail2').value;
+        if(document.getElementById('UPAdditionalEmail3').value) formData['RcrtUP_Email4_v1r0'] = document.getElementById('UPAdditionalEmail3').value;
         
         // Preferred method of contact
         if(document.getElementsByName('methodOfContact')){
@@ -458,6 +499,20 @@ const verifyUserDetails = (formData) => {
         <div class="row">
             <div class="col">Additional Email</div>
             <div class="col">${formData.RcrtUP_Email2_v1r0}</div>
+        </div>
+        `:``}
+
+        ${formData.RcrtUP_Email3_v1r0 ? `
+        <div class="row">
+            <div class="col">Additional Email 2</div>
+            <div class="col">${formData.RcrtUP_Email3_v1r0}</div>
+        </div>
+        `:``}
+
+        ${formData.RcrtUP_Email4_v1r0 ? `
+        <div class="row">
+            <div class="col">Additional Email 3</div>
+            <div class="col">${formData.RcrtUP_Email4_v1r0}</div>
         </div>
         `:``}
 

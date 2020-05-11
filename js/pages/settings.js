@@ -94,6 +94,14 @@ export const renderSettingsPage = async () => {
                 <div class="col"><input class="form-control" readonly value="${userData.RcrtUP_Email2_v1r0 ? `${userData.RcrtUP_Email2_v1r0}` : ''}"></div>
             </div>
             <div class="row">
+                <div class="col data">Additional email 2</div>
+                <div class="col"><input class="form-control" readonly value="${userData.RcrtUP_Email3_v1r0 ? `${userData.RcrtUP_Email3_v1r0}` : ''}"></div>
+            </div>
+            <div class="row">
+                <div class="col data">Additional email 3</div>
+                <div class="col"><input class="form-control" readonly value="${userData.RcrtUP_Email4_v1r0 ? `${userData.RcrtUP_Email4_v1r0}` : ''}"></div>
+            </div>
+            <div class="row">
                 <div class="col data">Mailing address</div>
                 <div class="col">
                     ${userData.RcrtUP_AddressLn1_v1r0} ${userData.RcrtUP_AddressLn2_v1r0 ? userData.RcrtUP_AddressLn2_v1r0 : ''}</br>

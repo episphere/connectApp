@@ -1,5 +1,5 @@
 import { sites, allStates, allCountries, getMyData } from "../shared.js";
-import { addEventMonthSelection, addEventUPSubmit, addEventCancerFollowUp, addYearsOptions, addEventChangeFocus, addEventPreferredContactType, addEventAddressAutoComplete } from "../event.js";
+import { addEventMonthSelection, addEventUPSubmit, addEventCancerFollowUp, addYearsOptions, addEventChangeFocus, addEventPreferredContactType, addEventAddressAutoComplete, addEventAdditionalEmail } from "../event.js";
 export const renderUserProfile = async () => {
     const myData = await getMyData();
     const siteId = myData.data ? myData.data.RcrtES_Site_v1r0 : undefined;
@@ -18,16 +18,16 @@ export const renderUserProfile = async () => {
         <form id="userProfileForm" method="POST">
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">First name <span class="required">*</span></label>
-                <input type="text" class="form-control col-md-4" title="First name should not contain any numbers or special characters" required id="UPFirstName" placeholder="Enter first name">
+                <input type="text" class="form-control col-md-4" pattern="[A-Za-z]+" title="First name should not contain any numbers or special characters" required id="UPFirstName" placeholder="Enter first name">
                 
             </div>
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">Middle name</label>
-                    <input type="text" class="form-control col-md-4" title="Middle name should not contain any numbers or special characters" id="UPMiddleInitial" placeholder="Enter middle name">
+                    <input type="text" class="form-control col-md-4" pattern="[A-Za-z]+" title="Middle name should not contain any numbers or special characters" id="UPMiddleInitial" placeholder="Enter middle name">
             </div>
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">Last name <span class="required">*</span></label>
-                <input type="text" class="form-control col-md-4" title="Last name should not contain any numbers or special characters" required id="UPLastName" placeholder="Enter last name">
+                <input type="text" class="form-control col-md-4" pattern="[A-Za-z]+" title="Last name should not contain any numbers or special characters" required id="UPLastName" placeholder="Enter last name">
                 
             </div>
             <div class="form-group row">
@@ -151,7 +151,14 @@ export const renderUserProfile = async () => {
                 <label class="col-md-4 col-form-label">Additional Email</label>
                 <input type="email" class="form-control col-md-4" id="UPEmail2" Placeholder="Enter additional email"></br>
             </div>
-
+            <div id="multipleEmail1"></div>
+            <div id="multipleEmail2"></div>
+            <div class="form-group row">
+                <div class="col-md-4 offset-md-4" id="additionalEmailBtn">
+                    <button type="button" class="btn btn-light" id="addMoreEmail" title="Add more email">Add more <i class="fas fa-plus"></i></button>
+                </div>
+            </div>
+            
             <div id="preferredEmailPhone"></div>
 
             ${renderMailingAddress('', 1, true)}
@@ -180,6 +187,7 @@ export const renderUserProfile = async () => {
     addEventCancerFollowUp();
     addEventMonthSelection();
     addEventPreferredContactType();
+    addEventAdditionalEmail();
     addEventAddressAutoComplete(1);
     // addEventAddressAutoComplete(5, true);
     addEventUPSubmit();
