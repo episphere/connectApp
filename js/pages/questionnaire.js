@@ -1,4 +1,5 @@
 import { storeResponse, getMyData } from "../shared.js";
+import { transform } from 'https://episphere.github.io/quest/replace2.js';
 
 export const questionnaire = () => {
     transform.render({
