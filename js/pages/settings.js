@@ -23,13 +23,11 @@ export const renderSettingsPage = async () => {
                 <div class="col data">Last name</div>
                 <div class="col"><input class="form-control" readonly value="${userData.RcrtUP_Lname_v1r0}"></div>
             </div>
-            ${userData.RcrtUP_Suffix_v1r0 ? `
             <div class="row">
                 <div class="col data">Suffix</div>
-                <div class="col"><input class="form-control" readonly value="${userData.RcrtUP_Suffix_v1r0}"></div>
+                <div class="col"><input class="form-control" readonly value="${userData.RcrtUP_Suffix_v1r0 ? `${userData.RcrtUP_Suffix_v1r0}` :  ``}"></div>
             </div>
-            `: ``}
-            <div class="row"><div class="col"><h5>Date of birth</h5></div></div>
+            <div class="row"><div class="col"><strong>Date of birth</strong></div></div>
             <div class="row">
                 <div class="col data">Month</div>
                 <div class="col">
@@ -60,15 +58,43 @@ export const renderSettingsPage = async () => {
             </div>
             </br>
             <div class="row">
+                <div class="col data">Biological sex assigned at birth</div>
+                <div class="col"><input class="form-control" readonly value="${parseInt(userData.SEX) === 0 ? 'Male': `${parseInt(userData.SEX) === 1 ? 'Female' : 'Intersex or other'}`}"></div>
+            </div>
+            </br>
+            <div class="row">
                 <div class="col data">Mobile phone</div>
                 <div class="col"><input class="form-control" readonly value="${userData.RcrtUP_Phone1_v1r0? `${userData.RcrtUP_Phone1_v1r0.substr(0,3)} - ${userData.RcrtUP_Phone1_v1r0.substr(3,3)} - ${userData.RcrtUP_Phone1_v1r0.substr(6,4)}` : ''}"></div>
+            </div>
+
+            <div class="row">
+                <div class="col data">Can we leave a voicemail at this number?</div>
+                <div class="col"><input class="form-control" readonly value="${parseInt(userData.RcrtUP_VMPerm1_v1r0) === 1 ? 'Yes': 'No'}"></div>
+            </div>
+            <div class="row">
+                <div class="col data">Can we text this number?</div>
+                <div class="col"><input class="form-control" readonly value="${parseInt(userData.RcrtUP_P1TxtPerm_v1r0) === 1 ? 'Yes': 'No'}"></div>
+            </div>
+
+
+            <div class="row">
+                <div class="col data">Home phone</div>
+                <div class="col"><input class="form-control" readonly value="${userData.RcrtUP_Phone2_v1r0? `${userData.RcrtUP_Phone2_v1r0.substr(0,3)} - ${userData.RcrtUP_Phone2_v1r0.substr(3,3)} - ${userData.RcrtUP_Phone2_v1r0.substr(6,4)}` : ''}"></div>
+            </div>
+            <div class="row">
+                <div class="col data">Can we leave a voicemail at this number?</div>
+                <div class="col"><input class="form-control" readonly value="${parseInt(userData.RcrtUP_VMPerm2_v1r0) === 1 ? 'Yes': 'No'}"></div>
             </div>
             <div class="row">
                 <div class="col data">Preferred email</div>
                 <div class="col"><input class="form-control" readonly value="${userData.RcrtUP_Email1_v1r0 ? `${userData.RcrtUP_Email1_v1r0}` : ''}"></div>
             </div>
             <div class="row">
-                <div class="col data">Address</div>
+                <div class="col data">Additional email</div>
+                <div class="col"><input class="form-control" readonly value="${userData.RcrtUP_Email2_v1r0 ? `${userData.RcrtUP_Email2_v1r0}` : ''}"></div>
+            </div>
+            <div class="row">
+                <div class="col data">Mailing address</div>
                 <div class="col">
                     ${userData.RcrtUP_AddressLn1_v1r0} ${userData.RcrtUP_AddressLn2_v1r0 ? userData.RcrtUP_AddressLn2_v1r0 : ''}</br>
                     ${userData.RcrtUP_City_v1r0} ${Object.keys(allStates)[Object.values(allStates).indexOf(parseInt(userData.RcrtUP_State_v1r0))]} ${userData.RcrtUP_Zip_v1r0}
