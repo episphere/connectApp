@@ -18,16 +18,16 @@ export const renderUserProfile = async () => {
         <form id="userProfileForm" method="POST">
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">First name <span class="required">*</span></label>
-                <input type="text" class="form-control col-md-4" pattern="[A-Za-z]" title="First name should not contain any numbers or special characters" required id="UPFirstName" placeholder="Enter first name">
+                <input type="text" class="form-control col-md-4" title="First name should not contain any numbers or special characters" required id="UPFirstName" placeholder="Enter first name">
                 
             </div>
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">Middle name</label>
-                    <input type="text" class="form-control col-md-4" pattern="[A-Za-z]" title="Middle name should not contain any numbers or special characters" id="UPMiddleInitial" placeholder="Enter middle name">
+                    <input type="text" class="form-control col-md-4" title="Middle name should not contain any numbers or special characters" id="UPMiddleInitial" placeholder="Enter middle name">
             </div>
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">Last name <span class="required">*</span></label>
-                <input type="text" class="form-control col-md-4" pattern="[A-Za-z]" title="Last name should not contain any numbers or special characters" required id="UPLastName" placeholder="Enter last name">
+                <input type="text" class="form-control col-md-4" title="Last name should not contain any numbers or special characters" required id="UPLastName" placeholder="Enter last name">
                 
             </div>
             <div class="form-group row">
