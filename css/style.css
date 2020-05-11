@@ -372,3 +372,7 @@ canvas {
 .allow-overflow {
     overflow: auto;
 }
+
+#additionalEmailBtn {
+    padding-left: 0px;
+}
