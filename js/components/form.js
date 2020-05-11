@@ -34,8 +34,8 @@ export const renderUserProfile = async () => {
                 <label class="col-md-4 col-form-label">Suffix</label>
                 <select class="form-control col-md-4" id="UPSuffix">
                     <option value="">-- Select suffix --</option>
-                    <option value="Sr">Sr.</option>
                     <option value="Jr">Jr.</option>
+                    <option value="Sr">Sr.</option>
                     <option value="I">I</option>
                     <option value="II">II</option>
                     <option value="III">III</option>
@@ -73,8 +73,8 @@ export const renderUserProfile = async () => {
             </div>
             
             <div class="form-group row">
-                <label class="col-md-4 col-form-label">What was your biological sex assigned at birth? <span class="required">*</span> 
-                    <a href="https://www.researchallofus.org/wp-content/themes/research-hub-wordpress-theme/media/2019/02/Basics.pdf" target="_blank"><i class="fas fa-external-link-alt"></i></a> 
+                <label class="col-md-4 col-form-label">What was your biological sex assigned at birth? <span class="required">*</span> </br>
+                    reference links <a href="https://www.researchallofus.org/wp-content/themes/research-hub-wordpress-theme/media/2019/02/Basics.pdf" target="_blank"><i class="fas fa-external-link-alt"></i></a> 
                     <a href="https://transcare.ucsf.edu/guidelines/terminology" target="_blank"><i class="fas fa-external-link-alt"></i></a> 
                     <a href="https://www.census.gov/content/dam/Census/library/working-papers/2018/adrm/rsm2018-05.pdf" target="_blank"><i class="fas fa-external-link-alt"></i></a>
                 </label>
@@ -140,6 +140,11 @@ export const renderUserProfile = async () => {
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">Preferred Email</label>
                 <input type="email" class="form-control col-md-4" id="UPEmail" Placeholder="Enter preferred email"></br>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-md-4 col-form-label">Retype preferred Email</label>
+                <input type="email" class="form-control col-md-4" id="confirmUPEmail" Placeholder="Retype preferred email"></br>
             </div>
             
             <div class="form-group row">

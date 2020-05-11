@@ -300,6 +300,18 @@ export const addEventUPSubmit = () => {
         if(document.getElementById('UPCancerType') && document.getElementById('UPCancerType').value) formData['RCRTUP_CANCERTYPE_V1R0'] = document.getElementById('UPCancerType').value;
         if(document.getElementById('UPCancerDiagnosis') && document.getElementById('UPCancerDiagnosis').value) formData['RCRTUP_CANCERCOMTS_V1R0'] = document.getElementById('UPCancerDiagnosis').value;
 
+        if(formData.RcrtUP_Email1_v1r0){
+            const confirmedEmail = document.getElementById('confirmUPEmail').value;
+            if(!confirmedEmail){
+                errorMessage('confirmUPEmail', 'Please confirm your preferred email.');
+                return false;
+            }
+            else if(confirmedEmail !== formData.RcrtUP_Email1_v1r0){
+                errorMessage('confirmUPEmail', 'Doesn\'t match with preferred email.');
+                return false;     
+            }
+        }
+
         if(formData.RcrtUP_Phone1_v1r0 === undefined && formData.RcrtUP_Email1_v1r0 === undefined){
             errorMessage('UPEmail', 'Please provide either preferred email or mobile phone.');
             errorMessage('mainMobilePhone', 'Please provide either mobile phone or preferred email.');
