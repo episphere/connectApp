@@ -345,3 +345,30 @@ canvas {
 .btn-light {
     background-color: #c5c6c8 !important;
 }
+
+.hyphen {
+    padding: 0.225rem;
+}
+
+.up-btns {
+    padding: 6px 0px !important;
+    height: fit-content;
+}
+
+.active {
+    border-color: #007bff !important;
+    border-width: 1.5px !important;
+}
+
+.form-error {
+    color: red;
+    font-size: small;
+}
+
+.btn-group {
+    padding: 0px !important;
+}
+
+.allow-overflow {
+    overflow: auto;
+}

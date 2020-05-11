@@ -172,6 +172,31 @@ export const dataSavingBtn = (className) => {
     btn.innerHTML = `<div class="spinner-border spinner-saving" role="status"><span class="sr-only">Loading...</span></div> Saving`;
 }
 
+export const errorMessage = (id, msg) => {
+    const currentElement = document.getElementById(id);
+    const parentElement = currentElement.parentNode;
+    if(Array.from(parentElement.querySelectorAll('.form-error')).length > 0) return;
+    const div = document.createElement('div');
+    div.classList = ['row col-md-4 offset-md-4'];
+    const span = document.createElement('span');
+    span.classList = ['form-error']
+    span.innerHTML = msg;
+    div.append(span);
+    parentElement.appendChild(div);
+    currentElement.focus();
+}
+
+export const getAge = (dateString) => {
+    const today = new Date();
+    const birthDate = new Date(dateString);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() <= birthDate.getDate())) {
+        age--;
+    }
+    return age;
+}
+
 export const allStates = {
     "Alabama":1,
     "Alaska":2,
@@ -470,6 +495,20 @@ export const allCountries = {
     "Zimbabwe":240
 }
 
+export const BirthMonths = {
+    "01": "1 - January",
+    "02": "2 - February",
+    "03": "3 - March",
+    "04": "4 - April",
+    "05": "5 - May",
+    "06": "6 - June",
+    "07": "7 - July",
+    "08": "8 - August",
+    "09": "9 - September",
+    "10": "10 - October",
+    "11": "11 - November",
+    "12": "12 - December"
+}
 
 export const showAnimation = () => {
     if(document.getElementById('loadingAnimation')) document.getElementById('loadingAnimation').style.display = '';
