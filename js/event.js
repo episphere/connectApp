@@ -1,129 +1,7 @@
-import { renderPhoneNumber, renderMailingAddress, renderAlternateContact } from "./components/form.js";
-import { allStates, allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, getMyData, showAnimation, hideAnimation, sites, errorMessage, BirthMonths, getAge } from "./shared.js";
-import { blockParticipant } from "./pages/questionnaire.js";
+import { renderPhoneNumber, renderMailingAddress } from "./components/form.js";
+import { allStates, allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, BirthMonths, getAge } from "./shared.js";
 import { initializeCanvas, addEventConsentSubmit, consentTemplate } from "./pages/consent.js";
 import { heardAboutStudy, healthCareProvider } from "./pages/healthCareProvider.js";
-import { myToDoList } from "./pages/myToDoList.js";
-
-export const addEventAdditionalEmail = () => {
-    const addMoreEmail = document.getElementById('addMoreEmail');
-    addMoreEmail.addEventListener('click', addEmailFields);
-}
-
-export const addEventAdditionalPhone = () => {
-    const addMorePhone = document.getElementById('addMorePhone');
-    addMorePhone.addEventListener('click', addPhoneFields)
-}
-
-export const addEventDifferentAddress = () => {
-    const differentAddress = document.getElementsByName('RcrutUP_2ndResid_v1r0');
-    Array.from(differentAddress).forEach(element => {
-        element.parentElement.addEventListener('click', () => {
-            const addressFollowUp = document.getElementById('addressFollowUp');
-            const newAddress = document.getElementById('secondaryAddress');
-            if(element.value == 1){
-                addressFollowUp.innerHTML = `
-                    <label>
-                        <strong>Is this address in the United States?</strong>
-                    </label>
-                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                        <label class="btn btn-light"><input type="radio" checked name="RcrutUP_2ndResidUS_v1r0" id="UPDifferentAddress1" value="1">Yes</label>
-                        <label class="btn btn-light"><input type="radio" name="RcrutUP_2ndResidUS_v1r0" id="UPDifferentAddress2" value="0">No</label>
-                    </div>
-                `;
-                addEventAddressInUS();
-            }
-            else{
-                addressFollowUp.innerHTML = ``;
-                newAddress.innerHTML = ``;
-            }
-        });
-    });
-}
-
-const addEventAddressInUS = () => {
-    const secondaryAddress = document.getElementsByName('RcrutUP_2ndResidUS_v1r0');
-    Array.from(secondaryAddress).forEach(element => {
-        element.parentElement.addEventListener('click', () => {
-            const newAddress = document.getElementById('secondaryAddress');
-            if(element.value == 1){
-                newAddress.innerHTML = `${renderMailingAddress('Secondary ', 2, false)}`;
-                addEventAddressAutoComplete(2);
-            }
-            else{
-                newAddress.innerHTML = ``;
-            }
-        });
-    });
-}
-
-const addPhoneFields = () => {
-    const div = document.getElementById('multiplePhone');
-    div.innerHTML = `
-    ${renderPhoneNumber(3)}
-    <button type="button" class="btn btn-light" id="addMorePhone2" title="Add more phone number">Add <i class="fas fa-plus"></i></button>
-    `;
-
-    const addMorePhone2 = document.getElementById('addMorePhone2');
-    addMorePhone2.addEventListener('click', addAnotherPhoneField);
-}
-
-const addAnotherPhoneField = () => {
-    const div = document.getElementById('multiplePhone');
-    div.innerHTML = `
-        ${renderPhoneNumber(3)}
-        ${renderPhoneNumber(4)}
-    `;
-}
-
-const addEmailFields = () => {
-    const div = document.getElementById('multipleEmail');
-    div.innerHTML = '';
-
-    const br = document.createElement('BR');
-
-    const input = document.createElement('input');
-    input.classList = ['form-control col-md-4'];
-    input.placeholder = 'Enter secondary email';
-    input.type = 'email';
-    input.id = 'UPEmail2';
-
-    div.appendChild(input);
-    div.appendChild(br);
-
-    const button = document.createElement('button');
-    button.className = 'btn btn-light';
-    button.innerHTML = 'Add <i class="fas fa-plus"></i>';
-    button.id = 'addMoreEmail2';
-    button.type = 'button';
-
-    div.appendChild(button);
-
-    const addMoreEmail2 = document.getElementById('addMoreEmail2');
-    addMoreEmail2.addEventListener('click', addAnotherEmailField)
-}
-
-const addAnotherEmailField = () => {
-    const div = document.getElementById('multipleEmail');
-    div.innerHTML = '';
-
-    const br = document.createElement('BR');
-
-    const input = document.createElement('input');
-    input.classList = ['form-control col-md-4'];
-    input.placeholder = 'Enter secondary email 1';
-    input.type = 'email';
-    input.id = 'UPEmail2';
-    div.appendChild(input);
-    div.appendChild(br);
-
-    const input2 = document.createElement('input');
-    input2.classList = ['form-control col-md-4'];
-    input2.placeholder = 'Enter secondary email 2';
-    input2.type = 'email';
-    input2.id = 'UPEmail3';
-    div.appendChild(input2);
-}
 
 export const addEventsConsentSign = () => {
     document.getElementById('CSFirstName').addEventListener('keyup', () => {
@@ -196,15 +74,6 @@ export const addEventAddressAutoComplete = (id, country) => {
                 autocomplete.setBounds(circle.getBounds());
             });
         }
-    });
-}
-
-export const addEventMoreAlternateContact = () => {
-    const btn = document.getElementById('addMoreAlternateContact');
-    const div = document.getElementById('multipleAlternateContact');
-    btn.addEventListener('click', () => {
-        div.innerHTML = renderAlternateContact(6, false);
-        addEventAddressAutoComplete(6, true)
     });
 }
 
@@ -372,7 +241,7 @@ export const addEventUPSubmit = () => {
 
         // Contact Information
 
-       // Mobile phone
+        // Mobile phone
         if(document.getElementById('UPPhoneNumber11').value && document.getElementById('UPPhoneNumber12').value && document.getElementById('UPPhoneNumber13').value) {
             formData['RcrtUP_Phone1_v1r0'] = `${document.getElementById('UPPhoneNumber11').value}${document.getElementById('UPPhoneNumber12').value}${document.getElementById('UPPhoneNumber13').value}`;
         }
