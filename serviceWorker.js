@@ -23,7 +23,7 @@ registerRoute(/\.(?:png|jpg|jpeg|svg|gif|ico)$/,
 
 registerRoute(
     new RegExp('https://us-central1-nih-nci-dceg-episphere-dev.cloudfunctions.net/.+'),
-    new StaleWhileRevalidate({
+    new NetworkFirst({
         cacheName: 'api-cache',
         plugins: [
             new CacheableResponsePlugin({
@@ -46,7 +46,7 @@ registerRoute(
     'POST'
 );
 
-workbox.precaching.precacheAndRoute([{url: 'index.html', revision: `${new Date().getTime()}`}]);
+workbox.precaching.precacheAndRoute([{url: 'index.html', revision: '1589160815361'}]);
 
 // importScripts('https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js');
 // importScripts('https://www.gstatic.com/firebasejs/7.14.2/firebase-messaging.js');
@@ -61,4 +61,3 @@ workbox.precaching.precacheAndRoute([{url: 'index.html', revision: `${new Date()
 // });
 
 // const messaging = firebase.messaging();
-

@@ -1,129 +1,7 @@
-import { renderPhoneNumber, renderMailingAddress, renderAlternateContact } from "./components/form.js";
-import { allStates, allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, getMyData, showAnimation, hideAnimation, sites } from "./shared.js";
-import { blockParticipant } from "./pages/questionnaire.js";
+import { allStates, allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, BirthMonths, getAge, getMyData } from "./shared.js";
 import { initializeCanvas, addEventConsentSubmit, consentTemplate } from "./pages/consent.js";
 import { heardAboutStudy, healthCareProvider } from "./pages/healthCareProvider.js";
 import { myToDoList } from "./pages/myToDoList.js";
-
-export const addEventAdditionalEmail = () => {
-    const addMoreEmail = document.getElementById('addMoreEmail');
-    addMoreEmail.addEventListener('click', addEmailFields);
-}
-
-export const addEventAdditionalPhone = () => {
-    const addMorePhone = document.getElementById('addMorePhone');
-    addMorePhone.addEventListener('click', addPhoneFields)
-}
-
-export const addEventDifferentAddress = () => {
-    const differentAddress = document.getElementsByName('RcrutUP_2ndResid_v1r0');
-    Array.from(differentAddress).forEach(element => {
-        element.parentElement.addEventListener('click', () => {
-            const addressFollowUp = document.getElementById('addressFollowUp');
-            const newAddress = document.getElementById('secondaryAddress');
-            if(element.value == 1){
-                addressFollowUp.innerHTML = `
-                    <label>
-                        <strong>Is this address in the United States?</strong>
-                    </label>
-                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                        <label class="btn btn-light"><input type="radio" checked name="RcrutUP_2ndResidUS_v1r0" id="UPDifferentAddress1" value="1">Yes</label>
-                        <label class="btn btn-light"><input type="radio" name="RcrutUP_2ndResidUS_v1r0" id="UPDifferentAddress2" value="0">No</label>
-                    </div>
-                `;
-                addEventAddressInUS();
-            }
-            else{
-                addressFollowUp.innerHTML = ``;
-                newAddress.innerHTML = ``;
-            }
-        });
-    });
-}
-
-const addEventAddressInUS = () => {
-    const secondaryAddress = document.getElementsByName('RcrutUP_2ndResidUS_v1r0');
-    Array.from(secondaryAddress).forEach(element => {
-        element.parentElement.addEventListener('click', () => {
-            const newAddress = document.getElementById('secondaryAddress');
-            if(element.value == 1){
-                newAddress.innerHTML = `${renderMailingAddress('Secondary ', 2, false)}`;
-                addEventAddressAutoComplete(2);
-            }
-            else{
-                newAddress.innerHTML = ``;
-            }
-        });
-    });
-}
-
-const addPhoneFields = () => {
-    const div = document.getElementById('multiplePhone');
-    div.innerHTML = `
-    ${renderPhoneNumber(3)}
-    <button type="button" class="btn btn-light" id="addMorePhone2" title="Add more phone number">Add <i class="fas fa-plus"></i></button>
-    `;
-
-    const addMorePhone2 = document.getElementById('addMorePhone2');
-    addMorePhone2.addEventListener('click', addAnotherPhoneField);
-}
-
-const addAnotherPhoneField = () => {
-    const div = document.getElementById('multiplePhone');
-    div.innerHTML = `
-        ${renderPhoneNumber(3)}
-        ${renderPhoneNumber(4)}
-    `;
-}
-
-const addEmailFields = () => {
-    const div = document.getElementById('multipleEmail');
-    div.innerHTML = '';
-
-    const br = document.createElement('BR');
-
-    const input = document.createElement('input');
-    input.classList = ['form-control col-sm-4'];
-    input.placeholder = 'Enter secondary email';
-    input.type = 'email';
-    input.id = 'UPEmail2';
-
-    div.appendChild(input);
-    div.appendChild(br);
-
-    const button = document.createElement('button');
-    button.className = 'btn btn-light';
-    button.innerHTML = 'Add <i class="fas fa-plus"></i>';
-    button.id = 'addMoreEmail2';
-    button.type = 'button';
-
-    div.appendChild(button);
-
-    const addMoreEmail2 = document.getElementById('addMoreEmail2');
-    addMoreEmail2.addEventListener('click', addAnotherEmailField)
-}
-
-const addAnotherEmailField = () => {
-    const div = document.getElementById('multipleEmail');
-    div.innerHTML = '';
-
-    const br = document.createElement('BR');
-
-    const input = document.createElement('input');
-    input.classList = ['form-control col-sm-4'];
-    input.placeholder = 'Enter secondary email 1';
-    input.type = 'email';
-    input.id = 'UPEmail2';
-    div.appendChild(input);
-    div.appendChild(br);
-
-    const input2 = document.createElement('input');
-    input2.classList = ['form-control col-sm-4'];
-    input2.placeholder = 'Enter secondary email 2';
-    input2.type = 'email';
-    input2.id = 'UPEmail3';
-    div.appendChild(input2);
-}
 
 export const addEventsConsentSign = () => {
     document.getElementById('CSFirstName').addEventListener('keyup', () => {
@@ -199,38 +77,70 @@ export const addEventAddressAutoComplete = (id, country) => {
     });
 }
 
-export const addEventMoreAlternateContact = () => {
-    const btn = document.getElementById('addMoreAlternateContact');
-    const div = document.getElementById('multipleAlternateContact');
-    btn.addEventListener('click', () => {
-        div.innerHTML = renderAlternateContact(6, false);
-        addEventAddressAutoComplete(6, true)
-    });
-}
-
 export const addEventMonthSelection = () => {
     const UPMonth = document.getElementById('UPMonth');
     UPMonth.addEventListener('change', () => {
         const value = UPMonth.value;
-        let template = '<option value="">-- Select day --</option>';
+        let template = '<option value="">-- Select birth day --</option>';
 
         if(value === '02'){
             for(let i = 1; i < 30; i++){
-                template += `<option value=${i}>${i}</option>`
+                template += `<option value=${i < 10 ? `0${i}`: `${i}`}>${i}</option>`
             }
         }
         if(value === '01' || value === '03' || value === '05' || value === '07' || value === '08' || value === '10' || value === '12'){
             for(let i = 1; i < 32; i++){
-                template += `<option value=${i}>${i}</option>`
+                template += `<option value=${i < 10 ? `0${i}`: `${i}`}>${i}</option>`
             }
         }
         if(value === '04' || value === '06' || value === '09' || value === '11'){
             for(let i = 1; i < 31; i++){
-                template += `<option value=${i}>${i}</option>`
+                template += `<option value=${i < 10 ? `0${i}`: `${i}`}>${i}</option>`
             }
         }
 
         document.getElementById('UPDay').innerHTML = template;
+    });
+}
+
+export const addYearsOptions = () => {
+    const currentYear = new Date().getFullYear();
+    const maxYear = currentYear - 66;
+    const minYear = currentYear - 40;
+    let template = '';
+    for(let i = maxYear; i<= minYear; i++) {
+        template += `<option value="${i}">`
+    }
+    document.getElementById('yearsOption').innerHTML = template;
+}
+
+export const addEventChangeFocus = () => {
+    const element11 = document.getElementById('UPPhoneNumber11');
+    element11.addEventListener('keyup', () => {
+        if(element11.value.trim().length === 3){
+            element11.nextElementSibling.nextElementSibling.focus()
+        }
+    });
+
+    const element12 = document.getElementById('UPPhoneNumber12');
+    element12.addEventListener('keyup', () => {
+        if(element12.value.trim().length === 3){
+            element12.nextElementSibling.nextElementSibling.focus()
+        }
+    });
+
+    const element21 = document.getElementById('UPPhoneNumber21');
+    element21.addEventListener('keyup', () => {
+        if(element21.value.trim().length === 3){
+            element21.nextElementSibling.nextElementSibling.focus()
+        }
+    });
+
+    const element22 = document.getElementById('UPPhoneNumber22');
+    element22.addEventListener('keyup', () => {
+        if(element22.value.trim().length === 3){
+            element22.nextElementSibling.nextElementSibling.focus()
+        }
     });
 }
 
@@ -299,107 +209,69 @@ export const addEventSaveConsentBtn = () => {
     })
 }
 
-export const addEventUPSubmit = (siteId) => {
+export const addEventUPSubmit = () => {
     const userProfileForm = document.getElementById('userProfileForm');
     userProfileForm.addEventListener('submit', async e => {
-        dataSavingBtn('save-data');
         e.preventDefault();
+        removeAllErrors();
         let formData = {};
         formData['RcrtUP_Fname_v1r0'] = document.getElementById('UPFirstName').value;
         formData['RcrtUP_Minitial_v1r0'] = document.getElementById('UPMiddleInitial').value;
         formData['RcrtUP_Lname_v1r0'] = document.getElementById('UPLastName').value;
         if(document.getElementById('UPSuffix').value) formData['RcrtUP_Suffix_v1r0'] = document.getElementById('UPSuffix').value;
-        formData['RcrtUP_MOB_v1r0'] = document.getElementById('UPMonth').value;
+        let month = document.getElementById('UPMonth').value;
+
+        formData['RcrtUP_MOB_v1r0'] = month;
         formData['RcrtUP_BD_v1r0'] = document.getElementById('UPDay').value;
         formData['RcrtUP_YOB_v1r0'] = document.getElementById('UPYear').value;
         formData['RcrtUP_DOB_v1r0'] = formData.RcrtUP_YOB_v1r0 + formData.RcrtUP_MOB_v1r0 + formData.RcrtUP_BD_v1r0;
 
+        if(parseInt(formData.RcrtUP_MOB_v1r0) === 2 && parseInt(formData.RcrtUP_BD_v1r0) === 29){
+            const year = parseInt(formData.RcrtUP_YOB_v1r0);
+            const isLeapYear = ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
+            if(!isLeapYear){
+                errorMessage('UPDay', 'Invalid day')
+                return false;
+            }
+        }
         const gender = document.getElementsByName('UPRadio');
         Array.from(gender).forEach(radioBtn => {
-            if(radioBtn.checked) formData['SEX'] = radioBtn.value;
+            if(radioBtn.checked) formData['SEX'] = parseInt(radioBtn.value);
         });
 
-        if(siteId){
-            if(siteId === 30 && document.getElementById('UPMRN').value) formData['RcrtUP_KPMRN_CO_v1r0'] = document.getElementById('UPMRN').value;
-            if(siteId === 40 && document.getElementById('UPMRN').value) formData['RcrtUP_KPMRN_GA_v1r0'] = document.getElementById('UPMRN').value;
-            if(siteId === 50 && document.getElementById('UPMRN').value) formData['RcrtUP_KPMRN_HI_v1r0'] = document.getElementById('UPMRN').value;
-            if(siteId === 60 && document.getElementById('UPMRN').value) formData['RcrtUP_KPMRN_NW_v1r0'] = document.getElementById('UPMRN').value;
-        }
+        // Contact Information
 
-        formData['RcrtUP_Email1_v1r0'] = document.getElementById('UPEmail').value;
+        // Mobile phone
+        if(document.getElementById('UPPhoneNumber11').value && document.getElementById('UPPhoneNumber12').value && document.getElementById('UPPhoneNumber13').value) {
+            formData['RcrtUP_Phone1_v1r0'] = `${document.getElementById('UPPhoneNumber11').value}${document.getElementById('UPPhoneNumber12').value}${document.getElementById('UPPhoneNumber13').value}`;
+        }
+        const voiceMailPermission = document.getElementsByName('voiceMailPermission1');
+        Array.from(voiceMailPermission).forEach(radioBtn => {
+            if(radioBtn.checked) formData['RcrtUP_VMPerm1_v1r0'] = radioBtn.value;
+        });
+        const textPermission1 = document.getElementsByName('textPermission1');
+        Array.from(textPermission1).forEach(radioBtn => {
+            if(radioBtn.checked) formData['RcrtUP_P1TxtPerm_v1r0'] = radioBtn.value;
+        });
 
-        if(document.getElementById('UPEmail2') && document.getElementById('UPEmail2').value) formData['RcrtUP_Email2_v1r0'] = document.getElementById('UPEmail2').value;
-        if(document.getElementById('UPEmail3') && document.getElementById('UPEmail3').value) formData['RcrtUP_Email3_v1r0'] = document.getElementById('UPEmail3').value;
-        // 1
-        if(document.getElementById('UPPhoneNumber1') && document.getElementById('UPPhoneNumber1').value) formData['RcrtUP_Phone1_v1r0'] = document.getElementById('UPPhoneNumber1').value;
-        if(document.getElementsByName('phoneNumberType1')){
-            Array.from(document.getElementsByName('phoneNumberType1')).forEach(radioBtn => {
-                if(radioBtn.checked){
-                    formData['RcrtUP_NumType1_v1r0'] = radioBtn.value;
-                }
-            })
+        // Home phone
+        if(document.getElementById('UPPhoneNumber21').value && document.getElementById('UPPhoneNumber22').value && document.getElementById('UPPhoneNumber23').value) {
+            formData['RcrtUP_Phone2_v1r0'] = `${document.getElementById('UPPhoneNumber21').value}${document.getElementById('UPPhoneNumber22').value}${document.getElementById('UPPhoneNumber23').value}`;
         }
-        if(document.getElementsByName('phoneNumberPermission1')){
-            Array.from(document.getElementsByName('phoneNumberPermission1')).forEach(radioBtn => {
-                if(radioBtn.checked){
-                    formData['RcrtUP_TxtPermit1_v1r0'] = radioBtn.value;
-                }
-            })
-        }
-        // 2
-        if(document.getElementById('UPPhoneNumber2') && document.getElementById('UPPhoneNumber2').value) formData['RcrtUP_Phone2_v1r0'] = document.getElementById('UPPhoneNumber2').value;
-        if(document.getElementsByName('phoneNumberType2')){
-            Array.from(document.getElementsByName('phoneNumberType2')).forEach(radioBtn => {
-                if(radioBtn.checked){
-                    formData['RcrtUP_NumType2_v1r0'] = radioBtn.value;
-                }
-            })
-        }
-        if(document.getElementsByName('phoneNumberPermission2')){
-            Array.from(document.getElementsByName('phoneNumberPermission2')).forEach(radioBtn => {
-                if(radioBtn.checked){
-                    formData['RcrtUP_TxtPermit2_v1r0'] = radioBtn.value;
-                }
-            })
-        }
-        // 3
-        if(document.getElementById('UPPhoneNumber3') && document.getElementById('UPPhoneNumber3').value) formData['RcrtUP_Phone3_v1r0'] = document.getElementById('UPPhoneNumber3').value;
-        if(document.getElementsByName('phoneNumberType3')){
-            Array.from(document.getElementsByName('phoneNumberType3')).forEach(radioBtn => {
-                if(radioBtn.checked){
-                    formData['RcrtUP_NumType3_v1r0'] = radioBtn.value;
-                }
-            })
-        }
-        if(document.getElementsByName('phoneNumberPermission3')){
-            Array.from(document.getElementsByName('phoneNumberPermission3')).forEach(radioBtn => {
-                if(radioBtn.checked){
-                    formData['RcrtUP_TxtPermit3_v1r0'] = radioBtn.value;
-                }
-            })
-        }
-        // 4
-        if(document.getElementById('UPPhoneNumber4') && document.getElementById('UPPhoneNumber4').value) formData['RcrtUP_Phone4_v1r0'] = document.getElementById('UPPhoneNumber4').value;
-        if(document.getElementsByName('phoneNumberType4')){
-            Array.from(document.getElementsByName('phoneNumberType4')).forEach(radioBtn => {
-                if(radioBtn.checked){
-                    formData['RcrtUP_NumType4_v1r0'] = radioBtn.value;
-                }
-            })
-        }
-        if(document.getElementsByName('phoneNumberPermission4')){
-            Array.from(document.getElementsByName('phoneNumberPermission4')).forEach(radioBtn => {
-                if(radioBtn.checked){
-                    formData['RcrtUP_TxtPermit4_v1r0'] = radioBtn.value;
-                }
-            })
-        }
+        const voiceMailPermission2 = document.getElementsByName('voiceMailPermission2');
+        Array.from(voiceMailPermission2).forEach(radioBtn => {
+            if(radioBtn.checked) formData['RcrtUP_VMPerm2_v1r0'] = radioBtn.value;
+        });
+        // Email
+        if(document.getElementById('UPEmail').value) formData['RcrtUP_Email1_v1r0'] = document.getElementById('UPEmail').value;
+
+        if(document.getElementById('UPEmail2').value) formData['RcrtUP_Email2_v1r0'] = document.getElementById('UPEmail2').value;
         
         // Preferred method of contact
         if(document.getElementsByName('methodOfContact')){
-            Array.from('methodOfContact').forEach(radioBtn => {
+            Array.from(document.getElementsByName('methodOfContact')).forEach(radioBtn => {
                 if(radioBtn.checked){
-                    formData['RcrtUP_PrefMethod_v1r0 '] = radioBtn.value;
+                    formData['RcrtUP_PrefMethod_v1r0'] = radioBtn.value;
                 }
             })
         }
@@ -411,79 +283,304 @@ export const addEventUPSubmit = (siteId) => {
         formData['RcrtUP_State_v1r0'] = document.getElementById('UPAddress1State').value;
         formData['RcrtUP_Zip_v1r0'] = document.getElementById('UPAddress1Zip').value;
 
-        // spend a month or more at a different address
-        if(document.getElementsByName('RcrutUP_2ndResid_v1r0')){
-            Array.from(document.getElementsByName('RcrutUP_2ndResid_v1r0')).forEach(radioBtn => {
-                if(radioBtn.checked) formData['RcrtUP_2ndResid_v1r0'] = radioBtn.value;
-            })
-        }
-
-        // address in US?
-        if(document.getElementsByName('RcrutUP_2ndResidUS_v1r0')){
-            Array.from(document.getElementsByName('RcrutUP_2ndResidUS_v1r0')).forEach(radioBtn => {
-                if(radioBtn.checked) formData['RcrtUP_2ndResidUS_v1r0'] = radioBtn.value;
-            })
-        }
-
-        // Secondary Mailing address
-        if(document.getElementById('UPAddress2Line1') && document.getElementById('UPAddress2Line1').value) formData['RcrtUP_2ndAdrLn1_v1r0'] = document.getElementById('UPAddress2Line1').value;
-        if(document.getElementById('UPAddress2Line2') && document.getElementById('UPAddress2Line2').value) formData['RcrtUP_2ndAdrLn2_v1r0'] = document.getElementById('UPAddress2Line2').value;
-        if(document.getElementById('UPAddress2City') && document.getElementById('UPAddress2City').value) formData['RcrtUP_2ndCity_v1r0'] = document.getElementById('UPAddress2City').value;
-        if(document.getElementById('UPAddress2State') && document.getElementById('UPAddress2State').value) formData['RcrtUP_2ndState_v1r0'] = document.getElementById('UPAddress2State').value;
-        if(document.getElementById('UPAddress2Zip') && document.getElementById('UPAddress2Zip').value) formData['RcrtUP_2ndZip_v1r0'] = document.getElementById('UPAddress2Zip').value;
-
-        // Alternate contact info
-        if(document.getElementById('UPFirstName5') && document.getElementById('UPFirstName5').value) formData['RcrtUP_Alt1Fname_v1r0'] = document.getElementById('UPFirstName5').value;
-        if(document.getElementById('UPMiddleInitial5') && document.getElementById('UPMiddleInitial5').value) formData['RcrtUP_Alt1MidInt_v1r0'] = document.getElementById('UPMiddleInitial5').value;
-        if(document.getElementById('UPLastName5') && document.getElementById('UPLastName5').value) formData['RcrtUP_Alt1Lname_v1r0'] = document.getElementById('UPLastName5').value;
-        if(document.getElementById('UPPhoneNumber5') && document.getElementById('UPPhoneNumber5').value) formData['RcrtUP_Alt1Phone_v1r0'] = document.getElementById('UPPhoneNumber5').value;
-        
-        // Alternate contact mailing address
-        if(document.getElementById('UPAddress5Line1') && document.getElementById('UPAddress5Line1').value) formData['RcrtUP_Alt1AdrLn1_v1r0'] = document.getElementById('UPAddress5Line1').value;
-        if(document.getElementById('UPAddress5Line2') && document.getElementById('UPAddress5Line2').value) formData['RcrtUP_Alt1AdrLn2_v1r0'] = document.getElementById('UPAddress5Line2').value;
-        if(document.getElementById('UPAddress5City') && document.getElementById('UPAddress5City').value) formData['RcrtUP_Alt1City_v1r0'] = document.getElementById('UPAddress5City').value;
-        if(document.getElementById('UPAddress5State') && document.getElementById('UPAddress5State').value) formData['RcrtUP_Alt1State_v1r0'] = document.getElementById('UPAddress5State').value;
-        if(document.getElementById('UPAddress5Zip') && document.getElementById('UPAddress5Zip').value) formData['RcrtUP_Alt1Zip_v1r0'] = document.getElementById('UPAddress5Zip').value;
-        if(document.getElementById('UPAddress5Country') && document.getElementById('UPAddress5Country').value) formData['RcrtUP_Alt1Ctry_v1r0'] = document.getElementById('UPAddress5Country').value;
-
-        // Secondary Alternate contact info
-        if(document.getElementById('UPFirstName6') && document.getElementById('UPFirstName6').value) formData['RcrtUP_Alt2Fname_v1r0'] = document.getElementById('UPFirstName6').value;
-        if(document.getElementById('UPMiddleInitial6') && document.getElementById('UPMiddleInitial6').value) formData['RcrtUP_Alt2MidInt_v1r0'] = document.getElementById('UPMiddleInitial6').value;
-        if(document.getElementById('UPLastName6') && document.getElementById('UPLastName6').value) formData['RcrtUP_Alt2Lname_v1r0'] = document.getElementById('UPLastName6').value;
-        if(document.getElementById('UPPhoneNumber6') && document.getElementById('UPPhoneNumber6').value) formData['RcrtUP_Alt2Phone_v1r0'] = document.getElementById('UPPhoneNumber6').value;
-        
-        // Secondary Alternate contact mailing address
-        if(document.getElementById('UPAddress6Line1') && document.getElementById('UPAddress6Line1').value) formData['RcrtUP_Alt2AdrLn1_v1r0'] = document.getElementById('UPAddress6Line1').value;
-        if(document.getElementById('UPAddress6Line2') && document.getElementById('UPAddress6Line2').value) formData['RcrtUP_Alt2AdrLn2_v1r0'] = document.getElementById('UPAddress6Line2').value;
-        if(document.getElementById('UPAddress6City') && document.getElementById('UPAddress6City').value) formData['RcrtUP_Alt2City_v1r0'] = document.getElementById('UPAddress6City').value;
-        if(document.getElementById('UPAddress6State') && document.getElementById('UPAddress6State').value) formData['RcrtUP_Alt2State_v1r0'] = document.getElementById('UPAddress6State').value;
-        if(document.getElementById('UPAddress6Zip') && document.getElementById('UPAddress6Zip').value) formData['RcrtUP_Alt2Zip_v1r0'] = document.getElementById('UPAddress6Zip').value;
-        if(document.getElementById('UPAddress6Country') && document.getElementById('UPAddress6Country').value) formData['RcrtUP_Alt2Ctry_v1r0'] = document.getElementById('UPAddress6Country').value;
-        formData['RcrtUP_Submitted_v1r0'] = 1;
-
-
         const cancer = document.getElementsByName('cancerHistory');
         Array.from(cancer).forEach(radioBtn => {
-            if(radioBtn.checked) formData['RCRTUP_CANCER_V1R0'] = radioBtn.value;
+            if(radioBtn.checked) formData['RCRTUP_CANCER_V1R0'] = parseInt(radioBtn.value);
         });
 
-        if(document.getElementById('UPCancerYear') && document.getElementById('UPCancerYear').value) formData['RCRTUP_CANCERYR_V1R0'] = document.getElementById('UPCancerYear').value;
+        if(document.getElementById('UPCancerYear') && document.getElementById('UPCancerYear').value) {
+            if(parseInt(document.getElementById('UPCancerYear').value) >= parseInt(formData.RcrtUP_YOB_v1r0)){
+                formData['RCRTUP_CANCERYR_V1R0'] = document.getElementById('UPCancerYear').value;
+            }
+            else {
+                errorMessage('UPCancerYear', 'Year of cancer diagnosed can not be less than the birth year.');
+                return false;
+            }
+        }
         if(document.getElementById('UPCancerType') && document.getElementById('UPCancerType').value) formData['RCRTUP_CANCERTYPE_V1R0'] = document.getElementById('UPCancerType').value;
         if(document.getElementById('UPCancerDiagnosis') && document.getElementById('UPCancerDiagnosis').value) formData['RCRTUP_CANCERCOMTS_V1R0'] = document.getElementById('UPCancerDiagnosis').value;
 
-        const response = await storeResponse(formData);
-        if(response.code === 200) {
-            const myData = await getMyData();
-            if(myData.code === 200 && myData.data.RcrtUP_Fname_v1r0 && myData.data.RcrtSI_RecruitType_v1r0 && myData.data.RcrtSI_RecruitType_v1r0 === 2){
-                blockParticipant();
-            }
-            else if(myData.code === 200){
-                myToDoList(myData.data);
-            }
+        if(formData.RcrtUP_Phone1_v1r0 === undefined && formData.RcrtUP_Email1_v1r0 === undefined){
+            errorMessage('UPEmail', 'Please provide either preferred email or mobile phone.');
+            errorMessage('mainMobilePhone', 'Please provide either mobile phone or preferred email.');
+            return false;
+        }
+        
+        const ageToday = getAge(`${formData.RcrtUP_YOB_v1r0}-${formData.RcrtUP_MOB_v1r0}-${formData.RcrtUP_BD_v1r0}`);
+        if(!(ageToday < 66 && ageToday > 39)){
+            // Age is out of qualified range.
+            openModal();
+            document.getElementById('connectModalHeader').innerHTML = `
+            <h4>Review your date of birth</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            `;
+            document.getElementById('connectModalBody').innerHTML = `The provided date of birth exceeds the age requirement of eligibility criteria for this study. Do you want to continue?`;
+            document.getElementById('connectModalFooter').innerHTML = `
+                <button type="button" title="Close" class="btn btn-dark sub-div-shadow" data-dismiss="modal">Modify</button>
+                <button type="button" id="continueAnyways" title="Continue anyways" class="btn btn-primary sub-div-shadow">Continue anyways</button>
+            `
+            document.getElementById('continueAnyways').addEventListener('click', () => {
+                verifyUserDetails(formData);
+            });
+        }else {
+            verifyUserDetails(formData);
         }
     });
 }
 
+const openModal = () => {
+    const tmpBtn = document.createElement('button');
+    tmpBtn.dataset.target = "#connectMainModal";
+    tmpBtn.dataset.toggle = "modal";
+    tmpBtn.hidden = true;
+    document.body.appendChild(tmpBtn);
+    tmpBtn.click();
+    document.body.removeChild(tmpBtn);
+}
+
+const removeAllErrors = () => {
+    const elements = document.getElementsByClassName('form-error');
+    Array.from(elements).forEach(element => {
+        const errorMsg = element.parentNode;
+        const parent = element.parentNode.parentNode;
+        parent.removeChild(errorMsg);
+    })
+}
+
+const verifyUserDetails = (formData) => {
+    if(!document.getElementById('connectMainModal').classList.contains('show')) openModal();
+    document.getElementById('connectModalHeader').innerHTML = `
+    <h4>Review your profile details</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    `;
+    document.getElementById('connectModalBody').innerHTML = `
+        <div class="row">
+            <div class="col">First name</div>
+            <div class="col">${formData.RcrtUP_Fname_v1r0}</div>
+        </div>
+        ${formData.RcrtUP_Minitial_v1r0 ? `
+        <div class="row">
+            <div class="col">Middle name</div>
+            <div class="col">${formData.RcrtUP_Minitial_v1r0}</div>
+        </div>
+        `:``}
+        <div class="row">
+            <div class="col">Last name</div>
+            <div class="col">${formData.RcrtUP_Lname_v1r0}</div>
+        </div>
+        ${formData.RcrtUP_Suffix_v1r0 ? `
+        <div class="row">
+            <div class="col">Suffix</div>
+            <div class="col">${formData.RcrtUP_Suffix_v1r0}</div>
+        </div>
+        `: ``}
+        <div class="row">
+            <div class="col"><strong>Date of birth</strong></div>
+        </div>
+        <div class="row">
+            <div class="col">Month</div>
+            <div class="col">${BirthMonths[formData.RcrtUP_MOB_v1r0]}</div>
+        </div>
+        <div class="row">
+            <div class="col">Day</div>
+            <div class="col">${formData.RcrtUP_BD_v1r0}</div>
+        </div>
+        <div class="row">
+            <div class="col">Year</div>
+            <div class="col">${formData.RcrtUP_YOB_v1r0}</div>
+        </div>
+        <div class="row">
+            <div class="col">Biological sex assigned at birth</div>
+            <div class="col">${parseInt(formData.SEX) === 0 ? 'Male': `${parseInt(formData.SEX) === 1 ? 'Female' : 'Intersex or other'}`}</div>
+        </div>
+        <div class="row">
+            <div class="col"><strong>Contact Information</strong></div>
+        </div>
+        ${formData.RcrtUP_Phone1_v1r0 ? `
+        <div class="row">
+            <div class="col">Mobile phone</div>
+            <div class="col">${formData.RcrtUP_Phone1_v1r0.substr(0,3)} - ${formData.RcrtUP_Phone1_v1r0.substr(3,3)} - ${formData.RcrtUP_Phone1_v1r0.substr(6,4)}</div>
+        </div>
+        `:``}
+        
+        ${formData.RcrtUP_VMPerm1_v1r0 ? `
+        <div class="row">
+            <div class="col">Can we leave a voicemail at this number?</div>
+            <div class="col">${parseInt(formData.RcrtUP_VMPerm1_v1r0) === 1 ? 'Yes': 'No'}</div>
+        </div>
+        `:``}
+        
+        ${formData.RcrtUP_P1TxtPerm_v1r0 ? `
+        <div class="row">
+            <div class="col">Can we text this number?</div>
+            <div class="col">${parseInt(formData.RcrtUP_P1TxtPerm_v1r0) === 1 ? 'Yes': 'No'}</div>
+        </div>
+        `:``}
+        
+        ${formData.RcrtUP_Phone2_v1r0 ? `
+        <div class="row">
+            <div class="col">Home phone</div>
+            <div class="col">${formData.RcrtUP_Phone2_v1r0.substr(0,3)} - ${formData.RcrtUP_Phone2_v1r0.substr(3,3)} - ${formData.RcrtUP_Phone2_v1r0.substr(6,4)}</div>
+        </div>
+        `:``}
+        
+        ${formData.RcrtUP_VMPerm2_v1r0 ? `
+        <div class="row">
+            <div class="col">Can we leave a voicemail at this number?</div>
+            <div class="col">${parseInt(formData.RcrtUP_VMPerm2_v1r0) === 1 ? 'Yes': 'No'}</div>
+        </div>
+        `: ``}
+        
+        ${formData.RcrtUP_Email1_v1r0 ? `
+        <div class="row">
+            <div class="col">Preferred Email</div>
+            <div class="col">${formData.RcrtUP_Email1_v1r0}</div>
+        </div>
+        `:``}
+        
+        ${formData.RcrtUP_Email2_v1r0 ? `
+        <div class="row">
+            <div class="col">Additional Email</div>
+            <div class="col">${formData.RcrtUP_Email2_v1r0}</div>
+        </div>
+        `:``}
+
+        ${formData.RcrtUP_PrefMethod_v1r0 ? `
+        <div class="row">
+            <div class="col">How do you prefer that we reach you?</div>
+            <div class="col">${parseInt(formData.RcrtUP_PrefMethod_v1r0) === 1 ? 'Mobile phone': 'Email'}</div>
+        </div>
+        `:``}
+
+        <div class="row">
+            <div class="col"><strong>Mailing address</strong></div>
+        </div>
+
+        <div class="row">
+            <div class="col">Line 1 (street, PO box, rural route)</div>
+            <div class="col">${formData.RcrtUP_AddressLn1_v1r0}</div>
+        </div>
+
+        ${formData.RcrtUP_AddressLn2_v1r0 ? `
+        <div class="row">
+            <div class="col">Line 2 (apartment, suite, unit, building)</div>
+            <div class="col">${formData.RcrtUP_AddressLn2_v1r0}</div>
+        </div>
+        `:``}
+
+        <div class="row">
+            <div class="col">City</div>
+            <div class="col">${formData.RcrtUP_City_v1r0}</div>
+        </div>
+
+        <div class="row">
+            <div class="col">State</div>
+            <div class="col">${Object.keys(allStates)[Object.values(allStates).indexOf(parseInt(formData.RcrtUP_State_v1r0))]}</div>
+        </div>
+
+        <div class="row">
+            <div class="col">Zip</div>
+            <div class="col">${formData.RcrtUP_Zip_v1r0}</div>
+        </div>
+
+        ${formData.RCRTUP_CANCER_V1R0 ? `
+        <div class="row">
+            <div class="col">Have you ever been diagnosed with cancer (other than non-melanoma skin cancer)?</div>
+            <div class="col">${parseInt(formData.RCRTUP_CANCER_V1R0) === 1 ? 'Yes' : 'No'}</div>
+        </div>
+        `:``}
+        
+        ${formData.RCRTUP_CANCERYR_V1R0 ? `
+        <div class="row">
+            <div class="col">What year were you diagnosed?</div>
+            <div class="col">${formData.RCRTUP_CANCERYR_V1R0}</div>
+        </div>
+        `:``}
+
+        ${formData.RCRTUP_CANCERTYPE_V1R0 ? `
+        <div class="row">
+            <div class="col">What type of cancer did you have?</div>
+            <div class="col">${formData.RCRTUP_CANCERTYPE_V1R0}</div>
+        </div>
+        `:``}
+
+        ${formData.RCRTUP_CANCERCOMTS_V1R0 ? `
+        <div class="row">
+            <div class="col">Please tell us anythning you would like us to know about your cancer diagnosis</div>
+            <div class="col">${formData.RCRTUP_CANCERCOMTS_V1R0}</div>
+        </div>
+        `:``}
+    `;
+
+    document.getElementById('connectModalFooter').innerHTML = `
+        <button type="button" title="Close" class="btn btn-dark sub-div-shadow" data-dismiss="modal">Close</button>
+        <button type="button" id="confirmReview" title="Confirm details" class="btn btn-primary sub-div-shadow" data-dismiss="modal">Confirm</button>
+    `;
+
+    document.getElementById('confirmReview').addEventListener('click', async () => {
+        dataSavingBtn('save-data');
+        formData['RcrtUP_Submitted_v1r0'] = 1;
+        const response = await storeResponse(formData);
+        if(response.code === 200) {
+            const myData = await getMyData();
+            if(myData.code === 200){
+                myToDoList(myData.data);
+            }
+        }
+    })
+
+}
+
+export const addEventPreferredContactType = () => {
+    const p1 = document.getElementById('UPPhoneNumber11');
+    const email = document.getElementById('UPEmail');
+
+    p1.addEventListener('keyup', () => {
+        if(p1.value && email.value){
+            const div = document.getElementById('preferredEmailPhone');
+            if(div.innerHTML === ''){
+                div.classList = ['form-group row']
+                div.innerHTML = `
+                    <label class="col-md-4 col-form-label">How do you prefer that we reach you?</label>
+                    <div class="btn-group btn-group-toggle col-md-4" data-toggle="buttons">
+                        <label class="btn btn-light up-btns"><input type="radio" name="methodOfContact" value=1>Mobile phone</label>
+                        <label class="btn btn-light up-btns"><input type="radio" name="methodOfContact" value=2>Email</label>
+                    </div>
+                `;
+            }
+        }
+        else {
+            const div = document.getElementById('preferredEmailPhone');
+            div.classList = '';
+            div.innerHTML = '';
+        }
+    });
+
+    email.addEventListener('keyup', () => {
+        if(p1.value && email.value){
+            const div = document.getElementById('preferredEmailPhone');
+            if(div.innerHTML === ''){
+                div.classList = ['form-group row']
+                div.innerHTML = `
+                    <label class="col-md-4 col-form-label">How do you prefer that we reach you?</label>
+                    <div class="btn-group btn-group-toggle col-md-4" data-toggle="buttons">
+                        <label class="btn btn-light up-btns"><input type="radio" name="methodOfContact" value=1>Mobile phone</label>
+                        <label class="btn btn-light up-btns"><input type="radio" name="methodOfContact" value=2>Email</label>
+                    </div>
+                `;
+            }
+        }
+        else {
+            const div = document.getElementById('preferredEmailPhone');
+            div.classList = '';
+            div.innerHTML = '';
+        }
+    });
+}
 
 export const addEventRequestPINForm = (accountCreatedAt) => {
     const form = document.getElementById('requestPINForm');
@@ -531,18 +628,18 @@ export const addEventCancerFollowUp = () => {
     UPCancer1.addEventListener('click', () => {
         document.getElementById('cancerFollowUp').innerHTML = `
             <div class="form-group row">
-                <label class="col-sm-3 col-form-label">What year were you diagnosed?</label>
-                <input type="text" class="form-control col-sm-4" maxlength="4" id="UPCancerYear" pattern="[19|20]{2}[0-9]{2}" title="(require a four-digit numeric year starting with 19XX or 20XX" Placeholder="YYYY">
+                <label class="col-md-4 col-form-label">What year were you diagnosed?</label>
+                <input type="text" class="form-control col-md-4" maxlength="4" id="UPCancerYear" pattern="[19|20]{2}[0-9]{2}" title="(require a four-digit numeric year starting with 19XX or 20XX" Placeholder="YYYY">
             </div>
 
             <div class="form-group row">
-                <label class="col-sm-3 col-form-label">What type of cancer did you have?</label>
-                <input type="text" class="form-control col-sm-4" id="UPCancerType" Placeholder="Please enter type of cancer">
+                <label class="col-md-4 col-form-label">What type of cancer did you have?</label>
+                <input type="text" class="form-control col-md-4" id="UPCancerType" Placeholder="Please enter type of cancer">
             </div>
 
             <div class="form-group row">
-                <label class="col-sm-3 col-form-label">Please tell us anythning you would like us to know about your cancer diagnosis:</label>
-                <textarea class="form-control col-sm-4" id="UPCancerDiagnosis"></textarea>
+                <label class="col-md-4 col-form-label">Please tell us anythning you would like us to know about your cancer diagnosis</label>
+                <textarea class="form-control col-md-4" id="UPCancerDiagnosis"></textarea>
             </div>
         `;
     });

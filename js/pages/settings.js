@@ -16,31 +16,37 @@ export const renderSettingsPage = async () => {
                 <div class="col"><input class="form-control" readonly value="${userData.RcrtUP_Fname_v1r0}"></div>
             </div>
             <div class="row">
-                <div class="col data">Middle initial</div>
+                <div class="col data">Middle name</div>
                 <div class="col"><input class="form-control" readonly value="${userData.RcrtUP_Minitial_v1r0 ? ` ${userData.RcrtUP_Minitial_v1r0}` :''}"></div>
             </div>
             <div class="row">
                 <div class="col data">Last name</div>
                 <div class="col"><input class="form-control" readonly value="${userData.RcrtUP_Lname_v1r0}"></div>
             </div>
-            <div class="row"><div class="col"><h5>Date of Birth</h5></div></div>
+            ${userData.RcrtUP_Suffix_v1r0 ? `
+            <div class="row">
+                <div class="col data">Suffix</div>
+                <div class="col"><input class="form-control" readonly value="${userData.RcrtUP_Suffix_v1r0}"></div>
+            </div>
+            `: ``}
+            <div class="row"><div class="col"><h5>Date of birth</h5></div></div>
             <div class="row">
                 <div class="col data">Month</div>
                 <div class="col">
                     <select class="form-control" disabled required id="UPMonth">
                         <option value="">-- Select Month --</option>
-                        <option value="01" ${userData.RcrtUP_MOB_v1r0 === '01' ? 'selected' : ''}>JAN</option>
-                        <option value="02" ${userData.RcrtUP_MOB_v1r0 === '02' ? 'selected' : ''}>FEB</option>
-                        <option value="03" ${userData.RcrtUP_MOB_v1r0 === '03' ? 'selected' : ''}>MAR</option>
-                        <option value="04" ${userData.RcrtUP_MOB_v1r0 === '04' ? 'selected' : ''}>APR</option>
-                        <option value="05" ${userData.RcrtUP_MOB_v1r0 === '05' ? 'selected' : ''}>MAY</option>
-                        <option value="06" ${userData.RcrtUP_MOB_v1r0 === '06' ? 'selected' : ''}>JUN</option>
-                        <option value="07" ${userData.RcrtUP_MOB_v1r0 === '07' ? 'selected' : ''}>JUL</option>
-                        <option value="08" ${userData.RcrtUP_MOB_v1r0 === '08' ? 'selected' : ''}>AUG</option>
-                        <option value="09" ${userData.RcrtUP_MOB_v1r0 === '09' ? 'selected' : ''}>SEP</option>
-                        <option value="10" ${userData.RcrtUP_MOB_v1r0 === '10' ? 'selected' : ''}>OCT</option>
-                        <option value="11" ${userData.RcrtUP_MOB_v1r0 === '11' ? 'selected' : ''}>NOV</option>
-                        <option value="12" ${userData.RcrtUP_MOB_v1r0 === '12' ? 'selected' : ''}>DEC</option>
+                        <option value="01" ${userData.RcrtUP_MOB_v1r0 === '01' ? 'selected' : ''}>1 - January</option>
+                        <option value="02" ${userData.RcrtUP_MOB_v1r0 === '02' ? 'selected' : ''}>2 - February</option>
+                        <option value="03" ${userData.RcrtUP_MOB_v1r0 === '03' ? 'selected' : ''}>3 - March</option>
+                        <option value="04" ${userData.RcrtUP_MOB_v1r0 === '04' ? 'selected' : ''}>4 - April</option>
+                        <option value="05" ${userData.RcrtUP_MOB_v1r0 === '05' ? 'selected' : ''}>5 - May</option>
+                        <option value="06" ${userData.RcrtUP_MOB_v1r0 === '06' ? 'selected' : ''}>6 - June</option>
+                        <option value="07" ${userData.RcrtUP_MOB_v1r0 === '07' ? 'selected' : ''}>7 - July</option>
+                        <option value="08" ${userData.RcrtUP_MOB_v1r0 === '08' ? 'selected' : ''}>8 - August</option>
+                        <option value="09" ${userData.RcrtUP_MOB_v1r0 === '09' ? 'selected' : ''}>9 - September</option>
+                        <option value="10" ${userData.RcrtUP_MOB_v1r0 === '10' ? 'selected' : ''}>10 - October</option>
+                        <option value="11" ${userData.RcrtUP_MOB_v1r0 === '11' ? 'selected' : ''}>11 - November</option>
+                        <option value="12" ${userData.RcrtUP_MOB_v1r0 === '12' ? 'selected' : ''}>12 - December</option>
                     </select>
                 </div>
             </div>
@@ -54,18 +60,18 @@ export const renderSettingsPage = async () => {
             </div>
             </br>
             <div class="row">
-                <div class="col data">Email</div>
-                <div class="col"><input class="form-control" readonly value="${userData.RcrtUP_Email1_v1r0}"></div>
+                <div class="col data">Mobile phone</div>
+                <div class="col"><input class="form-control" readonly value="${userData.RcrtUP_Phone1_v1r0? `${userData.RcrtUP_Phone1_v1r0.substr(0,3)} - ${userData.RcrtUP_Phone1_v1r0.substr(3,3)} - ${userData.RcrtUP_Phone1_v1r0.substr(6,4)}` : ''}"></div>
             </div>
             <div class="row">
-                <div class="col data">Phone no.</div>
-                <div class="col"><input class="form-control" readonly value="${userData.RcrtUP_Phone1_v1r0 ? userData.RcrtUP_Phone1_v1r0 : ''}"></div>
+                <div class="col data">Preferred email</div>
+                <div class="col"><input class="form-control" readonly value="${userData.RcrtUP_Email1_v1r0 ? `${userData.RcrtUP_Email1_v1r0}` : ''}"></div>
             </div>
             <div class="row">
                 <div class="col data">Address</div>
                 <div class="col">
                     ${userData.RcrtUP_AddressLn1_v1r0} ${userData.RcrtUP_AddressLn2_v1r0 ? userData.RcrtUP_AddressLn2_v1r0 : ''}</br>
-                    ${userData.RcrtUP_City_v1r0} ${Object.keys(allStates)[Object.values(allStates).indexOf(parseInt(userData.RcrtUP_State_v1r0))]}
+                    ${userData.RcrtUP_City_v1r0} ${Object.keys(allStates)[Object.values(allStates).indexOf(parseInt(userData.RcrtUP_State_v1r0))]} ${userData.RcrtUP_Zip_v1r0}
                 </div>
             </div>
         `;
