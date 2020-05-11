@@ -305,8 +305,8 @@ export const addEventUPSubmit = () => {
         if(document.getElementById('UPEmail').value) formData['RcrtUP_Email1_v1r0'] = document.getElementById('UPEmail').value;
 
         if(document.getElementById('UPEmail2').value) formData['RcrtUP_Email2_v1r0'] = document.getElementById('UPEmail2').value;
-        if(document.getElementById('UPAdditionalEmail2').value) formData['RcrtUP_Email3_v1r0'] = document.getElementById('UPAdditionalEmail2').value;
-        if(document.getElementById('UPAdditionalEmail3').value) formData['RcrtUP_Email4_v1r0'] = document.getElementById('UPAdditionalEmail3').value;
+        if(document.getElementById('UPAdditionalEmail2') && document.getElementById('UPAdditionalEmail2').value) formData['RcrtUP_Email3_v1r0'] = document.getElementById('UPAdditionalEmail2').value;
+        if(document.getElementById('UPAdditionalEmail3') && document.getElementById('UPAdditionalEmail3').value) formData['RcrtUP_Email4_v1r0'] = document.getElementById('UPAdditionalEmail3').value;
         
         // Preferred method of contact
         if(document.getElementsByName('methodOfContact')){
