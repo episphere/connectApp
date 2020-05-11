@@ -262,7 +262,6 @@ export const addEventUPSubmit = () => {
         Array.from(voiceMailPermission2).forEach(radioBtn => {
             if(radioBtn.checked) formData['RcrtUP_VMPerm2_v1r0'] = radioBtn.value;
         });
-
         // Email
         if(document.getElementById('UPEmail').value) formData['RcrtUP_Email1_v1r0'] = document.getElementById('UPEmail').value;
 

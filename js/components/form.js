@@ -73,7 +73,11 @@ export const renderUserProfile = async () => {
             </div>
             
             <div class="form-group row">
-                <label class="col-md-4 col-form-label">What was your biological sex assigned at birth? <span class="required">*</span></label>
+                <label class="col-md-4 col-form-label">What was your biological sex assigned at birth? <span class="required">*</span> 
+                    <a href="https://www.researchallofus.org/wp-content/themes/research-hub-wordpress-theme/media/2019/02/Basics.pdf" target="_blank"><i class="fas fa-external-link-alt"></i></a> 
+                    <a href="https://transcare.ucsf.edu/guidelines/terminology" target="_blank"><i class="fas fa-external-link-alt"></i></a> 
+                    <a href="https://www.census.gov/content/dam/Census/library/working-papers/2018/adrm/rsm2018-05.pdf" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+                </label>
                 <div class="btn-group btn-group-toggle col-md-4" data-toggle="buttons">
                     <label class="btn btn-light up-btns"><input type="radio" required name="UPRadio" value="0">Male</label>
                     <label class="btn btn-light up-btns"><input type="radio" required name="UPRadio" value="1">Female</label>
