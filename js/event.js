@@ -1,7 +1,7 @@
-import { renderPhoneNumber, renderMailingAddress } from "./components/form.js";
-import { allStates, allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, BirthMonths, getAge } from "./shared.js";
+import { allStates, allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, BirthMonths, getAge, getMyData } from "./shared.js";
 import { initializeCanvas, addEventConsentSubmit, consentTemplate } from "./pages/consent.js";
 import { heardAboutStudy, healthCareProvider } from "./pages/healthCareProvider.js";
+import { myToDoList } from "./pages/myToDoList.js";
 
 export const addEventsConsentSign = () => {
     document.getElementById('CSFirstName').addEventListener('keyup', () => {
@@ -236,7 +236,7 @@ export const addEventUPSubmit = () => {
         }
         const gender = document.getElementsByName('UPRadio');
         Array.from(gender).forEach(radioBtn => {
-            if(radioBtn.checked) formData['SEX'] = radioBtn.value;
+            if(radioBtn.checked) formData['SEX'] = parseInt(radioBtn.value);
         });
 
         // Contact Information
@@ -286,7 +286,7 @@ export const addEventUPSubmit = () => {
 
         const cancer = document.getElementsByName('cancerHistory');
         Array.from(cancer).forEach(radioBtn => {
-            if(radioBtn.checked) formData['RCRTUP_CANCER_V1R0'] = radioBtn.value;
+            if(radioBtn.checked) formData['RCRTUP_CANCER_V1R0'] = parseInt(radioBtn.value);
         });
 
         if(document.getElementById('UPCancerYear') && document.getElementById('UPCancerYear').value) {
@@ -328,17 +328,6 @@ export const addEventUPSubmit = () => {
         }else {
             verifyUserDetails(formData);
         }
-        
-        // const response = await storeResponse(formData);
-        // if(response.code === 200) {
-        //     const myData = await getMyData();
-        //     if(myData.code === 200 && myData.data.RcrtUP_Fname_v1r0 && myData.data.RcrtSI_RecruitType_v1r0 && myData.data.RcrtSI_RecruitType_v1r0 === 2){
-        //         blockParticipant();
-        //     }
-        //     else if(myData.code === 200){
-        //         myToDoList(myData.data);
-        //     }
-        // }
     });
 }
 
@@ -533,9 +522,16 @@ const verifyUserDetails = (formData) => {
         <button type="button" id="confirmReview" title="Confirm details" class="btn btn-primary sub-div-shadow" data-dismiss="modal">Confirm</button>
     `;
 
-    document.getElementById('confirmReview').addEventListener('click', () => {
+    document.getElementById('confirmReview').addEventListener('click', async () => {
         dataSavingBtn('save-data');
-        console.log(formData)
+        formData['RcrtUP_Submitted_v1r0'] = 1;
+        const response = await storeResponse(formData);
+        if(response.code === 200) {
+            const myData = await getMyData();
+            if(myData.code === 200){
+                myToDoList(myData.data);
+            }
+        }
     })
 
 }
