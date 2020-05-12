@@ -591,9 +591,11 @@ const verifyUserDetails = (formData) => {
     document.getElementById('confirmReview').addEventListener('click', async () => {
         dataSavingBtn('save-data');
         formData['RcrtUP_Submitted_v1r0'] = 1;
+        showAnimation();
         const response = await storeResponse(formData);
         if(response.code === 200) {
             const myData = await getMyData();
+            hideAnimation();
             if(myData.code === 200){
                 myToDoList(myData.data);
             }
