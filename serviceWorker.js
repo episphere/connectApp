@@ -46,7 +46,7 @@ registerRoute(
     'POST'
 );
 
-workbox.precaching.precacheAndRoute([{url: 'index.html', revision: '1589160815361'}]);
+workbox.precaching.precacheAndRoute([{url: 'index.html', revision: '1589298639772'}]);
 
 // importScripts('https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js');
 // importScripts('https://www.gstatic.com/firebasejs/7.14.2/firebase-messaging.js');
