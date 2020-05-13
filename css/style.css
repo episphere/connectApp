@@ -408,6 +408,7 @@ canvas {
 
 .notification-modal-body {
     min-height: calc(100vh - 134px);
+    overflow: auto;
 }
 
 .notification-card {
