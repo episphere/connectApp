@@ -733,8 +733,13 @@ export const addEventHideNotification = (element) => {
 export const addEventRetrieveNotifications = () => {
     const btn = document.getElementById('retrieveNotifications');
     btn.addEventListener('click', async () => {
+        if(document.getElementById('notificationBody')) {
+            document.getElementById('notificationBody').innerHTML = `<div id="loadingAnimation" role="status" style="display: block;"></div>`;
+        }
         const response = await retrieveNotifications();
-        if(document.getElementById('notificationBody')) document.getElementById('notificationBody').innerHTML = '';
+        if(document.getElementById('notificationBody')) {
+            document.getElementById('notificationBody').innerHTML = ``;
+        }
         if(response.data.length > 0){
             for(let msg of response.data){
                 const div = document.createElement('div');
