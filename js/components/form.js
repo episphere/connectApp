@@ -1,6 +1,47 @@
-import { sites, allStates, allCountries, getMyData } from "../shared.js";
-import { addEventMonthSelection, addEventUPSubmit, addEventCancerFollowUp, addYearsOptions, addEventChangeFocus, addEventPreferredContactType, addEventAddressAutoComplete, addEventAdditionalEmail } from "../event.js";
+import { sites, allStates, allCountries, getMyData, subscribeForNotifications } from "../shared.js";
+import { addEventMonthSelection, addEventUPSubmit, addEventCancerFollowUp, addYearsOptions, addEventChangeFocus, addEventPreferredContactType, addEventAddressAutoComplete, addEventAdditionalEmail, addEventHideNotification } from "../event.js";
+
+const manageNotificationTokens = (token) => {
+    const messaging = firebase.messaging();
+    subscribeForNotifications({token}).then(async res => {
+        if(res.status === 403){
+            const response = await messaging.deleteToken();
+            manageNotificationTokens(await messaging.token());
+        };
+    });
+}
+
 export const renderUserProfile = async () => {
+    const messaging = firebase.messaging();
+    Notification.requestPermission(async status => {
+        if(status !== "granted") return;
+        const token = await messaging.getToken();
+        manageNotificationTokens(token);
+        messaging.onTokenRefresh(async () => {
+            const refreshedToken = await messaging.getToken();
+            manageNotificationTokens(refreshedToken);
+        });
+        messaging.onMessage(payload => {
+            const div = document.createElement('div');
+            div.classList = ["notification"];
+            div.innerHTML = `
+                <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                        <strong class="mr-auto">${payload.notification.title}</strong>
+                        <button title="Close" type="button" class="ml-2 mb-1 close hideNotification" data-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="toast-body">
+                        ${payload.notification.body}
+                    </div>
+                </div>
+            `
+            document.getElementById('showNotification').appendChild(div);
+            addEventHideNotification(div);
+        });
+    });
+    
     const myData = await getMyData();
     const siteId = myData.data ? myData.data.RcrtES_Site_v1r0 : undefined;
     const mainContent = document.getElementById('root');

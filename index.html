@@ -35,6 +35,7 @@
         </nav>
         <main>
             <div class="container">
+                <div aria-live="polite" aria-atomic="true" class="row connect-notification" id="showNotification"></div>
                 <div id="root"></div>
                 <div class="modal fade" id="connectMainModal" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -61,7 +62,7 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-auth.js"></script>
-        <!-- <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-messaging.js"></script> -->
+        <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-messaging.js"></script>
         <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.943/pdf.min.js"></script>
     </body>

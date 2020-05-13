@@ -376,3 +376,14 @@ canvas {
 #additionalEmailBtn {
     padding-left: 0px;
 }
+
+.connect-notification {
+    position: relative;
+}
+
+.notification {
+    position: absolute; 
+    top: 2rem; 
+    right: -5rem; 
+    z-index: 9;
+}

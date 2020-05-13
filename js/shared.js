@@ -517,3 +517,17 @@ export const showAnimation = () => {
 export const hideAnimation = () => {
     if(document.getElementById('loadingAnimation')) document.getElementById('loadingAnimation').style.display = 'none';
 }
+
+export const subscribeForNotifications = async (data) => {
+    const idToken = await getIdToken();
+    // const response = await fetch(`http://localhost:8010/nih-nci-dceg-episphere-dev/us-central1/subscribeToNotification`, {
+    const response = await fetch(`${api}subscribeToNotification`, {
+        method: "POST",
+        headers: {
+            Authorization:"Bearer "+idToken,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    });
+    return await response;
+}

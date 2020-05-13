@@ -718,3 +718,14 @@ export const addEventCancerFollowUp = () => {
         document.getElementById('cancerFollowUp').innerHTML = ``;
     });
 }
+
+
+export const addEventHideNotification = (element) => {
+    const hideNotification = element.querySelectorAll('.hideNotification');
+    Array.from(hideNotification).forEach(btn => {
+        btn.addEventListener('click', () => {
+            btn.parentNode.parentNode.parentNode.parentNode.removeChild(btn.parentNode.parentNode.parentNode);
+        });
+        // setTimeout(() => { btn.dispatchEvent(new Event('click')) }, 5000);
+    });
+}

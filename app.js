@@ -22,26 +22,17 @@ window.onload = async () => {
     }
     !firebase.apps.length ? firebase.initializeApp(firebaseConfig()) : firebase.app();
     auth = firebase.auth();
-    // const messaging = firebase.messaging();
     if('serviceWorker' in navigator){
         try {
             navigator.serviceWorker.register('./serviceWorker.js')
-                .then(registration => {
-                    // messaging.useServiceWorker(registration);
-                });
         }
         catch (error) {
             console.log(error);
         }
     }
     
-    // await messaging.requestPermission();
-    // const token = await messaging.getToken();
-    // console.log('token :', token);
-
     const footer = document.getElementById('footer');
     footer.innerHTML = footerTemplate();
-    
     
     // messaging.onMessage(payload => {
     //     console.log(payload)
@@ -56,14 +47,11 @@ const handleVerifyEmail = (auth, actionCode) => {
         location.reload();
     }).catch(function(error) {
         console.log(error);
-      // Code is invalid or expired. Ask the user to verify their email address
-      // again.
     });
 }
 
 const handleResetPassword = (auth, actionCode) => {
     auth.verifyPasswordResetCode(actionCode).then(function(email) {
-        
         document.getElementById('root').innerHTML = `
             <h2>Reset password</h2> for <strong>${email}</strong>
             <form id="resetPasswordForm" method="POST">
