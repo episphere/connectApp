@@ -28,9 +28,7 @@ export const renderUserProfile = async () => {
                 <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
                     <div class="toast-header">
                         <strong class="mr-auto">${payload.notification.title}</strong>
-                        <button title="Close" type="button" class="ml-2 mb-1 close hideNotification" data-dismiss="toast" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button type="button" class="ml-2 mb-1 close hideNotification" data-dismiss="toast" aria-label="Close">&times;</button>
                     </div>
                     <div class="toast-body">
                         ${payload.notification.body}

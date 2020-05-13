@@ -755,5 +755,8 @@ export const addEventRetrieveNotifications = () => {
                 document.getElementById('notificationBody').appendChild(div);
             }
         }
+        else {
+            document.getElementById('notificationBody').innerHTML = 'No notifications found!'
+        }
     });
 };
