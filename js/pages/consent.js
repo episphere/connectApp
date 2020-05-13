@@ -67,8 +67,10 @@ export const consentTemplate = () => {
                     </div>
                 </div>
             ` : '' : ''}
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary save-data">Submit</button>
+            <div class="row">
+                <div class="ml-auto">
+                    <button type="submit" class="btn btn-primary save-data">Submit</button>
+                </div>
             </div>
         </form>
     `

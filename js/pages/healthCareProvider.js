@@ -8,8 +8,15 @@ export const requestPINTemplate = () => {
                     <label><strong>If you received a PIN as part of study invitation, please enter it here</strong></label>
                     <label><input type="text" id="participantPIN" class="form-control" placeholder="Enter PIN"></label>
                 </div>
+
+                <div class="form-group row">
                 <button type="submit" class="btn btn-primary save-data">I do not have a pin</button>&nbsp;&nbsp;
-                <button type="submit" class="btn btn-primary save-data">Submit</button></br></br>
+                    <div class="ml-auto">
+                        <button type="submit" class="btn btn-primary save-data">Submit</button>
+                    </div>
+                </div>
+                </br></br>
+                
             </form>
         </div>
     `
@@ -34,7 +41,11 @@ export const healthCareProvider = (siteId) => {
                     </select>
                 </label>
             </div>
-            <button type="submit" class="btn btn-primary save-data">Submit</button></br></br>
+            <div class="row">
+                <div class="ml-auto">
+                    <button type="submit" class="btn btn-primary save-data">Submit</button>
+                </div>
+            </div></br></br>
         </form>
     </div>
     `;
@@ -80,7 +91,11 @@ export const heardAboutStudy = () => {
                     <label><input type="checkbox"  id="checkbox11"> Other</label>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary save-data">Submit</button></br></br>
+            <div class="row">
+                <div class="ml-auto">
+                    <button type="submit" class="btn btn-primary save-data">Submit</button>
+                </div>
+            </div></br></br>
         </form>
     `
 }
