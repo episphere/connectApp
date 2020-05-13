@@ -6,7 +6,7 @@ const manageNotificationTokens = (token) => {
     subscribeForNotifications({token}).then(async res => {
         if(res.status === 403){
             const response = await messaging.deleteToken();
-            manageNotificationTokens(await messaging.token());
+            manageNotificationTokens(await messaging.getToken());
         };
     });
 }

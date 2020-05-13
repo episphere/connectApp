@@ -32,6 +32,11 @@ export const userNavBar = () => {
         </div>
         <div class="navbar-nav">
             <li class="nav-item">
+                <button class="nav-link" id="retrieveNotifications" data-toggle="modal" data-target="#notificationsModal" title="View Notification"><i class="fas fa-bell"></i> Notifications</button>
+            </li>
+        </div>
+        <div class="navbar-nav">
+            <li class="nav-item">
                 <a target="_blank" class="nav-link" href="https://github.com/episphere/connect/issues" title="Please create an issue if you encounter any"><i class="fas fa-bug"></i> Report issue</a>
             </li>
         </div>

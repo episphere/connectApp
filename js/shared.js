@@ -520,7 +520,6 @@ export const hideAnimation = () => {
 
 export const subscribeForNotifications = async (data) => {
     const idToken = await getIdToken();
-    // const response = await fetch(`http://localhost:8010/nih-nci-dceg-episphere-dev/us-central1/subscribeToNotification`, {
     const response = await fetch(`${api}subscribeToNotification`, {
         method: "POST",
         headers: {
@@ -530,4 +529,15 @@ export const subscribeForNotifications = async (data) => {
         body: JSON.stringify(data)
     });
     return await response;
+}
+
+export const retrieveNotifications = async () => {
+    const idToken = await getIdToken();
+    const response = await fetch(`${api}retrieveNotifications`, {
+        method: "GET",
+        headers: {
+            Authorization:"Bearer "+idToken
+        }
+    });
+    return await response.json();
 }

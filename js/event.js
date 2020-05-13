@@ -1,4 +1,4 @@
-import { allStates, allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, BirthMonths, getAge, getMyData } from "./shared.js";
+import { allStates, allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, BirthMonths, getAge, getMyData, retrieveNotifications } from "./shared.js";
 import { initializeCanvas, addEventConsentSubmit, consentTemplate } from "./pages/consent.js";
 import { heardAboutStudy, healthCareProvider } from "./pages/healthCareProvider.js";
 import { myToDoList } from "./pages/myToDoList.js";
@@ -729,3 +729,26 @@ export const addEventHideNotification = (element) => {
         // setTimeout(() => { btn.dispatchEvent(new Event('click')) }, 5000);
     });
 }
+
+export const addEventRetrieveNotifications = () => {
+    const btn = document.getElementById('retrieveNotifications');
+    btn.addEventListener('click', async () => {
+        const response = await retrieveNotifications();
+        if(document.getElementById('notificationBody')) document.getElementById('notificationBody').innerHTML = '';
+        if(response.data.length > 0){
+            for(let msg of response.data){
+                const div = document.createElement('div');
+                div.classList = ["card notification-card sub-div-shadow"];
+                const header = document.createElement('div');
+                header.classList = ["card-header"];
+                header.innerHTML = `${new Date(msg.notification.time).toLocaleString()}`;
+                const body = document.createElement('div');
+                body.classList = ["card-body"];
+                body.innerHTML = `${msg.notification.body}`;
+                div.appendChild(header);
+                div.appendChild(body);
+                document.getElementById('notificationBody').appendChild(div);
+            }
+        }
+    });
+};
