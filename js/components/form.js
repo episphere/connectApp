@@ -91,7 +91,7 @@ export const renderUserProfile = async () => {
                     Mobile phone 
                 </label>
                 <div class="btn-group col-md-4" id="mainMobilePhone">
-                    <input type="text" class="form-control" id="UPPhoneNumber11" pattern="[1-9]{3}" size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
+                    <input type="text" class="form-control" id="UPPhoneNumber11" pattern="[1-9]{1}[0-9]{2}" size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
                     <input type="text" class="form-control" id="UPPhoneNumber12" pattern="[0-9]{3}" size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
                     <input type="text" class="form-control" id="UPPhoneNumber13" pattern="[0-9]{4}" size="4" maxlength="4" Placeholder="9999">
                 </div>
@@ -121,7 +121,7 @@ export const renderUserProfile = async () => {
                     Home phone 
                 </label>
                 <div class="btn-group col-md-4">
-                    <input type="text" class="form-control" id="UPPhoneNumber21" pattern="[1-9]{3}" size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
+                    <input type="text" class="form-control" id="UPPhoneNumber21" pattern="[1-9]{1}[0-9]{2}" size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
                     <input type="text" class="form-control" id="UPPhoneNumber22" pattern="[0-9]{3}" size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
                     <input type="text" class="form-control" id="UPPhoneNumber23" pattern="[0-9]{4}" size="4" maxlength="4" Placeholder="9999">
                 </div>
