@@ -1,9 +1,9 @@
-import { getParameters, validateToken, userLoggedIn, getMyData, showAnimation, hideAnimation } from "./js/shared.js";
+import { getParameters, validateToken, userLoggedIn, getMyData, showAnimation, hideAnimation, connectPushNotification } from "./js/shared.js";
 import { userNavBar, homeNavBar } from "./js/components/navbar.js";
 import { homePage, joinNowBtn } from "./js/pages/homePage.js";
 import { signIn } from "./js/pages/signIn.js";
 import { firebaseConfig } from "./js/config.js";
-import { addEventRequestPINForm, addEventRetrieveNotifications } from "./js/event.js";
+import { addEventRequestPINForm, addEventRetrieveNotifications, retrieveNotificationsInBackgroound } from "./js/event.js";
 import { requestPINTemplate } from "./js/pages/healthCareProvider.js";
 import { myToDoList } from "./js/pages/myToDoList.js";
 import { renderAgreements } from "./js/pages/agreements.js";
@@ -183,6 +183,7 @@ const userProfile = () => {
             window.history.replaceState({},'', './#dashboard');
             const myData = await getMyData();
             if(myData.code === 200) {
+                connectPushNotification();
                 myToDoList(myData.data);
             }
             else {

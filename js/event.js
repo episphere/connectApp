@@ -732,31 +732,35 @@ export const addEventHideNotification = (element) => {
 
 export const addEventRetrieveNotifications = () => {
     const btn = document.getElementById('retrieveNotifications');
-    btn.addEventListener('click', async () => {
+    btn.addEventListener('click', () => {
         if(document.getElementById('notificationBody')) {
             document.getElementById('notificationBody').innerHTML = `<div id="loadingAnimation" role="status" style="display: block;"></div>`;
         }
-        const response = await retrieveNotifications();
-        if(document.getElementById('notificationBody')) {
-            document.getElementById('notificationBody').innerHTML = ``;
-        }
-        if(response.data.length > 0){
-            for(let msg of response.data){
-                const div = document.createElement('div');
-                div.classList = ["card notification-card sub-div-shadow"];
-                const header = document.createElement('div');
-                header.classList = ["card-header"];
-                header.innerHTML = `${new Date(msg.notification.time).toLocaleString()}`;
-                const body = document.createElement('div');
-                body.classList = ["card-body"];
-                body.innerHTML = `${msg.notification.body}`;
-                div.appendChild(header);
-                div.appendChild(body);
-                document.getElementById('notificationBody').appendChild(div);
-            }
-        }
-        else {
-            document.getElementById('notificationBody').innerHTML = 'No notifications found!'
-        }
+        retrieveNotificationsInBackgroound();
     });
 };
+
+export const retrieveNotificationsInBackgroound = async () => {
+    const response = await retrieveNotifications();
+    if(document.getElementById('notificationBody')) {
+        document.getElementById('notificationBody').innerHTML = ``;
+    }
+    if(response.data.length > 0){
+        for(let msg of response.data){
+            const div = document.createElement('div');
+            div.classList = ["card notification-card sub-div-shadow"];
+            const header = document.createElement('div');
+            header.classList = ["card-header"];
+            header.innerHTML = `${new Date(msg.notification.time).toLocaleString()}`;
+            const body = document.createElement('div');
+            body.classList = ["card-body"];
+            body.innerHTML = `${msg.notification.body}`;
+            div.appendChild(header);
+            div.appendChild(body);
+            document.getElementById('notificationBody').appendChild(div);
+        }
+    }
+    else {
+        document.getElementById('notificationBody').innerHTML = 'No notifications found!'
+    }
+}
