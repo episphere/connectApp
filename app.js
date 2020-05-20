@@ -168,6 +168,12 @@ const userProfile = () => {
             const mainContent = document.getElementById('root');
             const parameters = getParameters(window.location.href);
             showAnimation();
+            if(parameters && parameters.token){
+                const response = await validateToken(parameters.token);
+                if(response.code === 200) {
+                    // await storeResponse({RcrtSI_Account_v1r0: 1, RcrtSI_AccountTime_v1r0: });
+                }
+            }
             if(user.email && !user.emailVerified){
                 const mainContent = document.getElementById('root');
                 mainContent.innerHTML = '<div>Please verify your email by clicking <a id="verifyEmail"><button class="btn btn-primary">Verify Email</button></a></div>'
@@ -186,12 +192,6 @@ const userProfile = () => {
                 return;
             }
             
-            if(parameters && parameters.token){
-                const response = await validateToken(parameters.token);
-                if(response.code === 200) {
-                    // await storeResponse({RcrtSI_Account_v1r0: 1, RcrtSI_AccountTime_v1r0: });
-                }
-            }
             window.history.replaceState({},'', './#dashboard');
             const myData = await getMyData();
             if(myData.code === 200) {
