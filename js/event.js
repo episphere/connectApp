@@ -746,18 +746,64 @@ export const retrieveNotificationsInBackgroound = async () => {
         document.getElementById('notificationBody').innerHTML = ``;
     }
     if(response.data.length > 0){
+        const panelToday = document.createElement('div');
+        panelToday.classList = ["card card-info notification-time-card"];
+
+        const panelTodayHeader = document.createElement('div');
+        panelTodayHeader.classList = ["card-header notification-time-header"];
+        panelTodayHeader.innerHTML = 'Today'
+
+        const panelTodayBody = document.createElement('div');
+        panelTodayBody.classList = ["card-body notification-time-body"];
+
+        const panelOld = document.createElement('div');
+        panelOld.classList = ["card card-info notification-time-card"];
+
+        const panelOldHeader = document.createElement('div');
+        panelOldHeader.classList = ["card-header notification-time-header"];
+        panelOldHeader.innerHTML = 'Old'
+
+        const panelOldBody = document.createElement('div');
+        panelOldBody.classList = ["card-body notification-time-body"];
+
+        
         for(let msg of response.data){
-            const div = document.createElement('div');
-            div.classList = ["card notification-card sub-div-shadow"];
-            const header = document.createElement('div');
-            header.classList = ["card-header"];
-            header.innerHTML = `${new Date(msg.notification.time).toLocaleString()}`;
-            const body = document.createElement('div');
-            body.classList = ["card-body"];
-            body.innerHTML = `${msg.notification.body}`;
-            div.appendChild(header);
-            div.appendChild(body);
-            document.getElementById('notificationBody').appendChild(div);
+            if(new Date(msg.notification.time).toLocaleDateString() === new Date().toLocaleDateString()){
+                const div = document.createElement('div');
+                div.classList = ["card notification-card sub-div-shadow"];
+                const header = document.createElement('div');
+                header.classList = ["card-header"];
+                header.innerHTML = `${new Date(msg.notification.time).toLocaleTimeString()}`;
+                const body = document.createElement('div');
+                body.classList = ["card-body"];
+                body.innerHTML = `${msg.notification.body}`;
+                div.appendChild(header);
+                div.appendChild(body);
+                panelTodayBody.appendChild(div);
+            }else{
+                const div = document.createElement('div');
+                div.classList = ["card notification-card sub-div-shadow"];
+                const header = document.createElement('div');
+                header.classList = ["card-header"];
+                header.innerHTML = `${new Date(msg.notification.time).toLocaleString()}`;
+                const body = document.createElement('div');
+                body.classList = ["card-body"];
+                body.innerHTML = `${msg.notification.body}`;
+                div.appendChild(header);
+                div.appendChild(body);
+                panelOldBody.appendChild(div);
+            }
+        }
+        if(panelTodayBody.innerText){
+            panelToday.appendChild(panelTodayHeader);
+            panelToday.appendChild(panelTodayBody);
+            document.getElementById('notificationBody').appendChild(panelToday);
+        }
+        
+        if(panelOldBody.innerText){
+            panelOld.appendChild(panelOldHeader);
+            panelOld.appendChild(panelOldBody);
+            document.getElementById('notificationBody').appendChild(panelOld);
         }
     }
     else {

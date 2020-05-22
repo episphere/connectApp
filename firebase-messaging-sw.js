@@ -15,7 +15,8 @@ messaging.setBackgroundMessageHandler(payload => {
     const notificationTitle = payload.notification.title;
     const notificationOptions = {
         body: payload.notification.body,
-        icon: payload.notification.icon
+        icon: payload.notification.icon,
+        vibrate: [100, 50, 100]
     };
     return self.registration.showNotification(notificationTitle, notificationOptions);
 })

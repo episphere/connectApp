@@ -59,6 +59,7 @@ export const storeResponse = async (formData) => {
         },
         body: JSON.stringify(formData)
     }
+    // const response = await fetch(`http://localhost:8010/nih-nci-dceg-episphere-dev/us-central1/submit`, requestObj);
     const response = await fetch(`https://us-central1-nih-nci-dceg-episphere-dev.cloudfunctions.net/submit`, requestObj);
     return response.json();
 }
@@ -78,6 +79,7 @@ export const getMyData = async () => {
             }
         });
     });
+    // const response = await fetch(`http://localhost:8010/nih-nci-dceg-episphere-dev/us-central1/getUserProfile`, {
     const response = await fetch(`https://us-central1-nih-nci-dceg-episphere-dev.cloudfunctions.net/getUserProfile`, {
         headers: {
             Authorization: "Bearer "+idToken
@@ -545,41 +547,49 @@ export const retrieveNotifications = async () => {
 }
 
 export const connectPushNotification = () => {
-    const messaging = firebase.messaging();
-    Notification.requestPermission(async status => {
-        if(status !== "granted") return;
-        const token = await messaging.getToken();
-        manageNotificationTokens(token);
-        messaging.onTokenRefresh(async () => {
-            const refreshedToken = await messaging.getToken();
-            manageNotificationTokens(refreshedToken);
-        });
-        messaging.onMessage(payload => {
-            const div = document.createElement('div');
-            div.classList = ["notification"];
-            div.innerHTML = `
-                <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
-                    <div class="toast-header">
-                        <strong class="mr-auto">${payload.notification.title}</strong>
-                        <button type="button" class="ml-2 mb-1 close hideNotification" data-dismiss="toast" aria-label="Close">&times;</button>
+    try {
+        const messaging = firebase.messaging();
+        Notification.requestPermission(async status => {
+            if(status !== "granted") return;
+            const token = await messaging.getToken();
+            manageNotificationTokens(token);
+            messaging.onTokenRefresh(async () => {
+                const refreshedToken = await messaging.getToken();
+                manageNotificationTokens(refreshedToken);
+            });
+            messaging.onMessage(payload => {
+                const div = document.createElement('div');
+                div.classList = ["notification"];
+                div.innerHTML = `
+                    <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="toast-header">
+                            <strong class="mr-auto">${payload.notification.title}</strong>
+                            <button type="button" class="ml-2 mb-1 close hideNotification" data-dismiss="toast" aria-label="Close">&times;</button>
+                        </div>
+                        <div class="toast-body">
+                            ${payload.notification.body}
+                        </div>
                     </div>
-                    <div class="toast-body">
-                        ${payload.notification.body}
-                    </div>
-                </div>
-            `
-            document.getElementById('showNotification').appendChild(div);
-            addEventHideNotification(div);
+                `
+                document.getElementById('showNotification').appendChild(div);
+                addEventHideNotification(div);
+            });
         });
-    });
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 const manageNotificationTokens = (token) => {
-    const messaging = firebase.messaging();
-    subscribeForNotifications({token}).then(async res => {
-        if(res.status === 403){
-            const response = await messaging.deleteToken();
-            manageNotificationTokens(await messaging.getToken());
-        };
-    });
+    try {
+        const messaging = firebase.messaging();
+        subscribeForNotifications({token}).then(async res => {
+            if(res.status === 403){
+                const response = await messaging.deleteToken();
+                manageNotificationTokens(await messaging.getToken());
+            };
+        });
+    } catch (err) {
+        console.error(err);
+    }
 }

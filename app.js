@@ -33,10 +33,6 @@ window.onload = async () => {
     
     const footer = document.getElementById('footer');
     footer.innerHTML = footerTemplate();
-    
-    // messaging.onMessage(payload => {
-    //     console.log(payload)
-    // });
 
     router();
 }

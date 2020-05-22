@@ -414,3 +414,19 @@ canvas {
 .notification-card {
     margin-bottom: 0.5rem;
 }
+
+.notification-time-card {
+    border: 0px !important;
+}
+
+.notification-time-header{
+    border: 0px !important;
+    background-color: transparent !important;
+    padding-left: 0px !important;
+    font-style: italic;
+}
+
+.notification-time-body {
+    border: 0px !important;
+    padding: 0px !important;
+}
