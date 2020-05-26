@@ -179,7 +179,7 @@ const userProfile = () => {
             window.history.replaceState({},'', './#dashboard');
             const myData = await getMyData();
             if(myData.code === 200) {
-                connectPushNotification();
+                // connectPushNotification();
                 myToDoList(myData.data);
             }
             else {
