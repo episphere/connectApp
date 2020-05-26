@@ -376,3 +376,57 @@ canvas {
 #additionalEmailBtn {
     padding-left: 0px;
 }
+
+.connect-notification {
+    position: relative;
+}
+
+.notification {
+    position: absolute; 
+    top: 2rem; 
+    right: -5rem; 
+    z-index: 9;
+}
+
+#retrieveNotifications {
+    border: 0px;
+    background-color: transparent;
+}
+
+@media (max-width: 576px){.modal-dialog.modal-dialog-slideout {width: 80%}}
+.modal-dialog-slideout {min-height: 100%; margin: 0 auto 0 0 ;background: #fff;}
+.modal.fade .modal-dialog.modal-dialog-slideout {-webkit-transform: translate(-100%,0);transform: translate(-100%,0);}
+.modal.fade.show .modal-dialog.modal-dialog-slideout {-webkit-transform: translate(0,0);transform: translate(0,0);flex-flow: column;}
+.modal-dialog-slideout .modal-content{border: 0;}
+
+.notification-modal {
+    right: 0px !important;
+    position: absolute !important;
+    margin: 0px !important;
+    min-width: 350px;
+}
+
+.notification-modal-body {
+    min-height: calc(100vh - 134px);
+    overflow: auto;
+}
+
+.notification-card {
+    margin-bottom: 0.5rem;
+}
+
+.notification-time-card {
+    border: 0px !important;
+}
+
+.notification-time-header{
+    border: 0px !important;
+    background-color: transparent !important;
+    padding-left: 0px !important;
+    font-style: italic;
+}
+
+.notification-time-body {
+    border: 0px !important;
+    padding: 0px !important;
+}

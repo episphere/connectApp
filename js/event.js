@@ -1,4 +1,4 @@
-import { allStates, allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, BirthMonths, getAge, getMyData } from "./shared.js";
+import { allStates, allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, BirthMonths, getAge, getMyData, retrieveNotifications } from "./shared.js";
 import { initializeCanvas, addEventConsentSubmit, consentTemplate } from "./pages/consent.js";
 import { heardAboutStudy, healthCareProvider } from "./pages/healthCareProvider.js";
 import { myToDoList } from "./pages/myToDoList.js";
@@ -717,4 +717,96 @@ export const addEventCancerFollowUp = () => {
     UPCancer2.addEventListener('click', () => {
         document.getElementById('cancerFollowUp').innerHTML = ``;
     });
+}
+
+
+export const addEventHideNotification = (element) => {
+    const hideNotification = element.querySelectorAll('.hideNotification');
+    Array.from(hideNotification).forEach(btn => {
+        btn.addEventListener('click', () => {
+            btn.parentNode.parentNode.parentNode.parentNode.removeChild(btn.parentNode.parentNode.parentNode);
+        });
+        // setTimeout(() => { btn.dispatchEvent(new Event('click')) }, 5000);
+    });
+}
+
+export const addEventRetrieveNotifications = () => {
+    const btn = document.getElementById('retrieveNotifications');
+    btn.addEventListener('click', () => {
+        if(document.getElementById('notificationBody')) {
+            document.getElementById('notificationBody').innerHTML = `<div id="loadingAnimation" role="status" style="display: block;"></div>`;
+        }
+        retrieveNotificationsInBackgroound();
+    });
+};
+
+export const retrieveNotificationsInBackgroound = async () => {
+    const response = await retrieveNotifications();
+    if(document.getElementById('notificationBody')) {
+        document.getElementById('notificationBody').innerHTML = ``;
+    }
+    if(response.data.length > 0){
+        const panelToday = document.createElement('div');
+        panelToday.classList = ["card card-info notification-time-card"];
+
+        const panelTodayHeader = document.createElement('div');
+        panelTodayHeader.classList = ["card-header notification-time-header"];
+        panelTodayHeader.innerHTML = 'Today'
+
+        const panelTodayBody = document.createElement('div');
+        panelTodayBody.classList = ["card-body notification-time-body"];
+
+        const panelOld = document.createElement('div');
+        panelOld.classList = ["card card-info notification-time-card"];
+
+        const panelOldHeader = document.createElement('div');
+        panelOldHeader.classList = ["card-header notification-time-header"];
+        panelOldHeader.innerHTML = 'Old'
+
+        const panelOldBody = document.createElement('div');
+        panelOldBody.classList = ["card-body notification-time-body"];
+
+        
+        for(let msg of response.data){
+            if(new Date(msg.notification.time).toLocaleDateString() === new Date().toLocaleDateString()){
+                const div = document.createElement('div');
+                div.classList = ["card notification-card sub-div-shadow"];
+                const header = document.createElement('div');
+                header.classList = ["card-header"];
+                header.innerHTML = `${new Date(msg.notification.time).toLocaleTimeString()}`;
+                const body = document.createElement('div');
+                body.classList = ["card-body"];
+                body.innerHTML = `${msg.notification.body}`;
+                div.appendChild(header);
+                div.appendChild(body);
+                panelTodayBody.appendChild(div);
+            }else{
+                const div = document.createElement('div');
+                div.classList = ["card notification-card sub-div-shadow"];
+                const header = document.createElement('div');
+                header.classList = ["card-header"];
+                header.innerHTML = `${new Date(msg.notification.time).toLocaleString()}`;
+                const body = document.createElement('div');
+                body.classList = ["card-body"];
+                body.innerHTML = `${msg.notification.body}`;
+                div.appendChild(header);
+                div.appendChild(body);
+                panelOldBody.appendChild(div);
+            }
+        }
+        if(panelTodayBody.innerText){
+            panelToday.appendChild(panelTodayHeader);
+            panelToday.appendChild(panelTodayBody);
+            document.getElementById('notificationBody').appendChild(panelToday);
+        }
+        
+        if(panelOldBody.innerText){
+            panelOld.appendChild(panelOldHeader);
+            panelOld.appendChild(panelOldBody);
+            document.getElementById('notificationBody').appendChild(panelOld);
+        }
+    }
+    else {
+        document.getElementById('notificationBody').innerHTML = 'No notifications found!'
+    }
 }

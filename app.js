@@ -1,9 +1,9 @@
-import { getParameters, validateToken, userLoggedIn, getMyData, showAnimation, hideAnimation } from "./js/shared.js";
+import { getParameters, validateToken, userLoggedIn, getMyData, showAnimation, hideAnimation, connectPushNotification } from "./js/shared.js";
 import { userNavBar, homeNavBar } from "./js/components/navbar.js";
 import { homePage, joinNowBtn } from "./js/pages/homePage.js";
 import { signIn } from "./js/pages/signIn.js";
 import { firebaseConfig } from "./js/config.js";
-import { addEventRequestPINForm } from "./js/event.js";
+import { addEventRequestPINForm, addEventRetrieveNotifications, retrieveNotificationsInBackgroound } from "./js/event.js";
 import { requestPINTemplate } from "./js/pages/healthCareProvider.js";
 import { myToDoList } from "./js/pages/myToDoList.js";
 import { renderAgreements } from "./js/pages/agreements.js";
@@ -22,30 +22,17 @@ window.onload = async () => {
     }
     !firebase.apps.length ? firebase.initializeApp(firebaseConfig()) : firebase.app();
     auth = firebase.auth();
-    // const messaging = firebase.messaging();
     if('serviceWorker' in navigator){
         try {
             navigator.serviceWorker.register('./serviceWorker.js')
-                .then(registration => {
-                    // messaging.useServiceWorker(registration);
-                });
         }
         catch (error) {
             console.log(error);
         }
     }
     
-    // await messaging.requestPermission();
-    // const token = await messaging.getToken();
-    // console.log('token :', token);
-
     const footer = document.getElementById('footer');
     footer.innerHTML = footerTemplate();
-    
-    
-    // messaging.onMessage(payload => {
-    //     console.log(payload)
-    // });
 
     router();
 }
@@ -56,14 +43,11 @@ const handleVerifyEmail = (auth, actionCode) => {
         location.reload();
     }).catch(function(error) {
         console.log(error);
-      // Code is invalid or expired. Ask the user to verify their email address
-      // again.
     });
 }
 
 const handleResetPassword = (auth, actionCode) => {
     auth.verifyPasswordResetCode(actionCode).then(function(email) {
-        
         document.getElementById('root').innerHTML = `
             <h2>Reset password</h2> for <strong>${email}</strong>
             <form id="resetPasswordForm" method="POST">
@@ -195,6 +179,7 @@ const userProfile = () => {
             window.history.replaceState({},'', './#dashboard');
             const myData = await getMyData();
             if(myData.code === 200) {
+                // connectPushNotification();
                 myToDoList(myData.data);
             }
             else {
@@ -219,6 +204,7 @@ const toggleNavBar = () => {
         if(user){
             document.getElementById('navbarNavAltMarkup').innerHTML = userNavBar();
             document.getElementById('joinNow') ? document.getElementById('joinNow').innerHTML = joinNowBtn(false) : ``;
+            // addEventRetrieveNotifications();
         }
         else{
             document.getElementById('navbarNavAltMarkup').innerHTML = homeNavBar();

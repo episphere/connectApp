@@ -35,6 +35,12 @@
         </nav>
         <main>
             <div class="container">
+                <div style="position: relative;">
+                    <div style="position: absolute; top: 0; right: -5rem; min-width: 300px;" id="showNotification">
+                        
+                    </div>
+                </div>
+                <!-- <div aria-live="polite" aria-atomic="true" class="row connect-notification"></div> -->
                 <div id="root"></div>
                 <div class="modal fade" id="connectMainModal" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -47,6 +53,24 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="modal fade" id="notificationsModal" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="notificationHeader" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-slideout modal-sm notification-modal" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="notificationHeader">Notifications</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body notification-modal-body" id="notificationBody"></div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                 <div id="loadingAnimation" role="status" style="display: none;"></div>
             </div>
         </main>
@@ -61,7 +85,7 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-auth.js"></script>
-        <!-- <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-messaging.js"></script> -->
+        <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-messaging.js"></script>
         <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.943/pdf.min.js"></script>
     </body>

@@ -1,5 +1,6 @@
 import { sites, allStates, allCountries, getMyData } from "../shared.js";
 import { addEventMonthSelection, addEventUPSubmit, addEventCancerFollowUp, addYearsOptions, addEventChangeFocus, addEventPreferredContactType, addEventAddressAutoComplete, addEventAdditionalEmail } from "../event.js";
+
 export const renderUserProfile = async () => {
     const myData = await getMyData();
     const siteId = myData.data ? myData.data.RcrtES_Site_v1r0 : undefined;

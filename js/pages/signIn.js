@@ -12,6 +12,7 @@ export const signIn = () => {
     auth.onAuthStateChanged(user => {
         if(user){
             document.getElementById('navbarNavAltMarkup').innerHTML = userNavBar();
+            // addEventRetrieveNotifications();
         }
         else{
             document.getElementById('navbarNavAltMarkup').innerHTML = homeNavBar();
