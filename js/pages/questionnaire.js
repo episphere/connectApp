@@ -3,7 +3,34 @@ import { transform } from 'https://episphere.github.io/quest/replace2.js';
 
 export const questionnaire = () => {
     transform.render({
-        url: 'https://jonasalmeida.github.io/privatequest/mod1_abridged.txt',
+        url: 'https://episphere.github.io/quest/questionnaires/testQuest.txt',
+        activate: true,
+        store: storeResponse,
+        retrieve: getMyData
+    }, 'root');
+}
+
+export const questionnaire2 = () => {
+    transform.render({
+        url: 'https://episphere.github.io/quest/questionnaires/testQuest.txt',
+        activate: true,
+        store: storeResponse,
+        retrieve: getMyData
+    }, 'root');
+}
+
+export const questionnaire3 = () => {
+    transform.render({
+        url: 'https://episphere.github.io/quest/questionnaires/testQuest.txt',
+        activate: true,
+        store: storeResponse,
+        retrieve: getMyData
+    }, 'root');
+}
+
+export const questionnaire4 = () => {
+    transform.render({
+        url: 'https://episphere.github.io/quest/questionnaires/testQuest.txt',
         activate: true,
         store: storeResponse,
         retrieve: getMyData
