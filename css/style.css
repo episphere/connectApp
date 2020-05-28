@@ -352,7 +352,7 @@ canvas {
 
 .up-btns {
     padding: 6px 0px !important;
-    height: fit-content;
+    height: max-content !important;
 }
 
 .active {
