@@ -430,3 +430,7 @@ canvas {
     border: 0px !important;
     padding: 0px !important;
 }
+
+.invalid {
+    border-color: #dc3545 !important;
+}

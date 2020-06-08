@@ -176,7 +176,7 @@ export const dataSavingBtn = (className) => {
     btn.innerHTML = `<div class="spinner-border spinner-saving" role="status"><span class="sr-only">Loading...</span></div> Saving`;
 }
 
-export const errorMessage = (id, msg) => {
+export const errorMessage = (id, msg, focus) => {
     const currentElement = document.getElementById(id);
     const parentElement = currentElement.parentNode;
     if(Array.from(parentElement.querySelectorAll('.form-error')).length > 0) return;
@@ -187,7 +187,8 @@ export const errorMessage = (id, msg) => {
     span.innerHTML = msg;
     div.append(span);
     parentElement.appendChild(div);
-    currentElement.focus();
+    currentElement.classList.add('invalid');
+    if(focus) currentElement.focus();
 }
 
 export const getAge = (dateString) => {

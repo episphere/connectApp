@@ -5,10 +5,6 @@ export const renderUserProfile = async () => {
     const myData = await getMyData();
     const siteId = myData.data ? myData.data.RcrtES_Site_v1r0 : undefined;
     const mainContent = document.getElementById('root');
-    const js = document.createElement("script");
-    js.type = "text/javascript";
-    js.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDe3Ewzl4x7hEX30EiQJ0tvXBtzd2Hghiw&libraries=places";
-    document.body.appendChild(js);
     mainContent.innerHTML = `
         </br>
         <h2>User profile</h2>
@@ -19,16 +15,15 @@ export const renderUserProfile = async () => {
         <form id="userProfileForm" method="POST">
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">First name <span class="required">*</span></label>
-                <input type="text" class="form-control col-md-4" pattern="[A-Za-z]+" title="First name should not contain any numbers or special characters" required id="UPFirstName" placeholder="Enter first name">
-                
+                <input type="text" class="form-control required-field input-validation col-md-4" data-error-required='Please enter your first name.' data-validation-pattern="alphabets" data-error-validation="Your first name should contain only uppercase and lowercase letters. Please do not use anynumbers or special characters." id="UPFirstName" placeholder="Enter first name">
             </div>
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">Middle name</label>
-                    <input type="text" class="form-control col-md-4" pattern="[A-Za-z]+" title="Middle name should not contain any numbers or special characters" id="UPMiddleInitial" placeholder="Enter middle name">
+                    <input type="text" class="form-control input-validation col-md-4" data-validation-pattern="alphabets" data-error-validation="Your middle name should contain only uppercase and lowercase letters. Please do not use anynumbers or special characters." id="UPMiddleInitial" placeholder="Enter middle name">
             </div>
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">Last name <span class="required">*</span></label>
-                <input type="text" class="form-control col-md-4" pattern="[A-Za-z]+" title="Last name should not contain any numbers or special characters" required id="UPLastName" placeholder="Enter last name">
+                <input type="text" class="form-control required-field input-validation col-md-4" data-error-required='Please enter your last name.' data-validation-pattern="alphabets" data-error-validation="Your last name should contain only uppercase and lowercase letters. Please do not use anynumbers or special characters." id="UPLastName" placeholder="Enter last name">
                 
             </div>
             <div class="form-group row">
@@ -46,7 +41,7 @@ export const renderUserProfile = async () => {
             <strong>What is your date of birth?</strong>
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">Month <span class="required">*</span></label>
-                <select required id="UPMonth" class="form-control col-md-4">
+                <select id="UPMonth" class="form-control required-field col-md-4" data-error-required='Please select your birth month.'>
                     <option value="">-- Select birth month -- </option>
                     <option value="01">1 - January</option>
                     <option value="02">2 - February</option>
@@ -65,11 +60,11 @@ export const renderUserProfile = async () => {
 
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">Day <span class="required">*</span></label>
-                <select required class="form-control col-md-4" id="UPDay"></select>
+                <select class="form-control required-field col-md-4" data-error-required='Please select your birth day.' id="UPDay"></select>
             </div>
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">Year <span class="required">*</span></label>
-                <input type="text" required class="form-control col-md-4" id="UPYear" list="yearsOption" title="Birth year, must be in 1900s" Placeholder="Enter birth year">
+                <input type="text" class="form-control required-field input-validation col-md-4" data-error-required='Please select your birth year.' data-validation-pattern="year" data-error-validation="Your birth year must contain four digits in the YYYY format." maxlength="4" id="UPYear" list="yearsOption" title="Birth year, must be in 1900s" Placeholder="Enter birth year">
                 <datalist id="yearsOption"></datalist>
             </div>
             
@@ -79,10 +74,10 @@ export const renderUserProfile = async () => {
                     <a href="https://transcare.ucsf.edu/guidelines/terminology" target="_blank"><i class="fas fa-external-link-alt"></i></a> 
                     <a href="https://www.census.gov/content/dam/Census/library/working-papers/2018/adrm/rsm2018-05.pdf" target="_blank"><i class="fas fa-external-link-alt"></i></a>
                 </label>
-                <div class="btn-group btn-group-toggle col-md-4" data-toggle="buttons">
-                    <label class="btn btn-light up-btns"><input type="radio" required name="UPRadio" value="0">Male</label>
-                    <label class="btn btn-light up-btns"><input type="radio" required name="UPRadio" value="1">Female</label>
-                    <label class="btn btn-light up-btns"><input type="radio" required name="UPRadio" value="2">Intersex or other</label>
+                <div class="btn-group btn-group-toggle col-md-4" id="radioGroup" data-toggle="buttons">
+                    <label class="btn btn-light up-btns"><input type="radio" name="UPRadio" value="0">Male</label>
+                    <label class="btn btn-light up-btns"><input type="radio" name="UPRadio" value="1">Female</label>
+                    <label class="btn btn-light up-btns"><input type="radio" name="UPRadio" value="2">Intersex or other</label>
                 </div>
             </div>
 
@@ -190,7 +185,6 @@ export const renderUserProfile = async () => {
     addEventPreferredContactType();
     addEventAdditionalEmail();
     addEventAddressAutoComplete(1);
-    // addEventAddressAutoComplete(5, true);
     addEventUPSubmit();
 };
 
@@ -227,7 +221,7 @@ export const renderMailingAddress = (type, id, required, showCountry) => {
             <label class="col-md-4 col-form-label">
                 Line 1 (street, PO box, rural route) ${required ? '<span class="required">*</span>': ''}
             </label>
-            <input type=text id="UPAddress${id}Line1" autocomplete="off" class="form-control col-md-4" ${required ? 'required' : ''} placeholder="Enter street, PO box, rural route">
+            <input type=text id="UPAddress${id}Line1" autocomplete="off" class="form-control col-md-4 required-field" data-error-required='Please enter the line 1 (street, PO box, rural route) field of your mailing address .' placeholder="Enter street, PO box, rural route">
         </div>
         <div class="form-group row">
             <label class="col-md-4 col-form-label">
@@ -239,13 +233,13 @@ export const renderMailingAddress = (type, id, required, showCountry) => {
             <label class="col-md-4 col-form-label">
                 City ${required ? '<span class="required">*</span>': ''}
             </label>
-            <input type=text id="UPAddress${id}City" class="form-control col-md-4" ${required ? 'required' : ''} placeholder="Enter City">
+            <input type=text id="UPAddress${id}City" class="form-control col-md-4 required-field" data-error-required='Please enter the city field of your mailing address.' placeholder="Enter City">
         </div>
         <div class="form-group row">
             <label class="col-md-4 col-form-label">
                 State ${required ? '<span class="required">*</span>': ''}
             </label>
-            <select class="form-control col-md-4" ${required ? 'required' : ''} id="UPAddress${id}State">
+            <select class="form-control col-md-4 required-field" data-error-required='Please select the state field of your mailing address.' id="UPAddress${id}State">
                 <option value="">-- Select State --</option>
                 ${renderStates()}
             </select>
@@ -254,8 +248,7 @@ export const renderMailingAddress = (type, id, required, showCountry) => {
             <label class="col-md-4 col-form-label">
                 Zip ${required ? '<span class="required">*</span>': ''}
             </label>
-            <input type=text id="UPAddress${id}Zip" pattern="[0-9]{5}" title="5 characters long, numeric-only value." class="form-control col-md-4" size="5" maxlength="5" ${required ? 'required' : ''} placeholder="Enter zip">
-            
+            <input type=text id="UPAddress${id}Zip" pattern="[0-9]{5}" title="5 characters long, numeric-only value." class="form-control col-md-4 required-field" data-error-required='Please enter the zip field of your mailing address.' size="5" maxlength="5" placeholder="Enter zip">
         </div>
         ${showCountry ? `<br>
         <div class="form-group row">
