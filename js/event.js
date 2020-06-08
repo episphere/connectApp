@@ -302,7 +302,8 @@ export const addEventUPSubmit = () => {
         });
         if(radioChecked === false) {
             document.getElementById('radioGroup').classList.add('invalid');
-            errorMessage('radioGroup', `Please select your biological sex`, focus);
+            errorMessage('radioGroup', `Please select your biological sex`);
+            if(focus) document.getElementById('radioGroup').children[0].focus()
             focus = false;
             hasError = true;
         }
@@ -313,7 +314,12 @@ export const addEventUPSubmit = () => {
             errorMessage('mainMobilePhone', 'Please enter either a mobile phone number or email address');
             focus = false;
             hasError = true;
-            return false;
+        }
+        else if(phoneNo && phoneNo.length < 10 ){
+            errorMessage('mainMobilePhone', 'Please enter a phone number in this format: 999-999-9999');
+            if(focus) document.getElementById('UPPhoneNumber11').focus();
+            focus = false;
+            hasError = true;
         }
         if(hasError) return false;
         let formData = {};
