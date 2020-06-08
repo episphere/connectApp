@@ -135,7 +135,7 @@ export const renderUserProfile = async () => {
             
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">Preferred Email</label>
-                <input type="email" class="form-control col-md-4" id="UPEmail" Placeholder="Enter preferred email"></br>
+                <input type="email" class="form-control col-md-4" id="UPEmail" title="Please enter a email address in this format: name@example.com" Placeholder="Enter preferred email"></br>
             </div>
 
             <div class="form-group row">

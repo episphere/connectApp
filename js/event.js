@@ -315,9 +315,14 @@ export const addEventUPSubmit = () => {
             focus = false;
             hasError = true;
         }
-        else if(phoneNo && phoneNo.length < 10 ){
+        if(phoneNo && phoneNo.length < 10 ){
             errorMessage('mainMobilePhone', 'Please enter a phone number in this format: 999-999-9999');
             if(focus) document.getElementById('UPPhoneNumber11').focus();
+            focus = false;
+            hasError = true;
+        }
+        if(email && /\S+@\S+\.\S+/.test(email) === false) {
+            errorMessage('UPEmail', 'Please enter a email address in this format: name@example.com', focus);
             focus = false;
             hasError = true;
         }
