@@ -116,7 +116,7 @@ export const renderUserProfile = async () => {
                 <label class="col-md-4 col-form-label">
                     Home phone 
                 </label>
-                <div class="btn-group col-md-4">
+                <div class="btn-group col-md-4" id="mainMobilePhone2">
                     <input type="text" class="form-control" id="UPPhoneNumber21" pattern="[1-9]{1}[0-9]{2}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
                     <input type="text" class="form-control" id="UPPhoneNumber22" pattern="[0-9]{3}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
                     <input type="text" class="form-control" id="UPPhoneNumber23" pattern="[0-9]{4}" title="Only numbers are allowed." size="4" maxlength="4" Placeholder="9999">

@@ -309,6 +309,7 @@ export const addEventUPSubmit = () => {
             hasError = true;
         }
         const phoneNo = `${document.getElementById('UPPhoneNumber11').value}${document.getElementById('UPPhoneNumber12').value}${document.getElementById('UPPhoneNumber13').value}`;
+        const phoneNo2 = `${document.getElementById('UPPhoneNumber21').value}${document.getElementById('UPPhoneNumber22').value}${document.getElementById('UPPhoneNumber23').value}`;
         const email = document.getElementById('UPEmail').value;
         const email2 = document.getElementById('UPEmail2');
         const email3 = document.getElementById('UPAdditionalEmail2');
@@ -316,13 +317,28 @@ export const addEventUPSubmit = () => {
 
         if(!phoneNo && !email){
             errorMessage('UPEmail', 'Please enter either a mobile phone number or email address.', focus);
+            errorMessage('UPPhoneNumber11');
+            errorMessage('UPPhoneNumber12');
+            errorMessage('UPPhoneNumber13');
             errorMessage('mainMobilePhone', 'Please enter either a mobile phone number or email address.');
             focus = false;
             hasError = true;
         }
         if(phoneNo && phoneNo.length < 10 ){
+            errorMessage('UPPhoneNumber11');
+            errorMessage('UPPhoneNumber12');
+            errorMessage('UPPhoneNumber13');
             errorMessage('mainMobilePhone', 'Please enter a phone number in this format: 999-999-9999.');
             if(focus) document.getElementById('UPPhoneNumber11').focus();
+            focus = false;
+            hasError = true;
+        }
+        if(phoneNo2 && phoneNo2.length < 10 ){
+            errorMessage('UPPhoneNumber21');
+            errorMessage('UPPhoneNumber22');
+            errorMessage('UPPhoneNumber23');
+            errorMessage('mainMobilePhone2', 'Please enter a phone number in this format: 999-999-9999.');
+            if(focus) document.getElementById('UPPhoneNumber21').focus();
             focus = false;
             hasError = true;
         }

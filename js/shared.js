@@ -180,13 +180,15 @@ export const errorMessage = (id, msg, focus) => {
     const currentElement = document.getElementById(id);
     const parentElement = currentElement.parentNode;
     if(Array.from(parentElement.querySelectorAll('.form-error')).length > 0) return;
-    const div = document.createElement('div');
-    div.classList = ['row col-md-4 offset-md-4'];
-    const span = document.createElement('span');
-    span.classList = ['form-error']
-    span.innerHTML = msg;
-    div.append(span);
-    parentElement.appendChild(div);
+    if(msg){
+        const div = document.createElement('div');
+        div.classList = ['row col-md-4 offset-md-4'];
+        const span = document.createElement('span');
+        span.classList = ['form-error']
+        span.innerHTML = msg;
+        div.append(span);
+        parentElement.appendChild(div);
+    }
     currentElement.classList.add('invalid');
     if(focus) currentElement.focus();
 }
