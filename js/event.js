@@ -214,7 +214,7 @@ export const addEventAdditionalEmail = () => {
     addMoreEmail.addEventListener('click', addEmailFields);	
 }
 
-const addEmailFields = () => {	
+const addEmailFields = () => {
     const div = document.getElementById('multipleEmail1');	
     div.innerHTML = '';	
     div.classList = ['form-group row'];
@@ -222,8 +222,9 @@ const addEmailFields = () => {
     const input = document.createElement('input');	
     input.classList = ['form-control col-md-4 offset-md-4'];	
     input.placeholder = 'Enter additional email 2';	
-    input.type = 'email';	
+    input.type = 'text';	
     input.id = 'UPAdditionalEmail2';	
+    input.title = ' Please enter a email address in this format: name@example.com.';
 
     div.appendChild(input);
 	
@@ -236,14 +237,14 @@ const addEmailFields = () => {
 const addAnotherEmailField = () => {	
     const div = document.getElementById('multipleEmail2');	
     div.innerHTML = '';	
-    div.classList = ['form-group row']; 
-    const br = document.createElement('BR');	
+    div.classList = ['form-group row']; 	
 
     const input2 = document.createElement('input');	
     input2.classList = ['form-control col-md-4 offset-md-4'];	
     input2.placeholder = 'Enter additional email 3';	
-    input2.type = 'email';	
+    input2.type = 'text';	
     input2.id = 'UPAdditionalEmail3';	
+    input.title = ' Please enter a email address in this format: name@example.com.';
     div.appendChild(input2);
     document.getElementById('additionalEmailBtn').innerHTML = '';
 }
@@ -302,27 +303,46 @@ export const addEventUPSubmit = () => {
         });
         if(radioChecked === false) {
             document.getElementById('radioGroup').classList.add('invalid');
-            errorMessage('radioGroup', `Please select your biological sex`);
+            errorMessage('radioGroup', `Please select your biological sex.`);
             if(focus) document.getElementById('radioGroup').children[0].focus()
             focus = false;
             hasError = true;
         }
         const phoneNo = `${document.getElementById('UPPhoneNumber11').value}${document.getElementById('UPPhoneNumber12').value}${document.getElementById('UPPhoneNumber13').value}`;
         const email = document.getElementById('UPEmail').value;
+        const email2 = document.getElementById('UPEmail2');
+        const email3 = document.getElementById('UPAdditionalEmail2');
+        const email4 = document.getElementById('UPAdditionalEmail3');
+
         if(!phoneNo && !email){
-            errorMessage('UPEmail', 'Please enter either a mobile phone number or email address', focus);
-            errorMessage('mainMobilePhone', 'Please enter either a mobile phone number or email address');
+            errorMessage('UPEmail', 'Please enter either a mobile phone number or email address.', focus);
+            errorMessage('mainMobilePhone', 'Please enter either a mobile phone number or email address.');
             focus = false;
             hasError = true;
         }
         if(phoneNo && phoneNo.length < 10 ){
-            errorMessage('mainMobilePhone', 'Please enter a phone number in this format: 999-999-9999');
+            errorMessage('mainMobilePhone', 'Please enter a phone number in this format: 999-999-9999.');
             if(focus) document.getElementById('UPPhoneNumber11').focus();
             focus = false;
             hasError = true;
         }
         if(email && /\S+@\S+\.\S+/.test(email) === false) {
-            errorMessage('UPEmail', 'Please enter a email address in this format: name@example.com', focus);
+            errorMessage('UPEmail', 'Please enter a email address in this format: name@example.com.', focus);
+            focus = false;
+            hasError = true;
+        }
+        if(email2 && email2.value && /\S+@\S+\.\S+/.test(email2.value) === false) {
+            errorMessage('UPEmail2', 'Please enter a email address in this format: name@example.com.', focus);
+            focus = false;
+            hasError = true;
+        }
+        if(email3 && email3.value && /\S+@\S+\.\S+/.test(email3.value) === false) {
+            errorMessage('UPAdditionalEmail2', 'Please enter a email address in this format: name@example.com.', focus);
+            focus = false;
+            hasError = true;
+        }
+        if(email4 && email4.value && /\S+@\S+\.\S+/.test(email4.value) === false) {
+            errorMessage('UPAdditionalEmail3', 'Please enter a email address in this format: name@example.com.', focus);
             focus = false;
             hasError = true;
         }
@@ -343,7 +363,7 @@ export const addEventUPSubmit = () => {
             const year = parseInt(formData.RcrtUP_YOB_v1r0);
             const isLeapYear = ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
             if(!isLeapYear){
-                errorMessage('UPDay', 'Invalid day', true);
+                errorMessage('UPDay', 'Invalid day.', true);
                 return false;
             }
         }

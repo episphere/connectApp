@@ -15,15 +15,15 @@ export const renderUserProfile = async () => {
         <form id="userProfileForm" method="POST">
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">First name <span class="required">*</span></label>
-                <input type="text" class="form-control required-field input-validation col-md-4" data-error-required='Please enter your first name.' data-validation-pattern="alphabets" data-error-validation="Your first name should contain only uppercase and lowercase letters. Please do not use anynumbers or special characters." id="UPFirstName" placeholder="Enter first name">
+                <input type="text" class="form-control required-field input-validation col-md-4" data-error-required='Please enter your first name.' data-validation-pattern="alphabets" data-error-validation="Your first name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters." id="UPFirstName" placeholder="Enter first name">
             </div>
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">Middle name</label>
-                    <input type="text" class="form-control input-validation col-md-4" data-validation-pattern="alphabets" data-error-validation="Your middle name should contain only uppercase and lowercase letters. Please do not use anynumbers or special characters." id="UPMiddleInitial" placeholder="Enter middle name">
+                    <input type="text" class="form-control input-validation col-md-4" data-validation-pattern="alphabets" data-error-validation="Your middle name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters." id="UPMiddleInitial" placeholder="Enter middle name">
             </div>
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">Last name <span class="required">*</span></label>
-                <input type="text" class="form-control required-field input-validation col-md-4" data-error-required='Please enter your last name.' data-validation-pattern="alphabets" data-error-validation="Your last name should contain only uppercase and lowercase letters. Please do not use anynumbers or special characters." id="UPLastName" placeholder="Enter last name">
+                <input type="text" class="form-control required-field input-validation col-md-4" data-error-required='Please enter your last name.' data-validation-pattern="alphabets" data-error-validation="Your last name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters." id="UPLastName" placeholder="Enter last name">
                 
             </div>
             <div class="form-group row">
@@ -135,17 +135,17 @@ export const renderUserProfile = async () => {
             
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">Preferred Email</label>
-                <input type="email" class="form-control col-md-4" id="UPEmail" title="Please enter a email address in this format: name@example.com" Placeholder="Enter preferred email"></br>
+                <input type="text" class="form-control col-md-4" id="UPEmail" title="Please enter a email address in this format: name@example.com." Placeholder="Enter preferred email"></br>
             </div>
 
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">Retype preferred Email</label>
-                <input type="email" class="form-control col-md-4" id="confirmUPEmail" Placeholder="Retype preferred email"></br>
+                <input type="text" class="form-control col-md-4" id="confirmUPEmail" title="Please enter a email address in this format: name@example.com." Placeholder="Retype preferred email"></br>
             </div>
             
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">Additional Email</label>
-                <input type="email" class="form-control col-md-4" id="UPEmail2" Placeholder="Enter additional email"></br>
+                <input type="text" class="form-control col-md-4" id="UPEmail2" title="Please enter a email address in this format: name@example.com." Placeholder="Enter additional email"></br>
             </div>
             <div id="multipleEmail1"></div>
             <div id="multipleEmail2"></div>
@@ -221,7 +221,7 @@ export const renderMailingAddress = (type, id, required, showCountry) => {
             <label class="col-md-4 col-form-label">
                 Line 1 (street, PO box, rural route) ${required ? '<span class="required">*</span>': ''}
             </label>
-            <input type=text id="UPAddress${id}Line1" autocomplete="off" class="form-control col-md-4 required-field" data-error-required='Please enter the line 1 (street, PO box, rural route) field of your mailing address .' placeholder="Enter street, PO box, rural route">
+            <input type=text id="UPAddress${id}Line1" autocomplete="off" class="form-control col-md-4 required-field" data-error-required='Please enter the first line of mailing address.' placeholder="Enter street, PO box, rural route">
         </div>
         <div class="form-group row">
             <label class="col-md-4 col-form-label">
