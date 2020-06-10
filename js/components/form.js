@@ -227,7 +227,7 @@ export const renderMailingAddress = (type, id, required, showCountry) => {
             <label class="col-md-4 col-form-label">
                 Line 2 (apartment, suite, unit, building)
             </label>
-            <input type=text id="UPAddress${id}Line2" autocomplete="off" class="form-control col-md-4" placeholder="apartment, suite, unit, building">
+            <input type=text id="UPAddress${id}Line2" autocomplete="off" class="form-control col-md-4" placeholder="Enter apartment, suite, unit, building">
         </div>
         <div class="form-group row">
             <label class="col-md-4 col-form-label">
