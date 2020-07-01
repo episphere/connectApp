@@ -1,5 +1,5 @@
 import { hideAnimation } from "../shared.js";
-import { blockParticipant, questionnaire, questionnaire2, questionnaire3, questionnaire4 } from "./questionnaire.js";
+import { blockParticipant, questionnaire } from "./questionnaire.js";
 import { renderUserProfile } from "../components/form.js";
 import { consentTemplate, initializeCanvas, addEventConsentSubmit } from "./consent.js";
 import { addEventsConsentSign, addEventHeardAboutStudy, addEventRequestPINForm, addEventHealthCareProviderSubmit } from "../event.js";
@@ -20,10 +20,18 @@ export const myToDoList = (data) => {
                 template += `
                     <span>You have self assessment questionnaires ready to take</span>
                     <ul class="questionnaire-module-list">
-                        <li class="list-item list-item-active" title="Module 1" id="module1">Module 1</li>
-                        <li class="list-item list-item-active" title="Module 2" id="module2">Module 2</li>
-                        <li class="list-item list-item-active" title="Module 3" id="module3">Module 3</li>
-                        <li class="list-item list-item-active" title="Module 4" id="module4">Module 4</li>
+                        <li class="list-item">
+                            <button class="btn list-item-active btn-agreement" title="Module 1" id="module1">Module 1</button>
+                        </li>
+                        <li class="list-item">
+                            <button class="btn list-item-active btn-disbaled btn-agreement" title="Module 2" id="module2">Module 2</button>
+                        </li>
+                        <li class="list-item">
+                            <button class="btn list-item-active btn-disbaled btn-agreement" title="Module 3" id="module3">Module 3</button>
+                        </li>
+                        <li class="list-item">
+                            <button class="btn list-item-active btn-disbaled btn-agreement" title="Module 4" id="module4">Module 4</button>
+                        </li>
                     </ul>
                 `;
                 mainContent.innerHTML = template;
@@ -63,13 +71,4 @@ export const myToDoList = (data) => {
 const addEventToDoList = () => {
     const module1 = document.getElementById('module1');
     module1.addEventListener('click', () => questionnaire());
-
-    const module2 = document.getElementById('module2');
-    module2.addEventListener('click', () => questionnaire2());
-
-    const module3 = document.getElementById('module3');
-    module3.addEventListener('click', () => questionnaire3());
-
-    const module4 = document.getElementById('module4');
-    module4.addEventListener('click', () => questionnaire4());
 }
