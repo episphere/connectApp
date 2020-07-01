@@ -53,14 +53,6 @@ export const userNavBar = () => {
     `;
 }
 
-
-
-{/* <div class="navbar-nav">
-    <li class="nav-item">
-        <button class="nav-link" id="retrieveNotifications" data-toggle="modal" data-target="#notificationsModal" title="View Notification"><i class="fas fa-bell"></i> Notifications</button>
-    </li>
-</div> */}
-
 export const homeNavBar = () => {
     return `
         <div class="navbar-nav">
