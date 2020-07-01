@@ -95,7 +95,7 @@ export const heardAboutStudy = () => {
                 <div class="ml-auto">
                     <button type="submit" class="btn btn-primary save-data">Submit</button>
                 </div>
-            </div></br></br>
+            </div>
         </form>
     `
 }
