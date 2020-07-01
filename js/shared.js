@@ -1,11 +1,11 @@
 import { addEventHideNotification } from "./event.js";
 
-const api = 'https://us-central1-nih-nci-dceg-episphere-dev.cloudfunctions.net/';
-// const api = 'http://localhost:8010/nih-nci-dceg-episphere-dev/us-central1/';
+const api = 'https://us-central1-nih-nci-dceg-episphere-dev.cloudfunctions.net/app';
+// const api = 'http://localhost:8010/nih-nci-dceg-episphere-dev/us-central1/app';
 
 export const validateToken = async (token) => {
     const idToken = await getIdToken();
-    const response = await fetch(api+`validateToken${token? `?token=${token}` : ``}`, {
+    const response = await fetch(api+`?api=validateToken${token? `&token=${token}` : ``}`, {
         headers: {
             Authorization:"Bearer "+idToken
         }
@@ -16,7 +16,7 @@ export const validateToken = async (token) => {
 
 export const validatePin = async (pin) => {
     const idToken = await getIdToken();
-    const response = await fetch(api+`validateToken${pin? `?pin=${pin}` : ``}`, {
+    const response = await fetch(api+`?api=validateToken${pin? `&pin=${pin}` : ``}`, {
         headers: {
             Authorization:"Bearer "+idToken
         }
@@ -27,7 +27,7 @@ export const validatePin = async (pin) => {
 
 export const generateNewToken = async () => {
     const idToken = await getIdToken();
-    const response = await fetch(`${api}generateToken`, {
+    const response = await fetch(`${api}?api=generateToken`, {
         headers: {
             Authorization:"Bearer "+idToken
         }
@@ -59,8 +59,8 @@ export const storeResponse = async (formData) => {
         },
         body: JSON.stringify(formData)
     }
-    // const response = await fetch(`http://localhost:8010/nih-nci-dceg-episphere-dev/us-central1/submit`, requestObj);
-    const response = await fetch(`https://us-central1-nih-nci-dceg-episphere-dev.cloudfunctions.net/submit`, requestObj);
+    // const response = await fetch(`http://localhost:8010/nih-nci-dceg-episphere-dev/us-central1/app?api=submit`, requestObj);
+    const response = await fetch(`https://us-central1-nih-nci-dceg-episphere-dev.cloudfunctions.net/app?api=submit`, requestObj);
     return response.json();
 }
 
@@ -79,8 +79,8 @@ export const getMyData = async () => {
             }
         });
     });
-    // const response = await fetch(`http://localhost:8010/nih-nci-dceg-episphere-dev/us-central1/getUserProfile`, {
-    const response = await fetch(`https://us-central1-nih-nci-dceg-episphere-dev.cloudfunctions.net/getUserProfile`, {
+    // const response = await fetch(`http://localhost:8010/nih-nci-dceg-episphere-dev/us-central1/app?api=getUserProfile`, {
+    const response = await fetch(`https://us-central1-nih-nci-dceg-episphere-dev.cloudfunctions.net/app?api=getUserProfile`, {
         headers: {
             Authorization: "Bearer "+idToken
         }
@@ -527,7 +527,7 @@ export const hideAnimation = () => {
 
 export const subscribeForNotifications = async (data) => {
     const idToken = await getIdToken();
-    const response = await fetch(`${api}subscribeToNotification`, {
+    const response = await fetch(`${api}?api=subscribeToNotification`, {
         method: "POST",
         headers: {
             Authorization:"Bearer "+idToken,
@@ -540,7 +540,7 @@ export const subscribeForNotifications = async (data) => {
 
 export const retrieveNotifications = async () => {
     const idToken = await getIdToken();
-    const response = await fetch(`${api}retrieveNotifications`, {
+    const response = await fetch(`${api}?api=retrieveNotifications`, {
         method: "GET",
         headers: {
             Authorization:"Bearer "+idToken
