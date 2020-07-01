@@ -631,6 +631,7 @@ export const removeActiveClass = (className, activeClass) => {
 }
 
 export const enableDarkMode = async (enable) => {
+    return
     if(!enable) toggleDarkMode(false);
     else toggleDarkMode(true);
 }
