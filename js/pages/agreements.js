@@ -18,12 +18,16 @@ export const renderAgreements = async () => {
             <div class="row">
                 <div class="col">
                     <ul class="questionnaire-module-list">
-                        <li class="list-item list-item-disable" title="E-mail consent form" id="eMailConsent"><i class="fas fa-envelope"></i> E-mail</li>
-                        <li class="list-item list-item-active" title="View consent form" id="viewConsent" data-toggle="modal" data-target="#connectMainModal">
-                            <i class="fas fa-file-pdf"></i> View
+                        <li class="list-item" title="E-mail consent form" id="eMailConsent">
+                            <button class="btn btn-light btn-disbaled btn-agreement"><i class="fas fa-envelope"></i> E-mail</button>
                         </li>
-                        <li class="list-item list-item-active" title="Download consent form" id="downloadConsent">
-                            <a href="./consent_draft.pdf" class="no-text-decoration" download="coonect_consent.pdf"><i class="fas fa-file-download"></i> Download
+                        <li class="list-item" title="View consent form" id="viewConsent" data-toggle="modal" data-target="#connectMainModal">
+                            <button class="btn list-item-active btn-agreement"><i class="fas fa-file-pdf"></i> View</button>
+                        </li>
+                        <li class="list-item" title="Download consent form" id="downloadConsent">
+                            <a href="./consent_draft.pdf" class="no-text-decoration" download="coonect_consent.pdf">
+                                <button class="btn list-item-active btn-agreement"><i class="fas fa-file-download"></i> Download</button>
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -44,7 +48,7 @@ const addEventAgreementOptions = () => {
         viewConsent.addEventListener('click', () => {
             document.getElementById('connectModalHeader').innerHTML = `
                 <h4>Consent document</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close close-modal" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
                 `;
@@ -52,5 +56,4 @@ const addEventAgreementOptions = () => {
             initializeCanvas(1);
         })
     }
-    
 }

@@ -560,7 +560,20 @@ export const connectPushNotification = () => {
                 const refreshedToken = await messaging.getToken();
                 manageNotificationTokens(refreshedToken);
             });
+            
             messaging.onMessage(payload => {
+                let timesRun = 0;
+                let interval = setInterval(() => {
+                    timesRun += 1;
+                    if(timesRun === 10){
+                        const bellIcon = document.querySelectorAll('.fa-bell')[0];
+                        bellIcon.style.color = '#82a55a';
+                        clearInterval(interval);
+                    }else{
+                        animateNotificationBell();
+                    }
+                }, 300);
+                
                 const div = document.createElement('div');
                 div.classList = ["notification"];
                 div.innerHTML = `
@@ -583,6 +596,19 @@ export const connectPushNotification = () => {
     }
 }
 
+const animateNotificationBell = () => {
+    const bellIcon = document.querySelectorAll('.fa-bell')[0];
+    
+    if(bellIcon.classList.contains('fas')){
+        bellIcon.classList.remove('fas');
+        bellIcon.classList.add('far');
+    }
+    else if (bellIcon.classList.contains('far')){
+        bellIcon.classList.remove('far');
+        bellIcon.classList.add('fas');
+    }
+}
+
 const manageNotificationTokens = (token) => {
     try {
         const messaging = firebase.messaging();
@@ -594,5 +620,67 @@ const manageNotificationTokens = (token) => {
         });
     } catch (err) {
         console.error(err);
+    }
+}
+
+export const removeActiveClass = (className, activeClass) => {
+    let fileIconElement = document.getElementsByClassName(className);
+    Array.from(fileIconElement).forEach(elm => {
+        elm.classList.remove(activeClass);
+    });
+}
+
+export const enableDarkMode = async (enable) => {
+    if(!enable) toggleDarkMode(false);
+    else toggleDarkMode(true);
+}
+
+export const toggleDarkMode = (bool) => {
+    if(bool){
+        document.body.classList.add('dark-mode');
+        
+        Array.from(document.getElementsByClassName('navbar-light')).forEach(e => {
+            e.classList.add('navbar-dark');
+            e.classList.add('bg-dark');
+            e.classList.remove('bg-light');
+            e.classList.remove('navbar-light');
+        });
+        Array.from(document.getElementsByClassName('footer-content')).forEach(e => {
+            e.classList.add('footer-dark-mode');
+        });
+        Array.from(document.getElementsByClassName('footer-tagline')).forEach(e => e.style.color = '#ffffff');
+        Array.from(document.getElementsByClassName('footer-links')).forEach(e => e.style.color = '#ffffff');
+        Array.from(document.getElementsByClassName('nav-link')).forEach(e => e.classList.add('nav-link-dark'));
+        
+        Array.from(document.getElementsByClassName('modal-content')).forEach(e => {
+            e.classList.add('dark-mode');
+        });
+    }
+    else {
+        document.body.classList.remove('dark-mode');
+        
+        Array.from(document.getElementsByClassName('navbar-dark')).forEach(e => {
+            e.classList.remove('navbar-dark');
+            e.classList.remove('bg-dark');
+            e.classList.add('bg-light');
+            e.classList.add('navbar-light');
+        });
+        Array.from(document.getElementsByClassName('footer-content')).forEach(e => {
+            e.classList.remove('footer-dark-mode');
+        });
+        Array.from(document.getElementsByClassName('footer-tagline')).forEach(e => e.style.color = '#000000');
+        Array.from(document.getElementsByClassName('footer-links')).forEach(e => e.style.color = '#4d4d4d');
+        Array.from(document.getElementsByClassName('nav-link')).forEach(e => e.classList.remove('nav-link-dark'));
+    
+        Array.from(document.getElementsByClassName('modal-content')).forEach(e => {
+            e.classList.remove('dark-mode');
+        });
+    }
+}
+
+export const toggleNavbarMobileView = () => {
+    const btn = document.querySelectorAll('.navbar-toggler');
+    if(btn && btn[0]){
+        if(!btn[0].classList.contains('collapsed')) btn[0].click();
     }
 }

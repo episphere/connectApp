@@ -1,9 +1,9 @@
-import { getParameters, validateToken, userLoggedIn, getMyData, showAnimation, hideAnimation, connectPushNotification } from "./js/shared.js";
+import { getParameters, validateToken, userLoggedIn, getMyData, showAnimation, hideAnimation, connectPushNotification, enableDarkMode, toggleDarkMode } from "./js/shared.js";
 import { userNavBar, homeNavBar } from "./js/components/navbar.js";
 import { homePage, joinNowBtn } from "./js/pages/homePage.js";
 import { signIn } from "./js/pages/signIn.js";
 import { firebaseConfig } from "./js/config.js";
-import { addEventRequestPINForm, addEventRetrieveNotifications, retrieveNotificationsInBackgroound } from "./js/event.js";
+import { addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser } from "./js/event.js";
 import { requestPINTemplate } from "./js/pages/healthCareProvider.js";
 import { myToDoList } from "./js/pages/myToDoList.js";
 import { renderAgreements } from "./js/pages/agreements.js";
@@ -20,11 +20,16 @@ window.onload = async () => {
         const mainContent = document.getElementById('root');
         mainContent.innerHTML = `<span class="not-compatible">Connect web application is not compatible with Internet Explorer, please use Chrome, Safari, Firefox or Edge.</span>`;
     }
+    if(localStorage.connect && JSON.parse(localStorage.connect).darkMode === true) enableDarkMode(true)
     !firebase.apps.length ? firebase.initializeApp(firebaseConfig()) : firebase.app();
     auth = firebase.auth();
     if('serviceWorker' in navigator){
         try {
             navigator.serviceWorker.register('./serviceWorker.js')
+            .then((registration) => {
+                const messaging = firebase.messaging();
+                messaging.useServiceWorker(registration);
+              });
         }
         catch (error) {
             console.log(error);
@@ -33,7 +38,53 @@ window.onload = async () => {
     
     const footer = document.getElementById('footer');
     footer.innerHTML = footerTemplate();
-
+    auth.onAuthStateChanged(async user => {
+        if(user){
+            if(localStorage.connect && JSON.parse(localStorage.connect).darkMode === true){
+                enableDarkMode(true)
+                const myData = await getMyData();
+                if(myData.code !== 200) return;
+                if(myData.data.darkMode === undefined) {
+                    const tmpObj = JSON.parse(localStorage.connect);
+                    delete tmpObj.darkMode;
+                    localStorage.connect = JSON.stringify(tmpObj);
+                    enableDarkMode(false);
+                }
+                else if(myData.data.darkMode === false){
+                    localStorage.connect = JSON.stringify({darkMode: false})
+                    enableDarkMode(false);
+                }
+            }
+            else if(localStorage.connect && JSON.parse(localStorage.connect).darkMode === false){
+                enableDarkMode(false)
+                const myData = await getMyData();
+                if(myData.code !== 200) return;
+                if(myData.data.darkMode === undefined) {
+                    const tmpObj = JSON.parse(localStorage.connect);
+                    delete tmpObj.darkMode;
+                    localStorage.connect = JSON.stringify(tmpObj);
+                    enableDarkMode(false);
+                }
+                else if(myData.data.darkMode === true){
+                    localStorage.connect = JSON.stringify({darkMode: true})
+                    enableDarkMode(true);
+                }
+            }
+            else {
+                const myData = await getMyData();
+                if(myData.code !== 200) return;
+                if(myData.data.darkMode === true){
+                    localStorage.connect = JSON.stringify({darkMode: true})
+                    enableDarkMode(true);
+                }
+                else if(myData.data.darkMode === false){
+                    localStorage.connect = JSON.stringify({darkMode: false})
+                    enableDarkMode(false);
+                }
+            }
+            
+        }
+    });
     router();
 }
 
@@ -101,7 +152,6 @@ const handleResetPassword = (auth, actionCode) => {
 }
 
 window.onhashchange = () => {
-    document.getElementById('navbarNavAltMarkup').classList.remove('show');
     router();
 }
 
@@ -133,8 +183,8 @@ const router = async () => {
     if(parameters && parameters.token && await userLoggedIn() === false){
         window.location.hash = '#sign_in';
     }
-    toggleNavBar();
     const route =  window.location.hash || '#';
+    toggleNavBar(route);
     if(route === '#') homePage();
     else if (route === '#sign_in' && await userLoggedIn() === false) signIn();
     else if (route === '#dashboard') userProfile();
@@ -176,7 +226,7 @@ const userProfile = () => {
                 return;
             }
             
-            window.history.replaceState({},'', './#dashboard');
+            window.history.replaceState({},'Dashboard', './#dashboard');
             const myData = await getMyData();
             if(myData.code === 200) {
                 // connectPushNotification();
@@ -196,26 +246,22 @@ const userProfile = () => {
 
 const signOut = () => {
     firebase.auth().signOut();
+    toggleDarkMode(false);
     window.location.hash = '#';
 }
 
-const toggleNavBar = () => {
-    auth.onAuthStateChanged(user => {
+const toggleNavBar = (route) => {
+    auth.onAuthStateChanged(async user => {
         if(user){
             document.getElementById('navbarNavAltMarkup').innerHTML = userNavBar();
             document.getElementById('joinNow') ? document.getElementById('joinNow').innerHTML = joinNowBtn(false) : ``;
-            // addEventRetrieveNotifications();
+            addEventRetrieveNotifications();
+            toggleCurrentPage(route);
         }
         else{
             document.getElementById('navbarNavAltMarkup').innerHTML = homeNavBar();
             document.getElementById('joinNow') ? document.getElementById('joinNow').innerHTML = joinNowBtn(true) : ``;
+            toggleCurrentPageNoUser(route);
         }
-    });
-}
-
-const removeActiveClass = (className, activeClass) => {
-    let fileIconElement = document.getElementsByClassName(className);
-    Array.from(fileIconElement).forEach(elm => {
-        elm.classList.remove(activeClass);
     });
 }

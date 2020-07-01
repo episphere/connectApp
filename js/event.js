@@ -1,4 +1,4 @@
-import { allStates, allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, BirthMonths, getAge, getMyData, retrieveNotifications } from "./shared.js";
+import { allStates, allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, BirthMonths, getAge, getMyData, retrieveNotifications, removeActiveClass, toggleNavbarMobileView, toggleDarkMode } from "./shared.js";
 import { initializeCanvas, addEventConsentSubmit, consentTemplate } from "./pages/consent.js";
 import { heardAboutStudy, healthCareProvider } from "./pages/healthCareProvider.js";
 import { myToDoList } from "./pages/myToDoList.js";
@@ -81,21 +81,21 @@ export const addEventMonthSelection = () => {
     const UPMonth = document.getElementById('UPMonth');
     UPMonth.addEventListener('change', () => {
         const value = UPMonth.value;
-        let template = '<option value="">-- Select birth day --</option>';
+        let template = '<option class="option-dark-mode" value="">-- Select birth day --</option>';
 
         if(value === '02'){
             for(let i = 1; i < 30; i++){
-                template += `<option value=${i < 10 ? `0${i}`: `${i}`}>${i}</option>`
+                template += `<option class="option-dark-mode" value=${i < 10 ? `0${i}`: `${i}`}>${i}</option>`
             }
         }
         if(value === '01' || value === '03' || value === '05' || value === '07' || value === '08' || value === '10' || value === '12'){
             for(let i = 1; i < 32; i++){
-                template += `<option value=${i < 10 ? `0${i}`: `${i}`}>${i}</option>`
+                template += `<option class="option-dark-mode" value=${i < 10 ? `0${i}`: `${i}`}>${i}</option>`
             }
         }
         if(value === '04' || value === '06' || value === '09' || value === '11'){
             for(let i = 1; i < 31; i++){
-                template += `<option value=${i < 10 ? `0${i}`: `${i}`}>${i}</option>`
+                template += `<option class="option-dark-mode" value=${i < 10 ? `0${i}`: `${i}`}>${i}</option>`
             }
         }
 
@@ -109,7 +109,7 @@ export const addYearsOptions = () => {
     const minYear = currentYear - 40;
     let template = '';
     for(let i = maxYear; i<= minYear; i++) {
-        template += `<option value="${i}">`
+        template += `<option class="option-dark-mode" value="${i}">`
     }
     document.getElementById('yearsOption').innerHTML = template;
 }
@@ -514,7 +514,7 @@ const verifyUserDetails = (formData) => {
     if(!document.getElementById('connectMainModal').classList.contains('show')) openModal();
     document.getElementById('connectModalHeader').innerHTML = `
     <h4>Review your profile details</h4>
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <button type="button" class="close close-modal" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
     `;
@@ -692,8 +692,8 @@ const verifyUserDetails = (formData) => {
     `;
 
     document.getElementById('connectModalFooter').innerHTML = `
-        <button type="button" title="Close" class="btn btn-dark sub-div-shadow" data-dismiss="modal">Close</button>
-        <button type="button" id="confirmReview" title="Confirm details" class="btn btn-primary sub-div-shadow" data-dismiss="modal">Confirm</button>
+        <button type="button" title="Close" class="btn btn-dark" data-dismiss="modal">Close</button>
+        <button type="button" id="confirmReview" title="Confirm details" class="btn btn-primary" data-dismiss="modal">Confirm</button>
     `;
 
     document.getElementById('confirmReview').addEventListener('click', async () => {
@@ -840,7 +840,14 @@ export const addEventHideNotification = (element) => {
 
 export const addEventRetrieveNotifications = () => {
     const btn = document.getElementById('retrieveNotifications');
+    if(!btn) return;
     btn.addEventListener('click', () => {
+        const bellIcon = document.querySelectorAll('.fa-bell')[0];
+        if (bellIcon.style.color) bellIcon.style.color = '';
+        if (bellIcon.classList.contains('far')){
+            bellIcon.classList.remove('far');
+            bellIcon.classList.add('fas');
+        }
         if(document.getElementById('notificationBody')) {
             document.getElementById('notificationBody').innerHTML = `<div id="loadingAnimation" role="status" style="display: block;"></div>`;
         }
@@ -878,7 +885,7 @@ export const retrieveNotificationsInBackgroound = async () => {
         for(let msg of response.data){
             if(new Date(msg.notification.time).toLocaleDateString() === new Date().toLocaleDateString()){
                 const div = document.createElement('div');
-                div.classList = ["card notification-card sub-div-shadow"];
+                div.classList = ["card notification-card"];
                 const header = document.createElement('div');
                 header.classList = ["card-header"];
                 header.innerHTML = `${new Date(msg.notification.time).toLocaleTimeString()}`;
@@ -890,7 +897,7 @@ export const retrieveNotificationsInBackgroound = async () => {
                 panelTodayBody.appendChild(div);
             }else{
                 const div = document.createElement('div');
-                div.classList = ["card notification-card sub-div-shadow"];
+                div.classList = ["card notification-card"];
                 const header = document.createElement('div');
                 header.classList = ["card-header"];
                 header.innerHTML = `${new Date(msg.notification.time).toLocaleString()}`;
@@ -917,4 +924,37 @@ export const retrieveNotificationsInBackgroound = async () => {
     else {
         document.getElementById('notificationBody').innerHTML = 'No notifications found!'
     }
+}
+
+export const toggleCurrentPage = async (route) => {
+    const IDs = ['home', 'userDashboard', 'userData', 'userAgreements', 'userSettings', 'connectSupport'];
+    IDs.forEach(id => {
+        const element = document.getElementById(id);
+        element.addEventListener('click', () => {
+            removeActiveClass('navbar-nav', 'current-page');
+            element.parentNode.parentNode.classList.add('current-page');
+            toggleNavbarMobileView();
+        });
+    });
+    if(route === '#') document.getElementById('home').click();
+    if(route === '#dashboard') document.getElementById('userDashboard').click();
+    if(route === '#my_data') document.getElementById('userData').click();
+    if(route === '#agreements') document.getElementById('userAgreements').click();
+    if(route === '#settings') document.getElementById('userSettings').click();
+    if(route === '#support') document.getElementById('connectSupport').click();
+    if(document.body.classList.contains('dark-mode')) toggleDarkMode(true);
+}
+
+export const toggleCurrentPageNoUser = async (route) => {
+    const IDs = ['home', 'signIn'];
+    IDs.forEach(id => {
+        const element = document.getElementById(id);
+        element.addEventListener('click', () => {
+            removeActiveClass('navbar-nav', 'current-page');
+            element.parentNode.parentNode.classList.add('current-page');
+            toggleNavbarMobileView();
+        })
+    });
+    if(route === '#') document.getElementById('home').click();
+    if(route === '#sign_in') document.getElementById('signIn').click();
 }
