@@ -365,8 +365,10 @@ export const addEventUPSubmit = () => {
         if(hasError) return false;
         let formData = {};
         formData['RcrtUP_Fname_v1r0'] = document.getElementById('UPFirstName').value;
+        formData['query.firstName'] = document.getElementById('UPFirstName').value.toLowerCase();
         formData['RcrtUP_Minitial_v1r0'] = document.getElementById('UPMiddleInitial').value;
         formData['RcrtUP_Lname_v1r0'] = document.getElementById('UPLastName').value;
+        formData['query.lastName'] = document.getElementById('UPLastName').value.toLowerCase();
         if(document.getElementById('UPSuffix').value) formData['RcrtUP_Suffix_v1r0'] = document.getElementById('UPSuffix').value;
         let month = document.getElementById('UPMonth').value;
 
@@ -412,12 +414,26 @@ export const addEventUPSubmit = () => {
             if(radioBtn.checked) formData['RcrtUP_VMPerm2_v1r0'] = radioBtn.value;
         });
         // Email
-        if(document.getElementById('UPEmail').value) formData['RcrtUP_Email1_v1r0'] = document.getElementById('UPEmail').value;
+        const allEmails = [];
+        if(document.getElementById('UPEmail').value) {
+            formData['RcrtUP_Email1_v1r0'] = document.getElementById('UPEmail').value;
+            allEmails.push(document.getElementById('UPEmail').value.toLowerCase())
+        }
 
-        if(document.getElementById('UPEmail2').value) formData['RcrtUP_Email2_v1r0'] = document.getElementById('UPEmail2').value;
-        if(document.getElementById('UPAdditionalEmail2') && document.getElementById('UPAdditionalEmail2').value) formData['RcrtUP_Email3_v1r0'] = document.getElementById('UPAdditionalEmail2').value;
-        if(document.getElementById('UPAdditionalEmail3') && document.getElementById('UPAdditionalEmail3').value) formData['RcrtUP_Email4_v1r0'] = document.getElementById('UPAdditionalEmail3').value;
-        
+        if(document.getElementById('UPEmail2').value) {
+            formData['RcrtUP_Email2_v1r0'] = document.getElementById('UPEmail2').value;
+            allEmails.push(document.getElementById('UPEmail2').value.toLowerCase())
+        }
+        if(document.getElementById('UPAdditionalEmail2') && document.getElementById('UPAdditionalEmail2').value) {
+            formData['RcrtUP_Email3_v1r0'] = document.getElementById('UPAdditionalEmail2').value;
+            allEmails.push(document.getElementById('UPAdditionalEmail2').value.toLowerCase())
+        }
+        if(document.getElementById('UPAdditionalEmail3') && document.getElementById('UPAdditionalEmail3').value) {
+            formData['RcrtUP_Email4_v1r0'] = document.getElementById('UPAdditionalEmail3').value;
+            allEmails.push(document.getElementById('UPAdditionalEmail3').value.toLowerCase())
+        }
+        if(allEmails.length > 0) formData['query.allEmails'] = allEmails;
+
         // Preferred method of contact
         if(document.getElementsByName('methodOfContact')){
             Array.from(document.getElementsByName('methodOfContact')).forEach(radioBtn => {
