@@ -244,7 +244,7 @@ const addAnotherEmailField = () => {
     input2.placeholder = 'Enter additional email 3';	
     input2.type = 'text';	
     input2.id = 'UPAdditionalEmail3';	
-    input.title = ' Please enter a email address in this format: name@example.com.';
+    input2.title = ' Please enter a email address in this format: name@example.com.';
     div.appendChild(input2);
     document.getElementById('additionalEmailBtn').innerHTML = '';
 }
