@@ -391,10 +391,11 @@ export const addEventUPSubmit = () => {
         });
 
         // Contact Information
-
+        const allPhoneNo = [];
         // Mobile phone
         if(document.getElementById('UPPhoneNumber11').value && document.getElementById('UPPhoneNumber12').value && document.getElementById('UPPhoneNumber13').value) {
             formData['RcrtUP_Phone1_v1r0'] = `${document.getElementById('UPPhoneNumber11').value}${document.getElementById('UPPhoneNumber12').value}${document.getElementById('UPPhoneNumber13').value}`;
+            allPhoneNo.push(`${document.getElementById('UPPhoneNumber11').value}${document.getElementById('UPPhoneNumber12').value}${document.getElementById('UPPhoneNumber13').value}`);
         }
         const voiceMailPermission = document.getElementsByName('voiceMailPermission1');
         Array.from(voiceMailPermission).forEach(radioBtn => {
@@ -408,11 +409,14 @@ export const addEventUPSubmit = () => {
         // Home phone
         if(document.getElementById('UPPhoneNumber21').value && document.getElementById('UPPhoneNumber22').value && document.getElementById('UPPhoneNumber23').value) {
             formData['RcrtUP_Phone2_v1r0'] = `${document.getElementById('UPPhoneNumber21').value}${document.getElementById('UPPhoneNumber22').value}${document.getElementById('UPPhoneNumber23').value}`;
+            allPhoneNo.push(`${document.getElementById('UPPhoneNumber21').value}${document.getElementById('UPPhoneNumber22').value}${document.getElementById('UPPhoneNumber23').value}`)
         }
         const voiceMailPermission2 = document.getElementsByName('voiceMailPermission2');
         Array.from(voiceMailPermission2).forEach(radioBtn => {
             if(radioBtn.checked) formData['RcrtUP_VMPerm2_v1r0'] = radioBtn.value;
         });
+        if(allPhoneNo.length > 0) formData['query.allPhoneNo'] = allPhoneNo
+
         // Email
         const allEmails = [];
         if(document.getElementById('UPEmail').value) {
