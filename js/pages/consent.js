@@ -1,5 +1,6 @@
-import { todaysDate, storeResponse, dataSavingBtn, dateTime } from "../shared.js";
+import { todaysDate, storeResponse, dataSavingBtn, dateTime, errorMessage, errorMessageConsent } from "../shared.js";
 import { renderUserProfile } from "../components/form.js";
+import { removeAllErrors } from "../event.js";
 
 export const consentTemplate = () => {
     return ` 
@@ -13,14 +14,14 @@ export const consentTemplate = () => {
                 <div class="col form-group consent-form">
                     <label class="consent-form-label">
                         First name<span class="required">*</span>
-                        <input required type="text" name="RcrutCS_Fname_v1r0" autocomplete="off" id="CSFirstName" class="form-control" placeholder="Enter first name">
                     </label>
+                    <input required type="text" name="RcrutCS_Fname_v1r0" autocomplete="off" id="CSFirstName" class="form-control col-md-5" placeholder="Enter first name">
                 </div>
                 <div class="col form-group consent-form">
                     <label class="consent-form-label">
                         Last name<span class="required">*</span>
-                        <input required type="text" name="RcrutCS_Lname_v1r0" autocomplete="off" id="CSLastName" class="form-control" placeholder="Enter last name">
                     </label>
+                    <input required type="text" name="RcrutCS_Lname_v1r0" autocomplete="off" id="CSLastName" class="form-control col-md-5" placeholder="Enter last name">
                 </div>
             </div>
             <div class="row">
@@ -117,11 +118,27 @@ export const addEventConsentSubmit = () => {
 }
 
 const consentSubmit = async e => {
-    dataSavingBtn('save-data');
     e.preventDefault();
+    removeAllErrors();
     let formData = {};
     const CSFirstName = document.getElementById('CSFirstName');
     const CSLastName = document.getElementById('CSLastName');
+    let hasError = false;
+    let focus = true;
+    if(!/^[A-Za-z]+$/.test(CSFirstName.value)) {
+        const msg = 'Your first name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters.';
+        errorMessageConsent('CSFirstName', msg, focus)
+        focus = false;
+        hasError = true;
+    }
+    if(!/^[A-Za-z]+$/.test(CSLastName.value)) {
+        const msg = 'Your last name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters.';
+        errorMessageConsent('CSLastName', msg, focus)
+        focus = false;
+        hasError = true;
+    }
+    if(hasError) return false;
+    dataSavingBtn('save-data');
     const CSDate = document.getElementById('CSDate').innerHTML;
 
     formData.RcrtCS_Version_v1r0 = 'Consent-v1.0';

@@ -517,7 +517,7 @@ const openModal = () => {
     document.body.removeChild(tmpBtn);
 }
 
-const removeAllErrors = () => {
+export const removeAllErrors = () => {
     const elements = document.getElementsByClassName('form-error');
     Array.from(elements).forEach(element => {
         const errorMsg = element.parentNode;
