@@ -202,9 +202,13 @@ const addEventNameConsistency = (cfn, cln) => {
         if(input1.value !== cfn) {
             const checkboxDiv = document.getElementById('firstNameConsistency');
             checkboxDiv.hidden = true;
+            document.getElementById('UPFirstNameVerify').hidden = true;
             document.getElementById('UPFirstNameVerify').checked = false;
         }
-        else document.getElementById('firstNameConsistency').hidden = false;
+        else {
+            document.getElementById('firstNameConsistency').hidden = false;
+            document.getElementById('UPFirstNameVerify').hidden = false;
+        }
     });
 
     const input2 = document.getElementById('UPLastName');
@@ -212,9 +216,13 @@ const addEventNameConsistency = (cfn, cln) => {
         if(input2.value !== cln) {
             const checkboxDiv = document.getElementById('lastNameConsistency');
             checkboxDiv.hidden = true;
+            document.getElementById('UPLastNameVerify').hidden = true;
             document.getElementById('UPLastNameVerify').checked = false;
         }
-        else document.getElementById('lastNameConsistency').hidden = false;
+        else {
+            document.getElementById('lastNameConsistency').hidden = false;
+            document.getElementById('UPLastNameVerify').hidden = false;
+        }
     });
 }
 
