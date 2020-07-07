@@ -49,19 +49,19 @@ export const renderUserProfile = async () => {
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">Month <span class="required">*</span></label>
                 <select id="UPMonth" class="form-control required-field col-md-4" data-error-required='Please select your birth month.'>
-                    <option value="">-- Select birth month -- </option>
-                    <option value="01">1 - January</option>
-                    <option value="02">2 - February</option>
-                    <option value="03">3 - March</option>
-                    <option value="04">4 - April</option>
-                    <option value="05">5 - May</option>
-                    <option value="06">6 - June</option>
-                    <option value="07">7 - July</option>
-                    <option value="08">8 - August</option>
-                    <option value="09">9 - September</option>
-                    <option value="10">10 - October</option>
-                    <option value="11">11 - November</option>
-                    <option value="12">12 - December</option>
+                    <option class="option-dark-mode" value="">-- Select birth month -- </option>
+                    <option class="option-dark-mode" value="01">1 - January</option>
+                    <option class="option-dark-mode" value="02">2 - February</option>
+                    <option class="option-dark-mode" value="03">3 - March</option>
+                    <option class="option-dark-mode" value="04">4 - April</option>
+                    <option class="option-dark-mode" value="05">5 - May</option>
+                    <option class="option-dark-mode" value="06">6 - June</option>
+                    <option class="option-dark-mode" value="07">7 - July</option>
+                    <option class="option-dark-mode" value="08">8 - August</option>
+                    <option class="option-dark-mode" value="09">9 - September</option>
+                    <option class="option-dark-mode" value="10">10 - October</option>
+                    <option class="option-dark-mode" value="11">11 - November</option>
+                    <option class="option-dark-mode" value="12">12 - December</option>
                 </select>
             </div>
 
@@ -276,7 +276,7 @@ export const renderMailingAddress = (type, id, required, showCountry) => {
                 State ${required ? '<span class="required">*</span>': ''}
             </label>
             <select class="form-control col-md-4 required-field" data-error-required='Please select the state field of your mailing address.' id="UPAddress${id}State">
-                <option value="">-- Select State --</option>
+                <option class="option-dark-mode" value="">-- Select State --</option>
                 ${renderStates()}
             </select>
         </div>
@@ -292,7 +292,7 @@ export const renderMailingAddress = (type, id, required, showCountry) => {
                 Country ${required ? '<span class="required">*</span>': ''}
             </label>
             <select class="form-control col-md-4" ${required ? 'required' : ''} id="UPAddress${id}Country">
-                <option value="">-- Select Country --</option>
+                <option class="option-dark-mode" value="">-- Select Country --</option>
                 ${renderCountries()}
             </select>
             
@@ -326,7 +326,7 @@ export const renderPhoneNumber = (number) => {
 const renderStates = () => {
     let options = '';
     for(const state in allStates){
-        options += `<option value="${allStates[state]}">${state}</option>`
+        options += `<option class="option-dark-mode" value="${allStates[state]}">${state}</option>`
     }
     return options;
 }
@@ -334,7 +334,7 @@ const renderStates = () => {
 const renderCountries = () => {
     let options = '';
     for(const country in allCountries){
-        options += `<option value="${allCountries[country]}">${country}</option>`
+        options += `<option class="option-dark-mode" value="${allCountries[country]}">${country}</option>`
     }
     return options;
 }
