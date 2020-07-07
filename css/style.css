@@ -590,3 +590,12 @@ input:checked + .slider:before {
 .invalid {
     border-color: #dc3545 !important;
 }
+
+.col-custom {
+    flex: 0 0 1.5%;
+    max-width: 8.333333%;
+}
+
+.error-text {
+    padding-left: 5px !important;
+}

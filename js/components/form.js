@@ -15,7 +15,11 @@ export const renderUserProfile = async () => {
         <form id="userProfileForm" method="POST">
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">First name <span class="required">*</span></label>
-                <input type="text" class="form-control required-field input-validation col-md-4" data-error-required='Please enter your first name.' data-validation-pattern="alphabets" data-error-validation="Your first name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters." id="UPFirstName" placeholder="Enter first name">
+                <input type="text" value="${myData.data.RcrtCS_Fname_v1r0}" class="form-control required-field input-validation col-md-4" data-error-required='Please enter your first name.' data-validation-pattern="alphabets" data-error-validation="Your first name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters." id="UPFirstName" placeholder="Enter first name">
+            </div>
+            <div class="form-group row" id="firstNameConsistency">
+                <label class="col-md-4 col-form-label">Verify first name <span class="required">*</span></label>
+                <input type="checkbox" style="height: 20px;" class="form-control required-field col-custom" data-error-required='Please verify your first name.' id="UPFirstNameVerify">
             </div>
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">Middle name</label>
@@ -23,8 +27,11 @@ export const renderUserProfile = async () => {
             </div>
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">Last name <span class="required">*</span></label>
-                <input type="text" class="form-control required-field input-validation col-md-4" data-error-required='Please enter your last name.' data-validation-pattern="alphabets" data-error-validation="Your last name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters." id="UPLastName" placeholder="Enter last name">
-                
+                <input type="text" value="${myData.data.RcrtCS_Lname_v1r0}" class="form-control required-field input-validation col-md-4" data-error-required='Please enter your last name.' data-validation-pattern="alphabets" data-error-validation="Your last name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters." id="UPLastName" placeholder="Enter last name">
+            </div>
+            <div class="form-group row" id="lastNameConsistency">
+                <label class="col-md-4 col-form-label">Verify last name <span class="required">*</span></label>
+                <input type="checkbox" style="height: 20px;" class="form-control required-field col-custom" data-error-required='Please verify your last name.' id="UPLastNameVerify">
             </div>
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">Suffix</label>
@@ -179,6 +186,7 @@ export const renderUserProfile = async () => {
         </br></br>
     `;
     addYearsOptions();
+    addEventNameConsistency(myData.data.RcrtCS_Fname_v1r0, myData.data.RcrtCS_Lname_v1r0);
     addEventChangeFocus();
     addEventCancerFollowUp();
     addEventMonthSelection();
@@ -188,7 +196,27 @@ export const renderUserProfile = async () => {
     addEventUPSubmit();
 };
 
+const addEventNameConsistency = (cfn, cln) => {
+    const input1 = document.getElementById('UPFirstName');
+    input1.addEventListener('keyup', () => {
+        if(input1.value !== cfn) {
+            const checkboxDiv = document.getElementById('firstNameConsistency');
+            checkboxDiv.hidden = true;
+            document.getElementById('UPFirstNameVerify').checked = false;
+        }
+        else document.getElementById('firstNameConsistency').hidden = false;
+    });
 
+    const input2 = document.getElementById('UPLastName');
+    input2.addEventListener('keyup', () => {
+        if(input2.value !== cln) {
+            const checkboxDiv = document.getElementById('lastNameConsistency');
+            checkboxDiv.hidden = true;
+            document.getElementById('UPLastNameVerify').checked = false;
+        }
+        else document.getElementById('lastNameConsistency').hidden = false;
+    });
+}
 
 export const renderAlternateContact = (id, required) => {
     return `
