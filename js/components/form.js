@@ -19,7 +19,7 @@ export const renderUserProfile = async () => {
             </div>
             <div class="form-group row" id="firstNameConsistency">
                 <label class="col-md-4 col-form-label">Verify first name <span class="required">*</span></label>
-                <input type="checkbox" style="height: 20px;" class="form-control required-field col-custom" data-error-required='Please verify your first name.' id="UPFirstNameVerify">
+                <input type="checkbox" class="form-control required-field col-custom" data-error-required='Please verify your first name.' id="UPFirstNameVerify">
             </div>
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">Middle name</label>
@@ -31,7 +31,7 @@ export const renderUserProfile = async () => {
             </div>
             <div class="form-group row" id="lastNameConsistency">
                 <label class="col-md-4 col-form-label">Verify last name <span class="required">*</span></label>
-                <input type="checkbox" style="height: 20px;" class="form-control required-field col-custom" data-error-required='Please verify your last name.' id="UPLastNameVerify">
+                <input type="checkbox" class="form-control required-field col-custom" data-error-required='Please verify your last name.' id="UPLastNameVerify">
             </div>
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">Suffix</label>
