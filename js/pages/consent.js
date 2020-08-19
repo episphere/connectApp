@@ -125,13 +125,13 @@ const consentSubmit = async e => {
     const CSLastName = document.getElementById('CSLastName');
     let hasError = false;
     let focus = true;
-    if(!/^[A-Za-z]+$/.test(CSFirstName.value)) {
+    if(!/^[A-Za-z ]+$/.test(CSFirstName.value)) {
         const msg = 'Your first name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters.';
         errorMessageConsent('CSFirstName', msg, focus)
         focus = false;
         hasError = true;
     }
-    if(!/^[A-Za-z]+$/.test(CSLastName.value)) {
+    if(!/^[A-Za-z ]+$/.test(CSLastName.value)) {
         const msg = 'Your last name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters.';
         errorMessageConsent('CSLastName', msg, focus)
         focus = false;
@@ -142,8 +142,8 @@ const consentSubmit = async e => {
     const CSDate = document.getElementById('CSDate').innerHTML;
 
     formData.RcrtCS_Version_v1r0 = 'Consent-v1.0';
-    formData.RcrtCS_Fname_v1r0 = CSFirstName.value;
-    formData.RcrtCS_Lname_v1r0 = CSLastName.value;
+    formData.RcrtCS_Fname_v1r0 = CSFirstName.value.trim();
+    formData.RcrtCS_Lname_v1r0 = CSLastName.value.trim();
     formData.RcrtCS_Pdate_v1r0 = CSDate.split('/')[2]+CSDate.split('/')[1]+CSDate.split('/')[0];
     formData.RcrtCS_Consented_v1r0 = 1;
     formData.RcrtCS_ConsentSumit_v1r0 = dateTime();

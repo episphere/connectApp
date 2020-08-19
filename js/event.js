@@ -263,7 +263,7 @@ export const addEventUPSubmit = () => {
             if(element.value){
                 const validationPattern = element.dataset.validationPattern;
                 if(validationPattern && validationPattern === 'alphabets') {
-                    if(!/^[A-Za-z]+$/.test(element.value)) {
+                    if(!/^[A-Za-z ]+$/.test(element.value)) {
                         errorMessage(element.id, element.dataset.errorValidation, focus)
                         focus = false;
                         hasError = true;
@@ -369,11 +369,11 @@ export const addEventUPSubmit = () => {
         }
         if(hasError) return false;
         let formData = {};
-        formData['RcrtUP_Fname_v1r0'] = document.getElementById('UPFirstName').value;
-        formData['query.firstName'] = document.getElementById('UPFirstName').value.toLowerCase();
-        formData['RcrtUP_Minitial_v1r0'] = document.getElementById('UPMiddleInitial').value;
-        formData['RcrtUP_Lname_v1r0'] = document.getElementById('UPLastName').value;
-        formData['query.lastName'] = document.getElementById('UPLastName').value.toLowerCase();
+        formData['RcrtUP_Fname_v1r0'] = document.getElementById('UPFirstName').value.trim();
+        formData['query.firstName'] = document.getElementById('UPFirstName').value.trim().toLowerCase();
+        formData['RcrtUP_Minitial_v1r0'] = document.getElementById('UPMiddleInitial').value.trim();
+        formData['RcrtUP_Lname_v1r0'] = document.getElementById('UPLastName').value.trim();
+        formData['query.lastName'] = document.getElementById('UPLastName').value.trim().toLowerCase();
         if(document.getElementById('UPSuffix').value) formData['RcrtUP_Suffix_v1r0'] = document.getElementById('UPSuffix').value;
         let month = document.getElementById('UPMonth').value;
 
