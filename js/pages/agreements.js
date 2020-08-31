@@ -5,15 +5,15 @@ export const renderAgreements = async () => {
     showAnimation();
     const myData = await getMyData();
     let template = '<div class="row"><h3>Consent to participate in Connect Cohort Study</h3></div>';
-    if(myData.code === 200 && myData.data.RcrtCS_Consented_v1r0 !== undefined && myData.data.RcrtCS_Consented_v1r0 === 1){
+    if(myData.code === 200 && myData.data['919254129'] !== undefined && myData.data['919254129'] === 353358909){
         template += `
             <div class="row">
                 <div class="col topic">Name</div>
-                <div class="col">${myData.data.RcrtCS_Fname_v1r0} ${myData.data.RcrtCS_Lname_v1r0}</div>
+                <div class="col">${myData.data['471168198']} ${myData.data['736251808']}</div>
             </div>
             <div class="row">
                 <div class="col topic">Date of consent</div>
-                <div class="col">${new Date(myData.data.RcrtCS_ConsentSumit_v1r0).toDateString()}</div>
+                <div class="col">${new Date(myData.data['454445267']).toDateString()}</div>
             </div>
             <div class="row">
                 <div class="col">
