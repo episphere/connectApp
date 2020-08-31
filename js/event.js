@@ -445,7 +445,7 @@ export const addEventUPSubmit = () => {
         if(document.getElementsByName('methodOfContact')){
             Array.from(document.getElementsByName('methodOfContact')).forEach(radioBtn => {
                 if(radioBtn.checked){
-                    formData['RcrtUP_PrefMethod_v1r0'] = radioBtn.value;
+                    formData['524461170'] = parseInt(radioBtn.value);
                 }
             })
         }
@@ -647,10 +647,10 @@ const verifyUserDetails = (formData) => {
         </div>
         `:``}
 
-        ${formData.RcrtUP_PrefMethod_v1r0 ? `
+        ${formData['524461170'] ? `
         <div class="row">
             <div class="col">How do you prefer that we reach you?</div>
-            <div class="col">${parseInt(formData.RcrtUP_PrefMethod_v1r0) === 1 ? 'Mobile phone': 'Email'}</div>
+            <div class="col">${formData['524461170'] === 127547625 ? 'Mobile phone': 'Email'}</div>
         </div>
         `:``}
 
@@ -747,8 +747,8 @@ export const addEventPreferredContactType = () => {
                 div.innerHTML = `
                     <label class="col-md-4 col-form-label">How do you prefer that we reach you?</label>
                     <div class="btn-group btn-group-toggle col-md-4" data-toggle="buttons">
-                        <label class="btn btn-light up-btns"><input type="radio" name="methodOfContact" value=1>Mobile phone</label>
-                        <label class="btn btn-light up-btns"><input type="radio" name="methodOfContact" value=2>Email</label>
+                        <label class="btn btn-light up-btns"><input type="radio" name="methodOfContact" value="127547625">Mobile phone</label>
+                        <label class="btn btn-light up-btns"><input type="radio" name="methodOfContact" value="357184057">Email</label>
                     </div>
                 `;
             }
@@ -768,8 +768,8 @@ export const addEventPreferredContactType = () => {
                 div.innerHTML = `
                     <label class="col-md-4 col-form-label">How do you prefer that we reach you?</label>
                     <div class="btn-group btn-group-toggle col-md-4" data-toggle="buttons">
-                        <label class="btn btn-light up-btns"><input type="radio" name="methodOfContact" value=1>Mobile phone</label>
-                        <label class="btn btn-light up-btns"><input type="radio" name="methodOfContact" value=2>Email</label>
+                        <label class="btn btn-light up-btns"><input type="radio" name="methodOfContact" value="127547625">Mobile phone</label>
+                        <label class="btn btn-light up-btns"><input type="radio" name="methodOfContact" value="357184057">Email</label>
                     </div>
                 `;
             }
