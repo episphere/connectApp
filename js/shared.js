@@ -1,6 +1,6 @@
 import { addEventHideNotification } from "./event.js";
 
-const api = 'https://us-central1-nih-nci-dceg-episphere-dev.cloudfunctions.net/app';
+const api = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app';
 // const api = 'http://localhost:8010/nih-nci-dceg-episphere-dev/us-central1/app';
 
 export const validateToken = async (token) => {
@@ -60,7 +60,7 @@ export const storeResponse = async (formData) => {
         body: JSON.stringify(formData)
     }
     // const response = await fetch(`http://localhost:8010/nih-nci-dceg-episphere-dev/us-central1/app?api=submit`, requestObj);
-    const response = await fetch(`https://us-central1-nih-nci-dceg-episphere-dev.cloudfunctions.net/app?api=submit`, requestObj);
+    const response = await fetch(`https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app?api=submit`, requestObj);
     return response.json();
 }
 
@@ -80,7 +80,7 @@ export const getMyData = async () => {
         });
     });
     // const response = await fetch(`http://localhost:8010/nih-nci-dceg-episphere-dev/us-central1/app?api=getUserProfile`, {
-    const response = await fetch(`https://us-central1-nih-nci-dceg-episphere-dev.cloudfunctions.net/app?api=getUserProfile`, {
+    const response = await fetch(`https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app?api=getUserProfile`, {
         headers: {
             Authorization: "Bearer "+idToken
         }
@@ -90,15 +90,15 @@ export const getMyData = async () => {
 
 export const sites = () => {
     return {
-        1: 'HealthPartners',
-        2: 'Henry Ford Health System',
-        3: 'Kaiser Permanente Colorado',
-        4: 'Kaiser Permanente Georgia',
-        5: 'Kaiser Permanente Hawaii',
-        6: 'Kaiser Permanente Northwest',
-        7: 'Marshfield Clinic',
-        8: 'Sanford Health',
-        9: 'University of Chicago Medicine',
+        531629870: 'HealthPartners',
+        548392715: 'Henry Ford Health System',
+        125001209: 'Kaiser Permanente Colorado',
+        327912200: 'Kaiser Permanente Georgia',
+        300267574: 'Kaiser Permanente Hawaii',
+        452412599: 'Kaiser Permanente Northwest',
+        303349821: 'Marshfield Clinic',
+        657167265: 'Sanford Health',
+        809703864: 'University of Chicago Medicine',
         13: 'National Cancer Institute'
     }
 }
@@ -702,4 +702,9 @@ export const toggleNavbarMobileView = () => {
     if(btn && btn[0]){
         if(!btn[0].classList.contains('collapsed')) btn[0].click();
     }
+}
+
+export const getConceptVariableName = async (conceptId) => {
+    const response = await fetch(`https://raw.githubusercontent.com/episphere/conceptGithubActions/master/jsons/${conceptId}.json`);
+    return (await response.json()).variableName;
 }
