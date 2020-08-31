@@ -1,4 +1,4 @@
-import { allStates, allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, BirthMonths, getAge, getMyData, retrieveNotifications, removeActiveClass, toggleNavbarMobileView, toggleDarkMode } from "./shared.js";
+import { allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, BirthMonths, getAge, getMyData, retrieveNotifications, removeActiveClass, toggleNavbarMobileView, toggleDarkMode } from "./shared.js";
 import { initializeCanvas, addEventConsentSubmit, consentTemplate } from "./pages/consent.js";
 import { heardAboutStudy, healthCareProvider } from "./pages/healthCareProvider.js";
 import { myToDoList } from "./pages/myToDoList.js";
@@ -52,9 +52,7 @@ export const addEventAddressAutoComplete = (id, country) => {
             });
             UPAddress1Line1.value = addressLine1;
             UPAddress1City.value = addressCity;
-            const lowerCaseStates = Object.keys(allStates).map(s => s.trim().toLowerCase());
-            const stateValue = lowerCaseStates.indexOf(addressState.trim().toLowerCase()) + 1;
-            UPAddress1State.value = stateValue === 0 ? 52 : stateValue;
+            UPAddress1State.value = addressState;
             UPAddress1Zip.value = addressZip;
             
             if(country){
@@ -149,12 +147,12 @@ export const addEventHealthCareProviderSubmit = () => {
     form.addEventListener('submit', async e => {
         e.preventDefault();
         
-        const value = parseInt(document.getElementById('RcrtES_Site_v1r0').value);
+        const value = parseInt(document.getElementById('827220437').value);
         const r = confirm(`Are you sure ${sites()[value]} is your healthcare provider?`)
         if(r){
             dataSavingBtn('save-data');
             let formData = {};
-            formData["RcrtES_Site_v1r0"] = value;
+            formData["827220437"] = value;
             localStorage.eligibilityQuestionnaire = JSON.stringify(formData);
             const response = await storeResponse(formData);
             if(response.code === 200) {
@@ -172,18 +170,18 @@ export const addEventHeardAboutStudy = () => {
         e.preventDefault();
         dataSavingBtn('save-data');
         let formData = {};
-        formData["RcrtES_Aware_v1r0"] = {};
-        formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_phys"] = document.getElementById('checkbox1').checked ? 1 : 0;
-        formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_Email"] = document.getElementById('checkbox2').checked ? 1 : 0;
-        formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_Post"] = document.getElementById('checkbox3').checked ? 1 : 0;
-        formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_News"] = document.getElementById('checkbox4').checked ? 1 : 0;
-        formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_Social"] = document.getElementById('checkbox5').checked ? 1 : 0;
-        formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_Invite"] = document.getElementById('checkbox6').checked ? 1 : 0;
-        formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_Family"] = document.getElementById('checkbox7').checked ? 1 : 0;
-        formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_Member"] = document.getElementById('checkbox8').checked ? 1 : 0;
-        formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_Poster"] = document.getElementById('checkbox9').checked ? 1 : 0;
-        formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_Table"] = document.getElementById('checkbox10').checked ? 1 : 0;
-        formData["RcrtES_Aware_v1r0"]["RcrtES_Aware_v1r0_Other"] = document.getElementById('checkbox11').checked ? 1 : 0;
+        formData["142654897"] = {};
+        formData["142654897"]["196856782"] = document.getElementById('checkbox1').checked ? 353358909 : 104430631;
+        formData["142654897"]["461488577"] = document.getElementById('checkbox2').checked ? 353358909 : 104430631;
+        formData["142654897"]["942255248"] = document.getElementById('checkbox3').checked ? 353358909 : 104430631;
+        formData["142654897"]["791389099"] = document.getElementById('checkbox4').checked ? 353358909 : 104430631;
+        formData["142654897"]["642287621"] = document.getElementById('checkbox5').checked ? 353358909 : 104430631;
+        formData["142654897"]["607081902"] = document.getElementById('checkbox6').checked ? 353358909 : 104430631;
+        formData["142654897"]["549687190"] = document.getElementById('checkbox7').checked ? 353358909 : 104430631;
+        formData["142654897"]["326825649"] = document.getElementById('checkbox8').checked ? 353358909 : 104430631;
+        formData["142654897"]["819377306"] = document.getElementById('checkbox9').checked ? 353358909 : 104430631;
+        formData["142654897"]["829269606"] = document.getElementById('checkbox10').checked ? 353358909 : 104430631;
+        formData["142654897"]["462314689"] = document.getElementById('checkbox11').checked ? 353358909 : 104430631;
         
         const response = await storeResponse(formData);
         if(response.code === 200) {
@@ -369,21 +367,21 @@ export const addEventUPSubmit = () => {
         }
         if(hasError) return false;
         let formData = {};
-        formData['RcrtUP_Fname_v1r0'] = document.getElementById('UPFirstName').value.trim();
+        formData['399159511'] = document.getElementById('UPFirstName').value.trim();
         formData['query.firstName'] = document.getElementById('UPFirstName').value.trim().toLowerCase();
-        formData['RcrtUP_Minitial_v1r0'] = document.getElementById('UPMiddleInitial').value.trim();
-        formData['RcrtUP_Lname_v1r0'] = document.getElementById('UPLastName').value.trim();
+        formData['231676651'] = document.getElementById('UPMiddleInitial').value.trim();
+        formData['996038075'] = document.getElementById('UPLastName').value.trim();
         formData['query.lastName'] = document.getElementById('UPLastName').value.trim().toLowerCase();
-        if(document.getElementById('UPSuffix').value) formData['RcrtUP_Suffix_v1r0'] = document.getElementById('UPSuffix').value;
+        if(document.getElementById('UPSuffix').value) formData['506826178'] = parseInt(document.getElementById('UPSuffix').value);
         let month = document.getElementById('UPMonth').value;
 
-        formData['RcrtUP_MOB_v1r0'] = month;
-        formData['RcrtUP_BD_v1r0'] = document.getElementById('UPDay').value;
-        formData['RcrtUP_YOB_v1r0'] = document.getElementById('UPYear').value;
-        formData['RcrtUP_DOB_v1r0'] = formData.RcrtUP_YOB_v1r0 + formData.RcrtUP_MOB_v1r0 + formData.RcrtUP_BD_v1r0;
+        formData['564964481'] = month;
+        formData['795827569'] = document.getElementById('UPDay').value;
+        formData['544150384'] = document.getElementById('UPYear').value;
+        formData['371067537'] = formData['544150384'] + formData['564964481'] + formData['795827569'];
 
-        if(parseInt(formData.RcrtUP_MOB_v1r0) === 2 && parseInt(formData.RcrtUP_BD_v1r0) === 29){
-            const year = parseInt(formData.RcrtUP_YOB_v1r0);
+        if(parseInt(formData['564964481']) === 2 && parseInt(formData['795827569']) === 29){
+            const year = parseInt(formData['544150384']);
             const isLeapYear = ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
             if(!isLeapYear){
                 errorMessage('UPDay', 'Invalid day.', true);
@@ -392,53 +390,53 @@ export const addEventUPSubmit = () => {
         }
         const gender = document.getElementsByName('UPRadio');
         Array.from(gender).forEach(radioBtn => {
-            if(radioBtn.checked) formData['SEX'] = parseInt(radioBtn.value);
+            if(radioBtn.checked) formData['383945929'] = parseInt(radioBtn.value);
         });
 
         // Contact Information
         const allPhoneNo = [];
         // Mobile phone
         if(document.getElementById('UPPhoneNumber11').value && document.getElementById('UPPhoneNumber12').value && document.getElementById('UPPhoneNumber13').value) {
-            formData['RcrtUP_Phone1_v1r0'] = `${document.getElementById('UPPhoneNumber11').value}${document.getElementById('UPPhoneNumber12').value}${document.getElementById('UPPhoneNumber13').value}`;
+            formData['388711124'] = `${document.getElementById('UPPhoneNumber11').value}${document.getElementById('UPPhoneNumber12').value}${document.getElementById('UPPhoneNumber13').value}`;
             allPhoneNo.push(`${document.getElementById('UPPhoneNumber11').value}${document.getElementById('UPPhoneNumber12').value}${document.getElementById('UPPhoneNumber13').value}`);
         }
         const voiceMailPermission = document.getElementsByName('voiceMailPermission1');
         Array.from(voiceMailPermission).forEach(radioBtn => {
-            if(radioBtn.checked) formData['RcrtUP_VMPerm1_v1r0'] = radioBtn.value;
+            if(radioBtn.checked) formData['271757434'] = parseInt(radioBtn.value);
         });
         const textPermission1 = document.getElementsByName('textPermission1');
         Array.from(textPermission1).forEach(radioBtn => {
-            if(radioBtn.checked) formData['RcrtUP_P1TxtPerm_v1r0'] = radioBtn.value;
+            if(radioBtn.checked) formData['646873644'] = parseInt(radioBtn.value);
         });
 
         // Home phone
         if(document.getElementById('UPPhoneNumber21').value && document.getElementById('UPPhoneNumber22').value && document.getElementById('UPPhoneNumber23').value) {
-            formData['RcrtUP_Phone2_v1r0'] = `${document.getElementById('UPPhoneNumber21').value}${document.getElementById('UPPhoneNumber22').value}${document.getElementById('UPPhoneNumber23').value}`;
+            formData['438643922'] = `${document.getElementById('UPPhoneNumber21').value}${document.getElementById('UPPhoneNumber22').value}${document.getElementById('UPPhoneNumber23').value}`;
             allPhoneNo.push(`${document.getElementById('UPPhoneNumber21').value}${document.getElementById('UPPhoneNumber22').value}${document.getElementById('UPPhoneNumber23').value}`)
         }
         const voiceMailPermission2 = document.getElementsByName('voiceMailPermission2');
         Array.from(voiceMailPermission2).forEach(radioBtn => {
-            if(radioBtn.checked) formData['RcrtUP_VMPerm2_v1r0'] = radioBtn.value;
+            if(radioBtn.checked) formData['187894482'] = parseInt(radioBtn.value);
         });
         if(allPhoneNo.length > 0) formData['query.allPhoneNo'] = allPhoneNo
 
         // Email
         const allEmails = [];
         if(document.getElementById('UPEmail').value) {
-            formData['RcrtUP_Email1_v1r0'] = document.getElementById('UPEmail').value;
+            formData['869588347'] = document.getElementById('UPEmail').value;
             allEmails.push(document.getElementById('UPEmail').value.toLowerCase())
         }
 
         if(document.getElementById('UPEmail2').value) {
-            formData['RcrtUP_Email2_v1r0'] = document.getElementById('UPEmail2').value;
+            formData['849786503'] = document.getElementById('UPEmail2').value;
             allEmails.push(document.getElementById('UPEmail2').value.toLowerCase())
         }
         if(document.getElementById('UPAdditionalEmail2') && document.getElementById('UPAdditionalEmail2').value) {
-            formData['RcrtUP_Email3_v1r0'] = document.getElementById('UPAdditionalEmail2').value;
+            formData['635101039'] = document.getElementById('UPAdditionalEmail2').value;
             allEmails.push(document.getElementById('UPAdditionalEmail2').value.toLowerCase())
         }
         if(document.getElementById('UPAdditionalEmail3') && document.getElementById('UPAdditionalEmail3').value) {
-            formData['RcrtUP_Email4_v1r0'] = document.getElementById('UPAdditionalEmail3').value;
+            formData['714419972'] = document.getElementById('UPAdditionalEmail3').value;
             allEmails.push(document.getElementById('UPAdditionalEmail3').value.toLowerCase())
         }
         if(allEmails.length > 0) formData['query.allEmails'] = allEmails;
@@ -453,42 +451,42 @@ export const addEventUPSubmit = () => {
         }
 
         // Mailing address
-        formData['RcrtUP_AddressLn1_v1r0'] = document.getElementById('UPAddress1Line1').value;
-        if(document.getElementById('UPAddress1Line2').value) formData['RcrtUP_AddressLn2_v1r0'] = document.getElementById('UPAddress1Line2').value;
-        formData['RcrtUP_City_v1r0'] = document.getElementById('UPAddress1City').value;
-        formData['RcrtUP_State_v1r0'] = document.getElementById('UPAddress1State').value;
-        formData['RcrtUP_Zip_v1r0'] = document.getElementById('UPAddress1Zip').value;
+        formData['521824358'] = document.getElementById('UPAddress1Line1').value;
+        if(document.getElementById('UPAddress1Line2').value) formData['442166669'] = document.getElementById('UPAddress1Line2').value;
+        formData['703385619'] = document.getElementById('UPAddress1City').value;
+        formData['634434746'] = document.getElementById('UPAddress1State').value;
+        formData['892050548'] = document.getElementById('UPAddress1Zip').value;
 
         const cancer = document.getElementsByName('cancerHistory');
         Array.from(cancer).forEach(radioBtn => {
-            if(radioBtn.checked) formData['RCRTUP_CANCER_V1R0'] = parseInt(radioBtn.value);
+            if(radioBtn.checked) formData['452166062'] = parseInt(radioBtn.value);
         });
 
         if(document.getElementById('UPCancerYear') && document.getElementById('UPCancerYear').value) {
-            if(parseInt(document.getElementById('UPCancerYear').value) >= parseInt(formData.RcrtUP_YOB_v1r0)){
-                formData['RCRTUP_CANCERYR_V1R0'] = document.getElementById('UPCancerYear').value;
+            if(parseInt(document.getElementById('UPCancerYear').value) >= parseInt(formData['544150384'])){
+                formData['650597106'] = parseInt(document.getElementById('UPCancerYear').value);
             }
             else {
                 errorMessage('UPCancerYear', 'Your year of cancer diagnosed can not be less than the birth year.', true);
                 return false;
             }
         }
-        if(document.getElementById('UPCancerType') && document.getElementById('UPCancerType').value) formData['RCRTUP_CANCERTYPE_V1R0'] = document.getElementById('UPCancerType').value;
-        if(document.getElementById('UPCancerDiagnosis') && document.getElementById('UPCancerDiagnosis').value) formData['RCRTUP_CANCERCOMTS_V1R0'] = document.getElementById('UPCancerDiagnosis').value;
+        if(document.getElementById('UPCancerType') && document.getElementById('UPCancerType').value) formData['266952173'] = document.getElementById('UPCancerType').value;
+        if(document.getElementById('UPCancerDiagnosis') && document.getElementById('UPCancerDiagnosis').value) formData['494982282'] = document.getElementById('UPCancerDiagnosis').value;
 
-        if(formData.RcrtUP_Email1_v1r0){
+        if(formData['869588347']){
             const confirmedEmail = document.getElementById('confirmUPEmail').value;
             if(!confirmedEmail){
                 errorMessage('confirmUPEmail', 'Please confirm your email address.', true);
                 return false;
             }
-            else if(confirmedEmail !== formData.RcrtUP_Email1_v1r0){
+            else if(confirmedEmail !== formData['869588347']){
                 errorMessage('confirmUPEmail', 'Your email addresses do not match. Please retype your email addresses.', true);
                 return false;     
             }
         }
         
-        const ageToday = getAge(`${formData.RcrtUP_YOB_v1r0}-${formData.RcrtUP_MOB_v1r0}-${formData.RcrtUP_BD_v1r0}`);
+        const ageToday = getAge(`${formData['544150384']}-${formData['564964481']}-${formData['795827569']}`);
         if(!(ageToday < 66 && ageToday > 39)){
             // Age is out of qualified range.
             openModal();
@@ -546,22 +544,22 @@ const verifyUserDetails = (formData) => {
     document.getElementById('connectModalBody').innerHTML = `
         <div class="row">
             <div class="col">First name</div>
-            <div class="col">${formData.RcrtUP_Fname_v1r0}</div>
+            <div class="col">${formData['399159511']}</div>
         </div>
-        ${formData.RcrtUP_Minitial_v1r0 ? `
+        ${formData['231676651'] ? `
         <div class="row">
             <div class="col">Middle name</div>
-            <div class="col">${formData.RcrtUP_Minitial_v1r0}</div>
+            <div class="col">${formData['231676651']}</div>
         </div>
         `:``}
         <div class="row">
             <div class="col">Last name</div>
-            <div class="col">${formData.RcrtUP_Lname_v1r0}</div>
+            <div class="col">${formData['996038075']}</div>
         </div>
-        ${formData.RcrtUP_Suffix_v1r0 ? `
+        ${formData['506826178'] ? `
         <div class="row">
             <div class="col">Suffix</div>
-            <div class="col">${formData.RcrtUP_Suffix_v1r0}</div>
+            <div class="col">${formData['506826178']}</div>
         </div>
         `: ``}
         <div class="row">
@@ -569,83 +567,83 @@ const verifyUserDetails = (formData) => {
         </div>
         <div class="row">
             <div class="col">Month</div>
-            <div class="col">${BirthMonths[formData.RcrtUP_MOB_v1r0]}</div>
+            <div class="col">${BirthMonths[formData['564964481']]}</div>
         </div>
         <div class="row">
             <div class="col">Day</div>
-            <div class="col">${formData.RcrtUP_BD_v1r0}</div>
+            <div class="col">${formData['795827569']}</div>
         </div>
         <div class="row">
             <div class="col">Year</div>
-            <div class="col">${formData.RcrtUP_YOB_v1r0}</div>
+            <div class="col">${formData['544150384']}</div>
         </div>
         <div class="row">
             <div class="col">Biological sex assigned at birth</div>
-            <div class="col">${parseInt(formData.SEX) === 0 ? 'Male': `${parseInt(formData.SEX) === 1 ? 'Female' : 'Intersex or other'}`}</div>
+            <div class="col">${formData['383945929'] === 654207589 ? 'Male': `${formData['383945929'] === 536341288 ? 'Female' : 'Intersex or other'}`}</div>
         </div>
         <div class="row">
             <div class="col"><strong>Contact Information</strong></div>
         </div>
-        ${formData.RcrtUP_Phone1_v1r0 ? `
+        ${formData['388711124'] ? `
         <div class="row">
             <div class="col">Mobile phone</div>
-            <div class="col">${formData.RcrtUP_Phone1_v1r0.substr(0,3)} - ${formData.RcrtUP_Phone1_v1r0.substr(3,3)} - ${formData.RcrtUP_Phone1_v1r0.substr(6,4)}</div>
+            <div class="col">${formData['388711124'].substr(0,3)} - ${formData['388711124'].substr(3,3)} - ${formData['388711124'].substr(6,4)}</div>
         </div>
         `:``}
         
-        ${formData.RcrtUP_VMPerm1_v1r0 ? `
+        ${formData['271757434'] ? `
         <div class="row">
             <div class="col">Can we leave a voicemail at this number?</div>
-            <div class="col">${parseInt(formData.RcrtUP_VMPerm1_v1r0) === 1 ? 'Yes': 'No'}</div>
+            <div class="col">${parseInt(formData['271757434']) === 353358909 ? 'Yes': 'No'}</div>
         </div>
         `:``}
         
-        ${formData.RcrtUP_P1TxtPerm_v1r0 ? `
+        ${formData['646873644'] ? `
         <div class="row">
             <div class="col">Can we text this number?</div>
-            <div class="col">${parseInt(formData.RcrtUP_P1TxtPerm_v1r0) === 1 ? 'Yes': 'No'}</div>
+            <div class="col">${parseInt(formData['646873644']) === 353358909 ? 'Yes': 'No'}</div>
         </div>
         `:``}
         
-        ${formData.RcrtUP_Phone2_v1r0 ? `
+        ${formData['438643922'] ? `
         <div class="row">
             <div class="col">Home phone</div>
-            <div class="col">${formData.RcrtUP_Phone2_v1r0.substr(0,3)} - ${formData.RcrtUP_Phone2_v1r0.substr(3,3)} - ${formData.RcrtUP_Phone2_v1r0.substr(6,4)}</div>
+            <div class="col">${formData['438643922'].substr(0,3)} - ${formData['438643922'].substr(3,3)} - ${formData['438643922'].substr(6,4)}</div>
         </div>
         `:``}
         
-        ${formData.RcrtUP_VMPerm2_v1r0 ? `
+        ${formData['187894482'] ? `
         <div class="row">
             <div class="col">Can we leave a voicemail at this number?</div>
-            <div class="col">${parseInt(formData.RcrtUP_VMPerm2_v1r0) === 1 ? 'Yes': 'No'}</div>
+            <div class="col">${formData['187894482'] === 353358909 ? 'Yes': 'No'}</div>
         </div>
         `: ``}
         
-        ${formData.RcrtUP_Email1_v1r0 ? `
+        ${formData['869588347'] ? `
         <div class="row">
             <div class="col">Preferred Email</div>
-            <div class="col">${formData.RcrtUP_Email1_v1r0}</div>
+            <div class="col">${formData['869588347']}</div>
         </div>
         `:``}
         
-        ${formData.RcrtUP_Email2_v1r0 ? `
+        ${formData['849786503'] ? `
         <div class="row">
             <div class="col">Additional Email</div>
-            <div class="col">${formData.RcrtUP_Email2_v1r0}</div>
+            <div class="col">${formData['849786503']}</div>
         </div>
         `:``}
 
-        ${formData.RcrtUP_Email3_v1r0 ? `
+        ${formData['635101039'] ? `
         <div class="row">
             <div class="col">Additional Email 2</div>
-            <div class="col">${formData.RcrtUP_Email3_v1r0}</div>
+            <div class="col">${formData['635101039']}</div>
         </div>
         `:``}
 
-        ${formData.RcrtUP_Email4_v1r0 ? `
+        ${formData['714419972'] ? `
         <div class="row">
             <div class="col">Additional Email 3</div>
-            <div class="col">${formData.RcrtUP_Email4_v1r0}</div>
+            <div class="col">${formData['714419972']}</div>
         </div>
         `:``}
 
@@ -662,56 +660,56 @@ const verifyUserDetails = (formData) => {
 
         <div class="row">
             <div class="col">Line 1 (street, PO box, rural route)</div>
-            <div class="col">${formData.RcrtUP_AddressLn1_v1r0}</div>
+            <div class="col">${formData['521824358']}</div>
         </div>
 
-        ${formData.RcrtUP_AddressLn2_v1r0 ? `
+        ${formData['442166669'] ? `
         <div class="row">
             <div class="col">Line 2 (apartment, suite, unit, building)</div>
-            <div class="col">${formData.RcrtUP_AddressLn2_v1r0}</div>
+            <div class="col">${formData['442166669']}</div>
         </div>
         `:``}
 
         <div class="row">
             <div class="col">City</div>
-            <div class="col">${formData.RcrtUP_City_v1r0}</div>
+            <div class="col">${formData['703385619']}</div>
         </div>
 
         <div class="row">
             <div class="col">State</div>
-            <div class="col">${Object.keys(allStates)[Object.values(allStates).indexOf(parseInt(formData.RcrtUP_State_v1r0))]}</div>
+            <div class="col">${formData['634434746']}</div>
         </div>
 
         <div class="row">
             <div class="col">Zip</div>
-            <div class="col">${formData.RcrtUP_Zip_v1r0}</div>
+            <div class="col">${formData['892050548']}</div>
         </div>
 
-        ${formData.RCRTUP_CANCER_V1R0 ? `
+        ${formData['452166062'] ? `
         <div class="row">
             <div class="col">Have you ever been diagnosed with cancer (other than non-melanoma skin cancer)?</div>
-            <div class="col">${parseInt(formData.RCRTUP_CANCER_V1R0) === 1 ? 'Yes' : 'No'}</div>
+            <div class="col">${formData['452166062'] === 353358909 ? 'Yes' : 'No'}</div>
         </div>
         `:``}
         
-        ${formData.RCRTUP_CANCERYR_V1R0 ? `
+        ${formData['650597106'] ? `
         <div class="row">
             <div class="col">What year were you diagnosed?</div>
-            <div class="col">${formData.RCRTUP_CANCERYR_V1R0}</div>
+            <div class="col">${formData['650597106']}</div>
         </div>
         `:``}
 
-        ${formData.RCRTUP_CANCERTYPE_V1R0 ? `
+        ${formData['266952173'] ? `
         <div class="row">
             <div class="col">What type of cancer did you have?</div>
-            <div class="col">${formData.RCRTUP_CANCERTYPE_V1R0}</div>
+            <div class="col">${formData['266952173']}</div>
         </div>
         `:``}
 
-        ${formData.RCRTUP_CANCERCOMTS_V1R0 ? `
+        ${formData['494982282'] ? `
         <div class="row">
             <div class="col">Please tell us anythning you would like us to know about your cancer diagnosis</div>
-            <div class="col">${formData.RCRTUP_CANCERCOMTS_V1R0}</div>
+            <div class="col">${formData['494982282']}</div>
         </div>
         `:``}
     `;
@@ -723,7 +721,7 @@ const verifyUserDetails = (formData) => {
 
     document.getElementById('confirmReview').addEventListener('click', async () => {
         dataSavingBtn('save-data');
-        formData['RcrtUP_Submitted_v1r0'] = 1;
+        formData['699625233'] = 353358909;
         showAnimation();
         const response = await storeResponse(formData);
         if(response.code === 200) {
@@ -796,8 +794,8 @@ export const addEventRequestPINForm = (accountCreatedAt) => {
             if(response.code !== 200){
                 await generateNewToken();
                 let formData = {};
-                formData["RcrtES_PIN_v1r0"] = pin;
-                formData["RcrtSI_SignTime_v1r0"] = (new Date(parseInt(accountCreatedAt))).toISOString(); // Store account creation time
+                formData["379080287"] = pin;
+                formData["335767902"] = (new Date(parseInt(accountCreatedAt))).toISOString(); // Store account creation time
                 await storeResponse(formData);
                 hideAnimation();
                 mainContent.innerHTML = healthCareProvider();
@@ -805,8 +803,8 @@ export const addEventRequestPINForm = (accountCreatedAt) => {
             }
             if(response.code === 200){
                 let formData = {};
-                formData["RcrtES_PIN_v1r0"] = pin;
-                formData["RcrtSI_SignTime_v1r0"] = (new Date(parseInt(accountCreatedAt))).toISOString(); // Store account creation time
+                formData["379080287"] = pin;
+                formData["335767902"] = (new Date(parseInt(accountCreatedAt))).toISOString(); // Store account creation time
                 await storeResponse(formData);
                 hideAnimation();
                 mainContent.innerHTML =  heardAboutStudy();
@@ -816,7 +814,7 @@ export const addEventRequestPINForm = (accountCreatedAt) => {
         }else{
             await generateNewToken();
             let formData = {};
-            formData["RcrtSI_SignTime_v1r0"] = (new Date(parseInt(accountCreatedAt))).toISOString(); // Store account creation time
+            formData["335767902"] = (new Date(parseInt(accountCreatedAt))).toISOString(); // Store account creation time
             await storeResponse(formData);
             hideAnimation();
             mainContent.innerHTML = healthCareProvider();
