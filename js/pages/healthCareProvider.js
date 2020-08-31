@@ -28,8 +28,8 @@ export const healthCareProvider = (siteId) => {
     <div class="col eligibility-form">
         <form method="POST" id="eligibilityForm">
             <div class="form-group">
-                <label for="RcrtES_Site_v1r0"><strong>Who is your healthcare provider?<span class="required"> *</span></strong>
-                    <select ${siteId ? `disabled` : ``} class="form-control" id="RcrtES_Site_v1r0" required>
+                <label for="827220437"><strong>Who is your healthcare provider?<span class="required"> *</span></strong>
+                    <select ${siteId ? `disabled` : ``} class="form-control" id="827220437" required>
                         <option value="">-- Select healthcare provider --</option>
     `;
 
