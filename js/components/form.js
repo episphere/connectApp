@@ -3,7 +3,7 @@ import { addEventMonthSelection, addEventUPSubmit, addEventCancerFollowUp, addYe
 
 export const renderUserProfile = async () => {
     const myData = await getMyData();
-    const siteId = myData.data ? myData.data.RcrtES_Site_v1r0 : undefined;
+    const siteId = myData.data ? myData.data['827220437'] : undefined;
     const mainContent = document.getElementById('root');
     mainContent.innerHTML = `
         </br>
@@ -15,7 +15,7 @@ export const renderUserProfile = async () => {
         <form id="userProfileForm" method="POST">
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">First name <span class="required">*</span></label>
-                <input type="text" value="${myData.data.RcrtCS_Fname_v1r0}" class="form-control required-field input-validation col-md-4" data-error-required='Please enter your first name.' data-validation-pattern="alphabets" data-error-validation="Your first name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters." id="UPFirstName" placeholder="Enter first name">
+                <input type="text" value="${myData.data['471168198']}" class="form-control required-field input-validation col-md-4" data-error-required='Please enter your first name.' data-validation-pattern="alphabets" data-error-validation="Your first name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters." id="UPFirstName" placeholder="Enter first name">
             </div>
             <div class="form-group row" id="firstNameConsistency">
                 <label class="col-md-4 col-form-label">Verify first name <span class="required">*</span></label>
@@ -27,7 +27,7 @@ export const renderUserProfile = async () => {
             </div>
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">Last name <span class="required">*</span></label>
-                <input type="text" value="${myData.data.RcrtCS_Lname_v1r0}" class="form-control required-field input-validation col-md-4" data-error-required='Please enter your last name.' data-validation-pattern="alphabets" data-error-validation="Your last name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters." id="UPLastName" placeholder="Enter last name">
+                <input type="text" value="${myData.data['736251808']}" class="form-control required-field input-validation col-md-4" data-error-required='Please enter your last name.' data-validation-pattern="alphabets" data-error-validation="Your last name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters." id="UPLastName" placeholder="Enter last name">
             </div>
             <div class="form-group row" id="lastNameConsistency">
                 <label class="col-md-4 col-form-label">Verify last name <span class="required">*</span></label>
@@ -37,11 +37,13 @@ export const renderUserProfile = async () => {
                 <label class="col-md-4 col-form-label">Suffix</label>
                 <select class="form-control col-md-4" id="UPSuffix">
                     <option value="">-- Select suffix --</option>
-                    <option value="Jr">Jr.</option>
-                    <option value="Sr">Sr.</option>
-                    <option value="I">I</option>
-                    <option value="II">II</option>
-                    <option value="III">III</option>
+                    <option value="612166858">Jr.</option>
+                    <option value="255907182">Sr.</option>
+                    <option value="226924545">I</option>
+                    <option value="270793412">II</option>
+                    <option value="959021713">III</option>
+                    <option value="643664527">2nd</option>
+                    <option value="537892528">3rd</option>
                 </select>
             </div>
             
@@ -82,9 +84,9 @@ export const renderUserProfile = async () => {
                     <a href="https://www.census.gov/content/dam/Census/library/working-papers/2018/adrm/rsm2018-05.pdf" target="_blank"><i class="fas fa-external-link-alt"></i></a>
                 </label>
                 <div class="btn-group btn-group-toggle col-md-4" id="radioGroup" data-toggle="buttons">
-                    <label class="btn btn-light up-btns"><input type="radio" name="UPRadio" value="0">Male</label>
-                    <label class="btn btn-light up-btns"><input type="radio" name="UPRadio" value="1">Female</label>
-                    <label class="btn btn-light up-btns"><input type="radio" name="UPRadio" value="2">Intersex or other</label>
+                    <label class="btn btn-light up-btns"><input type="radio" name="UPRadio" value="654207589">Male</label>
+                    <label class="btn btn-light up-btns"><input type="radio" name="UPRadio" value="536341288">Female</label>
+                    <label class="btn btn-light up-btns"><input type="radio" name="UPRadio" value="576796184">Intersex or other</label>
                 </div>
             </div>
 
@@ -105,8 +107,8 @@ export const renderUserProfile = async () => {
                     Can we leave a voicemail at this number? 
                 </label>
                 <div class="btn-group btn-group-toggle col-md-4" data-toggle="buttons">
-                    <label class="btn btn-light up-btns"><input type="radio" name="voiceMailPermission1" value="1">Yes</label>
-                    <label class="btn btn-light up-btns"><input type="radio" name="voiceMailPermission1" value="0">No</label>
+                    <label class="btn btn-light up-btns"><input type="radio" name="voiceMailPermission1" value="353358909">Yes</label>
+                    <label class="btn btn-light up-btns"><input type="radio" name="voiceMailPermission1" value="104430631">No</label>
                 </div>
             </div>
             <div class="form-group row">
@@ -114,8 +116,8 @@ export const renderUserProfile = async () => {
                     Can we text this number? 
                 </label>
                 <div class="btn-group btn-group-toggle col-md-4" data-toggle="buttons">
-                    <label class="btn btn-light up-btns"><input type="radio" name="textPermission1" value="1">Yes</label>
-                    <label class="btn btn-light up-btns"><input type="radio" name="textPermission1" value="0">No</label>
+                    <label class="btn btn-light up-btns"><input type="radio" name="textPermission1" value="353358909">Yes</label>
+                    <label class="btn btn-light up-btns"><input type="radio" name="textPermission1" value="104430631">No</label>
                 </div>
             </div>
 
@@ -135,8 +137,8 @@ export const renderUserProfile = async () => {
                     Can we leave a voicemail at this number? 
                 </label>
                 <div class="btn-group btn-group-toggle col-md-4" data-toggle="buttons">
-                    <label class="btn btn-light up-btns"><input type="radio" name="voiceMailPermission2" value="1">Yes</label>
-                    <label class="btn btn-light up-btns"><input type="radio" name="voiceMailPermission2" value="0">No</label>
+                    <label class="btn btn-light up-btns"><input type="radio" name="voiceMailPermission2" value="353358909">Yes</label>
+                    <label class="btn btn-light up-btns"><input type="radio" name="voiceMailPermission2" value="104430631">No</label>
                 </div>
             </div>
             
@@ -169,8 +171,8 @@ export const renderUserProfile = async () => {
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">Have you ever been diagnosed with cancer (other than non-melanoma skin cancer)?</label>
                 <div class="btn-group btn-group-toggle col-md-4" data-toggle="buttons">
-                    <label class="btn btn-light up-btns" id="UPCancer1Btn"><input type="radio" name="cancerHistory" id="UPCancer1" value=1>Yes</label>
-                    <label class="btn btn-light up-btns" id="UPCancer2Btn"><input type="radio" name="cancerHistory" id="UPCancer2" value=0>No</label>
+                    <label class="btn btn-light up-btns" id="UPCancer1Btn"><input type="radio" name="cancerHistory" id="UPCancer1" value="353358909">Yes</label>
+                    <label class="btn btn-light up-btns" id="UPCancer2Btn"><input type="radio" name="cancerHistory" id="UPCancer2" value="104430631">No</label>
                 </div>
             </div>
 
@@ -186,7 +188,7 @@ export const renderUserProfile = async () => {
         </br></br>
     `;
     addYearsOptions();
-    addEventNameConsistency(myData.data.RcrtCS_Fname_v1r0, myData.data.RcrtCS_Lname_v1r0);
+    addEventNameConsistency(myData.data['471168198'], myData.data['736251808']);
     addEventChangeFocus();
     addEventCancerFollowUp();
     addEventMonthSelection();
@@ -326,7 +328,7 @@ export const renderPhoneNumber = (number) => {
 const renderStates = () => {
     let options = '';
     for(const state in allStates){
-        options += `<option class="option-dark-mode" value="${allStates[state]}">${state}</option>`
+        options += `<option class="option-dark-mode" value="${state}">${state}</option>`
     }
     return options;
 }

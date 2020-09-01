@@ -1,4 +1,4 @@
-import { todaysDate, storeResponse, dataSavingBtn, dateTime, errorMessage, errorMessageConsent } from "../shared.js";
+import { todaysDate, storeResponse, dataSavingBtn, dateTime, errorMessageConsent } from "../shared.js";
 import { renderUserProfile } from "../components/form.js";
 import { removeAllErrors } from "../event.js";
 
@@ -15,20 +15,20 @@ export const consentTemplate = () => {
                     <label class="consent-form-label">
                         First name<span class="required">*</span>
                     </label>
-                    <input required type="text" name="RcrutCS_Fname_v1r0" autocomplete="off" id="CSFirstName" class="form-control col-md-5" placeholder="Enter first name">
+                    <input required type="text" autocomplete="off" id="CSFirstName" class="form-control col-md-5" placeholder="Enter first name">
                 </div>
                 <div class="col form-group consent-form">
                     <label class="consent-form-label">
                         Last name<span class="required">*</span>
                     </label>
-                    <input required type="text" name="RcrutCS_Lname_v1r0" autocomplete="off" id="CSLastName" class="form-control col-md-5" placeholder="Enter last name">
+                    <input required type="text" autocomplete="off" id="CSLastName" class="form-control col-md-5" placeholder="Enter last name">
                 </div>
             </div>
             <div class="row">
                 <div class="col form-group consent-form">
                     <label class="consent-form-label">
                         Digital signature<span class="required">*</span>
-                        <input disabled required type="text" name="RcrutCS_Sign_v1r0" id="CSSign" class="form-control consentSign">
+                        <input disabled required type="text" id="CSSign" class="form-control consentSign">
                     </label>
                 </div>
                 <div class="col form-group consent-form">
@@ -38,18 +38,18 @@ export const consentTemplate = () => {
                     <span id="CSDate">${todaysDate()}</span>
                 </div>
             </div>
-            ${localStorage.eligibilityQuestionnaire ? JSON.parse(localStorage.eligibilityQuestionnaire).RcrtES_Site_v1r0 === 9 ? `
+            ${localStorage.eligibilityQuestionnaire ? JSON.parse(localStorage.eligibilityQuestionnaire)['827220437'] === 809703864 ? `
                 <div class="row">
                     <div class="col form-group consent-form">
                         <label class="consent-form-label">
                             Witness first name<span class="required">*</span>
-                            <input required type="text" name="RcrutCS_WFname_v1r0" autocomplete="off" id="CSWFirstName" class="form-control" placeholder="Enter first name">
+                            <input required type="text" autocomplete="off" id="CSWFirstName" class="form-control" placeholder="Enter first name">
                         </label>
                     </div>
                     <div class="col form-group consent-form">
                         <label class="consent-form-label">
                             Witness last name<span class="required">*</span>
-                            <input required type="text" name="RcrutCS_WLname_v1r0" autocomplete="off" id="CSWLastName" class="form-control" placeholder="Enter last name">
+                            <input required type="text" autocomplete="off" id="CSWLastName" class="form-control" placeholder="Enter last name">
                         </label>
                     </div>
                 </div>
@@ -57,7 +57,7 @@ export const consentTemplate = () => {
                     <div class="col form-group consent-form">
                         <label class="consent-form-label">
                             Witness digital signature<span class="required">*</span>
-                            <input disabled required type="text" name="RcrutCSW_Sign_v1r0" id="CSWSign" class="form-control consentSign">
+                            <input disabled required type="text" id="CSWSign" class="form-control consentSign">
                         </label>
                     </div>
                     <div class="col form-group consent-form">
@@ -142,11 +142,11 @@ const consentSubmit = async e => {
     const CSDate = document.getElementById('CSDate').innerHTML;
 
     formData.RcrtCS_Version_v1r0 = 'Consent-v1.0';
-    formData.RcrtCS_Fname_v1r0 = CSFirstName.value.trim();
-    formData.RcrtCS_Lname_v1r0 = CSLastName.value.trim();
-    formData.RcrtCS_Pdate_v1r0 = CSDate.split('/')[2]+CSDate.split('/')[1]+CSDate.split('/')[0];
-    formData.RcrtCS_Consented_v1r0 = 1;
-    formData.RcrtCS_ConsentSumit_v1r0 = dateTime();
+    formData['471168198'] = CSFirstName.value.trim();
+    formData['736251808'] = CSLastName.value.trim();
+    formData['982402227'] = CSDate.split('/')[2]+CSDate.split('/')[1]+CSDate.split('/')[0];
+    formData['919254129'] = 353358909;
+    formData['454445267'] = dateTime();
 
     const CSWFirstName = document.getElementById('CSWFirstName');
     const CSWLastName = document.getElementById('CSWLastName');
@@ -154,11 +154,10 @@ const consentSubmit = async e => {
     if(CSWFirstName && CSWLastName){
         const CSWDate = document.getElementById('CSWDate').innerHTML;
 
-        formData.RcrtCS_WFname_v1r0 = CSWFirstName.value;
-        formData.RcrtCS_WLname_v1r0 = CSWLastName.value;
-        formData.RcrtCS_Wdate_v1r0 = CSWDate.split('/')[2] + CSWDate.split('/')[1] + CSWDate.split('/')[0]
+        formData['983784715'] = CSWFirstName.value;
+        formData['700668490'] = CSWLastName.value;
+        formData['430184574'] = CSWDate.split('/')[2] + CSWDate.split('/')[1] + CSWDate.split('/')[0]
     }
-
     
     const response = await storeResponse(formData);
     if(response.code === 200) renderUserProfile();

@@ -7,15 +7,15 @@ import { heardAboutStudy, requestPINTemplate, healthCareProvider } from "./healt
 
 export const myToDoList = (data) => {
     const mainContent = document.getElementById('root');
-    if(data.RcrtES_Site_v1r0 && data.RcrtES_Aware_v1r0){
-        localStorage.eligibilityQuestionnaire = JSON.stringify({RcrtES_Site_v1r0: data.RcrtES_Site_v1r0})
-        if(data.RcrtCS_Consented_v1r0 === 1){
-            if(data.RcrtUP_Submitted_v1r0 && data.RcrtUP_Submitted_v1r0 === 1 && data.RcrtSI_RecruitType_v1r0 && data.RcrtSI_RecruitType_v1r0 === 2){
+    if(data['827220437'] && data['142654897']){
+        localStorage.eligibilityQuestionnaire = JSON.stringify({'827220437': data['827220437']})
+        if(data['919254129'] === 353358909){
+            if(data['699625233'] && data['699625233'] === 353358909 && data['512820379'] && data['512820379'] === 854703046){
                 blockParticipant();
                 hideAnimation();
                 return;
             }
-            if(data.RcrtUP_Submitted_v1r0 && data.RcrtUP_Submitted_v1r0 === 1){
+            if(data['699625233'] && data['699625233'] === 353358909){
                 let template = '<h3>My To Do List: </h3>';
                 template += `
                     <span>You have self assessment questionnaires ready to take</span>
@@ -51,12 +51,12 @@ export const myToDoList = (data) => {
         hideAnimation();
         return;
     }
-    else if(data.RcrtES_Site_v1r0 && !data.RcrtES_Aware_v1r0){
+    else if(data['827220437'] && !data['142654897']){
         mainContent.innerHTML =  heardAboutStudy();
         addEventHeardAboutStudy();
         hideAnimation();
     }
-    else if(data.RcrtES_PIN_v1r0){
+    else if(data['379080287']){
         mainContent.innerHTML = requestPINTemplate();
         addEventRequestPINForm(user.metadata.a);
         hideAnimation();
