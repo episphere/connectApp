@@ -141,7 +141,7 @@ const consentSubmit = async e => {
     dataSavingBtn('save-data');
     const CSDate = document.getElementById('CSDate').innerHTML;
 
-    formData.RcrtCS_Version_v1r0 = 'Consent-v1.0';
+    formData['454205108'] = 'Consent-v1.0';
     formData['471168198'] = CSFirstName.value.trim();
     formData['736251808'] = CSLastName.value.trim();
     formData['982402227'] = CSDate.split('/')[2]+CSDate.split('/')[1]+CSDate.split('/')[0];
