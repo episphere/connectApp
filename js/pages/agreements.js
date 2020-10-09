@@ -25,7 +25,7 @@ export const renderAgreements = async () => {
                             <button class="btn list-item-active btn-agreement"><i class="fas fa-file-pdf"></i> View</button>
                         </li>
                         <li class="list-item" title="Download consent form" id="downloadConsent">
-                            <a href="./consent_draft.pdf" class="no-text-decoration" download="coonect_consent.pdf">
+                            <a href="./consent_draft.pdf" class="no-text-decoration" download="connect_consent.pdf">
                                 <button class="btn list-item-active btn-agreement"><i class="fas fa-file-download"></i> Download</button>
                             </a>
                         </li>

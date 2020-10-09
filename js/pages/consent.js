@@ -4,7 +4,7 @@ import { removeAllErrors } from "../event.js";
 
 export const consentTemplate = () => {
     return ` 
-        <div class="row">Download consent form:&nbsp<a href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="coonect_consent.pdf"><i class="fas fa-file-download"></i></a></div>
+        <div class="row">Download consent form:&nbsp<a href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf"><i class="fas fa-file-download"></i></a></div>
         <div class="row" id="canvasContainer"></div>
         <form id="consentForm" method="POST">
             <div class="row">
