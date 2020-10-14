@@ -58,11 +58,6 @@ export const renderSettingsPage = async () => {
             </div>
             </br>
             <div class="row">
-                <div class="col data">Biological sex assigned at birth</div>
-                <div class="col"><input class="form-control" readonly value="${userData['383945929'] === 654207589 ? 'Male': `${userData['383945929'] === 536341288 ? 'Female' : 'Intersex or other'}`}"></div>
-            </div>
-            </br>
-            <div class="row">
                 <div class="col data">Mobile phone</div>
                 <div class="col"><input class="form-control" readonly value="${userData['388711124']? `${userData['388711124'].substr(0,3)} - ${userData['388711124'].substr(3,3)} - ${userData['388711124'].substr(6,4)}` : ''}"></div>
             </div>

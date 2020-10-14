@@ -304,13 +304,7 @@ export const addEventUPSubmit = () => {
         Array.from(radios).forEach(element => {
             if(element.checked) radioChecked = true;
         });
-        if(radioChecked === false) {
-            document.getElementById('radioGroup').classList.add('invalid');
-            errorMessage('radioGroup', `Please select your biological sex.`);
-            if(focus) document.getElementById('radioGroup').children[0].focus()
-            focus = false;
-            hasError = true;
-        }
+        
         const phoneNo = `${document.getElementById('UPPhoneNumber11').value}${document.getElementById('UPPhoneNumber12').value}${document.getElementById('UPPhoneNumber13').value}`;
         const phoneNo2 = `${document.getElementById('UPPhoneNumber21').value}${document.getElementById('UPPhoneNumber22').value}${document.getElementById('UPPhoneNumber23').value}`;
         const email = document.getElementById('UPEmail').value;
@@ -576,10 +570,6 @@ const verifyUserDetails = (formData) => {
         <div class="row">
             <div class="col">Year</div>
             <div class="col">${formData['544150384']}</div>
-        </div>
-        <div class="row">
-            <div class="col">Biological sex assigned at birth</div>
-            <div class="col">${formData['383945929'] === 654207589 ? 'Male': `${formData['383945929'] === 536341288 ? 'Female' : 'Intersex or other'}`}</div>
         </div>
         <div class="row">
             <div class="col"><strong>Contact Information</strong></div>
