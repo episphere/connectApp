@@ -1,4 +1,4 @@
-import { hideAnimation } from "../shared.js";
+import { hideAnimation, questionnaireModules } from "../shared.js";
 import { blockParticipant, questionnaire } from "./questionnaire.js";
 import { renderUserProfile } from "../components/form.js";
 import { consentTemplate, initializeCanvas, addEventConsentSubmit } from "./consent.js";
@@ -17,23 +17,33 @@ export const myToDoList = (data) => {
             }
             if(data['699625233'] && data['699625233'] === 353358909){
                 let template = '<h3>My To Do List: </h3>';
-                template += `
-                    <span>You have self assessment questionnaires ready to take</span>
-                    <ul class="questionnaire-module-list">
-                        <li class="list-item">
-                            <button class="btn list-item-active btn-agreement" title="Module 1" id="module1">Module 1</button>
-                        </li>
-                        <li class="list-item">
-                            <button class="btn list-item-active btn-disbaled btn-agreement" title="Module 2" id="module2">Module 2</button>
-                        </li>
-                        <li class="list-item">
-                            <button class="btn list-item-active btn-disbaled btn-agreement" title="Module 3" id="module3">Module 3</button>
-                        </li>
-                        <li class="list-item">
-                            <button class="btn list-item-active btn-disbaled btn-agreement" title="Module 4" id="module4">Module 4</button>
-                        </li>
-                    </ul>
-                `;
+                template += `<span>You have self assessment questionnaires ready to take</span>
+                <ul class="questionnaire-module-list">`;
+                const modules = questionnaireModules;
+                for(let key in modules){
+                    template += `<li class="list-item">
+                                    <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].url ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}">${key}</button>
+                                </li>`;
+                }
+                template += `</ul>`
+
+                // template += `
+                //     <span>You have self assessment questionnaires ready to take</span>
+                //     <ul class="questionnaire-module-list">
+                //         <li class="list-item">
+                //             <button class="btn list-item-active btn-agreement" title="Module 1" id="module1">Module 1</button>
+                //         </li>
+                //         <li class="list-item">
+                //             <button class="btn list-item-active  btn-agreement" title="Module 2" id="module2">Module 2</button>
+                //         </li>
+                //         <li class="list-item">
+                //             <button class="btn list-item-active btn-disbaled btn-agreement" title="Module 3" id="module3">Module 3</button>
+                //         </li>
+                //         <li class="list-item">
+                //             <button class="btn list-item-active btn-disbaled btn-agreement" title="Module 4" id="module4">Module 4</button>
+                //         </li>
+                //     </ul>
+                // `;
                 mainContent.innerHTML = template;
                 addEventToDoList();
                 hideAnimation();
@@ -69,6 +79,11 @@ export const myToDoList = (data) => {
 }
 
 const addEventToDoList = () => {
-    const module1 = document.getElementById('module1');
-    module1.addEventListener('click', () => questionnaire());
+    const modules = document.getElementsByClassName('questionnaire-module');
+    Array.from(modules).forEach(module => {
+        module.addEventListener('click',() => {
+            const url = module.dataset.moduleUrl;
+            if(url) questionnaire(url);
+        })
+    })
 }

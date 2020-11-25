@@ -708,3 +708,11 @@ export const getConceptVariableName = async (conceptId) => {
     const response = await fetch(`https://raw.githubusercontent.com/episphere/conceptGithubActions/master/jsons/${conceptId}.json`);
     return (await response.json()).variableName;
 }
+
+export const questionnaireModules = {
+    'Module 1': {url: 'https://jonasalmeida.github.io/privatequest/demo2.txt'},
+    'Enter SSN': {url: 'https://jonasalmeida.github.io/privatequest/ssnModule.txt'},
+    'Module 2': {},
+    'Module 3': {},
+    'Module 4': {}
+}
