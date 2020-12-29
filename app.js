@@ -1,4 +1,4 @@
-import { getParameters, validateToken, userLoggedIn, getMyData, showAnimation, hideAnimation, connectPushNotification, enableDarkMode, toggleDarkMode } from "./js/shared.js";
+import { getParameters, validateToken, userLoggedIn, getMyData, showAnimation, hideAnimation, connectPushNotification, enableDarkMode, toggleDarkMode, storeResponse } from "./js/shared.js";
 import { userNavBar, homeNavBar } from "./js/components/navbar.js";
 import { homePage, joinNowBtn } from "./js/pages/homePage.js";
 import { signIn } from "./js/pages/signIn.js";
@@ -205,7 +205,7 @@ const userProfile = () => {
             if(parameters && parameters.token){
                 const response = await validateToken(parameters.token);
                 if(response.code === 200) {
-                    // await storeResponse({RcrtSI_Account_v1r0: 1, RcrtSI_AccountTime_v1r0: });
+                    await storeResponse({335767902: (new Date(parseInt(user.metadata.a))).toISOString()});
                 }
             }
             if(user.email && !user.emailVerified){
