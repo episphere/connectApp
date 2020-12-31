@@ -1,13 +1,17 @@
 import { storeResponse, getMyData } from "../shared.js";
 import { transform } from 'https://episphere.github.io/quest/replace2.js';
+export const  questionnaire = (url) => {
+    //TODO add data into render previous answers
+    //getMyData().then(data => {
+    //data = {"firstName":"Alaina","age":"55","SEX":["3"],"SEX2":["6"]};
+       transform.render({
+            url: url,
+            activate: true,
+            store: storeResponse,
+            retrieve: getMyData
+        }, 'root');
+    //})
 
-export const questionnaire = (url) => {
-    transform.render({
-        url: url,
-        activate: true,
-        store: storeResponse,
-        retrieve: getMyData
-    }, 'root');
 }
 
 export const blockParticipant = () => {
