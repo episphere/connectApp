@@ -20,9 +20,13 @@ export const myToDoList = (data) => {
                 template += `<span>You have self assessment questionnaires ready to take</span>
                 <ul class="questionnaire-module-list">`;
                 const modules = questionnaireModules;
+                if (data.Module1 && data.Module1.COMPLETED) { modules["Enter SSN"].enabled = true};
+                if (data.ModuleSsn && data.ModuleSsn.COMPLETED) { modules["Module 2"].enabled = true};
+                if (data.Module2 && data.Module2.COMPLETED) { modules["Module 3"].enabled = true};
+                if (data.Module3 && data.Module3.COMPLETED) { modules["Module 4"].enabled = true};
                 for(let key in modules){
                     template += `<li class="list-item">
-                                    <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].url ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}">${key}</button>
+                                    <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}">${key}</button>
                                 </li>`;
                 }
                 template += `</ul>`
@@ -82,8 +86,11 @@ const addEventToDoList = () => {
     const modules = document.getElementsByClassName('questionnaire-module');
     Array.from(modules).forEach(module => {
         module.addEventListener('click',() => {
-            const url = module.dataset.moduleUrl;
-            if(url) questionnaire(url);
+            if (!module.classList.contains("btn-disbaled")){
+                const url = module.dataset.moduleUrl;
+                if(url) questionnaire(url);
+            }
+
         })
     })
 }
