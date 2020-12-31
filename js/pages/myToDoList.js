@@ -2,7 +2,7 @@ import { hideAnimation, questionnaireModules } from "../shared.js";
 import { blockParticipant, questionnaire } from "./questionnaire.js";
 import { renderUserProfile } from "../components/form.js";
 import { consentTemplate, initializeCanvas, addEventConsentSubmit } from "./consent.js";
-import { addEventsConsentSign, addEventHeardAboutStudy, addEventRequestPINForm, addEventHealthCareProviderSubmit } from "../event.js";
+import { addEventsConsentSign, addEventHeardAboutStudy, addEventRequestPINForm, addEventHealthCareProviderSubmit, addEventPinAutoUpperCase } from "../event.js";
 import { heardAboutStudy, requestPINTemplate, healthCareProvider } from "./healthCareProvider.js";
 
 export const myToDoList = (data) => {
@@ -68,6 +68,7 @@ export const myToDoList = (data) => {
     }
     else if(data['379080287']){
         mainContent.innerHTML = requestPINTemplate();
+        addEventPinAutoUpperCase();
         addEventRequestPINForm(user.metadata.a);
         hideAnimation();
     }
