@@ -6,7 +6,7 @@ export const requestPINTemplate = () => {
             <form method="POST" id="requestPINForm">
                 <div class="form-group">
                     <label><strong>If you received a PIN as part of study invitation, please enter it here</strong></label>
-                    <label><input type="text" id="participantPIN" class="form-control" placeholder="Enter PIN"></label>
+                    <label><input type="text" maxlength="6" id="participantPIN" class="form-control" placeholder="Enter PIN"></label>
                 </div>
 
                 <div class="form-group row">
