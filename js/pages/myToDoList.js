@@ -21,9 +21,9 @@ export const myToDoList = (data) => {
                 <ul class="questionnaire-module-list">`;
                 const modules = questionnaireModules;
                 if (data.Module1 && data.Module1.COMPLETED) { modules["Enter SSN"].enabled = true};
-                if (data.ModuleSsn && data.ModuleSsn.COMPLETED) { modules["Module 2"].enabled = true};
-                if (data.Module2 && data.Module2.COMPLETED) { modules["Module 3"].enabled = true};
-                if (data.Module3 && data.Module3.COMPLETED) { modules["Module 4"].enabled = true};
+                if (data.ModuleSsn && data.ModuleSsn.COMPLETED) { modules["Medications, Reproductive Health, Exercise, and Sleep"].enabled = true};
+                if (data.Module2 && data.Module2.COMPLETED) { modules["Smoking, Alcohol, and Sun Exposure"].enabled = true};
+                if (data.Module3 && data.Module3.COMPLETED) { modules["Where You Live and Work"].enabled = true};
                 for(let key in modules){
                     template += `<li class="list-item">
                                     <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}">${key}</button>
