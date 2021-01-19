@@ -710,9 +710,9 @@ export const getConceptVariableName = async (conceptId) => {
 }
 
 export const questionnaireModules = {
-    'Module 1': {url: 'https://hzhao392.github.io/privatequest/test_module1.txt', moduleId:"Module1", enabled:true},
+    'Background and Overall Health': {url: 'https://hzhao392.github.io/privatequest/test_module1.txt', moduleId:"Module1", enabled:true},
     'Enter SSN': {url: 'https://hzhao392.github.io/privatequest/ssnModule.txt', moduleId:"ModuleSsn", enabled:false},
-    'Module 2': {url: 'https://hzhao392.github.io/privatequest/test_module2.txt', moduleId:"Module2", enabled:false},
-    'Module 3': {url: 'https://hzhao392.github.io/privatequest/test_module3.txt', moduleId:"Module3", enabled:false},
-    'Module 4': {url: 'https://hzhao392.github.io/privatequest/test_module4.txt', moduleId:"Module4", enabled:false}
+    'Medications, Reproductive Health, Exercise, and Sleep': {url: 'https://hzhao392.github.io/privatequest/test_module2.txt', moduleId:"Module2", enabled:false},
+    'Smoking, Alcohol, and Sun Exposure': {url: 'https://hzhao392.github.io/privatequest/test_module3.txt', moduleId:"Module3", enabled:false},
+    'Where You Live and Work': {url: 'https://hzhao392.github.io/privatequest/test_module4.txt', moduleId:"Module4", enabled:false}
 }

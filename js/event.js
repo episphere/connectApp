@@ -773,6 +773,13 @@ export const addEventPreferredContactType = () => {
     });
 }
 
+export const addEventPinAutoUpperCase = () => {
+    const pin = document.getElementById('participantPIN')
+    pin.addEventListener('input', () => {
+        if(pin.value) pin.value = pin.value.toUpperCase();
+    })
+}
+
 export const addEventRequestPINForm = (accountCreatedAt) => {
     const form = document.getElementById('requestPINForm');
     form.addEventListener('submit', async e => {

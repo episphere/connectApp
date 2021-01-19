@@ -3,7 +3,7 @@ import { userNavBar, homeNavBar } from "./js/components/navbar.js";
 import { homePage, joinNowBtn } from "./js/pages/homePage.js";
 import { signIn } from "./js/pages/signIn.js";
 import { firebaseConfig } from "./js/config.js";
-import { addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser } from "./js/event.js";
+import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser } from "./js/event.js";
 import { requestPINTemplate } from "./js/pages/healthCareProvider.js";
 import { myToDoList } from "./js/pages/myToDoList.js";
 import { renderAgreements } from "./js/pages/agreements.js";
@@ -205,9 +205,17 @@ const userProfile = () => {
             if(parameters && parameters.token){
                 const response = await validateToken(parameters.token);
                 if(response.code === 200) {
-                    await storeResponse({335767902: (new Date(parseInt(user.metadata.a))).toISOString()});
+                    let obj = {
+                        335767902: (new Date(parseInt(user.metadata.a))).toISOString()
+                    }
+                    if(parameters.utm_source && parameters.utm_id) {
+                        obj['utm_source'] = parameters.utm_source;
+                        obj['utm_id'] = parameters.utm_id;
+                    }
+                    await storeResponse(obj);
                 }
             }
+            window.history.replaceState({},'Dashboard', './#dashboard');
             if(user.email && !user.emailVerified){
                 const mainContent = document.getElementById('root');
                 mainContent.innerHTML = '<div>Please verify your email by clicking <a id="verifyEmail"><button class="btn btn-primary">Verify Email</button></a></div>'
@@ -226,7 +234,6 @@ const userProfile = () => {
                 return;
             }
             
-            window.history.replaceState({},'Dashboard', './#dashboard');
             const myData = await getMyData();
             if(myData.code === 200) {
                 // connectPushNotification();
@@ -234,6 +241,7 @@ const userProfile = () => {
             }
             else {
                 mainContent.innerHTML = requestPINTemplate();
+                addEventPinAutoUpperCase();
                 addEventRequestPINForm(user.metadata.a);
                 hideAnimation();
             }
