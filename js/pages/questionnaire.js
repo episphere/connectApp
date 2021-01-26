@@ -6,7 +6,9 @@ export const  questionnaire = (url) => {
     getMyData().then(data => {
         let inputData = {};
         inputData["firstName"] = data.data[fieldMapping.fName];
-        inputData["sex"] = data.data.Module1.SEX;
+        if (data.data.Module1.SEX){
+            inputData["SEX"] = data.data.Module1.SEX;
+        }
         let birthMonth =  data.data[fieldMapping.birthMonth];
         let birthDay =  data.data[fieldMapping.birthDay];
         let birthYear =  data.data[fieldMapping.birthYear];
@@ -15,6 +17,7 @@ export const  questionnaire = (url) => {
             var ageDifMs = Date.now() - birthDate.getTime();
             var ageDate = new Date(ageDifMs); // miliseconds from epoch
             inputData["age"] = Math.abs(ageDate.getUTCFullYear() - 1970);
+            inputData["AGE"] = Math.abs(ageDate.getUTCFullYear() - 1970);
         }
     // inputData = {"firstName":"Alaina","age":"55","SEX":["3"],"SEX2":["6"]};
        transform.render({
