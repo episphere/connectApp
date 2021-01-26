@@ -6,7 +6,7 @@ export const  questionnaire = (url) => {
     getMyData().then(data => {
         let inputData = {};
         inputData["firstName"] = data.data[fieldMapping.fName];
-        if (data.data.Module1.SEX){
+        if (data.data.Module1 && data.data.Module1.SEX){
             inputData["SEX"] = data.data.Module1.SEX;
         }
         let birthMonth =  data.data[fieldMapping.birthMonth];
