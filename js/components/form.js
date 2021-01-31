@@ -8,31 +8,31 @@ export const renderUserProfile = async () => {
     mainContent.innerHTML = `
         </br>
         <h2>User profile</h2>
-        Thank you for joining Connect for Cancer Prevention! Before you are officially enrolled, 
-        ${siteId ? sites()[siteId] : ''} will use this information to verify your eligibility. 
+        Thank you for joining the Connect for Cancer Prevention Study! Before you are officially enrolled, 
+        w will use this information to verify your eligibility. 
         We respect your privacy and will treat all information as confidential.
         
         <form id="userProfileForm" method="POST">
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">First name <span class="required">*</span></label>
-                <input type="text" value="${myData.data['471168198']}" class="form-control required-field input-validation col-md-4" data-error-required='Please enter your first name.' data-validation-pattern="alphabets" data-error-validation="Your first name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters." id="UPFirstName" placeholder="Enter first name">
+                <input type="text" value="${myData.data['471168198']}" class="form-control input-validation col-md-4" id="UPFirstName" placeholder="Enter first name" disabled>
             </div>
-            <div class="form-group row" id="firstNameConsistency">
+            <!--<div class="form-group row" id="firstNameConsistency">
                 <label class="col-md-4 col-form-label">Verify first name <span class="required">*</span></label>
                 <input type="checkbox" class="form-control required-field col-custom custom-checkbox" data-error-required='Please verify your first name.' id="UPFirstNameVerify">
-            </div>
+            </div>-->
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">Middle name</label>
                     <input type="text" class="form-control input-validation col-md-4" data-validation-pattern="alphabets" data-error-validation="Your middle name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters." id="UPMiddleInitial" placeholder="Enter middle name">
             </div>
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">Last name <span class="required">*</span></label>
-                <input type="text" value="${myData.data['736251808']}" class="form-control required-field input-validation col-md-4" data-error-required='Please enter your last name.' data-validation-pattern="alphabets" data-error-validation="Your last name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters." id="UPLastName" placeholder="Enter last name">
+                <input type="text" value="${myData.data['736251808']}" class="form-control  col-md-4" id="UPLastName" placeholder="Enter last name" disabled>
             </div>
-            <div class="form-group row" id="lastNameConsistency">
+            <!--<div class="form-group row" id="lastNameConsistency">
                 <label class="col-md-4 col-form-label">Verify last name <span class="required">*</span></label>
                 <input type="checkbox" class="form-control required-field col-custom custom-checkbox" data-error-required='Please verify your last name.' id="UPLastNameVerify">
-            </div>
+            </div>-->
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">Suffix</label>
                 <select class="form-control col-md-4" id="UPSuffix">

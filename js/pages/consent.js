@@ -3,7 +3,30 @@ import { renderUserProfile } from "../components/form.js";
 import { removeAllErrors } from "../event.js";
 
 export const consentTemplate = () => {
-    return ` 
+    let template = `<div class="container">
+            <div class="row" style="grid-template-columns:repeat(auto-fit, minmax(100px, 1fr))">
+                <div class="col" style="margin:auto;width:30px;height:30px;border-radius:50%;background:blue">1</div>
+                <div class="col">2</div>
+                <div class="col">3</div>
+                <div class="col">4</div>
+                <div class="col">5</div>
+                <div class="col">6</div>
+                <div class="col">7</div>
+                <div class="col">8</div>
+            </div>
+            <div class="row" style="grid-template-columns:repeat(auto-fit, minmax(100px, 1fr))">"
+                <div class="col">About</div>
+                <div class="col">Activities</div>
+                <div class="col">Privacy</div>
+                <div class="col">Benefits</div>
+                <div class="col">Results</div>
+                <div class="col">Leaving</div>
+                <div class="col">Consent</div>
+                <div class="col">Health Records</div>
+            </div>
+            
+    </div>`
+    return template + ` 
         <div class="row">Download consent form:&nbsp<a href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf"><i class="fas fa-file-download"></i></a></div>
         <div class="row" id="canvasContainer"></div>
         <form id="consentForm" method="POST">
