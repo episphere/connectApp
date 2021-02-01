@@ -3,29 +3,141 @@ import { renderUserProfile } from "../components/form.js";
 import { removeAllErrors } from "../event.js";
 
 export const consentTemplate = () => {
-    let template = `<div class="container">
-            <div class="row" style="grid-template-columns:repeat(auto-fit, minmax(100px, 1fr))">
-                <div class="col" style="margin:auto;width:30px;height:30px;border-radius:50%;background:blue">1</div>
-                <div class="col">2</div>
-                <div class="col">3</div>
-                <div class="col">4</div>
-                <div class="col">5</div>
-                <div class="col">6</div>
-                <div class="col">7</div>
-                <div class="col">8</div>
+    consentAboutPage();
+}
+export const consentAboutPage = () => {
+    const mainContent = document.getElementById('root');
+    mainContent.innerHTML =  `<div class="row" >
+        <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:#005ea2;border-radius:50%;border:5px solid #005ea2;line-height:17px;color:white;">1</div><div style="text-align:center;">About</div></div>
+        <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:#005ea2;"></div></div>
+        <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:white;border-radius:50%;border:5px solid lightgrey;line-height:17px;">2</div><div style="text-align:center;">Activities</div></div>
+        <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:lightgrey;"></div></div>
+        <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:white;border-radius:50%;border:5px solid lightgrey;line-height:17px;">3</div><div style="text-align:center;">Privacy</div></div>
+        <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:lightgrey;"></div></div>
+        <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:white;border-radius:50%;border:5px solid lightgrey;line-height:17px;">4</div><div style="text-align:center;">Benefits</div></div>
+        <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:lightgrey;"></div></div>
+        <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:white;border-radius:50%;border:5px solid lightgrey;line-height:17px;">5</div><div style="text-align:center;">Results</div></div>
+        <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:lightgrey;"></div></div>
+        <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:white;border-radius:50%;border:5px solid lightgrey;line-height:17px;">6</div><div style="text-align:center;">Leaving</div></div>
+        <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:lightgrey;"></div></div>
+        <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:white;border-radius:50%;border:5px solid lightgrey;line-height:17px;">7</div><div style="text-align:center;">Cosent</div></div>
+        <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:lightgrey;"></div></div>
+        <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:white;border-radius:50%;border:5px solid lightgrey;line-height:17px;">8</div><div style="text-align:center;">Health Records</div></div>
+    </div>
+    <div>
+        <h2>What is the Connect for Cancer Prevention Study?</h2>
+        <h5>This research study will explore the causes of cancer and learn how to prevent cancer in adults.</h5>
+        <p>Researchers wilkl study changes in habits, behaviors, nd the environment that can help us learn how cancer and other diseases develop. Since this can take time, Connect will be a long term study,
+        meaning that you will participate on a regular basis for many years. Researchers hope to discover new ways to stop cancer from developing in the first place.</p>
+        <p>Connect is not looking at tratments for cancer, and researchers will not give medical care, advice, or treatments.</p>
+    </div>
+    <div>
+        <button type="button" id="toActivities" style="float:right">Next</button>
+    </div>
+    
+    `
+
+    document.getElementById('toActivities').addEventListener('click', () => {
+        consentActivitiesPage();
+    })
+}
+export const consentActivitiesPage = () => {
+    const mainContent = document.getElementById('root');
+    mainContent.innerHTML =  `<div class="row" >
+        <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:#112f4e;border-radius:50%;border:5px solid #112f4e;line-height:17px;color:white;">1</div><div style="text-align:center;">About</div></div>
+        <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:#112f4e;"></div></div>
+        <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:#005ea2;border-radius:50%;border:5px solid #005ea2;line-height:17px;color:white">2</div><div style="text-align:center;">Activities</div></div>
+        <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:#005ea2;"></div></div>
+        <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:white;border-radius:50%;border:5px solid lightgrey;line-height:17px;">3</div><div style="text-align:center;">Privacy</div></div>
+        <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:lightgrey;"></div></div>
+        <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:white;border-radius:50%;border:5px solid lightgrey;line-height:17px;">4</div><div style="text-align:center;">Benefits</div></div>
+        <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:lightgrey;"></div></div>
+        <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:white;border-radius:50%;border:5px solid lightgrey;line-height:17px;">5</div><div style="text-align:center;">Results</div></div>
+        <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:lightgrey;"></div></div>
+        <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:white;border-radius:50%;border:5px solid lightgrey;line-height:17px;">6</div><div style="text-align:center;">Leaving</div></div>
+        <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:lightgrey;"></div></div>
+        <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:white;border-radius:50%;border:5px solid lightgrey;line-height:17px;">7</div><div style="text-align:center;">Cosent</div></div>
+        <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:lightgrey;"></div></div>
+        <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:white;border-radius:50%;border:5px solid lightgrey;line-height:17px;">8</div><div style="text-align:center;">Health Records</div></div>
+    </div>
+    <div>
+        <h2>What Will I Do?</h2>
+        <p style="font-size:24px">Cancer can be caused by a lot of things, so we collect different kinds of information to give us a whole picture of your health.</h5>
+        <h4>Share some personal information</h4>
+        <p style="margin-left:32px">
+            To keep in touch, we will ask for your contact information. We also ask for personal information that could identify you, like your name, birth date, and social security number. 
+            This helps us use other sources to collect information about you - like information about where you live, how close you live to a park or whether there is pollution in your neighborhood. 
+            We will also collect information that is specific to you, like your pharmacy records.
+        </p>
+        <h4>Give us access to your health records</h4>
+        <p style="margin-left:32px">
+            We ask to use information from your electronic health record. 
+            Your health record has information about your past, current, and future health status, test results, medical procedures, images (such as X-rays), and medicines you take. 
+            Your health records may have sensitive information. For example, it may tell us about your mental health, alcohol or drug use, or sexual or other infections (including HIV status).
+        </p>
+        <h4>Take surveys about your health</h4>
+        <p style="margin-left:32px">
+            We will send you online surveys when you join the study and then a few times each year. 
+            The surveys will cover basic information about you and about your health history, family, home, and work. 
+            Each survey will take 20-30 minutes to finish. You can choose to skip any questions that you do not want to answer or are not sure about.
+        </p>
+        <h4>Donate biological specimens</h4>
+        <p style="margin-left:32px">
+            We will ask you to donate samples blood, urine, saliva, and other samples when you join the study, and every two to three years. 
+            Some samples will be collected where you get your health care, others at home. 
+            We may also use samples that are left over from healthcare visits and procedures.
+        </p>
+        <p style="margin-left:32px">
+            Samples will be safely stored at the central Connectn facility in Rockville, Maryland.
+        </p>
+        <p style="margin-left:32px">
+            The samples you donate will be used to study how cancer may develop, which may include looking at the sequence of genes spelled out on your DNA.
+        </p>
+        <h4>Future study activities</h4>
+        <p style="margin-left:32px">
+            In the future, we may invite you to take part in other study activities. These are optional, so you can say yes or no and still be in Connect.
+        </p>
+        <p style="margin-left:32px">
+            This could be:
+        </p>
+        <ul style="margin-left:32px">
+            <li>Donating other biological samples (like stool, nail, and hair) or samples from your home (like dust or dryer lint).</li>
+            <li>Getting physical measurements taken (like height, weight, and blood pressure)</li>
+            <li>Sharing information from wearable electronic health trackers or apps that measure things like diet, sleep, or environmental factors</li>
+        </ul>  
+        <div>
+            <button type="button" id="toActivities" style="float:right">Next</button>
+        </div>
+
+    </div>`
+}
+/*
+    let template = `<div class="row" >
+                <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:#005ea2;border-radius:50%;border:5px solid #005ea2;line-height:17px;color:white;">1</div><div style="text-align:center;">About</div></div>
+                <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:#005ea2;"></div></div>
+                <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:white;border-radius:50%;border:5px solid lightgrey;line-height:17px;">2</div><div style="text-align:center;">Activities</div></div>
+                <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:lightgrey;"></div></div>
+                <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:white;border-radius:50%;border:5px solid lightgrey;line-height:17px;">3</div><div style="text-align:center;">Privacy</div></div>
+                <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:lightgrey;"></div></div>
+                <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:white;border-radius:50%;border:5px solid lightgrey;line-height:17px;">4</div><div style="text-align:center;">Benefits</div></div>
+                <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:lightgrey;"></div></div>
+                <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:white;border-radius:50%;border:5px solid lightgrey;line-height:17px;">5</div><div style="text-align:center;">Results</div></div>
+                <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:lightgrey;"></div></div>
+                <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:white;border-radius:50%;border:5px solid lightgrey;line-height:17px;">6</div><div style="text-align:center;">Leaving</div></div>
+                <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:lightgrey;"></div></div>
+                <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:white;border-radius:50%;border:5px solid lightgrey;line-height:17px;">7</div><div style="text-align:center;">Cosent</div></div>
+                <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:lightgrey;"></div></div>
+                <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:white;border-radius:50%;border:5px solid lightgrey;line-height:17px;">8</div><div style="text-align:center;">Health Records</div></div>
             </div>
-            <div class="row" style="grid-template-columns:repeat(auto-fit, minmax(100px, 1fr))">"
-                <div class="col">About</div>
-                <div class="col">Activities</div>
-                <div class="col">Privacy</div>
-                <div class="col">Benefits</div>
-                <div class="col">Results</div>
-                <div class="col">Leaving</div>
-                <div class="col">Consent</div>
-                <div class="col">Health Records</div>
+            <div>
+                <h2>What is the Connect for Cancer Prevention Study?</h2>
+                <h5>This research study will explore the causes of cancer and learn how to prevent cancer in adults.</h5>
+                <p>Researchers wilkl study changes in habits, behaviors, nd the environment that can help us learn how cancer and other diseases develop. Since this can take time, Connect will be a long term study,
+                meaning that you will participate on a regular basis for many years. Researchers hope to discover new ways to stop cancer from developing in the first place.</p>
+                <p>Connect is not looking at tratments for cancer, and researchers will not give medical care, advice, or treatments.</p>
             </div>
             
-    </div>`
+`
     return template + ` 
         <div class="row">Download consent form:&nbsp<a href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf"><i class="fas fa-file-download"></i></a></div>
         <div class="row" id="canvasContainer"></div>
@@ -99,6 +211,7 @@ export const consentTemplate = () => {
         </form>
     `
 }
+*/
 
 export const initializeCanvas = (customScale) => {
     let scale = 1;
