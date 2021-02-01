@@ -32,7 +32,7 @@ export const consentAboutPage = () => {
         <p>Connect is not looking at tratments for cancer, and researchers will not give medical care, advice, or treatments.</p>
     </div>
     <div>
-        <button type="button" id="toActivities" style="float:right">Next</button>
+        <button class="btn btn-primary" type="button" id="toActivities" style="float:right;margin-top:100px;">Next</button>
     </div>
     
     `
@@ -41,6 +41,7 @@ export const consentAboutPage = () => {
         consentActivitiesPage();
     })
 }
+
 export const consentActivitiesPage = () => {
     const mainContent = document.getElementById('root');
     mainContent.innerHTML =  `<div class="row" >
@@ -106,11 +107,48 @@ export const consentActivitiesPage = () => {
             <li>Sharing information from wearable electronic health trackers or apps that measure things like diet, sleep, or environmental factors</li>
         </ul>  
         <div>
-            <button type="button" id="toActivities" style="float:right">Next</button>
+             <button class="btn btn-primary" type="button" id="toPrivacy" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
+        </div>
+
+    </div>`
+
+    document.getElementById('toPrivacy').addEventListener('click', () => {
+        consentPrivacyPage();
+    })
+}
+
+export const consentPrivacyPage = () => {
+    const mainContent = document.getElementById('root');
+    mainContent.innerHTML =  `<div class="row" >
+        <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:#112f4e;border-radius:50%;border:5px solid #112f4e;line-height:17px;color:white;">1</div><div style="text-align:center;">About</div></div>
+        <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:#112f4e;"></div></div>
+        <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:#112f4e;border-radius:50%;border:5px solid #112f4e;line-height:17px;color:white;">2</div><div style="text-align:center;">Activities</div></div>
+        <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:#112f4e;"></div></div>
+        <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:#005ea2;border-radius:50%;border:5px solid #005ea2;line-height:17px;color:white;">3</div><div style="text-align:center;">Privacy</div></div>
+        <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:#005ea2;"></div></div>
+        <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:white;border-radius:50%;border:5px solid lightgrey;line-height:17px;">4</div><div style="text-align:center;">Benefits</div></div>
+        <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:lightgrey;"></div></div>
+        <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:white;border-radius:50%;border:5px solid lightgrey;line-height:17px;">5</div><div style="text-align:center;">Results</div></div>
+        <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:lightgrey;"></div></div>
+        <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:white;border-radius:50%;border:5px solid lightgrey;line-height:17px;">6</div><div style="text-align:center;">Leaving</div></div>
+        <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:lightgrey;"></div></div>
+        <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:white;border-radius:50%;border:5px solid lightgrey;line-height:17px;">7</div><div style="text-align:center;">Cosent</div></div>
+        <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:lightgrey;"></div></div>
+        <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:white;border-radius:50%;border:5px solid lightgrey;line-height:17px;">8</div><div style="text-align:center;">Health Records</div></div>
+    </div>
+    <div>
+        <h2>Protecting your Privacy and Information Sharing</h2>
+        <p style="font-size:24px">Your privacy is important to us. We take steps to keep your information and samples safe. For example, we replace your personal information with a unique code to keep track of your health information and samples.</p>
+        <p style="font-size:24px">The researchers who will study your information also have to agree to follow privacy rules that help to protect your identity.</p>
+
+        <div>
+             <button class="btn btn-primary" type="button" id="toResults" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
         </div>
 
     </div>`
 }
+
+
 /*
     let template = `<div class="row" >
                 <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:#005ea2;border-radius:50%;border:5px solid #005ea2;line-height:17px;color:white;">1</div><div style="text-align:center;">About</div></div>
