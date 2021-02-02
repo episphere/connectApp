@@ -3,7 +3,7 @@ import { renderUserProfile } from "../components/form.js";
 import { removeAllErrors, addEventsConsentSign } from "../event.js";
 
 export const consentTemplate = () => {
-    consentHealthRecordsPage();
+    consentAboutPage();
 }
 
 export const renderProgress = (progress) => {
