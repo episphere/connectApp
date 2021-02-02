@@ -228,7 +228,7 @@ export const consentConsentPage = () => {
             <form id="consentCheckboxForm" method="POST">
                 <div class="form-group row" id="idAgreement">
                     <div class="col-md-1">    
-                        <input type="checkbox" class="form-control required-field" data-error-required='Please check off all checkboxes' id="checkBox1" style="margin-top:3px; margin:auto; width:25px;height:25px;">
+                        <input type="checkbox" class="form-control required-field" data-error-required='Please check off all checkboxes' style="margin-top:3px; margin:auto; width:25px;height:25px;" required>
                     </div>
                     <label class="col-md-11 col-form-label" style="padding-top:0px;"> 
                          I understand that I will be asked for personal information, and that Connect takes steps to protect my identity. I understand that Connect replaces my 
@@ -237,7 +237,7 @@ export const consentConsentPage = () => {
                 </div>
                 <div class="form-group row" id="idAgreement">
                     <div class="col-md-1">    
-                        <input type="checkbox" class="form-control required-field" data-error-required='Please check off all checkboxes' id="checkBox1" style="margin-top:3px; margin:auto; width:25px;height:25px;">
+                        <input type="checkbox" class="form-control required-field" data-error-required='Please check off all checkboxes' style="margin-top:3px; margin:auto; width:25px;height:25px;" required>
                     </div>
                     <label class="col-md-11 col-form-label" style="padding-top:0px;">  
                         I understand that I will be asked to share my electronic health record. 
@@ -246,7 +246,7 @@ export const consentConsentPage = () => {
                 </div>
                 <div class="form-group row" id="idAgreement">
                     <div class="col-md-1">    
-                        <input type="checkbox" class="form-control required-field" data-error-required='Please check off all checkboxes' id="checkBox1" style="margin-top:3px; margin:auto; width:25px;height:25px;">
+                        <input type="checkbox" class="form-control required-field" data-error-required='Please check off all checkboxes' style="margin-top:3px; margin:auto; width:25px;height:25px;" required>
                     </div>
                         <label class="col-md-11 col-form-label" style="padding-top:0px;"> 
                          I understand that I will be asked to answer online surveys, and I can choose to skip any survey questions that I do not want to answer.
@@ -254,7 +254,7 @@ export const consentConsentPage = () => {
                 </div>
                 <div class="form-group row" id="idAgreement">
                     <div class="col-md-1">    
-                        <input type="checkbox" class="form-control required-field" data-error-required='Please check off all checkboxes' id="checkBox1" style="margin-top:3px; margin:auto; width:25px;height:25px;">
+                        <input type="checkbox" class="form-control required-field" data-error-required='Please check off all checkboxes' style="margin-top:3px; margin:auto; width:25px;height:25px;" required>
                     </div>
                     <label class="col-md-11 col-form-label" style="padding-top:0px;"> 
                         I understand that I will be asked to donate blood, urine, saliva, and other samples, and that Connect may collect samples from my health care visits. 
@@ -263,7 +263,7 @@ export const consentConsentPage = () => {
                 </div>
                 <div class="form-group row" id="idAgreement">
                     <div class="col-md-1">    
-                        <input type="checkbox" class="form-control required-field" data-error-required='Please check off all checkboxes' id="checkBox1" style="margin-top:3px; margin:auto; width:25px;height:25px;">
+                        <input type="checkbox" class="form-control required-field" data-error-required='Please check off all checkboxes' style="margin-top:3px; margin:auto; width:25px;height:25px;" required>
                     </div>
                     <label class="col-md-11 col-form-label" style="padding-top:0px;"> 
                          I understand that Connect will use my personal information to collect information from other sources, and that using my personal details help researchers match information to me.
@@ -271,7 +271,7 @@ export const consentConsentPage = () => {
                 </div>
                 <div class="form-group row" id="idAgreement">
                     <div class="col-md-1">    
-                        <input type="checkbox" class="form-control required-field" data-error-required='Please check off all checkboxes' id="checkBox1" style="margin-top:3px; margin:auto; width:25px;height:25px;">
+                        <input type="checkbox" class="form-control required-field" data-error-required='Please check off all checkboxes' style="margin-top:3px; margin:auto; width:25px;height:25px;" required>
                     </div>
                     <label class="col-md-11 col-form-label" style="padding-top:0px;"> 
                          I understand that Connet may invite me to participate in other study activities. I can say yes or no to other activities and still be in Connect.
@@ -279,7 +279,7 @@ export const consentConsentPage = () => {
                 </div>
                 <div class="form-group row" id="idAgreement">
                     <div class="col-md-1">    
-                        <input type="checkbox" class="form-control required-field" data-error-required='Please check off all checkboxes' id="checkBox1" style="margin-top:3px; margin:auto; width:25px;height:25px;">
+                        <input type="checkbox" class="form-control required-field" data-error-required='Please check off all checkboxes' style="margin-top:3px; margin:auto; width:25px;height:25px;" required>
                     </div>
                     <label class="col-md-11 col-form-label" style="padding-top:0px;"> 
                         I understand that I will receive $25 in cash or as a gift card after I complete the first set of study activities (answer four surveys and donate a blood sample).
@@ -287,7 +287,7 @@ export const consentConsentPage = () => {
                 </div>
                 <div class="form-group row" id="idAgreement">
                     <div class="col-md-1">    
-                        <input type="checkbox" class="form-control required-field" data-error-required='Please check off all checkboxes' id="checkBox1" style="margin-top:3px; margin:auto; width:25px;height:25px;">
+                        <input type="checkbox" class="form-control required-field" data-error-required='Please check off all checkboxes' style="margin-top:3px; margin:auto; width:25px;height:25px;" required>
                     </div>
                     <label class="col-md-11 col-form-label" style="padding-top:0px;"> 
                         I understand that the main risk of joining Connect is to my privacy, and that this risk is low. I understand that Connect follows privacy rules to protect my personal information.
@@ -295,7 +295,7 @@ export const consentConsentPage = () => {
                 </div>
                 <div class="form-group row" id="idAgreement">
                     <div class="col-md-1">    
-                        <input type="checkbox" class="form-control required-field" data-error-required='Please check off all checkboxes' id="checkBox1" style="margin-top:3px; margin:auto; width:25px;height:25px;">
+                        <input type="checkbox" class="form-control required-field" data-error-required='Please check off all checkboxes' style="margin-top:3px; margin:auto; width:25px;height:25px;" required>
                     </div>
                     <label class="col-md-11 col-form-label" style="padding-top:0px;"> 
                         I understand that joining Connect is my choice, and that if I join, I can stop at any time. I understand that joining Connect or deciding to leave later will not change my health care or health benefits. If I choose to leave the study and have already shared information or samples, Connect will use these for research.
@@ -305,7 +305,7 @@ export const consentConsentPage = () => {
                 <div class="row" id="canvasContainer"></div>
                 <div class="form-group row" id="idAgreement" style = "margin-top:50px;">
                     <div class="col-md-1">    
-                        <input type="checkbox" class="form-control required-field" data-error-required='Please check off all checkboxes' id="checkBox1" style="margin-top:3px; margin:auto; width:25px;height:25px;">
+                        <input type="checkbox" class="form-control required-field" data-error-required='Please check off all checkboxes' style="margin-top:3px; margin:auto; width:25px;height:25px;" required>
                     </div>
                     <label class="col-md-11 col-form-label" style="padding-top:0px;font-weight:bold;font-size:20px;"> 
                         I have read and understand the full consent form.
@@ -344,6 +344,90 @@ export const consentConsentPage = () => {
         }
         
     });
+}
+
+export const consentLeavingPage = () => {
+    const mainContent = document.getElementById('root');
+    let template = renderProgress(6);
+    template += ` 
+        <div class="row">Download consent form:&nbsp<a href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf"><i class="fas fa-file-download"></i></a></div>
+        <div class="row" id="canvasContainer"></div>
+        <form id="consentForm" method="POST">
+            <div class="row">
+                <label class="color-red"><input type="checkbox" required> I have read the explanation about this study and have been given the opportunity to discuss it and ask questions. I consent to participate in this study.<span class="required">*</span></label>
+            </div>
+            <div class="row">
+                <div class="col form-group consent-form">
+                    <label class="consent-form-label">
+                        First name<span class="required">*</span>
+                    </label>
+                    <input required type="text" autocomplete="off" id="CSFirstName" class="form-control col-md-5" placeholder="Enter first name">
+                </div>
+                <div class="col form-group consent-form">
+                    <label class="consent-form-label">
+                        Last name<span class="required">*</span>
+                    </label>
+                    <input required type="text" autocomplete="off" id="CSLastName" class="form-control col-md-5" placeholder="Enter last name">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col form-group consent-form">
+                    <label class="consent-form-label">
+                        Digital signature<span class="required">*</span>
+                        <input disabled required type="text" id="CSSign" class="form-control consentSign">
+                    </label>
+                </div>
+                <div class="col form-group consent-form">
+                    <label class="consent-form-label">
+                        Today's date: 
+                    </label>
+                    <span id="CSDate">${todaysDate()}</span>
+                </div>
+            </div>
+            ${localStorage.eligibilityQuestionnaire ? JSON.parse(localStorage.eligibilityQuestionnaire)['827220437'] === 809703864 ? `
+                <div class="row">
+                    <div class="col form-group consent-form">
+                        <label class="consent-form-label">
+                            Witness first name<span class="required">*</span>
+                            <input required type="text" autocomplete="off" id="CSWFirstName" class="form-control" placeholder="Enter first name">
+                        </label>
+                    </div>
+                    <div class="col form-group consent-form">
+                        <label class="consent-form-label">
+                            Witness last name<span class="required">*</span>
+                            <input required type="text" autocomplete="off" id="CSWLastName" class="form-control" placeholder="Enter last name">
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col form-group consent-form">
+                        <label class="consent-form-label">
+                            Witness digital signature<span class="required">*</span>
+                            <input disabled required type="text" id="CSWSign" class="form-control consentSign">
+                        </label>
+                    </div>
+                    <div class="col form-group consent-form">
+                        <label class="consent-form-label">
+                            Today's date: 
+                        </label>
+                        <span id="CSWDate">${todaysDate()}</span>
+                    </div>
+                </div>
+            ` : '' : ''}
+            <div class="row">
+                <div class="ml-auto">
+                    <button type="submit" class="btn btn-primary save-data">Submit</button>
+                </div>
+            </div>
+        </form>
+    `
+
+    mainContent.innerHTML = template;
+    //initializeCanvas();
+    //addEventsConsentSign();
+
+    //addEventConsentSubmit();
+
 }
 
 /*
