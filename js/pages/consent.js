@@ -1,9 +1,9 @@
 import { todaysDate, storeResponse, dataSavingBtn, dateTime, errorMessageConsent } from "../shared.js";
 import { renderUserProfile } from "../components/form.js";
-import { removeAllErrors } from "../event.js";
+import { removeAllErrors, addEventsConsentSign } from "../event.js";
 
 export const consentTemplate = () => {
-    consentConsentPage();
+    consentHealthRecordsPage();
 }
 
 export const renderProgress = (progress) => {
@@ -222,7 +222,7 @@ export const consentConsentPage = () => {
     template += `
         <div>
             <h2>Giving Informed Consent</h2>
-            <p style="font-size:24px">In order to join Connect, we need you to give yourb informed consent by checking the boxes below and electronically signing the full informed consent form.</p>
+            <p style="font-size:24px">In order to join Connect, we need you to give your informed consent by checking the boxes below and electronically signing the full informed consent form.</p>
             <p style="font-size:24px">Once you have signed the consent form, we'll ask youb to agree to share your electronic health record.</p>
             
             <form id="consentCheckboxForm" method="POST">
@@ -322,40 +322,24 @@ export const consentConsentPage = () => {
     
     mainContent.innerHTML =  template;
     const userProfileForm = document.getElementById('consentCheckboxForm');
-    initializeCanvas();
+    initializeCanvas('./consent_draft.pdf');
     userProfileForm.addEventListener('submit', async e => {
         e.preventDefault();
         const requiredFields = document.getElementsByClassName('required-field');
         let hasError = false;
-        Array.from(requiredFields).forEach(element => {
-            if(!element.value){
-                //errorMessage(element.id, `${element.dataset.errorRequired}`, focus);
-                //focus = false;
-                hasError = true;
-            }
-            if(element.type === 'checkbox' && element.checked === false && element.hidden === false){
-                errorMessage(element.id, `${element.dataset.errorRequired}`, focus);
-                //focus = false;
-                hasError = true;
-            }
-        });
-        if(!hasError){
-            consentAboutPage();
-        }
+        consentHealthReocrdsPage();
         
     });
 }
 
-export const consentLeavingPage = () => {
+export const consentHealthRecordsPage = () => {
     const mainContent = document.getElementById('root');
-    let template = renderProgress(6);
+    let template = renderProgress(8);
     template += ` 
-        <div class="row">Download consent form:&nbsp<a href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf"><i class="fas fa-file-download"></i></a></div>
+       
         <div class="row" id="canvasContainer"></div>
+        <div class="row"><div style="margin:auto"><a href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf">Download consent form:&nbsp<i class="fas fa-file-download"></i></a></div></div>
         <form id="consentForm" method="POST">
-            <div class="row">
-                <label class="color-red"><input type="checkbox" required> I have read the explanation about this study and have been given the opportunity to discuss it and ask questions. I consent to participate in this study.<span class="required">*</span></label>
-            </div>
             <div class="row">
                 <div class="col form-group consent-form">
                     <label class="consent-form-label">
@@ -423,132 +407,29 @@ export const consentLeavingPage = () => {
     `
 
     mainContent.innerHTML = template;
-    //initializeCanvas();
-    //addEventsConsentSign();
-
-    //addEventConsentSubmit();
+    initializeCanvas('./consent_draft.pdf');
+    addEventsConsentSign();
+    addEventConsentSubmit();
 
 }
 
-/*
-    let template = `<div class="row" >
-                <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:#005ea2;border-radius:50%;border:5px solid #005ea2;line-height:17px;color:white;">1</div><div style="text-align:center;">About</div></div>
-                <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:#005ea2;"></div></div>
-                <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:white;border-radius:50%;border:5px solid lightgrey;line-height:17px;">2</div><div style="text-align:center;">Activities</div></div>
-                <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:lightgrey;"></div></div>
-                <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:white;border-radius:50%;border:5px solid lightgrey;line-height:17px;">3</div><div style="text-align:center;">Privacy</div></div>
-                <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:lightgrey;"></div></div>
-                <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:white;border-radius:50%;border:5px solid lightgrey;line-height:17px;">4</div><div style="text-align:center;">Benefits</div></div>
-                <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:lightgrey;"></div></div>
-                <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:white;border-radius:50%;border:5px solid lightgrey;line-height:17px;">5</div><div style="text-align:center;">Results</div></div>
-                <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:lightgrey;"></div></div>
-                <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:white;border-radius:50%;border:5px solid lightgrey;line-height:17px;">6</div><div style="text-align:center;">Leaving</div></div>
-                <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:lightgrey;"></div></div>
-                <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:white;border-radius:50%;border:5px solid lightgrey;line-height:17px;">7</div><div style="text-align:center;">Cosent</div></div>
-                <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:lightgrey;"></div></div>
-                <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:white;border-radius:50%;border:5px solid lightgrey;line-height:17px;">8</div><div style="text-align:center;">Health Records</div></div>
-            </div>
-            <div>
-                <h2>What is the Connect for Cancer Prevention Study?</h2>
-                <h5>This research study will explore the causes of cancer and learn how to prevent cancer in adults.</h5>
-                <p>Researchers wilkl study changes in habits, behaviors, nd the environment that can help us learn how cancer and other diseases develop. Since this can take time, Connect will be a long term study,
-                meaning that you will participate on a regular basis for many years. Researchers hope to discover new ways to stop cancer from developing in the first place.</p>
-                <p>Connect is not looking at tratments for cancer, and researchers will not give medical care, advice, or treatments.</p>
-            </div>
-            
-`
-    return template + ` 
-        <div class="row">Download consent form:&nbsp<a href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf"><i class="fas fa-file-download"></i></a></div>
-        <div class="row" id="canvasContainer"></div>
-        <form id="consentForm" method="POST">
-            <div class="row">
-                <label class="color-red"><input type="checkbox" required> I have read the explanation about this study and have been given the opportunity to discuss it and ask questions. I consent to participate in this study.<span class="required">*</span></label>
-            </div>
-            <div class="row">
-                <div class="col form-group consent-form">
-                    <label class="consent-form-label">
-                        First name<span class="required">*</span>
-                    </label>
-                    <input required type="text" autocomplete="off" id="CSFirstName" class="form-control col-md-5" placeholder="Enter first name">
-                </div>
-                <div class="col form-group consent-form">
-                    <label class="consent-form-label">
-                        Last name<span class="required">*</span>
-                    </label>
-                    <input required type="text" autocomplete="off" id="CSLastName" class="form-control col-md-5" placeholder="Enter last name">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col form-group consent-form">
-                    <label class="consent-form-label">
-                        Digital signature<span class="required">*</span>
-                        <input disabled required type="text" id="CSSign" class="form-control consentSign">
-                    </label>
-                </div>
-                <div class="col form-group consent-form">
-                    <label class="consent-form-label">
-                        Today's date: 
-                    </label>
-                    <span id="CSDate">${todaysDate()}</span>
-                </div>
-            </div>
-            ${localStorage.eligibilityQuestionnaire ? JSON.parse(localStorage.eligibilityQuestionnaire)['827220437'] === 809703864 ? `
-                <div class="row">
-                    <div class="col form-group consent-form">
-                        <label class="consent-form-label">
-                            Witness first name<span class="required">*</span>
-                            <input required type="text" autocomplete="off" id="CSWFirstName" class="form-control" placeholder="Enter first name">
-                        </label>
-                    </div>
-                    <div class="col form-group consent-form">
-                        <label class="consent-form-label">
-                            Witness last name<span class="required">*</span>
-                            <input required type="text" autocomplete="off" id="CSWLastName" class="form-control" placeholder="Enter last name">
-                        </label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col form-group consent-form">
-                        <label class="consent-form-label">
-                            Witness digital signature<span class="required">*</span>
-                            <input disabled required type="text" id="CSWSign" class="form-control consentSign">
-                        </label>
-                    </div>
-                    <div class="col form-group consent-form">
-                        <label class="consent-form-label">
-                            Today's date: 
-                        </label>
-                        <span id="CSWDate">${todaysDate()}</span>
-                    </div>
-                </div>
-            ` : '' : ''}
-            <div class="row">
-                <div class="ml-auto">
-                    <button type="submit" class="btn btn-primary save-data">Submit</button>
-                </div>
-            </div>
-        </form>
-    `
-}
-*/
-
-export const initializeCanvas = (customScale) => {
+export const initializeCanvas = (file, customScale) => {
     let scale = 1;
     if(window.innerWidth > 1000) scale = 1.5;
     if(window.innerWidth < 700) scale = 0.7;
     if(customScale) scale = customScale
-    drawCanvas(scale);
+    drawCanvas(file,scale);
     window.addEventListener('resize', () => {
         let scale = 1;
         if(window.innerWidth > 1000) scale = 1.5;
         if(window.innerWidth < 700) scale = 0.7
-        drawCanvas(scale);
+        drawCanvas(file, scale);
     }, false);
 }
 
-const drawCanvas = (scale) => {
+const drawCanvas = (file, scale) => {
     let thePdf = null;
-    pdfjsLib.getDocument('./consent_draft.pdf').promise.then(function(pdf) {
+    pdfjsLib.getDocument(file).promise.then(function(pdf) {
         thePdf = pdf;
         let viewer = document.getElementById('canvasContainer');
         if(!viewer) return;

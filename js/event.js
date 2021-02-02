@@ -188,11 +188,11 @@ export const addEventHeardAboutStudy = () => {
             const mainContent = document.getElementById('root');
             //mainContent.innerHTML = consentTemplate();
             consenntTemplate();
-            initializeCanvas();
+            //initializeCanvas();
             // addEventSaveConsentBtn()
-            addEventsConsentSign();
+            //addEventsConsentSign();
 
-            addEventConsentSubmit();
+            //addEventConsentSubmit();
         }
     });
 }
