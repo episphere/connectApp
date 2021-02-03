@@ -57,11 +57,13 @@ export const myToDoList = (data) => {
             hideAnimation();
             return;
         }
-        mainContent.innerHTML = consentTemplate();
-        initializeCanvas();
-        addEventsConsentSign();
+        //mainContent.innerHTML = consentTemplate();
+        consentTemplate();
+        
+        //initializeCanvas();
+        //addEventsConsentSign();
 
-        addEventConsentSubmit();
+        //addEventConsentSubmit();
         hideAnimation();
         return;
     }

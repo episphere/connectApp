@@ -53,7 +53,7 @@ const addEventAgreementOptions = () => {
                 </button>
                 `;
             document.getElementById('connectModalBody').innerHTML = '<div class="row" style="" id="canvasContainer"></div>';
-            initializeCanvas(1);
+            initializeCanvas('./consent_draft.pdf', 1);
         })
     }
 }
