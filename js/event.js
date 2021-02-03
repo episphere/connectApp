@@ -187,7 +187,7 @@ export const addEventHeardAboutStudy = () => {
         if(response.code === 200) {
             const mainContent = document.getElementById('root');
             //mainContent.innerHTML = consentTemplate();
-            consenntTemplate();
+            consentTemplate();
             //initializeCanvas();
             // addEventSaveConsentBtn()
             //addEventsConsentSign();

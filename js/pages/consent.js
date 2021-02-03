@@ -327,7 +327,7 @@ export const consentConsentPage = () => {
         e.preventDefault();
         const requiredFields = document.getElementsByClassName('required-field');
         let hasError = false;
-        consentHealthReocrdsPage();
+        consentHealthRecordsPage();
         
     });
 }
