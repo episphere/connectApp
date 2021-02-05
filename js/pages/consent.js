@@ -119,13 +119,16 @@ export const consentActivitiesPage = () => {
                 <li>Sharing information from wearable electronic health trackers or apps that measure things like diet, sleep, or environmental factors</li>
             </ul>  
             <div>
+                <button class="btn btn-primary" type="button" id="backToAbout" style="float:left;margin-top:40px;">Back</button>
                 <button class="btn btn-primary" type="button" id="toPrivacy" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
             </div>
 
         </div>
     `
     mainContent.innerHTML =  template
-
+    document.getElementById('backToAbout').addEventListener('click', () => {
+        consentAboutPage();
+    })
     document.getElementById('toPrivacy').addEventListener('click', () => {
         consentPrivacyPage();
     })
@@ -141,13 +144,16 @@ export const consentPrivacyPage = () => {
             <p style="font-size:24px">The researchers who will study your information also have to agree to follow privacy rules that help to protect your identity.</p>
 
             <div>
+                <button class="btn btn-primary" type="button" id="backToActivities" style="float:left;margin-top:40px;">Back</button>
                 <button class="btn btn-primary" type="button" id="toBenefits" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
             </div>
 
         </div>
     `
     mainContent.innerHTML = template;
-
+    document.getElementById('backToActivities').addEventListener('click', () => {
+        consentActivitiesPage();
+    })
     document.getElementById('toBenefits').addEventListener('click', () => {
         consentBenefitsPage();
     })
@@ -163,12 +169,16 @@ export const consentBenefitsPage = () => {
             <p style="font-size:24px">After you answer the first four online surveys and donate your first blood sample, you will receive $25 in cash or as a gift card depending on your health care system.</p>
 
             <div>
+                <button class="btn btn-primary" type="button" id="backToPrivacy" style="float:left;margin-top:40px;">Back</button>
                 <button class="btn btn-primary" type="button" id="toResults" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
             </div>
 
         </div>
     `
     mainContent.innerHTML =  template;
+    document.getElementById('backToPrivacy').addEventListener('click', () => {
+        consentPrivacyPage();
+    })
     document.getElementById('toResults').addEventListener('click', () => {
         consentResultsPage();
     })
@@ -185,12 +195,16 @@ export const consentResultsPage = () => {
             <p>We will alert you when results are available, and share them through secure means.</p>
             <p>We will not share your information with your health care provider, but you are free to do so.</p>
             <div>
+                <button class="btn btn-primary" type="button" id="backToBenefits" style="float:left;margin-top:40px;">Back</button>
                 <button class="btn btn-primary" type="button" id="toLeaving" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
             </div>
 
         </div>
     `
     mainContent.innerHTML =  template;
+    document.getElementById('backToBenefits').addEventListener('click', () => {
+        consentBenefitsPage();
+    })
     document.getElementById('toLeaving').addEventListener('click', () => {
         consentLeavingPage();
     })
@@ -205,12 +219,16 @@ export const consentLeavingPage = () => {
             <p style="font-size:24px">While we hope you stay in Connect throughout your life, you can leave at any time. Choosing to leave the study will not change your health care or health benefits. If you heave shared any information or samples before leave, we may still use them for research.</p>
             <p style="font-size:24px">If you leave your health care system in the future, we hope you stay in Connect. If you leave your current health system and join one that is not participating in Connect [INSERT WHAT HAPENS HERE]...</p>
             <div>
+                <button class="btn btn-primary" type="button" id="backToResults" style="float:left;margin-top:40px;">Back</button>
                 <button class="btn btn-primary" type="button" id="toConsent" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
             </div>
 
         </div>
     `
     mainContent.innerHTML =  template;
+    document.getElementById('backToResults').addEventListener('click', () => {
+        consentResultsPage();
+    })
     document.getElementById('toConsent').addEventListener('click', () => {
         consentConsentPage();
     })
@@ -313,6 +331,7 @@ export const consentConsentPage = () => {
                 </div>
 
                 <div>
+                    <button class="btn btn-primary" type="button" id="backToLeaving" style="float:left;margin-top:40px;">Back</button>
                     <button type="submit" class="btn btn-primary save-data" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
                 </div>
             </form>
@@ -323,6 +342,9 @@ export const consentConsentPage = () => {
     mainContent.innerHTML =  template;
     const userProfileForm = document.getElementById('consentCheckboxForm');
     initializeCanvas('./consent_draft.pdf');
+    document.getElementById('backToLeaving').addEventListener('click', () => {
+        consentLeavingPage();
+    })
     userProfileForm.addEventListener('submit', async e => {
         e.preventDefault();
         const requiredFields = document.getElementsByClassName('required-field');
@@ -399,14 +421,18 @@ export const consentHealthRecordsPage = () => {
                 </div>
             ` : '' : ''}
             <div class="row">
+                <button class="btn btn-primary" type="button" id="backToConsent" style="float:left;">Back</button>
                 <div class="ml-auto">
                     <button type="submit" class="btn btn-primary save-data">Submit</button>
                 </div>
             </div>
         </form>
     `
-
+    
     mainContent.innerHTML = template;
+    document.getElementById('backToConsent').addEventListener('click', () => {
+        consentConsentPage();
+    })
     initializeCanvas('./consent_draft.pdf');
     addEventsConsentSign();
     addEventConsentSubmit();
