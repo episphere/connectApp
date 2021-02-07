@@ -366,6 +366,14 @@ export const addEventUPSubmit = () => {
         formData['231676651'] = document.getElementById('UPMiddleInitial').value.trim();
         formData['996038075'] = document.getElementById('UPLastName').value.trim();
         formData['query.lastName'] = document.getElementById('UPLastName').value.trim().toLowerCase();
+        
+        /*
+         *TODO
+         *Check how we should be storing the preferred name if they do not have one
+         */
+        let prefName = document.getElementById('UPPreferredName').value.trim();
+        formData['153211406'] = prefName === '' ? formData['399159511'] : formData['399159511'];
+
         if(document.getElementById('UPSuffix').value) formData['506826178'] = parseInt(document.getElementById('UPSuffix').value);
         let month = document.getElementById('UPMonth').value;
 

@@ -3,6 +3,12 @@ export const homePage = async () => {
     const isIE = /*@cc_on!@*/false || !!document.documentMode;
     mainContent.innerHTML = `
         ${isIE ? `<span class="not-compatible">Connect web application is not compatible with Internet Explorer, please use Chrome, Safari, Firefox or Edge</span>` : ``}
+        <div class="row" style="background-color:blue">
+            <div id="header-nci">
+                <img src="./images/ConnectDCEGLogo.svg">
+            </div>
+        </div>
+        <!-- 
         <div class="row">
             <div class="col-sm-9 images-grid">
                 <div class="row images-row">
@@ -85,7 +91,8 @@ export const homePage = async () => {
                     <img class="bar-code-image" src="./images/connectApp.png">
                 </div>
             </div>
-        </div>
+        </div> 
+        -->
     `;
 }
 

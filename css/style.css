@@ -604,3 +604,9 @@ input:checked + .slider:before {
 .error-text {
     padding-left: 5px !important;
 }
+
+.header-nci {
+    margin:auto;
+    max-width:1200px;
+    width:100%;
+}

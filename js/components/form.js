@@ -47,6 +47,11 @@ export const renderUserProfile = async () => {
                 </select>
             </div>
             
+            <div class="form-group row">
+                <label class="col-md-4 col-form-label">What is your preferred first name?</label>
+                <input type="text" class="form-control input-validation col-md-4" data-validation-pattern="alphabets" data-error-validation="Your preferred name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters." id="UPPreferredName" placeholder="Enter preferred name">
+            </div>
+
             <strong>What is your date of birth?</strong>
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">Month <span class="required">*</span></label>
