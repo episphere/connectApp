@@ -222,6 +222,16 @@
     margin: 0px;
 }
 
+#canvasContainer1 {
+    scroll-behavior: smooth;
+    overflow: scroll;
+    min-height: 500px;
+    height: calc(100vh - 398px);
+    width: 100%;
+    border: 1px solid #000000;
+    background-color: #ffffff;
+    margin: 0px;
+}
 canvas {
     border-bottom: 1px solid #000000;
 }

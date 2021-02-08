@@ -42,8 +42,6 @@ export const renderProgress = (progress) => {
         <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[5]};border-radius:50%;border:5px solid ${lineColor[5]};line-height:17px;color:${textColor[5]}">6</div><div style="text-align:center;">Leaving</div></div>
         <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[5]};"></div></div>
         <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[6]};border-radius:50%;border:5px solid ${lineColor[6]};line-height:17px;color:${textColor[6]}">7</div><div style="text-align:center;">Consent</div></div>
-        <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[6]};"></div></div>
-        <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[7]};border-radius:50%;border:5px solid ${lineColor[7]};line-height:17px;color:${textColor[7]}">8</div><div style="text-align:center;">Health Records</div></div>
     </div>`
     return toReturn;
 }
@@ -237,11 +235,10 @@ export const consentLeavingPage = () => {
 export const consentConsentPage = () => {
     const mainContent = document.getElementById('root');
     let template = renderProgress(7);
-    template += `
+    /*template += `
         <div>
-            <h2>Giving Informed Consent</h2>
-            <p style="font-size:24px">In order to join Connect, we need you to give your informed consent by checking the boxes below and electronically signing the full informed consent form.</p>
-            <p style="font-size:24px">Once you have signed the consent form, we'll ask youb to agree to share your electronic health record.</p>
+            <h2>Informed Consent</h2>
+            <p style="font-size:24px">In order to join Connect, we need you to give your informed consent by reviewing the full consent form and electronic health records release form, and signing your name.</p>
             
             <form id="consentCheckboxForm" method="POST">
                 <div class="form-group row" id="idAgreement">
@@ -337,9 +334,113 @@ export const consentConsentPage = () => {
             </form>
             
         </div>
+    `*/
+    template += `
+        <h2>Informed Consent</h2>
+        <p style="font-size:24px">In order to join Connect, we need you to give your informed consent by reviewing the full consent form and electronic health records release form, and signing your name.</p>
+        <div style="width:80%; margin:auto">
+            <h4 style="margin-top:50px">Informed Consent Form</h4>
+            <p style="text-indent:40px">This is a more detailed explanation of what it means to take part in Connect</p>
+            <div id="canvasContainer"></div>
+            <div class="row"style="margin:auto"><div style="margin:auto"><a href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf">Download consent form:&nbsp<i class="fas fa-file-download"></i></a></div></div>
+            
+            <h4 style="margin-top:50px">Electronic health records release form</h4>
+            <p style="text-indent:40px">This allows Connect to access your electronic health records</p>
+            <div id="canvasContainer1"></div>
+            <div class="row" style="margin:auto"><div style="margin:auto"><a href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf">Download consent form:&nbsp<i class="fas fa-file-download"></i></a></div></div>
+            
+            <p style="margin-top:50px">By clicking "Yes, I agree" and typing your name, you confirm the following:</p>
+            <ol>
+                <li>I have read these forms.</li>
+                <li>I will allow the use, storage, and disclosure (release) of my survey answers, samples, and health information for the research described above.</li>
+                <li>I understand that if I do not agree to allow Connect to do any of these things, I cannot take part in the study.</li>
+                <li>If I have questions, I can contact the Connect Support Center at Cancer.gov/connectstudy/support</li>
+                <li>If I decide I do not want my health information used or shared throught Connect, I can leave the study by contacting the Connect Support Center at Cancer.gov/connectStudy/support
+            </ol>
+            <input type="radio" name="consentAnswer" value="consentYes" required>
+            <label for="consentYes" id="CSConsentYes">Yes, I agree</label><br>
+            <input type="radio" name="consentAnswer" value="consentNo">
+            <label for="consentNo" id="CSConsentNNo">No, I do not agree</label>
+        </div>
+        
+        <form id="consentForm" style="margin-top:50px" method="POST">
+            <div class="row" style="width:80%; margin:auto;">
+                <div class="col form-group consent-form">
+                    <label class="consent-form-label">
+                        First name<span class="required">*</span>
+                    </label>
+                    <input required type="text" autocomplete="off" id="CSFirstName" class="form-control col-md-5" placeholder="Enter first name">
+                </div>
+                <div class="col form-group consent-form">
+                    <label class="consent-form-label">
+                        Last name<span class="required">*</span>
+                    </label>
+                    <input required type="text" autocomplete="off" id="CSLastName" class="form-control col-md-5" placeholder="Enter last name">
+                </div>
+            </div>
+            <div class="row" style="width:80%; margin:auto;">
+                <div class="col form-group consent-form">
+                    <label class="consent-form-label">
+                        Digital signature<span class="required">*</span>
+                        <input disabled required type="text" id="CSSign" class="form-control consentSign">
+                    </label>
+                </div>
+                <div class="col form-group consent-form">
+                    <label class="consent-form-label">
+                        Today's date: 
+                    </label>
+                    <span id="CSDate">${todaysDate()}</span>
+                </div>
+            </div>
+            ${localStorage.eligibilityQuestionnaire ? JSON.parse(localStorage.eligibilityQuestionnaire)['827220437'] === 809703864 ? `
+                <div class="row">
+                    <div class="col form-group consent-form">
+                        <label class="consent-form-label">
+                            Witness first name<span class="required">*</span>
+                            <input required type="text" autocomplete="off" id="CSWFirstName" class="form-control" placeholder="Enter first name">
+                        </label>
+                    </div>
+                    <div class="col form-group consent-form">
+                        <label class="consent-form-label">
+                            Witness last name<span class="required">*</span>
+                            <input required type="text" autocomplete="off" id="CSWLastName" class="form-control" placeholder="Enter last name">
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col form-group consent-form">
+                        <label class="consent-form-label">
+                            Witness digital signature<span class="required">*</span>
+                            <input disabled required type="text" id="CSWSign" class="form-control consentSign">
+                        </label>
+                    </div>
+                    <div class="col form-group consent-form">
+                        <label class="consent-form-label">
+                            Today's date: 
+                        </label>
+                        <span id="CSWDate">${todaysDate()}</span>
+                    </div>
+                </div>
+            ` : '' : ''}
+            <div class="row">
+                <button class="btn btn-primary" type="button" id="backToConsent" style="float:left;">Back</button>
+                <div class="ml-auto">
+                    <button type="submit" class="btn btn-primary save-data">Submit</button>
+                </div>
+            </div>
+        </form>
     `
     
     mainContent.innerHTML =  template;
+    initializeCanvas('./consent_draft.pdf', .8*1.7);
+    initializeCanvas1('./consent_draft.pdf', .8*1.7);
+    document.getElementById('backToConsent').addEventListener('click', () => {
+        consentLeavingPage();
+    })
+    initializeCanvas('./consent_draft.pdf');
+    addEventsConsentSign();
+    addEventConsentSubmit();
+    /*
     const userProfileForm = document.getElementById('consentCheckboxForm');
     initializeCanvas('./consent_draft.pdf');
     document.getElementById('backToLeaving').addEventListener('click', () => {
@@ -352,6 +453,7 @@ export const consentConsentPage = () => {
         consentHealthRecordsPage();
         
     });
+    */
 }
 
 export const consentHealthRecordsPage = () => {
@@ -474,6 +576,41 @@ const drawCanvas = (file, scale) => {
     });
 }
 
+export const initializeCanvas1 = (file, customScale) => {
+    let scale = 1;
+    if(window.innerWidth > 1000) scale = 1.5;
+    if(window.innerWidth < 700) scale = 0.7;
+    if(customScale) scale = customScale
+    drawCanvas1(file,scale);
+    window.addEventListener('resize', () => {
+        let scale = 1;
+        if(window.innerWidth > 1000) scale = 1.5;
+        if(window.innerWidth < 700) scale = 0.7
+        drawCanvas1(file, scale);
+    }, false);
+}
+
+const drawCanvas1 = (file, scale) => {
+    let thePdf = null;
+    pdfjsLib.getDocument(file).promise.then(function(pdf) {
+        thePdf = pdf;
+        let viewer = document.getElementById('canvasContainer1');
+        if(!viewer) return;
+        viewer.innerHTML = '';
+        for(let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
+            const canvas = document.createElement("canvas");    
+            canvas.className = 'pdf-page-canvas';         
+            viewer.appendChild(canvas);
+            thePdf.getPage(pageNumber).then(function(page) {
+                let viewport = page.getViewport(scale);
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+                page.render({canvasContext: canvas.getContext('2d'), viewport: viewport});
+            });
+        }
+    });
+}
+
 export const addEventConsentSubmit = () => {
     const consentForm = document.getElementById('consentForm');
     consentForm.addEventListener('submit', consentSubmit)
@@ -487,6 +624,13 @@ const consentSubmit = async e => {
     const CSLastName = document.getElementById('CSLastName');
     let hasError = false;
     let focus = true;
+    var radios = document.getElementsByName('consentAnswer');
+    if(!radios[0].checked){
+        const msg = 'You must check yes to continue.';
+        errorMessageConsent('CSConsentYes', msg, focus)
+        focus = false;
+        hasError = true;
+    }
     if(!/^[A-Za-z ]+$/.test(CSFirstName.value)) {
         const msg = 'Your first name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters.';
         errorMessageConsent('CSFirstName', msg, focus)
