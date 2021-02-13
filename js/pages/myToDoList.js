@@ -26,7 +26,7 @@ export const myToDoList = (data) => {
                 if (data.Module3 && data.Module3.COMPLETED) { modules["Where You Live and Work"].enabled = true};
                 for(let key in modules){
                     template += `<li class="list-item">
-                                    <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}">${key}</button>
+                                    <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" module_id="${modules[key].moduleId}" data-module-url="${modules[key].url ? modules[key].url : ''}">${key}</button>
                                 </li>`;
                 }
                 template += `</ul>`
@@ -91,7 +91,8 @@ const addEventToDoList = () => {
         module.addEventListener('click',() => {
             if (!module.classList.contains("btn-disbaled")){
                 const url = module.dataset.moduleUrl;
-                if(url) questionnaire(url);
+                const moduleId = module.getAttribute("module_id");
+                if(url) questionnaire(url, moduleId);
             }
 
         })

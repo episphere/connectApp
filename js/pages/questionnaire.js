@@ -1,8 +1,9 @@
 import { storeResponse, getMyData } from "../shared.js";
 import fieldMapping from '../components/fieldToConceptIdMapping.js'; 
 import { transform } from 'https://episphere.github.io/quest/replace2.js';
-export const  questionnaire = (url) => {
-    //TODO add data into render previous answers
+export const  questionnaire = (url, moduleId) => {
+    //add data into render previous answers
+    //inputData = {"firstName":"Alaina","age":"55","SEX":["3"],"SEX2":["6"]};
     getMyData().then(data => {
         let inputData = {};
         inputData["firstName"] = data.data[fieldMapping.fName];
@@ -19,13 +20,19 @@ export const  questionnaire = (url) => {
             inputData["age"] = Math.abs(ageDate.getUTCFullYear() - 1970);
             inputData["AGE"] = Math.abs(ageDate.getUTCFullYear() - 1970);
         }
-    // inputData = {"firstName":"Alaina","age":"55","SEX":["3"],"SEX2":["6"]};
-       transform.render({
-            url: url,
-            activate: true,
-            store: storeResponse,
-            retrieve: getMyData
-        }, 'root', inputData);
+   
+        if (!data.data[moduleId] || !data.data[moduleId].START_TS){
+            let formData = {};
+            formData[`${moduleId}.START_TS`] = new Date();
+            console.log("Module TS does not exist");
+            storeResponse(formData);
+        }
+        transform.render({
+                url: url,
+                activate: true,
+                store: storeResponse,
+                retrieve: getMyData
+            }, 'root', inputData);
     })
 
 }
