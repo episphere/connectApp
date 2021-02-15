@@ -1,6 +1,6 @@
 import { getParameters, validateToken, userLoggedIn, getMyData, showAnimation, hideAnimation, connectPushNotification, enableDarkMode, toggleDarkMode, storeResponse } from "./js/shared.js";
 import { userNavBar, homeNavBar } from "./js/components/navbar.js";
-import { homePage, joinNowBtn } from "./js/pages/homePage.js";
+import { homePage, joinNowBtn, whereAmIInDashboard } from "./js/pages/homePage.js";
 import { signIn } from "./js/pages/signIn.js";
 import { firebaseConfig } from "./js/config.js";
 import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser } from "./js/event.js";
@@ -261,14 +261,19 @@ const signOut = () => {
 const toggleNavBar = (route) => {
     auth.onAuthStateChanged(async user => {
         if(user){
+           
             document.getElementById('navbarNavAltMarkup').innerHTML = userNavBar();
-            document.getElementById('joinNow') ? document.getElementById('joinNow').innerHTML = joinNowBtn(false) : ``;
+            document.getElementById('joinNow') ? document.getElementById('joinNow').innerHTML = joinNowBtn(false) : ``; 
+            document.getElementById('nextStepWarning') ? document.getElementById('nextStepWarning').innerHTML = await whereAmIInDashboard() : '';
+            console.log('here')
+            document.getElementById('nextStepWarning') ? document.getElementById('nextStepWarning').style.display="block": '';
             addEventRetrieveNotifications();
             toggleCurrentPage(route);
         }
         else{
             document.getElementById('navbarNavAltMarkup').innerHTML = homeNavBar();
             document.getElementById('joinNow') ? document.getElementById('joinNow').innerHTML = joinNowBtn(true) : ``;
+            document.getElementById('nextStepWarning') ? document.getElementById('nextStepWarning').style.display="none": '';
             toggleCurrentPageNoUser(route);
         }
     });

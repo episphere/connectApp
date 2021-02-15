@@ -9,7 +9,7 @@
 
 #root {
     height: 100%;
-    margin: 1rem 0;
+    border-top: 1px solid #ffffff;
 }
 
 #footer {
@@ -56,7 +56,7 @@
 }
 
 .row {
-    padding: .5rem;
+    padding: 15px;
 }
 
 .images-col {
@@ -232,6 +232,8 @@
     background-color: #ffffff;
     margin: 0px;
 }
+
+
 canvas {
     border-bottom: 1px solid #000000;
 }
@@ -446,17 +448,23 @@ canvas {
     padding: 0px !important;
 }
 
-.current-page {
+/* .current-page {
     border-bottom: 2px solid #918c8d !important;
-}
+} */
 
 .nav-link {
-    color: #000000 !important;
+    color: #ffffff !important;
+    font-weight: bold !important;
 }
 
-.navbar-nav:hover {
-    border-bottom: 2px solid #bc1f40 !important;
+.join-study-btn {
+    background-color: #ffbf17 !important;
+    color: #1c4f6e !important;
 }
+
+/* .navbar-nav:hover {
+    border-bottom: 2px solid #bc1f40 !important;
+} */
 
 .btn-agreement {
     border: 0px;
@@ -602,7 +610,6 @@ input:checked + .slider:before {
 }
 
 .col-custom {
-    flex: 0 0 3%;
     max-width: 8.333333%;
 }
 
@@ -615,8 +622,126 @@ input:checked + .slider:before {
     padding-left: 5px !important;
 }
 
-.header-nci {
-    margin:auto;
-    max-width:1200px;
-    width:100%;
+.connect-container {
+    margin: 0 40px !important;
+    min-height: calc(100vh - 140px);
+}
+
+.nci-logo-div {
+    min-height: 50px;
+    background-color: #1c5d86;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    border-bottom: 1px solid #ffffff;
+}
+
+.search-input {
+    background-color: #1c5d86 !important;
+    color: #ffffff !important;
+    border-radius: 0px !important;
+    margin: 1px 0px !important;
+}
+
+.search-input::placeholder {
+    color: #ffffff !important;
+}
+
+.nci-gov {
+    text-align: center;
+    font-size: 12px;
+}
+
+.fixed-top {
+    position: relative !important;
+}
+
+#joinNow {
+    background-color: #2a72a5 !important;
+}
+
+.custom-menu-color {
+    background-color: #2a72a5 !important;
+    color: #ffffff !important;
+}
+
+.homepage-slider {
+    background-color: #2a72a5 !important;
+    margin: 0px !important;
+}
+
+.what-study-heading {
+    font-weight: bold;
+    font-size: 30px;
+    color: #595959;
+}
+
+.who-can-join-heading {
+    font-weight: bold;
+    font-size: 30px;
+    color: #595959;
+}
+
+.how-study-heading {
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.what-study-content, .how-study-content {
+    font-size: 18px;
+}
+
+.what-study-row {
+    padding: 30px 0px !important;
+}
+
+.how-study-row {
+    padding: 50px 0px !important;
+    background-color: #2a72a5 !important;
+    color: #ffffff !important
+}
+
+.align-right {
+    text-align: right;
+}
+
+.learning-from-everyone {
+    background-color: #ffbf17 !important;
+    padding: 50px 0px !important;
+}
+
+.participating-health-care-systems {
+    margin-bottom: 30px;
+}
+
+.landing-page-images {
+    max-height: 350px;
+}
+
+.navbar-toggler {
+    border-color: #ffffff !important;
+}
+
+.nci-connect-logo {
+    padding-left: 0px !important;
+}
+
+.nci-connect-logo-width {
+    width: inherit;
+}
+
+.nav-link {
+    white-space: nowrap;
+}
+
+.request-pin-div, .health-care-div, .heard-about-study-div, .passive-participant-block-div, .setting-div {
+    margin: 2rem 0;
+}
+
+.form-all-content, .health-care-form-all-content {
+    min-height: calc(100vh - 420px);
+}
+
+.e-consent-body {
+    margin-left: 15px;
+    margin-right: 15px;
 }

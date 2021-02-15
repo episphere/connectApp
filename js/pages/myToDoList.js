@@ -75,6 +75,8 @@ export const myToDoList = (data) => {
     else if(data['379080287']){
         mainContent.innerHTML = requestPINTemplate();
         addEventPinAutoUpperCase();
+        let user = firebase.auth().currentUser;
+        console.log(JSON.stringify(user))
         addEventRequestPINForm(user.metadata.a);
         hideAnimation();
     }

@@ -26,19 +26,28 @@
         <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-            <a class="navbar-brand" href="#"><img height="45px" width="140px" src="./images/connect.png"></a> 
-            <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup"></div>
-        </nav>
         <main>
-            <div class="container">
-                <div style="position: relative;">
-                    <div style="position: absolute; top: 0; right: -5rem; min-width: 300px;" id="showNotification">
-                        
+            <div class="connect-container">
+                <div class="nci-gov">
+                    National Cancer Institute - Cancer.gov
+                </div>
+                <div class="row nci-logo-div">
+                    <div class="col-lg-4 nci-connect-logo">
+                        <img src="./images/ConnectDCEGLogo.svg" class="nci-connect-logo-width" alt="NCI-Connect logo">
                     </div>
+                </div>
+                <nav class="navbar navbar-expand-lg custom-menu-color fixed-top">
+                    <div class="col" style="padding-left:0px">
+                        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarNavAltMarkup"></div>
+                    </div>
+                    
+                </nav>
+                <div style="position: relative;">
+                        <div style="position: absolute; top: 0; right: -5rem; min-width: 300px;" id="showNotification"></div>
+
                 </div>
                 <div id="root"></div>
                 <div class="modal fade" id="connectMainModal" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
@@ -55,7 +64,7 @@
 
                 <div class="modal fade" id="notificationsModal" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="notificationHeader" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-slideout modal-sm notification-modal" role="document">
-                      <div class="modal-content sub-div-shadow">
+                    <div class="modal-content sub-div-shadow">
                         <div class="modal-header">
                             <h5 class="modal-title" id="notificationHeader">Notifications</h5>
                             <button type="button" class="close close-modal" data-dismiss="modal" aria-label="Close">
@@ -66,9 +75,9 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
-                      </div>
                     </div>
-                  </div>
+                    </div>
+                </div>
 
                 <div id="loadingAnimation" role="status" style="display: none;"></div>
             </div>

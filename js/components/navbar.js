@@ -80,5 +80,10 @@ export const homeNavBar = () => {
                 <a target="_blank" class="nav-link" href="https://gitter.im/episphere/connect" title="Chat with us"><i class="fas fa-comments"></i> Chat with us</a>
             </li>
         </div>
+        <div class="navbar-nav" style="margin-left:auto;">
+            <li class="nav-item" style="background-color:#FFBF17;border-radius:4px; float:right;">
+                <a class="nav-link" href="#sign_in" id="signIn" title="Join Now" style="color:#174C70 !important;"><i class="fas fa-door-open"></i> Join Now</a>
+            </li>
+        </div>
     `;
 }

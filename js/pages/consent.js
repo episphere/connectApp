@@ -28,7 +28,7 @@ export const renderProgress = (progress) => {
             lineColor[i] = 'lightgrey';
         }
     }
-    let toReturn = `<div class="row" >
+    let toReturn = `<div class="row" style="margin-bottom:30px">
         <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[0]};border-radius:50%;border:5px solid ${lineColor[0]};line-height:17px;color:${textColor[0]};">1</div><div style="text-align:center;">About</div></div>
         <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[0]};"></div></div>
         <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[1]};border-radius:50%;border:5px solid ${lineColor[1]};line-height:17px;color:${textColor[1]}">2</div><div style="text-align:center;">Activities</div></div>
@@ -50,14 +50,12 @@ export const consentAboutPage = () => {
     const mainContent = document.getElementById('root');
     let template = renderProgress(1);
     template += ` 
-        <div>
+        <div class = "e-consent-body">
             <h2>What is the Connect for Cancer Prevention Study?</h2>
             <h5>This research study will explore the causes of cancer and learn how to prevent cancer in adults.</h5>
             <p>Researchers wilkl study changes in habits, behaviors, nd the environment that can help us learn how cancer and other diseases develop. Since this can take time, Connect will be a long term study,
             meaning that you will participate on a regular basis for many years. Researchers hope to discover new ways to stop cancer from developing in the first place.</p>
             <p>Connect is not looking at tratments for cancer, and researchers will not give medical care, advice, or treatments.</p>
-        </div>
-        <div>
             <button class="btn btn-primary" type="button" id="toActivities" style="float:right;margin-top:100px;">Next</button>
         </div>`
     mainContent.innerHTML = template;
@@ -71,7 +69,7 @@ export const consentActivitiesPage = () => {
     const mainContent = document.getElementById('root');
     let template = renderProgress(2);
     template += `
-        <div>
+        <div class = "e-consent-body">
             <h2>What Will I Do?</h2>
             <p style="font-size:24px">Cancer can be caused by a lot of things, so we collect different kinds of information to give us a whole picture of your health.</h5>
             <h4>Share some personal information</h4>
@@ -136,7 +134,7 @@ export const consentPrivacyPage = () => {
     const mainContent = document.getElementById('root');
     let template = renderProgress(3);
     template += `
-        <div>
+        <div class = "e-consent-body">
             <h2>Protecting your Privacy and Information Sharing</h2>
             <p style="font-size:24px">Your privacy is important to us. We take steps to keep your information and samples safe. For example, we replace your personal information with a unique code to keep track of your health information and samples.</p>
             <p style="font-size:24px">The researchers who will study your information also have to agree to follow privacy rules that help to protect your identity.</p>
@@ -161,7 +159,7 @@ export const consentBenefitsPage = () => {
     const mainContent = document.getElementById('root');
     let template = renderProgress(4);
     template += `
-        <div>
+        <div class = "e-consent-body">
             <h2>Benefits and Compensation</h2>
             <p style="font-size:24px">Connect is looking at prevention of cancer, not treatments, so researchers will not give medical care or advice. There is no direct health benefit to taking part in the study.</p>
             <p style="font-size:24px">After you answer the first four online surveys and donate your first blood sample, you will receive $25 in cash or as a gift card depending on your health care system.</p>
@@ -186,7 +184,7 @@ export const consentResultsPage = () => {
     const mainContent = document.getElementById('root');
     let template = renderProgress(5);
     template += `
-        <div>
+        <div class = "e-consent-body">
             <h2>Return of Results</h2>
             <p style="font-size:24px">You can choose which results you wish to receive, including individual results from your surveys, and results from studying your samples, which could include genetic ancestry data.</p>
             <p>You can also choose to hear about more general findings about cancer or other health outcomes from all participants, and updates about the program.</p>
@@ -212,7 +210,7 @@ export const consentLeavingPage = () => {
     const mainContent = document.getElementById('root');
     let template = renderProgress(6);
     template += `
-        <div>
+        <div class = "e-consent-body">
             <h2>Leaving the Study or Changing Health Systems</h2>
             <p style="font-size:24px">While we hope you stay in Connect throughout your life, you can leave at any time. Choosing to leave the study will not change your health care or health benefits. If you heave shared any information or samples before leave, we may still use them for research.</p>
             <p style="font-size:24px">If you leave your health care system in the future, we hope you stay in Connect. If you leave your current health system and join one that is not participating in Connect [INSERT WHAT HAPENS HERE]...</p>
@@ -336,8 +334,10 @@ export const consentConsentPage = () => {
         </div>
     `*/
     template += `
-        <h2>Informed Consent</h2>
-        <p style="font-size:24px">In order to join Connect, we need you to give your informed consent by reviewing the full consent form and electronic health records release form, and signing your name.</p>
+        <div class = "e-consent-body">
+            <h2>Informed Consent</h2>
+            <p style="font-size:24px">In order to join Connect, we need you to give your informed consent by reviewing the full consent form and electronic health records release form, and signing your name.</p>
+        </div>
         <div style="width:80%; margin:auto">
             <h4 style="margin-top:50px">Informed Consent Form</h4>
             <p style="text-indent:40px">This is a more detailed explanation of what it means to take part in Connect</p>
@@ -347,7 +347,7 @@ export const consentConsentPage = () => {
             <h4 style="margin-top:50px">Electronic health records release form</h4>
             <p style="text-indent:40px">This allows Connect to access your electronic health records</p>
             <div id="canvasContainer1"></div>
-            <div class="row" style="margin:auto"><div style="margin:auto"><a href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf">Download consent form:&nbsp<i class="fas fa-file-download"></i></a></div></div>
+            <div class="row" style="margin:auto"><div style="margin:auto"><a href="./consent_draft.pdf" title="Download health records release form" data-toggle="tooltip" download="connect_consent.pdf">Download health records release form:&nbsp<i class="fas fa-file-download"></i></a></div></div>
             
             <p style="margin-top:50px">By clicking "Yes, I agree" and typing your name, you confirm the following:</p>
             <ol>
@@ -357,41 +357,65 @@ export const consentConsentPage = () => {
                 <li>If I have questions, I can contact the Connect Support Center at Cancer.gov/connectstudy/support</li>
                 <li>If I decide I do not want my health information used or shared throught Connect, I can leave the study by contacting the Connect Support Center at Cancer.gov/connectStudy/support
             </ol>
-            <input type="radio" name="consentAnswer" value="consentYes" required>
+            <input type="checkbox" name="consentAnswer" value="consentYes" id="CSConsentYesCheck" required>
             <label for="consentYes" id="CSConsentYes">Yes, I agree</label><br>
-            <input type="radio" name="consentAnswer" value="consentNo">
-            <label for="consentNo" id="CSConsentNNo">No, I do not agree</label>
         </div>
         
         <form id="consentForm" style="margin-top:50px" method="POST">
-            <div class="row" style="width:80%; margin:auto;">
-                <div class="col form-group consent-form">
-                    <label class="consent-form-label">
-                        First name<span class="required">*</span>
-                    </label>
-                    <input required type="text" autocomplete="off" id="CSFirstName" class="form-control col-md-5" placeholder="Enter first name">
+            <div id="CSConsentNameSignContainer" style="display:none">
+                <div class="row" style="width:80%; margin:auto;">
+                    <div class="col-4 form-group consent-form">
+                        <label class="consent-form-label">
+                            First name<span class="required">*</span>
+                        </label>
+                        <input required type="text" autocomplete="off" id="CSFirstName" class="form-control col-md-10" placeholder="Enter first name">
+                    </div>
+                    <div class="col-2 form-group consent-form">
+                        <label class="consent-form-label">
+                            Middle name<span class="required">*</span>
+                        </label>
+                        <input required type="text" autocomplete="off" id="CSMiddleName" class="form-control col-md-10" placeholder="Enter middle name">
+                    </div>
+                    <div class="col-4 form-group consent-form">
+                        <label class="consent-form-label">
+                            Last name<span class="required">*</span>
+                        </label>
+                        <input required type="text" autocomplete="off" id="CSLastName" class="form-control col-md-10" placeholder="Enter last name">
+                    </div>
+                    <div class="col-2 form-group consent-form">
+                        <label class="consent-form-label">
+                            Suffix<span class="required">*</span>
+                        </label>
+                        <select name="NameSuffix" class="form-control col-md-10" id="CSNameSuffix" required>
+                            <option value="select">--Select--</option>
+                            <option value="Sr.">Sr.</option>
+                            <option value="Jr.">Jr.</option>
+                            <option value="I">I</option>
+                            <option value="II">II</option>
+                            <option value="III">III</option>
+
+                        </select>
+                    </div>
                 </div>
-                <div class="col form-group consent-form">
-                    <label class="consent-form-label">
-                        Last name<span class="required">*</span>
-                    </label>
-                    <input required type="text" autocomplete="off" id="CSLastName" class="form-control col-md-5" placeholder="Enter last name">
+               
+                <!--
+                <div class="row" style="width:80%; margin:auto;">
+                    <div class="col form-group consent-form">
+                        <label class="consent-form-label">
+                            Digital signature<span class="required">*</span>
+                            <input disabled required type="text" id="CSSign" class="form-control consentSign">
+                        </label>
+                    </div>
+                    <div class="col form-group consent-form">
+                        <label class="consent-form-label">
+                            Today's date: 
+                        </label>
+                        <span id="CSDate">${todaysDate()}</span>
+                    </div>
                 </div>
+                -->
             </div>
-            <div class="row" style="width:80%; margin:auto;">
-                <div class="col form-group consent-form">
-                    <label class="consent-form-label">
-                        Digital signature<span class="required">*</span>
-                        <input disabled required type="text" id="CSSign" class="form-control consentSign">
-                    </label>
-                </div>
-                <div class="col form-group consent-form">
-                    <label class="consent-form-label">
-                        Today's date: 
-                    </label>
-                    <span id="CSDate">${todaysDate()}</span>
-                </div>
-            </div>
+            <!--
             ${localStorage.eligibilityQuestionnaire ? JSON.parse(localStorage.eligibilityQuestionnaire)['827220437'] === 809703864 ? `
                 <div class="row">
                     <div class="col form-group consent-form">
@@ -422,6 +446,7 @@ export const consentConsentPage = () => {
                     </div>
                 </div>
             ` : '' : ''}
+            -->
             <div class="row">
                 <button class="btn btn-primary" type="button" id="backToConsent" style="float:left;">Back</button>
                 <div class="ml-auto">
@@ -432,6 +457,15 @@ export const consentConsentPage = () => {
     `
     
     mainContent.innerHTML =  template;
+    let checkbox = document.getElementById('CSConsentYesCheck')
+    checkbox.addEventListener('change', ()=>{
+        if(checkbox.checked) {
+            document.getElementById('CSConsentNameSignContainer').style.display="block"
+        } else {
+            document.getElementById('CSConsentNameSignContainer').style.display="none"
+        }
+    });
+    
     initializeCanvas('./consent_draft.pdf', .8*1.7);
     initializeCanvas1('./consent_draft.pdf', .8*1.7);
     document.getElementById('backToConsent').addEventListener('click', () => {
@@ -645,7 +679,7 @@ const consentSubmit = async e => {
     }
     if(hasError) return false;
     dataSavingBtn('save-data');
-    const CSDate = document.getElementById('CSDate').innerHTML;
+    const CSDate = todaysDate();
 
     formData['454205108'] = 'Consent-v1.0';
     formData['471168198'] = CSFirstName.value.trim();

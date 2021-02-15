@@ -1,14 +1,84 @@
+import { getMyData } from "../shared.js";
+
 export const homePage = async () => {
     const mainContent = document.getElementById('root');
     const isIE = /*@cc_on!@*/false || !!document.documentMode;
     mainContent.innerHTML = `
         ${isIE ? `<span class="not-compatible">Connect web application is not compatible with Internet Explorer, please use Chrome, Safari, Firefox or Edge</span>` : ``}
-        <div class="row" style="background-color:blue">
-            <div id="header-nci">
-                <img src="./images/ConnectDCEGLogo.svg">
-            </div>
+        <div class="alert alert-warning" id="nextStepWarning" style="margin-top:10px;">
         </div>
-        <!-- 
+        <div class="row">
+            <h2 style="margin:auto">5 Steps to Connect</h2>
+        </div>
+        <div class="row">
+            <!--5 steps fr now-->
+            <div class="col-sm-1"></div>
+            <div class="col-sm-10">
+                <ul style="display:grid; grid-template-columns:20% 20% 20% 20% 20%;list-style-type:none; padding-left:0px;" >
+                    <li>
+                        <div class="row" style="padding-bottom:0px">
+                            <h2 style="font-size:75px; line-height:100px; margin-left:auto">1</h2>
+                            <div style="text-align:center;width:100px;height:100px;background:#005ea2;border-radius:50%;border:5px solid #005ea2;line-height:17px;color:white; margin-right:auto;">
+                                <i class="far fa-hospital" style="font-size:60px; line-height:80px">
+                                </i>
+                            </div>
+                        </div>
+                        <div style="text-align:center">
+                            Choose Health Care Provider
+                        </div>
+                    </li>
+                    <li>
+                        <div class="row" style="padding-bottom:0px">
+                            <h2 style="font-size:75px; line-height:100px; margin-left:auto">2</h2>
+                            <div style="text-align:center;width:100px;height:100px;background:#FFBF17;border-radius:50%;border:5px solid #FFBF17;line-height:17px;color:white; margin-right:auto;">
+                                <i class="fas fa-clipboard-check" style="font-size:60px; line-height:80px">
+                                </i>
+                            </div>
+                        </div>
+                        <div style="text-align:center">
+                            Sign e-Consent Forms
+                        </div>
+                    </li>
+                    <li>
+                        <div class="row" style="padding-bottom:0px">
+                            <h2 style="font-size:75px; line-height:100px; margin-left:auto">3</h2>
+                            <div style="text-align:center;width:100px;height:100px;background:#606060;border-radius:50%;border:5px solid #606060;line-height:17px;color:white; margin-right:auto;">
+                                <i class="fas fa-user" style="font-size:60px; line-height:80px">
+                                </i>
+                            </div>
+                        </div>
+                        <div style="text-align:center">
+                            Fill Out User Profile
+                        </div>
+                    </li>
+                    <li>
+                        <div class="row" style="padding-bottom:0px">
+                            <h2 style="font-size:75px; line-height:100px; margin-left:auto">4</h2>
+                            <div style="text-align:center;width:100px;height:100px;background:#005ea2;border-radius:50%;border:5px solid #005ea2;line-height:17px;color:white; margin-right:auto;">
+                                <i class="fas fa-check" style="font-size:60px; line-height:90px">
+                                </i>
+                            </div>
+                        </div>
+                        <div style="text-align:center">
+                            Wait for Verification
+                        </div>
+                    </li>
+                    <li>
+                        <div class="row" style="padding-bottom:0px">
+                            <h2 style="font-size:75px; line-height:100px; margin-left:auto">5</h2>
+                            <div style="text-align:center;width:100px;height:100px;background:#FFBF17;border-radius:50%;border:5px solid #FFBF17;line-height:17px;color:white; margin-right:auto;">
+                                <i class="fab fa-wpforms" style="font-size:60px; line-height:90px">
+                                </i>
+                            </div>
+                        </div>
+                        <div style="text-align:center">
+                            Complete Surveys
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-1"></div>
+        </div>
         <div class="row">
             <div class="col-sm-9 images-grid">
                 <div class="row images-row">
@@ -92,7 +162,6 @@ export const homePage = async () => {
                 </div>
             </div>
         </div> 
-        -->
     `;
 }
 
@@ -103,5 +172,45 @@ export const joinNowBtn = (bool) => {
     }
     else {
         return `<span class="join-now-heading">Thanks for joining Connect Cohort Study!</span>`
+    }
+}
+
+export const whereAmIInDashboard = async () => {
+    let myData = await getMyData();
+    if(myData.code != 200){
+        
+        return '';
+
+    }
+    let data = myData.data;
+    console.log(JSON.stringify(data))
+    if(data['827220437'] && data['142654897']){
+        if(data['919254129'] === 353358909){
+            if(data['699625233'] && data['699625233'] === 353358909 && data['512820379'] && data['512820379'] === 854703046){
+                //Awaiting verification
+                return 'Awaiting verifiaction';
+            }
+            if(data['699625233'] && data['699625233'] === 353358909){
+                
+                //go do your surveys
+                return 'Go fill out your survey';
+            }
+            //fill out your user profile
+            return 'fill out your user profile';
+        }
+        //sign e-consent
+        return 'Please go and sign the e-consent form <a href="#dashboard">Here</a>';
+    }
+    else if(data['827220437'] && !data['142654897']){
+        //heard about study
+        return 'where did you hear about this study'
+    }
+    else if(data['379080287']){
+        //pin
+        return 'pin stuff'
+    }
+    else{
+        //Choose health care provider
+        return 'health care provider'
     }
 }
