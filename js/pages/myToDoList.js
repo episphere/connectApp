@@ -62,6 +62,7 @@ export const myToDoList = (data) => {
                         toActive.classList.add('survey-Active-Nav')
                         toInactive.classList.add('survey-Inactive-Nav')
                         toInactive.classList.remove('survey-Active-Nav')
+                        addEventToDoList();
                     }
                 })
                 document.getElementById('surveysCompleted').addEventListener('click', () => {
@@ -74,6 +75,7 @@ export const myToDoList = (data) => {
                         toInactive.classList.remove('survey-Active-Nav')
                     }
                     document.getElementById('surveyMainBody').innerHTML = renderMainBody(data, 'completed') 
+                    addEventToDoList();
                 })
                 addEventToDoList();
                 hideAnimation();
