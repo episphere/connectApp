@@ -16,20 +16,24 @@ export const myToDoList = (data) => {
                 return;
             }
             if(data['699625233'] && data['699625233'] === 353358909){
-                let template = '<h3>My To Do List: </h3>';
-                template += `<span>You have self assessment questionnaires ready to take</span>
-                <ul class="questionnaire-module-list">`;
+                let template = '<h3>Surveys</h3>';
+                template += `
+                            <ul class="nav nav-tabs" style="border-bottom:none">
+                                <li class="nav-item" style=:padding-left:10px>
+                                    <button class=" nav-link navbar-btn survey-Active-Nav" id="surveysToDoTab">To Do</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="nav-link navbar-btn survey-Inactive-Nav" id="surveysCompleted">Completed</button>
+                                </li>
+                            </ul>`
+                template += `
+                <div style="border: 1px solid #dee2e6; padding: 20px; border-radius:0px 10px 10px 10px;" id="surveyMainBody">
+                `;
                 const modules = questionnaireModules;
-                if (data.Module1 && data.Module1.COMPLETED) { modules["Enter SSN"].enabled = true};
-                if (data.ModuleSsn && data.ModuleSsn.COMPLETED) { modules["Medications, Reproductive Health, Exercise, and Sleep"].enabled = true};
-                if (data.Module2 && data.Module2.COMPLETED) { modules["Smoking, Alcohol, and Sun Exposure"].enabled = true};
-                if (data.Module3 && data.Module3.COMPLETED) { modules["Where You Live and Work"].enabled = true};
-                for(let key in modules){
-                    template += `<li class="list-item">
-                                    <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}">${key}</button>
-                                </li>`;
-                }
-                template += `</ul>`
+                template += renderMainBody(data, 'todo')
+                
+               
+                template += `</div>`
 
                 // template += `
                 //     <span>You have self assessment questionnaires ready to take</span>
@@ -49,6 +53,28 @@ export const myToDoList = (data) => {
                 //     </ul>
                 // `;
                 mainContent.innerHTML = template;
+                document.getElementById('surveysToDoTab').addEventListener('click', () => {
+                    document.getElementById('surveyMainBody').innerHTML = renderMainBody(data, 'todo') 
+                    if(!document.getElementById('surveysToDoTab').classList.contains('survey-Active-Nav')){
+                        let toActive = document.getElementById('surveysToDoTab');   
+                        let toInactive = document.getElementById('surveysCompleted');
+                        toActive.classList.remove('survey-Inactive-Nav')
+                        toActive.classList.add('survey-Active-Nav')
+                        toInactive.classList.add('survey-Inactive-Nav')
+                        toInactive.classList.remove('survey-Active-Nav')
+                    }
+                })
+                document.getElementById('surveysCompleted').addEventListener('click', () => {
+                    if(!document.getElementById('surveysCompleted').classList.contains('survey-Active-Nav')){
+                        let toInactive = document.getElementById('surveysToDoTab');   
+                        let toActive = document.getElementById('surveysCompleted');
+                        toActive.classList.remove('survey-Inactive-Nav')
+                        toActive.classList.add('survey-Active-Nav')
+                        toInactive.classList.add('survey-Inactive-Nav')
+                        toInactive.classList.remove('survey-Active-Nav')
+                    }
+                    document.getElementById('surveyMainBody').innerHTML = renderMainBody(data, 'completed') 
+                })
                 addEventToDoList();
                 hideAnimation();
                 return;
@@ -98,4 +124,59 @@ const addEventToDoList = () => {
 
         })
     })
+}
+
+
+const renderMainBody = (data, tab) => {
+    let template = ''
+    template += `
+            <span>You have self assessment questionnaires ready to take</span>
+            <ul class="questionnaire-module-list">`;
+    const modules = questionnaireModules;
+    
+    if (data.Module1 && data.Module1.COMPLETED) { 
+        modules["Enter SSN"].enabled = true;
+        modules['Background and Overall Health'].completed = true;
+    };
+    if (data.ModuleSsn && data.ModuleSsn.COMPLETED) { 
+        modules["Medications, Reproductive Health, Exercise, and Sleep"].enabled = true;
+        modules['Enter SSN'].completed = true;
+    };
+    if (data.Module2 && data.Module2.COMPLETED) { 
+        modules["Smoking, Alcohol, and Sun Exposure"].enabled = true
+        modules['Medications, Reproductive Health, Exercise, and Sleep'].completed = true;
+    };
+    if (data.Module3 && data.Module3.COMPLETED) { 
+        modules["Where You Live and Work"].enabled = true
+        modules['Smoking, Alcohol, and Sun Exposure'].completed = true;
+    };
+    if(tab === 'todo'){
+        for(let key in modules){
+            if(!modules[key].completed){
+            template += `<li style="width:100%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
+                            <div class="row">
+                                <i class="fas fa-eye" title="Survey Icon"></i>
+                                <b style="font-style:bold; font-size:18px;">
+                                    ${key}
+                                </b>
+                                <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="margin-left:auto; margin-right:10px; width:20%;border-radius:20px;">Start</button>
+
+                            </h2>
+                        </li>`
+                            /*
+                            <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="width:90%; margin-bottom:20px;">${key}</button>
+                        </li>`;*/
+            }
+        }
+    }
+    else{
+        for(let key in modules){
+            if(modules[key].completed){
+            template += `<li class="list-item">
+                            <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}">${key}</button>
+                        </li>`;
+            }
+        }
+    }
+    return template;
 }

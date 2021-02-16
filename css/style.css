@@ -745,3 +745,16 @@ input:checked + .slider:before {
     margin-left: 15px;
     margin-right: 15px;
 }
+
+.survey-Active-Nav {
+    color:purple !important;
+    background-color:white;
+    border: 1px solid lightgrey !important;
+    border-bottom: 1px solid white !important;
+}
+
+.survey-Inactive-Nav {
+    color:purple !important;
+    background-color:white;
+    border-bottom: 1px solid lightgrey !important;
+}
