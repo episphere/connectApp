@@ -16,9 +16,9 @@ export const myToDoList = (data) => {
                 return;
             }
             if(data['699625233'] && data['699625233'] === 353358909){
-                let template = '<h3>Surveys</h3>';
+                let template = '';
                 template += `
-                            <ul class="nav nav-tabs" style="border-bottom:none">
+                            <ul class="nav nav-tabs" style="border-bottom:none; margin-top:20px">
                                 <li class="nav-item" style=:padding-left:10px>
                                     <button class=" nav-link navbar-btn survey-Active-Nav" id="surveysToDoTab">To Do</button>
                                 </li>
@@ -169,11 +169,13 @@ const renderMainBody = (data, tab) => {
                                 </div>
                                 <div class="col-8">
                                 <p class="style="font-style:bold; font-size:24px; margin-left:30px">
-                                    <b>
+                                    <b style="color:#5c2d93; font-size:18px;">
                                     ${key}
                                     </b>
                                     <br>
+                                    <em>
                                         ${modules[key].description}
+                                        </em>
                                 </p>
                                 </div>
                                
@@ -194,24 +196,28 @@ const renderMainBody = (data, tab) => {
     else{
         for(let key in modules){
             if(modules[key].completed){
-            template += `<li style="width:100%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
-                            <div class="row">
-                                <i class="fas fa-clipboard-list" title="Survey Icon" style="margin-left:10px; font-size:50px;"></i>
-                                <p style="font-style:bold; font-size:24px; margin-left:30px">
-                                    <b>
-                                    ${key}
-                                    </b>
-                                    <br>
-                                        ${modules[key].description}
-                                </p>
-                               
-                                <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="margin-left:auto; margin-right:10px; width:20%;border-radius:30px; max-height:60px;">Review</button>
-
-                            </div>
-                            <div class="row">
-                                
-                            </div
-                        </li>`;
+                template += `<li style="width:100%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
+                    <div class="row">
+                        <div class="col-1">
+                        <i class="fas fa-clipboard-list" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
+                        </div>
+                        <div class="col-8">
+                        <p class="style="font-style:bold; font-size:24px; margin-left:30px">
+                            <b style="color:#5c2d93; font-size:18px;">
+                            ${key}
+                            </b>
+                            <br>
+                            <em>
+                                ${modules[key].description}
+                                </em>
+                        </p>
+                        </div>
+                    
+                        <div class="col-3">
+                        <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="margin-top:0px;border-radius:30px; height:60px;background-color:#5c2d93 !important;color:white; width:100%"><b>Review</b></button>
+                        </div>
+                    </div>
+                </li>`
             }
         }
     }
