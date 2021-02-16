@@ -130,9 +130,13 @@ const addEventToDoList = () => {
 const renderMainBody = (data, tab) => {
     let template = ''
     template += `
-            <span>You have self assessment questionnaires ready to take</span>
             <ul class="questionnaire-module-list">`;
     const modules = questionnaireModules;
+    modules['Background and Overall Health'].description = 'Answer basic questions about your health and status.';
+    modules['Enter SSN'].description = 'Enter your SSN';
+    modules['Medications, Reproductive Health, Exercise, and Sleep'].description = 'Answer questions about your medications, health, exercise, and sleep.';
+    modules['Smoking, Alcohol, and Sun Exposure'].description = 'Answer questions about your smoking and alcohol intake as well as sun exposure amount';
+    modules["Where You Live and Work"].description  = 'Answer questions about your living and work environment'
     
     if (data.Module1 && data.Module1.COMPLETED) { 
         modules["Enter SSN"].enabled = true;
@@ -150,18 +154,29 @@ const renderMainBody = (data, tab) => {
         modules["Where You Live and Work"].enabled = true
         modules['Smoking, Alcohol, and Sun Exposure'].completed = true;
     };
+    if (data.Module4 && data.Module4.COMPLETED) { 
+        modules["Where You Live and Work"].completed  = true
+    };
     if(tab === 'todo'){
         for(let key in modules){
             if(!modules[key].completed){
             template += `<li style="width:100%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
                             <div class="row">
-                                <i class="fas fa-eye" title="Survey Icon"></i>
-                                <b style="font-style:bold; font-size:18px;">
+                                <i class="fas fa-clipboard-list" title="Survey Icon" style="margin-left:10px; font-size:50px;"></i>
+                                <p style="font-style:bold; font-size:24px; margin-left:30px">
+                                    <b>
                                     ${key}
-                                </b>
-                                <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="margin-left:auto; margin-right:10px; width:20%;border-radius:20px;">Start</button>
+                                    </b>
+                                    <br>
+                                        ${modules[key].description}
+                                </p>
+                               
+                                <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="margin-left:auto; margin-right:10px; width:20%;border-radius:30px; max-height:60px;">Start</button>
 
-                            </h2>
+                            </div>
+                            <div class="row">
+                                
+                            </div
                         </li>`
                             /*
                             <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="width:90%; margin-bottom:20px;">${key}</button>
@@ -172,8 +187,23 @@ const renderMainBody = (data, tab) => {
     else{
         for(let key in modules){
             if(modules[key].completed){
-            template += `<li class="list-item">
-                            <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}">${key}</button>
+            template += `<li style="width:100%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
+                            <div class="row">
+                                <i class="fas fa-clipboard-list" title="Survey Icon" style="margin-left:10px; font-size:50px;"></i>
+                                <p style="font-style:bold; font-size:24px; margin-left:30px">
+                                    <b>
+                                    ${key}
+                                    </b>
+                                    <br>
+                                        ${modules[key].description}
+                                </p>
+                               
+                                <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="margin-left:auto; margin-right:10px; width:20%;border-radius:30px; max-height:60px;">Review</button>
+
+                            </div>
+                            <div class="row">
+                                
+                            </div
                         </li>`;
             }
         }
