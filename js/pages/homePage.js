@@ -188,29 +188,29 @@ export const whereAmIInDashboard = async () => {
         if(data['919254129'] === 353358909){
             if(data['699625233'] && data['699625233'] === 353358909 && data['512820379'] && data['512820379'] === 854703046){
                 //Awaiting verification
-                return 'Awaiting verifiaction';
+                return 'You are awaiting verifiction';
             }
             if(data['699625233'] && data['699625233'] === 353358909){
                 
                 //go do your surveys
-                return 'Go fill out your survey';
+                return 'Please go fill out your surveys <a href="#dashboard">Here</a>';
             }
             //fill out your user profile
-            return 'fill out your user profile';
+            return 'Please go and ill out your user profile <a href="#dashboard">Here</a>';
         }
         //sign e-consent
         return 'Please go and sign the e-consent form <a href="#dashboard">Here</a>';
     }
     else if(data['827220437'] && !data['142654897']){
         //heard about study
-        return 'where did you hear about this study'
+        return 'Where did you hear about this study <a href="#dashboard">Here</a>'
     }
     else if(data['379080287']){
         //pin
-        return 'pin stuff'
+        return 'Please tell us if you already have a pin <a href="#dashboard">Here</a>'
     }
     else{
         //Choose health care provider
-        return 'health care provider'
+        return 'Please tell us your health provider <a href="#dashboard">Here</a>'
     }
 }
