@@ -10,6 +10,7 @@
 #root {
     height: 100%;
     border-top: 1px solid #ffffff;
+    margin-top:10px;
 }
 
 #footer {
@@ -302,6 +303,25 @@ canvas {
     background-color: #b1cee7 !important;
     cursor: pointer;
 }
+
+.survey-list-active {
+    margin-top:0px;
+    border-radius:30px !important; 
+    height:60px !important;
+    background-color:#5c2d93 !important;
+    color:white !important; 
+    width:100%;
+}
+
+.survey-list-inactive {
+    margin-top:0px;
+    border-radius:30px !important; 
+    height:60px !important;
+    background-color:lightgrey !important;
+    color:white !important; 
+    width:100%;
+}
+
 
 .no-text-decoration {
     color: #000000 !important;

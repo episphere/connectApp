@@ -261,20 +261,22 @@ const signOut = () => {
 const toggleNavBar = (route) => {
     auth.onAuthStateChanged(async user => {
         if(user){
-           
+            showAnimation();
             document.getElementById('navbarNavAltMarkup').innerHTML = userNavBar();
             document.getElementById('joinNow') ? document.getElementById('joinNow').innerHTML = joinNowBtn(false) : ``; 
             document.getElementById('nextStepWarning') ? document.getElementById('nextStepWarning').innerHTML = await whereAmIInDashboard() : '';
-            console.log('here')
             document.getElementById('nextStepWarning') ? document.getElementById('nextStepWarning').style.display="block": '';
             addEventRetrieveNotifications();
             toggleCurrentPage(route);
+            hideAnimation();
         }
         else{
+            showAnimation();
             document.getElementById('navbarNavAltMarkup').innerHTML = homeNavBar();
             document.getElementById('joinNow') ? document.getElementById('joinNow').innerHTML = joinNowBtn(true) : ``;
             document.getElementById('nextStepWarning') ? document.getElementById('nextStepWarning').style.display="none": '';
             toggleCurrentPageNoUser(route);
+            hideAnimation();
         }
     });
 }

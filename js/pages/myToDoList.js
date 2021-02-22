@@ -180,7 +180,7 @@ const renderMainBody = (data, tab) => {
                                 </div>
                                
                                 <div class="col-3">
-                                <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="margin-top:0px;border-radius:30px; height:60px;background-color:#5c2d93 !important;color:white; width:100%"><b>Start</b></button>
+                                <button class="btn survey-list-active btn-agreement questionnaire-module ${modules[key].enabled ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style=""><b>Start</b></button>
                                 </div>
                             </div>
                             <div class="row">
@@ -214,7 +214,9 @@ const renderMainBody = (data, tab) => {
                         </div>
                     
                         <div class="col-3">
+                        <!--
                         <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="margin-top:0px;border-radius:30px; height:60px;background-color:#5c2d93 !important;color:white; width:100%"><b>Review</b></button>
+                        -->
                         </div>
                     </div>
                 </li>`
