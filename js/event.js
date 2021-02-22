@@ -372,7 +372,7 @@ export const addEventUPSubmit = () => {
          *Check how we should be storing the preferred name if they do not have one
          */
         let prefName = document.getElementById('UPPreferredName').value.trim();
-        formData['153211406'] = prefName === '' ? formData['399159511'] : formData['399159511'];
+        formData['153211406'] = prefName;
 
         if(document.getElementById('UPSuffix').value) formData['506826178'] = parseInt(document.getElementById('UPSuffix').value);
         let month = document.getElementById('UPMonth').value;

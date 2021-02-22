@@ -372,7 +372,7 @@ export const consentConsentPage = () => {
                     </div>
                     <div class="col-2 form-group consent-form">
                         <label class="consent-form-label">
-                            Middle name<span class="required"></span>
+                            Middle name<span></span>
                         </label>
                         <input required type="text" autocomplete="off" id="CSMiddleName" class="form-control col-md-10" placeholder="Enter middle name">
                     </div>
