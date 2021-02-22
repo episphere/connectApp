@@ -374,7 +374,7 @@ export const consentConsentPage = () => {
                         <label class="consent-form-label">
                             Middle name<span></span>
                         </label>
-                        <input required type="text" autocomplete="off" id="CSMiddleName" class="form-control col-md-10" placeholder="Enter middle name">
+                        <input type="text" autocomplete="off" id="CSMiddleName" class="form-control col-md-10" placeholder="Enter middle name">
                     </div>
                     <div class="col-4 form-group consent-form">
                         <label class="consent-form-label">
@@ -384,7 +384,7 @@ export const consentConsentPage = () => {
                     </div>
                     <div class="col-2 form-group consent-form">
                         <label class="consent-form-label">
-                            Suffix<span class="required"></span>
+                            Suffix<span></span>
                         </label>
                         <select name="NameSuffix" class="form-control col-md-10" id="CSNameSuffix" required>
                             <option value="select">--Select--</option>
