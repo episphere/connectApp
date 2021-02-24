@@ -20,10 +20,13 @@ export const  questionnaire = (url, moduleId) => {
             inputData["age"] = Math.abs(ageDate.getUTCFullYear() - 1970);
             inputData["AGE"] = Math.abs(ageDate.getUTCFullYear() - 1970);
         }
-   
-        if (!data.data[moduleId] || !data.data[moduleId].START_TS){
+        debugger;
+        let moduleConceptId = fieldMapping[`${moduleId}`].conceptId;
+        let startTsConceptId = fieldMapping[`${moduleId}`].startTs;
+
+        if (!data.data[moduleConceptId] || !data.data[moduleConceptId][startTsConceptId]){
             let formData = {};
-            formData[`${moduleId}.START_TS`] = new Date();
+            formData[`${moduleConceptId}.${startTsConceptId}`] = new Date();
             console.log("Module TS does not exist");
             storeResponse(formData);
         }
