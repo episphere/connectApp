@@ -30,10 +30,16 @@ export const myToDoList = (data) => {
                 <div style="border: 1px solid #dee2e6; padding: 20px; border-radius:0px 10px 10px 10px;" id="surveyMainBody">
                 `;
                 const modules = questionnaireModules;
-                template += renderMainBody(data, 'todo')
-                
-               
-                template += `</div>`
+                if (data.Module1 && data.Module1.COMPLETED) { modules["Enter SSN"].enabled = true};
+                if (data.ModuleSsn && data.ModuleSsn.COMPLETED) { modules["Medications, Reproductive Health, Exercise, and Sleep"].enabled = true};
+                if (data.Module2 && data.Module2.COMPLETED) { modules["Smoking, Alcohol, and Sun Exposure"].enabled = true};
+                if (data.Module3 && data.Module3.COMPLETED) { modules["Where You Live and Work"].enabled = true};
+                for(let key in modules){
+                    template += `<li class="list-item">
+                                    <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" module_id="${modules[key].moduleId}" data-module-url="${modules[key].url ? modules[key].url : ''}">${key}</button>
+                                </li>`;
+                }
+                template += `</ul>`
 
                 // template += `
                 //     <span>You have self assessment questionnaires ready to take</span>
@@ -121,7 +127,8 @@ const addEventToDoList = () => {
         module.addEventListener('click',() => {
             if (!module.classList.contains("btn-disbaled")){
                 const url = module.dataset.moduleUrl;
-                if(url) questionnaire(url);
+                const moduleId = module.getAttribute("module_id");
+                if(url) questionnaire(url, moduleId);
             }
 
         })
