@@ -20,7 +20,6 @@ export const  questionnaire = (url, moduleId) => {
             inputData["age"] = Math.abs(ageDate.getUTCFullYear() - 1970);
             inputData["AGE"] = Math.abs(ageDate.getUTCFullYear() - 1970);
         }
-        debugger;
         let moduleConceptId = fieldMapping[`${moduleId}`].conceptId;
         let startTsConceptId = fieldMapping[`${moduleId}`].startTs;
 
