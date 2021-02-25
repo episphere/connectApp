@@ -970,7 +970,7 @@ export const retrieveNotificationsInBackgroound = async () => {
 }
 
 export const toggleCurrentPage = async (route) => {
-    const IDs = ['home', 'userDashboard', 'userData', 'userAgreements', 'userSettings', 'connectSupport'];
+    const IDs = ['home', 'userDashboard', 'userAgreements', 'userSettings', 'connectSupport', 'connectPayment'];
     IDs.forEach(id => {
         const element = document.getElementById(id);
         element.addEventListener('click', () => {
@@ -981,7 +981,7 @@ export const toggleCurrentPage = async (route) => {
     });
     if(route === '#') document.getElementById('home').click();
     if(route === '#dashboard') document.getElementById('userDashboard').click();
-    if(route === '#my_data') document.getElementById('userData').click();
+    //if(route === '#my_data') document.getElementById('userData').click();
     if(route === '#agreements') document.getElementById('userAgreements').click();
     if(route === '#settings') document.getElementById('userSettings').click();
     if(route === '#support') document.getElementById('connectSupport').click();
