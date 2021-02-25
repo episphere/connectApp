@@ -1,12 +1,11 @@
 import { sites, allStates, allCountries, getMyData } from "../shared.js";
-import { addEventMonthSelection, addEventUPSubmit, addEventCancerFollowUp, addYearsOptions, addEventChangeFocus, addEventPreferredContactType, addEventAddressAutoComplete, addEventAdditionalEmail } from "../event.js";
+import { addEventMonthSelection, addEventUPSubmit, addEventCancerFollowUp, addYearsOptions, addEventChangeFocus, addEventPreferredContactType, addEventAddressAutoComplete, addEventAdditionalEmail, addEventCheckCanText } from "../event.js";
 
 export const renderUserProfile = async () => {
     const myData = await getMyData();
     const siteId = myData.data ? myData.data['827220437'] : undefined;
     const mainContent = document.getElementById('root');
     let suffixList = {612166858: 0,255907182: 1,226924545: 2,270793412: 3,959021713: 4,643664527: 5,537892528: 6};
-    console.log(myData.data['480305327'])
     myData.data['480305327'] = 226924545;
     mainContent.innerHTML = `
         </br>
@@ -87,6 +86,29 @@ export const renderUserProfile = async () => {
 
             <strong>Contact Information</strong>
             <div class="form-group row">
+                <label class="col-md-4 col-form-label">Preferred Email <span class="required">*</span></label>
+                <input type="text" class="form-control col-md-4" id="UPEmail" title="Please enter a email address in this format: name@example.com." Placeholder="Enter preferred email"></br>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-md-4 col-form-label">Retype preferred Email <span class="required">*</span></label>
+                <input type="text" class="form-control col-md-4" id="confirmUPEmail" title="Please enter a email address in this format: name@example.com." Placeholder="Retype preferred email"></br>
+            </div>
+            
+            <div class="form-group row">
+                <label class="col-md-4 col-form-label">Additional Email</label>
+                <input type="text" class="form-control col-md-4" id="UPEmail2" title="Please enter a email address in this format: name@example.com." Placeholder="Enter additional email"></br>
+            </div>
+            <div id="multipleEmail1"></div>
+            <div id="multipleEmail2"></div>
+            <div class="form-group row">
+                <div class="col-md-4 offset-md-4" id="additionalEmailBtn">
+                    <button type="button" class="btn btn-light" id="addMoreEmail" title="Add more email">Add more <i class="fas fa-plus"></i></button>
+                </div>
+            </div>
+            
+            
+            <div class="form-group row">
                 <label class="col-md-4 col-form-label">
                     Mobile phone 
                 </label>
@@ -111,10 +133,12 @@ export const renderUserProfile = async () => {
                     Can we text this number? 
                 </label>
                 <div class="btn-group btn-group-toggle col-md-4" data-toggle="buttons">
-                    <label class="btn btn-light up-btns" id="textYes"><input type="radio" name="textPermission1" value="353358909">Yes</label>
-                    <label class="btn btn-light up-btns" id="textNo"><input type="radio" name="textPermission1" value="104430631">No</label>
+                    <label class="btn btn-light up-btns" id="textPermissionYes"><input type="radio" name="textPermission1"  value="353358909">Yes</label>
+                    <label class="btn btn-light up-btns" id="textPermissionNo"><input type="radio" name="textPermission1"  value="104430631">No</label>
                 </div>
             </div>
+
+            <div id="preferredEmailPhone"></div>
 
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">
@@ -136,30 +160,6 @@ export const renderUserProfile = async () => {
                     <label class="btn btn-light up-btns"><input type="radio" name="voiceMailPermission2" value="104430631">No</label>
                 </div>
             </div>
-            
-            <div class="form-group row">
-                <label class="col-md-4 col-form-label">Preferred Email <span class="required">*</span></label>
-                <input type="text" class="form-control col-md-4" id="UPEmail" title="Please enter a email address in this format: name@example.com." Placeholder="Enter preferred email"></br>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-md-4 col-form-label">Retype preferred Email <span class="required">*</span></label>
-                <input type="text" class="form-control col-md-4" id="confirmUPEmail" title="Please enter a email address in this format: name@example.com." Placeholder="Retype preferred email"></br>
-            </div>
-            
-            <div class="form-group row">
-                <label class="col-md-4 col-form-label">Additional Email</label>
-                <input type="text" class="form-control col-md-4" id="UPEmail2" title="Please enter a email address in this format: name@example.com." Placeholder="Enter additional email"></br>
-            </div>
-            <div id="multipleEmail1"></div>
-            <div id="multipleEmail2"></div>
-            <div class="form-group row">
-                <div class="col-md-4 offset-md-4" id="additionalEmailBtn">
-                    <button type="button" class="btn btn-light" id="addMoreEmail" title="Add more email">Add more <i class="fas fa-plus"></i></button>
-                </div>
-            </div>
-            
-            <div id="preferredEmailPhone"></div>
 
             ${renderMailingAddress('', 1, true)}
 
@@ -190,6 +190,8 @@ export const renderUserProfile = async () => {
     addEventPreferredContactType();
     addEventAdditionalEmail();
     addEventAddressAutoComplete(1);
+    addEventCheckCanText();
+    //addEventCheckCantText();
     addEventUPSubmit();
 };
 
