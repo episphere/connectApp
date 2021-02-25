@@ -17,6 +17,13 @@ export const myToDoList = (data) => {
             }
             if(data['699625233'] && data['699625233'] === 353358909){
                 let template = '';
+                if(!data['821247024'] || data['821247024'] !== 197316935){
+                    template += `
+                    <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
+                        You are not yet verified, but please fill out these surveys in the meantime.
+                    </div>
+                    `
+                }
                 template += `
                             <ul class="nav nav-tabs" style="border-bottom:none; margin-top:20px">
                                 <li class="nav-item" style=:padding-left:10px>

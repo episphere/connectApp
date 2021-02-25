@@ -387,12 +387,14 @@ export const consentConsentPage = () => {
                             Suffix<span></span>
                         </label>
                         <select name="NameSuffix" class="form-control col-md-10" id="CSNameSuffix" required>
-                            <option value="select">--Select--</option>
-                            <option value="Sr.">Sr.</option>
-                            <option value="Jr.">Jr.</option>
-                            <option value="I">I</option>
-                            <option value="II">II</option>
-                            <option value="III">III</option>
+                            <option value="">-- Select suffix --</option>
+                            <option value="612166858">Jr.</option>
+                            <option value="255907182">Sr.</option>
+                            <option value="226924545">I</option>
+                            <option value="270793412">II</option>
+                            <option value="959021713">III</option>
+                            <option value="643664527">2nd</option>
+                            <option value="537892528">3rd</option>
 
                         </select>
                     </div>
@@ -655,7 +657,9 @@ const consentSubmit = async e => {
     removeAllErrors();
     let formData = {};
     const CSFirstName = document.getElementById('CSFirstName');
+    const CSMiddleName = document.getElementById('CSMiddleName')
     const CSLastName = document.getElementById('CSLastName');
+    const CSNameSuffix = document.getElementById('CSNameSuffix')
     let hasError = false;
     let focus = true;
     var radios = document.getElementsByName('consentAnswer');
@@ -683,7 +687,9 @@ const consentSubmit = async e => {
 
     formData['454205108'] = 'Consent-v1.0';
     formData['471168198'] = CSFirstName.value.trim();
+    formData['436680969'] = CSMiddleName.value.trim() === '' ? undefined : CSMiddleName.value.trim();
     formData['736251808'] = CSLastName.value.trim();
+    formData['480305327'] = CSNameSuffix.value === '' ? undefined : parseInt(CSNameSuffix.value);
     formData['982402227'] = CSDate.split('/')[2]+CSDate.split('/')[1]+CSDate.split('/')[0];
     formData['919254129'] = 353358909;
     formData['454445267'] = dateTime();

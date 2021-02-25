@@ -5,6 +5,9 @@ export const renderUserProfile = async () => {
     const myData = await getMyData();
     const siteId = myData.data ? myData.data['827220437'] : undefined;
     const mainContent = document.getElementById('root');
+    let suffixList = {612166858: 0,255907182: 1,226924545: 2,270793412: 3,959021713: 4,643664527: 5,537892528: 6};
+    console.log(myData.data['480305327'])
+    myData.data['480305327'] = 226924545;
     mainContent.innerHTML = `
         </br>
         <h2>User profile</h2>
@@ -23,7 +26,7 @@ export const renderUserProfile = async () => {
             </div>-->
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">Middle name</label>
-                    <input type="text" class="form-control input-validation col-md-4" data-validation-pattern="alphabets" data-error-validation="Your middle name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters." id="UPMiddleInitial" placeholder="Enter middle name">
+                    <input type="text" value="${myData.data['436680969'] ? myData.data['436680969'] : ''}" class="form-control input-validation col-md-4" data-validation-pattern="alphabets" data-error-validation="Your middle name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters." id="UPMiddleInitial" placeholder="Enter middle name">
             </div>
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">Last name <span class="required">*</span></label>
@@ -37,13 +40,13 @@ export const renderUserProfile = async () => {
                 <label class="col-md-4 col-form-label">Suffix</label>
                 <select class="form-control col-md-4" id="UPSuffix">
                     <option value="">-- Select suffix --</option>
-                    <option value="612166858">Jr.</option>
-                    <option value="255907182">Sr.</option>
-                    <option value="226924545">I</option>
-                    <option value="270793412">II</option>
-                    <option value="959021713">III</option>
-                    <option value="643664527">2nd</option>
-                    <option value="537892528">3rd</option>
+                    <option value="612166858" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 0 ? 'selected':'') : ''}>Jr.</option>
+                    <option value="255907182" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 1 ? 'selected':'') : ''}>Sr.</option>
+                    <option value="226924545" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 2 ? 'selected':'') : ''}>I</option>
+                    <option value="270793412" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 3 ? 'selected':'') : ''}>II</option>
+                    <option value="959021713" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 4 ? 'selected':'') : ''}>III</option>
+                    <option value="643664527" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 5 ? 'selected':'') : ''}>2nd</option>
+                    <option value="537892528" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 6 ? 'selected':'') : ''}>3rd</option>
                 </select>
             </div>
             
@@ -108,8 +111,8 @@ export const renderUserProfile = async () => {
                     Can we text this number? 
                 </label>
                 <div class="btn-group btn-group-toggle col-md-4" data-toggle="buttons">
-                    <label class="btn btn-light up-btns"><input type="radio" name="textPermission1" value="353358909">Yes</label>
-                    <label class="btn btn-light up-btns"><input type="radio" name="textPermission1" value="104430631">No</label>
+                    <label class="btn btn-light up-btns" id="textYes"><input type="radio" name="textPermission1" value="353358909">Yes</label>
+                    <label class="btn btn-light up-btns" id="textNo"><input type="radio" name="textPermission1" value="104430631">No</label>
                 </div>
             </div>
 
@@ -135,12 +138,12 @@ export const renderUserProfile = async () => {
             </div>
             
             <div class="form-group row">
-                <label class="col-md-4 col-form-label">Preferred Email</label>
+                <label class="col-md-4 col-form-label">Preferred Email <span class="required">*</span></label>
                 <input type="text" class="form-control col-md-4" id="UPEmail" title="Please enter a email address in this format: name@example.com." Placeholder="Enter preferred email"></br>
             </div>
 
             <div class="form-group row">
-                <label class="col-md-4 col-form-label">Retype preferred Email</label>
+                <label class="col-md-4 col-form-label">Retype preferred Email <span class="required">*</span></label>
                 <input type="text" class="form-control col-md-4" id="confirmUPEmail" title="Please enter a email address in this format: name@example.com." Placeholder="Retype preferred email"></br>
             </div>
             

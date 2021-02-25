@@ -10,11 +10,13 @@ export const userNavBar = () => {
                 <a class="nav-link" href="#dashboard" id="userDashboard"><i class="fas fa-file-alt"></i> Dashboard</a>
             </li>
         </div>
+        <!--
         <div class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link" href="#my_data" id="userData"><i class="fas fa-user"></i> My Data</a>
             </li>
         </div>
+        -->
         <div class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link" href="#agreements" id="userAgreements"><i class="fas fa-file-contract"></i> Agreements</a>

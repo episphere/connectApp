@@ -81,8 +81,9 @@ export const renderSupportPage = async () => {
     }
     let template =  `
         <div class="row">
-            <h3>Help Center</h3>
+            <h3>Connect Support Center</h3>
         </div>
+        <!--
         <div class="row">
             <div class="col-md-12">
                 <button class="btn faq-btn" type="button" data-toggle="collapse" data-target="#faq1" aria-expanded="false" aria-controls="faq1">
@@ -90,7 +91,23 @@ export const renderSupportPage = async () => {
                 </button>
             </div>
         </div>
+        -->
         <div class="row">
+            <div>
+                <p>
+                    Have a question or problem?
+                </p>
+                <p>
+                    Visit the Connect Support Center portal to search frequently asked questions or to submit a question.
+                </p>
+                    <a href="MyConnect.cancer.gov/support">MyConnect.cancer.gov/support</a>
+                <br>
+                <br>
+                <p>
+                    You can also call XXX-XXX-XXXX or email <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a>
+                </p>
+            </div>
+            <!--
             <div class="col-md-12">
                 <div class="collapse show" id="faq1">
                     <div class="card card-body">
@@ -109,8 +126,9 @@ export const renderSupportPage = async () => {
                     </div>
                 </div>
             </div>
+            -->
         </div>
-
+        <!--
         <div class="row">
             <div class="col-md-12">
                 <button class="btn faq-btn" type="button" data-toggle="collapse" data-target="#faq2" aria-expanded="false" aria-controls="faq2">
@@ -162,6 +180,7 @@ export const renderSupportPage = async () => {
             </div>
         </div>
         -->
+        <!--
         <div class="row align-center">
             <div class="col-md-12">
                 <strong>Can't find the answer?</strong>
@@ -183,6 +202,7 @@ export const renderSupportPage = async () => {
                 helpdesk@connect.gov
             </div>
         </div>
+        -->
     `;
     
     console.log(JSON.stringify(myData))
