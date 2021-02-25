@@ -688,6 +688,15 @@ const consentSubmit = async e => {
     formData['919254129'] = 353358909;
     formData['454445267'] = dateTime();
 
+    // Adding sign in info provided by firebase
+    if(firebase.auth().currentUser) {
+        const user = firebase.auth().currentUser;
+        if(user.email) formData['421823980'] = user.email;
+        if(user.displayName) formData['756862764'] = user.displayName;
+        if(user.phoneNumber) formData['348474836'] = user.phoneNumber;
+        if(user.providerData) formData['995036844'] = user.providerData[0].providerId;
+    }
+    
     const CSWFirstName = document.getElementById('CSWFirstName');
     const CSWLastName = document.getElementById('CSWLastName');
     
