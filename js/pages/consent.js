@@ -492,6 +492,8 @@ export const consentConsentPage = () => {
     */
 }
 
+
+
 export const consentHealthRecordsPage = () => {
     const mainContent = document.getElementById('root');
     let template = renderProgress(8);
@@ -574,6 +576,34 @@ export const consentHealthRecordsPage = () => {
     initializeCanvas('./consent_draft.pdf');
     addEventsConsentSign();
     addEventConsentSubmit();
+
+}
+
+export const consentFinishedPage = () => {
+    const mainContent = document.getElementById('root');
+    let template = renderProgress(8);
+    
+    template += `
+        <div class = "e-consent-body">
+            <h2>Thank you for consenting to being a part of the Connect for cancer prevention study</h2>
+        </div>
+        <div style="width:80%; margin:auto">
+            <h4 style="margin-top:50px; text-align:center;">Download Informed Consent Form</h4>
+            <div class="row"style="margin:auto"><div style="margin:auto"><a href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf">Download signed consent form:&nbsp<i class="fas fa-file-download"></i></a></div></div>
+            
+            <h4 style="margin-top:50px; text-align:center;">Download Electronic health records release form</h4>
+            <div class="row" style="margin:auto"><div style="margin:auto"><a href="./consent_draft.pdf" title="Download health records release form" data-toggle="tooltip" download="connect_consent.pdf">Download signed health records release form:&nbsp<i class="fas fa-file-download"></i></a></div></div>
+        </div>
+        
+        <div>
+            <button class="btn btn-primary" type="button" id="toLeaving" style="float:right;margin-top:40px;margin-bottom:40px">Continue to Profile</button>
+        </div>
+    `
+    
+    mainContent.innerHTML =  template;
+    document.getElementById('toLeaving').addEventListener('click', () => {
+        renderUserProfile();
+    })
 
 }
 
@@ -715,5 +745,5 @@ const consentSubmit = async e => {
     }
     
     const response = await storeResponse(formData);
-    if(response.code === 200) renderUserProfile();
+    if(response.code === 200) consentFinishedPage ();
 }

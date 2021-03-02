@@ -163,8 +163,8 @@ export const renderUserProfile = async () => {
             ${renderMailingAddress('', 1, true)}
 
             <div class="form-group row">
-                <label class="col-md-4 col-form-label">Have you ever been diagnosed with cancer (other than non-melanoma skin cancer)?</label>
-                <div class="btn-group btn-group-toggle col-md-4" data-toggle="buttons">
+                <label class="col-md-4 col-form-label">Have you ever been diagnosed with cancer (other than non-melanoma skin cancer)? <span class="required">*</span></label>
+                <div class="btn-group btn-group-toggle col-md-4" data-toggle="buttons" id="UPCancerBtnGroup">
                     <label class="btn btn-light up-btns" id="UPCancer1Btn"><input type="radio" name="cancerHistory" id="UPCancer1" value="353358909">Yes</label>
                     <label class="btn btn-light up-btns" id="UPCancer2Btn"><input type="radio" name="cancerHistory" id="UPCancer2" value="104430631">No</label>
                 </div>

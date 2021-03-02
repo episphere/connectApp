@@ -300,6 +300,11 @@ export const addEventUPSubmit = () => {
                 hasError = true;
             }
         });
+        if(!(document.getElementById('UPCancer1Btn').classList.contains('active') || document.getElementById('UPCancer2Btn').classList.contains('active'))){
+            errorMessage('UPCancerBtnGroup', 'Please answer the required question.', focus);
+            focus = false;
+            hasError = true;
+        }
         let radioChecked = false;
         Array.from(radios).forEach(element => {
             if(element.checked) radioChecked = true;
@@ -496,7 +501,7 @@ export const addEventUPSubmit = () => {
         }
         
         const ageToday = getAge(`${formData['544150384']}-${formData['564964481']}-${formData['795827569']}`);
-        if(!(ageToday < 66 && ageToday > 39)){
+        /*if(!(ageToday < 66 && ageToday > 39)){
             // Age is out of qualified range.
             openModal();
             document.getElementById('connectModalHeader').innerHTML = `
@@ -513,9 +518,9 @@ export const addEventUPSubmit = () => {
             document.getElementById('continueAnyways').addEventListener('click', () => {
                 verifyUserDetails(formData);
             });
-        }else {
+        }else {*/
             verifyUserDetails(formData);
-        }
+        //}
     });
 }
 
@@ -569,6 +574,12 @@ const verifyUserDetails = (formData) => {
         <div class="row">
             <div class="col">Suffix</div>
             <div class="col">${formData['506826178']}</div>
+        </div>
+        `: ``}
+        ${formData['153211406'] ? `
+        <div class="row">
+            <div class="col">Preferred Name</div>
+            <div class="col">${formData['153211406']}</div>
         </div>
         `: ``}
         <div class="row">
