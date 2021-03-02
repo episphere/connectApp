@@ -11,7 +11,7 @@ export const myToDoList = (data) => {
     if(data['827220437'] && data['142654897']){
         localStorage.eligibilityQuestionnaire = JSON.stringify({'827220437': data['827220437']})
         if(data['919254129'] === 353358909){
-            if(data['699625233'] && data['699625233'] === 353358909 && data['512820379'] && data['512820379'] === 854703046){
+            if(data['699625233'] && data['699625233'] === 353358909 && data['821247024'] && data['821247024'] !== 197316935){
                 blockParticipant();
                 hideAnimation();
                 return;
