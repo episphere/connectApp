@@ -1,5 +1,25 @@
 import { sites, allStates, allCountries, getMyData } from "../shared.js";
 import { addEventMonthSelection, addEventUPSubmit, addEventCancerFollowUp, addYearsOptions, addEventChangeFocus, addEventPreferredContactType, addEventAddressAutoComplete, addEventAdditionalEmail, addEventCheckCanText } from "../event.js";
+export const renderUserProfileActual = async () => {
+    const mainContent = document.getElementById('root');
+    mainContent.innerHTML = `
+    <div class = "e-consent-body">
+        <h2>Please fill out the sme personal information.</h2>
+    </div>
+    <div style="width:80%; margin:auto">
+        <h4 style="margin-top:50px; text-align:center;">Download Informed Consent Form</h4>
+        <div class="row"style="margin:auto"><div style="margin:auto"><a href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf">Download signed consent form:&nbsp<i class="fas fa-file-download"></i></a></div></div>
+        
+        <h4 style="margin-top:50px; text-align:center;">Download Electronic health records release form</h4>
+        <div class="row" style="margin:auto"><div style="margin:auto"><a href="./consent_draft.pdf" title="Download health records release form" data-toggle="tooltip" download="connect_consent.pdf">Download signed health records release form:&nbsp<i class="fas fa-file-download"></i></a></div></div>
+    </div>
+
+    <div>
+        <button class="btn btn-primary" type="button" id="toLeaving" style="float:right;margin-top:40px;margin-bottom:40px">Continue to Profile</button>
+    </div>
+    `;
+    
+};
 
 export const renderUserProfile = async () => {
     const myData = await getMyData();
@@ -193,6 +213,10 @@ export const renderUserProfile = async () => {
     //addEventCheckCantText();
     addEventUPSubmit();
 };
+
+export const renderUserProfileAfter = async () => {
+    
+}
 
 const addEventNameConsistency = (cfn, cln) => {
     const input1 = document.getElementById('UPFirstName');

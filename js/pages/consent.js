@@ -585,18 +585,45 @@ export const consentFinishedPage = () => {
     
     template += `
         <div class = "e-consent-body">
-            <h2>Thank you for consenting to being a part of the Connect for cancer prevention study</h2>
+            <h2>You have completed the consent process</h2>
         </div>
-        <div style="width:80%; margin:auto">
-            <h4 style="margin-top:50px; text-align:center;">Download Informed Consent Form</h4>
-            <div class="row"style="margin:auto"><div style="margin:auto"><a href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf">Download signed consent form:&nbsp<i class="fas fa-file-download"></i></a></div></div>
+        <div style="margin-left:20px">
             
-            <h4 style="margin-top:50px; text-align:center;">Download Electronic health records release form</h4>
-            <div class="row" style="margin:auto"><div style="margin:auto"><a href="./consent_draft.pdf" title="Download health records release form" data-toggle="tooltip" download="connect_consent.pdf">Download signed health records release form:&nbsp<i class="fas fa-file-download"></i></a></div></div>
+            <div class="row"><div style="margin:auto"><a href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf">Download a copy of your signed consent form:&nbsp<i class="fas fa-file-download"></i></a></div></div>
+            <div class="row"><div style="margin:auto"><a href="./consent_draft.pdf" title="Download health records release form" data-toggle="tooltip" download="connect_consent.pdf">Download a copy of your signed health records release form:&nbsp<i class="fas fa-file-download"></i></a></div></div>
         </div>
         
         <div>
-            <button class="btn btn-primary" type="button" id="toLeaving" style="float:right;margin-top:40px;margin-bottom:40px">Continue to Profile</button>
+            <button class="btn btn-primary" type="button" id="toLeaving" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
+        </div>
+    `
+    
+    mainContent.innerHTML =  template;
+    document.getElementById('toLeaving').addEventListener('click', () => {
+        consentToProfilePage();
+    })
+
+}
+
+export const consentToProfilePage = () => {
+    const mainContent = document.getElementById('root');
+    let template = '';
+    
+    template += `
+        <div class = "e-consent-body">
+            <h2>Thank you for your interest in the Connect for Cancer Prevention Study</h2>
+        </div>
+        <p>
+            Thank you for completing the consent process. We need some more information about you to confirm that you can be part of the study. After you complete this step, we will use the information 
+            you share to check your eligibility and contact you within a few business days. We respect your privacy and protect the personal information you share with us.
+        </p>
+        <p>
+            If you have any questions, please contact the Connect Support at
+        </p>
+        <a href="MyConnect.cancer.gov/support">MyConnect.cancer.gov/support</a>
+        
+        <div>
+            <button class="btn btn-primary" type="button" id="toLeaving" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
         </div>
     `
     

@@ -18,12 +18,28 @@ export const myToDoList = (data) => {
             }
             if(data['699625233'] && data['699625233'] === 353358909){
                 let template = '';
-                if(!data['821247024'] || data['821247024'] !== 197316935){
+                if(!data['821247024'] || data['821247024'] == 875007964){
                     template += `
                     <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
                         You are not yet verified, but please fill out these surveys in the meantime.
                     </div>
                     `
+                }
+                else if(data['699625233'] && data['699625233'] == 197316935) {
+                    template += `
+                    <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
+                        The next step is to complete your Connect survey. The survey is split into four sections. You can pause and return to complete these sections at any time.
+                    </div>
+                    `
+                }
+                else if(data['699625233'] && data['699625233'] == 219863910) {
+                    template += `
+                    <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
+                        Our records show that you are not eligible for the Connect for Cancer Prevention Study. Thank you for your interest. If you think this is an error or if you have any questions, please contact the Connect Support Center. [MyConnect.cancer.gov/support]
+                    </div>
+                    `
+                    mainContent.innerHTML = template;
+                    return;
                 }
                 template += `
                             <ul class="nav nav-tabs" style="border-bottom:none; margin-top:20px">
@@ -149,13 +165,25 @@ const renderMainBody = (data, tab) => {
     let template = ''
     template += `
             <ul class="questionnaire-module-list">`;
+
+    let toDisplayKeys = ['First Survey', 'Background and Overall Health', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure', "Where You Live and Work",'Enter SSN']
     const modules = questionnaireModules;
-    modules['Background and Overall Health'].description = 'Answer basic questions about your health and status.';
-    
-    modules['Medications, Reproductive Health, Exercise, and Sleep'].description = 'Answer questions about your medications, health, exercise, and sleep.';
-    modules['Smoking, Alcohol, and Sun Exposure'].description = 'Answer questions about your smoking and alcohol intake.Answer questions about your smoking and alcohol intake.Answer questions about your smoking and alcohol intake.Answer questions about your smoking and alcohol intake.Answer questions about your smoking and alcohol intake.Answer questions about your smoking and alcohol intake.Answer questions about your smoking and alcohol intake.Answer questions about your smoking and alcohol intake.Answer questions about your smoking and alcohol intake.Answer questions about your smoking and alcohol intake.Answer questions about your smoking and alcohol intake.Answer questions about your smoking and alcohol intake.Answer questions about your smoking and alcohol intake.';
-    modules["Where You Live and Work"].description  = 'Answer questions about your living and work environment'
-    modules['Enter SSN'].description = 'Enter your SSN';
+    modules['First Survey'] = {};
+    modules['First Survey'].description = 'This survey is split into four sections that ask about a wide range of topics, including information about your medical history, family, work, and health behaviors. You can answer all of the questions at one time, or pause and return to complete the survey later. If you pause, your answers will be saved so you can pick up where you left off. You can skip any questions that you do not want to answer.';
+    modules['First Survey'].hasIcon = false;
+    modules['First Survey'].noButton = true;
+    modules['Background and Overall Health'].description = 'Questions about you, your medical history, and your family history.';
+    modules['Background and Overall Health'].estimatedTime = '20 to 30 minutes'
+    modules['Medications, Reproductive Health, Exercise, and Sleep'].description = 'Questions about your current and past use of medications, your exerciseand sleep habits, and your reproductive health.Time estimate';
+    modules['Medications, Reproductive Health, Exercise, and Sleep'].estimatedTime = '20 to 30 minutes'
+    modules['Smoking, Alcohol, and Sun Exposure'].description = 'Questions about your use of tobacco, nicotine, marijuana, and alcohol, as well as your sun exposure.';
+    modules['Smoking, Alcohol, and Sun Exposure'].estimatedTime = '20 to 30 minutes'
+    modules["Where You Live and Work"].description  = 'Questions about places where you have lived and worked, and your commute to school or work.'
+    modules['Where You Live and Work'].estimatedTime = '20 to 30 minutes'
+    modules['Enter SSN'].description = 'We may use your social security number when we collect information from important data sources like health registries to match information from these sources to you. We protect your privacy every time we ask for information about you from other sources. Providing your social security number is optional.';
+    modules['Enter SSN'].hasIcon = false;
+    modules['Enter SSN'].noButton = false;
+    modules['Enter SSN'].estimatedTime = '5 minutes'
     
     if (data.Module1 && data.Module1.COMPLETED) { 
         modules["Smoking, Alcohol, and Sun Exposure"].enabled = true;
@@ -185,33 +213,43 @@ const renderMainBody = (data, tab) => {
 
     if(tab === 'todo'){
         let hasModlesRemaining = false;
-        for(let key in modules){
+        for(let key of toDisplayKeys){
+            console.log(key)
             if(!modules[key].completed){
             hasModlesRemaining = true
             template += `<li style="width:100%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
                             <div class="row">
+                                ${modules[key].hasOwnProperty('hasIcon') && modules[key]['hasIcon'] == false? `` : `
                                 <div class="col-1">
-                                <i class="fas fa-clipboard-list" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
+                                    <i class="fas fa-clipboard-list" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
                                 </div>
-                                <div class="col-8">
+                                `}
+
+                                <div class="${modules[key].hasOwnProperty('hasIcon') && modules[key]['hasIcon'] == false? 'col-9':'col-8'}">
                                 <p class="style="font-style:bold; font-size:24px; margin-left:30px">
                                     <b style="color:#5c2d93; font-size:18px;">
                                     ${key}
                                     </b>
+                                    <br> 
+                                    ${modules[key].description}
                                     <br>
+                                    <br>
+                                    ${modules[key].estimatedTime ? `
                                     <em>
-                                        ${modules[key].description}
-                                        </em>
+                                       Estimated Time: ${modules[key].estimatedTime}
+                                    </em>
+                                    ` : ''}
+                                    
                                 </p>
                                 </div>
                                
+                                ${modules[key].hasOwnProperty('noButton') && modules[key]['noButton'] == true? '' : `
                                 <div class="col-3">
-                                <button class="btn survey-list-active btn-agreement questionnaire-module ${modules[key].enabled ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${key}" module_id="${modules[key].moduleId}" data-module-url="${modules[key].url ? modules[key].url : ''}" style=""><b>Start</b></button>
+                                    <button class="btn survey-list-active btn-agreement questionnaire-module ${modules[key].enabled ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${key}" module_id="${modules[key].moduleId}" data-module-url="${modules[key].url ? modules[key].url : ''}" style=""><b>Start</b></button>    
                                 </div>
+                                `}
                             </div>
-                            <div class="row">
-                                
-                            </div
+                            
                         </li>`
                             /*
                             <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="width:90%; margin-bottom:20px;">${key}</button>

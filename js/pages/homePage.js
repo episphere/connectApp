@@ -103,14 +103,17 @@ export const homePage = async () => {
             </div>
             <div class="col-sm-3 join-now-col" id="joinNow"></div>
         </div>
+        <div class="row">
+            <h2 style="margin:auto">Participating Sites</h2>
+        </div>
         <div class="row" id="siteLogos">
-            <div class="col"><img src="./images/Chicago Vector.png" class="site-logo"></div>
-            <div class="col"><img src="./images/hf vector.png" class="site-logo"></div>
-            <div class="col"><img src="./images/hp vector.png" class="site-logo"></div>
-            <div class="col"><img src="./images/kp vector.png" class="site-logo"></div>
-            <div class="col"><img src="./images/marsh vector.png" class="site-logo"></div>
-            <div class="col"><img src="./images/norc vector.png" class="site-logo"></div>
-            <div class="col"><img src="./images/sanford vector.png" class="site-logo"></div>
+            <div class="col" style="text-align:center"><span class="site-logo-helper"></span><img src="./images/Chicago Vector.png" class="site-logo"></div>
+            <div class="col" style="text-align:center"><span class="site-logo-helper"></span><img src="./images/hf vector.png" class="site-logo"></div>
+            <div class="col" style="text-align:center"><span class="site-logo-helper"></span><img src="./images/hp vector.png" class="site-logo"></div>
+            <div class="col" style="text-align:center"><span class="site-logo-helper"></span><img src="./images/kp vector.png" class="site-logo"></div>
+            <div class="col" style="text-align:center"><span class="site-logo-helper"></span><img src="./images/marsh vector.png" class="site-logo"></div>
+            <div class="col" style="text-align:center"><span class="site-logo-helper"></span><img src="./images/norc vector.png" class="site-logo"></div>
+            <div class="col" style="text-align:center"><span class="site-logo-helper"></span><img src="./images/sanford vector.png" class="site-logo"></div>
         </div>
         <div class="row">
             <div class="col-md-3 about-cancer">

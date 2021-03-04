@@ -171,11 +171,19 @@
     font-size: 1rem;
 }
 
-.site-logo {
-    height: 80%;
-    width: 75%; 
+
+
+.site-logo-helper {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
 }
 
+.site-logo {
+    vertical-align: middle;
+    max-height: 100%;
+    max-width: 75%;
+}
 #siteLogos {
     margin-left: 8px;
     margin-right: 8px;
@@ -397,7 +405,9 @@ canvas {
     border-color: #007bff !important;
     border-width: 1.5px !important;
 }
-
+.up-btns.active{
+    background-color:#dae0e5 !important;
+}
 .form-error {
     color: red;
     font-size: small;
