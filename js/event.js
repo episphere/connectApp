@@ -745,7 +745,7 @@ const verifyUserDetails = (formData) => {
             const myData = await getMyData();
             hideAnimation();
             if(myData.code === 200){
-                myToDoList(myData.data);
+                myToDoList(myData.data, true);
             }
         }
     })

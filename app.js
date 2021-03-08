@@ -239,7 +239,7 @@ const userProfile = () => {
             const myData = await getMyData();
             if(myData.code === 200) {
                 // connectPushNotification();
-                myToDoList(myData.data);
+                myToDoList(myData.data, false);
             }
             else {
                 mainContent.innerHTML = requestPINTemplate();

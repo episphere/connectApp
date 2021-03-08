@@ -354,7 +354,7 @@ export const consentConsentPage = () => {
                 <li>I have read these forms.</li>
                 <li>I will allow the use, storage, and disclosure (release) of my survey answers, samples, and health information for the research described above.</li>
                 <li>I understand that if I do not agree to allow Connect to do any of these things, I cannot take part in the study.</li>
-                <li>If I have questions, I can contact the Connect Support Center at Cancer.gov/connectstudy/support</li>
+                <li>If I have questions, I can contact the Connect Support Center at <a href=Cancer.gov/connectstudy/support>Cancer.gov/connectstudy/support</a></li>
                 <li>If I decide I do not want my health information used or shared throught Connect, I can leave the study by contacting the Connect Support Center at Cancer.gov/connectStudy/support
             </ol>
             <input type="checkbox" name="consentAnswer" value="consentYes" id="CSConsentYesCheck" required>
@@ -386,7 +386,7 @@ export const consentConsentPage = () => {
                         <label class="consent-form-label">
                             Suffix<span></span>
                         </label>
-                        <select name="NameSuffix" class="form-control col-md-10" id="CSNameSuffix" required>
+                        <select name="NameSuffix" class="form-control col-md-10" id="CSNameSuffix">
                             <option value="">-- Select suffix --</option>
                             <option value="612166858">Jr.</option>
                             <option value="255907182">Sr.</option>
