@@ -38,7 +38,7 @@ export const myToDoList = (data, fromUserProfile) => {
                         Great news! We have confirmed that you are eligible for the Connect for Cancer Prevention Study. You are now an official Connect participant.
                         <br>
                         ${checkIfComplete(data) ? 'Thank you for completing your first Connect surveys! We will be in touch with next steps.':'The next step is to complete your first Connect survey'}
-                        Questions? Please contact the Connect Support Center [<a href=MyConnect.cancer.gov/support>MyConnect.cancer.gov/support</a>]
+                        Questions? Please contact the Connect Support Center [<a href="MyConnect.cancer.gov/support">MyConnect.cancer.gov/support</a>]
                         <br>
                         The next step is to complete your Connect survey. The survey is split into four sections. You can pause and return to complete these sections at any time.
                     </div>
@@ -49,7 +49,7 @@ export const myToDoList = (data, fromUserProfile) => {
                     <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
                         Based on our record you are not eligible for the Connect for Cancer Prevention Study. Thank you for your interest. Any information that you have already provided will remain private. We will not use any information you shared for our research.
                         <br>
-                        If you think this is an error or if you have any questions, please contact the Connect Support Center. [<a href=MyConnect.cancer.gov/support>MyConnect.cancer.gov/support</a>]
+                        If you think this is an error or if you have any questions, please contact the Connect Support Center. [<a href="MyConnect.cancer.gov/support">MyConnect.cancer.gov/support</a>]
                     </div>
                     `
                     mainContent.innerHTML = template;
@@ -61,6 +61,8 @@ export const myToDoList = (data, fromUserProfile) => {
                         We need more information from you in order to check that you can be part of the Connect for Cancer Prevention Study. Please contact [site specific information] to confirm your eligibility for Connect.
                     </div>
                     `
+                    mainContent.innerHTML = template;
+                    return;
                     
                 }
                 template += `
@@ -340,76 +342,81 @@ const renderMainBody = (data, tab) => {
         }
     }
     else{
-        for(let key in modules){
-            if(modules[key].completed){
-                if(!started){
-                    if(obj.hasOwnProperty('header')){
-                        let thisKey = obj['header'];
-                        
-                        started = true;
-                        hasModlesRemaining = true
-                        template += `<li style="width:100%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
-                                        <div class="row">
-                                            ${modules[thisKey].hasOwnProperty('hasIcon') && modules[thisKey]['hasIcon'] == false? `` : `
-                                            <div class="col-1">
-                                                <i class="fas fa-clipboard-list" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
-                                            </div>
-                                            `}
+        for(let obj of toDisplaySystem){
+            let started = false;
+            if(obj.hasOwnProperty('body')){
+                for(let key of obj['body']){
+                    if(modules[key].completed){
+                        if(!started){
+                            if(obj.hasOwnProperty('header')){
+                                let thisKey = obj['header'];
+                                
+                                started = true;
+                                
+                                template += `<li style="width:100%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
+                                                <div class="row">
+                                                    ${modules[thisKey].hasOwnProperty('hasIcon') && modules[thisKey]['hasIcon'] == false? `` : `
+                                                    <div class="col-1">
+                                                        <i class="fas fa-clipboard-list" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
+                                                    </div>
+                                                    `}
 
-                                            <div class="${modules[thisKey].hasOwnProperty('hasIcon') && modules[thisKey]['hasIcon'] == false? 'col-9':'col-8'}">
-                                            <p class="style="font-style:bold; font-size:24px; margin-left:30px">
-                                                <b style="color:#5c2d93; font-size:18px;">
-                                                ${thisKey}
-                                                </b>
-                                                <br> 
-                                                ${modules[thisKey].description}
-                                                ${modules[thisKey].estimatedTime ? `
-                                                <em>
-                                                Estimated Time: ${modules[thisKey].estimatedTime}
-                                                </em>
-                                                ` : ''}
+                                                    <div class="${modules[thisKey].hasOwnProperty('hasIcon') && modules[thisKey]['hasIcon'] == false? 'col-9':'col-8'}">
+                                                    <p class="style="font-style:bold; font-size:24px; margin-left:30px">
+                                                        <b style="color:#5c2d93; font-size:18px;">
+                                                        ${thisKey}
+                                                        </b>
+                                                        <br> 
+                                                        ${modules[thisKey].description}
+                                                        ${modules[thisKey].estimatedTime ? `
+                                                        <em>
+                                                        Estimated Time: ${modules[thisKey].estimatedTime}
+                                                        </em>
+                                                        ` : ''}
+                                                        
+                                                    </p>
+                                                    </div>
                                                 
-                                            </p>
-                                            </div>
-                                        
-                                            ${modules[thisKey].hasOwnProperty('noButton') && modules[thisKey]['noButton'] == true? '' : `
-                                            <div class="col-3">
-                                                <button class="btn survey-list-active btn-agreement questionnaire-module ${modules[thisKey].enabled ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${thisKey}" module_id="${modules[thisKey].moduleId}" data-module-url="${modules[thisKey].url ? modules[thisKey].url : ''}" style=""><b>Start</b></button>    
-                                            </div>
-                                            `}
-                                        </div>
-                                        
-                                    </li>`
-                                        /*
-                                        <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="width:90%; margin-bottom:20px;">${key}</button>
-                                    </li>`;*/
+                                                    ${modules[thisKey].hasOwnProperty('noButton') && modules[thisKey]['noButton'] == true? '' : `
+                                                    <div class="col-3">
+                                                        <button class="btn survey-list-active btn-agreement questionnaire-module ${modules[thisKey].enabled ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${thisKey}" module_id="${modules[thisKey].moduleId}" data-module-url="${modules[thisKey].url ? modules[thisKey].url : ''}" style=""><b>Start</b></button>    
+                                                    </div>
+                                                    `}
+                                                </div>
+                                                
+                                            </li>`
+                                                /*
+                                                <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="width:90%; margin-bottom:20px;">${key}</button>
+                                            </li>`;*/
+                            }
+                        }
+                        template += /*html*/ `<li style="width:100%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
+                            <div class="row">
+                                <div class="col-1">
+                                <i class="fas fa-clipboard-list" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
+                                </div>
+                                <div class="col-8">
+                                <p class="style="font-style:bold; font-size:24px; margin-left:30px">
+                                    <b style="color:#5c2d93; font-size:18px;">
+                                    ${key}
+                                    </b>
+                                    <br>
+                                    <em>
+                                        ${modules[key].description}
+                                        </em>
+                                </p>
+                                </div>
+                            
+                                <div class="col-3">
+                                Completed Time: ${humanReadableMDYwithTime(data[modules[key].moduleId].COMPLETED_TS)}
+                                <!--
+                                <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="margin-top:0px;border-radius:30px; height:60px;background-color:#5c2d93 !important;color:white; width:100%"><b>Review</b></button>
+                                -->
+                                </div>
+                            </div>
+                        </li>`
                     }
                 }
-                template += /*html*/ `<li style="width:100%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
-                    <div class="row">
-                        <div class="col-1">
-                        <i class="fas fa-clipboard-list" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
-                        </div>
-                        <div class="col-8">
-                        <p class="style="font-style:bold; font-size:24px; margin-left:30px">
-                            <b style="color:#5c2d93; font-size:18px;">
-                            ${key}
-                            </b>
-                            <br>
-                            <em>
-                                ${modules[key].description}
-                                </em>
-                        </p>
-                        </div>
-                    
-                        <div class="col-3">
-                         Completed Time: ${humanReadableMDYwithTime(data[modules[key].moduleId].COMPLETED_TS)}
-                        <!--
-                        <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="margin-top:0px;border-radius:30px; height:60px;background-color:#5c2d93 !important;color:white; width:100%"><b>Review</b></button>
-                        -->
-                        </div>
-                    </div>
-                </li>`
             }
         }
     }

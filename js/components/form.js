@@ -28,15 +28,16 @@ export const renderUserProfile = async () => {
     let suffixList = {612166858: 0,255907182: 1,226924545: 2,270793412: 3,959021713: 4,643664527: 5,537892528: 6};
     mainContent.innerHTML = `
         </br>
-        <h2>User profile</h2>
-        Thank you for joining the Connect for Cancer Prevention Study! Before you are officially enrolled, 
-        w will use this information to verify your eligibility. 
-        We respect your privacy and will treat all information as confidential.
-        
+        <h2>My Profile</h2>        
         <form id="userProfileForm" method="POST">
+            <strong>Name</strong> 
+            <p>If this is not correct, please contact the <a href="MyConnect.cancer.gov/support">Connect Support Center</a> or call XXX-XXX-XXXX.</p>
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">First name <span class="required">*</span></label>
                 <input type="text" value="${myData.data['471168198']}" class="form-control input-validation col-md-4" id="UPFirstName" placeholder="Enter first name" disabled>
+            </div>
+            <div>
+               
             </div>
             <!--<div class="form-group row" id="firstNameConsistency">
                 <label class="col-md-4 col-form-label">Verify first name <span class="required">*</span></label>
@@ -78,18 +79,18 @@ export const renderUserProfile = async () => {
                 <label class="col-md-4 col-form-label">Month <span class="required">*</span></label>
                 <select id="UPMonth" class="form-control required-field col-md-4" data-error-required='Please select your birth month.'>
                     <option class="option-dark-mode" value="">-- Select birth month -- </option>
-                    <option class="option-dark-mode" value="01">1 - January</option>
-                    <option class="option-dark-mode" value="02">2 - February</option>
-                    <option class="option-dark-mode" value="03">3 - March</option>
-                    <option class="option-dark-mode" value="04">4 - April</option>
-                    <option class="option-dark-mode" value="05">5 - May</option>
-                    <option class="option-dark-mode" value="06">6 - June</option>
-                    <option class="option-dark-mode" value="07">7 - July</option>
-                    <option class="option-dark-mode" value="08">8 - August</option>
-                    <option class="option-dark-mode" value="09">9 - September</option>
-                    <option class="option-dark-mode" value="10">10 - October</option>
-                    <option class="option-dark-mode" value="11">11 - November</option>
-                    <option class="option-dark-mode" value="12">12 - December</option>
+                    <option class="option-dark-mode" value="01">January</option>
+                    <option class="option-dark-mode" value="02">February</option>
+                    <option class="option-dark-mode" value="03">March</option>
+                    <option class="option-dark-mode" value="04">April</option>
+                    <option class="option-dark-mode" value="05">May</option>
+                    <option class="option-dark-mode" value="06">June</option>
+                    <option class="option-dark-mode" value="07">July</option>
+                    <option class="option-dark-mode" value="08">August</option>
+                    <option class="option-dark-mode" value="09">September</option>
+                    <option class="option-dark-mode" value="10">October</option>
+                    <option class="option-dark-mode" value="11">November</option>
+                    <option class="option-dark-mode" value="12">December</option>
                 </select>
             </div>
 
@@ -106,7 +107,7 @@ export const renderUserProfile = async () => {
             <strong>Contact Information</strong>
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">Preferred Email <span class="required">*</span></label>
-                <input type="text" class="form-control col-md-4" id="UPEmail" title="Please enter a email address in this format: name@example.com." Placeholder="Enter preferred email"></br>
+                <input type="text" class="form-control col-md-4" id="UPEmail" title="Please enter a email address in this format: name@example.com." Placeholder="abc@mail.com"></br>
             </div>
 
             <div class="form-group row">
@@ -129,7 +130,7 @@ export const renderUserProfile = async () => {
             
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">
-                    Mobile phone 
+                    Mobile phone <span class="required">**</span>
                 </label>
                 <div class="btn-group col-md-4" id="mainMobilePhone">
                     <input type="text" class="form-control" id="UPPhoneNumber11" size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
@@ -161,7 +162,7 @@ export const renderUserProfile = async () => {
 
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">
-                    Home phone 
+                    Home phone <span class="required">**</span>
                 </label>
                 <div class="btn-group col-md-4" id="mainMobilePhone2">
                     <input type="text" class="form-control" id="UPPhoneNumber21" pattern="[1-9]{1}[0-9]{2}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
@@ -306,7 +307,7 @@ export const renderMailingAddress = (type, id, required, showCountry) => {
             <label class="col-md-4 col-form-label">
                 Zip ${required ? '<span class="required">*</span>': ''}
             </label>
-            <input type=text id="UPAddress${id}Zip" pattern="[0-9]{5}" title="5 characters long, numeric-only value." class="form-control col-md-4 required-field" data-error-required='Please enter the zip field of your mailing address.' size="5" maxlength="5" placeholder="Enter zip">
+            <input type=text id="UPAddress${id}Zip" pattern="[0-9]{5}" title="5 characters long, numeric-only value." class="form-control col-md-4 required-field" data-error-required='Please enter the zip field of your mailing address.' size="5" maxlength="5" placeholder="99999">
         </div>
         ${showCountry ? `<br>
         <div class="form-group row">
