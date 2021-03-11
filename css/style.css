@@ -11,6 +11,8 @@
     height: 100%;
     border-top: 1px solid #ffffff;
     margin-top:10px;
+    margin-left:15px;
+    margin-right:15px;
 }
 
 #footer {
@@ -169,11 +171,19 @@
     font-size: 1rem;
 }
 
-.site-logo {
-    height: 80%;
-    width: 75%; 
+
+
+.site-logo-helper {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
 }
 
+.site-logo {
+    vertical-align: middle;
+    max-height: 100%;
+    max-width: 75%;
+}
 #siteLogos {
     margin-left: 8px;
     margin-right: 8px;
@@ -395,7 +405,9 @@ canvas {
     border-color: #007bff !important;
     border-width: 1.5px !important;
 }
-
+.up-btns.active{
+    background-color:#dae0e5 !important;
+}
 .form-error {
     color: red;
     font-size: small;
@@ -468,9 +480,24 @@ canvas {
     padding: 0px !important;
 }
 
-/* .current-page {
-    border-bottom: 2px solid #918c8d !important;
-} */
+.current-page {
+    border-bottom: 5px solid white !important;
+    border-top: 5px solid #2a72a5;
+}
+
+.badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    padding: 5px 10px;
+    border-radius: 50%;
+    background: red;
+    color: white;
+  }
+
+.navbar{
+    padding-bottom:0 !important;
+}
 
 .nav-link {
     color: #ffffff !important;

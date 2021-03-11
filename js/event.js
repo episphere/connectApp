@@ -300,6 +300,11 @@ export const addEventUPSubmit = () => {
                 hasError = true;
             }
         });
+        if(!(document.getElementById('UPCancer1Btn').classList.contains('active') || document.getElementById('UPCancer2Btn').classList.contains('active'))){
+            errorMessage('UPCancerBtnGroup', 'Please provide a response.', focus);
+            focus = false;
+            hasError = true;
+        }
         let radioChecked = false;
         Array.from(radios).forEach(element => {
             if(element.checked) radioChecked = true;
@@ -311,13 +316,20 @@ export const addEventUPSubmit = () => {
         const email2 = document.getElementById('UPEmail2');
         const email3 = document.getElementById('UPAdditionalEmail2');
         const email4 = document.getElementById('UPAdditionalEmail3');
-
-        if(!phoneNo && !email){
-            errorMessage('UPEmail', 'Please enter either a mobile phone number or email address.', focus);
+        if(!email){
+            errorMessage('UPEmail', 'Please enter an email address.', focus);
+            focus = false;
+            hasError = true;
+        }
+        if(!phoneNo && !phoneNo2){
             errorMessage('UPPhoneNumber11');
             errorMessage('UPPhoneNumber12');
             errorMessage('UPPhoneNumber13');
-            errorMessage('mainMobilePhone', 'Please enter either a mobile phone number or email address.');
+            errorMessage('mainMobilePhone', 'A phone number is required (it can be home phone or mobile phone or other phone)', focus);
+            errorMessage('UPPhoneNumber21');
+            errorMessage('UPPhoneNumber22');
+            errorMessage('UPPhoneNumber23');
+            errorMessage('mainMobilePhone2', 'A phone number is required (it can be home phone or mobile phone or other phone)');
             focus = false;
             hasError = true;
         }
@@ -489,7 +501,7 @@ export const addEventUPSubmit = () => {
         }
         
         const ageToday = getAge(`${formData['544150384']}-${formData['564964481']}-${formData['795827569']}`);
-        if(!(ageToday < 66 && ageToday > 39)){
+        /*if(!(ageToday < 66 && ageToday > 39)){
             // Age is out of qualified range.
             openModal();
             document.getElementById('connectModalHeader').innerHTML = `
@@ -506,9 +518,9 @@ export const addEventUPSubmit = () => {
             document.getElementById('continueAnyways').addEventListener('click', () => {
                 verifyUserDetails(formData);
             });
-        }else {
+        }else {*/
             verifyUserDetails(formData);
-        }
+        //}
     });
 }
 
@@ -562,6 +574,12 @@ const verifyUserDetails = (formData) => {
         <div class="row">
             <div class="col">Suffix</div>
             <div class="col">${formData['506826178']}</div>
+        </div>
+        `: ``}
+        ${formData['153211406'] ? `
+        <div class="row">
+            <div class="col">Preferred Name</div>
+            <div class="col">${formData['153211406']}</div>
         </div>
         `: ``}
         <div class="row">
@@ -727,7 +745,7 @@ const verifyUserDetails = (formData) => {
             const myData = await getMyData();
             hideAnimation();
             if(myData.code === 200){
-                myToDoList(myData.data);
+                myToDoList(myData.data, true);
             }
         }
     })
@@ -735,11 +753,12 @@ const verifyUserDetails = (formData) => {
 }
 
 export const addEventPreferredContactType = () => {
-    const p1 = document.getElementById('UPPhoneNumber11');
+    const p1 = document.getElementById('textPermissionYes');
+    const p2 = document.getElementById('textPermissionNo');
     const email = document.getElementById('UPEmail');
 
-    p1.addEventListener('keyup', () => {
-        if(p1.value && email.value){
+    p1.addEventListener('click', () => {
+        if(email.value){
             const div = document.getElementById('preferredEmailPhone');
             if(div.innerHTML === ''){
                 div.classList = ['form-group row']
@@ -759,8 +778,14 @@ export const addEventPreferredContactType = () => {
         }
     });
 
+    p2.addEventListener('click', () => {
+        const div = document.getElementById('preferredEmailPhone');
+        div.classList = '';
+        div.innerHTML = '';
+    });
+
     email.addEventListener('keyup', () => {
-        if(p1.value && email.value){
+        if(p1.classList.contains('active') && email.value){
             const div = document.getElementById('preferredEmailPhone');
             if(div.innerHTML === ''){
                 div.classList = ['form-group row']
@@ -956,7 +981,7 @@ export const retrieveNotificationsInBackgroound = async () => {
 }
 
 export const toggleCurrentPage = async (route) => {
-    const IDs = ['home', 'userDashboard', 'userData', 'userAgreements', 'userSettings', 'connectSupport'];
+    const IDs = ['home', 'userDashboard', 'Notifications', 'userAgreements', 'userSettings', 'connectSupport', 'connectPayment'];
     IDs.forEach(id => {
         const element = document.getElementById(id);
         element.addEventListener('click', () => {
@@ -967,10 +992,12 @@ export const toggleCurrentPage = async (route) => {
     });
     if(route === '#') document.getElementById('home').click();
     if(route === '#dashboard') document.getElementById('userDashboard').click();
-    if(route === '#my_data') document.getElementById('userData').click();
+    if(route === '#notifications') document.getElementById('Notifications').click();
+    //if(route === '#my_data') document.getElementById('userData').click();
     if(route === '#agreements') document.getElementById('userAgreements').click();
     if(route === '#settings') document.getElementById('userSettings').click();
     if(route === '#support') document.getElementById('connectSupport').click();
+    if(route === '#payment') document.getElementById('connectPayment').click();
     if(document.body.classList.contains('dark-mode')) toggleDarkMode(true);
 }
 
@@ -987,3 +1014,6 @@ export const toggleCurrentPageNoUser = async (route) => {
     if(route === '#') document.getElementById('home').click();
     if(route === '#sign_in') document.getElementById('signIn').click();
 }
+
+export const addEventCheckCanText = () => {
+} 

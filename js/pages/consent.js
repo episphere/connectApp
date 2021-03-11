@@ -354,7 +354,7 @@ export const consentConsentPage = () => {
                 <li>I have read these forms.</li>
                 <li>I will allow the use, storage, and disclosure (release) of my survey answers, samples, and health information for the research described above.</li>
                 <li>I understand that if I do not agree to allow Connect to do any of these things, I cannot take part in the study.</li>
-                <li>If I have questions, I can contact the Connect Support Center at Cancer.gov/connectstudy/support</li>
+                <li>If I have questions, I can contact the Connect Support Center at <a href=Cancer.gov/connectstudy/support>Cancer.gov/connectstudy/support</a></li>
                 <li>If I decide I do not want my health information used or shared throught Connect, I can leave the study by contacting the Connect Support Center at Cancer.gov/connectStudy/support
             </ol>
             <input type="checkbox" name="consentAnswer" value="consentYes" id="CSConsentYesCheck" required>
@@ -386,13 +386,15 @@ export const consentConsentPage = () => {
                         <label class="consent-form-label">
                             Suffix<span></span>
                         </label>
-                        <select name="NameSuffix" class="form-control col-md-10" id="CSNameSuffix" required>
-                            <option value="select">--Select--</option>
-                            <option value="Sr.">Sr.</option>
-                            <option value="Jr.">Jr.</option>
-                            <option value="I">I</option>
-                            <option value="II">II</option>
-                            <option value="III">III</option>
+                        <select name="NameSuffix" class="form-control col-md-10" id="CSNameSuffix">
+                            <option value="">-- Select suffix --</option>
+                            <option value="612166858">Jr.</option>
+                            <option value="255907182">Sr.</option>
+                            <option value="226924545">I</option>
+                            <option value="270793412">II</option>
+                            <option value="959021713">III</option>
+                            <option value="643664527">2nd</option>
+                            <option value="537892528">3rd</option>
 
                         </select>
                     </div>
@@ -490,6 +492,8 @@ export const consentConsentPage = () => {
     */
 }
 
+
+
 export const consentHealthRecordsPage = () => {
     const mainContent = document.getElementById('root');
     let template = renderProgress(8);
@@ -575,6 +579,62 @@ export const consentHealthRecordsPage = () => {
 
 }
 
+export const consentFinishedPage = () => {
+    const mainContent = document.getElementById('root');
+    let template = renderProgress(8);
+    
+    template += `
+        <div class = "e-consent-body">
+            <h2>You have completed the consent process</h2>
+        </div>
+        <div style="margin-left:20px">
+            
+            <div class="row"><div style="margin-left:20px"><i class="fas fa-file-download"></i> <a style="margin-left:10px" href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf">Download a copy of your signed consent form:&nbsp</a></div></div>
+            <div class="row"><div style="margin-left:20px"><i class="fas fa-file-download"></i> <a style="margin-left:10px" href="./consent_draft.pdf" title="Download health records release form" data-toggle="tooltip" download="connect_consent.pdf">Download a copy of your signed health records release form:&nbsp</a></div></div>
+        </div>
+        
+        <div>
+            <button class="btn btn-primary" type="button" id="toLeaving" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
+        </div>
+    `
+    
+    mainContent.innerHTML =  template;
+    document.getElementById('toLeaving').addEventListener('click', () => {
+        consentToProfilePage();
+    })
+
+}
+
+export const consentToProfilePage = () => {
+    const mainContent = document.getElementById('root');
+    let template = '';
+    
+    template += `
+        <div class = "e-consent-body">
+            <h2>Thank you for your interest in the Connect for Cancer Prevention Study</h2>
+        <div style="margin-left:20px">
+            <p>
+                Thank you for completing the consent process. We need some more information about you to confirm that you can be part of the study. After you complete this step, we will use the information 
+                you share to check your eligibility and contact you within a few business days. We respect your privacy and protect the personal information you share with us.
+            </p>
+            <p>
+                If you have any questions, please contact the Connect Support at
+            </p>
+            <a href="MyConnect.cancer.gov/support">MyConnect.cancer.gov/support</a>
+        </div>
+        <div>
+            <button class="btn btn-primary" type="button" id="toLeaving" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
+        </div>
+        </div>
+    `
+    
+    mainContent.innerHTML =  template;
+    document.getElementById('toLeaving').addEventListener('click', () => {
+        renderUserProfile();
+    })
+
+}
+
 export const initializeCanvas = (file, customScale) => {
     let scale = 1;
     if(window.innerWidth > 1000) scale = 1.5;
@@ -655,7 +715,9 @@ const consentSubmit = async e => {
     removeAllErrors();
     let formData = {};
     const CSFirstName = document.getElementById('CSFirstName');
+    const CSMiddleName = document.getElementById('CSMiddleName')
     const CSLastName = document.getElementById('CSLastName');
+    const CSNameSuffix = document.getElementById('CSNameSuffix')
     let hasError = false;
     let focus = true;
     var radios = document.getElementsByName('consentAnswer');
@@ -683,7 +745,9 @@ const consentSubmit = async e => {
 
     formData['454205108'] = 'Consent-v1.0';
     formData['471168198'] = CSFirstName.value.trim();
+    formData['436680969'] = CSMiddleName.value.trim() === '' ? undefined : CSMiddleName.value.trim();
     formData['736251808'] = CSLastName.value.trim();
+    formData['480305327'] = CSNameSuffix.value === '' ? undefined : parseInt(CSNameSuffix.value);
     formData['982402227'] = CSDate.split('/')[2]+CSDate.split('/')[1]+CSDate.split('/')[0];
     formData['919254129'] = 353358909;
     formData['454445267'] = dateTime();
@@ -709,5 +773,5 @@ const consentSubmit = async e => {
     }
     
     const response = await storeResponse(formData);
-    if(response.code === 200) renderUserProfile();
+    if(response.code === 200) consentFinishedPage ();
 }

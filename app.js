@@ -6,9 +6,11 @@ import { firebaseConfig } from "./js/config.js";
 import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser } from "./js/event.js";
 import { requestPINTemplate } from "./js/pages/healthCareProvider.js";
 import { myToDoList } from "./js/pages/myToDoList.js";
+import {renderNotificationsPage} from "./js/pages/notifications.js"
 import { renderAgreements } from "./js/pages/agreements.js";
 import { renderSettingsPage } from "./js/pages/settings.js";
 import { renderSupportPage } from "./js/pages/support.js";
+import { renderPaymentPage } from "./js/pages/payment.js";
 import { renderMyDataPage } from "./js/pages/myData.js";
 import { footerTemplate } from "./js/pages/footer.js";
 
@@ -188,10 +190,12 @@ const router = async () => {
     if(route === '#') homePage();
     else if (route === '#sign_in' && await userLoggedIn() === false) signIn();
     else if (route === '#dashboard') userProfile();
+    else if (route === '#notifications') renderNotificationsPage();
     else if (route === '#sign_out') signOut();
     else if (route === '#agreements') renderAgreements();
     else if (route === '#settings') renderSettingsPage();
     else if (route === '#support') renderSupportPage();
+    else if (route === '#payment') renderPaymentPage();
     else if (route === '#my_data') renderMyDataPage();
     else window.location.hash = '#';
 }
@@ -237,7 +241,7 @@ const userProfile = () => {
             const myData = await getMyData();
             if(myData.code === 200) {
                 // connectPushNotification();
-                myToDoList(myData.data);
+                myToDoList(myData.data, false);
             }
             else {
                 mainContent.innerHTML = requestPINTemplate();
