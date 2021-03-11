@@ -110,7 +110,7 @@ export const renderSettingsPage = async () => {
     }
     document.getElementById('root').innerHTML = template;
     hideAnimation();
-    addEventEditUP(userData);
+    addEventEditUP(MyData.data);
 }
 
 const addEventEditUP = (data) => {

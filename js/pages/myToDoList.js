@@ -191,24 +191,32 @@ const renderMainBody = (data, tab) => {
             <ul class="questionnaire-module-list">`;
 
     let toDisplayKeys = ['First Survey', 'Background and Overall Health', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure', "Where You Live and Work",'Enter SSN']
+    
     let toDisplaySystem = [{'header':'First Survey', 'body': ['Background and Overall Health', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure', "Where You Live and Work"]}, {'body':['Enter SSN']}]
+    if(data['821247024'] && data['821247024'] == 875007964){
+        toDisplaySystem = [{'header':'First Survey', 'body': ['Background and Overall Health', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure', "Where You Live and Work"]}]
+    }
+    
     const modules = questionnaireModules;
     modules['First Survey'] = {};
     modules['First Survey'].description = 'This survey is split into four sections that ask about a wide range of topics, including information about your medical history, family, work, and health behaviors. You can answer all of the questions at one time, or pause and return to complete the survey later. If you pause, your answers will be saved so you can pick up where you left off. You can skip any questions that you do not want to answer.';
     modules['First Survey'].hasIcon = false;
     modules['First Survey'].noButton = true;
+    modules['Background and Overall Health'].header = 'Background and Occupational Health Section'; 
     modules['Background and Overall Health'].description = 'Questions about you, your medical history, and your family history.';
     modules['Background and Overall Health'].estimatedTime = '20 to 30 minutes'
-    modules['Medications, Reproductive Health, Exercise, and Sleep'].description = 'Questions about your current and past use of medications, your exerciseand sleep habits, and your reproductive health.Time estimate';
+    modules['Medications, Reproductive Health, Exercise, and Sleep'].description = 'Questions about your current and past use of medications, your exerciseand sleep habits, and your reproductive health.';
     modules['Medications, Reproductive Health, Exercise, and Sleep'].estimatedTime = '20 to 30 minutes'
     modules['Smoking, Alcohol, and Sun Exposure'].description = 'Questions about your use of tobacco, nicotine, marijuana, and alcohol, as well as your sun exposure.';
     modules['Smoking, Alcohol, and Sun Exposure'].estimatedTime = '20 to 30 minutes'
+    modules["Where You Live and Work"].header = 'Where You Live and Work Section';
     modules["Where You Live and Work"].description  = 'Questions about places where you have lived and worked, and your commute to school or work.'
     modules['Where You Live and Work'].estimatedTime = '20 to 30 minutes'
-    modules['Enter SSN'].description = 'We may use your social security number when we collect information from important data sources like health registries to match information from these sources to you. We protect your privacy every time we ask for information about you from other sources. Providing your social security number is optional.';
+    modules['Enter SSN'].header = 'Your Social Security Number (SSN)'
+    modules['Enter SSN'].description = 'We may use your Social Security number when we collect information from important data sources like health registries to match information from these sources to you. We protect your privacy every time we ask for information about you from other sources. Providing your Social Security number is optional.';
     modules['Enter SSN'].hasIcon = false;
     modules['Enter SSN'].noButton = false;
-    modules['Enter SSN'].estimatedTime = '5 minutes'
+    modules['Enter SSN'].estimatedTime = 'Less than 5 minutes'
     
     if (data.Module1 && data.Module1.COMPLETED) { 
         modules["Smoking, Alcohol, and Sun Exposure"].enabled = true;
@@ -264,7 +272,7 @@ const renderMainBody = (data, tab) => {
                                                     <div class="${modules[thisKey].hasOwnProperty('hasIcon') && modules[thisKey]['hasIcon'] == false? 'col-9':'col-8'}">
                                                     <p class="style="font-style:bold; font-size:24px; margin-left:30px">
                                                         <b style="color:#5c2d93; font-size:18px;">
-                                                        ${thisKey}
+                                                        ${modules[thisKey]['header']?modules[thisKey]['header']:thisKey}
                                                         </b>
                                                         <br> 
                                                         ${modules[thisKey].description}
@@ -284,14 +292,15 @@ const renderMainBody = (data, tab) => {
                                                     `}
                                                 </div>
                                                 
-                                            </li>`
+                                              
+                                            `
                                                 /*
                                                 <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="width:90%; margin-bottom:20px;">${key}</button>
                                             </li>`;*/
                             }
                         }
                         hasModlesRemaining = true
-                        template += `<li style="width:100%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
+                        template += `<div style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
                                         <div class="row">
                                             ${modules[key].hasOwnProperty('hasIcon') && modules[key]['hasIcon'] == false? `` : `
                                             <div class="col-1">
@@ -302,7 +311,7 @@ const renderMainBody = (data, tab) => {
                                             <div class="${modules[key].hasOwnProperty('hasIcon') && modules[key]['hasIcon'] == false? 'col-9':'col-8'}">
                                             <p class="style="font-style:bold; font-size:24px; margin-left:30px">
                                                 <b style="color:#5c2d93; font-size:18px;">
-                                                ${key}
+                                                ${modules[key]['header']?modules[key]['header']:key}
                                                 </b>
                                                 <br> 
                                                 ${modules[key].description}
@@ -324,22 +333,30 @@ const renderMainBody = (data, tab) => {
                                             `}
                                         </div>
                                         
-                                    </li>`
+                                    </div>`
                                         /*
                                         <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="width:90%; margin-bottom:20px;">${key}</button>
                                     </li>`;*/
                     }
                 }
+            if(started == true){
+                template += '</li>'            
+                console.log('aslkvbsldvkbsadv: ' + template)
+
             }
+            }
+
+            
         }
+        /*
         if (!hasModlesRemaining){
-            template += /*html*/`
+            template += `
                             <div class="row">
-                                Thank you for completing your surveys
+                                Thank you for completing your first Connect survey! We will be in touch with next steps for the study
                             </div>
                             `
             
-        }
+        }*/
     }
     else{
         for(let obj of toDisplaySystem){
@@ -364,7 +381,7 @@ const renderMainBody = (data, tab) => {
                                                     <div class="${modules[thisKey].hasOwnProperty('hasIcon') && modules[thisKey]['hasIcon'] == false? 'col-9':'col-8'}">
                                                     <p class="style="font-style:bold; font-size:24px; margin-left:30px">
                                                         <b style="color:#5c2d93; font-size:18px;">
-                                                        ${thisKey}
+                                                        ${modules[thisKey]['header']?modules[thisKey]['header']:thisKey}
                                                         </b>
                                                         <br> 
                                                         ${modules[thisKey].description}
@@ -398,7 +415,7 @@ const renderMainBody = (data, tab) => {
                                 <div class="col-8">
                                 <p class="style="font-style:bold; font-size:24px; margin-left:30px">
                                     <b style="color:#5c2d93; font-size:18px;">
-                                    ${key}
+                                    ${modules[key]['header']?modules[key]['header']:thisKey}
                                     </b>
                                     <br>
                                     <em>
@@ -429,8 +446,7 @@ const checkIfComplete = (data) =>{
     if (data.Module1 && data.Module1.COMPLETED 
         && data.Module2 && data.Module2.COMPLETED
         && data.Module3 && data.Module3.COMPLETED
-        && data.Module4 && data.Module4.COMPLETED
-        && data.ModuleSsn && data.ModuleSsn.COMPLETED) { 
+        && data.Module4 && data.Module4.COMPLETED) { 
         return true;
     };
     return false;

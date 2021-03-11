@@ -480,9 +480,24 @@ canvas {
     padding: 0px !important;
 }
 
-/* .current-page {
-    border-bottom: 2px solid #918c8d !important;
-} */
+.current-page {
+    border-bottom: 5px solid white !important;
+    border-top: 5px solid #2a72a5;
+}
+
+.badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    padding: 5px 10px;
+    border-radius: 50%;
+    background: red;
+    color: white;
+  }
+
+.navbar{
+    padding-bottom:0 !important;
+}
 
 .nav-link {
     color: #ffffff !important;

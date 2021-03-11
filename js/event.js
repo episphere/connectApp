@@ -301,7 +301,7 @@ export const addEventUPSubmit = () => {
             }
         });
         if(!(document.getElementById('UPCancer1Btn').classList.contains('active') || document.getElementById('UPCancer2Btn').classList.contains('active'))){
-            errorMessage('UPCancerBtnGroup', 'Please answer the required question.', focus);
+            errorMessage('UPCancerBtnGroup', 'Please provide a response.', focus);
             focus = false;
             hasError = true;
         }
@@ -981,7 +981,7 @@ export const retrieveNotificationsInBackgroound = async () => {
 }
 
 export const toggleCurrentPage = async (route) => {
-    const IDs = ['home', 'userDashboard', 'userAgreements', 'userSettings', 'connectSupport', 'connectPayment'];
+    const IDs = ['home', 'userDashboard', 'Notifications', 'userAgreements', 'userSettings', 'connectSupport', 'connectPayment'];
     IDs.forEach(id => {
         const element = document.getElementById(id);
         element.addEventListener('click', () => {
@@ -992,6 +992,7 @@ export const toggleCurrentPage = async (route) => {
     });
     if(route === '#') document.getElementById('home').click();
     if(route === '#dashboard') document.getElementById('userDashboard').click();
+    if(route === '#notifications') document.getElementById('Notifications').click();
     //if(route === '#my_data') document.getElementById('userData').click();
     if(route === '#agreements') document.getElementById('userAgreements').click();
     if(route === '#settings') document.getElementById('userSettings').click();

@@ -6,6 +6,7 @@ import { firebaseConfig } from "./js/config.js";
 import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser } from "./js/event.js";
 import { requestPINTemplate } from "./js/pages/healthCareProvider.js";
 import { myToDoList } from "./js/pages/myToDoList.js";
+import {renderNotificationsPage} from "./js/pages/notifications.js"
 import { renderAgreements } from "./js/pages/agreements.js";
 import { renderSettingsPage } from "./js/pages/settings.js";
 import { renderSupportPage } from "./js/pages/support.js";
@@ -189,6 +190,7 @@ const router = async () => {
     if(route === '#') homePage();
     else if (route === '#sign_in' && await userLoggedIn() === false) signIn();
     else if (route === '#dashboard') userProfile();
+    else if (route === '#notifications') renderNotificationsPage();
     else if (route === '#sign_out') signOut();
     else if (route === '#agreements') renderAgreements();
     else if (route === '#settings') renderSettingsPage();
