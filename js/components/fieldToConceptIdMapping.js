@@ -25,5 +25,6 @@ export default
     "Module1": {"conceptId":726699695,"startTs":205553981},
     "Module2": {"conceptId":745268907,"startTs":541836531},
     "Module3": {"conceptId":965707586,"startTs":386488297},
-    "Module4": {"conceptId":716117817,"startTs":452942800}
+    "Module4": {"conceptId":716117817,"startTs":452942800},
+    "ModuleSsn": {"conceptId":716117818,"startTs":452942802} // Temporary assigning concepts
 }
