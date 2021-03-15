@@ -1,5 +1,7 @@
 import { getMyData, hideAnimation, showAnimation } from "../shared.js";
 import { initializeCanvas } from './consent.js'
+import {humanReadableMDYwithoutTime} from "../util.js";
+const { PDFDocument, StandardFonts } = PDFLib;
 
 export const renderAgreements = async () => {
     showAnimation();
@@ -25,7 +27,7 @@ export const renderAgreements = async () => {
                             <button class="btn list-item-active btn-agreement"><i class="fas fa-file-pdf"></i> View</button>
                         </li>
                         <li class="list-item" title="Download consent form" id="downloadConsent">
-                            <a href="./consent_draft.pdf" class="no-text-decoration" download="connect_consent.pdf">
+                            <a class="no-text-decoration" download="connect_consent.pdf">
                                 <button class="btn list-item-active btn-agreement"><i class="fas fa-file-download"></i> Download</button>
                             </a>
                         </li>
@@ -38,11 +40,11 @@ export const renderAgreements = async () => {
         template += 'No agreement found!';
     }
     document.getElementById('root').innerHTML = template;
-    addEventAgreementOptions();
+    addEventAgreementOptions(myData);
     hideAnimation();
 }
 
-const addEventAgreementOptions = () => {
+const addEventAgreementOptions = (myData) => {
     const viewConsent = document.getElementById('viewConsent');
     if(viewConsent){
         viewConsent.addEventListener('click', () => {
@@ -56,4 +58,49 @@ const addEventAgreementOptions = () => {
             initializeCanvas('./consent_draft.pdf', 1);
         })
     }
+    const downloadConsent = document.getElementById('downloadConsent');
+    if(downloadConsent){
+        downloadConsent.addEventListener('click', () => {
+            renderDownloadConsentCopy(myData.data)
+        })
+    }
+}
+
+
+
+
+export const renderDownloadConsentCopy = async (data) => {
+    const participantSignature = data[471168198] + ' ' + data[736251808]
+    let seekLastPage;
+    const pdfLocation = './consent_draft.pdf';
+    const existingPdfBytes = await fetch(pdfLocation).then(res => res.arrayBuffer());
+    const pdfConsentDoc = await PDFDocument.load(existingPdfBytes);
+    const helveticaFont = await pdfConsentDoc.embedFont(StandardFonts.TimesRomanItalic);
+    const pages = pdfConsentDoc.getPages();
+    for (let i = 0; i <= pages.length; i++) {seekLastPage = i}
+    const editPage = pages[seekLastPage-1];
+    const currentTime = humanReadableMDYwithoutTime(data[335767902]);
+
+    editPage.drawText(`
+    ${data[471168198] + ' ' + data[736251808]} 
+    ${currentTime}`, {
+                x: 200,
+                y: 275,
+                size: 24,
+      });
+
+    editPage.drawText(`
+    ${participantSignature}`, {
+        x: 200,
+        y: 225,
+        size: 34,
+        font: helveticaFont,
+      });
+    
+    // Serialize the PDFDocument to bytes (a Uint8Array)
+    const pdfBytes = await pdfConsentDoc.save();
+
+    // Trigger the browser to download the PDF document
+    download(pdfBytes, "consent_draft.pdf", "application/pdf");
+    
 }

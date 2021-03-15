@@ -107,17 +107,17 @@ export const renderUserProfile = async () => {
             <strong>Contact Information</strong>
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">Preferred Email <span class="required">*</span></label>
-                <input type="text" class="form-control col-md-4" id="UPEmail" title="Please enter a email address in this format: name@example.com." Placeholder="abc@mail.com"></br>
+                <input type="text" class="form-control col-md-4" id="UPEmail" title="Please enter an email address in this format: name@example.com." Placeholder="abc@mail.com"></br>
             </div>
 
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">Retype preferred Email <span class="required">*</span></label>
-                <input type="text" class="form-control col-md-4" id="confirmUPEmail" title="Please enter a email address in this format: name@example.com." Placeholder="Retype preferred email"></br>
+                <input type="text" class="form-control col-md-4" id="confirmUPEmail" title="Please enter an email address in this format: name@example.com." Placeholder="Retype preferred email"></br>
             </div>
             
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">Additional Email</label>
-                <input type="text" class="form-control col-md-4" id="UPEmail2" title="Please enter a email address in this format: name@example.com." Placeholder="Enter additional email"></br>
+                <input type="text" class="form-control col-md-4" id="UPEmail2" title="Please enter an email address in this format: name@example.com." Placeholder="Enter additional email"></br>
             </div>
             <div id="multipleEmail1"></div>
             <div id="multipleEmail2"></div>

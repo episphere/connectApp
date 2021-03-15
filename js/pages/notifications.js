@@ -1,14 +1,15 @@
-import { getMyData } from "../shared.js";
+import { getMyData, retrieveNotifications } from "../shared.js";
+import {humanReadableMDYwithTime} from "../util.js";
 
 export const renderNotificationsPage = async () => {
     let template = '<h2>Notifications</h2>';
-    let notifs = ['Please complete the your My Profile page so you can move on to the surveys!', 'If you would like to participate in this study, please go and sign the consent forms.']
-    let times = ['2 days ago', '4 days ago']
-    for(let i = 0; i<notifs.length; i++){
-        let notif = notifs[i];
-        let time = times[i];
+    
+    let notifs = await retrieveNotifications()
+    console.log(notifs)
+    for(let i = 0; i<notifs.data.length; i++){
+        let notif = notifs.data[i];
         template += `
-            <div style="width:80%; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px; border-left:5px solid #2a72a5;">
+            <div style="width100%; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px; border-left:5px solid ${notif.read == true ? 'lightgrey' : '#2a72a5'};">
                 <div class="row">
                     
                     <div class="col-1">
@@ -18,11 +19,9 @@ export const renderNotificationsPage = async () => {
                     </div>
 
                     <div class="col-10">
-                        <p class="style="font-style:bold; font-size:24px; margin-left:30px">
-                            ${notif}
-                        </p>
+                            ${notif.notification.body}
                         <em>
-                            ${time}
+                            Sent ${humanReadableMDYwithTime(notif.notification.time)}
                         </em>
                     </div>
                 </div>

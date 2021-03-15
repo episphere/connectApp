@@ -10,12 +10,12 @@ export const userNavBar = () => {
                 <a class="nav-link" href="#dashboard" id="userDashboard"><i class="fas fa-file-alt"></i> Dashboard</a>
             </li>
         </div>
-        <div class="navbar-nav" style ="position:relative;">
+        <div class="navbar-nav" ${/*style ="position:relative;"*/''}>
             <li class="nav-item">
                 <a class="nav-link" href="#notifications" id="Notifications">
                     <i class="fas fa-bell"></i> 
                     Notifications
-                    <span class="badge">2</span>
+                    <!--<span class="badge">2</span>-->
                 </a>
             </li>
         </div>

@@ -222,7 +222,7 @@ const addEmailFields = () => {
     input.placeholder = 'Enter additional email 2';	
     input.type = 'text';	
     input.id = 'UPAdditionalEmail2';	
-    input.title = ' Please enter a email address in this format: name@example.com.';
+    input.title = ' Please enter an email address in this format: name@example.com.';
 
     div.appendChild(input);
 	
@@ -242,7 +242,7 @@ const addAnotherEmailField = () => {
     input2.placeholder = 'Enter additional email 3';	
     input2.type = 'text';	
     input2.id = 'UPAdditionalEmail3';	
-    input2.title = ' Please enter a email address in this format: name@example.com.';
+    input2.title = ' Please enter an email address in this format: name@example.com.';
     div.appendChild(input2);
     document.getElementById('additionalEmailBtn').innerHTML = '';
 }
@@ -352,22 +352,22 @@ export const addEventUPSubmit = () => {
             hasError = true;
         }
         if(email && /\S+@\S+\.\S+/.test(email) === false) {
-            errorMessage('UPEmail', 'Please enter a email address in this format: name@example.com.', focus);
+            errorMessage('UPEmail', 'Please enter an email address in this format: name@example.com.', focus);
             focus = false;
             hasError = true;
         }
         if(email2 && email2.value && /\S+@\S+\.\S+/.test(email2.value) === false) {
-            errorMessage('UPEmail2', 'Please enter a email address in this format: name@example.com.', focus);
+            errorMessage('UPEmail2', 'Please enter an email address in this format: name@example.com.', focus);
             focus = false;
             hasError = true;
         }
         if(email3 && email3.value && /\S+@\S+\.\S+/.test(email3.value) === false) {
-            errorMessage('UPAdditionalEmail2', 'Please enter a email address in this format: name@example.com.', focus);
+            errorMessage('UPAdditionalEmail2', 'Please enter an email address in this format: name@example.com.', focus);
             focus = false;
             hasError = true;
         }
         if(email4 && email4.value && /\S+@\S+\.\S+/.test(email4.value) === false) {
-            errorMessage('UPAdditionalEmail3', 'Please enter a email address in this format: name@example.com.', focus);
+            errorMessage('UPAdditionalEmail3', 'Please enter an email address in this format: name@example.com.', focus);
             focus = false;
             hasError = true;
         }

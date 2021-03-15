@@ -1,6 +1,7 @@
 import { todaysDate, storeResponse, dataSavingBtn, dateTime, errorMessageConsent } from "../shared.js";
 import { renderUserProfile } from "../components/form.js";
 import { removeAllErrors, addEventsConsentSign } from "../event.js";
+import { renderDownloadConsentCopy } from "./agreements.js";
 
 export const consentTemplate = () => {
     consentAboutPage();
@@ -579,7 +580,7 @@ export const consentHealthRecordsPage = () => {
 
 }
 
-export const consentFinishedPage = () => {
+export const consentFinishedPage = (data) => {
     const mainContent = document.getElementById('root');
     let template = renderProgress(8);
     
@@ -589,8 +590,8 @@ export const consentFinishedPage = () => {
         </div>
         <div style="margin-left:20px">
             
-            <div class="row"><div style="margin-left:20px"><i class="fas fa-file-download"></i> <a style="margin-left:10px" href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf">Download a copy of your signed consent form:&nbsp</a></div></div>
-            <div class="row"><div style="margin-left:20px"><i class="fas fa-file-download"></i> <a style="margin-left:10px" href="./consent_draft.pdf" title="Download health records release form" data-toggle="tooltip" download="connect_consent.pdf">Download a copy of your signed health records release form:&nbsp</a></div></div>
+            <div class="row"><div style="margin-left:20px"><i class="fas fa-file-download"></i> <a style="margin-left:10px" href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf" id="consentDownload">Download a copy of your signed consent form:&nbsp</a></div></div>
+            <div class="row"><div style="margin-left:20px"><i class="fas fa-file-download"></i> <a style="margin-left:10px" href="./consent_draft.pdf" title="Download health records release form" data-toggle="tooltip" download="connect_consent.pdf" id="healthRecordsDownload">Download a copy of your signed health records release form:&nbsp</a></div></div>
         </div>
         
         <div>
@@ -602,6 +603,13 @@ export const consentFinishedPage = () => {
     document.getElementById('toLeaving').addEventListener('click', () => {
         consentToProfilePage();
     })
+    document.getElementById('consentDownload').addEventListener('click', () => {
+        renderDownloadConsentCopy(data);
+    });
+    document.getElementById('healthRecordsDownload').addEventListener('click', () => {
+        renderDownloadConsentCopy(data);
+    });
+    
 
 }
 
@@ -773,5 +781,6 @@ const consentSubmit = async e => {
     }
     
     const response = await storeResponse(formData);
-    if(response.code === 200) consentFinishedPage ();
+    formData['335767902'] = new Date().toISOString();
+    if(response.code === 200) consentFinishedPage (formData);
 }
