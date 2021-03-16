@@ -59,7 +59,7 @@ export const storeResponse = async (formData) => {
         },
         body: JSON.stringify(formData)
     }
-    // const response = await fetch(`http://localhost:8010/nih-nci-dceg-episphere-dev/us-central1/app?api=submit`, requestObj);
+    // const response = await fetch(`http://localhost:8010/nih-nci-dceg-connect-dev/us-central1/app?api=submit`, requestObj);
     const response = await fetch(`https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app?api=submit`, requestObj);
     return response.json();
 }
