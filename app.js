@@ -280,7 +280,21 @@ const toggleNavBar = (route) => {
             document.getElementById('joinNow') ? document.getElementById('joinNow').innerHTML = joinNowBtn(true) : ``;
             document.getElementById('nextStepWarning') ? document.getElementById('nextStepWarning').style.display="none": '';
             toggleCurrentPageNoUser(route);
+            const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
+            ui.start('#signInDiv', signInConfig());
             hideAnimation();
         }
     });
+}
+
+const signInConfig = () => {
+    return {
+        signInSuccessUrl: '#dashboard',
+        signInOptions: [
+            firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+            firebase.auth.EmailAuthProvider.PROVIDER_ID,
+            firebase.auth.PhoneAuthProvider.PROVIDER_ID
+        ],
+        credentialHelper: 'none'
+    }
 }

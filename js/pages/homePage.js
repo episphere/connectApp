@@ -5,13 +5,58 @@ export const homePage = async () => {
     const isIE = /*@cc_on!@*/false || !!document.documentMode;
     mainContent.innerHTML = `
         ${isIE ? `<span class="not-compatible">Connect web application is not compatible with Internet Explorer, please use Chrome, Safari, Firefox or Edge</span>` : ``}
+        <div class="row" style="background-color:#2a72a5; padding-top:60px; margin-bottom:200px;">
+            <div class="col-lg-2">
+            </div>
+            <div class="col-lg-5" style="text-align:center; height:650px;">
+                <p class = "homeTitleText" style="text-align:left">
+                <b>
+                Connect <em>today.</em>
+                <br>Prevent cancer
+                <br><em>tomorrow.</em>
+                <br>
+                <br>
+                <img src="./images/newImages/ConnectLogo.png" alt="Connect logo">
+                <br><br>
+                </b>
+            </p>
+                <img src="./images/newImages/Tiles2.png" alt="Connect logo" width="90%; float:left;">
+            </div>
+            <div class="col-lg-4">
+                <div class="signInWrapper">
+                <h4 style="text-align:center; color:grey">Sign In | Join the Study</h4>
+                <div id="signInDiv">
+                </div>
+                </div>
+            </div>
+            <div class="col-lg-1">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-1">
+            </div>
+            <div class="col-lg-5" style="text-align:center; height:650px;">
+                
+                <h2>
+                    Are you age 40 to 65 with no history of certain cancers?*    
+                </h2>
+                
+            </div>
+            <div class="col-lg-5">
+               
+            </div>
+            <div class="col-lg-1">
+            </div>
+        </div>
+        <!--
         <div class="alert alert-warning" id="nextStepWarning" style="margin-top:10px;">
         </div>
+        
         <div class="row">
             <h2 style="margin:auto">5 Steps to Connect</h2>
         </div>
         <div class="row">
-            <!--5 steps fr now-->
+           
             <div class="col-sm-1"></div>
             <div class="col-sm-10">
                 <ul style="display:grid; grid-template-columns:20% 20% 20% 20% 20%;list-style-type:none; padding-left:0px;" >
@@ -165,7 +210,11 @@ export const homePage = async () => {
                 </div>
             </div>
         </div> 
+        -->
+        
     `;
+
+    
 }
 
 export const joinNowBtn = (bool) => {
@@ -217,3 +266,4 @@ export const whereAmIInDashboard = async () => {
         return 'Please tell us your health provider <a href="#dashboard">Here</a>'
     }
 }
+

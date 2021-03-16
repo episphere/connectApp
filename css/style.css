@@ -805,3 +805,30 @@ input:checked + .slider:before {
     background-color:white;
     border-bottom: 1px solid lightgrey !important;
 }
+
+.homeTitleText{
+    color:white;
+    font-size: 46px;
+    width: 310px;
+    margin-right:auto;
+    font-family:"Montserrat Bold", bold;
+}
+
+.homeTitleText em{
+    font-style: normal;
+    color:#FFBF17;
+}
+
+.signInWrapper{
+    max-width:360px;
+    background-color:white;
+    margin:auto;
+    padding-top:30px;   
+    padding-bottom:30px;
+    border-radius:5px;
+    
+}
+
+.mdl-shadow--2dp{
+    box-shadow:none !important;
+}
