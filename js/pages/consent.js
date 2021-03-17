@@ -30,19 +30,27 @@ export const renderProgress = (progress) => {
         }
     }
     let toReturn = `<div class="row" style="margin-bottom:30px">
-        <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[0]};border-radius:50%;border:5px solid ${lineColor[0]};line-height:17px;color:${textColor[0]};">1</div><div style="text-align:center;">About</div></div>
-        <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[0]};"></div></div>
-        <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[1]};border-radius:50%;border:5px solid ${lineColor[1]};line-height:17px;color:${textColor[1]}">2</div><div style="text-align:center;">Activities</div></div>
-        <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[1]};"></div></div>
-        <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[2]};border-radius:50%;border:5px solid ${lineColor[2]};line-height:17px;color:${textColor[2]}">3</div><div style="text-align:center;">Privacy</div></div>
-        <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[2]};"></div></div>
-        <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[3]};border-radius:50%;border:5px solid ${lineColor[3]};line-height:17px;color:${textColor[3]}">4</div><div style="text-align:center;">Benefits</div></div>
-        <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[3]};"></div></div>
-        <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[4]};border-radius:50%;border:5px solid ${lineColor[4]};line-height:17px;color:${textColor[4]}">5</div><div style="text-align:center;">Results</div></div>
-        <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[4]};"></div></div>
-        <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[5]};border-radius:50%;border:5px solid ${lineColor[5]};line-height:17px;color:${textColor[5]}">6</div><div style="text-align:center;">Leaving</div></div>
-        <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[5]};"></div></div>
-        <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[6]};border-radius:50%;border:5px solid ${lineColor[6]};line-height:17px;color:${textColor[6]}">7</div><div style="text-align:center;">Consent</div></div>
+        <div class="col-lg-1">
+        </div>
+        <div class="col-lg-10">
+            <div class="row">
+            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[0]};border-radius:50%;border:5px solid ${lineColor[0]};line-height:19px;color:${textColor[0]};">1</div><div style="text-align:center;">About</div></div>
+            <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[0]};"></div></div>
+            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[1]};border-radius:50%;border:5px solid ${lineColor[1]};line-height:19px;color:${textColor[1]}">2</div><div style="text-align:center;">Activities</div></div>
+            <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[1]};"></div></div>
+            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[2]};border-radius:50%;border:5px solid ${lineColor[2]};line-height:19px;color:${textColor[2]}">3</div><div style="text-align:center;">Privacy</div></div>
+            <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[2]};"></div></div>
+            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[3]};border-radius:50%;border:5px solid ${lineColor[3]};line-height:19px;color:${textColor[3]}">4</div><div style="text-align:center;">Benefits</div></div>
+            <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[3]};"></div></div>
+            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[4]};border-radius:50%;border:5px solid ${lineColor[4]};line-height:19px;color:${textColor[4]}">5</div><div style="text-align:center;">Results</div></div>
+            <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[4]};"></div></div>
+            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[5]};border-radius:50%;border:5px solid ${lineColor[5]};line-height:19px;color:${textColor[5]}">6</div><div style="text-align:center;">Leaving</div></div>
+            <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[5]};"></div></div>
+            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[6]};border-radius:50%;border:5px solid ${lineColor[6]};line-height:19px;color:${textColor[6]}">7</div><div style="text-align:center;">Consent</div></div>
+            </div>
+            </div>
+        <div class="col-lg-1">
+        </div>
     </div>`
     return toReturn;
 }
@@ -51,13 +59,19 @@ export const consentAboutPage = () => {
     const mainContent = document.getElementById('root');
     let template = renderProgress(1);
     template += ` 
-        <div class = "e-consent-body">
+        <div class="row">
+            <div class="col-lg-2">
+            </div>
+            <div class="col-lg-8">
             <h2>What is the Connect for Cancer Prevention Study?</h2>
             <h5>This research study will explore the causes of cancer and learn how to prevent cancer in adults.</h5>
             <p>Researchers wilkl study changes in habits, behaviors, nd the environment that can help us learn how cancer and other diseases develop. Since this can take time, Connect will be a long term study,
             meaning that you will participate on a regular basis for many years. Researchers hope to discover new ways to stop cancer from developing in the first place.</p>
             <p>Connect is not looking at tratments for cancer, and researchers will not give medical care, advice, or treatments.</p>
-            <button class="btn btn-primary" type="button" id="toActivities" style="float:right;margin-top:100px;">Next</button>
+            <button class="btn btn-primary consentNextButton" type="button" id="toActivities" style="float:right;margin-top:100px;"><b>Next<b></button>
+            </div>
+            <div class="col-lg-2">
+            </div>
         </div>`
     mainContent.innerHTML = template;
 
@@ -70,56 +84,61 @@ export const consentActivitiesPage = () => {
     const mainContent = document.getElementById('root');
     let template = renderProgress(2);
     template += `
-        <div class = "e-consent-body">
-            <h2>What Will I Do?</h2>
-            <p style="font-size:24px">Cancer can be caused by a lot of things, so we collect different kinds of information to give us a whole picture of your health.</h5>
-            <h4>Share some personal information</h4>
-            <p style="margin-left:32px">
-                To keep in touch, we will ask for your contact information. We also ask for personal information that could identify you, like your name, birth date, and social security number. 
-                This helps us use other sources to collect information about you - like information about where you live, how close you live to a park or whether there is pollution in your neighborhood. 
-                We will also collect information that is specific to you, like your pharmacy records.
-            </p>
-            <h4>Give us access to your health records</h4>
-            <p style="margin-left:32px">
-                We ask to use information from your electronic health record. 
-                Your health record has information about your past, current, and future health status, test results, medical procedures, images (such as X-rays), and medicines you take. 
-                Your health records may have sensitive information. For example, it may tell us about your mental health, alcohol or drug use, or sexual or other infections (including HIV status).
-            </p>
-            <h4>Take surveys about your health</h4>
-            <p style="margin-left:32px">
-                We will send you online surveys when you join the study and then a few times each year. 
-                The surveys will cover basic information about you and about your health history, family, home, and work. 
-                Each survey will take 20-30 minutes to finish. You can choose to skip any questions that you do not want to answer or are not sure about.
-            </p>
-            <h4>Donate biological specimens</h4>
-            <p style="margin-left:32px">
-                We will ask you to donate samples blood, urine, saliva, and other samples when you join the study, and every two to three years. 
-                Some samples will be collected where you get your health care, others at home. 
-                We may also use samples that are left over from healthcare visits and procedures.
-            </p>
-            <p style="margin-left:32px">
-                Samples will be safely stored at the central Connectn facility in Rockville, Maryland.
-            </p>
-            <p style="margin-left:32px">
-                The samples you donate will be used to study how cancer may develop, which may include looking at the sequence of genes spelled out on your DNA.
-            </p>
-            <h4>Future study activities</h4>
-            <p style="margin-left:32px">
-                In the future, we may invite you to take part in other study activities. These are optional, so you can say yes or no and still be in Connect.
-            </p>
-            <p style="margin-left:32px">
-                This could be:
-            </p>
-            <ul style="margin-left:32px">
-                <li>Donating other biological samples (like stool, nail, and hair) or samples from your home (like dust or dryer lint).</li>
-                <li>Getting physical measurements taken (like height, weight, and blood pressure)</li>
-                <li>Sharing information from wearable electronic health trackers or apps that measure things like diet, sleep, or environmental factors</li>
-            </ul>  
-            <div>
-                <button class="btn btn-primary" type="button" id="backToAbout" style="float:left;margin-top:40px;">Back</button>
-                <button class="btn btn-primary" type="button" id="toPrivacy" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
+        <div class="row">
+            <div class="col-lg-2">
             </div>
-
+            <div class="col-lg-8">
+                <h2>What Will I Do?</h2>
+                <p style="font-size:24px">Cancer can be caused by a lot of things, so we collect different kinds of information to give us a whole picture of your health.</h5>
+                <h4>Share some personal information</h4>
+                <p style="margin-left:32px">
+                    To keep in touch, we will ask for your contact information. We also ask for personal information that could identify you, like your name, birth date, and social security number. 
+                    This helps us use other sources to collect information about you - like information about where you live, how close you live to a park or whether there is pollution in your neighborhood. 
+                    We will also collect information that is specific to you, like your pharmacy records.
+                </p>
+                <h4>Give us access to your health records</h4>
+                <p style="margin-left:32px">
+                    We ask to use information from your electronic health record. 
+                    Your health record has information about your past, current, and future health status, test results, medical procedures, images (such as X-rays), and medicines you take. 
+                    Your health records may have sensitive information. For example, it may tell us about your mental health, alcohol or drug use, or sexual or other infections (including HIV status).
+                </p>
+                <h4>Take surveys about your health</h4>
+                <p style="margin-left:32px">
+                    We will send you online surveys when you join the study and then a few times each year. 
+                    The surveys will cover basic information about you and about your health history, family, home, and work. 
+                    Each survey will take 20-30 minutes to finish. You can choose to skip any questions that you do not want to answer or are not sure about.
+                </p>
+                <h4>Donate biological specimens</h4>
+                <p style="margin-left:32px">
+                    We will ask you to donate samples blood, urine, saliva, and other samples when you join the study, and every two to three years. 
+                    Some samples will be collected where you get your health care, others at home. 
+                    We may also use samples that are left over from healthcare visits and procedures.
+                </p>
+                <p style="margin-left:32px">
+                    Samples will be safely stored at the central Connectn facility in Rockville, Maryland.
+                </p>
+                <p style="margin-left:32px">
+                    The samples you donate will be used to study how cancer may develop, which may include looking at the sequence of genes spelled out on your DNA.
+                </p>
+                <h4>Future study activities</h4>
+                <p style="margin-left:32px">
+                    In the future, we may invite you to take part in other study activities. These are optional, so you can say yes or no and still be in Connect.
+                </p>
+                <p style="margin-left:32px">
+                    This could be:
+                </p>
+                <ul style="margin-left:32px">
+                    <li>Donating other biological samples (like stool, nail, and hair) or samples from your home (like dust or dryer lint).</li>
+                    <li>Getting physical measurements taken (like height, weight, and blood pressure)</li>
+                    <li>Sharing information from wearable electronic health trackers or apps that measure things like diet, sleep, or environmental factors</li>
+                </ul>  
+                <div>
+                    <button class="btn btn-primary" type="button" id="backToAbout" style="float:left;margin-top:40px;">Back</button>
+                    <button class="btn btn-primary" type="button" id="toPrivacy" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
+                </div>
+            </div>
+            <div class="col-lg-2">
+            </div>
         </div>
     `
     mainContent.innerHTML =  template
@@ -135,16 +154,22 @@ export const consentPrivacyPage = () => {
     const mainContent = document.getElementById('root');
     let template = renderProgress(3);
     template += `
-        <div class = "e-consent-body">
-            <h2>Protecting your Privacy and Information Sharing</h2>
-            <p style="font-size:24px">Your privacy is important to us. We take steps to keep your information and samples safe. For example, we replace your personal information with a unique code to keep track of your health information and samples.</p>
-            <p style="font-size:24px">The researchers who will study your information also have to agree to follow privacy rules that help to protect your identity.</p>
-
-            <div>
-                <button class="btn btn-primary" type="button" id="backToActivities" style="float:left;margin-top:40px;">Back</button>
-                <button class="btn btn-primary" type="button" id="toBenefits" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
+        <div class="row">
+            <div class="col-lg-2">
             </div>
+            <div class="col-lg-8">
+                <h2>Protecting your Privacy and Information Sharing</h2>
+                <p style="font-size:24px">Your privacy is important to us. We take steps to keep your information and samples safe. For example, we replace your personal information with a unique code to keep track of your health information and samples.</p>
+                <p style="font-size:24px">The researchers who will study your information also have to agree to follow privacy rules that help to protect your identity.</p>
 
+                <div>
+                    <button class="btn btn-primary" type="button" id="backToActivities" style="float:left;margin-top:40px;">Back</button>
+                    <button class="btn btn-primary" type="button" id="toBenefits" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
+                </div>
+
+            </div>
+            <div class="col-lg-2">
+            </div>
         </div>
     `
     mainContent.innerHTML = template;
@@ -160,16 +185,22 @@ export const consentBenefitsPage = () => {
     const mainContent = document.getElementById('root');
     let template = renderProgress(4);
     template += `
-        <div class = "e-consent-body">
-            <h2>Benefits and Compensation</h2>
-            <p style="font-size:24px">Connect is looking at prevention of cancer, not treatments, so researchers will not give medical care or advice. There is no direct health benefit to taking part in the study.</p>
-            <p style="font-size:24px">After you answer the first four online surveys and donate your first blood sample, you will receive $25 in cash or as a gift card depending on your health care system.</p>
-
-            <div>
-                <button class="btn btn-primary" type="button" id="backToPrivacy" style="float:left;margin-top:40px;">Back</button>
-                <button class="btn btn-primary" type="button" id="toResults" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
+        <div class="row">
+            <div class="col-lg-2">
             </div>
+            <div class="col-lg-8">
+                <h2>Benefits and Compensation</h2>
+                <p style="font-size:24px">Connect is looking at prevention of cancer, not treatments, so researchers will not give medical care or advice. There is no direct health benefit to taking part in the study.</p>
+                <p style="font-size:24px">After you answer the first four online surveys and donate your first blood sample, you will receive $25 in cash or as a gift card depending on your health care system.</p>
 
+                <div>
+                    <button class="btn btn-primary" type="button" id="backToPrivacy" style="float:left;margin-top:40px;">Back</button>
+                    <button class="btn btn-primary" type="button" id="toResults" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
+                </div>
+
+            </div>
+            <div class="col-lg-2">
+            </div>
         </div>
     `
     mainContent.innerHTML =  template;
@@ -185,17 +216,23 @@ export const consentResultsPage = () => {
     const mainContent = document.getElementById('root');
     let template = renderProgress(5);
     template += `
-        <div class = "e-consent-body">
-            <h2>Return of Results</h2>
-            <p style="font-size:24px">You can choose which results you wish to receive, including individual results from your surveys, and results from studying your samples, which could include genetic ancestry data.</p>
-            <p>You can also choose to hear about more general findings about cancer or other health outcomes from all participants, and updates about the program.</p>
-            <p>We will alert you when results are available, and share them through secure means.</p>
-            <p>We will not share your information with your health care provider, but you are free to do so.</p>
-            <div>
-                <button class="btn btn-primary" type="button" id="backToBenefits" style="float:left;margin-top:40px;">Back</button>
-                <button class="btn btn-primary" type="button" id="toLeaving" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
+        <div class="row">
+            <div class="col-lg-2">
             </div>
+            <div class="col-lg-8">
+                <h2>Return of Results</h2>
+                <p style="font-size:24px">You can choose which results you wish to receive, including individual results from your surveys, and results from studying your samples, which could include genetic ancestry data.</p>
+                <p>You can also choose to hear about more general findings about cancer or other health outcomes from all participants, and updates about the program.</p>
+                <p>We will alert you when results are available, and share them through secure means.</p>
+                <p>We will not share your information with your health care provider, but you are free to do so.</p>
+                <div>
+                    <button class="btn btn-primary" type="button" id="backToBenefits" style="float:left;margin-top:40px;">Back</button>
+                    <button class="btn btn-primary" type="button" id="toLeaving" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
+                </div>
 
+            </div>
+            <div class="col-lg-2">
+            </div>
         </div>
     `
     mainContent.innerHTML =  template;
@@ -211,15 +248,21 @@ export const consentLeavingPage = () => {
     const mainContent = document.getElementById('root');
     let template = renderProgress(6);
     template += `
-        <div class = "e-consent-body">
-            <h2>Leaving the Study or Changing Health Systems</h2>
-            <p style="font-size:24px">While we hope you stay in Connect throughout your life, you can leave at any time. Choosing to leave the study will not change your health care or health benefits. If you heave shared any information or samples before leave, we may still use them for research.</p>
-            <p style="font-size:24px">If you leave your health care system in the future, we hope you stay in Connect. If you leave your current health system and join one that is not participating in Connect [INSERT WHAT HAPENS HERE]...</p>
-            <div>
-                <button class="btn btn-primary" type="button" id="backToResults" style="float:left;margin-top:40px;">Back</button>
-                <button class="btn btn-primary" type="button" id="toConsent" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
+        <div class="row">
+            <div class="col-lg-2">
             </div>
+            <div class="col-lg-8">
+                <h2>Leaving the Study or Changing Health Systems</h2>
+                <p style="font-size:24px">While we hope you stay in Connect throughout your life, you can leave at any time. Choosing to leave the study will not change your health care or health benefits. If you heave shared any information or samples before leave, we may still use them for research.</p>
+                <p style="font-size:24px">If you leave your health care system in the future, we hope you stay in Connect. If you leave your current health system and join one that is not participating in Connect [INSERT WHAT HAPENS HERE]...</p>
+                <div>
+                    <button class="btn btn-primary" type="button" id="backToResults" style="float:left;margin-top:40px;">Back</button>
+                    <button class="btn btn-primary consentNextButton" type="button" id="toConsent" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
+                </div>
 
+            </div>
+            <div class="col-lg-2">
+            </div>
         </div>
     `
     mainContent.innerHTML =  template;
@@ -335,128 +378,135 @@ export const consentConsentPage = () => {
         </div>
     `*/
     template += `
-        <div class = "e-consent-body">
-            <h2>Informed Consent</h2>
-            <p style="font-size:24px">In order to join Connect, we need you to give your informed consent by reviewing the full consent form and electronic health records release form, and signing your name.</p>
-        </div>
-        <div style="width:80%; margin:auto">
-            <h4 style="margin-top:50px">Informed Consent Form</h4>
-            <p style="text-indent:40px">This is a more detailed explanation of what it means to take part in Connect</p>
-            <div id="canvasContainer"></div>
-            <div class="row"style="margin:auto"><div style="margin:auto"><a href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf">Download consent form:&nbsp<i class="fas fa-file-download"></i></a></div></div>
+        <div class="row">
+            <div class="col-lg-2">
+            </div>
+            <div class="col-lg-8">
+                <h2>Informed Consent</h2>
+                <p style="font-size:24px">In order to join Connect, we need you to give your informed consent by reviewing the full consent form and electronic health records release form, and signing your name.</p>
             
-            <h4 style="margin-top:50px">Electronic health records release form</h4>
-            <p style="text-indent:40px">This allows Connect to access your electronic health records</p>
-            <div id="canvasContainer1"></div>
-            <div class="row" style="margin:auto"><div style="margin:auto"><a href="./consent_draft.pdf" title="Download health records release form" data-toggle="tooltip" download="connect_consent.pdf">Download health records release form:&nbsp<i class="fas fa-file-download"></i></a></div></div>
+            <div style="width:80%; margin:auto">
+                <h4 style="margin-top:50px">Informed Consent Form</h4>
+                <p style="text-indent:40px">This is a more detailed explanation of what it means to take part in Connect</p>
+                <div id="canvasContainer"></div>
+                <div class="row"style="margin:auto"><div style="margin:auto"><a href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf">Download consent form:&nbsp<i class="fas fa-file-download"></i></a></div></div>
+                
+                <h4 style="margin-top:50px">Electronic health records release form</h4>
+                <p style="text-indent:40px">This allows Connect to access your electronic health records</p>
+                <div id="canvasContainer1"></div>
+                <div class="row" style="margin:auto"><div style="margin:auto"><a href="./consent_draft.pdf" title="Download health records release form" data-toggle="tooltip" download="connect_consent.pdf">Download health records release form:&nbsp<i class="fas fa-file-download"></i></a></div></div>
+                
+                <p style="margin-top:50px">By clicking "Yes, I agree" and typing your name, you confirm the following:</p>
+                <ol>
+                    <li>I have read these forms.</li>
+                    <li>I will allow the use, storage, and disclosure (release) of my survey answers, samples, and health information for the research described above.</li>
+                    <li>I understand that if I do not agree to allow Connect to do any of these things, I cannot take part in the study.</li>
+                    <li>If I have questions, I can contact the Connect Support Center at <a href=Cancer.gov/connectstudy/support>Cancer.gov/connectstudy/support</a></li>
+                    <li>If I decide I do not want my health information used or shared throught Connect, I can leave the study by contacting the Connect Support Center at Cancer.gov/connectStudy/support
+                </ol>
+                <input type="checkbox" name="consentAnswer" value="consentYes" id="CSConsentYesCheck" required>
+                <label for="consentYes" id="CSConsentYes">Yes, I agree</label><br>
+            </div>
             
-            <p style="margin-top:50px">By clicking "Yes, I agree" and typing your name, you confirm the following:</p>
-            <ol>
-                <li>I have read these forms.</li>
-                <li>I will allow the use, storage, and disclosure (release) of my survey answers, samples, and health information for the research described above.</li>
-                <li>I understand that if I do not agree to allow Connect to do any of these things, I cannot take part in the study.</li>
-                <li>If I have questions, I can contact the Connect Support Center at <a href=Cancer.gov/connectstudy/support>Cancer.gov/connectstudy/support</a></li>
-                <li>If I decide I do not want my health information used or shared throught Connect, I can leave the study by contacting the Connect Support Center at Cancer.gov/connectStudy/support
-            </ol>
-            <input type="checkbox" name="consentAnswer" value="consentYes" id="CSConsentYesCheck" required>
-            <label for="consentYes" id="CSConsentYes">Yes, I agree</label><br>
-        </div>
-        
-        <form id="consentForm" style="margin-top:50px" method="POST">
-            <div id="CSConsentNameSignContainer" style="display:none">
-                <div class="row" style="width:80%; margin:auto;">
-                    <div class="col-4 form-group consent-form">
-                        <label class="consent-form-label">
-                            First name<span class="required">*</span>
-                        </label>
-                        <input required type="text" autocomplete="off" id="CSFirstName" class="form-control col-md-10" placeholder="Enter first name">
-                    </div>
-                    <div class="col-2 form-group consent-form">
-                        <label class="consent-form-label">
-                            Middle name<span></span>
-                        </label>
-                        <input type="text" autocomplete="off" id="CSMiddleName" class="form-control col-md-10" placeholder="Enter middle name">
-                    </div>
-                    <div class="col-4 form-group consent-form">
-                        <label class="consent-form-label">
-                            Last name<span class="required">*</span>
-                        </label>
-                        <input required type="text" autocomplete="off" id="CSLastName" class="form-control col-md-10" placeholder="Enter last name">
-                    </div>
-                    <div class="col-2 form-group consent-form">
-                        <label class="consent-form-label">
-                            Suffix<span></span>
-                        </label>
-                        <select name="NameSuffix" class="form-control col-md-10" id="CSNameSuffix">
-                            <option value="">-- Select suffix --</option>
-                            <option value="612166858">Jr.</option>
-                            <option value="255907182">Sr.</option>
-                            <option value="226924545">I</option>
-                            <option value="270793412">II</option>
-                            <option value="959021713">III</option>
-                            <option value="643664527">2nd</option>
-                            <option value="537892528">3rd</option>
+            <form id="consentForm" style="margin-top:50px" method="POST">
+                <div id="CSConsentNameSignContainer" style="display:none">
+                    <div class="row" style="width:80%; margin:auto;">
+                        <div class="col-4 form-group consent-form">
+                            <label class="consent-form-label">
+                                First name<span class="required">*</span>
+                            </label>
+                            <input required type="text" autocomplete="off" id="CSFirstName" class="form-control col-md-10" placeholder="Enter first name">
+                        </div>
+                        <div class="col-2 form-group consent-form">
+                            <label class="consent-form-label">
+                                Middle name<span></span>
+                            </label>
+                            <input type="text" autocomplete="off" id="CSMiddleName" class="form-control col-md-10" placeholder="Enter middle name">
+                        </div>
+                        <div class="col-4 form-group consent-form">
+                            <label class="consent-form-label">
+                                Last name<span class="required">*</span>
+                            </label>
+                            <input required type="text" autocomplete="off" id="CSLastName" class="form-control col-md-10" placeholder="Enter last name">
+                        </div>
+                        <div class="col-2 form-group consent-form">
+                            <label class="consent-form-label">
+                                Suffix<span></span>
+                            </label>
+                            <select name="NameSuffix" class="form-control col-md-10" id="CSNameSuffix">
+                                <option value="">-Select-</option>
+                                <option value="612166858">Jr.</option>
+                                <option value="255907182">Sr.</option>
+                                <option value="226924545">I</option>
+                                <option value="270793412">II</option>
+                                <option value="959021713">III</option>
+                                <option value="643664527">2nd</option>
+                                <option value="537892528">3rd</option>
 
-                        </select>
+                            </select>
+                        </div>
                     </div>
+                
+                    <!--
+                    <div class="row" style="width:80%; margin:auto;">
+                        <div class="col form-group consent-form">
+                            <label class="consent-form-label">
+                                Digital signature<span class="required">*</span>
+                                <input disabled required type="text" id="CSSign" class="form-control consentSign">
+                            </label>
+                        </div>
+                        <div class="col form-group consent-form">
+                            <label class="consent-form-label">
+                                Today's date: 
+                            </label>
+                            <span id="CSDate">${todaysDate()}</span>
+                        </div>
+                    </div>
+                    -->
                 </div>
-               
                 <!--
-                <div class="row" style="width:80%; margin:auto;">
-                    <div class="col form-group consent-form">
-                        <label class="consent-form-label">
-                            Digital signature<span class="required">*</span>
-                            <input disabled required type="text" id="CSSign" class="form-control consentSign">
-                        </label>
+                ${localStorage.eligibilityQuestionnaire ? JSON.parse(localStorage.eligibilityQuestionnaire)['827220437'] === 809703864 ? `
+                    <div class="row">
+                        <div class="col form-group consent-form">
+                            <label class="consent-form-label">
+                                Witness first name<span class="required">*</span>
+                                <input required type="text" autocomplete="off" id="CSWFirstName" class="form-control" placeholder="Enter first name">
+                            </label>
+                        </div>
+                        <div class="col form-group consent-form">
+                            <label class="consent-form-label">
+                                Witness last name<span class="required">*</span>
+                                <input required type="text" autocomplete="off" id="CSWLastName" class="form-control" placeholder="Enter last name">
+                            </label>
+                        </div>
                     </div>
-                    <div class="col form-group consent-form">
-                        <label class="consent-form-label">
-                            Today's date: 
-                        </label>
-                        <span id="CSDate">${todaysDate()}</span>
+                    <div class="row">
+                        <div class="col form-group consent-form">
+                            <label class="consent-form-label">
+                                Witness digital signature<span class="required">*</span>
+                                <input disabled required type="text" id="CSWSign" class="form-control consentSign">
+                            </label>
+                        </div>
+                        <div class="col form-group consent-form">
+                            <label class="consent-form-label">
+                                Today's date: 
+                            </label>
+                            <span id="CSWDate">${todaysDate()}</span>
+                        </div>
                     </div>
-                </div>
+                ` : '' : ''}
                 -->
-            </div>
-            <!--
-            ${localStorage.eligibilityQuestionnaire ? JSON.parse(localStorage.eligibilityQuestionnaire)['827220437'] === 809703864 ? `
                 <div class="row">
-                    <div class="col form-group consent-form">
-                        <label class="consent-form-label">
-                            Witness first name<span class="required">*</span>
-                            <input required type="text" autocomplete="off" id="CSWFirstName" class="form-control" placeholder="Enter first name">
-                        </label>
-                    </div>
-                    <div class="col form-group consent-form">
-                        <label class="consent-form-label">
-                            Witness last name<span class="required">*</span>
-                            <input required type="text" autocomplete="off" id="CSWLastName" class="form-control" placeholder="Enter last name">
-                        </label>
+                    <button class="btn btn-primary" type="button" id="backToConsent" style="float:left;">Back</button>
+                    <div class="ml-auto">
+                        <button type="submit" class="btn btn-primary save-data">Submit</button>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col form-group consent-form">
-                        <label class="consent-form-label">
-                            Witness digital signature<span class="required">*</span>
-                            <input disabled required type="text" id="CSWSign" class="form-control consentSign">
-                        </label>
-                    </div>
-                    <div class="col form-group consent-form">
-                        <label class="consent-form-label">
-                            Today's date: 
-                        </label>
-                        <span id="CSWDate">${todaysDate()}</span>
-                    </div>
-                </div>
-            ` : '' : ''}
-            -->
-            <div class="row">
-                <button class="btn btn-primary" type="button" id="backToConsent" style="float:left;">Back</button>
-                <div class="ml-auto">
-                    <button type="submit" class="btn btn-primary save-data">Submit</button>
-                </div>
+            </form>
             </div>
-        </form>
+            <div class="col-lg-2">
+            </div>
+        </div>
     `
     
     mainContent.innerHTML =  template;
@@ -595,7 +645,7 @@ export const consentFinishedPage = (data) => {
         </div>
         
         <div>
-            <button class="btn btn-primary" type="button" id="toLeaving" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
+            <button class="btn btn-primary consentNextButton" type="button" id="toLeaving" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
         </div>
     `
     
