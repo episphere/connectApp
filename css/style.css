@@ -809,9 +809,8 @@ input:checked + .slider:before {
 .homeTitleText{
     color:white;
     font-size: 46px;
-    width: 310px;
     margin-right:auto;
-    font-family:"Montserrat Bold", bold;
+    /*font-family:"Montserrat Bold", bold;*/
 }
 
 .homeTitleText em{
@@ -822,7 +821,7 @@ input:checked + .slider:before {
 .signInWrapper{
     max-width:360px;
     background-color:white;
-    margin:auto;
+    margin-left:auto;
     padding-top:30px;   
     padding-bottom:30px;
     border-radius:5px;
