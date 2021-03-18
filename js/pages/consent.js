@@ -687,7 +687,7 @@ export const consentToProfilePage = () => {
             <p>
                 If you have any questions, please contact the Connect Support at
             </p>
-            <a href="MyConnect.cancer.gov/support">MyConnect.cancer.gov/support</a>
+            <a href="https://norcfedrampdev.servicenowservices.com/participant">MyConnect.cancer.gov/support</a>
         </div>
         <div>
             <button class="btn btn-primary consentNextButton" type="button" id="toLeaving" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>

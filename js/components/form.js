@@ -36,7 +36,7 @@ export const renderUserProfile = async () => {
         <p class = "userProfileHeader">Create User Profile</p>        
         <form id="userProfileForm" method="POST">
             <p class="userProfileSubHeaders">Name</p> 
-            <p>If this is not correct, please contact the <a href="MyConnect.cancer.gov/support">Connect Support Center</a> or call XXX-XXX-XXXX.</p>
+            <p>If this is not correct, please contact the <a href="https://norcfedrampdev.servicenowservices.com/participant">Connect Support Center</a> or call XXX-XXX-XXXX.</p>
             <div class="row">
                 <div class="col-md-4">
                     <label style="margin-left:-15px">First name <span class="required">*</span></label>
@@ -120,23 +120,25 @@ export const renderUserProfile = async () => {
             <div class="form-group row" style="padding-bottom:0;">
                 <div class="col">
                     <label class="col-form-label">Preferred Email <span class="required">*</span></label>
-                    <input style="margin-left:0px; max-width:382px;" type="text" class="form-control" id="UPEmail" title="Please enter an email address in this format: name@example.com." Placeholder="abc@mail.com"></br>
+                    <input style="margin-left:0px; max-width:382px;" type="text" class="form-control" id="UPEmail" title="Please enter an email address in this format: name@example.com." Placeholder="abc@mail.com">
                 </div>
             </div>
+            </br>
             <div class="form-group row" style="padding-top:0; padding-bottom:0;">
                 <div class="col">
                     <label class="col-form-label">Confirm preferred Email <span class="required">*</span></label>
-                    <input style="margin-left:0px; max-width:382px;" type="text" class="form-control" id="confirmUPEmail" title="Please enter an email address in this format: name@example.com." Placeholder="Retype preferred email"></br>
+                    <input style="margin-left:0px; max-width:382px;" type="text" class="form-control" id="confirmUPEmail" title="Please enter an email address in this format: name@example.com." Placeholder="Retype preferred email">
                 </div>
             </div>
+            </br>
 
             <div class="form-group row" style="padding-top:0; padding-bottom:0;">
                 <div class="col">
                     <label class="col-form-label">Additional Email</label>
-                    <input style="margin-left:0px; max-width:382px;" type="text" class="form-control col-md-4" id="UPEmail2" title="Please enter an email address in this format: name@example.com." Placeholder="Enter additional email"></br>
+                    <input style="margin-left:0px; max-width:382px;" type="text" class="form-control col-md-4" id="UPEmail2" title="Please enter an email address in this format: name@example.com." Placeholder="Enter additional email">
                 </div>
             </div>
-
+            </br>
             <div id="multipleEmail1"></div>
             <div id="multipleEmail2"></div>
             <div class="form-group row" style="margin-bottom:20px !important;">
@@ -144,8 +146,6 @@ export const renderUserProfile = async () => {
                     <button type="button" class="btn btn-light" id="addMoreEmail" title="Add more email">Add more <i class="fas fa-plus"></i></button>
                 </div>
             </div>
-            
-            <p>One phone number is required</p>
             
             <div class="form-group row">
                 <div class="col">

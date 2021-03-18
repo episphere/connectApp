@@ -100,7 +100,7 @@ export const renderSupportPage = async () => {
                 <p>
                     Visit the Connect Support Center portal to search frequently asked questions or to submit a question.
                 </p>
-                    <a href="MyConnect.cancer.gov/support">MyConnect.cancer.gov/support</a>
+                    <a href="https://norcfedrampdev.servicenowservices.com/participant">MyConnect.cancer.gov/support</a>
                 <br>
                 <br>
                 <p>
@@ -117,7 +117,7 @@ export const renderSupportPage = async () => {
                         <p>
                         Visit the Connect Support Center portal to search frequently asked questions or to submit a question.
                         </p>
-                        <a href="MyConnect.cancer.gov/support">MyConnect.cancer.gov/support</a>
+                        <a href="https://norcfedrampdev.servicenowservices.com/participant">MyConnect.cancer.gov/support</a>
                         <br>
                         <br>
                         <p>

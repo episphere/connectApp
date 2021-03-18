@@ -312,6 +312,7 @@ export const addEventUPSubmit = () => {
         
         const phoneNo = `${document.getElementById('UPPhoneNumber11').value}${document.getElementById('UPPhoneNumber12').value}${document.getElementById('UPPhoneNumber13').value}`;
         const phoneNo2 = `${document.getElementById('UPPhoneNumber21').value}${document.getElementById('UPPhoneNumber22').value}${document.getElementById('UPPhoneNumber23').value}`;
+        const phoneNo3 = `${document.getElementById('UPPhoneNumber31').value}${document.getElementById('UPPhoneNumber32').value}${document.getElementById('UPPhoneNumber33').value}`;
         const email = document.getElementById('UPEmail').value;
         const email2 = document.getElementById('UPEmail2');
         const email3 = document.getElementById('UPAdditionalEmail2');
@@ -321,15 +322,19 @@ export const addEventUPSubmit = () => {
             focus = false;
             hasError = true;
         }
-        if(!phoneNo && !phoneNo2){
+        if(!phoneNo && !phoneNo2 && !phoneNo3){
             errorMessage('UPPhoneNumber11');
             errorMessage('UPPhoneNumber12');
             errorMessage('UPPhoneNumber13');
-            errorMessage('mainMobilePhone', 'A phone number is required (it can be home phone or mobile phone or other phone)', focus);
+            errorMessage('mainMobilePhone', 'A phone number is required. Please provide at least one of the following: home phone, mobile phone, or other phone number.', focus);
             errorMessage('UPPhoneNumber21');
             errorMessage('UPPhoneNumber22');
             errorMessage('UPPhoneNumber23');
-            errorMessage('mainMobilePhone2', 'A phone number is required (it can be home phone or mobile phone or other phone)');
+            errorMessage('mainMobilePhone2', 'A phone number is required. Please provide at least one of the following: home phone, mobile phone, or other phone number.');
+            errorMessage('UPPhoneNumber31');
+            errorMessage('UPPhoneNumber32');
+            errorMessage('UPPhoneNumber33');
+            errorMessage('mainMobilePhone3', 'A phone number is required. Please provide at least one of the following: home phone, mobile phone, or other phone number.');
             focus = false;
             hasError = true;
         }
@@ -348,6 +353,15 @@ export const addEventUPSubmit = () => {
             errorMessage('UPPhoneNumber23');
             errorMessage('mainMobilePhone2', 'Please enter a phone number in this format: 999-999-9999.');
             if(focus) document.getElementById('UPPhoneNumber21').focus();
+            focus = false;
+            hasError = true;
+        }
+        if(phoneNo3 && phoneNo3.length < 10 ){
+            errorMessage('UPPhoneNumber31');
+            errorMessage('UPPhoneNumber32');
+            errorMessage('UPPhoneNumber33');
+            errorMessage('mainMobilePhone3', 'Please enter a phone number in this format: 999-999-9999.');
+            if(focus) document.getElementById('UPPhoneNumber31').focus();
             focus = false;
             hasError = true;
         }

@@ -225,7 +225,7 @@ const userProfile = () => {
                 mainContent.innerHTML = '<div>Please verify your email by clicking <a id="verifyEmail"><button class="btn btn-primary">Verify Email</button></a></div>'
 
                 document.getElementById('verifyEmail').addEventListener('click', () => {
-                    mainContent.innerHTML = `<div>Please click on the verification link you will receive on <strong>${user.email}</strong></div>` 
+                    mainContent.innerHTML = `<div>Please click the link we sent to your email to verify your contact information. Be sure to check your spam folder.</div>` 
                 });
                 hideAnimation();
                 document.getElementById('verifyEmail').addEventListener('click', () => {

@@ -38,7 +38,7 @@ export const myToDoList = (data, fromUserProfile) => {
                         Great news! We have confirmed that you are eligible for the Connect for Cancer Prevention Study. You are now an official Connect participant.
                         <br>
                         ${checkIfComplete(data) ? 'Thank you for completing your first Connect surveys! We will be in touch with next steps.':'The next step is to complete your first Connect survey'}
-                        Questions? Please contact the Connect Support Center [<a href="MyConnect.cancer.gov/support">MyConnect.cancer.gov/support</a>]
+                        Questions? Please contact the Connect Support Center [<a href="https://norcfedrampdev.servicenowservices.com/participant">MyConnect.cancer.gov/support</a>]
                         <br>
                         The next step is to complete your Connect survey. The survey is split into four sections. You can pause and return to complete these sections at any time.
                     </div>
@@ -49,7 +49,7 @@ export const myToDoList = (data, fromUserProfile) => {
                     <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
                         Based on our record you are not eligible for the Connect for Cancer Prevention Study. Thank you for your interest. Any information that you have already provided will remain private. We will not use any information you shared for our research.
                         <br>
-                        If you think this is an error or if you have any questions, please contact the Connect Support Center. [<a href="MyConnect.cancer.gov/support">MyConnect.cancer.gov/support</a>]
+                        If you think this is an error or if you have any questions, please contact the Connect Support Center. [<a href="https://norcfedrampdev.servicenowservices.com/participant">MyConnect.cancer.gov/support</a>]
                     </div>
                     `
                     mainContent.innerHTML = template;
