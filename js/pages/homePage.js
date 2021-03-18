@@ -23,7 +23,7 @@ export const homePage = async () => {
                 <img src="./images/newImages/Tiles2.png" alt="Connect logo" width="409px" style="float:left;">
             </div>
             <div class="col-lg-4">
-                <div class="signInWrapper">
+                <div class="signInWrapper" id="signInWrapperDiv">
                 <h4 style="text-align:center; color:grey">Sign In | Join the Study</h4>
                 <div id="signInDiv">
                 </div>

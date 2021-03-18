@@ -482,7 +482,7 @@ canvas {
 }
 
 .current-page {
-    border-bottom: 5px solid white !important;
+    border-bottom: 5px solid #2a72a5 !important;
     border-top: 5px solid #2a72a5;
 }
 

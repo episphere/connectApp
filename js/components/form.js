@@ -34,7 +34,6 @@ export const renderUserProfile = async () => {
         <div class=col-lg-8>
 
         <p class = "userProfileHeader">Create User Profile</p>        
-        <p class="userProfileBody">Thank you for joining the Connect for Cancer Prevention Study! Before you are officially enrolled, we will use this information to verify your eligibility. We respect your privacy and will treat all information as confidential.</p>
         <form id="userProfileForm" method="POST">
             <p class="userProfileSubHeaders">Name</p> 
             <p>If this is not correct, please contact the <a href="MyConnect.cancer.gov/support">Connect Support Center</a> or call XXX-XXX-XXXX.</p>
@@ -216,6 +215,33 @@ export const renderUserProfile = async () => {
                 </div>
             </div>
 
+            <div class="form-group row">
+                <div class="col">
+                    <label class="col-form-label">
+                        Other phone <span class="required">**</span>
+                    </label>
+                    <br>
+                    <div class="btn-group col-md-4" id="mainMobilePhone3" style="margin-left:0px">
+                        <input type="text" class="form-control" id="UPPhoneNumber31" pattern="[1-9]{1}[0-9]{2}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999" style="margin-left:0px"> <span class="hyphen">-</span>
+                        <input type="text" class="form-control" id="UPPhoneNumber32" pattern="[0-9]{3}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
+                        <input type="text" class="form-control" id="UPPhoneNumber33" pattern="[0-9]{4}" title="Only numbers are allowed." size="4" maxlength="4" Placeholder="9999">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col">
+                    <label class="col-form-label">
+                        Can we leave a voicemail at this number? 
+                    </label>
+                    <br>
+                    <div class="btn-group btn-group-toggle col-md-4" style="margin-left:0px;">
+                        <label ><input type="radio" name="voiceMailPermission3" value="353358909"> Yes</label>
+                        <label style = "margin-left:20px;"><input type="radio" name="voiceMailPermission3" value="104430631"> No</label>
+                    </div>
+                </div>
+            </div>
+
             ${renderMailingAddress('', 1, true)}
 
             <div class="form-group row">
@@ -314,7 +340,8 @@ export const renderAlternateContact = (id, required) => {
 
 export const renderMailingAddress = (type, id, required, showCountry) => {
     return `
-        <strong>What is your mailing address?</strong>
+        <hr>
+        <div class="userProfileSubHeaders">Mailing Address</div>
         <div class="form-group row">
             <label class="col-md-4 col-form-label">
                 Line 1 (street, PO box, rural route) ${required ? '<span class="required">*</span>': ''}

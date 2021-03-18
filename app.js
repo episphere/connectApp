@@ -268,6 +268,7 @@ const toggleNavBar = (route) => {
             showAnimation();
             document.getElementById('navbarNavAltMarkup').innerHTML = userNavBar();
             document.getElementById('joinNow') ? document.getElementById('joinNow').innerHTML = joinNowBtn(false) : ``; 
+            document.getElementById('signInWrapperDiv') ? document.getElementById('signInWrapperDiv').style.display = "none" :'';
             document.getElementById('nextStepWarning') ? document.getElementById('nextStepWarning').innerHTML = await whereAmIInDashboard() : '';
             document.getElementById('nextStepWarning') ? document.getElementById('nextStepWarning').style.display="block": '';
             addEventRetrieveNotifications();
