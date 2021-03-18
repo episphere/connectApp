@@ -121,6 +121,7 @@
 
 .form-group {
     padding-left: 0px !important;
+    margin-bottom:0px !important;
 }
 
 .btn:hover {
@@ -422,7 +423,7 @@ canvas {
 }
 
 #additionalEmailBtn {
-    padding-left: 0px;
+    /*padding-left: 0px*/
 }
 
 .connect-notification {
@@ -836,8 +837,9 @@ input:checked + .slider:before {
     color:#174C70 !important;
     background-color:#FFBF17 !important;
     border-color:#FFBF17 !important;
+    font-weight:bold !important;
     font-size:16px;
-    
+
 }
 
 .userProfileHeader{
@@ -858,4 +860,5 @@ input:checked + .slider:before {
     font-family:"Montserrat Bold";
     font-weight:bold;
     color:#606060;
+    margin-bottom:0;
 }

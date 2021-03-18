@@ -218,7 +218,7 @@ const addEmailFields = () => {
     div.classList = ['form-group row'];
 
     const input = document.createElement('input');	
-    input.classList = ['form-control col-md-4 offset-md-4'];	
+    input.classList = ['form-control col-md-4'];	
     input.placeholder = 'Enter additional email 2';	
     input.type = 'text';	
     input.id = 'UPAdditionalEmail2';	
@@ -238,7 +238,7 @@ const addAnotherEmailField = () => {
     div.classList = ['form-group row']; 	
 
     const input2 = document.createElement('input');	
-    input2.classList = ['form-control col-md-4 offset-md-4'];	
+    input2.classList = ['form-control col-md-4'];	
     input2.placeholder = 'Enter additional email 3';	
     input2.type = 'text';	
     input2.id = 'UPAdditionalEmail3';	

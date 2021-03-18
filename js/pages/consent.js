@@ -499,7 +499,7 @@ export const consentConsentPage = () => {
                 <div class="row">
                     <button class="btn btn-primary" type="button" id="backToConsent" style="float:left;">Back</button>
                     <div class="ml-auto">
-                        <button type="submit" class="btn btn-primary save-data">Submit</button>
+                        <button type="submit" class="btn btn-primary save-data consentNextButton">Submit</button>
                     </div>
                 </div>
             </form>
@@ -635,18 +635,27 @@ export const consentFinishedPage = (data) => {
     let template = renderProgress(8);
     
     template += `
-        <div class = "e-consent-body">
-            <h2>You have completed the consent process</h2>
+    <div class="row">
+        <div class="col-lg-2">
         </div>
-        <div style="margin-left:20px">
+        <div class="col-lg-8">
+            <div>
+                <h2>You have completed the consent process</h2>
+            </div>
+            <div style="margin-left:20px">
+                
+                <div class="row"><div style="margin-left:20px"><i class="fas fa-file-download"></i> <a style="margin-left:10px" href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf" id="consentDownload">Download a copy of your signed consent form:&nbsp</a></div></div>
+                <div class="row"><div style="margin-left:20px"><i class="fas fa-file-download"></i> <a style="margin-left:10px" href="./consent_draft.pdf" title="Download health records release form" data-toggle="tooltip" download="connect_consent.pdf" id="healthRecordsDownload">Download a copy of your signed health records release form:&nbsp</a></div></div>
+            </div>
             
-            <div class="row"><div style="margin-left:20px"><i class="fas fa-file-download"></i> <a style="margin-left:10px" href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf" id="consentDownload">Download a copy of your signed consent form:&nbsp</a></div></div>
-            <div class="row"><div style="margin-left:20px"><i class="fas fa-file-download"></i> <a style="margin-left:10px" href="./consent_draft.pdf" title="Download health records release form" data-toggle="tooltip" download="connect_consent.pdf" id="healthRecordsDownload">Download a copy of your signed health records release form:&nbsp</a></div></div>
+            <div>
+                <button class="btn btn-primary consentNextButton" type="button" id="toLeaving" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
+            </div>
         </div>
+        <div class="col-lg-2">
+        </div>
+    </div>
         
-        <div>
-            <button class="btn btn-primary consentNextButton" type="button" id="toLeaving" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
-        </div>
     `
     
     mainContent.innerHTML =  template;
