@@ -839,3 +839,23 @@ input:checked + .slider:before {
     font-size:16px;
     
 }
+
+.userProfileHeader{
+    font-size:28px;
+    font-family:"Montserrat Bold";
+    font-weight:bold;
+    color:#606060;
+}
+
+.userProfileBody{
+    font-size:22px;
+    font-family:"Noto Sans Regular";
+    color:#2E2E2E;
+}
+
+.userProfileSubHeaders{
+    font-size:23px;
+    font-family:"Montserrat Bold";
+    font-weight:bold;
+    color:#606060;
+}

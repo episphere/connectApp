@@ -134,7 +134,7 @@ export const consentActivitiesPage = () => {
                 </ul>  
                 <div>
                     <button class="btn btn-primary" type="button" id="backToAbout" style="float:left;margin-top:40px;">Back</button>
-                    <button class="btn btn-primary" type="button" id="toPrivacy" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
+                    <button class="btn btn-primary consentNextButton" type="button" id="toPrivacy" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
                 </div>
             </div>
             <div class="col-lg-2">
@@ -164,7 +164,7 @@ export const consentPrivacyPage = () => {
 
                 <div>
                     <button class="btn btn-primary" type="button" id="backToActivities" style="float:left;margin-top:40px;">Back</button>
-                    <button class="btn btn-primary" type="button" id="toBenefits" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
+                    <button class="btn btn-primary consentNextButton" type="button" id="toBenefits" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
                 </div>
 
             </div>
@@ -195,7 +195,7 @@ export const consentBenefitsPage = () => {
 
                 <div>
                     <button class="btn btn-primary" type="button" id="backToPrivacy" style="float:left;margin-top:40px;">Back</button>
-                    <button class="btn btn-primary" type="button" id="toResults" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
+                    <button class="btn btn-primary consentNextButton" type="button" id="toResults" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
                 </div>
 
             </div>
@@ -227,7 +227,7 @@ export const consentResultsPage = () => {
                 <p>We will not share your information with your health care provider, but you are free to do so.</p>
                 <div>
                     <button class="btn btn-primary" type="button" id="backToBenefits" style="float:left;margin-top:40px;">Back</button>
-                    <button class="btn btn-primary" type="button" id="toLeaving" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
+                    <button class="btn btn-primary consentNextButton" type="button" id="toLeaving" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
                 </div>
 
             </div>
@@ -614,7 +614,7 @@ export const consentHealthRecordsPage = () => {
             <div class="row">
                 <button class="btn btn-primary" type="button" id="backToConsent" style="float:left;">Back</button>
                 <div class="ml-auto">
-                    <button type="submit" class="btn btn-primary save-data">Submit</button>
+                    <button type="submit" class="btn btn-primary save-data consentNextButton">Submit</button>
                 </div>
             </div>
         </form>
@@ -681,7 +681,7 @@ export const consentToProfilePage = () => {
             <a href="MyConnect.cancer.gov/support">MyConnect.cancer.gov/support</a>
         </div>
         <div>
-            <button class="btn btn-primary" type="button" id="toLeaving" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
+            <button class="btn btn-primary consentNextButton" type="button" id="toLeaving" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
         </div>
         </div>
     `

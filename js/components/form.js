@@ -28,7 +28,8 @@ export const renderUserProfile = async () => {
     let suffixList = {612166858: 0,255907182: 1,226924545: 2,270793412: 3,959021713: 4,643664527: 5,537892528: 6};
     mainContent.innerHTML = `
         </br>
-        <h2>My Profile</h2>        
+        <p class = "userProfileHeader">Create User Profile</p>        
+        <p class="userProfileBody">Thank you for joining the Connect for Cancer Prevention Study! Before you are officially enrolled, we will use this information to verify your eligibility. We respect your privacy and will treat all information as confidential.</p>
         <form id="userProfileForm" method="POST">
             <strong>Name</strong> 
             <p>If this is not correct, please contact the <a href="MyConnect.cancer.gov/support">Connect Support Center</a> or call XXX-XXX-XXXX.</p>
