@@ -2,11 +2,6 @@ export const userNavBar = () => {
     return `
         <div class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="#" id="home" title="Home"><i class="fas fa-home"></i> Home</a>
-            </li>
-        </div>
-        <div class="navbar-nav">
-            <li class="nav-item">
                 <a class="nav-link" href="#dashboard" id="userDashboard"><i class="fas fa-file-alt"></i> Dashboard</a>
             </li>
         </div>
