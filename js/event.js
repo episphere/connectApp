@@ -254,6 +254,7 @@ export const addEventUPSubmit = () => {
         removeAllErrors();
         const requiredFields = document.getElementsByClassName('required-field');
         const validations = document.getElementsByClassName('input-validation');
+        const numberValidations = document.getElementsByClassName('num-val');
         const radios = document.getElementsByName('UPRadio');
         let hasError = false;
         let focus = true;
@@ -296,6 +297,14 @@ export const addEventUPSubmit = () => {
             }
             if(element.type === 'checkbox' && element.checked === false && element.hidden === false){
                 errorMessage(element.id, `${element.dataset.errorRequired}`, focus);
+                focus = false;
+                hasError = true;
+            }
+        });
+        Array.from(numberValidations).forEach(element => {
+            const pattern = element.dataset.valPattern
+            if(element.value && !element.value.match(new RegExp(pattern))){
+                errorMessage(element.id, `${element.dataset.errorValidation}`, focus);
                 focus = false;
                 hasError = true;
             }
@@ -1031,3 +1040,8 @@ export const toggleCurrentPageNoUser = async (route) => {
 
 export const addEventCheckCanText = () => {
 } 
+
+export const addEventDisableCopyPaste = () =>{
+    const myInput = document.getElementById('confirmUPEmail');
+    myInput.onpaste = e => e.preventDefault();
+}

@@ -1,5 +1,5 @@
 import { sites, allStates, allCountries, getMyData } from "../shared.js";
-import { addEventMonthSelection, addEventUPSubmit, addEventCancerFollowUp, addYearsOptions, addEventChangeFocus, addEventPreferredContactType, addEventAddressAutoComplete, addEventAdditionalEmail, addEventCheckCanText } from "../event.js";
+import { addEventMonthSelection, addEventUPSubmit, addEventCancerFollowUp, addYearsOptions, addEventChangeFocus, addEventPreferredContactType, addEventAddressAutoComplete, addEventAdditionalEmail, addEventCheckCanText, addEventDisableCopyPaste } from "../event.js";
 export const renderUserProfileActual = async () => {
     const mainContent = document.getElementById('root');
     mainContent.innerHTML = `
@@ -33,10 +33,10 @@ export const renderUserProfile = async () => {
         </div>
         <div class=col-lg-8>
 
-        <p class = "userProfileHeader">Create User Profile</p>        
-        <form id="userProfileForm" method="POST">
+        <p class = "userProfileHeader">My Profile</p>        
+        <form id="userProfileForm" method="POST" autocomplete="off">
             <p class="userProfileSubHeaders">Name</p> 
-            <p>If this is not correct, please contact the <a href="https://norcfedrampdev.servicenowservices.com/participant">Connect Support Center</a> or call XXX-XXX-XXXX.</p>
+            <p>If this is not correct, please contact the <a href="https://norcfedrampdev.servicenowservices.com/participant" target="_blank">Connect Support Center</a> or call XXX-XXX-XXXX.</p>
             <div class="row">
                 <div class="col-md-4">
                     <label style="margin-left:-15px">First name <span class="required">*</span></label>
@@ -109,9 +109,8 @@ export const renderUserProfile = async () => {
                 <div class="col-md-4">
                     <label class="col-form-label" style="padding:0;">Year <span class="required">*</span></label>
                     <br>
-                    <label class="col-form-label" style="padding-top:0; color:#71767A !important;">Must be between 1956 and 1981</label>
-                    <input style="margin-left:0px; max-width:152px;" type="text" class="form-control required-field input-validation" data-error-required='Please select your birth year.' data-validation-pattern="year" data-error-validation="Your birth year must contain four digits in the YYYY format." maxlength="4" id="UPYear" list="yearsOption" title="Birth year, must be in 1900s" Placeholder="Enter birth year">
-                    <datalist id="yearsOption"></datalist>
+                    <input style="margin-left:0px; max-width:152px;" type="text" class="form-control required-field input-validation" data-error-required='Please select your birth year.' data-validation-pattern="year" data-error-validation="Your birth year must contain four digits in the YYYY format." maxlength="4" id="UPYear" title="Birth year, must be in 1900s" Placeholder="Enter birth year">
+                    <!--<datalist id="yearsOption"></datalist>-->
                 </div>
             </div>
             <br>
@@ -153,7 +152,7 @@ export const renderUserProfile = async () => {
                         Mobile phone <span class="required">**</span>
                     </label>
                     <br>
-                    <div class="btn-group" id="mainMobilePhone" style="margin-left:0px;">
+                    <div class="btn-group col-md-4" id="mainMobilePhone" style="margin-left:0px;">
                         <input type="text" class="form-control" id="UPPhoneNumber11" size="3" maxlength="3" Placeholder="999" style="margin-left:0px"> <span class="hyphen">-</span>
                         <input type="text" class="form-control" id="UPPhoneNumber12" size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
                         <input type="text" class="form-control" id="UPPhoneNumber13" size="4" maxlength="4" Placeholder="9999">
@@ -195,9 +194,9 @@ export const renderUserProfile = async () => {
                     </label>
                     <br>
                     <div class="btn-group col-md-4" id="mainMobilePhone2" style="margin-left:0px">
-                        <input type="text" class="form-control" id="UPPhoneNumber21" pattern="[1-9]{1}[0-9]{2}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999" style="margin-left:0px"> <span class="hyphen">-</span>
-                        <input type="text" class="form-control" id="UPPhoneNumber22" pattern="[0-9]{3}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
-                        <input type="text" class="form-control" id="UPPhoneNumber23" pattern="[0-9]{4}" title="Only numbers are allowed." size="4" maxlength="4" Placeholder="9999">
+                        <input type="text" class="form-control" id="UPPhoneNumber21" data-val-pattern="[1-9]{1}[0-9]{2}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999" style="margin-left:0px"> <span class="hyphen">-</span>
+                        <input type="text" class="form-control" id="UPPhoneNumber22" data-val-pattern="[0-9]{3}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
+                        <input type="text" class="form-control" id="UPPhoneNumber23" data-val-pattern="[0-9]{4}" title="Only numbers are allowed." size="4" maxlength="4" Placeholder="9999">
                     </div>
                 </div>
             </div>
@@ -222,9 +221,9 @@ export const renderUserProfile = async () => {
                     </label>
                     <br>
                     <div class="btn-group col-md-4" id="mainMobilePhone3" style="margin-left:0px">
-                        <input type="text" class="form-control" id="UPPhoneNumber31" pattern="[1-9]{1}[0-9]{2}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999" style="margin-left:0px"> <span class="hyphen">-</span>
-                        <input type="text" class="form-control" id="UPPhoneNumber32" pattern="[0-9]{3}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
-                        <input type="text" class="form-control" id="UPPhoneNumber33" pattern="[0-9]{4}" title="Only numbers are allowed." size="4" maxlength="4" Placeholder="9999">
+                        <input type="text" class="form-control" id="UPPhoneNumber31" data-val-pattern="[1-9]{1}[0-9]{2}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999" style="margin-left:0px"> <span class="hyphen">-</span>
+                        <input type="text" class="form-control" id="UPPhoneNumber32" data-val-pattern="[0-9]{3}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
+                        <input type="text" class="form-control" id="UPPhoneNumber33" data-val-pattern="[0-9]{4}" title="Only numbers are allowed." size="4" maxlength="4" Placeholder="9999">
                     </div>
                 </div>
             </div>
@@ -243,7 +242,9 @@ export const renderUserProfile = async () => {
             </div>
 
             ${renderMailingAddress('', 1, true)}
-
+            <br>
+            <hr>
+            <div class="userProfileSubHeaders">Cancer History</div>
             <div class="form-group row">
                 <label class="col-md-4 col-form-label">Have you ever been diagnosed with cancer (other than non-melanoma skin cancer)? <span class="required">*</span></label>
                 <div class="btn-group btn-group-toggle col-md-4" data-toggle="buttons" id="UPCancerBtnGroup">
@@ -267,7 +268,7 @@ export const renderUserProfile = async () => {
         </div>
         </div>
     `;
-    addYearsOptions();
+    //addYearsOptions();
     addEventNameConsistency(myData.data['471168198'], myData.data['736251808']);
     addEventChangeFocus();
     addEventCancerFollowUp();
@@ -276,6 +277,7 @@ export const renderUserProfile = async () => {
     addEventAdditionalEmail();
     addEventAddressAutoComplete(1);
     addEventCheckCanText();
+    addEventDisableCopyPaste();
     //addEventCheckCantText();
     addEventUPSubmit();
 };
@@ -331,7 +333,7 @@ export const renderAlternateContact = (id, required) => {
             </label><br>
             <label>
                 Phone number ${required ? '<span class="required">*</span>': ''}
-                <input type="text" class="form-control" id="UPPhoneNumber${id}" ${required ? 'required' : ''} pattern="[1-9]{1}[0-9]{9}" size="10" maxlength="10" Placeholder="Enter phone number">
+                <input type="text" class="form-control" id="UPPhoneNumber${id}" ${required ? 'required' : ''} data-val-pattern="[1-9]{1}[0-9]{9}" size="10" maxlength="10" Placeholder="Enter phone number">
             </label><br>
         </div>
         ${renderMailingAddress('', id, required, true)}
@@ -373,7 +375,7 @@ export const renderMailingAddress = (type, id, required, showCountry) => {
             <label class="col-md-4 col-form-label">
                 Zip ${required ? '<span class="required">*</span>': ''}
             </label>
-            <input type=text id="UPAddress${id}Zip" pattern="[0-9]{5}" title="5 characters long, numeric-only value." class="form-control col-md-4 required-field" data-error-required='Please enter the zip field of your mailing address.' size="5" maxlength="5" placeholder="99999">
+            <input type=text id="UPAddress${id}Zip" data-val-pattern="[0-9]{5}" title="5 characters long, numeric-only value." class="form-control col-md-4 required-field num-val" data-error-required='Please enter the zip field of your mailing address.' size="5" maxlength="5" placeholder="99999">
         </div>
         ${showCountry ? `<br>
         <div class="form-group row">
@@ -396,7 +398,7 @@ export const renderPhoneNumber = (number) => {
         <label class="col-md-4 col-form-label">
             Phone number ${number}
         </label>
-        <input type="text" class="form-control col-md-4" id="UPPhoneNumber${number}" pattern="[1-9]{1}[0-9]{9}" size="10" maxlength="10" Placeholder="Enter phone number ${number}">
+        <input type="text" class="form-control col-md-4" id="UPPhoneNumber${number}" data-val-pattern="[1-9]{1}[0-9]{9}" size="10" maxlength="10" Placeholder="Enter phone number ${number}">
     </div>
     <div class="form-group row">
         <label class="col-md-4 col-form-label">

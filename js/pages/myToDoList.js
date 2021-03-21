@@ -38,7 +38,7 @@ export const myToDoList = (data, fromUserProfile) => {
                         Great news! We have confirmed that you are eligible for the Connect for Cancer Prevention Study. You are now an official Connect participant.
                         <br>
                         ${checkIfComplete(data) ? 'Thank you for completing your first Connect surveys! We will be in touch with next steps.':'The next step is to complete your first Connect survey'}
-                        Questions? Please contact the Connect Support Center [<a href="https://norcfedrampdev.servicenowservices.com/participant">MyConnect.cancer.gov/support</a>]
+                        Questions? Please contact the Connect Support Center [<a href="https://norcfedrampdev.servicenowservices.com/participant" target="_blank">MyConnect.cancer.gov/support</a>]
                         <br>
                         The next step is to complete your Connect survey. The survey is split into four sections. You can pause and return to complete these sections at any time.
                     </div>
@@ -49,7 +49,7 @@ export const myToDoList = (data, fromUserProfile) => {
                     <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
                         Based on our record you are not eligible for the Connect for Cancer Prevention Study. Thank you for your interest. Any information that you have already provided will remain private. We will not use any information you shared for our research.
                         <br>
-                        If you think this is an error or if you have any questions, please contact the Connect Support Center. [<a href="https://norcfedrampdev.servicenowservices.com/participant">MyConnect.cancer.gov/support</a>]
+                        If you think this is an error or if you have any questions, please contact the Connect Support Center. [<a href="https://norcfedrampdev.servicenowservices.com/participant" target="_blank">MyConnect.cancer.gov/support</a>]
                     </div>
                     `
                     mainContent.innerHTML = template;
@@ -202,14 +202,14 @@ const renderMainBody = (data, tab) => {
     modules['First Survey'].description = 'This survey is split into four sections that ask about a wide range of topics, including information about your medical history, family, work, and health behaviors. You can answer all of the questions at one time, or pause and return to complete the survey later. If you pause, your answers will be saved so you can pick up where you left off. You can skip any questions that you do not want to answer.';
     modules['First Survey'].hasIcon = false;
     modules['First Survey'].noButton = true;
-    modules['Background and Overall Health'].header = 'Background and Occupational Health Section'; 
+    modules['Background and Overall Health'].header = 'Background and Overall Health'; 
     modules['Background and Overall Health'].description = 'Questions about you, your medical history, and your family history.';
     modules['Background and Overall Health'].estimatedTime = '20 to 30 minutes'
     modules['Medications, Reproductive Health, Exercise, and Sleep'].description = 'Questions about your current and past use of medications, your exerciseand sleep habits, and your reproductive health.';
     modules['Medications, Reproductive Health, Exercise, and Sleep'].estimatedTime = '20 to 30 minutes'
     modules['Smoking, Alcohol, and Sun Exposure'].description = 'Questions about your use of tobacco, nicotine, marijuana, and alcohol, as well as your sun exposure.';
     modules['Smoking, Alcohol, and Sun Exposure'].estimatedTime = '20 to 30 minutes'
-    modules["Where You Live and Work"].header = 'Where You Live and Work Section';
+    modules["Where You Live and Work"].header = 'Where You Live and Work';
     modules["Where You Live and Work"].description  = 'Questions about places where you have lived and worked, and your commute to school or work.'
     modules['Where You Live and Work'].estimatedTime = '20 to 30 minutes'
     modules['Enter SSN'].header = 'Your Social Security Number (SSN)'

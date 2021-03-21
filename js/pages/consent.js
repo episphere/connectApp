@@ -684,10 +684,6 @@ export const consentToProfilePage = () => {
                 Thank you for completing the consent process. We need some more information about you to confirm that you can be part of the study. After you complete this step, we will use the information 
                 you share to check your eligibility and contact you within a few business days. We respect your privacy and protect the personal information you share with us.
             </p>
-            <p>
-                If you have any questions, please contact the Connect Support at
-            </p>
-            <a href="https://norcfedrampdev.servicenowservices.com/participant">MyConnect.cancer.gov/support</a>
         </div>
         <div>
             <button class="btn btn-primary consentNextButton" type="button" id="toLeaving" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
