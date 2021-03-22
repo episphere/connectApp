@@ -23,10 +23,13 @@ export default
     "zip":892050548,
     "healthcareProvider":827220437,
     "D_726699695" : "Module1",
+    "D_745268907" : "Module2",
+    "D_965707586" : "Module3",
+    "D_716117817" : "Module4",
     "Module1": {"conceptId":"D_726699695","startTs":"D_205553981", "completeTs": "D_517311251", "completeFlag":"D_949302066"},
-    "Module2": {"conceptId":745268907,"startTs":541836531},
-    "Module3": {"conceptId":965707586,"startTs":386488297},
-    "Module4": {"conceptId":716117817,"startTs":452942800},
+    "Module2": {"conceptId":"D_745268907","startTs":"D_541836531", "completeTs": "D_832139544", "completeFlag":"D_536735468"},
+    "Module3": {"conceptId":"D_965707586","startTs":"D_386488297", "completeTs": "D_770257102", "completeFlag":"D_976570371"},
+    "Module4": {"conceptId":"D_716117817","startTs":"D_452942800", "completeTs": "D_264644252", "completeFlag":"D_663265240"},
     "ModuleSsn": {"conceptId":716117818,"startTs":452942802} // Temporary assigning concepts
 }
 

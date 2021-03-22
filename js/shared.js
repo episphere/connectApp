@@ -37,29 +37,25 @@ export const generateNewToken = async () => {
     return data;
 }
 
-//reformat Quest data fields to connect data fields
-export const renameKeys = (obj, newKeys) => {
-    const keyValues = Object.keys(obj).map(key => {
-      const newKey = newKeys[key] || key;
-      return { [newKey]: obj[key] };
-    });
-    return Object.assign({}, ...keyValues);
-  }
-
+//adding conceptID mappings for completded and TS
 export const conceptIdMapping = (formData) => {
     try {
 
         let moduleId = Object.keys(formData)[0].split(".")[0];
         let moduleIdCompleted = moduleId + ".COMPLETED";
         let moduleIdCompletedTS = moduleId + ".COMPLETED_TS";
+        if (moduleIdCompleted in formData) {
+            let connectModuleIdCompleted = moduleId + "." + fieldMapping[fieldMapping[`${moduleId}`]].completeFlag;
+            formData[connectModuleIdCompleted] = 2;
+        }
+        if (moduleIdCompletedTS in formData) {
+            let connectModuleIdCompletedTS = moduleId + "." + fieldMapping[fieldMapping[`${moduleId}`]].completeTs;
+            formData[connectModuleIdCompletedTS] = formData[moduleIdCompletedTS];
+        }
 
-        let connectModuleIdCompleted = moduleId + "." + fieldMapping[fieldMapping[`${moduleId}`]].completeFlag;
-        let connectModuleIdCompletedTS = moduleId + "." + fieldMapping[fieldMapping[`${moduleId}`]].completeTs;
 
-        const newKeys = { [`${moduleIdCompleted}`]: connectModuleIdCompleted, [`${moduleIdCompletedTS}`]: connectModuleIdCompletedTS};
-        formData = renameKeys(formData, newKeys)
     } catch (error) {
-        console.log(error);
+        console.log("conceptIdMapping error",error);
     }
 
     return formData;

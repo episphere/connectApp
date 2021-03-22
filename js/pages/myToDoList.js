@@ -5,6 +5,7 @@ import { consentTemplate, initializeCanvas, addEventConsentSubmit } from "./cons
 import { addEventsConsentSign, addEventHeardAboutStudy, addEventRequestPINForm, addEventHealthCareProviderSubmit, addEventPinAutoUpperCase } from "../event.js";
 import { heardAboutStudy, requestPINTemplate, healthCareProvider } from "./healthCareProvider.js";
 import {humanReadableMDYwithTime} from "../util.js";
+import fieldMapping from '../components/fieldToConceptIdMapping.js'; 
 
 export const myToDoList = (data, fromUserProfile) => {
     const mainContent = document.getElementById('root');
@@ -217,26 +218,26 @@ const renderMainBody = (data, tab) => {
     modules['Enter SSN'].hasIcon = false;
     modules['Enter SSN'].noButton = false;
     modules['Enter SSN'].estimatedTime = 'Less than 5 minutes'
-    
-    if (data.Module1 && data.Module1.COMPLETED) { 
+    //if module 1 exists and completed
+    if (data[fieldMapping.Module1.conceptId] && data[fieldMapping.Module1.conceptId].COMPLETED) { 
         modules["Smoking, Alcohol, and Sun Exposure"].enabled = true;
         modules["Where You Live and Work"].enabled = true;
         modules['Medications, Reproductive Health, Exercise, and Sleep'].enabled = true;
         modules['Background and Overall Health'].completed = true;
     };
-    if (data.Module2 && data.Module2.COMPLETED) { 
+    if (data[fieldMapping.Module2.conceptId] && data[fieldMapping.Module2.conceptId].COMPLETED) { 
         modules['Medications, Reproductive Health, Exercise, and Sleep'].completed = true;
     };
-    if (data.Module3 && data.Module3.COMPLETED) { 
+    if (data[fieldMapping.Module3.conceptId] && data[fieldMapping.Module3.conceptId].COMPLETED) { 
         modules['Smoking, Alcohol, and Sun Exposure'].completed = true;
     };
-    if (data.Module4 && data.Module4.COMPLETED) { 
+    if (data[fieldMapping.Module4.conceptId] && data[fieldMapping.Module4.conceptId].COMPLETED) { 
         modules["Where You Live and Work"].completed  = true
     };
-    if (data.Module1 && data.Module1.COMPLETED 
-        && data.Module2 && data.Module2.COMPLETED
-        && data.Module3 && data.Module3.COMPLETED
-        && data.Module4 && data.Module4.COMPLETED) { 
+    if ((data[fieldMapping.Module1.conceptId] && data[fieldMapping.Module1.conceptId].COMPLETED)
+        && (data[fieldMapping.Module2.conceptId] && data[fieldMapping.Module2.conceptId].COMPLETED)
+        && (data[fieldMapping.Module3.conceptId] && data[fieldMapping.Module3.conceptId].COMPLETED)
+        && (data[fieldMapping.Module4.conceptId] && data[fieldMapping.Module4.conceptId].COMPLETED)) { 
         modules['Enter SSN'].enabled = true;
     };
     if (data.ModuleSsn && data.ModuleSsn.COMPLETED) { 
@@ -425,7 +426,7 @@ const renderMainBody = (data, tab) => {
                                 </div>
                             
                                 <div class="col-3">
-                                Completed Time: ${humanReadableMDYwithTime(data[modules[key].moduleId].COMPLETED_TS)}
+                                Completed Time: ${humanReadableMDYwithTime(data[fieldMapping[modules[key].moduleId].conceptId].COMPLETED_TS)}
                                 <!--
                                 <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="margin-top:0px;border-radius:30px; height:60px;background-color:#5c2d93 !important;color:white; width:100%"><b>Review</b></button>
                                 -->
