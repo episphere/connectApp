@@ -22,9 +22,12 @@ export default
     "state":634434746,
     "zip":892050548,
     "healthcareProvider":827220437,
-    "Module1": {"conceptId":726699695,"startTs":205553981},
+    "D_726699695" : "Module1",
+    "Module1": {"conceptId":"D_726699695","startTs":"D_205553981", "completeTs": "D_517311251", "completeFlag":"D_949302066"},
     "Module2": {"conceptId":745268907,"startTs":541836531},
     "Module3": {"conceptId":965707586,"startTs":386488297},
     "Module4": {"conceptId":716117817,"startTs":452942800},
     "ModuleSsn": {"conceptId":716117818,"startTs":452942802} // Temporary assigning concepts
 }
+
+

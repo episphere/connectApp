@@ -23,7 +23,6 @@ export const   questionnaire = (url, moduleId) => {
         }
         let moduleConceptId = fieldMapping[`${moduleId}`].conceptId;
         let startTsConceptId = fieldMapping[`${moduleId}`].startTs;
-
         if (!data.data[moduleConceptId] || !data.data[moduleConceptId][startTsConceptId]){
             let formData = {};
             formData[`${moduleConceptId}.${startTsConceptId}`] = new Date();
@@ -36,12 +35,12 @@ export const   questionnaire = (url, moduleId) => {
                 store: storeResponse,
                 retrieve: getMyData
             }, 'root', inputData).then(()=>{
-                let work3 = document.getElementById("WORK3");
+                let work3 = document.getElementById("D_627122657");
                 if (work3){
                     work3.addEventListener("submit", async (e) => {
                         e.preventDefault();
                         const jobtitle = e.target[0].value;
-                        const occ = document.getElementById("OCCUPTN1");
+                        const occ = document.getElementById("D_761310265");
                 
                         // call soccer...
                         let soccerResults = await (await fetch(`https://sitf-cwlcji5kxq-uc.a.run.app/soccer/code?title=${jobtitle}`)).json();
@@ -49,12 +48,12 @@ export const   questionnaire = (url, moduleId) => {
                         buildHTML(soccerResults, occ, responseElement);
                     });
                 }
-                let work7 = document.getElementById("WORK7");
+                let work7 = document.getElementById("D_118061122");
                 if (work7){
                     work7.addEventListener("submit", async (e) => {
                         e.preventDefault();
                         const jobtitle = e.target[0].value;
-                        const occ = document.getElementById("OCCUPTN2");
+                        const occ = document.getElementById("D_279637054");
                 
                         // call soccer...
                         let soccerResults = await (await fetch(`https://sitf-cwlcji5kxq-uc.a.run.app/soccer/code?title=${jobtitle}`)).json();

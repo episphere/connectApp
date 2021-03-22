@@ -1,4 +1,5 @@
 import { addEventHideNotification } from "./event.js";
+import fieldMapping from './components/fieldToConceptIdMapping.js'; 
 
 const api = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app';
 // const api = 'http://localhost:8010/nih-nci-dceg-episphere-dev/us-central1/app';
@@ -36,7 +37,37 @@ export const generateNewToken = async () => {
     return data;
 }
 
+//reformat Quest data fields to connect data fields
+export const renameKeys = (obj, newKeys) => {
+    const keyValues = Object.keys(obj).map(key => {
+      const newKey = newKeys[key] || key;
+      return { [newKey]: obj[key] };
+    });
+    return Object.assign({}, ...keyValues);
+  }
+
+export const conceptIdMapping = (formData) => {
+    try {
+
+        let moduleId = Object.keys(formData)[0].split(".")[0];
+        let moduleIdCompleted = moduleId + ".COMPLETED";
+        let moduleIdCompletedTS = moduleId + ".COMPLETED_TS";
+
+        let connectModuleIdCompleted = moduleId + "." + fieldMapping[fieldMapping[`${moduleId}`]].completeFlag;
+        let connectModuleIdCompletedTS = moduleId + "." + fieldMapping[fieldMapping[`${moduleId}`]].completeTs;
+
+        const newKeys = { [`${moduleIdCompleted}`]: connectModuleIdCompleted, [`${moduleIdCompletedTS}`]: connectModuleIdCompletedTS};
+        formData = renameKeys(formData, newKeys)
+    } catch (error) {
+        console.log(error);
+    }
+
+    return formData;
+}
+
 export const storeResponse = async (formData) => {
+
+    formData = conceptIdMapping(formData);
     const idToken = await new Promise((resolve, reject) => {
         const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             unsubscribe();
