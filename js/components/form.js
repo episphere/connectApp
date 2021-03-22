@@ -246,10 +246,13 @@ export const renderUserProfile = async () => {
             <hr>
             <div class="userProfileSubHeaders">Cancer History</div>
             <div class="form-group row">
-                <label class="col-md-4 col-form-label">Have you ever been diagnosed with cancer (other than non-melanoma skin cancer)? <span class="required">*</span></label>
-                <div class="btn-group btn-group-toggle col-md-4" data-toggle="buttons" id="UPCancerBtnGroup">
-                    <label class="btn btn-light up-btns" id="UPCancer1Btn"><input type="radio" name="cancerHistory" id="UPCancer1" value="353358909">Yes</label>
-                    <label class="btn btn-light up-btns" id="UPCancer2Btn"><input type="radio" name="cancerHistory" id="UPCancer2" value="104430631">No</label>
+                <div class="col">
+                    <label class="col-form-label">Have you ever been diagnosed with cancer (other than non-melanoma skin cancer)? <span class="required">*</span></label>
+                    <br>
+                    <div class="btn-group btn-group-toggle col-md-4" style="margin-left:0px;">
+                        <label id="UPCancer1Btn"><input type="radio" name="cancerHistory" id="UPCancer1" value="353358909"> Yes</label>
+                        <label id="UPCancer2Btn" style = "margin-left:20px;"><input type="radio" name="cancerHistory" id="UPCancer2" value="104430631"> No</label>
+                    </div>
                 </div>
             </div>
 

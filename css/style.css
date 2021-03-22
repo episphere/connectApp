@@ -844,7 +844,7 @@ input:checked + .slider:before {
 
 .userProfileHeader{
     font-size:28px;
-    font-family:"Montserrat Bold";
+    font-family: 'Montserrat', sans-serif;
     font-weight:bold;
     color:#606060;
 }
@@ -857,7 +857,7 @@ input:checked + .slider:before {
 
 .userProfileSubHeaders{
     font-size:23px;
-    font-family:"Montserrat Bold";
+    font-family: 'Montserrat', sans-serif;
     font-weight:bold;
     color:#606060;
     margin-bottom:0;
