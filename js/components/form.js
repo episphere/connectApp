@@ -253,6 +253,9 @@ export const renderUserProfile = async () => {
                         <label id="UPCancer1Btn"><input type="radio" name="cancerHistory" id="UPCancer1" value="353358909"> Yes</label>
                         <label id="UPCancer2Btn" style = "margin-left:20px;"><input type="radio" name="cancerHistory" id="UPCancer2" value="104430631"> No</label>
                     </div>
+                    <br>
+                    <div style="padding-left:0px" id="UPCancerBtnGroup">
+                    </div>
                 </div>
             </div>
 
