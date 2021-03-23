@@ -64,10 +64,9 @@ export const consentAboutPage = () => {
             </div>
             <div class="col-lg-8">
             <h2>What is the Connect for Cancer Prevention Study?</h2>
-            <h5>This research study will explore the causes of cancer and learn how to prevent cancer in adults.</h5>
-            <p>Researchers wilkl study changes in habits, behaviors, nd the environment that can help us learn how cancer and other diseases develop. Since this can take time, Connect will be a long term study,
-            meaning that you will participate on a regular basis for many years. Researchers hope to discover new ways to stop cancer from developing in the first place.</p>
-            <p>Connect is not looking at tratments for cancer, and researchers will not give medical care, advice, or treatments.</p>
+            <h5>This research study will explore causes of cancer and learn how to better prevent cancer in adults. Since it takes time to understand what causes cancer, Connect will go on for many years. The longer you participate, the more we may learn.</h5>
+            <p>Researchers will study things like habits, behaviors, and theenvironment you and others live in that can help us learn how cancer may form. Researchers hope to learn new ways to stop cancer from forming in the first place.</p>
+            <p>Connect is studying cancer prevention. Researchers will not look for treatments for cancer, give medical care, or share medical advice.</p>
             <button class="btn btn-primary consentNextButton" type="button" id="toActivities" style="float:right;margin-top:100px;"><b>Next<b></button>
             </div>
             <div class="col-lg-2">
@@ -88,52 +87,41 @@ export const consentActivitiesPage = () => {
             <div class="col-lg-2">
             </div>
             <div class="col-lg-8">
-                <h2>What Will I Do?</h2>
-                <p style="font-size:24px">Cancer can be caused by a lot of things, so we collect different kinds of information to give us a whole picture of your health.</h5>
-                <h4>Share some personal information</h4>
+                <h2>What Will I Do If I Join?</h2>
+                <p style="font-size:24px">Cancer can be caused by many things, so we will collect different kinds of information to give us a better picture of your whole health.</h5>
+                <h4>Share some information about yourself</h4>
                 <p style="margin-left:32px">
-                    To keep in touch, we will ask for your contact information. We also ask for personal information that could identify you, like your name, birth date, and social security number. 
-                    This helps us use other sources to collect information about you - like information about where you live, how close you live to a park or whether there is pollution in your neighborhood. 
-                    We will also collect information that is specific to you, like your pharmacy records.
+                    To keep in touch, we ask for your contact information. We also ask for personal information such as your name, birth date, and social security number, to identify you. This information helps us gather other information about you—like where you live, how close you live to a park, or if there is pollution in your neighborhood.
                 </p>
-                <h4>Give us access to your health records</h4>
+                <h4>Allow us to access your health records</h4>
                 <p style="margin-left:32px">
-                    We ask to use information from your electronic health record. 
-                    Your health record has information about your past, current, and future health status, test results, medical procedures, images (such as X-rays), and medicines you take. 
-                    Your health records may have sensitive information. For example, it may tell us about your mental health, alcohol or drug use, or sexual or other infections (including HIV status).
+                    We ask to use information from your electronic health records. Your health records have information about your health history, health status, test results, medical procedures, images (such as x-rays), and medicines you take. Your health records may have sensitive information. For example, they may tell us about your use of medications for depression and sexual or other infections (including HIV status). With your signed electronic health records release form, your health care system will safely provide access to your health records following the rules under the Health Insurance Portability and Accountability Act (HIPAA).
                 </p>
                 <h4>Take surveys about your health</h4>
                 <p style="margin-left:32px">
-                    We will send you online surveys when you join the study and then a few times each year. 
-                    The surveys will cover basic information about you and about your health history, family, home, and work. 
-                    Each survey will take 20-30 minutes to finish. You can choose to skip any questions that you do not want to answer or are not sure about.
+                    We will ask you to complete online surveys that we will send when you join the study and then again a few times each year. The surveys will cover basic information about you and about your health history, family, home, and work. The first survey can take one to two hours to complete. This survey is broken into sections, so you can pause and return to complete it at a later time. Most follow up surveys will take 20 to 30 minutes or less to complete. You can choose to skip any survey questions that you do notwant to answer.
                 </p>
-                <h4>Donate biological specimens</h4>
+                <h4>Donate samples (biological specimens)</h4>
                 <p style="margin-left:32px">
-                    We will ask you to donate samples blood, urine, saliva, and other samples when you join the study, and every two to three years. 
-                    Some samples will be collected where you get your health care, others at home. 
-                    We may also use samples that are left over from healthcare visits and procedures.
+                    We will ask you to donate blood, urine, and saliva when you join the study, and every two to three years after. Some samples will be collected where you get your health care and others at home. We may also collect samples that are left over from health care visits and procedures. You will not need to do anything for us to collect these leftover samples. Your samples will be safely stored at the Connect Central Repository.
                 </p>
                 <p style="margin-left:32px">
-                    Samples will be safely stored at the central Connectn facility in Rockville, Maryland.
+                    The samples you donate willbe used to study how cancer may form, which may include looking at the genes in your DNA.
+                </p>
+                <h4>Take part in future activities</h4>
+                <p style="margin-left:32px">
+                    In the future, we may invite you to take part in other study activities. These are not required, so you can say no and still be in Connect.
                 </p>
                 <p style="margin-left:32px">
-                    The samples you donate will be used to study how cancer may develop, which may include looking at the sequence of genes spelled out on your DNA.
-                </p>
-                <h4>Future study activities</h4>
-                <p style="margin-left:32px">
-                    In the future, we may invite you to take part in other study activities. These are optional, so you can say yes or no and still be in Connect.
-                </p>
-                <p style="margin-left:32px">
-                    This could be:
+                    These activities may include:
                 </p>
                 <ul style="margin-left:32px">
-                    <li>Donating other biological samples (like stool, nail, and hair) or samples from your home (like dust or dryer lint).</li>
-                    <li>Getting physical measurements taken (like height, weight, and blood pressure)</li>
-                    <li>Sharing information from wearable electronic health trackers or apps that measure things like diet, sleep, or environmental factors</li>
+                    <li>Donating other samples (like stool, nails, and hair) or samples from your home (like dust or dryer lint)</li>
+                    <li>Having measurements taken (like height, weight, and blood pressure)</li>
+                    <li>Sharing information from wearable electronic health trackers or apps that measure things like diet, sleep, or air quality in your environment</li>
                 </ul>  
                 <div>
-                    <button class="btn btn-primary" type="button" id="backToAbout" style="float:left;margin-top:40px;">Back</button>
+                    <button class="btn btn-primary consentPrevButton" type="button" id="backToAbout" style="float:left;margin-top:40px;">Previous</button>
                     <button class="btn btn-primary consentNextButton" type="button" id="toPrivacy" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
                 </div>
             </div>
@@ -158,12 +146,12 @@ export const consentPrivacyPage = () => {
             <div class="col-lg-2">
             </div>
             <div class="col-lg-8">
-                <h2>Protecting your Privacy and Information Sharing</h2>
-                <p style="font-size:24px">Your privacy is important to us. We take steps to keep your information and samples safe. For example, we replace your personal information with a unique code to keep track of your health information and samples.</p>
-                <p style="font-size:24px">The researchers who will study your information also have to agree to follow privacy rules that help to protect your identity.</p>
+                <h2>How Your Privacy is Protected</h2>
+                <p style="font-size:24px">Your privacy is important to us. We take steps to keep your information and samples safe. For example, we replace information that identifies you with a unique code to keep track of your health information and samples. All of the information we collect from you is protected under federal privacy rules, including the Privacy Act.</p>
+                <p style="font-size:24px">The researchers who will study your information also have to agree to follow federal privacy rules that protect your identity.</p>
 
                 <div>
-                    <button class="btn btn-primary" type="button" id="backToActivities" style="float:left;margin-top:40px;">Back</button>
+                    <button class="btn btn-primary consentPrevButton" type="button" id="backToActivities" style="float:left;margin-top:40px;">Previous</button>
                     <button class="btn btn-primary consentNextButton" type="button" id="toBenefits" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
                 </div>
 
@@ -189,12 +177,12 @@ export const consentBenefitsPage = () => {
             <div class="col-lg-2">
             </div>
             <div class="col-lg-8">
-                <h2>Benefits and Compensation</h2>
-                <p style="font-size:24px">Connect is looking at prevention of cancer, not treatments, so researchers will not give medical care or advice. There is no direct health benefit to taking part in the study.</p>
-                <p style="font-size:24px">After you answer the first four online surveys and donate your first blood sample, you will receive $25 in cash or as a gift card depending on your health care system.</p>
+                <h2>If You Leave the Study or Change Health Systems</h2>
+                <p style="font-size:24px">We hope that Connect participants will take part in the study throughout their lives. While we hope you stay in Connectfor years to come, you can leave at any time. Choosing to leave the study will not change your health care or health benefits. If you have shared any information or samples before you leave, we may still use them for research.</p>
+                <p style="font-size:24px">If you leave your health care system, we hope you will stay in Connect. If you leave your current health care system and join a different system (even one that is not taking part in Connect), we will continue to work with you and value your participation in the study.</p>
 
                 <div>
-                    <button class="btn btn-primary" type="button" id="backToPrivacy" style="float:left;margin-top:40px;">Back</button>
+                    <button class="btn btn-primary consentPrevButton" type="button" id="backToPrivacy" style="float:left;margin-top:40px;">Previous</button>
                     <button class="btn btn-primary consentNextButton" type="button" id="toResults" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
                 </div>
 
@@ -220,13 +208,13 @@ export const consentResultsPage = () => {
             <div class="col-lg-2">
             </div>
             <div class="col-lg-8">
-                <h2>Return of Results</h2>
-                <p style="font-size:24px">You can choose which results you wish to receive, including individual results from your surveys, and results from studying your samples, which could include genetic ancestry data.</p>
-                <p>You can also choose to hear about more general findings about cancer or other health outcomes from all participants, and updates about the program.</p>
-                <p>We will alert you when results are available, and share them through secure means.</p>
-                <p>We will not share your information with your health care provider, but you are free to do so.</p>
+                <h2>Receiving Study Results</h2>
+                <p style="font-size:24px">We will be sharing some of the things we learn with you. You can choose which results you want to receive. These may include results from your surveys and results from the study of your samples, which could include ancestry information.</p>
+                <p>You can also choose to receive general findings about cancer or other health information from all the people taking part in the study and updates about Connect.</p>
+                <p>We will alert you when results are available and share them securely ifyou choose to receive them.</p>
+                <p>We will not add information about Connect to your health record or share your information with your health care provider, but you are free to do so with any results you receive.</p>
                 <div>
-                    <button class="btn btn-primary" type="button" id="backToBenefits" style="float:left;margin-top:40px;">Back</button>
+                    <button class="btn btn-primary consentPrevButton" type="button" id="backToBenefits" style="float:left;margin-top:40px;">Previous</button>
                     <button class="btn btn-primary consentNextButton" type="button" id="toLeaving" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
                 </div>
 
@@ -252,11 +240,11 @@ export const consentLeavingPage = () => {
             <div class="col-lg-2">
             </div>
             <div class="col-lg-8">
-                <h2>Leaving the Study or Changing Health Systems</h2>
-                <p style="font-size:24px">While we hope you stay in Connect throughout your life, you can leave at any time. Choosing to leave the study will not change your health care or health benefits. If you heave shared any information or samples before leave, we may still use them for research.</p>
-                <p style="font-size:24px">If you leave your health care system in the future, we hope you stay in Connect. If you leave your current health system and join one that is not participating in Connect [INSERT WHAT HAPENS HERE]...</p>
+                <h2>Benefits and Payment</h2>
+                <p style="font-size:24px">Connect is a low-risk study. The main risk of joining is to your privacy. We follow federal privacy rules to protect your identify and the information you share. There is no health benefit to you for taking part in the study.</p>
+                <p style="font-size:24px">You will receive $25 in cash or as a giftcard after you complete the first online survey and donate your first blood sample.</p>
                 <div>
-                    <button class="btn btn-primary" type="button" id="backToResults" style="float:left;margin-top:40px;">Back</button>
+                    <button class="btn btn-primary consentPrevButton" type="button" id="backToResults" style="float:left;margin-top:40px;">Previous</button>
                     <button class="btn btn-primary consentNextButton" type="button" id="toConsent" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
                 </div>
 
@@ -370,7 +358,7 @@ export const consentConsentPage = () => {
                 </div>
 
                 <div>
-                    <button class="btn btn-primary" type="button" id="backToLeaving" style="float:left;margin-top:40px;">Back</button>
+                    <button class="btn btn-primary" type="button" id="backToLeaving" style="float:left;margin-top:40px;">Previous</button>
                     <button type="submit" class="btn btn-primary save-data" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
                 </div>
             </form>
@@ -383,26 +371,25 @@ export const consentConsentPage = () => {
             </div>
             <div class="col-lg-8">
                 <h2>Informed Consent</h2>
-                <p style="font-size:24px">In order to join Connect, we need you to give your informed consent by reviewing the full consent form and electronic health records release form, and signing your name.</p>
+                <p style="font-size:24px">To join Connect, we need you to review the full informed consent form and electronic health records release (HIPAA Authorization) form below. If you haveany questions, contact the Connect Support Center at <a href="https://norcfedrampdev.servicenowservices.com/participant">Cancer.gov/connectstudy/support</a>. Once you are comfortable with the study and decide to join, please sign the forms electronically.</p>
             
             <div style="width:80%; margin:auto">
                 <h4 style="margin-top:50px">Informed Consent Form</h4>
-                <p style="text-indent:40px">This is a more detailed explanation of what it means to take part in Connect</p>
+                <p style="text-indent:40px">This form explains in detail what it means to take part in Connect.</p>
                 <div id="canvasContainer"></div>
-                <div class="row"style="margin:auto"><div style="margin:auto"><a href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf">Download consent form:&nbsp<i class="fas fa-file-download"></i></a></div></div>
+                <div class="row"style="margin:auto"><div style="margin:auto"><a href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf"> Download an unsigned copy of the informed consent form:&nbsp<i class="fas fa-file-download"></i></a></div></div>
                 
-                <h4 style="margin-top:50px">Electronic health records release form</h4>
-                <p style="text-indent:40px">This allows Connect to access your electronic health records</p>
+                <h4 style="margin-top:50px">Electronic health records release (HIPAA Authorization) form</h4>
+                <p style="text-indent:40px">This allows Connect to access your electronic health records.</p>
                 <div id="canvasContainer1"></div>
-                <div class="row" style="margin:auto"><div style="margin:auto"><a href="./consent_draft.pdf" title="Download health records release form" data-toggle="tooltip" download="connect_consent.pdf">Download health records release form:&nbsp<i class="fas fa-file-download"></i></a></div></div>
+                <div class="row" style="margin:auto"><div style="margin:auto"><a href="./consent_draft.pdf" title="Download health records release form" data-toggle="tooltip" download="connect_consent.pdf">Download an unsigned copy of the release form:&nbsp<i class="fas fa-file-download"></i></a></div></div>
                 
-                <p style="margin-top:50px">By clicking "Yes, I agree" and typing your name, you confirm the following:</p>
+                <p style="margin-top:50px">By clicking “Yes, I agree to join Connect” and typing your name, you confirm the following:</p>
                 <ol>
                     <li>I have read these forms.</li>
-                    <li>I will allow the use, storage, and disclosure (release) of my survey answers, samples, and health information for the research described above.</li>
-                    <li>I understand that if I do not agree to allow Connect to do any of these things, I cannot take part in the study.</li>
-                    <li>If I have questions, I can contact the Connect Support Center at <a href=Cancer.gov/connectstudy/support>Cancer.gov/connectstudy/support</a></li>
-                    <li>If I decide I do not want my health information used or shared throught Connect, I can leave the study by contacting the Connect Support Center at Cancer.gov/connectStudy/support
+                    <li>As  stated  in  the  consent  and  HIPAA  Authorization,  I  will allow  the  use,  storage, and  disclosure  (release) of  my  survey  answers, samples,  and  health  information for the research as described above.</li>
+                    <li>If I have questions, I can contact the Connect Support Center at <a href="https://norcfedrampdev.servicenowservices.com/participant">Cancer.gov/connectstudy/support</a></li>
+                    <li>If I decide to leave the study, I can contact the Connect Support Center at <a href="https://norcfedrampdev.servicenowservices.com/participant">Cancer.gov/connectstudy/support</a></li>
                 </ol>
                 <input type="checkbox" name="consentAnswer" value="consentYes" id="CSConsentYesCheck" required>
                 <label for="consentYes" id="CSConsentYes">Yes, I agree</label><br>
@@ -415,19 +402,19 @@ export const consentConsentPage = () => {
                             <label class="consent-form-label">
                                 First name<span class="required">*</span>
                             </label>
-                            <input required type="text" autocomplete="off" id="CSFirstName" class="form-control col-md-10" placeholder="Enter first name">
+                            <input required type="text" autocomplete="off" id="CSFirstName" class="form-control col-md-10" placeholder="">
                         </div>
                         <div class="col-2 form-group consent-form">
                             <label class="consent-form-label">
                                 Middle name<span></span>
                             </label>
-                            <input type="text" autocomplete="off" id="CSMiddleName" class="form-control col-md-10" placeholder="Enter middle name">
+                            <input style="margin-left:0" type="text" autocomplete="off" id="CSMiddleName" class="form-control col-md-10" placeholder="">
                         </div>
                         <div class="col-4 form-group consent-form">
                             <label class="consent-form-label">
                                 Last name<span class="required">*</span>
                             </label>
-                            <input required type="text" autocomplete="off" id="CSLastName" class="form-control col-md-10" placeholder="Enter last name">
+                            <input required type="text" autocomplete="off" id="CSLastName" class="form-control col-md-10" placeholder="">
                         </div>
                         <div class="col-2 form-group consent-form">
                             <label class="consent-form-label">
@@ -497,7 +484,7 @@ export const consentConsentPage = () => {
                 ` : '' : ''}
                 -->
                 <div class="row">
-                    <button class="btn btn-primary" type="button" id="backToConsent" style="float:left;">Back</button>
+                    <button class="btn btn-primary consentPrevButton" type="button" id="backToConsent" style="float:left;">Previous</button>
                     <div class="ml-auto">
                         <button type="submit" class="btn btn-primary save-data consentNextButton">Submit</button>
                     </div>
@@ -558,7 +545,7 @@ export const consentHealthRecordsPage = () => {
                     <label class="consent-form-label">
                         First name<span class="required">*</span>
                     </label>
-                    <input required type="text" autocomplete="off" id="CSFirstName" class="form-control col-md-5" placeholder="Enter first name">
+                    <input style="margin-left:0" required type="text" autocomplete="off" id="CSFirstName" class="form-control col-md-5" placeholder="Enter first name">
                 </div>
                 <div class="col form-group consent-form">
                     <label class="consent-form-label">
@@ -612,7 +599,7 @@ export const consentHealthRecordsPage = () => {
                 </div>
             ` : '' : ''}
             <div class="row">
-                <button class="btn btn-primary" type="button" id="backToConsent" style="float:left;">Back</button>
+                <button class="btn btn-primary consentPrevButton" type="button" id="backToConsent" style="float:left;">Previous</button>
                 <div class="ml-auto">
                     <button type="submit" class="btn btn-primary save-data consentNextButton">Submit</button>
                 </div>

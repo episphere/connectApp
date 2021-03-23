@@ -108,5 +108,5 @@ function buildHTML(soccerResults, question, responseElement) {
 export const blockParticipant = () => {
     const mainContent = document.getElementById('root');
     mainContent.innerHTML = `Thank you for completing your profile for the Connect for Cancer Prevention Study. Next, the Connect team at your health care system will check that you are eligible to be part of the study. We will contact you within a few business days to share information about next steps.
-    </br>Questions? Please contact the <a href= Cancer.gov/connectstudy/support>Connect Support Center.</a>`
+    </br>Questions? Please contact the <a href= "https://norcfedrampdev.servicenowservices.com/participant">Connect Support Center.</a>`
 }

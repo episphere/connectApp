@@ -348,37 +348,52 @@ export const renderMailingAddress = (type, id, required, showCountry) => {
         <hr>
         <div class="userProfileSubHeaders">Mailing Address</div>
         <div class="form-group row">
-            <label class="col-md-4 col-form-label">
-                Line 1 (street, PO box, rural route) ${required ? '<span class="required">*</span>': ''}
-            </label>
-            <input type=text id="UPAddress${id}Line1" autocomplete="off" class="form-control col-md-4 required-field" data-error-required='Please enter the first line of mailing address.' placeholder="Enter street, PO box, rural route">
+            <div class="col">
+                <label class="col-form-label">
+                    Line 1 (street, PO box, rural route) ${required ? '<span class="required">*</span>': ''}
+                </label>
+                <br>
+                <input style="margin-left:0px; max-width:301px;" type=text id="UPAddress${id}Line1" autocomplete="off" class="form-control required-field" data-error-required='Please enter the first line of mailing address.' placeholder="Enter street, PO box, rural route">
+            </div>
         </div>
         <div class="form-group row">
-            <label class="col-md-4 col-form-label">
-                Line 2 (apartment, suite, unit, building)
-            </label>
-            <input type=text id="UPAddress${id}Line2" autocomplete="off" class="form-control col-md-4" placeholder="Enter apartment, suite, unit, building">
+            <div class="col">
+                <label class="col-form-label">
+                    Line 2 (apartment, suite, unit, building)
+                </label>
+                <br>
+                <input style="margin-left:0px; max-width:301px;" type=text id="UPAddress${id}Line2" autocomplete="off" class="form-control" placeholder="Enter apartment, suite, unit, building">
+            </div>
         </div>
         <div class="form-group row">
-            <label class="col-md-4 col-form-label">
-                City ${required ? '<span class="required">*</span>': ''}
-            </label>
-            <input type=text id="UPAddress${id}City" class="form-control col-md-4 required-field" data-error-required='Please enter the city field of your mailing address.' placeholder="Enter City">
+            <div class="col">
+                <label class="col-form-label">
+                    City ${required ? '<span class="required">*</span>': ''}
+                </label>
+                <br>
+                <input style="margin-left:0px; max-width:301px;" type=text id="UPAddress${id}City" class="form-control required-field" data-error-required='Please enter the city field of your mailing address.' placeholder="Enter City">
+            </div>
         </div>
         <div class="form-group row">
-            <label class="col-md-4 col-form-label">
-                State ${required ? '<span class="required">*</span>': ''}
-            </label>
-            <select class="form-control col-md-4 required-field" data-error-required='Please select the state field of your mailing address.' id="UPAddress${id}State">
-                <option class="option-dark-mode" value="">-- Select State --</option>
-                ${renderStates()}
-            </select>
+            <div class="col-lg-2">
+                <label class="col-form-label">
+                    State ${required ? '<span class="required">*</span>': ''}
+                </label>
+                <br>
+                <select style="margin-left:0px;" class="form-control required-field" data-error-required='Please select the state field of your mailing address.' id="UPAddress${id}State">
+                    <option class="option-dark-mode" value="">-- Select --</option>
+                    ${renderStates()}
+                </select>
+            </div>
+            <div class="col-lg-2">
+                <label class="col-form-label">
+                    Zip ${required ? '<span class="required">*</span>': ''}
+                </label>
+                <input type=text id="UPAddress${id}Zip" data-val-pattern="[0-9]{5}" title="5 characters long, numeric-only value." class="form-control required-field num-val" data-error-required='Please enter the zip field of your mailing address.' size="5" maxlength="5" placeholder="99999">
+            </div>
         </div>
         <div class="form-group row">
-            <label class="col-md-4 col-form-label">
-                Zip ${required ? '<span class="required">*</span>': ''}
-            </label>
-            <input type=text id="UPAddress${id}Zip" data-val-pattern="[0-9]{5}" title="5 characters long, numeric-only value." class="form-control col-md-4 required-field num-val" data-error-required='Please enter the zip field of your mailing address.' size="5" maxlength="5" placeholder="99999">
+            
         </div>
         ${showCountry ? `<br>
         <div class="form-group row">
