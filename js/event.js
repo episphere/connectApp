@@ -309,7 +309,7 @@ export const addEventUPSubmit = () => {
                 hasError = true;
             }
         });
-        if(!(document.getElementById('UPCancer1Btn').classList.contains('active') || document.getElementById('UPCancer2Btn').classList.contains('active'))){
+        if(!(document.getElementById('UPCancer1').checked|| document.getElementById('UPCancer2').checked)){
             errorMessage('UPCancerBtnGroup', 'Please provide a response.', focus);
             focus = false;
             hasError = true;
