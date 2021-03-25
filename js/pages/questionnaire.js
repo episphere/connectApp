@@ -35,6 +35,7 @@ export const   questionnaire = (url, moduleId) => {
                 store: storeResponse,
                 retrieve: getMyData
             }, 'root', inputData).then(()=>{
+
                 let work3 = document.getElementById("D_627122657");
                 if (work3){
                     work3.addEventListener("submit", async (e) => {
