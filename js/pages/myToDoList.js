@@ -206,8 +206,10 @@ const renderMainBody = (data, tab) => {
     modules['Background and Overall Health'].header = 'Background and Overall Health'; 
     modules['Background and Overall Health'].description = 'Questions about you, your medical history, and your family history.';
     modules['Background and Overall Health'].estimatedTime = '20 to 30 minutes'
+    modules['Medications, Reproductive Health, Exercise, and Sleep'].header = 'Medications, Reproductive Health, Exercise, and Sleep'; 
     modules['Medications, Reproductive Health, Exercise, and Sleep'].description = 'Questions about your current and past use of medications, your exerciseand sleep habits, and your reproductive health.';
     modules['Medications, Reproductive Health, Exercise, and Sleep'].estimatedTime = '20 to 30 minutes'
+    modules['Smoking, Alcohol, and Sun Exposure'].header = 'Smoking, Alcohol, and Sun Exposure'; 
     modules['Smoking, Alcohol, and Sun Exposure'].description = 'Questions about your use of tobacco, nicotine, marijuana, and alcohol, as well as your sun exposure.';
     modules['Smoking, Alcohol, and Sun Exposure'].estimatedTime = '20 to 30 minutes'
     modules["Where You Live and Work"].header = 'Where You Live and Work';
@@ -234,13 +236,10 @@ const renderMainBody = (data, tab) => {
     if (data[fieldMapping.Module4.conceptId] && data[fieldMapping.Module4.conceptId].COMPLETED) { 
         modules["Where You Live and Work"].completed  = true
     };
-    if ((data[fieldMapping.Module1.conceptId] && data[fieldMapping.Module1.conceptId].COMPLETED)
-        && (data[fieldMapping.Module2.conceptId] && data[fieldMapping.Module2.conceptId].COMPLETED)
-        && (data[fieldMapping.Module3.conceptId] && data[fieldMapping.Module3.conceptId].COMPLETED)
-        && (data[fieldMapping.Module4.conceptId] && data[fieldMapping.Module4.conceptId].COMPLETED)) { 
+    if ((data[fieldMapping.verification] && data[fieldMapping.verification] == fieldMapping.verified)) { 
         modules['Enter SSN'].enabled = true;
     };
-    if (data.ModuleSsn && data.ModuleSsn.COMPLETED) { 
+    if (data[fieldMapping.ModuleSsn.conceptId] && data[fieldMapping.ModuleSsn.conceptId].COMPLETED) { 
         modules['Enter SSN'].completed = true;
     };
 
