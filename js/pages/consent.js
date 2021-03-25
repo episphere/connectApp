@@ -392,7 +392,7 @@ export const consentConsentPage = () => {
                     <li>If I decide to leave the study, I can contact the Connect Support Center at <a href="https://norcfedrampdev.servicenowservices.com/participant">Cancer.gov/connectstudy/support</a></li>
                 </ol>
                 <input type="checkbox" name="consentAnswer" value="consentYes" id="CSConsentYesCheck" required>
-                <label for="consentYes" id="CSConsentYes">Yes, I agree</label><br>
+                <label for="consentYes" id="CSConsentYes">Yes, I agree to join Connect</label><br>
             </div>
             
             <form id="consentForm" style="margin-top:50px" method="POST">
