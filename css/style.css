@@ -862,3 +862,10 @@ input:checked + .slider:before {
     color:#606060;
     margin-bottom:0;
 }
+
+.consentPrevButton{
+    background-color:white !important;
+    border-color:#2A72A5 !important;
+    border-width:2px !important;
+    color:#2A72A5 !important;
+}

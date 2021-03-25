@@ -9,8 +9,8 @@ export const homePage = async () => {
             <div class="col-lg-2">
             </div>
             <div class="col-lg-4" style="text-align:center; height:600px;">
-                <p class = "homeTitleText" style="text-align:left">
-                <b>
+                <p class = "homeTitleText" style="text-align:left; font-family: 'Montserrat', sans-serif;">
+                
                 Connect <em>today.</em>
                 <br>Prevent cancer
                 <br><em>tomorrow.</em>
@@ -18,7 +18,7 @@ export const homePage = async () => {
                 <br>
                 <img src="./images/newImages/ConnectLogo.png" alt="Connect logo">
                 <br><br>
-                </b>
+                
             </p>
                 <img src="./images/newImages/Tiles2.png" alt="Connect logo" width="409px" style="float:left;">
             </div>
