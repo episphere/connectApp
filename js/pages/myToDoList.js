@@ -236,13 +236,10 @@ const renderMainBody = (data, tab) => {
     if (data[fieldMapping.Module4.conceptId] && data[fieldMapping.Module4.conceptId].COMPLETED) { 
         modules["Where You Live and Work"].completed  = true
     };
-    if ((data[fieldMapping.Module1.conceptId] && data[fieldMapping.Module1.conceptId].COMPLETED)
-        && (data[fieldMapping.Module2.conceptId] && data[fieldMapping.Module2.conceptId].COMPLETED)
-        && (data[fieldMapping.Module3.conceptId] && data[fieldMapping.Module3.conceptId].COMPLETED)
-        && (data[fieldMapping.Module4.conceptId] && data[fieldMapping.Module4.conceptId].COMPLETED)) { 
+    if ((data[fieldMapping.verification] && data[fieldMapping.verification] == fieldMapping.verified)) { 
         modules['Enter SSN'].enabled = true;
     };
-    if (data.ModuleSsn && data.ModuleSsn.COMPLETED) { 
+    if (data[fieldMapping.ModuleSsn.conceptId] && data[fieldMapping.ModuleSsn.conceptId].COMPLETED) { 
         modules['Enter SSN'].completed = true;
     };
 

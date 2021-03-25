@@ -22,6 +22,8 @@ export default
     "state":634434746,
     "zip":892050548,
     "healthcareProvider":827220437,
+    "verification":821247024,
+    "verified":197316935,
     "D_726699695" : "Module1",
     "D_745268907" : "Module2",
     "D_965707586" : "Module3",
