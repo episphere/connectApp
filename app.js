@@ -182,22 +182,40 @@ const manageEmailActions = () => {
 const router = async () => {
     manageEmailActions()
     const parameters = getParameters(window.location.href);
-    if(parameters && parameters.token && await userLoggedIn() === false){
+    let loggedIn = await userLoggedIn();
+    if(parameters && parameters.token && loggedIn === false){
         window.location.hash = '#sign_in';
     }
     const route =  window.location.hash || '#';
     toggleNavBar(route);
-    if(route === '#') homePage();
-    else if (route === '#sign_in' && await userLoggedIn() === false) signIn();
-    else if (route === '#dashboard') userProfile();
-    else if (route === '#notifications') renderNotificationsPage();
-    else if (route === '#sign_out') signOut();
-    else if (route === '#agreements') renderAgreements();
-    else if (route === '#settings') renderSettingsPage();
-    else if (route === '#support') renderSupportPage();
-    else if (route === '#payment') renderPaymentPage();
-    else if (route === '#my_data') renderMyDataPage();
-    else window.location.hash = '#';
+    
+    if(loggedIn === false){
+        if(route === '#') homePage();
+        else if (route === '#sign_in' && loggedIn === false) signIn();
+        //else if (route === '#dashboard') userProfile();
+        //else if (route === '#notifications') renderNotificationsPage();
+        else if (route === '#sign_out') signOut();
+        /*
+        else if (route === '#agreements') renderAgreements();
+        else if (route === '#settings') renderSettingsPage();
+        else if (route === '#support') renderSupportPage();
+        else if (route === '#payment') renderPaymentPage();
+        else if (route === '#my_data') renderMyDataPage();
+        */
+        else window.location.hash = '#';
+    }
+    else{
+        if(route === '#') userProfile();
+        else if (route === '#dashboard') userProfile();
+        else if (route === '#notifications') renderNotificationsPage();
+        else if (route === '#sign_out') signOut();
+        else if (route === '#agreements') renderAgreements();
+        else if (route === '#settings') renderSettingsPage();
+        else if (route === '#support') renderSupportPage();
+        else if (route === '#payment') renderPaymentPage();
+        else if (route === '#my_data') renderMyDataPage();
+        else window.location.hash = '#';
+    }
 }
 
 const userProfile = () => {
