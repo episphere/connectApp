@@ -40,11 +40,11 @@ export const renderProgress = (progress) => {
             <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[1]};"></div></div>
             <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[2]};border-radius:50%;border:5px solid ${lineColor[2]};line-height:19px;color:${textColor[2]}">3</div><div style="text-align:center;">Privacy</div></div>
             <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[2]};"></div></div>
-            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[3]};border-radius:50%;border:5px solid ${lineColor[3]};line-height:19px;color:${textColor[3]}">4</div><div style="text-align:center;">Benefits</div></div>
+            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[3]};border-radius:50%;border:5px solid ${lineColor[3]};line-height:19px;color:${textColor[3]}">4</div><div style="text-align:center;">Leaving</div></div>
             <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[3]};"></div></div>
             <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[4]};border-radius:50%;border:5px solid ${lineColor[4]};line-height:19px;color:${textColor[4]}">5</div><div style="text-align:center;">Results</div></div>
             <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[4]};"></div></div>
-            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[5]};border-radius:50%;border:5px solid ${lineColor[5]};line-height:19px;color:${textColor[5]}">6</div><div style="text-align:center;">Leaving</div></div>
+            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[5]};border-radius:50%;border:5px solid ${lineColor[5]};line-height:19px;color:${textColor[5]}">6</div><div style="text-align:center;">Benefits</div></div>
             <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[5]};"></div></div>
             <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[6]};border-radius:50%;border:5px solid ${lineColor[6]};line-height:19px;color:${textColor[6]}">7</div><div style="text-align:center;">Consent</div></div>
             </div>
@@ -65,7 +65,7 @@ export const consentAboutPage = () => {
             <div class="col-lg-8">
             <h2>What is the Connect for Cancer Prevention Study?</h2>
             <h5>This research study will explore causes of cancer and learn how to better prevent cancer in adults. Since it takes time to understand what causes cancer, Connect will go on for many years. The longer you participate, the more we may learn.</h5>
-            <p>Researchers will study things like habits, behaviors, and theenvironment you and others live in that can help us learn how cancer may form. Researchers hope to learn new ways to stop cancer from forming in the first place.</p>
+            <p>Researchers will study things like habits, behaviors, and the environment you and others live in that can help us learn how cancer may form. Researchers hope to learn new ways to stop cancer from forming in the first place.</p>
             <p>Connect is studying cancer prevention. Researchers will not look for treatments for cancer, give medical care, or share medical advice.</p>
             <button class="btn btn-primary consentNextButton" type="button" id="toActivities" style="float:right;margin-top:100px;"><b>Next<b></button>
             </div>
@@ -178,7 +178,7 @@ export const consentBenefitsPage = () => {
             </div>
             <div class="col-lg-8">
                 <h2>If You Leave the Study or Change Health Systems</h2>
-                <p style="font-size:24px">We hope that Connect participants will take part in the study throughout their lives. While we hope you stay in Connectfor years to come, you can leave at any time. Choosing to leave the study will not change your health care or health benefits. If you have shared any information or samples before you leave, we may still use them for research.</p>
+                <p style="font-size:24px">We hope that Connect participants will take part in the study throughout their lives. While we hope you stay in Connect for years to come, you can leave at any time. Choosing to leave the study will not change your health care or health benefits. If you have shared any information or samples before you leave, we may still use them for research.</p>
                 <p style="font-size:24px">If you leave your health care system, we hope you will stay in Connect. If you leave your current health care system and join a different system (even one that is not taking part in Connect), we will continue to work with you and value your participation in the study.</p>
 
                 <div>
@@ -211,7 +211,7 @@ export const consentResultsPage = () => {
                 <h2>Receiving Study Results</h2>
                 <p style="font-size:24px">We will be sharing some of the things we learn with you. You can choose which results you want to receive. These may include results from your surveys and results from the study of your samples, which could include ancestry information.</p>
                 <p>You can also choose to receive general findings about cancer or other health information from all the people taking part in the study and updates about Connect.</p>
-                <p>We will alert you when results are available and share them securely ifyou choose to receive them.</p>
+                <p>We will alert you when results are available and share them securely if you choose to receive them.</p>
                 <p>We will not add information about Connect to your health record or share your information with your health care provider, but you are free to do so with any results you receive.</p>
                 <div>
                     <button class="btn btn-primary consentPrevButton" type="button" id="backToBenefits" style="float:left;margin-top:40px;">Previous</button>
@@ -371,18 +371,18 @@ export const consentConsentPage = () => {
             </div>
             <div class="col-lg-8">
                 <h2>Informed Consent</h2>
-                <p style="font-size:24px">To join Connect, we need you to review the full informed consent form and electronic health records release (HIPAA Authorization) form below. If you haveany questions, contact the Connect Support Center at <a href="https://norcfedrampdev.servicenowservices.com/participant">Cancer.gov/connectstudy/support</a>. Once you are comfortable with the study and decide to join, please sign the forms electronically.</p>
+                <p style="font-size:24px">To join Connect, we need you to review the full informed consent form and electronic health records release (HIPAA Authorization) form below. If you have any questions, contact the Connect Support Center at <a href="https://norcfedrampdev.servicenowservices.com/participant">Cancer.gov/connectstudy/support</a>. Once you are comfortable with the study and decide to join, please sign the forms electronically.</p>
             
             <div style="width:80%; margin:auto">
                 <h4 style="margin-top:50px">Informed Consent Form</h4>
                 <p style="text-indent:40px">This form explains in detail what it means to take part in Connect.</p>
                 <div id="canvasContainer"></div>
-                <div class="row"style="margin:auto"><div style="margin:auto"><a href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf"> Download an unsigned copy of the informed consent form:&nbsp<i class="fas fa-file-download"></i></a></div></div>
+                <div class="row"style="margin:auto"><div style="margin:auto"><a href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf"> Download an unsigned copy of the informed consent form&nbsp<i class="fas fa-file-download"></i></a></div></div>
                 
                 <h4 style="margin-top:50px">Electronic health records release (HIPAA Authorization) form</h4>
                 <p style="text-indent:40px">This allows Connect to access your electronic health records.</p>
                 <div id="canvasContainer1"></div>
-                <div class="row" style="margin:auto"><div style="margin:auto"><a href="./consent_draft.pdf" title="Download health records release form" data-toggle="tooltip" download="connect_consent.pdf">Download an unsigned copy of the release form:&nbsp<i class="fas fa-file-download"></i></a></div></div>
+                <div class="row" style="margin:auto"><div style="margin:auto"><a href="./consent_draft.pdf" title="Download health records release form" data-toggle="tooltip" download="connect_consent.pdf">Download an unsigned copy of the release form&nbsp<i class="fas fa-file-download"></i></a></div></div>
                 
                 <p style="margin-top:50px">By clicking “Yes, I agree to join Connect” and typing your name, you confirm the following:</p>
                 <ol>

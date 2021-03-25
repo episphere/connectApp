@@ -153,9 +153,9 @@ export const renderUserProfile = async () => {
                     </label>
                     <br>
                     <div class="btn-group col-md-4" id="mainMobilePhone" style="margin-left:0px;">
-                        <input type="text" class="form-control" id="UPPhoneNumber11" size="3" maxlength="3" Placeholder="999" style="margin-left:0px"> <span class="hyphen">-</span>
-                        <input type="text" class="form-control" id="UPPhoneNumber12" size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
-                        <input type="text" class="form-control" id="UPPhoneNumber13" size="4" maxlength="4" Placeholder="9999">
+                        <input type="text" class="form-control" title="Only numbers are allowed. id="UPPhoneNumber11" size="3" maxlength="3" Placeholder="999" style="margin-left:0px"> <span class="hyphen">-</span>
+                        <input type="text" class="form-control" title="Only numbers are allowed. id="UPPhoneNumber12" size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
+                        <input type="text" class="form-control" title="Only numbers are allowed. id="UPPhoneNumber13" size="4" maxlength="4" Placeholder="9999">
                     </div>
                 </div>
             </div>
