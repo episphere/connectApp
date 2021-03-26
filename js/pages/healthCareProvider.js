@@ -2,11 +2,15 @@ import { sites } from "../shared.js";
 
 export const requestPINTemplate = () => {
     return `
-        <div class="col eligibility-form">
+        <div class="row">
+        <div class="col-lg-2">
+        </div>
+        <div class="col-lg-8 eligibility-form">
             <form method="POST" id="requestPINForm">
-                <div class="form-group">
+                <div class="form-group row">
+                    
                     <label><strong>If you received a PIN as part of your study invitation, please enter it here. Your PIN should be 6 characters and will include only numbers and uppercase letters.</strong></label>
-                    <label><input type="text" maxlength="6" id="participantPIN" class="form-control" placeholder="Enter PIN"></label>
+                    <label><input style="margin-left:0px;" type="text" maxlength="6" id="participantPIN" class="form-control" placeholder="Enter PIN"></label>
                 </div>
 
                 <div class="form-group row">
@@ -18,6 +22,9 @@ export const requestPINTemplate = () => {
                 </br></br>
                 
             </form>
+        </div>
+        <div class="col-lg-2">
+        </div>
         </div>
     `
 }

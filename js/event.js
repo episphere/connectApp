@@ -727,7 +727,7 @@ const verifyUserDetails = (formData) => {
 
         ${formData['452166062'] ? `
         <div class="row">
-            <div class="col">Have you ever been diagnosed with cancer (other than non-melanoma skin cancer)?</div>
+            <div class="col">Have you ever had invasive cancer?</div>
             <div class="col">${formData['452166062'] === 353358909 ? 'Yes' : 'No'}</div>
         </div>
         `:``}
