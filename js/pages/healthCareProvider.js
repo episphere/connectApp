@@ -32,11 +32,14 @@ export const requestPINTemplate = () => {
 export const healthCareProvider = (siteId) => {
     let template = '';
     template += `
+    <div class = "row">
+    <div class="col-lg-2">
+    </div>
     <div class="col eligibility-form">
         <form method="POST" id="eligibilityForm">
             <div class="form-group">
                 <label for="827220437"><strong>Who is your healthcare provider?<span class="required"> *</span></strong>
-                    <select ${siteId ? `disabled` : ``} class="form-control" id="827220437" required>
+                    <select ${siteId ? `disabled` : ``} class="form-control" style="margin-left:0px;" id="827220437" required>
                         <option value="">-- Select healthcare provider --</option>
     `;
 
@@ -55,12 +58,18 @@ export const healthCareProvider = (siteId) => {
             </div></br></br>
         </form>
     </div>
+    <div class="col-lg-2">
+    </div>
     `;
     return template;
 }
 
 export const heardAboutStudy = () => {
     return `
+        <div class="row">
+        <div class="col-lg-2">
+        </div>
+        <div class="col">
         <form method="POST" id="heardAboutStudyForm">
             <label><strong>How did you hear about this study? (Select all that apply)</strong></label>
             <div class="form-group">
@@ -128,5 +137,9 @@ export const heardAboutStudy = () => {
                 </div>
             </div>
         </form>
+        </div>
+        <div class="col-lg-2">
+        </div>
+        </div>
     `
 }

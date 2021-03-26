@@ -397,30 +397,30 @@ export const consentConsentPage = () => {
             
             <form id="consentForm" style="margin-top:50px" method="POST">
                 <div id="CSConsentNameSignContainer" style="display:none">
-                    <div class="row" style="width:80%; margin:auto;">
+                    <div class="row" style="width:80%; margin:auto; padding-left:0px; padding-right:0px">
                         <div class="col-4 form-group consent-form">
                             <label class="consent-form-label">
                                 First name<span class="required">*</span>
                             </label>
-                            <input required type="text" autocomplete="off" id="CSFirstName" class="form-control col-md-10" placeholder="">
+                            <input required type="text" autocomplete="off" id="CSFirstName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
                         </div>
                         <div class="col-2 form-group consent-form">
                             <label class="consent-form-label">
                                 Middle name<span></span>
                             </label>
-                            <input style="margin-left:0" type="text" autocomplete="off" id="CSMiddleName" class="form-control col-md-10" placeholder="">
+                            <input type="text" autocomplete="off" id="CSMiddleName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
                         </div>
                         <div class="col-4 form-group consent-form">
                             <label class="consent-form-label">
                                 Last name<span class="required">*</span>
                             </label>
-                            <input required type="text" autocomplete="off" id="CSLastName" class="form-control col-md-10" placeholder="">
+                            <input required type="text" autocomplete="off" id="CSLastName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
                         </div>
                         <div class="col-2 form-group consent-form">
                             <label class="consent-form-label">
                                 Suffix<span></span>
                             </label>
-                            <select name="NameSuffix" class="form-control col-md-10" id="CSNameSuffix">
+                            <select name="NameSuffix" class="form-control col-md-10" id="CSNameSuffix" style="margin-left:0px;">
                                 <option value="">-Select-</option>
                                 <option value="612166858">Jr.</option>
                                 <option value="255907182">Sr.</option>
@@ -664,18 +664,27 @@ export const consentToProfilePage = () => {
     let template = '';
     
     template += `
-        <div class = "e-consent-body">
+    <div class="row">
+        <div class="col-lg-2">
+        </div>
+        <div class="col">
             <h2>Thank you for your interest in the Connect for Cancer Prevention Study</h2>
-        <div style="margin-left:20px">
-            <p>
-                Thank you for completing the consent process. We need some more information about you to confirm that you can be part of the study. After you complete this step, we will use the information 
-                you share to check your eligibility and contact you within a few business days. We respect your privacy and protect the personal information you share with us.
-            </p>
+            <div>
+                <p>
+                    Thank you for completing the consent process. We need some more information about you to confirm that you can be part of the study. After you complete this step, we will use the information 
+                    you share to check your eligibility and contact you within a few business days. We respect your privacy and protect the personal information you share with us.
+                    <br>
+                    If you have any questions, please contact the <a href="https://norcfedrampdev.servicenowservices.com/participant" target="_blank">Connect Support Center</a>.
+                </p>
+            </div>
+            <div>
+                <button class="btn btn-primary consentNextButton" type="button" id="toLeaving" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
+            </div>
         </div>
-        <div>
-            <button class="btn btn-primary consentNextButton" type="button" id="toLeaving" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
-        </div>
-        </div>
+        <div class="col-lg-2">
+        </div
+    </div>
+
     `
     
     mainContent.innerHTML =  template;
