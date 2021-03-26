@@ -12,8 +12,10 @@ export const myToDoList = (data, fromUserProfile) => {
     if(data['827220437'] && data['142654897']){
         localStorage.eligibilityQuestionnaire = JSON.stringify({'827220437': data['827220437']})
         if(data['919254129'] === 353358909){
-            console.log(JSON.stringify(data))
-            if(data['699625233'] && data['699625233'] === 353358909 && data['512820379'] && data['512820379'] !== 486306141 && data['821247024'] && data['821247024'] !== 197316935){
+            //In the future, we will want to just have active recruits passing this check
+            //data['512820379'] && data['512820379'] === 854703046 becomes
+            //data['512820379'] && data['512820379'] !== 486306141
+            if(data['699625233'] && data['699625233'] === 353358909 && data['512820379'] && data['512820379'] === 854703046 && data['821247024'] && data['821247024'] !== 197316935/*data['948195369'] && data['948195369'] !== 353358909*//*data['512820379'] && data['512820379'] !== 486306141 && data['821247024'] && data['821247024'] !== 197316935*/){
                 blockParticipant();
                 hideAnimation();
                 return;

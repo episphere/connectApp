@@ -42,7 +42,7 @@ export const renderPaymentPage = async () => {
         </p>
 
     `
-    if(site == 13){
+    if(site == 809703864){
         paymentInfo = `
             <p>
                 After you complete some initial study activities, you will receive $25 as a thank you. You become eligible for the $25 after you:
