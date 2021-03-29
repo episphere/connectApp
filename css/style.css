@@ -482,7 +482,7 @@ canvas {
 }
 
 .current-page {
-    border-bottom: 5px solid #2a72a5 !important;
+    border-bottom: 5px solid #FFBF17 !important;
     border-top: 5px solid #2a72a5;
 }
 
@@ -766,7 +766,7 @@ input:checked + .slider:before {
 }
 
 .navbar-toggler {
-    border-color: #ffffff !important;
+    /*border-color: #ffffff !important;*/
 }
 
 .nci-connect-logo {
@@ -822,7 +822,7 @@ input:checked + .slider:before {
 .signInWrapper{
     max-width:360px;
     background-color:white;
-    margin-left:auto;
+    margin:auto;
     padding-top:30px;   
     padding-bottom:30px;
     border-radius:5px;
@@ -868,4 +868,35 @@ input:checked + .slider:before {
     border-color:#2A72A5 !important;
     border-width:2px !important;
     color:#2A72A5 !important;
+}
+
+@media (max-width:520px){
+    .connectBody{
+        background-color:#2a72a5; 
+        padding-top:60px;
+        padding-bottom:120px;
+        margin-bottom:180px;
+    }
+}
+@media (max-width:992px) and (min-width:521px){
+    .connectBody{
+        background-color:#2a72a5; 
+        padding-top:60px;
+        margin-bottom:150px;
+    }
+}
+@media (max-width:1315px) and (min-width:993px){
+    .connectBody{
+        background-color:#2a72a5; 
+        padding-top:60px;
+        padding-bottom:120px;
+        margin-bottom:180px;
+    }
+}
+@media (min-width:1316px){
+    .connectBody{
+        background-color:#2a72a5; 
+        padding-top:60px;
+        margin-bottom:150px;
+    }
 }

@@ -1005,7 +1005,7 @@ export const retrieveNotificationsInBackgroound = async () => {
 }
 
 export const toggleCurrentPage = async (route) => {
-    const IDs = ['home', 'userDashboard', 'Notifications', 'userAgreements', 'userSettings', 'connectSupport', 'connectPayment'];
+    const IDs = ['userDashboard', 'Notifications', 'userAgreements', 'userSettings', 'connectSupport', 'connectPayment'];
     IDs.forEach(id => {
         const element = document.getElementById(id);
         element.addEventListener('click', () => {

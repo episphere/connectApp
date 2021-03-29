@@ -187,6 +187,7 @@ const router = async () => {
         window.location.hash = '#sign_in';
     }
     const route =  window.location.hash || '#';
+    console.log('route: ' + JSON.stringify(route))
     toggleNavBar(route);
     
     if(loggedIn === false){

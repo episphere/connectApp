@@ -31,7 +31,8 @@ export const myToDoList = (data, fromUserProfile) => {
                             `Thank you for completing your profile for the Connect for Cancer Prevention Study. Next, the Connect team at your health care system will check that you are eligible to be part of the study. We will contact you within a few business days.
                             <br>
                             In the meantime, please begin by completing your first Connect survey.`:
-                            'The Connect team at your health care system is working to check that you are eligible to be part of the study. In the meantime, please begin by completing your first Connect survey.'}
+                            `The Connect team at your health care system is working to check that you are eligible to be part of the study. 
+                            ${checkIfComplete(data) ? 'Thank you for completing your first Connect surveys! We will be in touch with next steps.': 'In the meantime, please begin by completing your first Connect survey.'}`}
                     </div>
                     `
                 }
@@ -403,13 +404,13 @@ const renderMainBody = (data, tab) => {
                                                     `}
                                                 </div>
                                                 
-                                            </li>`
+                                            `
                                                 /*
                                                 <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="width:90%; margin-bottom:20px;">${key}</button>
                                             </li>`;*/
                             }
                         }
-                        template += /*html*/ `<li style="width:100%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
+                        template += /*html*/ `<div style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
                             <div class="row">
                                 <div class="col-1">
                                 <i class="fas fa-clipboard-list" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
@@ -433,8 +434,13 @@ const renderMainBody = (data, tab) => {
                                 -->
                                 </div>
                             </div>
-                        </li>`
+                        </div>`
                     }
+                }
+                if(started == true){
+                    template += '</li>'            
+                    //console.log('aslkvbsldvkbsadv: ' + template)
+    
                 }
             }
         }
@@ -444,12 +450,14 @@ const renderMainBody = (data, tab) => {
 
 const checkIfComplete = (data) =>{
     const modules = questionnaireModules;
-    
-    if (data.Module1 && data.Module1.COMPLETED 
-        && data.Module2 && data.Module2.COMPLETED
-        && data.Module3 && data.Module3.COMPLETED
-        && data.Module4 && data.Module4.COMPLETED) { 
-        return true;
+    console.log(data)
+    if (data[fieldMapping.Module1.conceptId] && data[fieldMapping.Module1.conceptId].COMPLETED
+        && data[fieldMapping.Module2.conceptId] && data[fieldMapping.Module2.conceptId].COMPLETED
+        && data[fieldMapping.Module3.conceptId] && data[fieldMapping.Module3.conceptId].COMPLETED
+        && data[fieldMapping.Module4.conceptId] && data[fieldMapping.Module4.conceptId].COMPLETED) { 
+            console.log('sldvnpisdnivosbivsdovisdbvsdv')
+
+            return true;
     };
     return false;
 

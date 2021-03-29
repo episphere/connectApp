@@ -682,6 +682,8 @@ export const enableDarkMode = async (enable) => {
 }
 
 export const toggleDarkMode = (bool) => {
+    /*
+    bool = true;
     if(bool){
         document.body.classList.add('dark-mode');
         
@@ -722,6 +724,7 @@ export const toggleDarkMode = (bool) => {
             e.classList.remove('dark-mode');
         });
     }
+    */
 }
 
 export const toggleNavbarMobileView = () => {

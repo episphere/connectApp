@@ -5,10 +5,10 @@ export const homePage = async () => {
     const isIE = /*@cc_on!@*/false || !!document.documentMode;
     mainContent.innerHTML = `
         ${isIE ? `<span class="not-compatible">Connect web application is not compatible with Internet Explorer, please use Chrome, Safari, Firefox or Edge</span>` : ``}
-        <div class="row" style="background-color:#2a72a5; padding-top:60px; margin-bottom:150px;">
-            <div class="col-lg-2">
+        <div class="row connectBody">
+            <div class="col-lg-2 order-1">
             </div>
-            <div class="col-lg-4" style="text-align:center; height:600px;">
+            <div class="col-lg-4 .d-none .d-lg-block order-3 order-lg-2" style="text-align:center; height:600px;">
                 <p class = "homeTitleText" style="text-align:left; font-family: 'Montserrat', sans-serif;">
                 
                 Connect <em>today.</em>
@@ -22,14 +22,14 @@ export const homePage = async () => {
             </p>
                 <img src="./images/newImages/Tiles2.png" alt="Connect logo" width="409px" style="float:left;">
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-4  order-2 order-lg-3">
                 <div class="signInWrapper" id="signInWrapperDiv">
                 <h4 style="text-align:center; color:grey">Sign In | Join the Study</h4>
                 <div id="signInDiv">
                 </div>
                 </div>
             </div>
-            <div class="col-lg-2">
+            <div class="col-lg-2 order-4">
             </div>
         </div>
         <div class="row">
