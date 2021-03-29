@@ -1,7 +1,9 @@
-import { getMyData, retrieveNotifications } from "../shared.js";
+import { getMyData, retrieveNotifications, showAnimation, hideAnimation } from "../shared.js";
 import {humanReadableMDYwithTime} from "../util.js";
 
+
 export const renderNotificationsPage = async () => {
+    showAnimation();
     let template = '<h2>Notifications</h2>';
     
     let notifs = await retrieveNotifications()
@@ -29,4 +31,5 @@ export const renderNotificationsPage = async () => {
     }
     const mainContent = document.getElementById('root');
     mainContent.innerHTML = template;
+    hideAnimation();
 }

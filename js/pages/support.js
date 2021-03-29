@@ -2,7 +2,10 @@ import { getMyData } from "../shared.js";
 
 export const renderSupportPage = async () => {
     const myData = await getMyData();
-    let site = myData["data"]['827220437']
+    let site = 0;
+    if(myData.data){
+        site = myData["data"]['827220437']
+    }
     let paymentInfo = `
         <p>
             After you complete some initial study activities, we willsend you a $25 gift card as a thank you.You become eligible for the $25 gift card after you:
@@ -80,7 +83,12 @@ export const renderSupportPage = async () => {
         `
     }
     let template =  `
+    <div class="row">
+        <div class="col-lg-2">
+        </div>
+        <div class="col-lg-8">
         <div class="row">
+            
             <h3>Connect Support Center</h3>
         </div>
         <!--
@@ -127,6 +135,10 @@ export const renderSupportPage = async () => {
                 </div>
             </div>
             -->
+        </div>
+        </div>
+        <div class="col-lg-2">
+        </div>
         </div>
         <!--
         <div class="row">
