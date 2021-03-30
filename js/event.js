@@ -787,11 +787,16 @@ export const addEventPreferredContactType = () => {
             if(div.innerHTML === ''){
                 div.classList = ['form-group row']
                 div.innerHTML = `
-                    <label class="col-md-4 col-form-label">How do you prefer that we reach you?</label>
-                    <div class="btn-group btn-group-toggle col-md-4" data-toggle="buttons">
-                        <label class="btn btn-light up-btns"><input type="radio" name="methodOfContact" value="127547625">Mobile phone</label>
-                        <label class="btn btn-light up-btns"><input type="radio" name="methodOfContact" value="357184057">Email</label>
+                <div class="col">
+                    <label class="col-form-label">
+                        How do you prefer that we reach you?
+                    </label>
+                    <br>
+                    <div class="btn-group btn-group-toggle col-md-4" style="margin-left:0px;">
+                        <label><input type="radio" name="methodOfContact" value="127547625"> Mobile phone</label>
+                        <label><input type="radio" name="methodOfContact" value="357184057" style="margin-left:10px;"> Email</label>
                     </div>
+                </div>
                 `;
             }
         }
