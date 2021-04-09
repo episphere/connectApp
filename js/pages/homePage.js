@@ -5,10 +5,10 @@ export const homePage = async () => {
     const isIE = /*@cc_on!@*/false || !!document.documentMode;
     mainContent.innerHTML = `
         ${isIE ? `<span class="not-compatible">Connect web application is not compatible with Internet Explorer, please use Chrome, Safari, Firefox or Edge</span>` : ``}
-        <div class="row connectBody">
-            <div class="col-lg-2 order-1">
+        <div class="row connectBody1">
+            <div class="col-lg-2 o">
             </div>
-            <div class="col-lg-4 .d-none .d-lg-block order-3 order-lg-2" style="text-align:center; height:600px;">
+            <div class="col-lg-4 .d-none text-lg-left text-center" style="text-align:center;">
                 <p class = "homeTitleText" style="text-align:left; font-family: 'Montserrat', sans-serif;">
                 
                 Connect <em>today.</em>
@@ -20,11 +20,10 @@ export const homePage = async () => {
                 <br><br>
                 
             </p>
-                <img src="./images/newImages/Tiles2.png" alt="Connect logo" width="409px" style="float:left;">
             </div>
-            <div class="col-lg-4  order-2 order-lg-3">
+            <div class="col-lg-4">
                 <div class="signInWrapper" id="signInWrapperDiv">
-                <h4 style="text-align:center; color:grey">Sign In | Join the Study</h4>
+                <p class="loginTitleFont" style="text-align:center; color:grey">Sign In | Join the Study</p>
                 <div id="signInDiv">
                 </div>
                 </div>
@@ -32,6 +31,41 @@ export const homePage = async () => {
             <div class="col-lg-2 order-4">
             </div>
         </div>
+        <div class="row connectBody">
+            <div class="col-lg-2 ">
+            </div>
+            <div class="col-lg-4 .d-none text-lg-left text-center connectBodyPicture" >
+                <img src="./images/newImages/Tiles2.png" alt="Connect logo" width="409px" style="float:left;">
+            </div>
+            <div class="col-lg-4">
+            </div>
+            <div class="col-lg-2 order-4">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2">
+            </div>
+            <div class="col-lg-4" style="text-align:left;">
+                <p style = "color:#606060; font-size: 28px;">
+                    <b>
+                    Are you age 40 to 65 with no history of certain cancers?*    
+                    </b>
+                </p>
+                <p style="color:#606060; font-size: 18px;">
+                    We need your help. We invite you to join a research study from the National Cancer Institute, part of the National Institutes of Health, to help understand what causes cancer and how to prevent it.
+                </p>
+                <p style="color:#606060; font-size: 15px;">
+                    *If you have or once had non-melanoma skin cancer (like basal cell or squamous cell carcinoma), or a condition that raises the risk of getting cancer (like DCIS, or stage 0 breast cancer), you can still join Connect.
+                </p>
+                
+            </div>
+            <div class="col-lg-4">
+                <img src="./images/newImages/Group2.png" alt="Group Picture" style="width:100%">
+            </div>
+            <div class="col-lg-1">
+            </div>
+        </div>
+       
         <div class="row">
             <div class="col-lg-2">
             </div>

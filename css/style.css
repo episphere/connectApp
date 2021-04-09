@@ -869,34 +869,81 @@ input:checked + .slider:before {
     border-width:2px !important;
     color:#2A72A5 !important;
 }
+.connectBody1{
+    background-color:#2a72a5; 
+    padding-top:60px;
+    /*margin-bottom:180px;*/
+}
+
 
 @media (max-width:520px){
     .connectBody{
         background-color:#2a72a5; 
-        padding-top:60px;
+        padding-top:20px;
         padding-bottom:120px;
         margin-bottom:180px;
+    }
+    .connectBodyPicture{
+        text-align:center;
+        height:150px;
     }
 }
 @media (max-width:992px) and (min-width:521px){
     .connectBody{
         background-color:#2a72a5; 
-        padding-top:60px;
+        padding-top:20px;
         margin-bottom:150px;
+    }
+    .connectBodyPicture{
+        text-align:center;
+        height:150px;
+        margin-bottom:20px;
     }
 }
 @media (max-width:1315px) and (min-width:993px){
     .connectBody{
         background-color:#2a72a5; 
-        padding-top:60px;
+        padding-top:20px;
         padding-bottom:120px;
         margin-bottom:180px;
+    }
+    .connectBodyPicture{
+        text-align:center;
+        height:70px;
     }
 }
 @media (min-width:1316px){
     .connectBody{
         background-color:#2a72a5; 
-        padding-top:60px;
+        padding-top:20px;
         margin-bottom:150px;
     }
+    .connectBodyPicture{
+        text-align:center;
+        height:170px;
+    }
+}
+
+.consentHeadersFont{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 28px;
+}
+
+.consentBodyFont1{
+    font-family: 'Noto Sans', sans-serif;
+    font-size:22px;
+}
+
+.consentBodyFont2{
+    font-family: 'Noto Sans', sans-serif;
+    font-size:18px;
+}
+
+.consentSubheader{
+    font-family: 'Montserrat', sans-serif;
+}
+
+.loginTitleFont{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
 }
