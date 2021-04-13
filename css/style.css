@@ -9,8 +9,9 @@
 
 #root {
     height: 100%;
-    border-top: 1px solid #ffffff;
-    margin-top:10px;
+    /*border-top: 1px solid #ffffff;
+    margin-top:10px;*/
+    margin-top:0px;
     margin-left:15px;
     margin-right:15px;
 }
@@ -503,6 +504,7 @@ canvas {
 .nav-link {
     color: #ffffff !important;
     font-weight: bold !important;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .join-study-btn {
@@ -671,7 +673,7 @@ input:checked + .slider:before {
 }
 
 .connect-container {
-    margin: 0 40px !important;
+    /*margin: 0 40px !important;*/
     min-height: calc(100vh - 140px);
 }
 
@@ -775,6 +777,10 @@ input:checked + .slider:before {
 
 .nci-connect-logo-width {
     width: inherit;
+}
+
+.nci-connect-logo-width-small {
+    width: 100%;
 }
 
 .nav-link {
@@ -946,4 +952,34 @@ input:checked + .slider:before {
 .loginTitleFont{
     font-family: 'Montserrat', sans-serif;
     font-size: 18px;
+    color: #606060;
+    line-height: 24px;
+}
+
+.userProfileBox{
+    border: 1px solid #A9AEB1;
+    border-radius:3px;
+    margin-top:20px;
+    padding-bottom:20px;
+}
+.userProfileLabels{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 23px;
+    color:#606060;
+}
+.userProfileEdit{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    color:#2A72A5 !important;
+    cursor: pointer;
+}
+
+.userProfileBodyFonts{
+    font-family: 'Noto Sans', sans-serif;
+    font-size:16px;
+    color:#2E2E2E;
+}
+
+.userProfileLinePaddings{
+    padding-top:0px;
 }

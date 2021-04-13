@@ -33,14 +33,15 @@ export const userNavBar = () => {
         </div>
         <div class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="#support" id="connectSupport"><i class="fas fa-headset"></i> Support</a>
+                <a class="nav-link" href="#payment" id="connectPayment"><i class="fas fa-money-check"></i> Payment</a>
             </li>
         </div>
         <div class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="#payment" id="connectPayment"><i class="fas fa-money-check"></i> Payment</a>
+                <a class="nav-link" href="#support" id="connectSupport"><i class="fas fa-headset"></i> Support</a>
             </li>
         </div>
+        
         <!--
         <div class="navbar-nav">
             <li class="nav-item">

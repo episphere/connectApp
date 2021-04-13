@@ -76,7 +76,7 @@ export const renderProgress = (progress) => {
         <div class="col-lg-10">
             <div class="row" style"padding-bottom:0px;padding-top:0px;">
                 <div class="consentBodyFont2" style="text-align:center;width:30px;height:30px;background:#2A72A5;border-radius:50%;border:5px solid #2A72A5;line-height:19px;color:white; display:inline;">${progress}</div>
-                <p class="consentBodyFont2" style="margin-left:2px"> of 7 <b>${list[progress-1]}</b></p> 
+                <p class="consentBodyFont2" style="margin-left:4px"> of 7 <b>${list[progress-1]}</b></p> 
             </div>
         </div>
         <div class="col-lg-1">

@@ -23,7 +23,7 @@ export const homePage = async () => {
             </div>
             <div class="col-lg-4">
                 <div class="signInWrapper" id="signInWrapperDiv">
-                <p class="loginTitleFont" style="text-align:center; color:grey">Sign In | Join the Study</p>
+                <p class="loginTitleFont" style="text-align:center;">Sign In | Join the Study</p>
                 <div id="signInDiv">
                 </div>
                 </div>
@@ -65,7 +65,7 @@ export const homePage = async () => {
             <div class="col-lg-1">
             </div>
         </div>
-       
+       <!--
         <div class="row">
             <div class="col-lg-2">
             </div>
@@ -104,6 +104,7 @@ export const homePage = async () => {
             <div class="col-lg-2">
             </div>
         </div>
+        -->
         <!--
         <div class="alert alert-warning" id="nextStepWarning" style="margin-top:10px;">
         </div>
