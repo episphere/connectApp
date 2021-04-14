@@ -28,7 +28,7 @@ export const userNavBar = () => {
         </div>
         <div class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="#settings" id="userSettings"><i class="fas fa-user-cog"></i> Settings</a>
+                <a class="nav-link" href="#settings" id="userSettings"><i class="fas fa-user-cog"></i> My Profile</a>
             </li>
         </div>
         <div class="navbar-nav">

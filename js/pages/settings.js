@@ -15,6 +15,7 @@ export const renderSettingsPage = async () => {
                     <p class="consentHeadersFont" style="color:#606060">
                         My Profile
                     </p>
+                    ${userData['399159511'] ? `
                     <div class="userProfileBox">
                         <div class="row">
                             <div class="col">
@@ -23,7 +24,7 @@ export const renderSettingsPage = async () => {
                                 </span>
                             </div>
                             <div class="col">
-                                <span class="userProfileEdit" style="float:right">
+                                <span class="userProfileEdit" style="float:right" id="nameEditButton">
                                     Edit
                                 </span>
                             </div>
@@ -77,7 +78,8 @@ export const renderSettingsPage = async () => {
                         `:''}
                         
                         
-                    </div>
+                    </div>`
+                    :''}
                     <div class="userProfileBox">
                         <div class="row">
                             <div class="col">
@@ -326,6 +328,7 @@ export const renderSettingsPage = async () => {
     }
     document.getElementById('root').innerHTML = template;
     hideAnimation();
+    addEventEditName(myData);
     addEventEditUP(myData.data);
 }
 
@@ -336,4 +339,81 @@ const addEventEditUP = (data) => {
 
         });
     }
+}
+
+const addEventEditName = (myData) => {
+    let button = document.getElementById('nameEditButton');
+    button.addEventListener('click', () => {
+        showAnimation();
+        let template = '';
+        template += `
+        <div class="row" style="margin-top:58px">
+                <div class="col-lg-3">
+                </div>
+                <div class="col-lg-6">
+                    <p class="consentHeadersFont" style="color:#606060">
+                        My Profile
+                    </p>
+                    <div class="userProfileBox">
+                        <div class="col">
+                        <form id="userProfileForm" method="POST" autocomplete="off">
+                            <p class="userProfileSubHeaders">Name</p> 
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label style="margin-left:-15px">First name <span class="required">*</span></label>
+                                    <input type="text" value="${myData.data['399159511']}" class="form-control input-validation row" id="UPFirstName" placeholder="Enter first name" disabled style="max-width:215px">
+                                </div>
+                                <div class="col-md-4">
+                                    <label style="margin-left:-15px">Middle name</label>
+                                    <input type="text" value="${myData.data['231676651'] ? myData.data['231676651'] : ''}" class="form-control input-validation row" data-validation-pattern="alphabets" data-error-validation="Your middle name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters." id="UPMiddleInitial" placeholder="Enter middle name" style="max-width:215px">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label style="margin-left:-15px">Last name <span class="required">*</span></label>
+                                    <input type="text" value="${myData.data['996038075']}" class="form-control input-validation row" id="UPLastName" placeholder="Enter last name" disabled style="max-width:304px">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <label class="col-form-label">Suffix</label>
+                                    <select class="form-control" style="max-width:152px; margin-left:0px;" id="UPSuffix">
+                                        <option value="">-- Select --</option>
+                                        <option value="612166858" ${myData.data['506826178'] ? (suffixList[myData.data['506826178']] == 0 ? 'selected':'') : ''}>Jr.</option>
+                                        <option value="255907182" ${myData.data['506826178'] ? (suffixList[myData.data['506826178']] == 1 ? 'selected':'') : ''}>Sr.</option>
+                                        <option value="226924545" ${myData.data['506826178'] ? (suffixList[myData.data['506826178']] == 2 ? 'selected':'') : ''}>I</option>
+                                        <option value="270793412" ${myData.data['506826178'] ? (suffixList[myData.data['506826178']] == 3 ? 'selected':'') : ''}>II</option>
+                                        <option value="959021713" ${myData.data['506826178'] ? (suffixList[myData.data['506826178']] == 4 ? 'selected':'') : ''}>III</option>
+                                        <option value="643664527" ${myData.data['506826178'] ? (suffixList[myData.data['506826178']] == 5 ? 'selected':'') : ''}>2nd</option>
+                                        <option value="537892528" ${myData.data['506826178'] ? (suffixList[myData.data['506826178']] == 6 ? 'selected':'') : ''}>3rd</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <label class="col-form-label">Preferred first name</label>
+                                    <input value="${myData.data[153211406]?myData.data[153211406]:''}" style="max-width:215px; margin-left:0px;" type="text" class="form-control input-validation" data-validation-pattern="alphabets" data-error-validation="Your preferred name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters." id="UPPreferredName" placeholder="Enter preferred name">
+                                </div>
+                            </div>
+                        </form>
+                        <br>
+                        <div>
+                            <button class="btn btn-primary myProfileCancelButton" type="button" id="backToAbout" style="">Cancel</button>
+                            <button class="btn btn-primary myProfileChangeButton" type="button" id="toPrivacy" style="float:right;">Change</button>
+                        </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-3">
+                </div>
+            </div>
+        `
+        document.getElementById('root').innerHTML = template;
+        document.getElementById('backToAbout').addEventListener('click', () => {
+            renderSettingsPage();
+        })
+        hideAnimation();
+    })
 }

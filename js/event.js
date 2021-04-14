@@ -690,7 +690,7 @@ const verifyUserDetails = (formData) => {
         ${formData['524461170'] ? `
         <div class="row">
             <div class="col">How do you prefer that we reach you?</div>
-            <div class="col">${formData['524461170'] === 127547625 ? 'Mobile phone': 'Email'}</div>
+            <div class="col">${formData['524461170'] === 127547625 ? 'Text Message': 'Email'}</div>
         </div>
         `:``}
 
@@ -793,7 +793,7 @@ export const addEventPreferredContactType = () => {
                     </label>
                     <br>
                     <div class="btn-group btn-group-toggle col-md-4" style="margin-left:0px;">
-                        <label><input type="radio" name="methodOfContact" value="127547625"> Mobile phone</label>
+                        <label><input type="radio" name="methodOfContact" value="127547625"> Text Message</label>
                         <label><input type="radio" name="methodOfContact" value="357184057" style="margin-left:10px;"> Email</label>
                     </div>
                 </div>
@@ -821,7 +821,7 @@ export const addEventPreferredContactType = () => {
                 div.innerHTML = `
                     <label class="col-md-4 col-form-label">How do you prefer that we reach you?</label>
                     <div class="btn-group btn-group-toggle col-md-4" data-toggle="buttons">
-                        <label class="btn btn-light up-btns"><input type="radio" name="methodOfContact" value="127547625">Mobile phone</label>
+                        <label class="btn btn-light up-btns"><input type="radio" name="methodOfContact" value="127547625">Text Message</label>
                         <label class="btn btn-light up-btns"><input type="radio" name="methodOfContact" value="357184057">Email</label>
                     </div>
                 `;
