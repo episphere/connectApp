@@ -463,9 +463,9 @@ export const addEventUPSubmit = () => {
             formData['793072415'] = `${document.getElementById('UPPhoneNumber31').value}${document.getElementById('UPPhoneNumber32').value}${document.getElementById('UPPhoneNumber33').value}`;
             allPhoneNo.push(`${document.getElementById('UPPhoneNumber31').value}${document.getElementById('UPPhoneNumber32').value}${document.getElementById('UPPhoneNumber33').value}`)
         }
-        const voiceMailPermission2 = document.getElementsByName('voiceMailPermission2');
-        Array.from(voiceMailPermission2).forEach(radioBtn => {
-            if(radioBtn.checked) formData['187894482'] = parseInt(radioBtn.value);
+        const voiceMailPermission3 = document.getElementsByName('voiceMailPermission3');
+        Array.from(voiceMailPermission3).forEach(radioBtn => {
+            if(radioBtn.checked) formData['983278853'] = parseInt(radioBtn.value);
         });
         if(allPhoneNo.length > 0) formData['query.allPhoneNo'] = allPhoneNo
 
