@@ -840,6 +840,9 @@ const consentSubmit = async e => {
     formData['982402227'] = CSDate.split('/')[2]+CSDate.split('/')[1]+CSDate.split('/')[0];
     formData['919254129'] = 353358909;
     formData['454445267'] = dateTime();
+    formData['262613359'] = dateTime();
+    formData['558435199'] = 353358909;
+    formData['412000022'] = 'HIPAA-v1.0'
 
     // Adding sign in info provided by firebase
     if(firebase.auth().currentUser) {

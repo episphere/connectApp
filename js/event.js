@@ -458,6 +458,17 @@ export const addEventUPSubmit = () => {
         });
         if(allPhoneNo.length > 0) formData['query.allPhoneNo'] = allPhoneNo
 
+         // Other phone
+        if(document.getElementById('UPPhoneNumber31').value && document.getElementById('UPPhoneNumber32').value && document.getElementById('UPPhoneNumber33').value) {
+            formData['793072415'] = `${document.getElementById('UPPhoneNumber31').value}${document.getElementById('UPPhoneNumber32').value}${document.getElementById('UPPhoneNumber33').value}`;
+            allPhoneNo.push(`${document.getElementById('UPPhoneNumber31').value}${document.getElementById('UPPhoneNumber32').value}${document.getElementById('UPPhoneNumber33').value}`)
+        }
+        const voiceMailPermission2 = document.getElementsByName('voiceMailPermission2');
+        Array.from(voiceMailPermission2).forEach(radioBtn => {
+            if(radioBtn.checked) formData['187894482'] = parseInt(radioBtn.value);
+        });
+        if(allPhoneNo.length > 0) formData['query.allPhoneNo'] = allPhoneNo
+
         // Email
         const allEmails = [];
         if(document.getElementById('UPEmail').value) {

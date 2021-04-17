@@ -328,8 +328,11 @@ export const renderSettingsPage = async () => {
     }
     document.getElementById('root').innerHTML = template;
     hideAnimation();
+    if(myData.code === 200 && myData.data['699625233'] !== undefined && myData.data['699625233'] === 353358909){
+
     addEventEditName(myData);
     addEventEditUP(myData.data);
+    }
 }
 
 const addEventEditUP = (data) => {
