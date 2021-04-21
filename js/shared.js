@@ -755,3 +755,9 @@ export const questionnaireModules = {
     'Enter SSN': {url: 'https://hzhao392.github.io/privatequest/ssnModule.txt', moduleId:"ModuleSsn", enabled:false}
 }
 */
+
+
+export const isBrowserCompatible = () => {
+    const isValidBrowser = /Chrome/.test(navigator.userAgent) || /Mozilla/.test(navigator.userAgent) || /Safari/.test(navigator.userAgent);
+    return isValidBrowser;
+}

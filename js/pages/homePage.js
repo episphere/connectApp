@@ -1,10 +1,10 @@
-import { getMyData } from "../shared.js";
+import { getMyData, isBrowserCompatible } from "../shared.js";
 
 export const homePage = async () => {
     const mainContent = document.getElementById('root');
-    const isIE = /*@cc_on!@*/false || !!document.documentMode;
+    const isCompatible = isBrowserCompatible();
     mainContent.innerHTML = `
-        ${isIE ? `<span class="not-compatible">Connect web application is not compatible with Internet Explorer, please use Chrome, Safari, Firefox or Edge</span>` : ``}
+        ${!isCompatible ? `<span class="not-compatible">Connect web application is only compatible with Chrome, Safari, Firefox or Edge.</span>` : ``}
         <div class="row connectBody1">
             <div class="col-lg-2 o">
             </div>
