@@ -12,8 +12,10 @@ export const myToDoList = (data, fromUserProfile) => {
     if(data['827220437'] && data['142654897']){
         localStorage.eligibilityQuestionnaire = JSON.stringify({'827220437': data['827220437']})
         if(data['919254129'] === 353358909){
-            console.log(JSON.stringify(data))
-            if(data['699625233'] && data['699625233'] === 353358909 && data['512820379'] && data['512820379'] !== 486306141 && data['821247024'] && data['821247024'] !== 197316935){
+            //In the future, we will want to just have active recruits passing this check
+            //data['512820379'] && data['512820379'] === 854703046 becomes
+            //data['512820379'] && data['512820379'] !== 486306141
+            if(data['699625233'] && data['699625233'] === 353358909 && data['512820379'] && data['512820379'] === 854703046 && data['821247024'] && data['821247024'] !== 197316935/*data['948195369'] && data['948195369'] !== 353358909*//*data['512820379'] && data['512820379'] !== 486306141 && data['821247024'] && data['821247024'] !== 197316935*/){
                 blockParticipant();
                 hideAnimation();
                 return;
@@ -29,7 +31,8 @@ export const myToDoList = (data, fromUserProfile) => {
                             `Thank you for completing your profile for the Connect for Cancer Prevention Study. Next, the Connect team at your health care system will check that you are eligible to be part of the study. We will contact you within a few business days.
                             <br>
                             In the meantime, please begin by completing your first Connect survey.`:
-                            'The Connect team at your health care system is working to check that you are eligible to be part of the study. In the meantime, please begin by completing your first Connect survey.'}
+                            `The Connect team at your health care system is working to check that you are eligible to be part of the study. 
+                            ${checkIfComplete(data) ? 'Thank you for completing your first Connect surveys! We will be in touch with next steps.': 'In the meantime, please begin by completing your first Connect survey.'}`}
                     </div>
                     `
                 }
@@ -207,7 +210,7 @@ const renderMainBody = (data, tab) => {
     modules['Background and Overall Health'].description = 'Questions about you, your medical history, and your family history.';
     modules['Background and Overall Health'].estimatedTime = '20 to 30 minutes'
     modules['Medications, Reproductive Health, Exercise, and Sleep'].header = 'Medications, Reproductive Health, Exercise, and Sleep'; 
-    modules['Medications, Reproductive Health, Exercise, and Sleep'].description = 'Questions about your current and past use of medications, your exerciseand sleep habits, and your reproductive health.';
+    modules['Medications, Reproductive Health, Exercise, and Sleep'].description = 'Questions about your current and past use of medications, your exercise and sleep habits, and your reproductive health.';
     modules['Medications, Reproductive Health, Exercise, and Sleep'].estimatedTime = '20 to 30 minutes'
     modules['Smoking, Alcohol, and Sun Exposure'].header = 'Smoking, Alcohol, and Sun Exposure'; 
     modules['Smoking, Alcohol, and Sun Exposure'].description = 'Questions about your use of tobacco, nicotine, marijuana, and alcohol, as well as your sun exposure.';
@@ -401,13 +404,13 @@ const renderMainBody = (data, tab) => {
                                                     `}
                                                 </div>
                                                 
-                                            </li>`
+                                            `
                                                 /*
                                                 <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="width:90%; margin-bottom:20px;">${key}</button>
                                             </li>`;*/
                             }
                         }
-                        template += /*html*/ `<li style="width:100%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
+                        template += /*html*/ `<div style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
                             <div class="row">
                                 <div class="col-1">
                                 <i class="fas fa-clipboard-list" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
@@ -431,8 +434,13 @@ const renderMainBody = (data, tab) => {
                                 -->
                                 </div>
                             </div>
-                        </li>`
+                        </div>`
                     }
+                }
+                if(started == true){
+                    template += '</li>'            
+                    //console.log('aslkvbsldvkbsadv: ' + template)
+    
                 }
             }
         }
@@ -442,12 +450,14 @@ const renderMainBody = (data, tab) => {
 
 const checkIfComplete = (data) =>{
     const modules = questionnaireModules;
-    
-    if (data.Module1 && data.Module1.COMPLETED 
-        && data.Module2 && data.Module2.COMPLETED
-        && data.Module3 && data.Module3.COMPLETED
-        && data.Module4 && data.Module4.COMPLETED) { 
-        return true;
+    console.log(data)
+    if (data[fieldMapping.Module1.conceptId] && data[fieldMapping.Module1.conceptId].COMPLETED
+        && data[fieldMapping.Module2.conceptId] && data[fieldMapping.Module2.conceptId].COMPLETED
+        && data[fieldMapping.Module3.conceptId] && data[fieldMapping.Module3.conceptId].COMPLETED
+        && data[fieldMapping.Module4.conceptId] && data[fieldMapping.Module4.conceptId].COMPLETED) { 
+            console.log('sldvnpisdnivosbivsdovisdbvsdv')
+
+            return true;
     };
     return false;
 

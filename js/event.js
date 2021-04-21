@@ -458,6 +458,17 @@ export const addEventUPSubmit = () => {
         });
         if(allPhoneNo.length > 0) formData['query.allPhoneNo'] = allPhoneNo
 
+         // Other phone
+        if(document.getElementById('UPPhoneNumber31').value && document.getElementById('UPPhoneNumber32').value && document.getElementById('UPPhoneNumber33').value) {
+            formData['793072415'] = `${document.getElementById('UPPhoneNumber31').value}${document.getElementById('UPPhoneNumber32').value}${document.getElementById('UPPhoneNumber33').value}`;
+            allPhoneNo.push(`${document.getElementById('UPPhoneNumber31').value}${document.getElementById('UPPhoneNumber32').value}${document.getElementById('UPPhoneNumber33').value}`)
+        }
+        const voiceMailPermission3 = document.getElementsByName('voiceMailPermission3');
+        Array.from(voiceMailPermission3).forEach(radioBtn => {
+            if(radioBtn.checked) formData['983278853'] = parseInt(radioBtn.value);
+        });
+        if(allPhoneNo.length > 0) formData['query.allPhoneNo'] = allPhoneNo
+
         // Email
         const allEmails = [];
         if(document.getElementById('UPEmail').value) {
@@ -658,6 +669,20 @@ const verifyUserDetails = (formData) => {
             <div class="col">${formData['187894482'] === 353358909 ? 'Yes': 'No'}</div>
         </div>
         `: ``}
+
+        ${formData['793072415'] ? `
+        <div class="row">
+            <div class="col">Other phone</div>
+            <div class="col">${formData['793072415'].substr(0,3)} - ${formData['793072415'].substr(3,3)} - ${formData['793072415'].substr(6,4)}</div>
+        </div>
+        `:``}
+        
+        ${formData['983278853'] ? `
+        <div class="row">
+            <div class="col">Can we leave a voicemail at this number?</div>
+            <div class="col">${formData['983278853'] === 353358909 ? 'Yes': 'No'}</div>
+        </div>
+        `: ``}
         
         ${formData['869588347'] ? `
         <div class="row">
@@ -690,7 +715,7 @@ const verifyUserDetails = (formData) => {
         ${formData['524461170'] ? `
         <div class="row">
             <div class="col">How do you prefer that we reach you?</div>
-            <div class="col">${formData['524461170'] === 127547625 ? 'Mobile phone': 'Email'}</div>
+            <div class="col">${formData['524461170'] === 127547625 ? 'Text Message': 'Email'}</div>
         </div>
         `:``}
 
@@ -727,7 +752,7 @@ const verifyUserDetails = (formData) => {
 
         ${formData['452166062'] ? `
         <div class="row">
-            <div class="col">Have you ever been diagnosed with cancer (other than non-melanoma skin cancer)?</div>
+            <div class="col">Have you ever had invasive cancer?</div>
             <div class="col">${formData['452166062'] === 353358909 ? 'Yes' : 'No'}</div>
         </div>
         `:``}
@@ -755,8 +780,8 @@ const verifyUserDetails = (formData) => {
     `;
 
     document.getElementById('connectModalFooter').innerHTML = `
-        <button type="button" title="Close" class="btn btn-dark" data-dismiss="modal">Close</button>
-        <button type="button" id="confirmReview" title="Confirm details" class="btn btn-primary" data-dismiss="modal">Confirm</button>
+        <button type="button" title="Close" class="btn btn-dark" data-dismiss="modal">Go Back</button>
+        <button type="button" id="confirmReview" title="Confirm details" class="btn btn-primary" data-dismiss="modal">Submit</button>
     `;
 
     document.getElementById('confirmReview').addEventListener('click', async () => {
@@ -787,11 +812,16 @@ export const addEventPreferredContactType = () => {
             if(div.innerHTML === ''){
                 div.classList = ['form-group row']
                 div.innerHTML = `
-                    <label class="col-md-4 col-form-label">How do you prefer that we reach you?</label>
-                    <div class="btn-group btn-group-toggle col-md-4" data-toggle="buttons">
-                        <label class="btn btn-light up-btns"><input type="radio" name="methodOfContact" value="127547625">Mobile phone</label>
-                        <label class="btn btn-light up-btns"><input type="radio" name="methodOfContact" value="357184057">Email</label>
+                <div class="col">
+                    <label class="col-form-label">
+                        How do you prefer that we reach you?
+                    </label>
+                    <br>
+                    <div class="btn-group btn-group-toggle col-md-4" style="margin-left:0px;">
+                        <label><input type="radio" name="methodOfContact" value="127547625"> Text Message</label>
+                        <label><input type="radio" name="methodOfContact" value="357184057" style="margin-left:10px;"> Email</label>
                     </div>
+                </div>
                 `;
             }
         }
@@ -816,7 +846,7 @@ export const addEventPreferredContactType = () => {
                 div.innerHTML = `
                     <label class="col-md-4 col-form-label">How do you prefer that we reach you?</label>
                     <div class="btn-group btn-group-toggle col-md-4" data-toggle="buttons">
-                        <label class="btn btn-light up-btns"><input type="radio" name="methodOfContact" value="127547625">Mobile phone</label>
+                        <label class="btn btn-light up-btns"><input type="radio" name="methodOfContact" value="127547625">Text Message</label>
                         <label class="btn btn-light up-btns"><input type="radio" name="methodOfContact" value="357184057">Email</label>
                     </div>
                 `;
@@ -1005,7 +1035,7 @@ export const retrieveNotificationsInBackgroound = async () => {
 }
 
 export const toggleCurrentPage = async (route) => {
-    const IDs = ['home', 'userDashboard', 'Notifications', 'userAgreements', 'userSettings', 'connectSupport', 'connectPayment'];
+    const IDs = ['userDashboard', 'Notifications', 'userAgreements', 'userSettings', 'connectSupport', 'connectPayment'];
     IDs.forEach(id => {
         const element = document.getElementById(id);
         element.addEventListener('click', () => {

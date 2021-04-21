@@ -2,7 +2,10 @@ import { getMyData } from "../shared.js";
 
 export const renderPaymentPage = async () => {
     const myData = await getMyData();
-    let site = myData["data"]['827220437']
+    let site = 0;
+    if(myData.data){
+        site = myData["data"]['827220437']
+    }
     let paymentInfo = `
         <p>
             After you complete some initial study activities, we willsend you a $25 gift card as a thank you. You become eligible for the $25 gift card after you:
@@ -42,7 +45,7 @@ export const renderPaymentPage = async () => {
         </p>
 
     `
-    if(site == 13){
+    if(site == 809703864){
         paymentInfo = `
             <p>
                 After you complete some initial study activities, you will receive $25 as a thank you. You become eligible for the $25 after you:
@@ -81,20 +84,28 @@ export const renderPaymentPage = async () => {
     }
     let template =  `
         <div class="row">
-            <h3>Connect Payment Process</h3>
-        </div>
-        <!--
-        <div class="row">
-            <div class="col-md-12">
-                <button class="btn faq-btn" type="button" data-toggle="collapse" data-target="#faq1" aria-expanded="false" aria-controls="faq1">
-                    <span class="faq-text">MyConnect Support</span> <span class="faq-icon"><i class="fas fa-plus"></i></span>
-                </button>
+            <div class="col-lg-2">
             </div>
-        </div>
-        -->
-        <div class="row">
-            <div>
-                ${paymentInfo}
+            <div class="col-lg-8">
+                <div class="row">
+                    <h3>Connect Payment Process</h3>
+                </div>
+                <!--
+                <div class="row">
+                    <div class="col-md-12">
+                        <button class="btn faq-btn" type="button" data-toggle="collapse" data-target="#faq1" aria-expanded="false" aria-controls="faq1">
+                            <span class="faq-text">MyConnect Support</span> <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                        </button>
+                    </div>
+                </div>
+                -->
+                <div class="row">
+                    <div>
+                        ${paymentInfo}
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2">
             </div>
         </div>
     `;

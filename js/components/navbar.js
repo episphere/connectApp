@@ -28,12 +28,7 @@ export const userNavBar = () => {
         </div>
         <div class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="#settings" id="userSettings"><i class="fas fa-user-cog"></i> Settings</a>
-            </li>
-        </div>
-        <div class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="#support" id="connectSupport"><i class="fas fa-headset"></i> Support</a>
+                <a class="nav-link" href="#settings" id="userSettings"><i class="fas fa-user-cog"></i> My Profile</a>
             </li>
         </div>
         <div class="navbar-nav">
@@ -41,6 +36,13 @@ export const userNavBar = () => {
                 <a class="nav-link" href="#payment" id="connectPayment"><i class="fas fa-money-check"></i> Payment</a>
             </li>
         </div>
+        <div class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="#support" id="connectSupport"><i class="fas fa-headset"></i> Support</a>
+            </li>
+        </div>
+        
+        <!--
         <div class="navbar-nav">
             <li class="nav-item">
                 <a target="_blank" class="nav-link" href="https://github.com/episphere/connect/issues" title="Please create an issue if you encounter any"><i class="fas fa-bug"></i> Report issue</a>
@@ -56,6 +58,7 @@ export const userNavBar = () => {
                 <a target="_blank" class="nav-link" href="https://gitter.im/episphere/connect" title="Chat with us"><i class="fas fa-comments"></i> Chat with us</a>
             </li>
         </div>
+        -->
         <div class="navbar-nav ml-auto">
             <li class="nav-item">
                 <a class="nav-link" href="#sign_out" id="signOut" title="Sign Out"><i class="fas fa-sign-out-alt"></i> Sign Out</a>

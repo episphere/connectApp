@@ -1,4 +1,4 @@
-import { getParameters, validateToken, userLoggedIn, getMyData, showAnimation, hideAnimation, connectPushNotification, enableDarkMode, toggleDarkMode, storeResponse } from "./js/shared.js";
+import { getParameters, validateToken, userLoggedIn, getMyData, showAnimation, hideAnimation, connectPushNotification, enableDarkMode, toggleDarkMode, storeResponse, isBrowserCompatible } from "./js/shared.js";
 import { userNavBar, homeNavBar } from "./js/components/navbar.js";
 import { homePage, joinNowBtn, whereAmIInDashboard } from "./js/pages/homePage.js";
 import { signIn } from "./js/pages/signIn.js";
@@ -17,10 +17,10 @@ import { footerTemplate } from "./js/pages/footer.js";
 let auth = '';
 
 window.onload = async () => {
-    const isIE = /*@cc_on!@*/false || !!document.documentMode;
-    if(isIE) {
+    const isCompatible = isBrowserCompatible();
+    if(!isCompatible) {
         const mainContent = document.getElementById('root');
-        mainContent.innerHTML = `<span class="not-compatible">Connect web application is not compatible with Internet Explorer, please use Chrome, Safari, Firefox or Edge.</span>`;
+        mainContent.innerHTML = `<span class="not-compatible">Connect web application is only compatible with Chrome, Safari, Firefox or Edge.</span>`;
     }
     if(localStorage.connect && JSON.parse(localStorage.connect).darkMode === true) enableDarkMode(true)
     !firebase.apps.length ? firebase.initializeApp(firebaseConfig()) : firebase.app();
@@ -187,6 +187,7 @@ const router = async () => {
         window.location.hash = '#sign_in';
     }
     const route =  window.location.hash || '#';
+    console.log('route: ' + JSON.stringify(route))
     toggleNavBar(route);
     
     if(loggedIn === false){

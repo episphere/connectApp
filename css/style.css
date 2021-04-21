@@ -9,8 +9,9 @@
 
 #root {
     height: 100%;
-    border-top: 1px solid #ffffff;
-    margin-top:10px;
+    /*border-top: 1px solid #ffffff;
+    margin-top:10px;*/
+    margin-top:0px;
     margin-left:15px;
     margin-right:15px;
 }
@@ -482,7 +483,7 @@ canvas {
 }
 
 .current-page {
-    border-bottom: 5px solid #2a72a5 !important;
+    border-bottom: 5px solid #FFBF17 !important;
     border-top: 5px solid #2a72a5;
 }
 
@@ -503,6 +504,7 @@ canvas {
 .nav-link {
     color: #ffffff !important;
     font-weight: bold !important;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .join-study-btn {
@@ -671,7 +673,7 @@ input:checked + .slider:before {
 }
 
 .connect-container {
-    margin: 0 40px !important;
+    /*margin: 0 40px !important;*/
     min-height: calc(100vh - 140px);
 }
 
@@ -766,7 +768,7 @@ input:checked + .slider:before {
 }
 
 .navbar-toggler {
-    border-color: #ffffff !important;
+    /*border-color: #ffffff !important;*/
 }
 
 .nci-connect-logo {
@@ -775,6 +777,10 @@ input:checked + .slider:before {
 
 .nci-connect-logo-width {
     width: inherit;
+}
+
+.nci-connect-logo-width-small {
+    width: 100%;
 }
 
 .nav-link {
@@ -822,7 +828,7 @@ input:checked + .slider:before {
 .signInWrapper{
     max-width:360px;
     background-color:white;
-    margin-left:auto;
+    margin:auto;
     padding-top:30px;   
     padding-bottom:30px;
     border-radius:5px;
@@ -868,4 +874,112 @@ input:checked + .slider:before {
     border-color:#2A72A5 !important;
     border-width:2px !important;
     color:#2A72A5 !important;
+}
+.connectBody1{
+    background-color:#2a72a5; 
+    padding-top:60px;
+    /*margin-bottom:180px;*/
+}
+
+
+@media (max-width:520px){
+    .connectBody{
+        background-color:#2a72a5; 
+        padding-top:20px;
+        padding-bottom:120px;
+        margin-bottom:180px;
+    }
+    .connectBodyPicture{
+        text-align:center;
+        height:150px;
+    }
+}
+@media (max-width:992px) and (min-width:521px){
+    .connectBody{
+        background-color:#2a72a5; 
+        padding-top:20px;
+        margin-bottom:150px;
+    }
+    .connectBodyPicture{
+        text-align:center;
+        height:150px;
+        margin-bottom:20px;
+    }
+}
+@media (max-width:1315px) and (min-width:993px){
+    .connectBody{
+        background-color:#2a72a5; 
+        padding-top:20px;
+        padding-bottom:120px;
+        margin-bottom:180px;
+    }
+    .connectBodyPicture{
+        text-align:center;
+        height:70px;
+    }
+}
+@media (min-width:1316px){
+    .connectBody{
+        background-color:#2a72a5; 
+        padding-top:20px;
+        margin-bottom:150px;
+    }
+    .connectBodyPicture{
+        text-align:center;
+        height:170px;
+    }
+}
+
+.consentHeadersFont{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 28px;
+}
+
+.consentBodyFont1{
+    font-family: 'Noto Sans', sans-serif;
+    font-size:22px;
+}
+
+.consentBodyFont2{
+    font-family: 'Noto Sans', sans-serif;
+    font-size:18px;
+}
+
+.consentSubheader{
+    font-family: 'Montserrat', sans-serif;
+}
+
+.loginTitleFont{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    color: #606060;
+    line-height: 24px;
+}
+
+.userProfileBox{
+    border: 1px solid #A9AEB1;
+    border-radius:3px;
+    margin-top:20px;
+    padding-bottom:20px;
+}
+.userProfileLabels{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 23px;
+    color:#606060;
+}
+.userProfileEdit{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    color:#2A72A5 !important;
+    cursor: pointer;
+}
+
+.userProfileBodyFonts{
+    font-family: 'Noto Sans', sans-serif;
+    font-size:16px;
+    color:#2E2E2E;
+}
+
+.userProfileLinePaddings{
+    padding-top:0px;
 }

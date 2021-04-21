@@ -3,10 +3,228 @@ import { showAnimation, hideAnimation, getMyData, storeResponse, toggleDarkMode,
 export const renderSettingsPage = async () => {
     showAnimation();
     const myData = await getMyData();
-    let template = '<h3>Settings</h3>'
+    let template = ''
+    console.log(myData)
     if(myData.code === 200 && myData.data['699625233'] !== undefined && myData.data['699625233'] === 353358909){
         const userData = myData.data;
         template += `
+            <div class="row" style="margin-top:58px">
+                <div class="col-lg-3">
+                </div>
+                <div class="col-lg-6">
+                    <p class="consentHeadersFont" style="color:#606060">
+                        My Profile
+                    </p>
+                    ${userData['399159511'] ? `
+                    <div class="userProfileBox">
+                        <div class="row">
+                            <div class="col">
+                                <span class="userProfileLabels">
+                                    Name
+                                </span>
+                            </div>
+                            <div class="col">
+                                <span class="userProfileEdit" style="float:right" id="nameEditButton">
+                                    Edit
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row userProfileLinePaddings" >
+                            <div class="col">
+                                <span class="userProfileBodyFonts">
+                                    First Name
+                                <br>
+                                    <b>
+                                        ${userData['399159511']}
+                                    </b>
+                                </span>
+                            </div>
+                        </div>
+                        ${userData['231676651']?`
+                        <div class="row userProfileLinePaddings" >
+                            <div class="col">
+                                <span class="userProfileBodyFonts">
+                                    Middle Name
+                                <br>
+                                    <b>
+                                         ${userData['231676651']}
+                                    </b>
+                                </span>
+                            </div>
+                        </div>`:''}
+                        <div class="row userProfileLinePaddings" >
+                            <div class="col">
+                                <span class="userProfileBodyFonts">
+                                    Last Name
+                                <br>
+                                    <b>
+                                        ${userData['996038075'] ? userData['996038075'] : '<br>'}
+                                    </b>
+                                </span>
+                            </div>
+                        </div>
+                        ${userData['506826178']? `
+                            <div class="row userProfileLinePaddings" >
+                                <div class="col">
+                                    <span class="userProfileBodyFonts">
+                                        Suffix
+                                    <br>
+                                        <b>
+                                            ${await getConceptVariableName(userData['506826178'])}
+                                        </b>
+                                    </span>
+                                </div>
+                            </div>
+                        `:''}
+                        
+                        
+                    </div>`
+                    :''}
+                    <div class="userProfileBox">
+                        <div class="row">
+                            <div class="col">
+                                <span class="userProfileLabels">
+                                    Contact Information
+                                </span>
+                            </div>
+                            <div class="col">
+                                <span class="userProfileEdit" style="float:right">
+                                    Edit
+                                </span>
+                            </div>
+                        </div>
+                        ${userData['388711124']? `
+                            <div class="row userProfileLinePaddings" >
+                                <div class="col">
+                                    <span class="userProfileBodyFonts">
+                                        Mobile Phone
+                                    <br>
+                                        <b>
+                                            ${userData['388711124'].substr(0,3)} - ${userData['388711124'].substr(3,3)} - ${userData['388711124'].substr(6,4)}
+                                        </b>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row userProfileLinePaddings" >
+                                <div class="col">
+                                    <span class="userProfileBodyFonts">
+                                        Can we leave a voicemail at this number?
+                                    <br>
+                                        <b>
+                                            ${userData['271757434'] ? (userData['271757434'] === 353358909 ? 'Yes':'No') : 'No'}
+                                        </b>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row userProfileLinePaddings" >
+                                <div class="col">
+                                    <span class="userProfileBodyFonts">
+                                        Can we text this number?
+                                    <br>
+                                        <b>
+                                            ${userData['271757434'] ? (userData['271757434'] === 353358909 ? 'Yes':'No') : 'No'}
+                                        </b>
+                                    </span>
+                                </div>
+                            </div>
+                        `:''}
+                        ${userData['438643922']? `
+                            <div class="row userProfileLinePaddings" >
+                                <div class="col">
+                                    <span class="userProfileBodyFonts">
+                                        Mobile Phone
+                                    <br>
+                                        <b>
+                                            ${userData['438643922'].substr(0,3)} - ${userData['438643922'].substr(3,3)} - ${userData['438643922'].substr(6,4)}
+                                        </b>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row userProfileLinePaddings" >
+                                <div class="col">
+                                    <span class="userProfileBodyFonts">
+                                        Can we leave a voicemail at this number?
+                                    <br>
+                                        <b>
+                                            ${userData['187894482'] ? (userData['187894482'] === 353358909 ? 'Yes':'No') : 'No'}
+                                        </b>
+                                    </span>
+                                </div>
+                            </div>
+                        `:''}
+                        <div class="row userProfileLinePaddings" >
+                            <div class="col">
+                                <span class="userProfileBodyFonts">
+                                    Preferred Email
+                                <br>
+                                    <b>
+                                        ${userData['869588347']}
+                                    </b>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="userProfileBox">
+                        <div class="row">
+                            <div class="col">
+                                <span class="userProfileLabels">
+                                    Mailing Address
+                                </span>
+                            </div>
+                            <div class="col">
+                                <span class="userProfileEdit" style="float:right">
+                                    Edit
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row userProfileLinePaddings" >
+                            <div class="col">
+                                <span class="userProfileBodyFonts">
+                                    Mailing Address
+                                <br>
+                                    <b>
+                                        ${userData['521824358']} ${userData['442166669'] ? userData['442166669'] : ''}</br>
+                                        ${userData['703385619']}</br> 
+                                        ${userData['634434746']} ${userData['892050548']}
+                                    </b>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="userProfileBox">
+                        <div class="row">
+                            <div class="col">
+                                <span class="userProfileLabels">
+                                   Sign In Information
+                                </span>
+                            </div>
+                            <div class="col">
+                                <span class="userProfileEdit" style="float:right">
+                                    Edit
+                                </span>
+                            </div>
+                        </div>
+                        ${userData['421823980'] ? `
+                            <div class="row userProfileLinePaddings" >
+                                <div class="col">
+                                    <span class="userProfileBodyFonts">
+                                        Email Address
+                                    <br>
+                                        <b>
+                                            ${userData['421823980']}</br>
+                                        </b>
+                                    </span>
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                </div>
+            </div>
+        `
+        /*template += `
+            <h3>Settings</h3>
             <div class="row settings-header">
                 <div class="col"><h4>User profile</h4></div>
                 <div class="ml-auto"><i title="Edit user profile" id="editUserProfile" class="fas fa-edit"></i></div>
@@ -103,14 +321,18 @@ export const renderSettingsPage = async () => {
                     ${userData['703385619']} ${userData['634434746']} ${userData['892050548']}
                 </div>
             </div>
-        `;
+        `;*/
     }
     else {
         template += 'Settings not available';
     }
     document.getElementById('root').innerHTML = template;
     hideAnimation();
-    addEventEditUP(MyData.data);
+    if(myData.code === 200 && myData.data['699625233'] !== undefined && myData.data['699625233'] === 353358909){
+
+    addEventEditName(myData);
+    addEventEditUP(myData.data);
+    }
 }
 
 const addEventEditUP = (data) => {
@@ -120,4 +342,81 @@ const addEventEditUP = (data) => {
 
         });
     }
+}
+
+const addEventEditName = (myData) => {
+    let button = document.getElementById('nameEditButton');
+    button.addEventListener('click', () => {
+        showAnimation();
+        let template = '';
+        template += `
+        <div class="row" style="margin-top:58px">
+                <div class="col-lg-3">
+                </div>
+                <div class="col-lg-6">
+                    <p class="consentHeadersFont" style="color:#606060">
+                        My Profile
+                    </p>
+                    <div class="userProfileBox">
+                        <div class="col">
+                        <form id="userProfileForm" method="POST" autocomplete="off">
+                            <p class="userProfileSubHeaders">Name</p> 
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label style="margin-left:-15px">First name <span class="required">*</span></label>
+                                    <input type="text" value="${myData.data['399159511']}" class="form-control input-validation row" id="UPFirstName" placeholder="Enter first name" disabled style="max-width:215px">
+                                </div>
+                                <div class="col-md-4">
+                                    <label style="margin-left:-15px">Middle name</label>
+                                    <input type="text" value="${myData.data['231676651'] ? myData.data['231676651'] : ''}" class="form-control input-validation row" data-validation-pattern="alphabets" data-error-validation="Your middle name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters." id="UPMiddleInitial" placeholder="Enter middle name" style="max-width:215px">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label style="margin-left:-15px">Last name <span class="required">*</span></label>
+                                    <input type="text" value="${myData.data['996038075']}" class="form-control input-validation row" id="UPLastName" placeholder="Enter last name" disabled style="max-width:304px">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <label class="col-form-label">Suffix</label>
+                                    <select class="form-control" style="max-width:152px; margin-left:0px;" id="UPSuffix">
+                                        <option value="">-- Select --</option>
+                                        <option value="612166858" ${myData.data['506826178'] ? (suffixList[myData.data['506826178']] == 0 ? 'selected':'') : ''}>Jr.</option>
+                                        <option value="255907182" ${myData.data['506826178'] ? (suffixList[myData.data['506826178']] == 1 ? 'selected':'') : ''}>Sr.</option>
+                                        <option value="226924545" ${myData.data['506826178'] ? (suffixList[myData.data['506826178']] == 2 ? 'selected':'') : ''}>I</option>
+                                        <option value="270793412" ${myData.data['506826178'] ? (suffixList[myData.data['506826178']] == 3 ? 'selected':'') : ''}>II</option>
+                                        <option value="959021713" ${myData.data['506826178'] ? (suffixList[myData.data['506826178']] == 4 ? 'selected':'') : ''}>III</option>
+                                        <option value="643664527" ${myData.data['506826178'] ? (suffixList[myData.data['506826178']] == 5 ? 'selected':'') : ''}>2nd</option>
+                                        <option value="537892528" ${myData.data['506826178'] ? (suffixList[myData.data['506826178']] == 6 ? 'selected':'') : ''}>3rd</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <label class="col-form-label">Preferred first name</label>
+                                    <input value="${myData.data[153211406]?myData.data[153211406]:''}" style="max-width:215px; margin-left:0px;" type="text" class="form-control input-validation" data-validation-pattern="alphabets" data-error-validation="Your preferred name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters." id="UPPreferredName" placeholder="Enter preferred name">
+                                </div>
+                            </div>
+                        </form>
+                        <br>
+                        <div>
+                            <button class="btn btn-primary myProfileCancelButton" type="button" id="backToAbout" style="">Cancel</button>
+                            <button class="btn btn-primary myProfileChangeButton" type="button" id="toPrivacy" style="float:right;">Change</button>
+                        </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-3">
+                </div>
+            </div>
+        `
+        document.getElementById('root').innerHTML = template;
+        document.getElementById('backToAbout').addEventListener('click', () => {
+            renderSettingsPage();
+        })
+        hideAnimation();
+    })
 }

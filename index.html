@@ -25,7 +25,7 @@
         <link rel="stylesheet" href="./lib/bootstrap.min.css">
         <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
         <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet"> 
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Noto+Sans&display=swap" rel="stylesheet"> 
     </head>
     <body>
         <main>
@@ -33,14 +33,21 @@
                 <div class="nci-gov">
                     National Cancer Institute - Cancer.gov
                 </div>
-                <div class="row nci-logo-div">
+                <div class="row nci-logo-div d-none d-sm-flex">
                     <div class="col-lg-4 nci-connect-logo">
                         <a href="#">
                             <img src="./images/ConnectDCEGLogo.svg" class="nci-connect-logo-width" alt="NCI-Connect logo">
                         </a>
                     </div>
                 </div>
-                <nav class="navbar navbar-expand-lg custom-menu-color fixed-top">
+                <div class="row nci-logo-div d-sm-none">
+                    <div class="col-lg-4 nci-connect-logo">
+                        <a href="#">
+                            <img src="./images/ConnectDCEGLogo.svg" class="nci-connect-logo-width-small" alt="NCI-Connect logo">
+                        </a>
+                    </div>
+                </div>
+                <nav class="navbar navbar-dark navbar-expand-lg custom-menu-color fixed-top">
                     <div class="col" style="padding-left:0px">
                         <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
