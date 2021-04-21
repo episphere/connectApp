@@ -44,7 +44,7 @@ export const   questionnaire = (url, moduleId) => {
                         const occ = document.getElementById("D_761310265");
                 
                         // call soccer...
-                        let soccerResults = await (await fetch(`https://sitf-cwlcji5kxq-uc.a.run.app/soccer/code?title=${jobtitle}`)).json();
+                        let soccerResults = await (await fetch(`https://sitf-cwlcji5kxq-uc.a.run.app/soccer/code?title=%22${jobtitle}%22`)).json();
                         let responseElement = occ.querySelector("div[class='response']");
                         buildHTML(soccerResults, occ, responseElement);
                     });
@@ -57,9 +57,9 @@ export const   questionnaire = (url, moduleId) => {
                         const occ = document.getElementById("D_279637054");
                 
                         // call soccer...
-                        let soccerResults = await (await fetch(`https://sitf-cwlcji5kxq-uc.a.run.app/soccer/code?title=${jobtitle}`)).json();
+                        let soccerResults = await (await fetch(`https://sitf-cwlcji5kxq-uc.a.run.app//code?title=%22${jobtitle}%22`)).json();
                         let responseElement = occ.querySelector("div[class='response']");
-                        buildHTML(soccerResults, occ, responseElement);
+                        buildHTML(Results, occ, responseElement);
                     });
                 }
             });
