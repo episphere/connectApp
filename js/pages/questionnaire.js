@@ -109,7 +109,7 @@ function buildHTML(soccerResults, question, responseElement) {
 export const blockParticipant = () => {
     const mainContent = document.getElementById('root');
     mainContent.innerHTML = `
-    <div class = "row">
+    <div class = "row" style="margin-top:25px">
         <div class = "col-lg-2">
         </div>
         <div class = "col">

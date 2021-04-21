@@ -669,6 +669,20 @@ const verifyUserDetails = (formData) => {
             <div class="col">${formData['187894482'] === 353358909 ? 'Yes': 'No'}</div>
         </div>
         `: ``}
+
+        ${formData['793072415'] ? `
+        <div class="row">
+            <div class="col">Other phone</div>
+            <div class="col">${formData['793072415'].substr(0,3)} - ${formData['793072415'].substr(3,3)} - ${formData['793072415'].substr(6,4)}</div>
+        </div>
+        `:``}
+        
+        ${formData['983278853'] ? `
+        <div class="row">
+            <div class="col">Can we leave a voicemail at this number?</div>
+            <div class="col">${formData['983278853'] === 353358909 ? 'Yes': 'No'}</div>
+        </div>
+        `: ``}
         
         ${formData['869588347'] ? `
         <div class="row">
