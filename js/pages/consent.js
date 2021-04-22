@@ -1,4 +1,4 @@
-import { todaysDate, storeResponse, dataSavingBtn, dateTime, errorMessageConsent } from "../shared.js";
+import { todaysDate, storeResponse, dataSavingBtn, dateTime, errorMessageConsent, siteAcronyms, getMyData } from "../shared.js";
 import { renderUserProfile } from "../components/form.js";
 import { removeAllErrors, addEventsConsentSign } from "../event.js";
 import { renderDownloadConsentCopy } from "./agreements.js";
@@ -832,7 +832,7 @@ const consentSubmit = async e => {
     dataSavingBtn('save-data');
     const CSDate = todaysDate();
 
-    formData['454205108'] = 'Consent-v1.0';
+    
     formData['471168198'] = CSFirstName.value.trim();
     formData['436680969'] = CSMiddleName.value.trim() === '' ? undefined : CSMiddleName.value.trim();
     formData['736251808'] = CSLastName.value.trim();
@@ -842,7 +842,13 @@ const consentSubmit = async e => {
     formData['454445267'] = dateTime();
     formData['262613359'] = dateTime();
     formData['558435199'] = 353358909;
-    formData['412000022'] = 'HIPAA-v1.0'
+    //consent and hipaa forms
+    let versionJSON = await fetch('./forms/Consent_versioning.json').then(res => res.json());
+    let siteDict = siteAcronyms();
+    const myData = await getMyData()
+    let participantSite = siteDict[myData.data['827220437']];
+    formData['454205108'] = participantSite + '_Consent_' + versionJSON[participantSite]['Consent'];
+    formData['412000022'] = participantSite + '_HIPAA_' + versionJSON[participantSite]['HIPAA']
 
     // Adding sign in info provided by firebase
     if(firebase.auth().currentUser) {

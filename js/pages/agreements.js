@@ -1,4 +1,4 @@
-import { getMyData, hideAnimation, showAnimation } from "../shared.js";
+import { getMyData, hideAnimation, showAnimation, siteAcronyms } from "../shared.js";
 import { initializeCanvas } from './consent.js'
 import {humanReadableMDYwithoutTime} from "../util.js";
 const { PDFDocument, StandardFonts } = PDFLib;
@@ -39,24 +39,25 @@ export const renderAgreements = async () => {
                                 <br>
                                 </div>
                             </div>
-                            ${myData.data['773707518'] ?`
+                            ${myData.data['831041022'] ?`
                                 <div class="row">
                                     <div class="col consentBodyFont2">
                                         Sign Data Destruction Form
                                     </div>
                                     <div class="col">
-                                        <button class="btn btn-agreement consentNextButton" style="float:right;" id="downloadConsent"><i class="fas fa-file-download" ></i> Download Signed Form</button>
+                                        <button class="btn btn-agreement consentNextButton" style="float:right;" id="downloadConsent"><i class="fas fa-file-download" ></i> Sign Form</button>
                                     </div>
                                 </div>
+                                <br>
                             `:''}
-                            <br>
+                            
                             ${myData.data['773707518'] ?`
                                 <div class="row">
                                     <div class="col consentBodyFont2">
                                         Sign HIPAA Revocation Form
                                     </div>
                                     <div class="col">
-                                        <button class="btn btn-agreement consentNextButton" style="float:right;" id="downloadHIPAA"><i class="fas fa-file-download"></i> Download Signed Form</button>
+                                        <button class="btn btn-agreement consentNextButton" style="float:right;" id="downloadHIPAA"><i class="fas fa-file-download"></i> Sign Form</button>
                                     </div>
                                 </div>
                             `:''}
@@ -83,8 +84,9 @@ export const renderAgreements = async () => {
                                         <button class="btn btn-agreement consentNextButton" style="float:right;" id="downloadDestroy"><i class="fas fa-file-download" ></i> Download Signed Form</button>
                                     </div>
                                 </div>
+                                <br>
                             `:''}
-                            <br>
+                            
                             ${myData.data['613641698'] ?`
                                 <div class="row">
                                     <div class="col consentBodyFont2">
@@ -95,8 +97,9 @@ export const renderAgreements = async () => {
                                         <button class="btn btn-agreement consentNextButton" style="float:right;" id="downloadRevoke"><i class="fas fa-file-download" ></i> Download Signed Form</button>
                                     </div>
                                 </div>
+                                <br>
                             `:''}
-                            <br>
+                            
                             ${myData.data['454445267'] ?`
                                 <div class="row">
                                     <div class="col consentBodyFont2">
@@ -107,8 +110,9 @@ export const renderAgreements = async () => {
                                         <button class="btn btn-agreement consentNextButton" style="float:right;" id="downloadConsent"><i class="fas fa-file-download" ></i> Download Signed Form</button>
                                     </div>
                                 </div>
+                                <br>
                             `:''}
-                            <br>
+                            
                             ${myData.data['262613359'] ? `
                                 <div class="row">
                                     <div class="col consentBodyFont2">
@@ -151,6 +155,14 @@ export const renderAgreements = async () => {
     else{
         template += 'No agreement found!';
     }
+    let siteDict = siteAcronyms();
+    let consentVersions = await fetch('./forms/Consent_versioning.json').then(res => res.json());
+
+    console.log(consentVersions);
+    let participantSite = siteDict[myData.data['827220437']];
+    console.log(participantSite);
+    let pdfLocation = './forms/consent/' + myData.data[412000022] + '.pdf'
+    console.log(myData.data)
     document.getElementById('root').innerHTML = template;
     addEventAgreementOptions(myData);
     hideAnimation();
@@ -184,15 +196,15 @@ const addEventAgreementOptions = (myData) => {
     }
 
     const downloadRevoke = document.getElementById('downloadRevoke');
-    if(downloadHIPAA){
-        downloadHIPAA.addEventListener('click', () => {
+    if(downloadRevoke){
+        downloadRevoke.addEventListener('click', () => {
             renderDownloadRevoke(myData.data)
         })
     }
 
     const downloadDestroy = document.getElementById('downloadDestroy');
-    if(downloadHIPAA){
-        downloadHIPAA.addEventListener('click', () => {
+    if(downloadDestroy){
+        downloadDestroy.addEventListener('click', () => {
             renderDownloadDestroy(myData.data)
         })
     }
@@ -202,9 +214,12 @@ const addEventAgreementOptions = (myData) => {
 
 
 export const renderDownloadConsentCopy = async (data) => {
+    let pdfLocation = './forms/consent/' + data[454205108] + '.pdf'
+    let pdfName = data[454205108] + '.pdf';
+    console.log('Location: ' + pdfLocation);
     const participantSignature = data[471168198] + ' ' + data[736251808]
     let seekLastPage;
-    const pdfLocation = './consent_draft.pdf';
+    //const pdfLocation = './consent_draft.pdf';
     const existingPdfBytes = await fetch(pdfLocation).then(res => res.arrayBuffer());
     const pdfConsentDoc = await PDFDocument.load(existingPdfBytes);
     const helveticaFont = await pdfConsentDoc.embedFont(StandardFonts.TimesRomanItalic);
@@ -233,14 +248,16 @@ export const renderDownloadConsentCopy = async (data) => {
     const pdfBytes = await pdfConsentDoc.save();
 
     // Trigger the browser to download the PDF document
-    download(pdfBytes, "consent_draft.pdf", "application/pdf");
+    download(pdfBytes, pdfName, "application/pdf");
     
 }
 
 export const renderDownloadHIPAA = async (data) => {
+    let pdfLocation = './forms/HIPAA/' + data[412000022] + '.pdf'
+    let pdfName = data[412000022] + '.pdf';
     const participantSignature = data[471168198] + ' ' + data[736251808]
     let seekLastPage;
-    const pdfLocation = './consent_draft.pdf';
+    //const pdfLocation = './consent_draft.pdf';
     const existingPdfBytes = await fetch(pdfLocation).then(res => res.arrayBuffer());
     const pdfConsentDoc = await PDFDocument.load(existingPdfBytes);
     const helveticaFont = await pdfConsentDoc.embedFont(StandardFonts.TimesRomanItalic);
@@ -269,7 +286,7 @@ export const renderDownloadHIPAA = async (data) => {
     const pdfBytes = await pdfConsentDoc.save();
 
     // Trigger the browser to download the PDF document
-    download(pdfBytes, "consent_draft.pdf", "application/pdf");
+    download(pdfBytes, pdfName, "application/pdf");
     
 }
 

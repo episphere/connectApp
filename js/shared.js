@@ -130,6 +130,22 @@ export const sites = () => {
     }
 }
 
+export const siteAcronyms = () => {
+    return {
+        531629870: 'HP',
+        548392715: 'HFHS',
+        125001209: 'KPCO',
+        327912200: 'KPGA',
+        300267574: 'KPHI',
+        452412599: 'KPNW',
+        303349821: 'Marshfield',
+        657167265: 'Sanford',
+        809703864: 'UChicago',
+        13: 'NCI'
+    }
+}
+
+
 export const todaysDate = () => {
     const today = new Date();
     let dd = today.getDate();
