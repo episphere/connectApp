@@ -24,9 +24,9 @@ export const renderSettingsPage = async () => {
                                 </span>
                             </div>
                             <div class="col">
-                                <span class="userProfileEdit" style="float:right" id="nameEditButton">
+                                <!--<span class="userProfileEdit" style="float:right" id="nameEditButton">
                                     Edit
-                                </span>
+                                </span>-->
                             </div>
                         </div>
                         <div class="row userProfileLinePaddings" >
@@ -88,9 +88,9 @@ export const renderSettingsPage = async () => {
                                 </span>
                             </div>
                             <div class="col">
-                                <span class="userProfileEdit" style="float:right">
+                            <!--<span class="userProfileEdit" style="float:right">
                                     Edit
-                                </span>
+                                </span>-->
                             </div>
                         </div>
                         ${userData['388711124']? `
@@ -132,7 +132,7 @@ export const renderSettingsPage = async () => {
                             <div class="row userProfileLinePaddings" >
                                 <div class="col">
                                     <span class="userProfileBodyFonts">
-                                        Mobile Phone
+                                        Home Phone
                                     <br>
                                         <b>
                                             ${userData['438643922'].substr(0,3)} - ${userData['438643922'].substr(3,3)} - ${userData['438643922'].substr(6,4)}
@@ -172,9 +172,11 @@ export const renderSettingsPage = async () => {
                                 </span>
                             </div>
                             <div class="col">
+                            <!--
                                 <span class="userProfileEdit" style="float:right">
                                     Edit
                                 </span>
+                                -->
                             </div>
                         </div>
                         <div class="row userProfileLinePaddings" >
@@ -199,23 +201,94 @@ export const renderSettingsPage = async () => {
                                 </span>
                             </div>
                             <div class="col">
+                            <!--
                                 <span class="userProfileEdit" style="float:right">
                                     Edit
                                 </span>
+                                -->
                             </div>
                         </div>
                         ${userData['421823980'] ? `
                             <div class="row userProfileLinePaddings" >
                                 <div class="col">
                                     <span class="userProfileBodyFonts">
-                                        Email Address
+                                        Change Password
+                                    </span>
+                                </div>
+                                <div class="col">
+                                    <button id="changePass" class="btn btn-primary save-data consentNextButton" style="float:right;">Change Password</button>
+                                </div>
+                                
+                            </div>
+                            <div class="row userProfileLinePaddings" id="changPassGroup" style="display:none;">
+                                <div class="col">
+                                    <input type="password" id="newPassField" placeholder="Enter new password"/>
                                     <br>
+                                    <br>
+                                    <input type="password" id="newPassFieldCheck" placeholder="Re-enter new password"/>
+                                    <br>
+                                    <br>
+                                    <button id="changePassSubmit" class="btn btn-primary save-data consentNextButton">Change Password</button>
+                                </div>
+                            </div>
+                            <div class="row userProfileLinePaddings" id="passwordSuccess" style="display:none;">
+                                <div class="col">
+                                    <span class="userProfileBodyFonts">
+                                        Password Change Success!
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row userProfileLinePaddings" id="passwordFail" style="display:none;">
+                                <div class="col">
+                                    <span id="passError" class="userProfileBodyFonts" style="color:red;">
+                                        Password Change Failed!
+                                    </span>
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <div class="row userProfileLinePaddings" >
+                                <div class="col">
+                                    <span class="userProfileBodyFonts">
+                                        Email Address
+                                        <br>
                                         <b>
                                             ${userData['421823980']}</br>
                                         </b>
                                     </span>
                                 </div>
+                                <div class="col">
+                                    <button id="changeEmail" class="btn btn-primary save-data consentNextButton" style="float:right;">Change Email</button>
+                                </div>
+                                
                             </div>
+                            <div class="row userProfileLinePaddings" id="changEmailGroup" style="display:none;">
+                                <div class="col">
+                                    <input id="newEmailField" placeholder="Enter new Email address"/>
+                                    <br>
+                                    <br>
+                                    <input id="newEmailFieldCheck" placeholder="Re-enter new Email address"/>
+                                    <br>
+                                    <br>
+                                    <button id="changeEmailSubmit" class="btn btn-primary save-data consentNextButton">Change Email</button>
+                                </div>
+                            </div>
+                            <div class="row userProfileLinePaddings" id="emailSuccess" style="display:none;">
+                                <div class="col">
+                                    <span class="userProfileBodyFonts">
+                                        Email Change Success!
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row userProfileLinePaddings" id="emailFail" style="display:none;">
+                                <div class="col">
+                                    <span id="emailError" class="userProfileBodyFonts" style="color:red;">
+                                        Email Change Failed!
+                                    </span>
+                                </div>
+                            </div>
+
                         ` : ''}
                     </div>
                 </div>
@@ -329,10 +402,45 @@ export const renderSettingsPage = async () => {
     document.getElementById('root').innerHTML = template;
     hideAnimation();
     if(myData.code === 200 && myData.data['699625233'] !== undefined && myData.data['699625233'] === 353358909){
-
-    addEventEditName(myData);
-    addEventEditUP(myData.data);
+        addEventEditName(myData);
+        addEventEditUP(myData.data);
     }
+    document.getElementById('changePass').addEventListener('click', () => {
+        document.getElementById('changPassGroup').style.display = "block"
+    })
+    document.getElementById('changeEmail').addEventListener('click', () => {
+        document.getElementById('changEmailGroup').style.display = "block"
+    })
+    document.getElementById('changePassSubmit').addEventListener('click', () => {
+        //document.getElementById('changPassGroup').style.display = "block"
+        console.log(document.getElementById('newPassField').value)
+        let pass = document.getElementById('newPassField').value
+        let passConfirm = document.getElementById('newPassFieldCheck').value
+        if(pass === passConfirm){
+            console.log('true')
+            changePass(pass)
+        }
+        else{
+            console.log('false')
+        }
+        //console.log(newPassField.value)
+    })
+
+    document.getElementById('changeEmailSubmit').addEventListener('click', () => {
+        //document.getElementById('changPassGroup').style.display = "block"
+        console.log(document.getElementById('newEmailField').value)
+        let email = document.getElementById('newEmailField').value
+        let emailConfirm = document.getElementById('newEmailFieldCheck').value
+        if(email === emailConfirm){
+            console.log('true')
+            changeEmail(email)
+        }
+        else{
+            console.log('false')
+        }
+        //console.log(newPassField.value)
+    })
+    
 }
 
 const addEventEditUP = (data) => {
@@ -419,4 +527,46 @@ const addEventEditName = (myData) => {
         })
         hideAnimation();
     })
+}
+
+const changePass = (newPassword) =>{
+    var user = firebase.auth().currentUser;
+    //var newPassword = getASecureRandomPassword();
+
+    user.updatePassword(newPassword).then(function() {
+    // Update successful.
+        document.getElementById('changPassGroup').style.display = 'none';
+        document.getElementById('passwordSuccess').style.display = 'block';
+        document.getElementsByTagName('changePass').style.display = 'block';
+
+    }).catch(function(error) {
+    // An error happened.
+        //console.log(error.message)
+        //document.getElementById('changPassGroup').style.display = 'none';
+        document.getElementById('passwordFail').style.display = 'block'
+        document.getElementById('passError').innerHTML = error.message;
+
+    });
+
+}
+
+const changeEmail = (newEmail) =>{
+    var user = firebase.auth().currentUser;
+    //var newPassword = getASecureRandomPassword();
+
+    user.updateEmail(newPassword).then(function() {
+    // Update successful.
+        document.getElementById('changEmailGroup').style.display = 'none';
+        document.getElementById('emailSuccess').style.display = 'block';
+        document.getElementsByTagName('changeEmail').style.display = 'block';
+
+    }).catch(function(error) {
+    // An error happened.
+        //console.log(error.message)
+        //document.getElementById('changPassGroup').style.display = 'none';
+        document.getElementById('emailFail').style.display = 'block'
+        document.getElementById('emailError').innerHTML = error.message;
+
+    });
+
 }

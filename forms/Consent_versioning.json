@@ -39,10 +39,7 @@
         "Consent":"V1.0",
         "HIPAA":"V1.0"
     },
-    "Revocation":{
-        "Version":"V1.0"
-    },
-    "DataDestruction":{
-        "Version":"V1.0"
-    }
+    "Revocation":"V1.0",
+    "DataDestruction":"V1.0"
+    
 }
