@@ -231,11 +231,17 @@ const userProfile = () => {
                     let obj = {
                         335767902: (new Date(parseInt(user.metadata.a))).toISOString()
                     }
-                    if(parameters.utm_source && parameters.utm_id) {
-                        obj['utm_source'] = parameters.utm_source;
-                        obj['utm_id'] = parameters.utm_id;
-                    }
+
                     await storeResponse(obj);
+                }
+            }
+            const userData = await getMyData();
+            if(userData.code === 200) {
+                let tmp = {};
+                if(parameters && parameters.utm_source && parameters.utm_id) {
+                    tmp['utm_source'] = parameters.utm_source;
+                    tmp['utm_id'] = parameters.utm_id;
+                    await storeResponse(tmp);
                 }
             }
             window.history.replaceState({},'Dashboard', './#dashboard');

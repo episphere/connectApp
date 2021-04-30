@@ -198,9 +198,9 @@ export const userLoggedIn = () => {
 export const getParameters = (URL) => {
     const hash = decodeURIComponent(URL);
     const index = hash.indexOf('?');
-
     if(index !== -1){
-        const query = hash.slice(index+1, hash.length);
+        let query = hash.slice(index+1, hash.length);
+        if(query.indexOf('#') !== -1) query = query.slice(0, query.indexOf('#'))
         const array = query.split('&');
         let obj = {};
         array.forEach(value => {
