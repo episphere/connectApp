@@ -401,7 +401,7 @@ export const consentConsentPage = () => {
             </div>
             <div class="col-lg-8">
                 <p class="consentHeadersFont">Informed Consent</p>
-                <p class="consentBodyFont1">To join Connect, we need you to review the full informed consent form and electronic health records release (HIPAA Authorization) form below. If you have any questions, contact the Connect Support Center at <a href="https://norcfedrampdev.servicenowservices.com/participant">Cancer.gov/connectstudy/support</a>. Once you are comfortable with the study and decide to join, please sign the forms electronically.</p>
+                <p class="consentBodyFont1">To join Connect, we need you to review the full informed consent form and electronic health records release (HIPAA Authorization) form below. If you have any questions, contact the Connect Support Center at <a href="https://norcfedramp.servicenowservices.com/participant">Cancer.gov/connectstudy/support</a>. Once you are comfortable with the study and decide to join, please sign the forms electronically.</p>
             
             <div style="width:80%; margin:auto">
                 <h4 class="consentSubheader" style="margin-top:50px">Informed Consent Form</h4>
@@ -418,11 +418,11 @@ export const consentConsentPage = () => {
                 <ol class="consentBodyFont2">
                     <li>I have read these forms.</li>
                     <li>As  stated  in  the  consent  and  HIPAA  Authorization,  I  will allow  the  use,  storage, and  disclosure  (release) of  my  survey  answers, samples,  and  health  information for the research as described above.</li>
-                    <li>If I have questions, I can contact the Connect Support Center at <a href="https://norcfedrampdev.servicenowservices.com/participant">Cancer.gov/connectstudy/support</a></li>
-                    <li>If I decide to leave the study, I can contact the Connect Support Center at <a href="https://norcfedrampdev.servicenowservices.com/participant">Cancer.gov/connectstudy/support</a></li>
+                    <li>If I have questions, I can contact the Connect Support Center at <a href="https://norcfedramp.servicenowservices.com/participant">Cancer.gov/connectstudy/support</a></li>
+                    <li>If I decide to leave the study, I can contact the Connect Support Center at <a href="https://norcfedramp.servicenowservices.com/participant">Cancer.gov/connectstudy/support</a></li>
                 </ol>
                 <input type="checkbox" name="consentAnswer" value="consentYes" id="CSConsentYesCheck" required>
-                <label for="consentYes" id="CSConsentYes">Yes, I agree to join Connect</label><br>
+                <label for="consentYes" required="" id="CSConsentYes">Yes, I agree to join Connect</label><br>
             </div>
             
             <form id="consentForm" style="margin-top:50px" method="POST">
@@ -704,7 +704,7 @@ export const consentToProfilePage = () => {
                     Thank you for completing the consent process. We need some more information about you to confirm that you can be part of the study. After you complete this step, we will use the information 
                     you share to check your eligibility and contact you within a few business days. We respect your privacy and protect the personal information you share with us.
                     <br>
-                    If you have any questions, please contact the <a href="https://norcfedrampdev.servicenowservices.com/participant" target="_blank">Connect Support Center</a>.
+                    If you have any questions, please contact the <a href="https://norcfedramp.servicenowservices.com/participant" target="_blank">Connect Support Center</a>.
                 </p>
             </div>
             <div>

@@ -192,7 +192,7 @@ const router = async () => {
     
     if(loggedIn === false){
         if(route === '#') homePage();
-        else if (route === '#sign_in' && loggedIn === false) signIn();
+        //else if (route === '#sign_in' && loggedIn === false) signIn();
         //else if (route === '#dashboard') userProfile();
         //else if (route === '#notifications') renderNotificationsPage();
         else if (route === '#sign_out') signOut();

@@ -23,7 +23,13 @@ export const myToDoList = (data, fromUserProfile) => {
             
 
             if(data['699625233'] && data['699625233'] === 353358909){
-                let template = '';
+                let template = `
+                    <div class="row">
+                        <div class="col-lg-2">
+                        </div>
+                        <div class="col-lg-8">
+                     
+                `;
                 if(!data['821247024'] || data['821247024'] == 875007964){
                     template += `
                     <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
@@ -42,9 +48,9 @@ export const myToDoList = (data, fromUserProfile) => {
                         Great news! We have confirmed that you are eligible for the Connect for Cancer Prevention Study. You are now an official Connect participant.
                         <br>
                         ${checkIfComplete(data) ? 'Thank you for completing your first Connect surveys! We will be in touch with next steps.':'The next step is to complete your first Connect survey'}
-                        Questions? Please contact the Connect Support Center [<a href="https://norcfedrampdev.servicenowservices.com/participant" target="_blank">MyConnect.cancer.gov/support</a>]
                         <br>
-                        The next step is to complete your Connect survey. The survey is split into four sections. You can pause and return to complete these sections at any time.
+                        Questions? Please contact the Connect Support Center [<a href="https://norcfedramp.servicenowservices.com/participant" target="_blank">MyConnect.cancer.gov/support</a>]
+                        <br>
                     </div>
                     `
                 }
@@ -53,7 +59,7 @@ export const myToDoList = (data, fromUserProfile) => {
                     <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
                         Based on our record you are not eligible for the Connect for Cancer Prevention Study. Thank you for your interest. Any information that you have already provided will remain private. We will not use any information you shared for our research.
                         <br>
-                        If you think this is an error or if you have any questions, please contact the Connect Support Center. [<a href="https://norcfedrampdev.servicenowservices.com/participant" target="_blank">MyConnect.cancer.gov/support</a>]
+                        If you think this is an error or if you have any questions, please contact the Connect Support Center. [<a href="https://norcfedramp.servicenowservices.com/participant" target="_blank">MyConnect.cancer.gov/support</a>]
                     </div>
                     `
                     mainContent.innerHTML = template;
@@ -93,7 +99,12 @@ export const myToDoList = (data, fromUserProfile) => {
                 // }
                 template += renderMainBody(data, 'todo')
                 template += `</ul>`
-
+                template += `
+                    </div>
+                    <div class="col-lg-2">
+                    </div>
+                </div>
+                `
                 // template += `
                 //     <span>You have self assessment questionnaires ready to take</span>
                 //     <ul class="questionnaire-module-list">
@@ -267,12 +278,12 @@ const renderMainBody = (data, tab) => {
                                 template += `<li style="width:100%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
                                                 <div class="row">
                                                     ${modules[thisKey].hasOwnProperty('hasIcon') && modules[thisKey]['hasIcon'] == false? `` : `
-                                                    <div class="col-1">
-                                                        <i class="fas fa-clipboard-list" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
+                                                    <div class="col-md-1">
+                                                        <i class="fas fa-clipboard-list d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
                                                     </div>
                                                     `}
         
-                                                    <div class="${modules[thisKey].hasOwnProperty('hasIcon') && modules[thisKey]['hasIcon'] == false? 'col-9':'col-8'}">
+                                                    <div class="${modules[thisKey].hasOwnProperty('hasIcon') && modules[thisKey]['hasIcon'] == false? 'col-9':'col-md-8'}">
                                                     <p class="style="font-style:bold; font-size:24px; margin-left:30px">
                                                         <b style="color:#5c2d93; font-size:18px;">
                                                         ${modules[thisKey]['header']?modules[thisKey]['header']:thisKey}
@@ -289,7 +300,7 @@ const renderMainBody = (data, tab) => {
                                                     </div>
                                                 
                                                     ${modules[thisKey].hasOwnProperty('noButton') && modules[thisKey]['noButton'] == true? '' : `
-                                                    <div class="col-3">
+                                                    <div class="col-md-3">
                                                         <button class="btn survey-list-active btn-agreement questionnaire-module ${modules[thisKey].enabled ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${thisKey}" module_id="${modules[thisKey].moduleId}" data-module-url="${modules[thisKey].url ? modules[thisKey].url : ''}" style=""><b>Start</b></button>    
                                                     </div>
                                                     `}
@@ -306,12 +317,12 @@ const renderMainBody = (data, tab) => {
                         template += `<div style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
                                         <div class="row">
                                             ${modules[key].hasOwnProperty('hasIcon') && modules[key]['hasIcon'] == false? `` : `
-                                            <div class="col-1">
-                                                <i class="fas fa-clipboard-list" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
+                                            <div class="col-md-1">
+                                                <i class="fas fa-clipboard-list d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
                                             </div>
                                             `}
 
-                                            <div class="${modules[key].hasOwnProperty('hasIcon') && modules[key]['hasIcon'] == false? 'col-9':'col-8'}">
+                                            <div class="${modules[key].hasOwnProperty('hasIcon') && modules[key]['hasIcon'] == false? 'col-9':'col-md-8'}">
                                             <p class="style="font-style:bold; font-size:24px; margin-left:30px">
                                                 <b style="color:#5c2d93; font-size:18px;">
                                                 ${modules[key]['header']?modules[key]['header']:key}
@@ -330,7 +341,7 @@ const renderMainBody = (data, tab) => {
                                             </div>
                                         
                                             ${modules[key].hasOwnProperty('noButton') && modules[key]['noButton'] == true? '' : `
-                                            <div class="col-3">
+                                            <div class="col-md-3">
                                                 <button class="btn survey-list-active btn-agreement questionnaire-module ${modules[key].enabled ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${key}" module_id="${modules[key].moduleId}" data-module-url="${modules[key].url ? modules[key].url : ''}" style=""><b>Start</b></button>    
                                             </div>
                                             `}
@@ -376,12 +387,12 @@ const renderMainBody = (data, tab) => {
                                 template += `<li style="width:100%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
                                                 <div class="row">
                                                     ${modules[thisKey].hasOwnProperty('hasIcon') && modules[thisKey]['hasIcon'] == false? `` : `
-                                                    <div class="col-1">
-                                                        <i class="fas fa-clipboard-list" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
+                                                    <div class="col-md-1">
+                                                        <i class="fas fa-clipboard-list d-md-none d-md-block d-lg-flex" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
                                                     </div>
                                                     `}
 
-                                                    <div class="${modules[thisKey].hasOwnProperty('hasIcon') && modules[thisKey]['hasIcon'] == false? 'col-9':'col-8'}">
+                                                    <div class="${modules[thisKey].hasOwnProperty('hasIcon') && modules[thisKey]['hasIcon'] == false? 'col-9':'col-md-8'}">
                                                     <p class="style="font-style:bold; font-size:24px; margin-left:30px">
                                                         <b style="color:#5c2d93; font-size:18px;">
                                                         ${modules[thisKey]['header']?modules[thisKey]['header']:thisKey}
@@ -398,11 +409,12 @@ const renderMainBody = (data, tab) => {
                                                     </div>
                                                 
                                                     ${modules[thisKey].hasOwnProperty('noButton') && modules[thisKey]['noButton'] == true? '' : `
-                                                    <div class="col-3">
+                                                    <div class="col-md-3">
                                                         <button class="btn survey-list-active btn-agreement questionnaire-module ${modules[thisKey].enabled ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${thisKey}" module_id="${modules[thisKey].moduleId}" data-module-url="${modules[thisKey].url ? modules[thisKey].url : ''}" style=""><b>Start</b></button>    
                                                     </div>
                                                     `}
                                                 </div>
+                                                </li>
                                                 
                                             `
                                                 /*
@@ -412,10 +424,10 @@ const renderMainBody = (data, tab) => {
                         }
                         template += /*html*/ `<div style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
                             <div class="row">
-                                <div class="col-1">
-                                <i class="fas fa-clipboard-list" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
+                                <div class="col-md-1">
+                                <i class="fas fa-clipboard-list d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
                                 </div>
-                                <div class="col-8">
+                                <div class="col-md-8">
                                 <p class="style="font-style:bold; font-size:24px; margin-left:30px">
                                     <b style="color:#5c2d93; font-size:18px;">
                                     ${modules[key]['header']?modules[key]['header']:thisKey}
@@ -427,7 +439,7 @@ const renderMainBody = (data, tab) => {
                                 </p>
                                 </div>
                             
-                                <div class="col-3">
+                                <div class="col-md-3">
                                 Completed Time: ${humanReadableMDYwithTime(data[fieldMapping[modules[key].moduleId].conceptId].COMPLETED_TS)}
                                 <!--
                                 <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="margin-top:0px;border-radius:30px; height:60px;background-color:#5c2d93 !important;color:white; width:100%"><b>Review</b></button>

@@ -36,7 +36,7 @@ export const renderUserProfile = async () => {
         <p class = "userProfileHeader">My Profile</p>        
         <form id="userProfileForm" method="POST" autocomplete="off">
             <p class="userProfileSubHeaders">Name</p> 
-            <p>If this is not correct, please contact the <a href="https://norcfedrampdev.servicenowservices.com/participant" target="_blank">Connect Support Center</a> or call XXX-XXX-XXXX.</p>
+            <p>If this is not correct, please contact the <a href="https://norcfedramp.servicenowservices.com/participant" target="_blank">Connect Support Center</a> or call XXX-XXX-XXXX.</p>
             <div class="row">
                 <div class="col-md-4">
                     <label style="margin-left:-15px">First name <span class="required">*</span></label>
@@ -116,6 +116,13 @@ export const renderUserProfile = async () => {
             <br>
             <hr>
             <p class="userProfileSubHeaders">Contact Information</p>
+            <div class="form-group row">
+                <div class="col">
+                    <label class="col-form-label">
+                        One phone number is required.
+                    </label>
+                </div>
+            </div>
             <div class="form-group row" style="padding-bottom:0;">
                 <div class="col">
                     <label class="col-form-label">Preferred Email <span class="required">*</span></label>
@@ -149,7 +156,7 @@ export const renderUserProfile = async () => {
             <div class="form-group row">
                 <div class="col">
                     <label class="col-form-label">
-                        Mobile phone <span class="required">**</span>
+                        Mobile phone <span class="required"</span>
                     </label>
                     <br>
                     <div class="btn-group col-md-4" id="mainMobilePhone" style="margin-left:0px;">
@@ -190,7 +197,7 @@ export const renderUserProfile = async () => {
             <div class="form-group row">
                 <div class="col">
                     <label class="col-form-label">
-                        Home phone <span class="required">**</span>
+                        Home phone <span class="required"></span>
                     </label>
                     <br>
                     <div class="btn-group col-md-4" id="mainMobilePhone2" style="margin-left:0px">
@@ -217,7 +224,7 @@ export const renderUserProfile = async () => {
             <div class="form-group row">
                 <div class="col">
                     <label class="col-form-label">
-                        Other phone <span class="required">**</span>
+                        Other phone <span class="required"></span>
                     </label>
                     <br>
                     <div class="btn-group col-md-4" id="mainMobilePhone3" style="margin-left:0px">

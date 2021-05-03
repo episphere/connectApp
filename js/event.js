@@ -140,6 +140,20 @@ export const addEventChangeFocus = () => {
             element22.nextElementSibling.nextElementSibling.focus()
         }
     });
+
+    const element31 = document.getElementById('UPPhoneNumber31');
+    element31.addEventListener('keyup', () => {
+        if(element31.value.trim().length === 3){
+            element31.nextElementSibling.nextElementSibling.focus()
+        }
+    });
+    
+    const element32 = document.getElementById('UPPhoneNumber32');
+    element32.addEventListener('keyup', () => {
+        if(element32.value.trim().length === 3){
+            element32.nextElementSibling.nextElementSibling.focus()
+        }
+    });
 }
 
 export const addEventHealthCareProviderSubmit = () => {
@@ -1066,7 +1080,7 @@ export const toggleCurrentPageNoUser = async (route) => {
         })
     });
     if(route === '#') document.getElementById('home').click();
-    if(route === '#sign_in') document.getElementById('signIn').click();
+    //if(route === '#sign_in') document.getElementById('signIn').click();
 }
 
 export const addEventCheckCanText = () => {

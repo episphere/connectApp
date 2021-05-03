@@ -74,7 +74,7 @@ export const renderAgreements = async () => {
                                 </div>
                             </div>
                             ${myData.data['359404406'] ?`
-                                <div class="row">
+                                <!--<div class="row">
                                     <div class="col consentBodyFont2">
                                         Data Destruction Form
                                     </div>
@@ -83,7 +83,7 @@ export const renderAgreements = async () => {
                                         <button class="btn btn-agreement consentNextButton" style="float:right;" id="downloadDestroy"><i class="fas fa-file-download" ></i> Download Signed Form</button>
                                     </div>
                                 </div>
-                                <br>
+                                <br>-->
                             `:''}
                             
                             ${myData.data['613641698'] ?`
