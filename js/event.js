@@ -821,29 +821,26 @@ export const addEventPreferredContactType = () => {
     const email = document.getElementById('UPEmail');
 
     p1.addEventListener('click', () => {
-        if(email.value){
-            const div = document.getElementById('preferredEmailPhone');
-            if(div.innerHTML === ''){
-                div.classList = ['form-group row']
-                div.innerHTML = `
-                <div class="col">
-                    <label class="col-form-label">
-                        How do you prefer that we reach you?
-                    </label>
-                    <br>
-                    <div class="btn-group btn-group-toggle col-md-4" style="margin-left:0px;">
-                        <label><input type="radio" name="methodOfContact" value="127547625"> Text Message</label>
-                        <label><input type="radio" name="methodOfContact" value="357184057" style="margin-left:10px;"> Email</label>
-                    </div>
-                </div>
-                `;
-            }
-        }
+        const div = document.getElementById('preferredEmailPhone');
+        div.classList = ['form-group row']
+        div.innerHTML = `
+        <div class="col">
+            <label class="col-form-label">
+                How do you prefer that we reach you?
+            </label>
+            <br>
+            <div class="btn-group btn-group-toggle col-md-4" style="margin-left:0px;">
+                <label><input type="radio" name="methodOfContact" value="127547625"> Text Message</label>
+                <label><input type="radio" name="methodOfContact" value="357184057" style="margin-left:10px;"> Email</label>
+            </div>
+        </div>
+        `;
+        /*
         else {
             const div = document.getElementById('preferredEmailPhone');
             div.classList = '';
             div.innerHTML = '';
-        }
+        }*/
     });
 
     p2.addEventListener('click', () => {

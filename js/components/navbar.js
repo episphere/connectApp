@@ -9,7 +9,7 @@ export const userNavBar = () => {
             <li class="nav-item">
                 <a class="nav-link" href="#notifications" id="Notifications">
                     <i class="fas fa-bell"></i> 
-                    Notifications
+                    Messages
                     <!--<span class="badge">2</span>-->
                 </a>
             </li>

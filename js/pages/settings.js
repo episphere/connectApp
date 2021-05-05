@@ -399,7 +399,15 @@ export const renderSettingsPage = async () => {
         `;*/
     }
     else {
-        template += 'Settings not available';
+        template += `
+        <br>
+            <div class="row">
+                <span class="consentBodyFont1">
+                    Settings not available
+                </span>
+                </div>
+            
+        `;
     }
     document.getElementById('root').innerHTML = template;
     hideAnimation();

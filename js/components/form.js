@@ -116,13 +116,7 @@ export const renderUserProfile = async () => {
             <br>
             <hr>
             <p class="userProfileSubHeaders">Contact Information</p>
-            <div class="form-group row">
-                <div class="col">
-                    <label class="col-form-label">
-                        One phone number is required.
-                    </label>
-                </div>
-            </div>
+            
             <div class="form-group row" style="padding-bottom:0;">
                 <div class="col">
                     <label class="col-form-label">Preferred Email <span class="required">*</span></label>
@@ -152,7 +146,17 @@ export const renderUserProfile = async () => {
                     <button type="button" class="btn btn-light" id="addMoreEmail" title="Add more email">Add more <i class="fas fa-plus"></i></button>
                 </div>
             </div>
+
             
+            <div class="form-group row" style="padding-bottom:0">
+                <div class="col">
+                    <label class="col-form-label">
+                        <b>
+                            One phone number is required.
+                        </b>
+                    </label>
+                </div>
+            </div>
             <div class="form-group row">
                 <div class="col">
                     <label class="col-form-label">

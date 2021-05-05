@@ -56,9 +56,9 @@ export const renderNotificationsPage = async () => {
         template += renderMainBody(notifs.data, 'read')
     }
     else{
-        
+        template += renderMainBody(notifs.data, 'unread')
     }
-    template += renderMainBody(notifs.data, 'unread')
+    
     template += `</ul>`
     template += `
         </div>
@@ -100,7 +100,7 @@ export const renderNotificationsPage = async () => {
 
 const renderMainBody = (data, tab) => {
     let template = `<ul class="questionnaire-module-list">`;
-    
+    let hasNotification = false;
     for(let i = 0; i < data.length; i++){
 
         //${notif.notification.body}
@@ -108,21 +108,42 @@ const renderMainBody = (data, tab) => {
             template += `<li style="width:100%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
                 <div class="row">
                     
+                   
                     <div class="col-md-1">
                         <i class="fas fa-bell d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
                     </div>
                     
 
+                    <div class="col-md-11">
+                        <span class="consentBodyFont1">
+                            ${data[i].notification.title}
+                        </span>
+                    </div>
+                
+                    <div class="col-md-1">
+                    </div>
                     <div class="col-md-10">
-                        ${data[i].notification.body}
+                    ${data[i].notification.body}
                     </div>
                     <div class="col-md-1">
                     </div>
+                
                 </div>
             </li>
             `
+            console.log(data[i].notification.title)
+            hasNotification = true;
         }
         
+    }
+    if(!hasNotification){
+        template += `
+            <div class="row">
+                <span class="consentBodyFont1" style="text-align:center; margin:auto;">
+                    You currently have no messages!
+                </span>
+            </div>
+            `
     }
     
     return template;
