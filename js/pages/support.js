@@ -3,9 +3,15 @@ import { getMyData } from "../shared.js";
 export const renderSupportPage = async () => {
     const myData = await getMyData();
     let site = 0;
+    let link="https://norcfedramp.servicenowservices.com/recruit"
     if(myData.data){
         site = myData["data"]['827220437']
+        let data = myData.data;
+        if(!(data['827220437'] && data['142654897'] && data['919254129'] !== 353358909)){
+            link="https://norcfedramp.servicenowservices.com/participant"
+        }
     }
+    
     let paymentInfo = `
         <p>
             After you complete some initial study activities, we willsend you a $25 gift card as a thank you.You become eligible for the $25 gift card after you:
@@ -108,7 +114,7 @@ export const renderSupportPage = async () => {
                 <p>
                     Visit the Connect Support Center portal to search frequently asked questions or to submit a question.
                 </p>
-                    <a href="https://norcfedramp.servicenowservices.com/participant" target="_blank">MyConnect.cancer.gov/support</a>
+                    <a href="${link}" target="_blank">MyConnect.cancer.gov/support</a>
                 <br>
                 <br>
                 <p>
@@ -125,7 +131,7 @@ export const renderSupportPage = async () => {
                         <p>
                         Visit the Connect Support Center portal to search frequently asked questions or to submit a question.
                         </p>
-                        <a href="https://norcfedramp.servicenowservices.com/participant" target="_blank">MyConnect.cancer.gov/support</a>
+                        <a href="${link}" target="_blank">MyConnect.cancer.gov/support</a>
                         <br>
                         <br>
                         <p>
