@@ -2,6 +2,7 @@ import { sites } from "../shared.js";
 
 export const requestPINTemplate = () => {
     return `
+        <br>
         <div class="row">
         <div class="col-lg-2">
         </div>
@@ -16,7 +17,7 @@ export const requestPINTemplate = () => {
                 <div class="form-group row">
                 <button type="submit" class="btn btn-primary save-data" id="noPinSubmit">I do not have a PIN</button>&nbsp;&nbsp;
                     <div class="ml-auto">
-                        <button type="submit" class="btn btn-primary save-data" id="noPinSubmit">Submit</button>
+                        <button type="submit" class="btn btn-primary save-data consentNextButton" id="noPinSubmit">Submit</button>
                     </div>
                 </div>
                 </br></br>
@@ -32,6 +33,7 @@ export const requestPINTemplate = () => {
 export const healthCareProvider = (siteId) => {
     let template = '';
     template += `
+    <br>
     <div class = "row">
     <div class="col-lg-2">
     </div>
@@ -53,7 +55,7 @@ export const healthCareProvider = (siteId) => {
             </div>
             <div class="row">
                 <div class="ml-auto">
-                    <button type="submit" class="btn btn-primary save-data">Submit</button>
+                    <button type="submit" class="btn btn-primary save-data consentNextButton">Submit</button>
                 </div>
             </div></br></br>
         </form>
@@ -66,6 +68,7 @@ export const healthCareProvider = (siteId) => {
 
 export const heardAboutStudy = () => {
     return `
+        <br>
         <div class="row">
         <div class="col-lg-2">
         </div>
@@ -133,7 +136,7 @@ export const heardAboutStudy = () => {
             </div>
             <div class="row">
                 <div class="ml-auto">
-                    <button type="submit" class="btn btn-primary save-data">Submit</button>
+                    <button type="submit" class="btn btn-primary save-data consentNextButton">Submit</button>
                 </div>
             </div>
         </form>

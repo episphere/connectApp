@@ -32,7 +32,6 @@ export const renderUserProfile = async () => {
         <div class="col-lg-2">
         </div>
         <div class=col-lg-8>
-
         <p class = "userProfileHeader">My Profile</p>        
         <form id="userProfileForm" method="POST" autocomplete="off">
             <p class="userProfileSubHeaders">Name</p> 
@@ -369,7 +368,7 @@ export const renderMailingAddress = (type, id, required, showCountry) => {
                     Line 1 (street, PO box, rural route) ${required ? '<span class="required">*</span>': ''}
                 </label>
                 <br>
-                <input style="margin-left:0px; max-width:301px;" type=text id="UPAddress${id}Line1" autocomplete="off" class="form-control required-field" data-error-required='Please enter the first line of mailing address.' placeholder="Enter street, PO box, rural route">
+                <input style="margin-left:0px; max-width:301px;" type=text id="UPAddress${id}Line1" autocomplete="off" class="form-control required-field" data-error-required='Please enter the first line of your mailing address.' placeholder="Enter street, PO box, rural route">
             </div>
         </div>
         <div class="form-group row">

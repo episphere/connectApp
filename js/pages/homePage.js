@@ -8,18 +8,31 @@ export const homePage = async () => {
         <div class="row connectBody1">
             <div class="col-lg-2 o">
             </div>
-            <div class="col-lg-4 .d-none text-lg-left text-center" style="text-align:center;">
+            <div class="col-lg-4 d-none d-sm-flex text-lg-left text-center" style="text-align:center;">
                 <p class = "homeTitleText" style="text-align:left; font-family: 'Montserrat', sans-serif;">
                 
-                Connect <em>today.</em>
-                <br>Prevent cancer
-                <br><em>tomorrow.</em>
-                <br>
-                <br>
-                <img src="./images/newImages/ConnectLogo.png" alt="Connect logo">
-                <br><br>
+                    Connect <em>today.</em>
+                    <br>Prevent cancer
+                    <br><em>tomorrow.</em>
+                    <br>
+                    <br>
+                    <img src="./images/newImages/ConnectLogo.png" alt="Connect logo">
+                    <br><br>
+                    
+                </p>
+            </div>
+            <div class="col-lg-4 d-sm-none text-lg-left text-center" style="text-align:center;">
+                <p class = "homeTitleTextMobile " style="text-align:center; font-family: 'Montserrat', sans-serif;">
                 
-            </p>
+                    Connect <em>today.</em>
+                    <br>Prevent cancer
+                    <br><em>tomorrow.</em>
+                    <br>
+                    <br>
+                    <img src="./images/newImages/ConnectLogo.png" alt="Connect logo">
+                    <br><br>
+                    
+                </p>
             </div>
             <div class="col-lg-4">
                 <div class="signInWrapper" id="signInWrapperDiv">
@@ -46,15 +59,15 @@ export const homePage = async () => {
             <div class="col-lg-2">
             </div>
             <div class="col-lg-4" style="text-align:left;">
-                <p style = "color:#606060; font-size: 28px;">
+                <p class="MonteserratFont" style = "color:#606060; font-size: 28px;">
                     <b>
                     Are you age 40 to 65 with no history of certain cancers?*    
                     </b>
                 </p>
-                <p style="color:#606060; font-size: 18px;">
+                <p class="NotoSansFont" style="color:#606060; font-size: 18px;">
                     We need your help. We invite you to join a research study from the National Cancer Institute, part of the National Institutes of Health, to help understand what causes cancer and how to prevent it.
                 </p>
-                <p style="color:#606060; font-size: 15px;">
+                <p class="NotoSansFont" style="color:#606060; font-size: 15px;">
                     *If you have or once had non-melanoma skin cancer (like basal cell or squamous cell carcinoma), or a condition that raises the risk of getting cancer (like DCIS, or stage 0 breast cancer), you can still join Connect.
                 </p>
                 

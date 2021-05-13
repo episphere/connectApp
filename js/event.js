@@ -795,7 +795,7 @@ const verifyUserDetails = (formData) => {
 
     document.getElementById('connectModalFooter').innerHTML = `
         <button type="button" title="Close" class="btn btn-dark" data-dismiss="modal">Go Back</button>
-        <button type="button" id="confirmReview" title="Confirm details" class="btn btn-primary" data-dismiss="modal">Submit</button>
+        <button type="button" id="confirmReview" title="Confirm details" class="btn btn-primary consentNextButton" data-dismiss="modal">Submit</button>
     `;
 
     document.getElementById('confirmReview').addEventListener('click', async () => {

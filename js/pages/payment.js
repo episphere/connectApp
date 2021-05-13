@@ -8,7 +8,7 @@ export const renderPaymentPage = async () => {
     }
     let paymentInfo = `
         <p>
-            After you complete some initial study activities, we willsend you a $25 gift card as a thank you. You become eligible for the $25 gift card after you:
+            After you complete some initial study activities, we will send you a $25 gift card as a thank you. You become eligible for the $25 gift card after you:
         </p>
         <ol>
             <li>
@@ -41,7 +41,7 @@ export const renderPaymentPage = async () => {
             Once you complete these activities, you will receive an email from ConnectSupport@norc.org with instructions on how to claim your gift card. You will be asked to select which store you would like to receive your gift card from (for example, select from Target, Walmart, Amazon, and others). We will then send you an email with your gift card code. All emails will be sent to the email address you have on file with Connect. 
         </p>
         <p>
-            Questions? Please contact the Connect Support Center.
+            Questions? Please contact the <a href="https://norcfedramp.servicenowservices.com/participant" target="_blank">Connect Support Center</a>.
         </p>
 
     `
@@ -78,7 +78,7 @@ export const renderPaymentPage = async () => {
                 </li>
             </ol>
             <p>
-                A research coordinator will give you the $25 cash payment at the end of your Connect study visit. Questions? Please contact the Connect Support Center.
+                A research coordinator will give you the $25 cash payment at the end of your Connect study visit. Questions? Please contact the <a href="https://norcfedramp.servicenowservices.com/participant" target="_blank">Connect Support Center</a>.
             </p>
         `
     }

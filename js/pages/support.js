@@ -14,7 +14,7 @@ export const renderSupportPage = async () => {
     
     let paymentInfo = `
         <p>
-            After you complete some initial study activities, we willsend you a $25 gift card as a thank you.You become eligible for the $25 gift card after you:
+            After you complete some initial study activities, we will send you a $25 gift card as a thank you.You become eligible for the $25 gift card after you:
         </p>
         <ol>
             <li>

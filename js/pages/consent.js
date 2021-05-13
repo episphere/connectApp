@@ -129,7 +129,7 @@ export const consentActivitiesPage = () => {
                 </p>
                 <p class="consentBodyFont1">Take surveys about your health</p>
                 <p class="consentBodyFont2" style="margin-left:32px">
-                    We will ask you to complete online surveys that we will send when you join the study and then again a few times each year. The surveys will cover basic information about you and about your health history, family, home, and work. The first survey can take one to two hours to complete. This survey is broken into sections, so you can pause and return to complete it at a later time. Most follow up surveys will take 20 to 30 minutes or less to complete. You can choose to skip any survey questions that you do notwant to answer.
+                    We will ask you to complete online surveys that we will send when you join the study and then again a few times each year. The surveys will cover basic information about you and about your health history, family, home, and work. The first survey can take one to two hours to complete. This survey is broken into sections, so you can pause and return to complete it at a later time. Most follow up surveys will take 20 to 30 minutes or less to complete. You can choose to skip any survey questions that you do not want to answer.
                 </p>
                 <p class="consentBodyFont1">Donate samples (biological specimens)</p>
                 <p class="consentBodyFont2" style="margin-left:32px">

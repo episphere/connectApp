@@ -247,10 +247,10 @@ const userProfile = () => {
             window.history.replaceState({},'Dashboard', './#dashboard');
             if(user.email && !user.emailVerified){
                 const mainContent = document.getElementById('root');
-                mainContent.innerHTML = '<div>Please verify your email by clicking <a id="verifyEmail"><button class="btn btn-primary">Verify Email</button></a></div>'
+                mainContent.innerHTML = '<div class="verifyEmailText">Please verify your email by clicking <a id="verifyEmail"><button class="btn btn-primary consentNextButton">Verify Email</button></a></div>'
 
                 document.getElementById('verifyEmail').addEventListener('click', () => {
-                    mainContent.innerHTML = `<div>Please click the link we sent to your email to verify your contact information. Be sure to check your spam folder.</div>` 
+                    mainContent.innerHTML = `<div class="verifyEmailText">Please click the link we sent to your email to verify your contact information. Be sure to check your spam folder.</div>` 
                 });
                 hideAnimation();
                 document.getElementById('verifyEmail').addEventListener('click', () => {

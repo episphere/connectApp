@@ -11,7 +11,7 @@
     height: 100%;
     /*border-top: 1px solid #ffffff;
     margin-top:10px;*/
-    margin-top:0px;
+    margin-top:1px;
     margin-left:15px;
     margin-right:15px;
 }
@@ -683,6 +683,8 @@ input:checked + .slider:before {
     margin-left: 0px !important;
     margin-right: 0px !important;
     border-bottom: 1px solid #ffffff;
+    padding-top:22px;
+    padding-bottom:22px;
 }
 
 .search-input {
@@ -824,6 +826,20 @@ input:checked + .slider:before {
     font-style: normal;
     color:#FFBF17;
 }
+.homeTitleTextMobile{
+    font-size: 21px;
+    color: #FFFFFF;
+    letter-spacing: 0.07px;
+    text-align: center;
+    line-height: 25px;
+
+}
+
+.homeTitleTextMobile em{
+    font-style: normal;
+    color:#FFBF17;
+}
+
 
 .signInWrapper{
     max-width:360px;
@@ -869,6 +885,24 @@ input:checked + .slider:before {
     margin-bottom:0;
 }
 
+.verifyEmailText{
+    font-family: "Noto Sans Regular";
+    font-size: 18px;
+    color: #2E2E2E;
+    text-align: left;
+    line-height: 27px;
+
+}
+
+.MonteserratFont{
+    font-family: 'Montserrat', sans-serif;
+    color:#606060;
+}
+.NotoSansFont{
+    font-family:"Noto Sans Regular";
+    color:#606060;
+}
+
 .consentPrevButton{
     background-color:white !important;
     border-color:#2A72A5 !important;
@@ -878,6 +912,7 @@ input:checked + .slider:before {
 .connectBody1{
     background-color:#2a72a5; 
     padding-top:60px;
+    line-height:1;
     /*margin-bottom:180px;*/
 }
 
