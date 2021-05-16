@@ -118,7 +118,7 @@ export const renderSupportPage = async () => {
                 <br>
                 <br>
                 <p>
-                    You can also call XXX-XXX-XXXX or email <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a>
+                    You can also call 1-877-505-0253 or email <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a>
                 </p>
             </div>
             <!--
@@ -135,7 +135,7 @@ export const renderSupportPage = async () => {
                         <br>
                         <br>
                         <p>
-                        You can also call XXX-XXX-XXXX or email <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a>
+                        You can also call 1-877-505-0253 or email <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a>
                         </p>
                     </div>
                 </div>

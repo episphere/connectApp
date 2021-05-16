@@ -35,7 +35,7 @@ export const renderUserProfile = async () => {
         <p class = "userProfileHeader">My Profile</p>        
         <form id="userProfileForm" method="POST" autocomplete="off">
             <p class="userProfileSubHeaders">Name</p> 
-            <p>If this is not correct, please contact the <a href="https://norcfedramp.servicenowservices.com/participant" target="_blank">Connect Support Center</a> or call XXX-XXX-XXXX.</p>
+            <p>If this is not correct, please contact the <a href="https://norcfedramp.servicenowservices.com/participant" target="_blank">Connect Support Center</a> or call 1-877-505-0253.</p>
             <div class="row">
                 <div class="col-md-4">
                     <label style="margin-left:-15px">First name <span class="required">*</span></label>
@@ -195,7 +195,7 @@ export const renderUserProfile = async () => {
                 </div>
             </div>
 
-            <div id="preferredEmailPhone"></div>
+            <!--<div id="preferredEmailPhone"></div>-->
 
             <div class="form-group row">
                 <div class="col">
@@ -291,7 +291,7 @@ export const renderUserProfile = async () => {
     addEventChangeFocus();
     addEventCancerFollowUp();
     addEventMonthSelection();
-    addEventPreferredContactType();
+    //addEventPreferredContactType();
     addEventAdditionalEmail();
     addEventAddressAutoComplete(1);
     addEventCheckCanText();
