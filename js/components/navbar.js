@@ -23,7 +23,7 @@ export const userNavBar = () => {
         -->
         <div class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="#agreements" id="userAgreements"><i class="fas fa-file-contract"></i> Agreements</a>
+                <a class="nav-link" href="#agreements" id="userAgreements"><i class="fas fa-file-contract"></i> Forms</a>
             </li>
         </div>
         <div class="navbar-nav">

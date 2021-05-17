@@ -238,16 +238,23 @@ const addEmailFields = () => {
     const div = document.getElementById('multipleEmail1');	
     div.innerHTML = '';	
     div.classList = ['form-group row'];
+    div.style = "padding-top:0; padding-bottom:0;";
+    
+    const div1 = document.createElement('div');	
+    div1.innerHTML = '';	
+    div1.classList = ['col'];
 
     const input = document.createElement('input');	
     input.classList = ['form-control col-md-4'];	
     input.placeholder = 'Enter additional email 2';	
+    input.style = "margin-left:0px; max-width:382px;"
     input.type = 'text';	
     input.id = 'UPAdditionalEmail2';	
     input.title = ' Please enter an email address in this format: name@example.com.';
 
-    div.appendChild(input);
-	
+    div1.appendChild(input);
+    div.appendChild(div1);
+    
     document.getElementById('additionalEmailBtn').innerHTML = `<button type="button" class="btn btn-light" id="addMoreEmail2" title="Add more email">Add more <i class="fas fa-plus"></i></button>`;
     
     const addMoreEmail2 = document.getElementById('addMoreEmail2');	
@@ -257,15 +264,27 @@ const addEmailFields = () => {
 const addAnotherEmailField = () => {	
     const div = document.getElementById('multipleEmail2');	
     div.innerHTML = '';	
-    div.classList = ['form-group row']; 	
+    div.classList = ['form-group row'];
+    div.style = "padding-top:0; padding-bottom:0;";
+    
+    const div1 = document.createElement('div');	
+    div1.innerHTML = '';	
+    div1.classList = ['col']; 	
 
     const input2 = document.createElement('input');	
     input2.classList = ['form-control col-md-4'];	
+    input2.style = "margin-left:0px; max-width:382px;"
     input2.placeholder = 'Enter additional email 3';	
     input2.type = 'text';	
     input2.id = 'UPAdditionalEmail3';	
     input2.title = ' Please enter an email address in this format: name@example.com.';
-    div.appendChild(input2);
+    
+    div1.appendChild(input2);
+    div.appendChild(div1);
+
+    const br = document.getElementById('multipleEmail2Br');	
+    br.style=""
+
     document.getElementById('additionalEmailBtn').innerHTML = '';
 }
 

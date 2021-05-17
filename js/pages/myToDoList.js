@@ -21,7 +21,29 @@ export const myToDoList = (data, fromUserProfile) => {
                 return;
             }
             
-
+            let topMessage = "";
+            /*${(myData.data.hasOwnProperty('831041022') && myData.data['831041022'] == 353358909 && !myData.data['153713899']) ?`
+                                <div class="row">
+                                    <div class="col consentBodyFont2">
+                                        Sign Data Destruction Form
+                                    </div>
+                                    <div class="col">
+                                        <button class="btn btn-agreement consentNextButton" style="float:right; margin-right:120px;" id="signDataDestroy">Sign Form</button>
+                                    </div>
+                                </div>
+                                <br>
+                            `:''}
+                            ${(myData.data.hasOwnProperty('773707518') && myData.data['773707518'] == 353358909 && !myData.data['359404406']) ?`
+                                <div class="row">
+                                    <div class="col consentBodyFont2">
+                                        Sign HIPAA Revocation Form
+                                    </div>
+                                    <div class="col">
+                                        <button class="btn btn-agreement consentNextButton" style="float:right; margin-right:120px;" id="signHIPAARevoke">Sign Form</button>
+                                    </div>
+                                </div>
+                            `:''}
+                            */
             if(data['699625233'] && data['699625233'] === 353358909){
                 let template = `
                     <div class="row">
@@ -30,39 +52,43 @@ export const myToDoList = (data, fromUserProfile) => {
                         <div class="col-lg-8">
                      
                 `;
+                let finalMessage = "";
+                console.log(data['831041022'])
+                if (data.hasOwnProperty('831041022') && data['831041022'] == 353358909 && (!data['153713899'] || data['153713899'] == "")){
+                    
+                    finalMessage += "You have a new form to sign.<br>You have been withdrawn from Connect per your request.<br>"
+                }
+                else if (data.hasOwnProperty('773707518') && data['773707518'] == 353358909 && !data['359404406']){
+                    topMessage += "You have a new form to sign.<br>"
+                }
+
                 if(!data['821247024'] || data['821247024'] == 875007964){
-                    template += `
-                    <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
+                    topMessage += `
                         ${fromUserProfile ? 
                             `Thank you for completing your profile for the Connect for Cancer Prevention Study. Next, the Connect team at your health care system will check that you are eligible to be part of the study. We will contact you within a few business days.
                             <br>
                             In the meantime, please begin by completing your first Connect survey.`:
                             `The Connect team at your health care system is working to check that you are eligible to be part of the study. 
                             ${checkIfComplete(data) ? 'Thank you for completing your first Connect surveys! We will be in touch with next steps.': 'In the meantime, please begin by completing your first Connect survey.'}`}
-                    </div>
                     `
                 }
                 else if(data['821247024'] && data['821247024'] == 197316935) {
                     if(data['verifiedSeen'] && data['verifiedSeen'] === true){
                         
-                        template += `
-                        <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
+                        topMessage += `
                             ${checkIfComplete(data) ? 'Thank you for completing your first Connect surveys! We will be in touch with next steps.':'Please complete your first Connect survey.<br>Thank you for being a part of Connect.'}
-                        </div>
                         `
                     }
                     else{
                         //first seen
                         //update verifiedSeen to be false
-                        template += `
-                        <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
+                        topMessage += `
                             Great news! We have confirmed that you are eligible for the Connect for Cancer Prevention Study. You are now an official Connect participant.
                             <br>
                             ${checkIfComplete(data) ? 'Thank you for completing your first Connect survey! We will be in touch with next steps.':'The next step is to complete your first Connect survey'}
                             <br>
                             Thank you for being a part of Connect and for your commitment to help us learn more about how to prevent cancer.
                             <br>
-                        </div>
                         `
                         let formData = {};
                         formData['verifiedSeen'] = true;
@@ -76,6 +102,10 @@ export const myToDoList = (data, fromUserProfile) => {
                         <br>
                         If you think this is a mistake or if you have any questions, please contact the Connect Support Center. [<a href="https://norcfedramp.servicenowservices.com/participant" target="_blank">MyConnect.cancer.gov/support</a>]
                     </div>
+                    </div>
+                    <div class="col-lg-2">
+                    </div>
+                    </div>
                     `
                     mainContent.innerHTML = template;
                     return;
@@ -86,10 +116,28 @@ export const myToDoList = (data, fromUserProfile) => {
                     <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
                         We need more information from you to check that you can be part of the Connect for Cancer Prevention Study. Please contact ${sites[data['827220437']]} to confirm your eligibility for Connect.
                     </div>
+                    </div>
+                    <div class="col-lg-2">
+                    </div>
+                    </div>
                     `
                     mainContent.innerHTML = template;
                     return;
                     
+                }
+                if(finalMessage !== ""){
+                    template += `
+                    <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
+                        ${finalMessage}
+                    </div>
+                    `
+                }
+                else if(topMessage !== ""){
+                    template += `
+                    <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
+                        ${topMessage}
+                    </div>
+                    `
                 }
                 template += `
                             <ul class="nav nav-tabs" style="border-bottom:none; margin-top:20px">

@@ -89,7 +89,7 @@ export const heardAboutStudy = () => {
                     <label><input type="checkbox" id="checkbox12"> Phone call invitation</label>
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox1"> Physician or other medical staff</label>
+                    <label><input type="checkbox" id="checkbox1"> Physician or other health care staff</label>
                 </div>
                 <div class="checkbox">
                     <label><input type="checkbox" id="checkbox13"> Connect research staff at my health care system</label>
@@ -107,7 +107,7 @@ export const heardAboutStudy = () => {
                     <label><input type="checkbox" id="checkbox16"> Connect website on Cancer.gov</label>
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox5"> Social media (on Facebook, Twitter, Instagram, or other channels)</label>
+                    <label><input type="checkbox" id="checkbox5"> Social media post (on Facebook, Twitter, Instagram, or other channels)</label>
                 </div>
                 <div class="checkbox">
                     <label><input type="checkbox" id="checkbox17"> Local news, television, or radio station</label>

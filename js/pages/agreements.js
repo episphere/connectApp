@@ -15,7 +15,7 @@ export const renderAgreements = async () => {
                 <div class="col-lg-8">    
                     <div class="row">
                         <div class="col">
-                            <p class="userProfileHeader">Agreements</p>
+                            <p class="userProfileHeader">Forms</p>
                         </div>
                     </div>
                     <!--

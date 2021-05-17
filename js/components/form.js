@@ -139,6 +139,7 @@ export const renderUserProfile = async () => {
             </div>
             </br>
             <div id="multipleEmail1"></div>
+            <br id="multipleEmail2Br" style="display:none;">
             <div id="multipleEmail2"></div>
             <div class="form-group row" style="margin-bottom:20px !important;">
                 <div class="col" id="additionalEmailBtn">
@@ -276,7 +277,7 @@ export const renderUserProfile = async () => {
             </br></br>
             <div class="row">
                 <div class="ml-auto">
-                    <button type="submit" class="btn btn-primary save-data">Submit</button>
+                    <button type="submit" class="btn btn-primary save-data consentNextButton">Submit</button>
                 </div>
             </div>
         </form>

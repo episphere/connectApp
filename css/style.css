@@ -1,3 +1,7 @@
+a{
+    color:#2A72A5 !important;
+}
+
 .required {
     color: red;
 }
@@ -1030,3 +1034,4 @@ input:checked + .slider:before {
         height:48px;
     }  
 }
+
