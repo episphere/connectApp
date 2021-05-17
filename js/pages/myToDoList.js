@@ -1,4 +1,4 @@
-import { hideAnimation, questionnaireModules } from "../shared.js";
+import { hideAnimation, questionnaireModules, storeResponse, sites } from "../shared.js";
 import { blockParticipant, questionnaire } from "./questionnaire.js";
 import { renderUserProfile } from "../components/form.js";
 import { consentTemplate, initializeCanvas, addEventConsentSubmit } from "./consent.js";
@@ -43,32 +43,48 @@ export const myToDoList = (data, fromUserProfile) => {
                     `
                 }
                 else if(data['821247024'] && data['821247024'] == 197316935) {
-                    template += `
-                    <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
-                        Great news! We have confirmed that you are eligible for the Connect for Cancer Prevention Study. You are now an official Connect participant.
-                        <br>
-                        ${checkIfComplete(data) ? 'Thank you for completing your first Connect surveys! We will be in touch with next steps.':'The next step is to complete your first Connect survey'}
-                        <br>
-                        Questions? Please contact the Connect Support Center [<a href="https://norcfedramp.servicenowservices.com/participant" target="_blank">MyConnect.cancer.gov/support</a>]
-                        <br>
-                    </div>
-                    `
+                    if(data['verifiedSeen'] && data['verifiedSeen'] === true){
+                        
+                        template += `
+                        <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
+                            ${checkIfComplete(data) ? 'Thank you for completing your first Connect surveys! We will be in touch with next steps.':'Please complete your first Connect survey.<br>Thank you for being a part of Connect.'}
+                        </div>
+                        `
+                    }
+                    else{
+                        //first seen
+                        //update verifiedSeen to be false
+                        template += `
+                        <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
+                            Great news! We have confirmed that you are eligible for the Connect for Cancer Prevention Study. You are now an official Connect participant.
+                            <br>
+                            ${checkIfComplete(data) ? 'Thank you for completing your first Connect survey! We will be in touch with next steps.':'The next step is to complete your first Connect survey'}
+                            <br>
+                            Thank you for being a part of Connect and for your commitment to help us learn more about how to prevent cancer.
+                            <br>
+                        </div>
+                        `
+                        let formData = {};
+                        formData['verifiedSeen'] = true;
+                        storeResponse(formData);
+                    }
                 }
                 else if(data['821247024'] && data['821247024'] == 219863910) {
                     template += `
                     <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
-                        Based on our record you are not eligible for the Connect for Cancer Prevention Study. Thank you for your interest. Any information that you have already provided will remain private. We will not use any information you shared for our research.
+                        Based on our records you are not eligible for the Connect for Cancer Prevention Study. Thank you for your interest. Any information that you have already provided will remain private. We will not use any information you shared for our research.
                         <br>
-                        If you think this is an error or if you have any questions, please contact the Connect Support Center. [<a href="https://norcfedramp.servicenowservices.com/participant" target="_blank">MyConnect.cancer.gov/support</a>]
+                        If you think this is a mistake or if you have any questions, please contact the Connect Support Center. [<a href="https://norcfedramp.servicenowservices.com/participant" target="_blank">MyConnect.cancer.gov/support</a>]
                     </div>
                     `
                     mainContent.innerHTML = template;
                     return;
                 }
                 else if(data['821247024'] && data['821247024'] == 160161595) {
+                    let sites = sites();
                     template += `
                     <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
-                        We need more information from you in order to check that you can be part of the Connect for Cancer Prevention Study. Please contact [site specific information] to confirm your eligibility for Connect.
+                        We need more information from you to check that you can be part of the Connect for Cancer Prevention Study. Please contact ${sites[data['827220437']]} to confirm your eligibility for Connect.
                     </div>
                     `
                     mainContent.innerHTML = template;

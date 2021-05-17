@@ -93,11 +93,19 @@ export const consentAboutPage = () => {
             <div class="col-lg-2">
             </div>
             <div class="col-lg-8">
-            <p class="consentHeadersFont">What is the Connect for Cancer Prevention Study?</p>
-            <p class="consentBodyFont1">This research study will explore causes of cancer and learn how to better prevent cancer in adults. Since it takes time to understand what causes cancer, Connect will go on for many years. The longer you participate, the more we may learn.</p>
-            <p class="consentBodyFont2">Researchers will study things like habits, behaviors, and the environment you and others live in that can help us learn how cancer may form. Researchers hope to learn new ways to stop cancer from forming in the first place.</p>
-            <p class="consentBodyFont2">Connect is studying cancer prevention. Researchers will not look for treatments for cancer, give medical care, or share medical advice.</p>
-            <button class="btn btn-primary consentNextButton" type="button" id="toActivities" style="float:right;margin-top:100px;"><b>Next<b></button>
+                <p class="consentHeadersFont">What is the Connect for Cancer Prevention Study?</p>
+                <p class="consentBodyFont1">This research study will explore causes of cancer and learn how to better prevent cancer in adults. Since it takes time to understand what causes cancer, Connect will go on for many years. The longer you participate, the more we may learn.</p>
+                <p class="consentBodyFont2">Researchers will study things like habits, behaviors, and the environment you and others live in that can help us learn how cancer may form. Researchers hope to learn new ways to stop cancer from forming in the first place.</p>
+                <p class="consentBodyFont2">Connect is studying cancer prevention. Researchers will not look for treatments for cancer, give medical care, or share medical advice.</p>
+                <div class="row" style="padding:0;">
+                    <div class="col-md-2 order-2 order-md-1">
+                    </div>
+                    <div class="col-md-8 order-3 order-md-2">
+                    </div>
+                    <div class="col-md-2 order-1 order-md-3">
+                        <button class="btn btn-primary consentNextButton" type="button" id="toActivities" style="margin-top:100px; width:100%;"><b>Next<b></button>
+                    </div>
+                </div>
             </div>
             <div class="col-lg-2">
             </div>
@@ -150,9 +158,15 @@ export const consentActivitiesPage = () => {
                     <li>Having measurements taken (like height, weight, and blood pressure)</li>
                     <li>Sharing information from wearable electronic health trackers or apps that measure things like diet, sleep, or air quality in your environment</li>
                 </ul>  
-                <div>
-                    <button class="btn btn-primary consentPrevButton" type="button" id="backToAbout" style="float:left;margin-top:40px;">Previous</button>
-                    <button class="btn btn-primary consentNextButton" type="button" id="toPrivacy" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
+                <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
+                    <div class="col-md-2 order-2 order-md-1">
+                        <button class="btn btn-primary consentPrevButton" type="button" id="backToAbout" style="min-width:100%; margin-top:10px;margin-bottom:10px;">Previous</button>
+                    </div>
+                    <div class="col-md-8 order-3 order-md-2">
+                    </div>
+                    <div class="col-md-2 order-1 order-md-3">
+                        <button class="btn btn-primary consentNextButton" type="button" id="toPrivacy" style="width:100%; margin-top:10px;margin-bottom:10px">Next</button>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-2">
@@ -180,9 +194,15 @@ export const consentPrivacyPage = () => {
                 <p class="consentBodyFont1">Your privacy is important to us. We take steps to keep your information and samples safe. For example, we replace information that identifies you with a unique code to keep track of your health information and samples. All of the information we collect from you is protected under federal privacy rules, including the Privacy Act.</p>
                 <p class="consentBodyFont1">The researchers who will study your information also have to agree to follow federal privacy rules that protect your identity.</p>
 
-                <div>
-                    <button class="btn btn-primary consentPrevButton" type="button" id="backToActivities" style="float:left;margin-top:40px;">Previous</button>
-                    <button class="btn btn-primary consentNextButton" type="button" id="toBenefits" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
+                <div class="row" style="padding:0;">
+                    <div class="col-md-2">
+                        <button class="btn btn-primary consentPrevButton" type="button" id="backToActivities" style="min-width:100%; margin-top:10px;margin-bottom:10px">Previous</button>
+                    </div>
+                    <div class="col-md-8">
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-primary consentNextButton" type="button" id="toBenefits" style="width:100%; margin-top:10px;margin-bottom:10px">Next</button>
+                    </div>
                 </div>
 
             </div>
@@ -211,9 +231,15 @@ export const consentBenefitsPage = () => {
                 <p class="consentBodyFont1">We hope that Connect participants will take part in the study throughout their lives. While we hope you stay in Connect for years to come, you can leave at any time. Choosing to leave the study will not change your health care or health benefits. If you have shared any information or samples before you leave, we may still use them for research.</p>
                 <p class="consentBodyFont1">If you leave your health care system, we hope you will stay in Connect. If you leave your current health care system and join a different system (even one that is not taking part in Connect), we will continue to work with you and value your participation in the study.</p>
 
-                <div>
-                    <button class="btn btn-primary consentPrevButton" type="button" id="backToPrivacy" style="float:left;margin-top:40px;">Previous</button>
-                    <button class="btn btn-primary consentNextButton" type="button" id="toResults" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
+                <div class="row" style="padding:0;">
+                    <div class="col-md-2">
+                        <button class="btn btn-primary consentPrevButton" type="button" id="backToPrivacy" style="min-width:100%; margin-top:10px;margin-bottom:10px">Previous</button>
+                    </div>
+                    <div class="col-md-8">
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-primary consentNextButton" type="button" id="toResults" style="min-width:100%; margin-top:10px;margin-bottom:10px">Next</button>
+                    </div>
                 </div>
 
             </div>
@@ -428,26 +454,26 @@ export const consentConsentPage = () => {
             <form id="consentForm" style="margin-top:50px" method="POST">
                 <div id="CSConsentNameSignContainer" style="display:none">
                     <div class="row" style="width:80%; margin:auto; padding-left:0px; padding-right:0px">
-                        <div class="col-4 form-group consent-form">
-                            <label class="consent-form-label">
+                        <div class="col-md-4  consent-form" style="margin-bottom:20px;">
+                            <label class="consent-form-label consentSignHeader">
                                 First name<span class="required">*</span>
                             </label>
                             <input required type="text" autocomplete="off" id="CSFirstName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
                         </div>
-                        <div class="col-2 form-group consent-form">
-                            <label class="consent-form-label">
+                        <div class="col-md-2 consent-form" style="margin-bottom:20px;">
+                            <label class="consent-form-label consentSignHeader">
                                 Middle name<span></span>
                             </label>
                             <input type="text" autocomplete="off" id="CSMiddleName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
                         </div>
-                        <div class="col-4 form-group consent-form">
-                            <label class="consent-form-label">
+                        <div class="col-md-4  consent-form" style="margin-bottom:20px;">
+                            <label class="consent-form-label consentSignHeader">
                                 Last name<span class="required">*</span>
                             </label>
                             <input required type="text" autocomplete="off" id="CSLastName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
                         </div>
-                        <div class="col-2 form-group consent-form">
-                            <label class="consent-form-label">
+                        <div class="col-md-2  consent-form" style="margin-bottom:20px;">
+                            <label class="consent-form-label consentSignHeader">
                                 Suffix<span></span>
                             </label>
                             <select name="NameSuffix" class="form-control col-md-10" id="CSNameSuffix" style="margin-left:0px;">
@@ -571,13 +597,13 @@ export const consentHealthRecordsPage = () => {
         <div class="row"><div style="margin:auto"><a href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf">Download consent form:&nbsp<i class="fas fa-file-download"></i></a></div></div>
         <form id="consentForm" method="POST">
             <div class="row">
-                <div class="col form-group consent-form">
+                <div class="col-md form-group consent-form">
                     <label class="consent-form-label">
                         First name<span class="required">*</span>
                     </label>
                     <input style="margin-left:0" required type="text" autocomplete="off" id="CSFirstName" class="form-control col-md-5" placeholder="Enter first name">
                 </div>
-                <div class="col form-group consent-form">
+                <div class="col-md form-group consent-form">
                     <label class="consent-form-label">
                         Last name<span class="required">*</span>
                     </label>

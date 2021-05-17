@@ -1018,3 +1018,15 @@ input:checked + .slider:before {
 .userProfileLinePaddings{
     padding-top:0px;
 }
+
+
+@media (max-width: 819px) and (min-width:768px){
+    .consentSignHeader{
+        height:48px;
+    }
+}
+@media (max-width: 1208px) and (min-width:992px){
+    .consentSignHeader{
+        height:48px;
+    }  
+}

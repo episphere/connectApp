@@ -196,6 +196,14 @@ export const addEventHeardAboutStudy = () => {
         formData["142654897"]["819377306"] = document.getElementById('checkbox9').checked ? 353358909 : 104430631;
         formData["142654897"]["829269606"] = document.getElementById('checkbox10').checked ? 353358909 : 104430631;
         formData["142654897"]["462314689"] = document.getElementById('checkbox11').checked ? 353358909 : 104430631;
+        formData["142654897"]["639721694"] = document.getElementById('checkbox12').checked ? 353358909 : 104430631;
+        formData["142654897"]["177402915"] = document.getElementById('checkbox13').checked ? 353358909 : 104430631;
+        formData["142654897"]["684726272"] = document.getElementById('checkbox14').checked ? 353358909 : 104430631;
+        formData["142654897"]["241590841"] = document.getElementById('checkbox15').checked ? 353358909 : 104430631;
+        formData["142654897"]["206879104"] = document.getElementById('checkbox16').checked ? 353358909 : 104430631;
+        formData["142654897"]["520301146"] = document.getElementById('checkbox17').checked ? 353358909 : 104430631;
+        formData["142654897"]["285130077"] = document.getElementById('checkbox18').checked ? 353358909 : 104430631;
+        formData["142654897"]["967372009"] = document.getElementById('checkbox19').checked ? 353358909 : 104430631;
         
         const response = await storeResponse(formData);
         if(response.code === 200) {
@@ -604,6 +612,9 @@ const verifyUserDetails = (formData) => {
         <span aria-hidden="true">&times;</span>
     </button>
     `;
+    
+    let suffixMap = {612166858: 'Jr.',255907182: 'Sr.',226924545: 'I',270793412: 'II',959021713: 'III',643664527: '2nd',537892528: '3rd'};
+
     document.getElementById('connectModalBody').innerHTML = `
         <div class="row">
             <div class="col">First name</div>
@@ -622,7 +633,7 @@ const verifyUserDetails = (formData) => {
         ${formData['506826178'] ? `
         <div class="row">
             <div class="col">Suffix</div>
-            <div class="col">${formData['506826178']}</div>
+            <div class="col">${suffixMap[formData['506826178']]}</div>
         </div>
         `: ``}
         ${formData['153211406'] ? `
