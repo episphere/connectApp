@@ -30,7 +30,9 @@ export const renderProgress = (progress) => {
         }
     }
     let list = ['About','Activities','Privacy','Leaving','Results','Benefits','Consent']
-    let toReturn = `<div class="row d-none d-md-flex" style="margin-bottom:30px">
+    let toReturn = `
+    <br>
+    <div class="row d-none d-md-flex" style="margin-bottom:30px">
         <div class="col-lg-1">
         </div>
         <div class="col-lg-10">

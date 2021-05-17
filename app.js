@@ -13,6 +13,8 @@ import { renderSupportPage } from "./js/pages/support.js";
 import { renderPaymentPage } from "./js/pages/payment.js";
 import { renderMyDataPage } from "./js/pages/myData.js";
 import { footerTemplate } from "./js/pages/footer.js";
+import { renderVerifiedPage } from "./js/pages/verifiedPage.js";
+
 
 let auth = '';
 
@@ -92,7 +94,7 @@ window.onload = async () => {
 
 const handleVerifyEmail = (auth, actionCode) => {
     auth.applyActionCode(actionCode).then(function(resp) {
-        window.location.hash = '#dashboard';
+        window.location.hash = '#verified';
         location.reload();
     }).catch(function(error) {
         console.log(error);
@@ -215,6 +217,7 @@ const router = async () => {
         else if (route === '#support') renderSupportPage();
         else if (route === '#payment') renderPaymentPage();
         else if (route === '#my_data') renderMyDataPage();
+        else if (route === '#verified') renderVerifiedPage();
         else window.location.hash = '#';
     }
 }
@@ -247,10 +250,34 @@ const userProfile = () => {
             window.history.replaceState({},'Dashboard', './#dashboard');
             if(user.email && !user.emailVerified){
                 const mainContent = document.getElementById('root');
-                mainContent.innerHTML = '<div class="verifyEmailText">Please verify your email by clicking <a id="verifyEmail"><button class="btn btn-primary consentNextButton">Verify Email</button></a></div>'
-
+                mainContent.innerHTML = `
+                    <br>
+                    <div class="row">
+                        <div class="col-md-2">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="verifyEmailText">Please verify your email by clicking <a id="verifyEmail">
+                            <br>
+                            <br>
+                            <button class="btn btn-primary consentNextButton" style="font-weight:bold;">Verify Email</button></a></div>
+                        </div>
+                        <div class="col-md-2">
+                        </div>
+                    </div>
+                        `
+                    
                 document.getElementById('verifyEmail').addEventListener('click', () => {
-                    mainContent.innerHTML = `<div class="verifyEmailText">Please click the link we sent to your email to verify your contact information. Be sure to check your spam folder.</div>` 
+                    mainContent.innerHTML = `
+                    <br>
+                    <div class="row">
+                        <div class="col-md-2">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="verifyEmailText">Please click the link we sent to your email to verify your contact information. Be sure to check your spam folder.</div>
+                        </div>
+                        <div class="col-md-2">
+                        </div>
+                    </div>` 
                 });
                 hideAnimation();
                 document.getElementById('verifyEmail').addEventListener('click', () => {
@@ -269,6 +296,7 @@ const userProfile = () => {
                 myToDoList(myData.data, false);
             }
             else {
+
                 mainContent.innerHTML = requestPINTemplate();
                 addEventPinAutoUpperCase();
                 addEventRequestPINForm(user.metadata.a);

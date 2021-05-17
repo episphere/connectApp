@@ -873,7 +873,7 @@ input:checked + .slider:before {
 
 .userProfileBody{
     font-size:22px;
-    font-family:"Noto Sans Regular";
+    font-family: 'Noto Sans', sans-serif;
     color:#2E2E2E;
 }
 
@@ -886,7 +886,7 @@ input:checked + .slider:before {
 }
 
 .verifyEmailText{
-    font-family: "Noto Sans Regular";
+    font-family: 'Noto Sans', sans-serif;
     font-size: 18px;
     color: #2E2E2E;
     text-align: left;
@@ -899,7 +899,7 @@ input:checked + .slider:before {
     color:#606060;
 }
 .NotoSansFont{
-    font-family:"Noto Sans Regular";
+    font-family: 'Noto Sans', sans-serif;
     color:#606060;
 }
 
