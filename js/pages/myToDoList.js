@@ -69,14 +69,14 @@ export const myToDoList = (data, fromUserProfile) => {
                             <br>
                             In the meantime, please begin by completing your first Connect survey.`:
                             `The Connect team at your health care system is working to check that you are eligible to be part of the study. 
-                            ${checkIfComplete(data) ? 'Thank you for completing your first Connect surveys! We will be in touch with next steps.': 'In the meantime, please begin by completing your first Connect survey.'}`}
+                            ${checkIfComplete(data) ? 'Thank you for completing your first Connect survey! We will be in touch with next steps.': 'In the meantime, please begin by completing your first Connect survey.'}`}
                     `
                 }
                 else if(data['821247024'] && data['821247024'] == 197316935) {
                     if(data['verifiedSeen'] && data['verifiedSeen'] === true){
                         
                         topMessage += `
-                            ${checkIfComplete(data) ? 'Thank you for completing your first Connect surveys! We will be in touch with next steps.':'Please complete your first Connect survey.<br>Thank you for being a part of Connect.'}
+                            ${checkIfComplete(data) ? 'Thank you for completing your first Connect survey! We will be in touch with next steps.':'Please complete your first Connect survey.<br>Thank you for being a part of Connect.'}
                         `
                     }
                     else{
