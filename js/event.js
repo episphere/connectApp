@@ -452,24 +452,44 @@ export const addEventUPSubmit = () => {
         if(email && /\S+@\S+\.\S+/.test(email) === false) {
             console.log('UPEmail Error Should be here')
             errorMessage('UPEmail', 'Please enter an email address in this format: name@example.com.', focus);
+            if(focus) document.getElementById('UPPhoneNumber11').focus();
             focus = false;
             hasError = true;
         }
         if(email2 && email2.value && /\S+@\S+\.\S+/.test(email2.value) === false) {
             errorMessage('UPEmail2', 'Please enter an email address in this format: name@example.com.', focus);
+            if(focus) document.getElementById('UPPhoneNumber21').focus();
             focus = false;
             hasError = true;
         }
         if(email3 && email3.value && /\S+@\S+\.\S+/.test(email3.value) === false) {
             errorMessage('UPAdditionalEmail2', 'Please enter an email address in this format: name@example.com.', focus);
+            if(focus) document.getElementById('UPAdditionalEmail2').focus();
             focus = false;
             hasError = true;
         }
         if(email4 && email4.value && /\S+@\S+\.\S+/.test(email4.value) === false) {
             errorMessage('UPAdditionalEmail3', 'Please enter an email address in this format: name@example.com.', focus);
+            if(focus) document.getElementById('UPAdditionalEmail3').focus();
             focus = false;
             hasError = true;
         }
+        const confirmedEmail = document.getElementById('confirmUPEmail').value;
+        if(!confirmedEmail){
+            errorMessage('confirmUPEmail', 'Please confirm your email address.', focus);
+            if(focus) document.getElementById('confirmUPEmail').focus();
+            focus = false;
+            hasError = true;
+            
+        }
+        else if(confirmedEmail !== document.getElementById('UPEmail').value){
+            errorMessage('confirmUPEmail', 'Your email addresses do not match. Please retype your email addresses.', focus);
+            if(focus) document.getElementById('confirmUPEmail').focus();
+            focus = false;
+            hasError = true;
+            
+        }
+        
         if(hasError) return false;
         let formData = {};
         formData['399159511'] = document.getElementById('UPFirstName').value.trim();
@@ -598,17 +618,7 @@ export const addEventUPSubmit = () => {
         if(document.getElementById('UPCancerType') && document.getElementById('UPCancerType').value) formData['266952173'] = document.getElementById('UPCancerType').value;
         if(document.getElementById('UPCancerDiagnosis') && document.getElementById('UPCancerDiagnosis').value) formData['494982282'] = document.getElementById('UPCancerDiagnosis').value;
 
-        if(formData['869588347']){
-            const confirmedEmail = document.getElementById('confirmUPEmail').value;
-            if(!confirmedEmail){
-                errorMessage('confirmUPEmail', 'Please confirm your email address.', true);
-                return false;
-            }
-            else if(confirmedEmail !== formData['869588347']){
-                errorMessage('confirmUPEmail', 'Your email addresses do not match. Please retype your email addresses.', true);
-                return false;     
-            }
-        }
+
         
         const ageToday = getAge(`${formData['544150384']}-${formData['564964481']}-${formData['795827569']}`);
         /*if(!(ageToday < 66 && ageToday > 39)){
