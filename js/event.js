@@ -422,29 +422,29 @@ export const addEventUPSubmit = () => {
             focus = false;
             hasError = true;
         }
-        if(phoneNo1 && !/[1-9]{1}[0-9]{2}/.test(phoneNo1) ){
+        if(phoneNo && !/[1-9]{1}[0-9]{9}/.test(phoneNo) ){
             errorMessage('UPPhoneNumber11');
             errorMessage('UPPhoneNumber12');
             errorMessage('UPPhoneNumber13');
-            errorMessage('mainMobilePhone3', 'Phone numbers may only contain numbers.');
+            errorMessage('mainMobilePhone', 'Phone number may only contain numbers.');
             if(focus) document.getElementById('UPPhoneNumber11').focus();
             focus = false;
             hasError = true;
         }
-        if(phoneNo2 && !/[0-9]{3}/.test(phoneNo2) ){
+        if(phoneNo2 && !/[1-9]{1}[0-9]{9}/.test(phoneNo2) ){
             errorMessage('UPPhoneNumber21');
             errorMessage('UPPhoneNumber22');
             errorMessage('UPPhoneNumber23');
-            errorMessage('mainMobilePhone3', 'Phone numbers may only contain numbers.');
+            errorMessage('mainMobilePhone2', 'Phone number may only contain numbers.');
             if(focus) document.getElementById('UPPhoneNumber21').focus();
             focus = false;
             hasError = true;
         }
-        if(phoneNo3 && !/[0-9]{4}/.test(phoneNo3) ){
+        if(phoneNo3 && !/[1-9]{1}[0-9]{9}/.test(phoneNo3) ){
             errorMessage('UPPhoneNumber31');
             errorMessage('UPPhoneNumber32');
             errorMessage('UPPhoneNumber33');
-            errorMessage('mainMobilePhone3', 'Phone numbers may only contain numbers.');
+            errorMessage('mainMobilePhone3', 'Phone number may only contain numbers.');
             if(focus) document.getElementById('UPPhoneNumber31').focus();
             focus = false;
             hasError = true;
