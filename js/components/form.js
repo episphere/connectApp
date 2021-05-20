@@ -35,7 +35,7 @@ export const renderUserProfile = async () => {
         <p class = "userProfileHeader">My Profile</p>        
         <form id="userProfileForm" method="POST" autocomplete="off">
             <p class="userProfileSubHeaders">Name</p> 
-            <p>If this is not correct, please contact the <a href="https://norcfedramp.servicenowservices.com/participant" target="_blank">Connect Support Center</a> or call 1-877-505-0253.</p>
+            <p>If this is not correct, please contact the <a href="https://norcfedramp.servicenowservices.com/participant" target="_blank">Connect Support Center</a> or call 1-877-505-0253</p>
             <div class="row">
                 <div class="col-md-4">
                     <label style="margin-left:-15px">First name <span class="required">*</span></label>
@@ -164,9 +164,9 @@ export const renderUserProfile = async () => {
                     </label>
                     <br>
                     <div class="btn-group col-md-4" id="mainMobilePhone" style="margin-left:0px;">
-                        <input type="text" class="form-control" title="Only numbers are allowed." id="UPPhoneNumber11" size="3" maxlength="3" Placeholder="999" style="margin-left:0px"> <span class="hyphen">-</span>
-                        <input type="text" class="form-control" title="Only numbers are allowed." id="UPPhoneNumber12" size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
-                        <input type="text" class="form-control" title="Only numbers are allowed." id="UPPhoneNumber13" size="4" maxlength="4" Placeholder="9999">
+                        <input type="text" class="form-control num-val" data-val-pattern="[1-9]{1}[0-9]{2}" title="Only numbers are allowed." id="UPPhoneNumber11" data-error-validation="<br>Only numbers are allowed." size="3" maxlength="3" Placeholder="999" style="margin-left:0px"> <span class="hyphen">-</span>
+                        <input type="text" class="form-control num-val" data-val-pattern="[0-9]{3}" title="Only numbers are allowed." id="UPPhoneNumber12" data-error-validation="<br>Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
+                        <input type="text" class="form-control num-val" data-val-pattern="[0-9]{4}" title="Only numbers are allowed." id="UPPhoneNumber13" data-error-validation="<br>Only numbers are allowed." size="4" maxlength="4" Placeholder="9999">
                     </div>
                 </div>
             </div>

@@ -7,8 +7,10 @@ export const renderSupportPage = async () => {
     if(myData.data){
         site = myData["data"]['827220437']
         let data = myData.data;
+        let phone = "1-877-505-0253"
         if(!(data['827220437'] && data['142654897'] && data['919254129'] !== 353358909)){
             link="https://norcfedramp.servicenowservices.com/participant"
+            phone = "1-866-462-6621"
         }
     }
     
@@ -118,7 +120,7 @@ export const renderSupportPage = async () => {
                 <br>
                 <br>
                 <p>
-                    You can also call 1-877-505-0253 or email <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a>
+                    You can also call ${phone} or email <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a>
                 </p>
             </div>
             <!--
@@ -135,7 +137,7 @@ export const renderSupportPage = async () => {
                         <br>
                         <br>
                         <p>
-                        You can also call 1-877-505-0253 or email <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a>
+                        You can also call ${phone} or email <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a>
                         </p>
                     </div>
                 </div>

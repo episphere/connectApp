@@ -1,4 +1,4 @@
-import { allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, BirthMonths, getAge, getMyData, retrieveNotifications, removeActiveClass, toggleNavbarMobileView, toggleDarkMode } from "./shared.js";
+import { allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, errorMessageNumbers, BirthMonths, getAge, getMyData, retrieveNotifications, removeActiveClass, toggleNavbarMobileView, toggleDarkMode } from "./shared.js";
 import { initializeCanvas, addEventConsentSubmit, consentTemplate } from "./pages/consent.js";
 import { heardAboutStudy, healthCareProvider } from "./pages/healthCareProvider.js";
 import { myToDoList } from "./pages/myToDoList.js";
@@ -328,6 +328,13 @@ export const addEventUPSubmit = () => {
                         }
                     }
                 }
+                if(validationPattern && validationPattern === 'numbers') {
+                    if(!/^[0-9]*$/.test(element.value)) {
+                        errorMessage(element.id, element.dataset.errorValidation, focus)
+                        focus = false;
+                        hasError = true;
+                    }
+                }
             }
         });
         Array.from(requiredFields).forEach(element => {
@@ -342,14 +349,14 @@ export const addEventUPSubmit = () => {
                 hasError = true;
             }
         });
-        Array.from(numberValidations).forEach(element => {
+        /*Array.from(numberValidations).forEach(element => {
             const pattern = element.dataset.valPattern
             if(element.value && !element.value.match(new RegExp(pattern))){
-                errorMessage(element.id, `${element.dataset.errorValidation}`, focus);
+                errorMessageNumbers(element.id, `${element.dataset.errorValidation}`, focus);
                 focus = false;
                 hasError = true;
             }
-        });
+        });*/
         if(!(document.getElementById('UPCancer1').checked|| document.getElementById('UPCancer2').checked)){
             errorMessage('UPCancerBtnGroup', 'Please provide a response.', focus);
             focus = false;
@@ -411,6 +418,33 @@ export const addEventUPSubmit = () => {
             errorMessage('UPPhoneNumber32');
             errorMessage('UPPhoneNumber33');
             errorMessage('mainMobilePhone3', 'Please enter a phone number in this format: 999-999-9999.');
+            if(focus) document.getElementById('UPPhoneNumber31').focus();
+            focus = false;
+            hasError = true;
+        }
+        if(phoneNo1 && !/[1-9]{1}[0-9]{2}/.test(phoneNo1) ){
+            errorMessage('UPPhoneNumber11');
+            errorMessage('UPPhoneNumber12');
+            errorMessage('UPPhoneNumber13');
+            errorMessage('mainMobilePhone3', 'Phone numbers may only contain numbers.');
+            if(focus) document.getElementById('UPPhoneNumber11').focus();
+            focus = false;
+            hasError = true;
+        }
+        if(phoneNo2 && !/[0-9]{3}/.test(phoneNo2) ){
+            errorMessage('UPPhoneNumber21');
+            errorMessage('UPPhoneNumber22');
+            errorMessage('UPPhoneNumber23');
+            errorMessage('mainMobilePhone3', 'Phone numbers may only contain numbers.');
+            if(focus) document.getElementById('UPPhoneNumber21').focus();
+            focus = false;
+            hasError = true;
+        }
+        if(phoneNo3 && !/[0-9]{4}/.test(phoneNo3) ){
+            errorMessage('UPPhoneNumber31');
+            errorMessage('UPPhoneNumber32');
+            errorMessage('UPPhoneNumber33');
+            errorMessage('mainMobilePhone3', 'Phone numbers may only contain numbers.');
             if(focus) document.getElementById('UPPhoneNumber31').focus();
             focus = false;
             hasError = true;

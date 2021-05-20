@@ -63,6 +63,27 @@ export const myToDoList = (data, fromUserProfile) => {
                 }
 
                 if(!data['821247024'] || data['821247024'] == 875007964){
+                    if(data['unverifiedSeen'] && data['unverifiedSeen'] === true){
+                        
+                        topMessage += `
+                            ${checkIfComplete(data) ? 'Thank you for completing your first Connect survey! We will be in touch with next steps.':'Please complete your first Connect survey.<br>Thank you for being a part of Connect.'}
+                        `
+                    }
+                    else{
+                        //first seen
+                        //update verifiedSeen to be false
+                        topMessage += `
+                            Great news! We have confirmed that you are eligible for the Connect for Cancer Prevention Study. You are now an official Connect participant.
+                            <br>
+                            ${checkIfComplete(data) ? 'Thank you for completing your first Connect survey! We will be in touch with next steps.':'The next step is to complete your first Connect survey'}
+                            <br>
+                            Thank you for being a part of Connect and for your commitment to help us learn more about how to prevent cancer.
+                            <br>
+                        `
+                        let formData = {};
+                        formData['unverifiedSeen'] = true;
+                        storeResponse(formData);
+                    }
                     topMessage += `
                         ${fromUserProfile ? 
                             `Thank you for completing your profile for the Connect for Cancer Prevention Study. Next, the Connect team at your health care system will check that you are eligible to be part of the study. We will contact you within a few business days.
