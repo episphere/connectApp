@@ -88,6 +88,32 @@ export const renderAgreements = async () => {
                             
                             ${myData.data['613641698'] ?`
                                 <div class="row">
+                                    <div class="col" style="padding-left: 30px; padding-right:30px;">
+                                        <div class="row"  style="border:1px solid lightgrey; border-radius:5px;">
+                                            <div class="col-md-2">
+                                                <i class="fab fa-wpforms d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
+                                            </div>
+                                            <div class="col-md-10 cnnsentBodyFont2">
+                                                <span class = "consentHeadersFont" style="color:#5c2d93">
+                                                    <b>Consent form to participate in Connect</b>
+                                                </span>
+                                                <br>
+                                                <span class = "consentBodyFont2">
+                                                    Your signed agreement to participate in the Connect for Cancer Prevention Study.This form has important information about your privacy and what you will be asked to do as a Connect participant
+                                                </span>
+                                                <br>
+                                                <br>
+                                                <span>Signed: ${new Date(myData.data['454445267']).toDateString()}
+                                                </span>
+                                                <br>
+                                                <br>
+                                                <button class="btn btn-agreement consentNextButton" style="" id="downloadConsent"><i class="fas fa-file-download" ></i> Download Signed Form</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
                                     <div class="col consentBodyFont2">
                                         HIPAA Revoke Form
                                     </div>
@@ -101,12 +127,28 @@ export const renderAgreements = async () => {
                             
                             ${myData.data['454445267'] ?`
                                 <div class="row">
-                                    <div class="col consentBodyFont2">
-                                        Consent Form
-                                    </div>
-                                    <div class="col consentBodyFont2"><b>${myData.data['454445267'] ? `Date signed:</b> ${new Date(myData.data['454445267']).toDateString()}` : ''}</div>
-                                    <div class="col">
-                                        <button class="btn btn-agreement consentNextButton" style="float:right;" id="downloadConsent"><i class="fas fa-file-download" ></i> Download Signed Form</button>
+                                    <div class="col" style="padding-left: 30px; padding-right:30px;">
+                                        <div class="row"  style="border:1px solid lightgrey; border-radius:5px;">
+                                            <div class="col-md-2">
+                                                <i class="fab fa-wpforms d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
+                                            </div>
+                                            <div class="col-md-10 cnnsentBodyFont2">
+                                                <span class = "consentHeadersFont" style="color:#5c2d93">
+                                                    <b>Consent form to participate in Connect</b>
+                                                </span>
+                                                <br>
+                                                <span class = "consentBodyFont2">
+                                                    Your signed agreement to participate in the Connect for Cancer Prevention Study.This form has important information about your privacy and what you will be asked to do as a Connect participant
+                                                </span>
+                                                <br>
+                                                <br>
+                                                <span>Signed: ${new Date(myData.data['454445267']).toDateString()}
+                                                </span>
+                                                <br>
+                                                <br>
+                                                <button class="btn btn-agreement consentNextButton" style="" id="downloadConsent"><i class="fas fa-file-download" ></i> Download Signed Form</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <br>

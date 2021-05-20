@@ -299,7 +299,7 @@ export const consentLeavingPage = () => {
             </div>
             <div class="col-lg-8">
                 <p class="consentHeadersFont">Benefits and Payment</p>
-                <p class="consentBodyFont1">Connect is a low-risk study. The main risk of joining is to your privacy. We follow federal privacy rules to protect your identify and the information you share. There is no health benefit to you for taking part in the study.</p>
+                <p class="consentBodyFont1">Connect is a low-risk study. The main risk of joining is to your privacy. We follow federal privacy rules to protect your identity and the information you share. There is no health benefit to you for taking part in the study.</p>
                 <p class="consentBodyFont1">You will receive $25 in cash or as a giftcard after you complete the first online survey and donate your first blood sample.</p>
                 <div>
                     <button class="btn btn-primary consentPrevButton" type="button" id="backToResults" style="float:left;margin-top:40px;">Previous</button>

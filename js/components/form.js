@@ -164,9 +164,9 @@ export const renderUserProfile = async () => {
                     </label>
                     <br>
                     <div class="btn-group col-md-4" id="mainMobilePhone" style="margin-left:0px;">
-                        <input type="text" class="form-control num-val" data-val-pattern="[1-9]{1}[0-9]{2}" title="Only numbers are allowed." id="UPPhoneNumber11" data-error-validation="<br>Only numbers are allowed." size="3" maxlength="3" Placeholder="999" style="margin-left:0px"> <span class="hyphen">-</span>
-                        <input type="text" class="form-control num-val" data-val-pattern="[0-9]{3}" title="Only numbers are allowed." id="UPPhoneNumber12" data-error-validation="<br>Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
-                        <input type="text" class="form-control num-val" data-val-pattern="[0-9]{4}" title="Only numbers are allowed." id="UPPhoneNumber13" data-error-validation="<br>Only numbers are allowed." size="4" maxlength="4" Placeholder="9999">
+                        <input type="text" class="form-control num-val" data-val-pattern="[1-9]{1}[0-9]{2}" title="Only numbers are allowed." id="UPPhoneNumber11" data-error-validation="Only numbers are allowed." size="3" maxlength="3" Placeholder="999" style="margin-left:0px"> <span class="hyphen">-</span>
+                        <input type="text" class="form-control num-val" data-val-pattern="[0-9]{3}" title="Only numbers are allowed." id="UPPhoneNumber12" data-error-validation="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
+                        <input type="text" class="form-control num-val" data-val-pattern="[0-9]{4}" title="Only numbers are allowed." id="UPPhoneNumber13" data-error-validation="Only numbers are allowed." size="4" maxlength="4" Placeholder="9999">
                     </div>
                 </div>
             </div>
