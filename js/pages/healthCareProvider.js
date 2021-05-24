@@ -49,7 +49,7 @@ export const healthCareProvider = (siteId) => {
         </div>
         <div class="modal-footer">
             <button type="button" id="modalCancel" class="btn btn-secondary" data-dismiss="modal">No</button>
-            <button type="button" id="modalConfirm" class="btn btn-primary">Yes</button>
+            <button type="button" id="modalConfirm" class="btn btn-primary consentNextButton">Yes</button>
         </div>
         </div>
     </div>
