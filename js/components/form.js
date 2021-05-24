@@ -125,7 +125,7 @@ export const renderUserProfile = async () => {
             </br>
             <div class="form-group row" style="padding-top:0; padding-bottom:0;">
                 <div class="col">
-                    <label class="col-form-label">Confirm preferred Email <span class="required">*</span></label>
+                    <label class="col-form-label">Confirm Preferred Email <span class="required">*</span></label>
                     <input style="margin-left:0px; max-width:382px;" type="text" class="form-control" id="confirmUPEmail" title="Please enter an email address in this format: name@example.com." Placeholder="Retype preferred email">
                 </div>
             </div>
@@ -260,7 +260,7 @@ export const renderUserProfile = async () => {
                 <div class="col">
                     <label class="col-form-label">Have you ever had invasive cancer? <span class="required">*</span></label>
                     <br>
-                    <i>If you have or once had non-melanoma skin cancer (like basal cell or squamous cell carcinoma), or a condition that raises cancer risk (such as DCIS, or stage 0 breast cancer), please respond “No” to this question. These conditions are not invasive cancer, and you can still join. We are interested in in learning how these conditions may affect cancer risk and health outcomes in the future.</i>
+                    <i>If you have or once had non-melanoma skin cancer (like basal cell or squamous cell carcinoma), or a condition that raises cancer risk (such as DCIS, or stage 0 breast cancer), please respond “No” to this question. These conditions are not invasive cancer, and you can still join. We are interested in learning how these conditions may affect cancer risk and health outcomes in the future.</i>
                     <br>
                     <div class="btn-group btn-group-toggle col-md-4" style="margin-left:0px;">
                         <label id="UPCancer1Btn"><input type="radio" name="cancerHistory" id="UPCancer1" value="353358909"> Yes</label>

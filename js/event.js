@@ -861,7 +861,7 @@ const verifyUserDetails = (formData) => {
 
         ${formData['494982282'] ? `
         <div class="row">
-            <div class="col">Please tell us anythning you would like us to know about your cancer diagnosis</div>
+            <div class="col">Please tell us anything you would like us to know about your cancer diagnosis</div>
             <div class="col">${formData['494982282']}</div>
         </div>
         `:``}
@@ -1008,7 +1008,7 @@ export const addEventCancerFollowUp = () => {
             </div>
 
             <div class="form-group row">
-                <label class="col-md-4 col-form-label">Please tell us anythning you would like us to know about your cancer diagnosis</label>
+                <label class="col-md-4 col-form-label">Please tell us anything you would like us to know about your cancer diagnosis</label>
                 <textarea class="form-control col-md-4" id="UPCancerDiagnosis"></textarea>
             </div>
         `;
@@ -1136,6 +1136,7 @@ export const toggleCurrentPage = async (route) => {
     if(route === '#agreements') document.getElementById('userAgreements').click();
     if(route === '#settings') document.getElementById('userSettings').click();
     if(route === '#support') document.getElementById('connectSupport').click();
+    if(route === '#samples') document.getElementById('connectSamples').click();
     if(route === '#payment') document.getElementById('connectPayment').click();
     if(document.body.classList.contains('dark-mode')) toggleDarkMode(true);
 }

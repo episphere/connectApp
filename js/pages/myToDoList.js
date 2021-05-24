@@ -58,7 +58,7 @@ export const myToDoList = (data, fromUserProfile) => {
                     
                     finalMessage += "You have a new form to sign.<br>You have been withdrawn from Connect per your request.<br>"
                 }
-                else if (data.hasOwnProperty('773707518') && data['773707518'] == 353358909 && !data['359404406']){
+                else if (((data.hasOwnProperty('773707518') && data['773707518'] == 353358909) || data['747006172']) && !data['359404406']){
                     topMessage += "You have a new form to sign.<br>"
                 }
 

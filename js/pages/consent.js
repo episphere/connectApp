@@ -146,7 +146,7 @@ export const consentActivitiesPage = () => {
                     We will ask you to donate blood, urine, and saliva when you join the study, and every two to three years after. Some samples will be collected where you get your health care and others at home. We may also collect samples that are left over from health care visits and procedures. You will not need to do anything for us to collect these leftover samples. Your samples will be safely stored at the Connect Central Repository.
                 </p>
                 <p class="consentBodyFont2" style="margin-left:32px">
-                    The samples you donate willbe used to study how cancer may form, which may include looking at the genes in your DNA.
+                    The samples you donate will be used to study how cancer may form, which may include looking at the genes in your DNA.
                 </p>
                 <p class="consentBodyFont1">Take part in future activities</p>
                 <p class="consentBodyFont2" style="margin-left:32px">
@@ -300,7 +300,7 @@ export const consentLeavingPage = () => {
             <div class="col-lg-8">
                 <p class="consentHeadersFont">Benefits and Payment</p>
                 <p class="consentBodyFont1">Connect is a low-risk study. The main risk of joining is to your privacy. We follow federal privacy rules to protect your identity and the information you share. There is no health benefit to you for taking part in the study.</p>
-                <p class="consentBodyFont1">You will receive $25 in cash or as a giftcard after you complete the first online survey and donate your first blood sample.</p>
+                <p class="consentBodyFont1">You will receive $25 in cash or as a gift card after you complete the first online survey and donate your first blood sample.</p>
                 <div>
                     <button class="btn btn-primary consentPrevButton" type="button" id="backToResults" style="float:left;margin-top:40px;">Previous</button>
                     <button class="btn btn-primary consentNextButton" type="button" id="toConsent" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
@@ -446,7 +446,7 @@ export const consentConsentPage = () => {
                 <ol class="consentBodyFont2">
                     <li>I have read these forms.</li>
                     <li>As  stated  in  the  consent  and  HIPAA  Authorization,  I  will allow  the  use,  storage, and  disclosure  (release) of  my  survey  answers, samples,  and  health  information for the research as described above.</li>
-                    <li>If I have questions, I can contact the Connect Support Center at <a target="_blank" href="https://norcfedramp.servicenowservices.com/recruit">Cancer.gov/connectstudy/support</a> or by call</li>
+                    <li>If I have questions, I can contact the Connect Support Center at <a target="_blank" href="https://norcfedramp.servicenowservices.com/recruit">Cancer.gov/connectstudy/support</a> or by calling 1-866-462-6621</li>
                     <li>If I decide to leave the study, I can contact the Connect Support Center at <a target="_blank" href="https://norcfedramp.servicenowservices.com/recruit">Cancer.gov/connectstudy/support</a></li>
                 </ol>
                 <input type="checkbox" name="consentAnswer" value="consentYes" id="CSConsentYesCheck" required>
@@ -689,8 +689,8 @@ export const consentFinishedPage = (data) => {
             </div>
             <div style="margin-left:20px">
                 
-                <div class="row"><div style="margin-left:20px"><i class="fas fa-file-download"></i> <a style="margin-left:10px" href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf" id="consentDownload">Download a copy of your signed consent form:&nbsp</a></div></div>
-                <div class="row"><div style="margin-left:20px"><i class="fas fa-file-download"></i> <a style="margin-left:10px" href="./consent_draft.pdf" title="Download health records release form" data-toggle="tooltip" download="connect_consent.pdf" id="healthRecordsDownload">Download a copy of your signed health records release form:&nbsp</a></div></div>
+                <div class="row"><div style="margin-left:20px"><i class="fas fa-file-download"></i> <a style="margin-left:10px" href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf" id="consentDownload">Download a copy of your signed consent form&nbsp</a></div></div>
+                <div class="row"><div style="margin-left:20px"><i class="fas fa-file-download"></i> <a style="margin-left:10px" href="./consent_draft.pdf" title="Download health records release form" data-toggle="tooltip" download="connect_consent.pdf" id="healthRecordsDownload">Download a copy of your signed health records release form&nbsp</a></div></div>
             </div>
             
             <div>
