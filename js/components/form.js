@@ -39,7 +39,7 @@ export const renderUserProfile = async () => {
             <div class="row">
                 <div class="col-md-4">
                     <label style="margin-left:-15px">First name <span class="required">*</span></label>
-                    <input type="text" value="${myData.data['471168198']}" class="form-control input-validation row" id="UPFirstName" placeholder="Enter first name" disabled style="max-width:215px">
+                    <input type="text" value="${myData.data['471168198']}" class="form-control input-validation row" id="UPFirstName" placeholder="Enter first name" disabled style="max-width:215px; background-color:#e6e6e6 !important;">
                 </div>
                 <div class="col-md-4">
                     <label style="margin-left:-15px">Middle name</label>
@@ -49,7 +49,7 @@ export const renderUserProfile = async () => {
             <div class="row">
                 <div class="col-md-6">
                     <label style="margin-left:-15px">Last name <span class="required">*</span></label>
-                    <input type="text" value="${myData.data['736251808']}" class="form-control input-validation row" id="UPLastName" placeholder="Enter last name" disabled style="max-width:304px">
+                    <input type="text" value="${myData.data['736251808']}" class="form-control input-validation row" id="UPLastName" placeholder="Enter last name" disabled style="max-width:304px; background-color:#e6e6e6 !important;">
                 </div>
             </div>
             <div class="form-group row">

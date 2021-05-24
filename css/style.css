@@ -806,6 +806,22 @@ input:checked + .slider:before {
     margin-right: 15px;
 }
 
+.messages-Active-Nav{
+    color:#303030 !important;
+    font-family: 'Noto Sans', sans-serif;
+    font-weight:bold !important;
+    background-color:white;
+    border: 1px solid lightgrey !important;
+    border-bottom: 1px solid white !important;
+    border-top: 5px solid #FFBF17 !important;
+}
+.messages-Inactive-Nav{
+    color:#303030 !important;
+    font-family: 'Noto Sans', sans-serif;
+    background-color:white;
+    border-bottom: 1px solid lightgrey !important;
+}
+
 .survey-Active-Nav {
     color:purple !important;
     background-color:white;
@@ -983,6 +999,22 @@ input:checked + .slider:before {
     font-family: 'Noto Sans', sans-serif;
     font-size:18px;
 }
+
+.messagesHeaderFont{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    font-size:20px;
+    line-height:25px;
+    color: #6B6B6B;
+}
+
+.messagesBodyFont{
+    font-family: 'Noto Sans', sans-serif;
+    font-size:18px;
+    line-height:27px;
+    color: #2E2E2E;
+}
+
 
 .consentSubheader{
     font-family: 'Montserrat', sans-serif;
