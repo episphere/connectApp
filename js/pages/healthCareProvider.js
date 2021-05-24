@@ -34,6 +34,26 @@ export const healthCareProvider = (siteId) => {
     let template = '';
     template += `
     <br>
+    <!-- Modal -->
+    <div class="modal fade" id="HealthProviderModal" tabindex="-1" role="dialog" aria-labelledby="HealthProviderModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="HealthProviderModalLabel"></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body" id="HealthProviderModalBody">
+            ...
+        </div>
+        <div class="modal-footer">
+            <button type="button" id="modalCancel" class="btn btn-secondary" data-dismiss="modal">No</button>
+            <button type="button" id="modalConfirm" class="btn btn-primary">Yes</button>
+        </div>
+        </div>
+    </div>
+    </div>
     <div class = "row">
     <div class="col-lg-2">
     </div>
@@ -55,6 +75,7 @@ export const healthCareProvider = (siteId) => {
             </div>
             <div class="row">
                 <div class="ml-auto">
+                <button style="display:none;" id="openModal" class="btn btn-primary save-data consentNextButton" data-toggle="modal" data-target="#HealthProviderModal">Submit</button>
                     <button type="submit" class="btn btn-primary save-data consentNextButton">Submit</button>
                 </div>
             </div></br></br>

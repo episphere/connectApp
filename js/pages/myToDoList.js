@@ -2,7 +2,7 @@ import { hideAnimation, questionnaireModules, storeResponse, sites } from "../sh
 import { blockParticipant, questionnaire } from "./questionnaire.js";
 import { renderUserProfile } from "../components/form.js";
 import { consentTemplate, initializeCanvas, addEventConsentSubmit } from "./consent.js";
-import { addEventsConsentSign, addEventHeardAboutStudy, addEventRequestPINForm, addEventHealthCareProviderSubmit, addEventPinAutoUpperCase } from "../event.js";
+import { addEventsConsentSign, addEventHeardAboutStudy, addEventRequestPINForm, addEventHealthCareProviderSubmit, addEventPinAutoUpperCase, addEventHealthProviderModalSubmit } from "../event.js";
 import { heardAboutStudy, requestPINTemplate, healthCareProvider } from "./healthCareProvider.js";
 import {humanReadableMDYwithTime} from "../util.js";
 import fieldMapping from '../components/fieldToConceptIdMapping.js'; 
@@ -266,6 +266,7 @@ export const myToDoList = (data, fromUserProfile) => {
     else{
         mainContent.innerHTML = healthCareProvider();
         addEventHealthCareProviderSubmit();
+        addEventHealthProviderModalSubmit();
         hideAnimation();
     }
 }

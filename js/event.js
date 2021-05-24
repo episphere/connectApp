@@ -162,7 +162,14 @@ export const addEventHealthCareProviderSubmit = () => {
         e.preventDefault();
         
         const value = parseInt(document.getElementById('827220437').value);
-        const r = confirm(`Are you sure ${sites()[value]} is your healthcare provider?`)
+        
+        //const r = confirm(`Are you sure ${sites()[value]} is your healthcare provider?`)
+        let modalBody = document.getElementById('HealthProviderModalBody');
+        let modalButton = document.getElementById('openModal');
+        modalBody.innerHTML = `Are you sure ${sites()[value]} is your healthcare provider?`
+        modalButton.click();
+        
+        /*let r = false;
         if(r){
             dataSavingBtn('save-data');
             let formData = {};
@@ -174,8 +181,28 @@ export const addEventHealthCareProviderSubmit = () => {
                 mainContent.innerHTML = heardAboutStudy();
                 addEventHeardAboutStudy();
             }
-        }
+        }*/
     });
+}
+
+export const addEventHealthProviderModalSubmit = () => {
+    const form = document.getElementById('modalConfirm');
+    
+    form.addEventListener('click', async e => {
+        let disappear = document.getElementById('modalCancel');
+        disappear.click();
+        const value = parseInt(document.getElementById('827220437').value);
+        dataSavingBtn('save-data');
+        let formData = {};
+        formData["827220437"] = value;
+        localStorage.eligibilityQuestionnaire = JSON.stringify(formData);
+        const response = await storeResponse(formData);
+        if(response.code === 200) {
+            const mainContent = document.getElementById('root');
+            mainContent.innerHTML = heardAboutStudy();
+            addEventHeardAboutStudy();
+        }
+    })
 }
 
 export const addEventHeardAboutStudy = () => {
@@ -970,6 +997,7 @@ export const addEventRequestPINForm = (accountCreatedAt) => {
                 hideAnimation();
                 mainContent.innerHTML = healthCareProvider();
                 addEventHealthCareProviderSubmit();
+                addEventHealthProviderModalSubmit();
             }
             if(response.code === 200){
                 let formData = {};
@@ -989,6 +1017,7 @@ export const addEventRequestPINForm = (accountCreatedAt) => {
             hideAnimation();
             mainContent.innerHTML = healthCareProvider();
             addEventHealthCareProviderSubmit();
+            addEventHealthProviderModalSubmit();
         }
     })
 }

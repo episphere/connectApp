@@ -82,7 +82,7 @@ export const renderProgress = (progress) => {
         <div class="col-lg-10">
             <div class="row" style"padding-bottom:0px;padding-top:0px;">
                 <div class="consentBodyFont2" style="text-align:center;width:30px;height:30px;background:#2A72A5;border-radius:50%;border:5px solid #2A72A5;line-height:19px;color:white; display:inline;">${progress}</div>
-                <p class="consentBodyFont2" style="margin-left:4px; color:#2A72A5;"> of 7 <b>${list[progress-1]}</b></p> 
+                <p class="consentBodyFont2" style="margin-left:4px; color:#2A72A5;"> of 7 <b style="color:#2E2E2E; font-family: 'Noto Sans', sans-serif; font-weight:bold;">${list[progress-1]}</b></p> 
             </div>
         </div>
         <div class="col-lg-1">
@@ -275,9 +275,16 @@ export const consentResultsPage = () => {
                 <p class="consentBodyFont2">You can also choose to receive general findings about cancer or other health information from all the people taking part in the study and updates about Connect.</p>
                 <p class="consentBodyFont2">We will alert you when results are available and share them securely if you choose to receive them.</p>
                 <p class="consentBodyFont2">We will not add information about Connect to your health record or share your information with your health care provider, but you are free to do so with any results you receive.</p>
-                <div>
-                    <button class="btn btn-primary consentPrevButton" type="button" id="backToBenefits" style="float:left;margin-top:40px;">Previous</button>
-                    <button class="btn btn-primary consentNextButton" type="button" id="toLeaving" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
+                
+                <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
+                    <div class="col-md-2 order-2 order-md-1">
+                        <button class="btn btn-primary consentPrevButton" type="button" id="backToBenefits" style="min-width:100%; margin-top:10px;margin-bottom:10px;">Previous</button>
+                    </div>
+                    <div class="col-md-8 order-3 order-md-2">
+                    </div>
+                    <div class="col-md-2 order-1 order-md-3">
+                        <button class="btn btn-primary consentNextButton" type="button" id="toLeaving" style="width:100%; margin-top:10px;margin-bottom:10px">Next</button>
+                    </div>
                 </div>
 
             </div>
@@ -305,10 +312,18 @@ export const consentLeavingPage = () => {
                 <p class="consentHeadersFont">Benefits and Payment</p>
                 <p class="consentBodyFont1">Connect is a low-risk study. The main risk of joining is to your privacy. We follow federal privacy rules to protect your identity and the information you share. There is no health benefit to you for taking part in the study.</p>
                 <p class="consentBodyFont1">You will receive $25 in cash or as a gift card after you complete the first online survey and donate your first blood sample.</p>
-                <div>
-                    <button class="btn btn-primary consentPrevButton" type="button" id="backToResults" style="float:left;margin-top:40px;">Previous</button>
-                    <button class="btn btn-primary consentNextButton" type="button" id="toConsent" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
+                
+                <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
+                    <div class="col-md-2 order-2 order-md-1">
+                        <button class="btn btn-primary consentPrevButton" type="button" id="backToResults" style="min-width:100%; margin-top:10px;margin-bottom:10px;">Previous</button>
+                    </div>
+                    <div class="col-md-8 order-3 order-md-2">
+                    </div>
+                    <div class="col-md-2 order-1 order-md-3">
+                        <button class="btn btn-primary consentNextButton" type="button" id="toConsent" style="width:100%; margin-top:10px;margin-bottom:10px">Next</button>
+                    </div>
                 </div>
+                
 
             </div>
             <div class="col-lg-2">
@@ -545,10 +560,15 @@ export const consentConsentPage = () => {
                     </div>
                 ` : '' : ''}
                 -->
-                <div class="row">
-                    <button class="btn btn-primary consentPrevButton" type="button" id="backToConsent" style="float:left;">Previous</button>
-                    <div class="ml-auto">
-                        <button type="submit" class="btn btn-primary save-data consentNextButton">Submit</button>
+                
+                <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
+                    <div class="col-md-2 order-2 order-md-1">
+                        <button class="btn btn-primary consentPrevButton" type="button" id="backToConsent" style="min-width:100%; margin-top:10px;margin-bottom:10px;">Previous</button>
+                    </div>
+                    <div class="col-md-8 order-3 order-md-2">
+                    </div>
+                    <div class="col-md-2 order-1 order-md-3">
+                        <button class="btn btn-primary save-data consentNextButton" type="submit" id="toConsent" style="width:100%; margin-top:10px;margin-bottom:10px">Submit</button>
                     </div>
                 </div>
             </form>
