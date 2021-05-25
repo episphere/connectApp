@@ -1,4 +1,4 @@
-import { allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, BirthMonths, getAge, getMyData, retrieveNotifications, removeActiveClass, toggleNavbarMobileView, toggleDarkMode } from "./shared.js";
+import { allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, errorMessageNumbers, BirthMonths, getAge, getMyData, retrieveNotifications, removeActiveClass, toggleNavbarMobileView, toggleDarkMode } from "./shared.js";
 import { initializeCanvas, addEventConsentSubmit, consentTemplate } from "./pages/consent.js";
 import { heardAboutStudy, healthCareProvider } from "./pages/healthCareProvider.js";
 import { myToDoList } from "./pages/myToDoList.js";
@@ -162,7 +162,14 @@ export const addEventHealthCareProviderSubmit = () => {
         e.preventDefault();
         
         const value = parseInt(document.getElementById('827220437').value);
-        const r = confirm(`Are you sure ${sites()[value]} is your healthcare provider?`)
+        
+        //const r = confirm(`Are you sure ${sites()[value]} is your healthcare provider?`)
+        let modalBody = document.getElementById('HealthProviderModalBody');
+        let modalButton = document.getElementById('openModal');
+        modalBody.innerHTML = `Are you sure ${sites()[value]} is your healthcare provider?`
+        modalButton.click();
+        
+        /*let r = false;
         if(r){
             dataSavingBtn('save-data');
             let formData = {};
@@ -174,8 +181,28 @@ export const addEventHealthCareProviderSubmit = () => {
                 mainContent.innerHTML = heardAboutStudy();
                 addEventHeardAboutStudy();
             }
-        }
+        }*/
     });
+}
+
+export const addEventHealthProviderModalSubmit = () => {
+    const form = document.getElementById('modalConfirm');
+    
+    form.addEventListener('click', async e => {
+        let disappear = document.getElementById('modalCancel');
+        disappear.click();
+        const value = parseInt(document.getElementById('827220437').value);
+        dataSavingBtn('save-data');
+        let formData = {};
+        formData["827220437"] = value;
+        localStorage.eligibilityQuestionnaire = JSON.stringify(formData);
+        const response = await storeResponse(formData);
+        if(response.code === 200) {
+            const mainContent = document.getElementById('root');
+            mainContent.innerHTML = heardAboutStudy();
+            addEventHeardAboutStudy();
+        }
+    })
 }
 
 export const addEventHeardAboutStudy = () => {
@@ -238,16 +265,23 @@ const addEmailFields = () => {
     const div = document.getElementById('multipleEmail1');	
     div.innerHTML = '';	
     div.classList = ['form-group row'];
+    div.style = "padding-top:0; padding-bottom:0;";
+    
+    const div1 = document.createElement('div');	
+    div1.innerHTML = '';	
+    div1.classList = ['col'];
 
     const input = document.createElement('input');	
     input.classList = ['form-control col-md-4'];	
     input.placeholder = 'Enter additional email 2';	
+    input.style = "margin-left:0px; max-width:382px;"
     input.type = 'text';	
     input.id = 'UPAdditionalEmail2';	
     input.title = ' Please enter an email address in this format: name@example.com.';
 
-    div.appendChild(input);
-	
+    div1.appendChild(input);
+    div.appendChild(div1);
+    
     document.getElementById('additionalEmailBtn').innerHTML = `<button type="button" class="btn btn-light" id="addMoreEmail2" title="Add more email">Add more <i class="fas fa-plus"></i></button>`;
     
     const addMoreEmail2 = document.getElementById('addMoreEmail2');	
@@ -257,15 +291,27 @@ const addEmailFields = () => {
 const addAnotherEmailField = () => {	
     const div = document.getElementById('multipleEmail2');	
     div.innerHTML = '';	
-    div.classList = ['form-group row']; 	
+    div.classList = ['form-group row'];
+    div.style = "padding-top:0; padding-bottom:0;";
+    
+    const div1 = document.createElement('div');	
+    div1.innerHTML = '';	
+    div1.classList = ['col']; 	
 
     const input2 = document.createElement('input');	
     input2.classList = ['form-control col-md-4'];	
+    input2.style = "margin-left:0px; max-width:382px;"
     input2.placeholder = 'Enter additional email 3';	
     input2.type = 'text';	
     input2.id = 'UPAdditionalEmail3';	
     input2.title = ' Please enter an email address in this format: name@example.com.';
-    div.appendChild(input2);
+    
+    div1.appendChild(input2);
+    div.appendChild(div1);
+
+    const br = document.getElementById('multipleEmail2Br');	
+    br.style=""
+
     document.getElementById('additionalEmailBtn').innerHTML = '';
 }
 
@@ -309,6 +355,13 @@ export const addEventUPSubmit = () => {
                         }
                     }
                 }
+                if(validationPattern && validationPattern === 'numbers') {
+                    if(!/^[0-9]*$/.test(element.value)) {
+                        errorMessage(element.id, element.dataset.errorValidation, focus)
+                        focus = false;
+                        hasError = true;
+                    }
+                }
             }
         });
         Array.from(requiredFields).forEach(element => {
@@ -323,14 +376,14 @@ export const addEventUPSubmit = () => {
                 hasError = true;
             }
         });
-        Array.from(numberValidations).forEach(element => {
+        /*Array.from(numberValidations).forEach(element => {
             const pattern = element.dataset.valPattern
             if(element.value && !element.value.match(new RegExp(pattern))){
-                errorMessage(element.id, `${element.dataset.errorValidation}`, focus);
+                errorMessageNumbers(element.id, `${element.dataset.errorValidation}`, focus);
                 focus = false;
                 hasError = true;
             }
-        });
+        });*/
         if(!(document.getElementById('UPCancer1').checked|| document.getElementById('UPCancer2').checked)){
             errorMessage('UPCancerBtnGroup', 'Please provide a response.', focus);
             focus = false;
@@ -396,27 +449,74 @@ export const addEventUPSubmit = () => {
             focus = false;
             hasError = true;
         }
+        if(phoneNo && !/[1-9]{1}[0-9]{9}/.test(phoneNo) ){
+            errorMessage('UPPhoneNumber11');
+            errorMessage('UPPhoneNumber12');
+            errorMessage('UPPhoneNumber13');
+            errorMessage('mainMobilePhone', 'Phone number may only contain numbers.');
+            if(focus) document.getElementById('UPPhoneNumber11').focus();
+            focus = false;
+            hasError = true;
+        }
+        if(phoneNo2 && !/[1-9]{1}[0-9]{9}/.test(phoneNo2) ){
+            errorMessage('UPPhoneNumber21');
+            errorMessage('UPPhoneNumber22');
+            errorMessage('UPPhoneNumber23');
+            errorMessage('mainMobilePhone2', 'Phone number may only contain numbers.');
+            if(focus) document.getElementById('UPPhoneNumber21').focus();
+            focus = false;
+            hasError = true;
+        }
+        if(phoneNo3 && !/[1-9]{1}[0-9]{9}/.test(phoneNo3) ){
+            errorMessage('UPPhoneNumber31');
+            errorMessage('UPPhoneNumber32');
+            errorMessage('UPPhoneNumber33');
+            errorMessage('mainMobilePhone3', 'Phone number may only contain numbers.');
+            if(focus) document.getElementById('UPPhoneNumber31').focus();
+            focus = false;
+            hasError = true;
+        }
         if(email && /\S+@\S+\.\S+/.test(email) === false) {
             console.log('UPEmail Error Should be here')
             errorMessage('UPEmail', 'Please enter an email address in this format: name@example.com.', focus);
+            if(focus) document.getElementById('UPPhoneNumber11').focus();
             focus = false;
             hasError = true;
         }
         if(email2 && email2.value && /\S+@\S+\.\S+/.test(email2.value) === false) {
             errorMessage('UPEmail2', 'Please enter an email address in this format: name@example.com.', focus);
+            if(focus) document.getElementById('UPPhoneNumber21').focus();
             focus = false;
             hasError = true;
         }
         if(email3 && email3.value && /\S+@\S+\.\S+/.test(email3.value) === false) {
             errorMessage('UPAdditionalEmail2', 'Please enter an email address in this format: name@example.com.', focus);
+            if(focus) document.getElementById('UPAdditionalEmail2').focus();
             focus = false;
             hasError = true;
         }
         if(email4 && email4.value && /\S+@\S+\.\S+/.test(email4.value) === false) {
             errorMessage('UPAdditionalEmail3', 'Please enter an email address in this format: name@example.com.', focus);
+            if(focus) document.getElementById('UPAdditionalEmail3').focus();
             focus = false;
             hasError = true;
         }
+        const confirmedEmail = document.getElementById('confirmUPEmail').value;
+        if(!confirmedEmail){
+            errorMessage('confirmUPEmail', 'Please confirm your email address.', focus);
+            if(focus) document.getElementById('confirmUPEmail').focus();
+            focus = false;
+            hasError = true;
+            
+        }
+        else if(confirmedEmail !== document.getElementById('UPEmail').value){
+            errorMessage('confirmUPEmail', 'Your email addresses do not match. Please retype your email addresses.', focus);
+            if(focus) document.getElementById('confirmUPEmail').focus();
+            focus = false;
+            hasError = true;
+            
+        }
+        
         if(hasError) return false;
         let formData = {};
         formData['399159511'] = document.getElementById('UPFirstName').value.trim();
@@ -545,17 +645,7 @@ export const addEventUPSubmit = () => {
         if(document.getElementById('UPCancerType') && document.getElementById('UPCancerType').value) formData['266952173'] = document.getElementById('UPCancerType').value;
         if(document.getElementById('UPCancerDiagnosis') && document.getElementById('UPCancerDiagnosis').value) formData['494982282'] = document.getElementById('UPCancerDiagnosis').value;
 
-        if(formData['869588347']){
-            const confirmedEmail = document.getElementById('confirmUPEmail').value;
-            if(!confirmedEmail){
-                errorMessage('confirmUPEmail', 'Please confirm your email address.', true);
-                return false;
-            }
-            else if(confirmedEmail !== formData['869588347']){
-                errorMessage('confirmUPEmail', 'Your email addresses do not match. Please retype your email addresses.', true);
-                return false;     
-            }
-        }
+
         
         const ageToday = getAge(`${formData['544150384']}-${formData['564964481']}-${formData['795827569']}`);
         /*if(!(ageToday < 66 && ageToday > 39)){
@@ -798,7 +888,7 @@ const verifyUserDetails = (formData) => {
 
         ${formData['494982282'] ? `
         <div class="row">
-            <div class="col">Please tell us anythning you would like us to know about your cancer diagnosis</div>
+            <div class="col">Please tell us anything you would like us to know about your cancer diagnosis</div>
             <div class="col">${formData['494982282']}</div>
         </div>
         `:``}
@@ -907,6 +997,7 @@ export const addEventRequestPINForm = (accountCreatedAt) => {
                 hideAnimation();
                 mainContent.innerHTML = healthCareProvider();
                 addEventHealthCareProviderSubmit();
+                addEventHealthProviderModalSubmit();
             }
             if(response.code === 200){
                 let formData = {};
@@ -926,6 +1017,7 @@ export const addEventRequestPINForm = (accountCreatedAt) => {
             hideAnimation();
             mainContent.innerHTML = healthCareProvider();
             addEventHealthCareProviderSubmit();
+            addEventHealthProviderModalSubmit();
         }
     })
 }
@@ -945,7 +1037,7 @@ export const addEventCancerFollowUp = () => {
             </div>
 
             <div class="form-group row">
-                <label class="col-md-4 col-form-label">Please tell us anythning you would like us to know about your cancer diagnosis</label>
+                <label class="col-md-4 col-form-label">Please tell us anything you would like us to know about your cancer diagnosis</label>
                 <textarea class="form-control col-md-4" id="UPCancerDiagnosis"></textarea>
             </div>
         `;
@@ -1073,6 +1165,7 @@ export const toggleCurrentPage = async (route) => {
     if(route === '#agreements') document.getElementById('userAgreements').click();
     if(route === '#settings') document.getElementById('userSettings').click();
     if(route === '#support') document.getElementById('connectSupport').click();
+    if(route === '#samples') document.getElementById('connectSamples').click();
     if(route === '#payment') document.getElementById('connectPayment').click();
     if(document.body.classList.contains('dark-mode')) toggleDarkMode(true);
 }

@@ -15,7 +15,7 @@ export const renderAgreements = async () => {
                 <div class="col-lg-8">    
                     <div class="row">
                         <div class="col">
-                            <p class="userProfileHeader">Agreements</p>
+                            <p class="userProfileHeader">Forms</p>
                         </div>
                     </div>
                     <!--
@@ -41,24 +41,49 @@ export const renderAgreements = async () => {
                             </div>
                             ${(myData.data.hasOwnProperty('831041022') && myData.data['831041022'] == 353358909 && !myData.data['153713899']) ?`
                                 <div class="row">
-                                    <div class="col consentBodyFont2">
-                                        Sign Data Destruction Form
-                                    </div>
-                                    <div class="col">
-                                        <button class="btn btn-agreement consentNextButton" style="float:right; margin-right:120px;" id="signDataDestroy">Sign Form</button>
+                                    <div class="col" style="padding-left: 30px; padding-right:30px;">
+                                        <div class="row"  style="border:1px solid lightgrey; border-radius:5px;">
+                                            <div class="col-md-2">
+                                                <i class="fab fa-wpforms d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
+                                            </div>
+                                            <div class="col-md-10 cnnsentBodyFont2">
+                                                <span class = "consentHeadersFont" style="color:#5c2d93">
+                                                    <b>Sign data destruction request form</b>
+                                                </span>
+                                                <br>
+                                                <span class = "consentBodyFont2">
+                                                    Your request for Connect to destroy the information and samples you donated to the study, when possible.
+                                                </span>
+                                                <br>
+                                                <br>
+                                                <button class="btn btn-agreement consentNextButton" style="" id="signDataDestroy"><i class="fas fa-file-download" ></i> Download Signed Form</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <br>
                             `:''}
-                            ${(myData.data.hasOwnProperty('773707518') && myData.data['773707518'] == 353358909 && !myData.data['359404406']) ?`
+                            ${(((myData.data.hasOwnProperty('773707518') && myData.data['773707518'] == 353358909) || (data['747006172'] && data['747006172'] !=="")) && !myData.data['359404406']) ?`
                                 <div class="row">
-                                    <div class="col consentBodyFont2">
-                                        Sign HIPAA Revocation Form
+                                    <div class="col" style="padding-left: 30px; padding-right:30px;">
+                                        <div class="row"  style="border:1px solid lightgrey; border-radius:5px;">
+                                            <div class="col-md-2">
+                                                <i class="fab fa-wpforms d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
+                                            </div>
+                                            <div class="col-md-10 cnnsentBodyFont2">
+                                                <span class = "consentHeadersFont" style="color:#5c2d93">
+                                                    <b>Sign revocation of electronic health records release (HIPAA Revocation) form</b>
+                                                </span>
+                                                <br>
+                                                <span class = "consentBodyFont2">
+                                                    Your request for your health care provider to stop sharing your electronic health and medical records with Connect.
+                                                </span>
+                                                <br>
+                                                <br>
+                                                <button class="btn btn-agreement consentNextButton" style="" id="signHIPAARevoke"><i class="fas fa-file-download" ></i> Download Signed Form</button>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col">
-                                        <button class="btn btn-agreement consentNextButton" style="float:right; margin-right:120px;" id="signHIPAARevoke">Sign Form</button>
-                                    </div>
-                                </div>
+                                </div>    
                             `:''}
                         </div>
                     </div>`:''
@@ -73,53 +98,115 @@ export const renderAgreements = async () => {
                                 <br>
                                 </div>
                             </div>
-                            ${myData.data['359404406'] ?`
-                                <!--<div class="row">
-                                    <div class="col consentBodyFont2">
-                                        Data Destruction Form
+                            ${myData.data['119449326'] ?`
+                                <div class="row">
+                                        <div class="col" style="padding-left: 30px; padding-right:30px;">
+                                            <div class="row"  style="border:1px solid lightgrey; border-radius:5px;">
+                                                <div class="col-md-2">
+                                                    <i class="fab fa-wpforms d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
+                                                </div>
+                                                <div class="col-md-10 cnnsentBodyFont2">
+                                                    <span class = "consentHeadersFont" style="color:#5c2d93">
+                                                        <b>Data destruction request form</b>
+                                                    </span>
+                                                    <br>
+                                                    <span class = "consentBodyFont2">
+                                                        Your request for Connect to destroy the information and samples you donated to the study, when possible       
+                                                    </span>
+                                                    <br>
+                                                    <br>
+                                                    <span>Signed: ${new Date(myData.data['119449326']).toDateString()}
+                                                    </span>
+                                                    <br>
+                                                    <br>
+                                                    <button class="btn btn-agreement consentNextButton" style="" id="downloadDestroy"><i class="fas fa-file-download" ></i> Download Signed Form</button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col consentBodyFont2"><b>${myData.data['335767902'] ? `Date signed:</b> ${new Date(myData.data['119449326']).toDateString()}` : ''}</div>
-                                    <div class="col">
-                                        <button class="btn btn-agreement consentNextButton" style="float:right;" id="downloadDestroy"><i class="fas fa-file-download" ></i> Download Signed Form</button>
-                                    </div>
-                                </div>
-                                <br>-->
+                                
                             `:''}
                             
                             ${myData.data['613641698'] ?`
                                 <div class="row">
-                                    <div class="col consentBodyFont2">
-                                        HIPAA Revoke Form
-                                    </div>
-                                    <div class="col consentBodyFont2"><b>${myData.data['613641698'] ? `Date signed:</b> ${new Date(myData.data['613641698']).toDateString()}` : ''}</div>
-                                    <div class="col">
-                                        <button class="btn btn-agreement consentNextButton" style="float:right;" id="downloadRevoke"><i class="fas fa-file-download" ></i> Download Signed Form</button>
+                                    <div class="col" style="padding-left: 30px; padding-right:30px;">
+                                        <div class="row"  style="border:1px solid lightgrey; border-radius:5px;">
+                                            <div class="col-md-2">
+                                                <i class="fab fa-wpforms d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
+                                            </div>
+                                            <div class="col-md-10 cnnsentBodyFont2">
+                                                <span class = "consentHeadersFont" style="color:#5c2d93">
+                                                    <b>Revocation of electronic health records release (HIPAA Revocation) form</b>
+                                                </span>
+                                                <br>
+                                                <span class = "consentBodyFont2">
+                                                    Your request for your health care provider to stop sharing your electronic health and medical records with Connect.                                                
+                                                </span>
+                                                <br>
+                                                <br>
+                                                <span>Signed: ${new Date(myData.data['613641698']).toDateString()}
+                                                </span>
+                                                <br>
+                                                <br>
+                                                <button class="btn btn-agreement consentNextButton" style="" id="downloadRevoke"><i class="fas fa-file-download" ></i> Download Signed Form</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <br>
+                                
                             `:''}
                             
                             ${myData.data['454445267'] ?`
                                 <div class="row">
-                                    <div class="col consentBodyFont2">
-                                        Consent Form
-                                    </div>
-                                    <div class="col consentBodyFont2"><b>${myData.data['454445267'] ? `Date signed:</b> ${new Date(myData.data['454445267']).toDateString()}` : ''}</div>
-                                    <div class="col">
-                                        <button class="btn btn-agreement consentNextButton" style="float:right;" id="downloadConsent"><i class="fas fa-file-download" ></i> Download Signed Form</button>
+                                    <div class="col" style="padding-left: 30px; padding-right:30px;">
+                                        <div class="row"  style="border:1px solid lightgrey; border-radius:5px;">
+                                            <div class="col-md-2">
+                                                <i class="fab fa-wpforms d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
+                                            </div>
+                                            <div class="col-md-10 cnnsentBodyFont2">
+                                                <span class = "consentHeadersFont" style="color:#5c2d93">
+                                                    <b>Consent form to participate in Connect</b>
+                                                </span>
+                                                <br>
+                                                <span class = "consentBodyFont2">
+                                                    Your signed agreement to participate in the Connect for Cancer Prevention Study.This form has important information about your privacy and what you will be asked to do as a Connect participant
+                                                </span>
+                                                <br>
+                                                <br>
+                                                <span>Signed: ${new Date(myData.data['454445267']).toDateString()}
+                                                </span>
+                                                <br>
+                                                <br>
+                                                <button class="btn btn-agreement consentNextButton" style="" id="downloadConsent"><i class="fas fa-file-download" ></i> Download Signed Form</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <br>
                             `:''}
                             
                             ${myData.data['262613359'] ? `
                                 <div class="row">
-                                    <div class="col consentBodyFont2">
-                                        HIPAA Form
-                                    </div>
-                                    <div class="col consentBodyFont2"><b>${myData.data['262613359'] ? `Date signed:</b> ${new Date(myData.data['262613359']).toDateString()}` : ''}</div>
-                                    <div class="col">
-                                        <button class="btn btn-agreement consentNextButton" style="float:right;" id="downloadHIPAA"><i class="fas fa-file-download"></i> Download Signed Form</button>
+                                    <div class="col" style="padding-left: 30px; padding-right:30px;">
+                                        <div class="row"  style="border:1px solid lightgrey; border-radius:5px;">
+                                            <div class="col-md-2">
+                                                <i class="fab fa-wpforms d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
+                                            </div>
+                                            <div class="col-md-10 cnnsentBodyFont2">
+                                                <span class = "consentHeadersFont" style="color:#5c2d93">
+                                                    <b>Electronic health records release (HIPAA Authorization) form </b>
+                                                </span>
+                                                <br>
+                                                <span class = "consentBodyFont2">
+                                                    Your signed agreement to allow your health care provider to share your electronic health and medical records with Connect.                                                </span>
+                                                <br>
+                                                <br>
+                                                <span>Signed: ${new Date(myData.data['262613359']).toDateString()}
+                                                </span>
+                                                <br>
+                                                <br>
+                                                <button class="btn btn-agreement consentNextButton" style="" id="downloadHIPAA"><i class="fas fa-file-download" ></i> Download Signed Form</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             `:''}

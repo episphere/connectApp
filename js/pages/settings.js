@@ -4,9 +4,11 @@ export const renderSettingsPage = async () => {
     showAnimation();
     const myData = await getMyData();
     let template = ''
-    console.log(myData)
+    
     if(myData.code === 200 && myData.data['699625233'] !== undefined && myData.data['699625233'] === 353358909){
         const userData = myData.data;
+        console.log(userData['506826178'])
+
         template += `
             <div class="row" style="margin-top:58px">
                 <div class="col-lg-3">

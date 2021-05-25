@@ -236,6 +236,28 @@ export const errorMessage = (id, msg, focus) => {
     if(focus) currentElement.focus();
 }
 
+export const errorMessageNumbers = (id, msg, focus) => {
+    const currentElement = document.getElementById(id);
+    const parentElement = currentElement.parentNode;
+    const parent1 = parentElement.parentNode
+    console.log(parentElement)
+    if(Array.from(parentElement.querySelectorAll('.form-error')).length > 0) return;
+    if(msg){
+        const br = document.createElement('br');
+        const div = document.createElement('div');
+        div.classList = ['error-text'];
+        const span = document.createElement('span');
+        span.classList = ['form-error']
+        span.innerHTML = msg;
+        div.append(span);
+        parent1.appendChild(br)
+        parent1.appendChild(div);
+    }
+    currentElement.classList.add('invalid');
+    if(focus) currentElement.focus();
+}
+
+
 export const errorMessageConsent = (id, msg, focus) => {
     const currentElement = document.getElementById(id);
     const parentElement = currentElement.parentNode;
@@ -752,7 +774,9 @@ export const toggleNavbarMobileView = () => {
 
 export const getConceptVariableName = async (conceptId) => {
     const response = await fetch(`https://raw.githubusercontent.com/episphere/conceptGithubActions/master/jsons/${conceptId}.json`);
-    return (await response.json()).variableName;
+    //return (await response.json()).variableName;
+    let res = await response.json()
+    return res['Variable Name'];
 }
 
 //for local testing use URL like such http://localhost:5001/questionnaires/submodules/module1_config.txt

@@ -35,11 +35,11 @@ export const renderUserProfile = async () => {
         <p class = "userProfileHeader">My Profile</p>        
         <form id="userProfileForm" method="POST" autocomplete="off">
             <p class="userProfileSubHeaders">Name</p> 
-            <p>If this is not correct, please contact the <a href="https://norcfedramp.servicenowservices.com/participant" target="_blank">Connect Support Center</a> or call 1-877-505-0253.</p>
+            <p>If this is not correct, please contact the <a href="https://norcfedramp.servicenowservices.com/participant" target="_blank">Connect Support Center</a> or call 1-877-505-0253</p>
             <div class="row">
                 <div class="col-md-4">
                     <label style="margin-left:-15px">First name <span class="required">*</span></label>
-                    <input type="text" value="${myData.data['471168198']}" class="form-control input-validation row" id="UPFirstName" placeholder="Enter first name" disabled style="max-width:215px">
+                    <input type="text" value="${myData.data['471168198']}" class="form-control input-validation row" id="UPFirstName" placeholder="Enter first name" disabled style="max-width:215px; background-color:#e6e6e6 !important;">
                 </div>
                 <div class="col-md-4">
                     <label style="margin-left:-15px">Middle name</label>
@@ -49,7 +49,7 @@ export const renderUserProfile = async () => {
             <div class="row">
                 <div class="col-md-6">
                     <label style="margin-left:-15px">Last name <span class="required">*</span></label>
-                    <input type="text" value="${myData.data['736251808']}" class="form-control input-validation row" id="UPLastName" placeholder="Enter last name" disabled style="max-width:304px">
+                    <input type="text" value="${myData.data['736251808']}" class="form-control input-validation row" id="UPLastName" placeholder="Enter last name" disabled style="max-width:304px; background-color:#e6e6e6 !important;">
                 </div>
             </div>
             <div class="form-group row">
@@ -125,7 +125,7 @@ export const renderUserProfile = async () => {
             </br>
             <div class="form-group row" style="padding-top:0; padding-bottom:0;">
                 <div class="col">
-                    <label class="col-form-label">Confirm preferred Email <span class="required">*</span></label>
+                    <label class="col-form-label">Confirm Preferred Email <span class="required">*</span></label>
                     <input style="margin-left:0px; max-width:382px;" type="text" class="form-control" id="confirmUPEmail" title="Please enter an email address in this format: name@example.com." Placeholder="Retype preferred email">
                 </div>
             </div>
@@ -139,6 +139,7 @@ export const renderUserProfile = async () => {
             </div>
             </br>
             <div id="multipleEmail1"></div>
+            <br id="multipleEmail2Br" style="display:none;">
             <div id="multipleEmail2"></div>
             <div class="form-group row" style="margin-bottom:20px !important;">
                 <div class="col" id="additionalEmailBtn">
@@ -163,9 +164,9 @@ export const renderUserProfile = async () => {
                     </label>
                     <br>
                     <div class="btn-group col-md-4" id="mainMobilePhone" style="margin-left:0px;">
-                        <input type="text" class="form-control" title="Only numbers are allowed." id="UPPhoneNumber11" size="3" maxlength="3" Placeholder="999" style="margin-left:0px"> <span class="hyphen">-</span>
-                        <input type="text" class="form-control" title="Only numbers are allowed." id="UPPhoneNumber12" size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
-                        <input type="text" class="form-control" title="Only numbers are allowed." id="UPPhoneNumber13" size="4" maxlength="4" Placeholder="9999">
+                        <input type="text" class="form-control num-val" data-val-pattern="[1-9]{1}[0-9]{2}" title="Only numbers are allowed." id="UPPhoneNumber11" data-error-validation="Only numbers are allowed." size="3" maxlength="3" Placeholder="999" style="margin-left:0px"> <span class="hyphen">-</span>
+                        <input type="text" class="form-control num-val" data-val-pattern="[0-9]{3}" title="Only numbers are allowed." id="UPPhoneNumber12" data-error-validation="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
+                        <input type="text" class="form-control num-val" data-val-pattern="[0-9]{4}" title="Only numbers are allowed." id="UPPhoneNumber13" data-error-validation="Only numbers are allowed." size="4" maxlength="4" Placeholder="9999">
                     </div>
                 </div>
             </div>
@@ -259,7 +260,7 @@ export const renderUserProfile = async () => {
                 <div class="col">
                     <label class="col-form-label">Have you ever had invasive cancer? <span class="required">*</span></label>
                     <br>
-                    <i>If you have or once had non-melanoma skin cancer (like basal cell or squamous cell carcinoma), or a condition that raises cancer risk (such as DCIS, or stage 0 breast cancer), please respond “No” to this question. These conditions are not invasive cancer, and you can still join. We are interested in in learning how these conditions may affect cancer risk and health outcomes in the future.</i>
+                    <i>If you have or once had non-melanoma skin cancer (like basal cell or squamous cell carcinoma), or a condition that raises cancer risk (such as DCIS, or stage 0 breast cancer), please respond “No” to this question. These conditions are not invasive cancer, and you can still join. We are interested in learning how these conditions may affect cancer risk and health outcomes in the future.</i>
                     <br>
                     <div class="btn-group btn-group-toggle col-md-4" style="margin-left:0px;">
                         <label id="UPCancer1Btn"><input type="radio" name="cancerHistory" id="UPCancer1" value="353358909"> Yes</label>
@@ -276,7 +277,7 @@ export const renderUserProfile = async () => {
             </br></br>
             <div class="row">
                 <div class="ml-auto">
-                    <button type="submit" class="btn btn-primary save-data">Submit</button>
+                    <button type="submit" class="btn btn-primary save-data consentNextButton">Submit</button>
                 </div>
             </div>
         </form>
