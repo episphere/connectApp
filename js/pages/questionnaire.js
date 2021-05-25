@@ -1,5 +1,7 @@
 import { storeResponse, getMyData } from "../shared.js";
 import fieldMapping from '../components/fieldToConceptIdMapping.js'; 
+//import { transform } from 'https://episphere.github.io/quest/replace2.js';
+//for local testing use URL like such http://localhost:5001/replace2.js and http://localhost:5001/questionnaire.js
 import { transform } from 'https://episphere.github.io/quest/replace2.js';
 import { rbAndCbClick } from "https://episphere.github.io/quest/questionnaire.js";
 export const   questionnaire = (url, moduleId) => {
@@ -43,7 +45,7 @@ export const   questionnaire = (url, moduleId) => {
                         const jobtitle = e.target[0].value;
                         const occ = document.getElementById("D_761310265");
                 
-                        // call soccer...
+                        // call soccer... follow up with Daniel Russ for questions
                         let soccerResults = await (await fetch(`https://sitf-raft3imjaq-uc.a.run.app/soccer/code?title=%22${jobtitle}%22`)).json();
                         let responseElement = occ.querySelector("div[class='response']");
                         buildHTML(soccerResults, occ, responseElement);
