@@ -161,16 +161,17 @@ export const myToDoList = (data, fromUserProfile) => {
                     return;
                     
                 }
-                if(finalMessage !== ""){
+                /*if(finalMessage !== ""){
                     template += `
                     <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
                         ${finalMessage}
                     </div>
                     `
                     mainContent.innerHTML = template;
-                    return;
-                }
-                else if(topMessage !== ""){
+                    //hideAnimation();
+                    //return;
+                }*/
+                if(topMessage !== ""){
                     template += `
                     <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
                         ${topMessage}
