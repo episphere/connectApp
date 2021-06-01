@@ -35,39 +35,44 @@ export const   questionnaire = (url, moduleId) => {
                 url: url,
                 activate: true,
                 store: storeResponse,
-                retrieve: getMyData
-            }, 'root', inputData).then(()=>{
+                retrieve: getMyData,
+                soccer: soccerFunction
+            }, 'root', inputData)
 
-                let work3 = document.getElementById("D_627122657");
-                if (work3){
-                    work3.addEventListener("submit", async (e) => {
-                        e.preventDefault();
-                        const jobtitle = e.target[0].value;
-                        const occ = document.getElementById("D_761310265");
-                
-                        // call soccer... follow up with Daniel Russ for questions
-                        let soccerResults = await (await fetch(`https://sitf-raft3imjaq-uc.a.run.app/soccer/code?title=%22${jobtitle}%22`)).json();
-                        let responseElement = occ.querySelector("div[class='response']");
-                        buildHTML(soccerResults, occ, responseElement);
-                    });
-                }
-                let work7 = document.getElementById("D_118061122");
-                if (work7){
-                    work7.addEventListener("submit", async (e) => {
-                        e.preventDefault();
-                        const jobtitle = e.target[0].value;
-                        const occ = document.getElementById("D_279637054");
-                
-                        // call soccer...
-                        let soccerResults = await (await fetch(`https://sitf-raft3imjaq-uc.a.run.app/soccer/code?title=%22${jobtitle}%22`)).json();
-                        let responseElement = occ.querySelector("div[class='response']");
-                        buildHTML(soccerResults, occ, responseElement);
-                    });
-                }
-            });
 
     })
 
+}
+function soccerFunction(){
+    console.log("Registering soccer");
+    
+    let work3 = document.getElementById("D_627122657");
+    if (work3){
+        work3.addEventListener("submit", async (e) => {
+            
+            e.preventDefault();
+            const jobtitle = e.target[0].value;
+            const occ = document.getElementById("D_761310265");
+    
+            // call soccer... follow up with Daniel Russ for questions
+            let soccerResults = await (await fetch(`https://sitf-raft3imjaq-uc.a.run.app/soccer/code?title=%22${jobtitle}%22`)).json();
+            let responseElement = occ.querySelector("div[class='response']");
+            buildHTML(soccerResults, occ, responseElement);
+        });
+    }
+    let work7 = document.getElementById("D_118061122");
+    if (work7){
+        work7.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const jobtitle = e.target[0].value;
+            const occ = document.getElementById("D_279637054");
+    
+            // call soccer...
+            let soccerResults = await (await fetch(`https://sitf-raft3imjaq-uc.a.run.app/soccer/code?title=%22${jobtitle}%22`)).json();
+            let responseElement = occ.querySelector("div[class='response']");
+            buildHTML(soccerResults, occ, responseElement);
+        });
+    }
 }
 //BUILDING SOCCER
 function buildHTML(soccerResults, question, responseElement) {
