@@ -71,7 +71,7 @@ export const renderUserProfile = async () => {
             <div class="form-group row">
                 <div class="col-md-4">
                     <label class="col-form-label">Preferred first name</label>
-                    <input style="max-width:215px; margin-left:0px;" type="text" class="form-control input-validation" data-validation-pattern="alphabets" data-error-validation="Your preferred name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters." id="UPPreferredName" placeholder="Enter preferred name">
+                    <input style="max-width:215px; margin-left:0px;" type="text" class="form-control input-validation" id="UPPreferredName" placeholder="Enter preferred name">
                 </div>
             </div>
             <br>

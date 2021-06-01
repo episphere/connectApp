@@ -56,25 +56,25 @@ export const myToDoList = (data, fromUserProfile) => {
                 console.log(data['831041022'])
                 if (data.hasOwnProperty('831041022') && data['831041022'] == 353358909){
                     if (!data['153713899'] || data['153713899'] == ""){
-                        finalMessage += "You have a new form to sign.<br>You have been withdrawn from Connect per your request.<br>"
+                        finalMessage += "You have a new <a href='#agreements'>form</a> to sign.<br>You have been withdrawn from Connect per your request.<br>"
                     }
                     else if((data['747006172'] && data['747006172'] !=="") && (!data['359404406'] || data['359404406'] == "")){
-                        finalMessage += "You have a new form to sign.<br>You have been withdrawn from Connect per your request.<br>"
+                        finalMessage += "You have a new <a href='#agreements'>form</a> to sign.<br>You have been withdrawn from Connect per your request.<br>"
                     }
                     else{
                         finalMessage += "You have been withdrawn from Connect per your request.<br>"
                     }
                 }
-                else if ((data['747006172'] && data['747006172'] !=="")){
-                    if (!data['359404406'] || data['359404406'] == ""){
-                        finalMessage += "You have a new form to sign.<br>You have been withdrawn from Connect per your request.<br>"
+                else if ((data['747006172'] && data['747006172'] !== 104430631)){
+                    if (!data['359404406'] || data['359404406'] !== ""){
+                        finalMessage += "You have a new <a href='#agreements'>form</a> to sign.<br>You have been withdrawn from Connect per your request.<br>"
                     }
                     else{
                         finalMessage += "You have been withdrawn from Connect per your request.<br>"
                     }
                 }
-                else if (((data.hasOwnProperty('773707518') && data['773707518'] == 353358909) || data['747006172']) && !data['359404406']){
-                    topMessage += "You have a new form to sign.<br>"
+                else if (((data.hasOwnProperty('773707518') && data['773707518'] == 353358909) || (data['747006172'] && data['747006172'] == 353358909)) && !data['359404406']){
+                    topMessage += "You have a new <a href='#agreements'>form</a> to sign.<br>"
                 }
 
                 if(!data['821247024'] || data['821247024'] == 875007964){
@@ -144,6 +144,7 @@ export const myToDoList = (data, fromUserProfile) => {
                     </div>
                     `
                     mainContent.innerHTML = template;
+                    hideAnimation();
                     return;
                 }
                 else if(data['821247024'] && data['821247024'] == 160161595) {
@@ -158,6 +159,7 @@ export const myToDoList = (data, fromUserProfile) => {
                     </div>
                     `
                     mainContent.innerHTML = template;
+                    hideAnimation();
                     return;
                     
                 }
@@ -168,9 +170,11 @@ export const myToDoList = (data, fromUserProfile) => {
                     </div>
                     `
                     mainContent.innerHTML = template;
+                    hideAnimation();
                     return;
                 }
-                else if(topMessage !== ""){
+                console.log(finalMessage)
+                if(topMessage !== ""){
                     template += `
                     <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
                         ${topMessage}
