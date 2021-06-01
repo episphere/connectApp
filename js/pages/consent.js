@@ -135,7 +135,7 @@ export const consentActivitiesPage = () => {
                 <p class="consentBodyFont1">Cancer can be caused by many things, so we will collect different kinds of information to give us a better picture of your whole health.</p>
                 <p class="consentBodyFont1">Share some information about yourself</p>
                 <p class="consentBodyFont2" style="margin-left:32px">
-                    To keep in touch, we ask for your contact information. We also ask for personal information such as your name, birth date, and social security number, to identify you. This information helps us gather other information about you—like where you live, how close you live to a park, or if there is pollution in your neighborhood.
+                    To keep in touch, we ask for your contact information. We also ask for personal information such as your name, birth date, and social security number (sharing this is optional), to identify you. This information helps us gather other information about you—like where you live, how close you live to a park, or if there is pollution in your neighborhood.
                 </p>
                 <p class="consentBodyFont1">Allow us to access your health records</p>
                 <p class="consentBodyFont2" style="margin-left:32px">
