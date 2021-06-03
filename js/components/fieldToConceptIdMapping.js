@@ -32,7 +32,7 @@ export default
     "Module2": {"conceptId":"D_745268907","startTs":"D_541836531", "completeTs": "D_832139544", "completeFlag":"D_536735468"},
     "Module3": {"conceptId":"D_965707586","startTs":"D_386488297", "completeTs": "D_770257102", "completeFlag":"D_976570371"},
     "Module4": {"conceptId":"D_716117817","startTs":"D_452942800", "completeTs": "D_264644252", "completeFlag":"D_663265240"},
-    "ModuleSsn": {"conceptId":"D_716117818","startTs":"D_452942802"} // Temporary assigning concepts
+    "ModuleSsn": {"conceptId":"D_166676176"}
 }
 
 
