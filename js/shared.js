@@ -45,11 +45,11 @@ export const conceptIdMapping = (formData) => {
         let moduleIdCompleted = moduleId + ".COMPLETED";
         let moduleIdCompletedTS = moduleId + ".COMPLETED_TS";
         if (moduleIdCompleted in formData) {
-            let connectModuleIdCompleted = moduleId + "." + fieldMapping[fieldMapping[`${moduleId}`]].completeFlag;
+            let connectModuleIdCompleted = fieldMapping[fieldMapping[`${moduleId}`]].completeFlag;
             formData[connectModuleIdCompleted] = 2;
         }
         if (moduleIdCompletedTS in formData) {
-            let connectModuleIdCompletedTS = moduleId + "." + fieldMapping[fieldMapping[`${moduleId}`]].completeTs;
+            let connectModuleIdCompletedTS = fieldMapping[fieldMapping[`${moduleId}`]].completeTs;
             formData[connectModuleIdCompletedTS] = formData[moduleIdCompletedTS];
         }
 

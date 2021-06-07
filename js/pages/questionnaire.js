@@ -27,7 +27,7 @@ export const   questionnaire = (url, moduleId) => {
         let startTsConceptId = fieldMapping[`${moduleId}`].startTs;
         if (!data.data[moduleConceptId] || !data.data[moduleConceptId][startTsConceptId]){
             let formData = {};
-            formData[`${moduleConceptId}.${startTsConceptId}`] = new Date().toISOString();
+            formData[`${startTsConceptId}`] = new Date().toISOString();
             console.log("Module TS does not exist");
             storeResponse(formData);
         }
