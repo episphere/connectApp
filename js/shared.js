@@ -789,16 +789,6 @@ export const questionnaireModules = {
     'Where You Live and Work': {url: 'https://hzhao392.github.io/privatequest/test_module4.txt', moduleId:"Module4", enabled:false},
     'Enter SSN': {url: 'https://jonasalmeida.github.io/privatequest/ssnModule.txt', moduleId:"ModuleSsn", enabled:false}
 }
-/*
-export const questionnaireModules = {
-    'Background and Overall Health': {url: 'https://hzhao392.github.io/privatequest/test_module1.txt', moduleId:"Module1", enabled:true},
-    'Medications, Reproductive Health, Exercise, and Sleep': {url: 'https://hzhao392.github.io/privatequest/test_module2.txt', moduleId:"Module2", enabled:false},
-    'Smoking, Alcohol, and Sun Exposure': {url: 'https://hzhao392.github.io/privatequest/test_module3.txt', moduleId:"Module3", enabled:false},
-    'Where You Live and Work': {url: 'https://hzhao392.github.io/privatequest/test_module4.txt', moduleId:"Module4", enabled:false},
-    'Enter SSN': {url: 'https://hzhao392.github.io/privatequest/ssnModule.txt', moduleId:"ModuleSsn", enabled:false}
-}
-*/
-
 
 export const isBrowserCompatible = () => {
     const isValidBrowser = /Chrome/.test(navigator.userAgent) || /Mozilla/.test(navigator.userAgent) || /Safari/.test(navigator.userAgent);

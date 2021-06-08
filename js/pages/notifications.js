@@ -1,5 +1,4 @@
 import { getMyData, retrieveNotifications, showAnimation, hideAnimation } from "../shared.js";
-import {humanReadableMDYwithTime} from "../util.js";
 
 
 export const renderNotificationsPage = async () => {
