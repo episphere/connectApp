@@ -9,7 +9,7 @@ import fieldMapping from '../components/fieldToConceptIdMapping.js';
 export const myToDoList = (data, fromUserProfile) => {
     const mainContent = document.getElementById('root');
     if(!data['507120821']){
-        formData = {
+        let formData = {
             '507120821':939311541
         }
         storeResponse(formData);
