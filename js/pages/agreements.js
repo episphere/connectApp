@@ -27,7 +27,7 @@ export const renderAgreements = async () => {
                         <div class="col">${new Date(myData.data['454445267']).toDateString()}</div>
                     </div>
                     -->
-                    ${((((myData.data.hasOwnProperty('773707518') && myData.data['773707518'] == 353358909)  || (myData.data['747006172'] && myData.data['747006172'] == 353358909)) && (!myData.data['359404406'] || myData.data['359404406'] == 104430631) || (myData.data.hasOwnProperty('831041022') && myData.data['831041022'] == 353358909 && (!myData.data['153713899'] || myData.data['153713899'] == 104430631)))) ?`
+                    ${((((myData.data.hasOwnProperty('773707518') && myData.data['773707518'] == 353358909)  || (myData.data['747006172'] && myData.data['747006172'] == 353358909)) && (!myData.data['153713899'] || myData.data['153713899'] == 104430631) || (myData.data.hasOwnProperty('831041022') && myData.data['831041022'] == 353358909 && (!myData.data['359404406'] || myData.data['359404406'] == 104430631)))) ?`
                     <div class="row">
                         <div class="userProfileBox" style="width:100%">
                             <div class="row">
@@ -38,7 +38,7 @@ export const renderAgreements = async () => {
                                 <br>
                                 </div>
                             </div>
-                            ${(myData.data.hasOwnProperty('831041022') && myData.data['831041022'] == 353358909 && (!myData.data['153713899'] || myData.data['153713899'] == 104430631)) ?`
+                            ${(myData.data.hasOwnProperty('831041022') && myData.data['831041022'] == 353358909 && (!myData.data['359404406'] || myData.data['359404406'] == 104430631)) ?`
                                 <div class="row">
                                     <div class="col" style="padding-left: 30px; padding-right:30px;">
                                         <div class="row"  style="border:1px solid lightgrey; border-radius:5px;">
@@ -61,7 +61,7 @@ export const renderAgreements = async () => {
                                     </div>
                                 </div>
                             `:''}
-                            ${(((myData.data.hasOwnProperty('773707518') && myData.data['773707518'] == 353358909) || (myData.data['747006172'] && myData.data['747006172'] == 353358909)) && (!myData.data['359404406'] || myData.data['359404406'] == 104430631)) ?`
+                            ${(((myData.data.hasOwnProperty('773707518') && myData.data['773707518'] == 353358909) || (myData.data['747006172'] && myData.data['747006172'] == 353358909)) && (!myData.data['153713899'] || myData.data['153713899'] == 104430631)) ?`
                                 <div class="row">
                                     <div class="col" style="padding-left: 30px; padding-right:30px;">
                                         <div class="row"  style="border:1px solid lightgrey; border-radius:5px;">
