@@ -4,7 +4,6 @@ import { renderUserProfile } from "../components/form.js";
 import { consentTemplate, initializeCanvas, addEventConsentSubmit } from "./consent.js";
 import { addEventsConsentSign, addEventHeardAboutStudy, addEventRequestPINForm, addEventHealthCareProviderSubmit, addEventPinAutoUpperCase, addEventHealthProviderModalSubmit } from "../event.js";
 import { heardAboutStudy, requestPINTemplate, healthCareProvider } from "./healthCareProvider.js";
-import {humanReadableMDYwithTime} from "../util.js";
 import fieldMapping from '../components/fieldToConceptIdMapping.js'; 
 
 export const myToDoList = (data, fromUserProfile) => {
@@ -547,7 +546,7 @@ const renderMainBody = (data, tab) => {
                                 </div>
                             
                                 <div class="col-md-3">
-                                Completed Time: ${humanReadableMDYwithTime(data[fieldMapping[modules[key].moduleId].conceptId].COMPLETED_TS)}
+                                Completed Time: ${new Date(data[fieldMapping[modules[key].moduleId].conceptId].COMPLETED_TS).toLocaleString()}
                                 <!--
                                 <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="margin-top:0px;border-radius:30px; height:60px;background-color:#5c2d93 !important;color:white; width:100%"><b>Review</b></button>
                                 -->

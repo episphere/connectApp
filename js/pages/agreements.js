@@ -1,6 +1,5 @@
 import { getMyData, hideAnimation, showAnimation, siteAcronyms, dateTime, storeResponse } from "../shared.js";
 import { initializeCanvas } from './consent.js'
-import {humanReadableMDYwithoutTime} from "../util.js";
 const { PDFDocument, StandardFonts } = PDFLib;
 
 export const renderAgreements = async () => {
@@ -328,7 +327,7 @@ export const renderDownloadConsentCopy = async (data) => {
     const pages = pdfConsentDoc.getPages();
     for (let i = 0; i <= pages.length; i++) {seekLastPage = i}
     const editPage = pages[seekLastPage-1];
-    const currentTime = humanReadableMDYwithoutTime(data[454445267]);
+    const currentTime = new Date(data[454445267]).toLocaleDateString();
 
     editPage.drawText(`
     ${data[471168198] + ' ' + data[736251808]} 
@@ -366,7 +365,7 @@ export const renderDownloadHIPAA = async (data) => {
     const pages = pdfConsentDoc.getPages();
     for (let i = 0; i <= pages.length; i++) {seekLastPage = i}
     const editPage = pages[seekLastPage-1];
-    const currentTime = humanReadableMDYwithoutTime(data[262613359]);
+    const currentTime = new Date(data[262613359]).toLocaleDateString();
 
     editPage.drawText(`
     ${data[471168198] + ' ' + data[736251808]} 
@@ -403,7 +402,7 @@ export const renderDownloadRevoke = async (data) => {
     const pages = pdfConsentDoc.getPages();
     for (let i = 0; i <= pages.length; i++) {seekLastPage = i}
     const editPage = pages[seekLastPage-1];
-    const currentTime = humanReadableMDYwithoutTime(data[335767902]);
+    const currentTime = new Date(data[335767902]).toLocaleDateString();
 
     editPage.drawText(`
     ${data[471168198] + ' ' + data[736251808]} 
@@ -440,7 +439,7 @@ export const renderDownloadDestroy = async (data) => {
     const pages = pdfConsentDoc.getPages();
     for (let i = 0; i <= pages.length; i++) {seekLastPage = i}
     const editPage = pages[seekLastPage-1];
-    const currentTime = humanReadableMDYwithoutTime(data[335767902]);
+    const currentTime = new Date(data[335767902]).toLocaleDateString();
 
     editPage.drawText(`
     ${data[471168198] + ' ' + data[736251808]} 
