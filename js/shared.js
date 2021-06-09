@@ -46,7 +46,7 @@ export const conceptIdMapping = (formData) => {
         let moduleIdCompletedTS = moduleId + ".COMPLETED_TS";
         if (moduleIdCompleted in formData) {
             let connectModuleIdCompleted = fieldMapping[fieldMapping[`${moduleId}`]].completeFlag;
-            formData[connectModuleIdCompleted] = 2;
+            formData[connectModuleIdCompleted] = 231311385;
         }
         if (moduleIdCompletedTS in formData) {
             let connectModuleIdCompletedTS = fieldMapping[fieldMapping[`${moduleId}`]].completeTs;
