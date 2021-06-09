@@ -12,7 +12,7 @@ export const myToDoList = (data, fromUserProfile) => {
         formData = {
             '507120821':939311541
         }
-        await storeResponse(formData);
+        storeResponse(formData);
     }
     if(data['827220437'] && data['142654897']){
         localStorage.eligibilityQuestionnaire = JSON.stringify({'827220437': data['827220437']})
