@@ -55,7 +55,7 @@ export const renderAgreements = async () => {
                                                 </span>
                                                 <br>
                                                 <br>
-                                                <button class="btn btn-agreement consentNextButton" style="" id="signDataDestroy"><i class="fas fa-file-download" ></i> Download Signed Form</button>
+                                                <button class="btn btn-agreement consentNextButton" style="" id="signDataDestroy">Sign Form</button>
                                             </div>
                                         </div>
                                     </div>
@@ -78,7 +78,7 @@ export const renderAgreements = async () => {
                                                 </span>
                                                 <br>
                                                 <br>
-                                                <button class="btn btn-agreement consentNextButton" style="" id="signHIPAARevoke"><i class="fas fa-file-download" ></i> Download Signed Form</button>
+                                                <button class="btn btn-agreement consentNextButton" style="" id="signHIPAARevoke">Sign Form</button>
                                             </div>
                                         </div>
                                     </div>
@@ -474,9 +474,9 @@ const renderSignDataDestroy = async (data) =>{
     </div>
     <div class="col-lg-8">
     <div style="width:80%; margin:auto">
-        <h4 class="consentSubheader" style="margin-top:50px">Data Destruction Form</h4>
+        <h4 class="consentSubheader" style="margin-top:50px">Data destruction request form</h4>
         <div id="canvasContainer"></div>
-        <div class="row" style="margin:auto"><div style="margin:auto"><a href="./forms/DataDestruction_${consentVersions['DataDestruction']}.pdf" title="Download Data Destruction form" data-toggle="tooltip" download="DataDestruction_${consentVersions['DataDestruction']}.pdf" class="consentBodyFont2"> Download an unsigned copy of the Data Destruction Form&nbsp<i class="fas fa-file-download"></i></a></div></div>
+        <div class="row" style="margin:auto"><div style="margin:auto"><a href="./forms/DataDestruction_${consentVersions['DataDestruction']}.pdf" title="Download Data destruction request form" data-toggle="tooltip" download="DataDestruction_${consentVersions['DataDestruction']}.pdf" class="consentBodyFont2"> Download an unsigned copy of the Data destruction request form&nbsp<i class="fas fa-file-download"></i></a></div></div>
     </div>
     
     <form id="consentForm" style="margin-top:20px; margin-bottom:50px;" method="POST">
@@ -545,7 +545,7 @@ const renderSignDataDestroy = async (data) =>{
         formData['359404406'] = 353358909;
         formData['119449326'] = dateTime();        
         console.log(formData)
-
+        
         const response = await storeResponse(formData);
         if(response.code === 200) {
             await renderAgreements();
@@ -626,17 +626,15 @@ const renderSignHIPAARevoke = async (data) =>{
         await renderAgreements();
         hideAnimation();
     })
+    console.log(';aslkbjvds;lkdsbv;aslkvbs;ldk')
     const consentForm = document.getElementById('consentForm');
-    consentForm.addEventListener('submit', async () => {
+    consentForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         showAnimation();
-        let fName = document.getElementById('CSFirstName');
-        let mName = document.getElementById('CSMiddleName');
-        let lName = document.getElementById('CSLastName');
-        let suffix = document.getElementById('CSNameSuffix')
         let formData = {};
         formData['153713899'] = 353358909;
         formData['613641698'] = dateTime();
+        console.log(formData)
         const response = await storeResponse(formData);
         if(response.code === 200) {
             await renderAgreements();
