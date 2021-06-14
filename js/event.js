@@ -1,4 +1,4 @@
-import { allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, BirthMonths, getAge, getMyData, retrieveNotifications, removeActiveClass, toggleNavbarMobileView, toggleDarkMode } from "./shared.js";
+import { allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, errorMessageNumbers, BirthMonths, getAge, getMyData, retrieveNotifications, removeActiveClass, toggleNavbarMobileView, toggleDarkMode } from "./shared.js";
 import { initializeCanvas, addEventConsentSubmit, consentTemplate } from "./pages/consent.js";
 import { heardAboutStudy, healthCareProvider } from "./pages/healthCareProvider.js";
 import { myToDoList } from "./pages/myToDoList.js";
@@ -140,6 +140,20 @@ export const addEventChangeFocus = () => {
             element22.nextElementSibling.nextElementSibling.focus()
         }
     });
+
+    const element31 = document.getElementById('UPPhoneNumber31');
+    element31.addEventListener('keyup', () => {
+        if(element31.value.trim().length === 3){
+            element31.nextElementSibling.nextElementSibling.focus()
+        }
+    });
+    
+    const element32 = document.getElementById('UPPhoneNumber32');
+    element32.addEventListener('keyup', () => {
+        if(element32.value.trim().length === 3){
+            element32.nextElementSibling.nextElementSibling.focus()
+        }
+    });
 }
 
 export const addEventHealthCareProviderSubmit = () => {
@@ -148,7 +162,14 @@ export const addEventHealthCareProviderSubmit = () => {
         e.preventDefault();
         
         const value = parseInt(document.getElementById('827220437').value);
-        const r = confirm(`Are you sure ${sites()[value]} is your healthcare provider?`)
+        
+        //const r = confirm(`Are you sure ${sites()[value]} is your healthcare provider?`)
+        let modalBody = document.getElementById('HealthProviderModalBody');
+        let modalButton = document.getElementById('openModal');
+        modalBody.innerHTML = `Are you sure ${sites()[value]} is your healthcare provider?`
+        modalButton.click();
+        
+        /*let r = false;
         if(r){
             dataSavingBtn('save-data');
             let formData = {};
@@ -160,8 +181,28 @@ export const addEventHealthCareProviderSubmit = () => {
                 mainContent.innerHTML = heardAboutStudy();
                 addEventHeardAboutStudy();
             }
-        }
+        }*/
     });
+}
+
+export const addEventHealthProviderModalSubmit = () => {
+    const form = document.getElementById('modalConfirm');
+    
+    form.addEventListener('click', async e => {
+        let disappear = document.getElementById('modalCancel');
+        disappear.click();
+        const value = parseInt(document.getElementById('827220437').value);
+        dataSavingBtn('save-data');
+        let formData = {};
+        formData["827220437"] = value;
+        localStorage.eligibilityQuestionnaire = JSON.stringify(formData);
+        const response = await storeResponse(formData);
+        if(response.code === 200) {
+            const mainContent = document.getElementById('root');
+            mainContent.innerHTML = heardAboutStudy();
+            addEventHeardAboutStudy();
+        }
+    })
 }
 
 export const addEventHeardAboutStudy = () => {
@@ -182,6 +223,14 @@ export const addEventHeardAboutStudy = () => {
         formData["142654897"]["819377306"] = document.getElementById('checkbox9').checked ? 353358909 : 104430631;
         formData["142654897"]["829269606"] = document.getElementById('checkbox10').checked ? 353358909 : 104430631;
         formData["142654897"]["462314689"] = document.getElementById('checkbox11').checked ? 353358909 : 104430631;
+        formData["142654897"]["639721694"] = document.getElementById('checkbox12').checked ? 353358909 : 104430631;
+        formData["142654897"]["177402915"] = document.getElementById('checkbox13').checked ? 353358909 : 104430631;
+        formData["142654897"]["684726272"] = document.getElementById('checkbox14').checked ? 353358909 : 104430631;
+        formData["142654897"]["241590841"] = document.getElementById('checkbox15').checked ? 353358909 : 104430631;
+        formData["142654897"]["206879104"] = document.getElementById('checkbox16').checked ? 353358909 : 104430631;
+        formData["142654897"]["520301146"] = document.getElementById('checkbox17').checked ? 353358909 : 104430631;
+        formData["142654897"]["285130077"] = document.getElementById('checkbox18').checked ? 353358909 : 104430631;
+        formData["142654897"]["967372009"] = document.getElementById('checkbox19').checked ? 353358909 : 104430631;
         
         const response = await storeResponse(formData);
         if(response.code === 200) {
@@ -216,16 +265,23 @@ const addEmailFields = () => {
     const div = document.getElementById('multipleEmail1');	
     div.innerHTML = '';	
     div.classList = ['form-group row'];
+    div.style = "padding-top:0; padding-bottom:0;";
+    
+    const div1 = document.createElement('div');	
+    div1.innerHTML = '';	
+    div1.classList = ['col'];
 
     const input = document.createElement('input');	
-    input.classList = ['form-control col-md-4 offset-md-4'];	
+    input.classList = ['form-control col-md-4'];	
     input.placeholder = 'Enter additional email 2';	
+    input.style = "margin-left:0px; max-width:382px;"
     input.type = 'text';	
     input.id = 'UPAdditionalEmail2';	
-    input.title = ' Please enter a email address in this format: name@example.com.';
+    input.title = ' Please enter an email address in this format: name@example.com.';
 
-    div.appendChild(input);
-	
+    div1.appendChild(input);
+    div.appendChild(div1);
+    
     document.getElementById('additionalEmailBtn').innerHTML = `<button type="button" class="btn btn-light" id="addMoreEmail2" title="Add more email">Add more <i class="fas fa-plus"></i></button>`;
     
     const addMoreEmail2 = document.getElementById('addMoreEmail2');	
@@ -235,15 +291,27 @@ const addEmailFields = () => {
 const addAnotherEmailField = () => {	
     const div = document.getElementById('multipleEmail2');	
     div.innerHTML = '';	
-    div.classList = ['form-group row']; 	
+    div.classList = ['form-group row'];
+    div.style = "padding-top:0; padding-bottom:0;";
+    
+    const div1 = document.createElement('div');	
+    div1.innerHTML = '';	
+    div1.classList = ['col']; 	
 
     const input2 = document.createElement('input');	
-    input2.classList = ['form-control col-md-4 offset-md-4'];	
+    input2.classList = ['form-control col-md-4'];	
+    input2.style = "margin-left:0px; max-width:382px;"
     input2.placeholder = 'Enter additional email 3';	
     input2.type = 'text';	
     input2.id = 'UPAdditionalEmail3';	
-    input2.title = ' Please enter a email address in this format: name@example.com.';
-    div.appendChild(input2);
+    input2.title = ' Please enter an email address in this format: name@example.com.';
+    
+    div1.appendChild(input2);
+    div.appendChild(div1);
+
+    const br = document.getElementById('multipleEmail2Br');	
+    br.style=""
+
     document.getElementById('additionalEmailBtn').innerHTML = '';
 }
 
@@ -254,6 +322,7 @@ export const addEventUPSubmit = () => {
         removeAllErrors();
         const requiredFields = document.getElementsByClassName('required-field');
         const validations = document.getElementsByClassName('input-validation');
+        const numberValidations = document.getElementsByClassName('num-val');
         const radios = document.getElementsByName('UPRadio');
         let hasError = false;
         let focus = true;
@@ -286,6 +355,13 @@ export const addEventUPSubmit = () => {
                         }
                     }
                 }
+                if(validationPattern && validationPattern === 'numbers') {
+                    if(!/^[0-9]*$/.test(element.value)) {
+                        errorMessage(element.id, element.dataset.errorValidation, focus)
+                        focus = false;
+                        hasError = true;
+                    }
+                }
             }
         });
         Array.from(requiredFields).forEach(element => {
@@ -300,6 +376,19 @@ export const addEventUPSubmit = () => {
                 hasError = true;
             }
         });
+        /*Array.from(numberValidations).forEach(element => {
+            const pattern = element.dataset.valPattern
+            if(element.value && !element.value.match(new RegExp(pattern))){
+                errorMessageNumbers(element.id, `${element.dataset.errorValidation}`, focus);
+                focus = false;
+                hasError = true;
+            }
+        });*/
+        if(!(document.getElementById('UPCancer1').checked|| document.getElementById('UPCancer2').checked)){
+            errorMessage('UPCancerBtnGroup', 'Please provide a response.', focus);
+            focus = false;
+            hasError = true;
+        }
         let radioChecked = false;
         Array.from(radios).forEach(element => {
             if(element.checked) radioChecked = true;
@@ -307,17 +396,29 @@ export const addEventUPSubmit = () => {
         
         const phoneNo = `${document.getElementById('UPPhoneNumber11').value}${document.getElementById('UPPhoneNumber12').value}${document.getElementById('UPPhoneNumber13').value}`;
         const phoneNo2 = `${document.getElementById('UPPhoneNumber21').value}${document.getElementById('UPPhoneNumber22').value}${document.getElementById('UPPhoneNumber23').value}`;
+        const phoneNo3 = `${document.getElementById('UPPhoneNumber31').value}${document.getElementById('UPPhoneNumber32').value}${document.getElementById('UPPhoneNumber33').value}`;
         const email = document.getElementById('UPEmail').value;
         const email2 = document.getElementById('UPEmail2');
         const email3 = document.getElementById('UPAdditionalEmail2');
         const email4 = document.getElementById('UPAdditionalEmail3');
-
-        if(!phoneNo && !email){
-            errorMessage('UPEmail', 'Please enter either a mobile phone number or email address.', focus);
+        if(!email){
+            errorMessage('UPEmail', 'Please enter an email address.', focus);
+            focus = false;
+            hasError = true;
+        }
+        if(!phoneNo && !phoneNo2 && !phoneNo3){
             errorMessage('UPPhoneNumber11');
             errorMessage('UPPhoneNumber12');
             errorMessage('UPPhoneNumber13');
-            errorMessage('mainMobilePhone', 'Please enter either a mobile phone number or email address.');
+            errorMessage('mainMobilePhone', 'A phone number is required. Please provide at least one of the following: home phone, mobile phone, or other phone number.', focus);
+            errorMessage('UPPhoneNumber21');
+            errorMessage('UPPhoneNumber22');
+            errorMessage('UPPhoneNumber23');
+            errorMessage('mainMobilePhone2', 'A phone number is required. Please provide at least one of the following: home phone, mobile phone, or other phone number.');
+            errorMessage('UPPhoneNumber31');
+            errorMessage('UPPhoneNumber32');
+            errorMessage('UPPhoneNumber33');
+            errorMessage('mainMobilePhone3', 'A phone number is required. Please provide at least one of the following: home phone, mobile phone, or other phone number.');
             focus = false;
             hasError = true;
         }
@@ -339,33 +440,99 @@ export const addEventUPSubmit = () => {
             focus = false;
             hasError = true;
         }
+        if(phoneNo3 && phoneNo3.length < 10 ){
+            errorMessage('UPPhoneNumber31');
+            errorMessage('UPPhoneNumber32');
+            errorMessage('UPPhoneNumber33');
+            errorMessage('mainMobilePhone3', 'Please enter a phone number in this format: 999-999-9999.');
+            if(focus) document.getElementById('UPPhoneNumber31').focus();
+            focus = false;
+            hasError = true;
+        }
+        if(phoneNo && !/[1-9]{1}[0-9]{9}/.test(phoneNo) ){
+            errorMessage('UPPhoneNumber11');
+            errorMessage('UPPhoneNumber12');
+            errorMessage('UPPhoneNumber13');
+            errorMessage('mainMobilePhone', 'Phone number may only contain numbers.');
+            if(focus) document.getElementById('UPPhoneNumber11').focus();
+            focus = false;
+            hasError = true;
+        }
+        if(phoneNo2 && !/[1-9]{1}[0-9]{9}/.test(phoneNo2) ){
+            errorMessage('UPPhoneNumber21');
+            errorMessage('UPPhoneNumber22');
+            errorMessage('UPPhoneNumber23');
+            errorMessage('mainMobilePhone2', 'Phone number may only contain numbers.');
+            if(focus) document.getElementById('UPPhoneNumber21').focus();
+            focus = false;
+            hasError = true;
+        }
+        if(phoneNo3 && !/[1-9]{1}[0-9]{9}/.test(phoneNo3) ){
+            errorMessage('UPPhoneNumber31');
+            errorMessage('UPPhoneNumber32');
+            errorMessage('UPPhoneNumber33');
+            errorMessage('mainMobilePhone3', 'Phone number may only contain numbers.');
+            if(focus) document.getElementById('UPPhoneNumber31').focus();
+            focus = false;
+            hasError = true;
+        }
         if(email && /\S+@\S+\.\S+/.test(email) === false) {
-            errorMessage('UPEmail', 'Please enter a email address in this format: name@example.com.', focus);
+            console.log('UPEmail Error Should be here')
+            errorMessage('UPEmail', 'Please enter an email address in this format: name@example.com.', focus);
+            if(focus) document.getElementById('UPPhoneNumber11').focus();
             focus = false;
             hasError = true;
         }
         if(email2 && email2.value && /\S+@\S+\.\S+/.test(email2.value) === false) {
-            errorMessage('UPEmail2', 'Please enter a email address in this format: name@example.com.', focus);
+            errorMessage('UPEmail2', 'Please enter an email address in this format: name@example.com.', focus);
+            if(focus) document.getElementById('UPPhoneNumber21').focus();
             focus = false;
             hasError = true;
         }
         if(email3 && email3.value && /\S+@\S+\.\S+/.test(email3.value) === false) {
-            errorMessage('UPAdditionalEmail2', 'Please enter a email address in this format: name@example.com.', focus);
+            errorMessage('UPAdditionalEmail2', 'Please enter an email address in this format: name@example.com.', focus);
+            if(focus) document.getElementById('UPAdditionalEmail2').focus();
             focus = false;
             hasError = true;
         }
         if(email4 && email4.value && /\S+@\S+\.\S+/.test(email4.value) === false) {
-            errorMessage('UPAdditionalEmail3', 'Please enter a email address in this format: name@example.com.', focus);
+            errorMessage('UPAdditionalEmail3', 'Please enter an email address in this format: name@example.com.', focus);
+            if(focus) document.getElementById('UPAdditionalEmail3').focus();
             focus = false;
             hasError = true;
         }
+        const confirmedEmail = document.getElementById('confirmUPEmail').value;
+        if(!confirmedEmail){
+            errorMessage('confirmUPEmail', 'Please confirm your email address.', focus);
+            if(focus) document.getElementById('confirmUPEmail').focus();
+            focus = false;
+            hasError = true;
+            
+        }
+        else if(confirmedEmail !== document.getElementById('UPEmail').value){
+            errorMessage('confirmUPEmail', 'Your email addresses do not match. Please retype your email addresses.', focus);
+            if(focus) document.getElementById('confirmUPEmail').focus();
+            focus = false;
+            hasError = true;
+            
+        }
+        
         if(hasError) return false;
         let formData = {};
+        formData['507120821'] = 928145508;
         formData['399159511'] = document.getElementById('UPFirstName').value.trim();
         formData['query.firstName'] = document.getElementById('UPFirstName').value.trim().toLowerCase();
         formData['231676651'] = document.getElementById('UPMiddleInitial').value.trim();
         formData['996038075'] = document.getElementById('UPLastName').value.trim();
         formData['query.lastName'] = document.getElementById('UPLastName').value.trim().toLowerCase();
+        
+        /*
+         *TODO
+         *Check how we should be storing the preferred name if they do not have one
+         */
+        let prefName = document.getElementById('UPPreferredName').value.trim();
+        formData['153211406'] = prefName;
+
         if(document.getElementById('UPSuffix').value) formData['506826178'] = parseInt(document.getElementById('UPSuffix').value);
         let month = document.getElementById('UPMonth').value;
 
@@ -411,6 +578,17 @@ export const addEventUPSubmit = () => {
         const voiceMailPermission2 = document.getElementsByName('voiceMailPermission2');
         Array.from(voiceMailPermission2).forEach(radioBtn => {
             if(radioBtn.checked) formData['187894482'] = parseInt(radioBtn.value);
+        });
+        if(allPhoneNo.length > 0) formData['query.allPhoneNo'] = allPhoneNo
+
+         // Other phone
+        if(document.getElementById('UPPhoneNumber31').value && document.getElementById('UPPhoneNumber32').value && document.getElementById('UPPhoneNumber33').value) {
+            formData['793072415'] = `${document.getElementById('UPPhoneNumber31').value}${document.getElementById('UPPhoneNumber32').value}${document.getElementById('UPPhoneNumber33').value}`;
+            allPhoneNo.push(`${document.getElementById('UPPhoneNumber31').value}${document.getElementById('UPPhoneNumber32').value}${document.getElementById('UPPhoneNumber33').value}`)
+        }
+        const voiceMailPermission3 = document.getElementsByName('voiceMailPermission3');
+        Array.from(voiceMailPermission3).forEach(radioBtn => {
+            if(radioBtn.checked) formData['983278853'] = parseInt(radioBtn.value);
         });
         if(allPhoneNo.length > 0) formData['query.allPhoneNo'] = allPhoneNo
 
@@ -468,20 +646,10 @@ export const addEventUPSubmit = () => {
         if(document.getElementById('UPCancerType') && document.getElementById('UPCancerType').value) formData['266952173'] = document.getElementById('UPCancerType').value;
         if(document.getElementById('UPCancerDiagnosis') && document.getElementById('UPCancerDiagnosis').value) formData['494982282'] = document.getElementById('UPCancerDiagnosis').value;
 
-        if(formData['869588347']){
-            const confirmedEmail = document.getElementById('confirmUPEmail').value;
-            if(!confirmedEmail){
-                errorMessage('confirmUPEmail', 'Please confirm your email address.', true);
-                return false;
-            }
-            else if(confirmedEmail !== formData['869588347']){
-                errorMessage('confirmUPEmail', 'Your email addresses do not match. Please retype your email addresses.', true);
-                return false;     
-            }
-        }
+
         
         const ageToday = getAge(`${formData['544150384']}-${formData['564964481']}-${formData['795827569']}`);
-        if(!(ageToday < 66 && ageToday > 39)){
+        /*if(!(ageToday < 66 && ageToday > 39)){
             // Age is out of qualified range.
             openModal();
             document.getElementById('connectModalHeader').innerHTML = `
@@ -498,9 +666,9 @@ export const addEventUPSubmit = () => {
             document.getElementById('continueAnyways').addEventListener('click', () => {
                 verifyUserDetails(formData);
             });
-        }else {
+        }else {*/
             verifyUserDetails(formData);
-        }
+        //}
     });
 }
 
@@ -535,6 +703,9 @@ const verifyUserDetails = (formData) => {
         <span aria-hidden="true">&times;</span>
     </button>
     `;
+    
+    let suffixMap = {612166858: 'Jr.',255907182: 'Sr.',226924545: 'I',270793412: 'II',959021713: 'III',643664527: '2nd',537892528: '3rd'};
+
     document.getElementById('connectModalBody').innerHTML = `
         <div class="row">
             <div class="col">First name</div>
@@ -553,7 +724,13 @@ const verifyUserDetails = (formData) => {
         ${formData['506826178'] ? `
         <div class="row">
             <div class="col">Suffix</div>
-            <div class="col">${formData['506826178']}</div>
+            <div class="col">${suffixMap[formData['506826178']]}</div>
+        </div>
+        `: ``}
+        ${formData['153211406'] ? `
+        <div class="row">
+            <div class="col">Preferred Name</div>
+            <div class="col">${formData['153211406']}</div>
         </div>
         `: ``}
         <div class="row">
@@ -608,6 +785,20 @@ const verifyUserDetails = (formData) => {
             <div class="col">${formData['187894482'] === 353358909 ? 'Yes': 'No'}</div>
         </div>
         `: ``}
+
+        ${formData['793072415'] ? `
+        <div class="row">
+            <div class="col">Other phone</div>
+            <div class="col">${formData['793072415'].substr(0,3)} - ${formData['793072415'].substr(3,3)} - ${formData['793072415'].substr(6,4)}</div>
+        </div>
+        `:``}
+        
+        ${formData['983278853'] ? `
+        <div class="row">
+            <div class="col">Can we leave a voicemail at this number?</div>
+            <div class="col">${formData['983278853'] === 353358909 ? 'Yes': 'No'}</div>
+        </div>
+        `: ``}
         
         ${formData['869588347'] ? `
         <div class="row">
@@ -640,7 +831,7 @@ const verifyUserDetails = (formData) => {
         ${formData['524461170'] ? `
         <div class="row">
             <div class="col">How do you prefer that we reach you?</div>
-            <div class="col">${formData['524461170'] === 127547625 ? 'Mobile phone': 'Email'}</div>
+            <div class="col">${formData['524461170'] === 127547625 ? 'Text Message': 'Email'}</div>
         </div>
         `:``}
 
@@ -677,7 +868,7 @@ const verifyUserDetails = (formData) => {
 
         ${formData['452166062'] ? `
         <div class="row">
-            <div class="col">Have you ever been diagnosed with cancer (other than non-melanoma skin cancer)?</div>
+            <div class="col">Have you ever had invasive cancer?</div>
             <div class="col">${formData['452166062'] === 353358909 ? 'Yes' : 'No'}</div>
         </div>
         `:``}
@@ -698,15 +889,15 @@ const verifyUserDetails = (formData) => {
 
         ${formData['494982282'] ? `
         <div class="row">
-            <div class="col">Please tell us anythning you would like us to know about your cancer diagnosis</div>
+            <div class="col">Please tell us anything you would like us to know about your cancer diagnosis</div>
             <div class="col">${formData['494982282']}</div>
         </div>
         `:``}
     `;
 
     document.getElementById('connectModalFooter').innerHTML = `
-        <button type="button" title="Close" class="btn btn-dark" data-dismiss="modal">Close</button>
-        <button type="button" id="confirmReview" title="Confirm details" class="btn btn-primary" data-dismiss="modal">Confirm</button>
+        <button type="button" title="Close" class="btn btn-dark" data-dismiss="modal">Go Back</button>
+        <button type="button" id="confirmReview" title="Confirm details" class="btn btn-primary consentNextButton" data-dismiss="modal">Submit</button>
     `;
 
     document.getElementById('confirmReview').addEventListener('click', async () => {
@@ -719,7 +910,7 @@ const verifyUserDetails = (formData) => {
             const myData = await getMyData();
             hideAnimation();
             if(myData.code === 200){
-                myToDoList(myData.data);
+                myToDoList(myData.data, true);
             }
         }
     })
@@ -727,39 +918,48 @@ const verifyUserDetails = (formData) => {
 }
 
 export const addEventPreferredContactType = () => {
-    const p1 = document.getElementById('UPPhoneNumber11');
+    const p1 = document.getElementById('textPermissionYes');
+    const p2 = document.getElementById('textPermissionNo');
     const email = document.getElementById('UPEmail');
 
-    p1.addEventListener('keyup', () => {
-        if(p1.value && email.value){
-            const div = document.getElementById('preferredEmailPhone');
-            if(div.innerHTML === ''){
-                div.classList = ['form-group row']
-                div.innerHTML = `
-                    <label class="col-md-4 col-form-label">How do you prefer that we reach you?</label>
-                    <div class="btn-group btn-group-toggle col-md-4" data-toggle="buttons">
-                        <label class="btn btn-light up-btns"><input type="radio" name="methodOfContact" value="127547625">Mobile phone</label>
-                        <label class="btn btn-light up-btns"><input type="radio" name="methodOfContact" value="357184057">Email</label>
-                    </div>
-                `;
-            }
-        }
+    p1.addEventListener('click', () => {
+        const div = document.getElementById('preferredEmailPhone');
+        div.classList = ['form-group row']
+        div.innerHTML = `
+        <div class="col">
+            <label class="col-form-label">
+                How do you prefer that we reach you?
+            </label>
+            <br>
+            <div class="btn-group btn-group-toggle col-md-4" style="margin-left:0px;">
+                <label><input type="radio" name="methodOfContact" value="127547625"> Text Message</label>
+                <label><input type="radio" name="methodOfContact" value="357184057" style="margin-left:10px;"> Email</label>
+            </div>
+        </div>
+        `;
+        /*
         else {
             const div = document.getElementById('preferredEmailPhone');
             div.classList = '';
             div.innerHTML = '';
-        }
+        }*/
+    });
+
+    p2.addEventListener('click', () => {
+        const div = document.getElementById('preferredEmailPhone');
+        div.classList = '';
+        div.innerHTML = '';
     });
 
     email.addEventListener('keyup', () => {
-        if(p1.value && email.value){
+        if(p1.classList.contains('active') && email.value){
             const div = document.getElementById('preferredEmailPhone');
             if(div.innerHTML === ''){
                 div.classList = ['form-group row']
                 div.innerHTML = `
                     <label class="col-md-4 col-form-label">How do you prefer that we reach you?</label>
                     <div class="btn-group btn-group-toggle col-md-4" data-toggle="buttons">
-                        <label class="btn btn-light up-btns"><input type="radio" name="methodOfContact" value="127547625">Mobile phone</label>
+                        <label class="btn btn-light up-btns"><input type="radio" name="methodOfContact" value="127547625">Text Message</label>
                         <label class="btn btn-light up-btns"><input type="radio" name="methodOfContact" value="357184057">Email</label>
                     </div>
                 `;
@@ -798,6 +998,7 @@ export const addEventRequestPINForm = (accountCreatedAt) => {
                 hideAnimation();
                 mainContent.innerHTML = healthCareProvider();
                 addEventHealthCareProviderSubmit();
+                addEventHealthProviderModalSubmit();
             }
             if(response.code === 200){
                 let formData = {};
@@ -817,6 +1018,7 @@ export const addEventRequestPINForm = (accountCreatedAt) => {
             hideAnimation();
             mainContent.innerHTML = healthCareProvider();
             addEventHealthCareProviderSubmit();
+            addEventHealthProviderModalSubmit();
         }
     })
 }
@@ -836,7 +1038,7 @@ export const addEventCancerFollowUp = () => {
             </div>
 
             <div class="form-group row">
-                <label class="col-md-4 col-form-label">Please tell us anythning you would like us to know about your cancer diagnosis</label>
+                <label class="col-md-4 col-form-label">Please tell us anything you would like us to know about your cancer diagnosis</label>
                 <textarea class="form-control col-md-4" id="UPCancerDiagnosis"></textarea>
             </div>
         `;
@@ -948,7 +1150,7 @@ export const retrieveNotificationsInBackgroound = async () => {
 }
 
 export const toggleCurrentPage = async (route) => {
-    const IDs = ['home', 'userDashboard', 'userData', 'userAgreements', 'userSettings', 'connectSupport'];
+    const IDs = ['userDashboard', 'Notifications', 'userAgreements', 'userSettings', 'connectSupport', 'connectPayment'];
     IDs.forEach(id => {
         const element = document.getElementById(id);
         element.addEventListener('click', () => {
@@ -959,10 +1161,13 @@ export const toggleCurrentPage = async (route) => {
     });
     if(route === '#') document.getElementById('home').click();
     if(route === '#dashboard') document.getElementById('userDashboard').click();
-    if(route === '#my_data') document.getElementById('userData').click();
+    if(route === '#notifications') document.getElementById('Notifications').click();
+    //if(route === '#my_data') document.getElementById('userData').click();
     if(route === '#agreements') document.getElementById('userAgreements').click();
     if(route === '#settings') document.getElementById('userSettings').click();
     if(route === '#support') document.getElementById('connectSupport').click();
+    if(route === '#samples') document.getElementById('connectSamples').click();
+    if(route === '#payment') document.getElementById('connectPayment').click();
     if(document.body.classList.contains('dark-mode')) toggleDarkMode(true);
 }
 
@@ -977,5 +1182,13 @@ export const toggleCurrentPageNoUser = async (route) => {
         })
     });
     if(route === '#') document.getElementById('home').click();
-    if(route === '#sign_in') document.getElementById('signIn').click();
+    //if(route === '#sign_in') document.getElementById('signIn').click();
+}
+
+export const addEventCheckCanText = () => {
+} 
+
+export const addEventDisableCopyPaste = () =>{
+    const myInput = document.getElementById('confirmUPEmail');
+    myInput.onpaste = e => e.preventDefault();
 }

@@ -19,26 +19,46 @@
         <link rel="stylesheet" href="./css/style.css">
         <link rel="manifest" href="./manifest.json">
         <meta name="theme-color" content="#cd2f5a"/>
-        <link rel="shortcut icon" href="./images/icons/icon-144x144.png" type="image/x-icon">
-        <link rel="apple-touch-icon" href="./images/icons/icon-144x144.png">
+        <link rel="shortcut icon" href="images/icons/Connect-Favicon-96x96.png" type="image/x-icon">
+        <link rel="apple-touch-icon" href="images/icons/Connect-Favicon-96x96.png">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
         <link rel="stylesheet" href="./lib/bootstrap.min.css">
         <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Noto+Sans&display=swap" rel="stylesheet"> 
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-            <a class="navbar-brand" href="#"><img height="45px" width="140px" src="./images/connect.png"></a> 
-            <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup"></div>
-        </nav>
         <main>
-            <div class="container">
-                <div style="position: relative;">
-                    <div style="position: absolute; top: 0; right: -5rem; min-width: 300px;" id="showNotification">
-                        
+            <div class="connect-container">
+                <div class="nci-gov">
+                    National Cancer Institute - Cancer.gov
+                </div>
+                <div class="row nci-logo-div d-none d-sm-flex">
+                    <div class="col-lg-4 nci-connect-logo">
+                        <a href="#">
+                            <img src="./images/ConnectDCEGLogo.svg" class="nci-connect-logo-width" alt="NCI-Connect logo">
+                        </a>
                     </div>
+                </div>
+                <div class="row nci-logo-div d-sm-none">
+                    <div class="col-lg-4 nci-connect-logo">
+                        <a href="#">
+                            <img src="./images/ConnectDCEGLogo.svg" class="nci-connect-logo-width-small" alt="NCI-Connect logo">
+                        </a>
+                    </div>
+                </div>
+                <nav class="navbar navbar-dark navbar-expand-lg custom-menu-color fixed-top">
+                    <div class="col" style="padding-left:0px">
+                        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarNavAltMarkup"></div>
+                    </div>
+                    
+                </nav>
+                <div style="position: relative;">
+                        <div style="position: absolute; top: 0; right: -5rem; min-width: 300px;" id="showNotification"></div>
+
                 </div>
                 <div id="root"></div>
                 <div class="modal fade" id="connectMainModal" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
@@ -55,7 +75,7 @@
 
                 <div class="modal fade" id="notificationsModal" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="notificationHeader" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-slideout modal-sm notification-modal" role="document">
-                      <div class="modal-content sub-div-shadow">
+                    <div class="modal-content sub-div-shadow">
                         <div class="modal-header">
                             <h5 class="modal-title" id="notificationHeader">Notifications</h5>
                             <button type="button" class="close close-modal" data-dismiss="modal" aria-label="Close">
@@ -66,9 +86,9 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
-                      </div>
                     </div>
-                  </div>
+                    </div>
+                </div>
 
                 <div id="loadingAnimation" role="status" style="display: none;"></div>
             </div>
@@ -89,5 +109,9 @@
         <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.943/pdf.min.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDe3Ewzl4x7hEX30EiQJ0tvXBtzd2Hghiw&libraries=places"></script>
+        <script src="https://cdn.jsdelivr.net/npm/pdf-lib/dist/pdf-lib.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/pdf-lib/dist/pdf-lib.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.js"></script>
     </body>
 </html>

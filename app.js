@@ -1,24 +1,29 @@
-import { getParameters, validateToken, userLoggedIn, getMyData, showAnimation, hideAnimation, connectPushNotification, enableDarkMode, toggleDarkMode, storeResponse } from "./js/shared.js";
+import { getParameters, validateToken, userLoggedIn, getMyData, showAnimation, hideAnimation, connectPushNotification, enableDarkMode, toggleDarkMode, storeResponse, isBrowserCompatible } from "./js/shared.js";
 import { userNavBar, homeNavBar } from "./js/components/navbar.js";
-import { homePage, joinNowBtn } from "./js/pages/homePage.js";
+import { homePage, joinNowBtn, whereAmIInDashboard } from "./js/pages/homePage.js";
 import { signIn } from "./js/pages/signIn.js";
 import { firebaseConfig } from "./js/config.js";
 import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser } from "./js/event.js";
 import { requestPINTemplate } from "./js/pages/healthCareProvider.js";
 import { myToDoList } from "./js/pages/myToDoList.js";
+import {renderNotificationsPage} from "./js/pages/notifications.js"
 import { renderAgreements } from "./js/pages/agreements.js";
 import { renderSettingsPage } from "./js/pages/settings.js";
 import { renderSupportPage } from "./js/pages/support.js";
+import { renderPaymentPage } from "./js/pages/payment.js";
+import { renderSamplesPage } from "./js/pages/samples.js";
 import { renderMyDataPage } from "./js/pages/myData.js";
 import { footerTemplate } from "./js/pages/footer.js";
+import { renderVerifiedPage } from "./js/pages/verifiedPage.js";
+
 
 let auth = '';
 
 window.onload = async () => {
-    const isIE = /*@cc_on!@*/false || !!document.documentMode;
-    if(isIE) {
+    const isCompatible = isBrowserCompatible();
+    if(!isCompatible) {
         const mainContent = document.getElementById('root');
-        mainContent.innerHTML = `<span class="not-compatible">Connect web application is not compatible with Internet Explorer, please use Chrome, Safari, Firefox or Edge.</span>`;
+        mainContent.innerHTML = `<span class="not-compatible">Connect web application is only compatible with Chrome, Safari, Firefox or Edge.</span>`;
     }
     if(localStorage.connect && JSON.parse(localStorage.connect).darkMode === true) enableDarkMode(true)
     !firebase.apps.length ? firebase.initializeApp(firebaseConfig()) : firebase.app();
@@ -90,7 +95,7 @@ window.onload = async () => {
 
 const handleVerifyEmail = (auth, actionCode) => {
     auth.applyActionCode(actionCode).then(function(resp) {
-        window.location.hash = '#dashboard';
+        window.location.hash = '#verified';
         location.reload();
     }).catch(function(error) {
         console.log(error);
@@ -180,20 +185,43 @@ const manageEmailActions = () => {
 const router = async () => {
     manageEmailActions()
     const parameters = getParameters(window.location.href);
-    if(parameters && parameters.token && await userLoggedIn() === false){
+    let loggedIn = await userLoggedIn();
+    if(parameters && parameters.token && loggedIn === false){
         window.location.hash = '#sign_in';
     }
     const route =  window.location.hash || '#';
+    console.log('route: ' + JSON.stringify(route))
     toggleNavBar(route);
-    if(route === '#') homePage();
-    else if (route === '#sign_in' && await userLoggedIn() === false) signIn();
-    else if (route === '#dashboard') userProfile();
-    else if (route === '#sign_out') signOut();
-    else if (route === '#agreements') renderAgreements();
-    else if (route === '#settings') renderSettingsPage();
-    else if (route === '#support') renderSupportPage();
-    else if (route === '#my_data') renderMyDataPage();
-    else window.location.hash = '#';
+    
+    if(loggedIn === false){
+        if(route === '#') homePage();
+        //else if (route === '#sign_in' && loggedIn === false) signIn();
+        //else if (route === '#dashboard') userProfile();
+        //else if (route === '#notifications') renderNotificationsPage();
+        else if (route === '#sign_out') signOut();
+        /*
+        else if (route === '#agreements') renderAgreements();
+        else if (route === '#settings') renderSettingsPage();
+        else if (route === '#support') renderSupportPage();
+        else if (route === '#payment') renderPaymentPage();
+        else if (route === '#my_data') renderMyDataPage();
+        */
+        else window.location.hash = '#';
+    }
+    else{
+        if(route === '#') userProfile();
+        else if (route === '#dashboard') userProfile();
+        else if (route === '#notifications') renderNotificationsPage();
+        else if (route === '#sign_out') signOut();
+        else if (route === '#agreements') renderAgreements();
+        else if (route === '#settings') renderSettingsPage();
+        else if (route === '#support') renderSupportPage();
+        else if (route === '#samples') renderSamplesPage();
+        else if (route === '#payment') renderPaymentPage();
+        else if (route === '#my_data') renderMyDataPage();
+        else if (route === '#verified') renderVerifiedPage();
+        else window.location.hash = '#';
+    }
 }
 
 const userProfile = () => {
@@ -208,20 +236,50 @@ const userProfile = () => {
                     let obj = {
                         335767902: (new Date(parseInt(user.metadata.a))).toISOString()
                     }
-                    if(parameters.utm_source && parameters.utm_id) {
-                        obj['utm_source'] = parameters.utm_source;
-                        obj['utm_id'] = parameters.utm_id;
-                    }
+
                     await storeResponse(obj);
+                }
+            }
+            const userData = await getMyData();
+            if(userData.code === 200) {
+                let tmp = {};
+                if(parameters && parameters.utm_source && parameters.utm_id) {
+                    tmp['utm_source'] = parameters.utm_source;
+                    tmp['utm_id'] = parameters.utm_id;
+                    await storeResponse(tmp);
                 }
             }
             window.history.replaceState({},'Dashboard', './#dashboard');
             if(user.email && !user.emailVerified){
                 const mainContent = document.getElementById('root');
-                mainContent.innerHTML = '<div>Please verify your email by clicking <a id="verifyEmail"><button class="btn btn-primary">Verify Email</button></a></div>'
-
+                mainContent.innerHTML = `
+                    <br>
+                    <div class="row">
+                        <div class="col-md-2">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="verifyEmailText">Please verify your email by clicking <a id="verifyEmail">
+                            <br>
+                            <br>
+                            <button class="btn btn-primary consentNextButton" style="font-weight:bold;">Verify Email</button></a></div>
+                        </div>
+                        <div class="col-md-2">
+                        </div>
+                    </div>
+                        `
+                    
                 document.getElementById('verifyEmail').addEventListener('click', () => {
-                    mainContent.innerHTML = `<div>Please click on the verification link you will receive on <strong>${user.email}</strong></div>` 
+                    mainContent.innerHTML = `
+                    <br>
+                    <div class="row">
+                        <div class="col-md-2">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="verifyEmailText">Please click the link we sent to your email to verify your contact information. Be sure to check your spam folder.</div>
+                        </div>
+                        <div class="col-md-2">
+                        </div>
+                    </div>` 
                 });
                 hideAnimation();
                 document.getElementById('verifyEmail').addEventListener('click', () => {
@@ -237,9 +295,10 @@ const userProfile = () => {
             const myData = await getMyData();
             if(myData.code === 200) {
                 // connectPushNotification();
-                myToDoList(myData.data);
+                myToDoList(myData.data, false);
             }
             else {
+
                 mainContent.innerHTML = requestPINTemplate();
                 addEventPinAutoUpperCase();
                 addEventRequestPINForm(user.metadata.a);
@@ -261,15 +320,37 @@ const signOut = () => {
 const toggleNavBar = (route) => {
     auth.onAuthStateChanged(async user => {
         if(user){
+            showAnimation();
             document.getElementById('navbarNavAltMarkup').innerHTML = userNavBar();
-            document.getElementById('joinNow') ? document.getElementById('joinNow').innerHTML = joinNowBtn(false) : ``;
+            document.getElementById('joinNow') ? document.getElementById('joinNow').innerHTML = joinNowBtn(false) : ``; 
+            document.getElementById('signInWrapperDiv') ? document.getElementById('signInWrapperDiv').style.display = "none" :'';
+            document.getElementById('nextStepWarning') ? document.getElementById('nextStepWarning').innerHTML = await whereAmIInDashboard() : '';
+            document.getElementById('nextStepWarning') ? document.getElementById('nextStepWarning').style.display="block": '';
             addEventRetrieveNotifications();
             toggleCurrentPage(route);
+            hideAnimation();
         }
         else{
+            showAnimation();
             document.getElementById('navbarNavAltMarkup').innerHTML = homeNavBar();
             document.getElementById('joinNow') ? document.getElementById('joinNow').innerHTML = joinNowBtn(true) : ``;
+            document.getElementById('nextStepWarning') ? document.getElementById('nextStepWarning').style.display="none": '';
             toggleCurrentPageNoUser(route);
+            const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
+            ui.start('#signInDiv', signInConfig());
+            hideAnimation();
         }
     });
+}
+
+const signInConfig = () => {
+    return {
+        signInSuccessUrl: '#dashboard',
+        signInOptions: [
+            firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+            firebase.auth.EmailAuthProvider.PROVIDER_ID,
+            firebase.auth.PhoneAuthProvider.PROVIDER_ID
+        ],
+        credentialHelper: 'none'
+    }
 }

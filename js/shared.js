@@ -1,4 +1,5 @@
 import { addEventHideNotification } from "./event.js";
+import fieldMapping from './components/fieldToConceptIdMapping.js'; 
 
 const api = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app';
 // const api = 'http://localhost:8010/nih-nci-dceg-episphere-dev/us-central1/app';
@@ -36,7 +37,33 @@ export const generateNewToken = async () => {
     return data;
 }
 
+//adding conceptID mappings for completded and TS
+export const conceptIdMapping = (formData) => {
+    try {
+
+        let moduleId = Object.keys(formData)[0].split(".")[0];
+        let moduleIdCompleted = moduleId + ".COMPLETED";
+        let moduleIdCompletedTS = moduleId + ".COMPLETED_TS";
+        if (moduleIdCompleted in formData) {
+            let connectModuleIdCompleted = fieldMapping[fieldMapping[`${moduleId}`]].completeFlag;
+            formData[connectModuleIdCompleted] = 231311385;
+        }
+        if (moduleIdCompletedTS in formData) {
+            let connectModuleIdCompletedTS = fieldMapping[fieldMapping[`${moduleId}`]].completeTs;
+            formData[connectModuleIdCompletedTS] = formData[moduleIdCompletedTS];
+        }
+
+
+    } catch (error) {
+        console.log("conceptIdMapping error",error);
+    }
+
+    return formData;
+}
+
 export const storeResponse = async (formData) => {
+
+    formData = conceptIdMapping(formData);
     const idToken = await new Promise((resolve, reject) => {
         const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             unsubscribe();
@@ -59,7 +86,7 @@ export const storeResponse = async (formData) => {
         },
         body: JSON.stringify(formData)
     }
-    // const response = await fetch(`http://localhost:8010/nih-nci-dceg-episphere-dev/us-central1/app?api=submit`, requestObj);
+    // const response = await fetch(`http://localhost:8010/nih-nci-dceg-connect-dev/us-central1/app?api=submit`, requestObj);
     const response = await fetch(`https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app?api=submit`, requestObj);
     return response.json();
 }
@@ -102,6 +129,22 @@ export const sites = () => {
         13: 'National Cancer Institute'
     }
 }
+
+export const siteAcronyms = () => {
+    return {
+        531629870: 'HP',
+        548392715: 'HFHS',
+        125001209: 'KPCO',
+        327912200: 'KPGA',
+        300267574: 'KPHI',
+        452412599: 'KPNW',
+        303349821: 'Marshfield',
+        657167265: 'Sanford',
+        809703864: 'UChicago',
+        13: 'NCI'
+    }
+}
+
 
 export const todaysDate = () => {
     const today = new Date();
@@ -155,9 +198,9 @@ export const userLoggedIn = () => {
 export const getParameters = (URL) => {
     const hash = decodeURIComponent(URL);
     const index = hash.indexOf('?');
-
     if(index !== -1){
-        const query = hash.slice(index+1, hash.length);
+        let query = hash.slice(index+1, hash.length);
+        if(query.indexOf('#') !== -1) query = query.slice(0, query.indexOf('#'))
         const array = query.split('&');
         let obj = {};
         array.forEach(value => {
@@ -182,7 +225,7 @@ export const errorMessage = (id, msg, focus) => {
     if(Array.from(parentElement.querySelectorAll('.form-error')).length > 0) return;
     if(msg){
         const div = document.createElement('div');
-        div.classList = ['row col-md-4 offset-md-4 error-text'];
+        div.classList = ['error-text'];
         const span = document.createElement('span');
         span.classList = ['form-error']
         span.innerHTML = msg;
@@ -192,6 +235,28 @@ export const errorMessage = (id, msg, focus) => {
     currentElement.classList.add('invalid');
     if(focus) currentElement.focus();
 }
+
+export const errorMessageNumbers = (id, msg, focus) => {
+    const currentElement = document.getElementById(id);
+    const parentElement = currentElement.parentNode;
+    const parent1 = parentElement.parentNode
+    console.log(parentElement)
+    if(Array.from(parentElement.querySelectorAll('.form-error')).length > 0) return;
+    if(msg){
+        const br = document.createElement('br');
+        const div = document.createElement('div');
+        div.classList = ['error-text'];
+        const span = document.createElement('span');
+        span.classList = ['form-error']
+        span.innerHTML = msg;
+        div.append(span);
+        parent1.appendChild(br)
+        parent1.appendChild(div);
+    }
+    currentElement.classList.add('invalid');
+    if(focus) currentElement.focus();
+}
+
 
 export const errorMessageConsent = (id, msg, focus) => {
     const currentElement = document.getElementById(id);
@@ -655,6 +720,8 @@ export const enableDarkMode = async (enable) => {
 }
 
 export const toggleDarkMode = (bool) => {
+    /*
+    bool = true;
     if(bool){
         document.body.classList.add('dark-mode');
         
@@ -695,6 +762,7 @@ export const toggleDarkMode = (bool) => {
             e.classList.remove('dark-mode');
         });
     }
+    */
 }
 
 export const toggleNavbarMobileView = () => {
@@ -706,21 +774,23 @@ export const toggleNavbarMobileView = () => {
 
 export const getConceptVariableName = async (conceptId) => {
     const response = await fetch(`https://raw.githubusercontent.com/episphere/conceptGithubActions/master/jsons/${conceptId}.json`);
-    return (await response.json()).variableName;
+    //return (await response.json()).variableName;
+    let res = await response.json()
+    return res['Variable Name'];
 }
 
-// export const questionnaireModules = {
-//     'Background and Overall Health': {url: 'https://hzhao392.github.io/privatequest/test_module1.txt', moduleId:"Module1", enabled:true},
-//     'Enter SSN': {url: 'https://hzhao392.github.io/privatequest/ssnModule.txt', moduleId:"ModuleSsn", enabled:false},
-//     'Medications, Reproductive Health, Exercise, and Sleep': {url: 'https://hzhao392.github.io/privatequest/test_module2.txt', moduleId:"Module2", enabled:false},
-//     'Smoking, Alcohol, and Sun Exposure': {url: 'https://hzhao392.github.io/privatequest/test_module3.txt', moduleId:"Module3", enabled:false},
-//     'Where You Live and Work': {url: 'https://hzhao392.github.io/privatequest/test_module4.txt', moduleId:"Module4", enabled:false}
-// }
-
+//for local testing use URL like such http://localhost:5001/questionnaires/submodules/module1_config.txt
+//for condensed testing of questionnaires use this set of urls https://hzhao392.github.io/privatequest/test_module1.txt
+//for submodules use https://raw.githubusercontent.com/jonasalmeida/privatequest/master/submodules/module1_config.txt?token=ANWUEPNBOGO6ATOXSNG5DWDAWZ6XC
 export const questionnaireModules = {
-    'Background and Overall Health': {url: 'https://jonasalmeida.github.io/privatequest/demo2.txt', moduleId:"Module1", enabled:true},
-    'Enter SSN': {url: 'https://jonasalmeida.github.io/privatequest/ssnModule.txt', moduleId:"ModuleSsn", enabled:false},
-    'Medications, Reproductive Health, Exercise, and Sleep': {url: 'https://jonasalmeida.github.io/privatequest/module2.txt', moduleId:"Module2", enabled:false},
-    'Smoking, Alcohol, and Sun Exposure': {url: 'https://jonasalmeida.github.io/privatequest/module3.txt', moduleId:"Module3", enabled:false},
-    'Where You Live and Work': {url: 'https://jonasalmeida.github.io/privatequest/module4.txt', moduleId:"Module4", enabled:false}
+    'Background and Overall Health': {url: 'https://hzhao392.github.io/privatequest/test_module1.txt', moduleId:"Module1", enabled:true},
+    'Medications, Reproductive Health, Exercise, and Sleep': {url: 'https://hzhao392.github.io/privatequest/test_module2.txt', moduleId:"Module2", enabled:false},
+    'Smoking, Alcohol, and Sun Exposure': {url: 'https://hzhao392.github.io/privatequest/test_module3.txt', moduleId:"Module3", enabled:false},
+    'Where You Live and Work': {url: 'https://hzhao392.github.io/privatequest/test_module4.txt', moduleId:"Module4", enabled:false},
+    'Enter SSN': {url: 'https://jonasalmeida.github.io/privatequest/ssnModule.txt', moduleId:"ModuleSsn", enabled:false}
+}
+
+export const isBrowserCompatible = () => {
+    const isValidBrowser = /Chrome/.test(navigator.userAgent) || /Mozilla/.test(navigator.userAgent) || /Safari/.test(navigator.userAgent);
+    return isValidBrowser;
 }

@@ -35,7 +35,7 @@ registerRoute(
 );
 
 const bgSyncPlugin = new BackgroundSyncPlugin('ConnectAppBgSync', {
-    maxRetentionTime: 24 * 60 // Retry for max of 24 Hours (specified in minutes)
+    maxRetentionTime: 7 * 24 * 60 // Retry for max of 24 Hours (specified in minutes)
 });
 
 registerRoute(
@@ -46,4 +46,4 @@ registerRoute(
     'POST'
 );
 
-workbox.precaching.precacheAndRoute([{url: 'index.html', revision: '1'}]);
+workbox.precaching.precacheAndRoute([{url: 'index.html', revision: new Date().getTime()}]);

@@ -1,3 +1,7 @@
+a{
+    color:#2A72A5 !important;
+}
+
 .required {
     color: red;
 }
@@ -9,7 +13,11 @@
 
 #root {
     height: 100%;
-    margin: 1rem 0;
+    /*border-top: 1px solid #ffffff;
+    margin-top:10px;*/
+    margin-top:1px;
+    margin-left:15px;
+    margin-right:15px;
 }
 
 #footer {
@@ -56,7 +64,7 @@
 }
 
 .row {
-    padding: .5rem;
+    padding: 15px;
 }
 
 .images-col {
@@ -118,6 +126,7 @@
 
 .form-group {
     padding-left: 0px !important;
+    margin-bottom:0px !important;
 }
 
 .btn:hover {
@@ -168,11 +177,19 @@
     font-size: 1rem;
 }
 
-.site-logo {
-    height: 80%;
-    width: 75%; 
+
+
+.site-logo-helper {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
 }
 
+.site-logo {
+    vertical-align: middle;
+    max-height: 100%;
+    max-width: 75%;
+}
 #siteLogos {
     margin-left: 8px;
     margin-right: 8px;
@@ -221,6 +238,18 @@
     background-color: #ffffff;
     margin: 0px;
 }
+
+#canvasContainer1 {
+    scroll-behavior: smooth;
+    overflow: scroll;
+    min-height: 500px;
+    height: calc(100vh - 398px);
+    width: 100%;
+    border: 1px solid #000000;
+    background-color: #ffffff;
+    margin: 0px;
+}
+
 
 canvas {
     border-bottom: 1px solid #000000;
@@ -290,6 +319,25 @@ canvas {
     background-color: #b1cee7 !important;
     cursor: pointer;
 }
+
+.survey-list-active {
+    margin-top:0px;
+    border-radius:30px !important; 
+    height:60px !important;
+    background-color:#5c2d93 !important;
+    color:white !important; 
+    width:100%;
+}
+
+.survey-list-inactive {
+    margin-top:0px;
+    border-radius:30px !important; 
+    height:60px !important;
+    background-color:lightgrey !important;
+    color:white !important; 
+    width:100%;
+}
+
 
 .no-text-decoration {
     color: #000000 !important;
@@ -363,7 +411,9 @@ canvas {
     border-color: #007bff !important;
     border-width: 1.5px !important;
 }
-
+.up-btns.active{
+    background-color:#dae0e5 !important;
+}
 .form-error {
     color: red;
     font-size: small;
@@ -378,7 +428,7 @@ canvas {
 }
 
 #additionalEmailBtn {
-    padding-left: 0px;
+    /*padding-left: 0px*/
 }
 
 .connect-notification {
@@ -437,16 +487,38 @@ canvas {
 }
 
 .current-page {
-    border-bottom: 2px solid #918c8d !important;
+    border-bottom: 5px solid #FFBF17 !important;
+    border-top: 5px solid #2a72a5;
+}
+
+.badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    padding: 5px 10px;
+    border-radius: 50%;
+    background: red;
+    color: white;
+  }
+
+.navbar{
+    padding-bottom:0 !important;
 }
 
 .nav-link {
-    color: #000000 !important;
+    color: #ffffff !important;
+    font-weight: bold !important;
+    font-family: 'Montserrat', sans-serif;
 }
 
-.navbar-nav:hover {
-    border-bottom: 2px solid #bc1f40 !important;
+.join-study-btn {
+    background-color: #ffbf17 !important;
+    color: #1c4f6e !important;
 }
+
+/* .navbar-nav:hover {
+    border-bottom: 2px solid #bc1f40 !important;
+} */
 
 .btn-agreement {
     border: 0px;
@@ -592,7 +664,6 @@ input:checked + .slider:before {
 }
 
 .col-custom {
-    flex: 0 0 3%;
     max-width: 8.333333%;
 }
 
@@ -604,3 +675,395 @@ input:checked + .slider:before {
 .error-text {
     padding-left: 5px !important;
 }
+
+.connect-container {
+    /*margin: 0 40px !important;*/
+    min-height: calc(100vh - 140px);
+}
+
+.nci-logo-div {
+    min-height: 50px;
+    background-color: #1c5d86;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    border-bottom: 1px solid #ffffff;
+    padding-top:22px;
+    padding-bottom:22px;
+}
+
+.search-input {
+    background-color: #1c5d86 !important;
+    color: #ffffff !important;
+    border-radius: 0px !important;
+    margin: 1px 0px !important;
+}
+
+.search-input::placeholder {
+    color: #ffffff !important;
+}
+
+.nci-gov {
+    text-align: center;
+    font-size: 12px;
+}
+
+.fixed-top {
+    position: relative !important;
+}
+
+#joinNow {
+    background-color: #2a72a5 !important;
+}
+
+.custom-menu-color {
+    background-color: #2a72a5 !important;
+    color: #ffffff !important;
+}
+
+.homepage-slider {
+    background-color: #2a72a5 !important;
+    margin: 0px !important;
+}
+
+.what-study-heading {
+    font-weight: bold;
+    font-size: 30px;
+    color: #595959;
+}
+
+.who-can-join-heading {
+    font-weight: bold;
+    font-size: 30px;
+    color: #595959;
+}
+
+.how-study-heading {
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.what-study-content, .how-study-content {
+    font-size: 18px;
+}
+
+.what-study-row {
+    padding: 30px 0px !important;
+}
+
+.how-study-row {
+    padding: 50px 0px !important;
+    background-color: #2a72a5 !important;
+    color: #ffffff !important
+}
+
+.align-right {
+    text-align: right;
+}
+
+.learning-from-everyone {
+    background-color: #ffbf17 !important;
+    padding: 50px 0px !important;
+}
+
+.participating-health-care-systems {
+    margin-bottom: 30px;
+}
+
+.landing-page-images {
+    max-height: 350px;
+}
+
+.navbar-toggler {
+    /*border-color: #ffffff !important;*/
+}
+
+.nci-connect-logo {
+    padding-left: 0px !important;
+}
+
+.nci-connect-logo-width {
+    width: inherit;
+}
+
+.nci-connect-logo-width-small {
+    width: 100%;
+}
+
+.nav-link {
+    white-space: nowrap;
+}
+
+.request-pin-div, .health-care-div, .heard-about-study-div, .passive-participant-block-div, .setting-div {
+    margin: 2rem 0;
+}
+
+.form-all-content, .health-care-form-all-content {
+    min-height: calc(100vh - 420px);
+}
+
+.e-consent-body {
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.messages-Active-Nav{
+    color:#303030 !important;
+    font-family: 'Noto Sans', sans-serif;
+    font-weight:bold !important;
+    background-color:white;
+    border: 1px solid lightgrey !important;
+    border-bottom: 1px solid white !important;
+    border-top: 5px solid #FFBF17 !important;
+}
+.messages-Inactive-Nav{
+    color:#303030 !important;
+    font-family: 'Noto Sans', sans-serif;
+    background-color:white;
+    border-bottom: 1px solid lightgrey !important;
+}
+
+.survey-Active-Nav {
+    color:purple !important;
+    background-color:white;
+    border: 1px solid lightgrey !important;
+    border-bottom: 1px solid white !important;
+}
+
+.survey-Inactive-Nav {
+    color:purple !important;
+    background-color:white;
+    border-bottom: 1px solid lightgrey !important;
+}
+
+.homeTitleText{
+    color:white;
+    font-size: 46px;
+    margin-right:auto;
+    /*font-family:"Montserrat Bold", bold;*/
+}
+
+.homeTitleText em{
+    font-style: normal;
+    color:#FFBF17;
+}
+.homeTitleTextMobile{
+    font-size: 21px;
+    color: #FFFFFF;
+    letter-spacing: 0.07px;
+    text-align: center;
+    line-height: 25px;
+
+}
+
+.homeTitleTextMobile em{
+    font-style: normal;
+    color:#FFBF17;
+}
+
+
+.signInWrapper{
+    max-width:360px;
+    background-color:white;
+    margin:auto;
+    padding-top:30px;   
+    padding-bottom:30px;
+    border-radius:5px;
+    
+}
+
+.mdl-shadow--2dp{
+    box-shadow:none !important;
+}
+
+.consentNextButton{
+    color:#174C70 !important;
+    background-color:#FFBF17 !important;
+    border-color:#FFBF17 !important;
+    font-weight:bold !important;
+    font-size:16px;
+
+}
+
+.userProfileHeader{
+    font-size:28px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight:bold;
+    color:#606060;
+}
+
+.userProfileBody{
+    font-size:22px;
+    font-family: 'Noto Sans', sans-serif;
+    color:#2E2E2E;
+}
+
+.userProfileSubHeaders{
+    font-size:23px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight:bold;
+    color:#606060;
+    margin-bottom:0;
+}
+
+.verifyEmailText{
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 18px;
+    color: #2E2E2E;
+    text-align: left;
+    line-height: 27px;
+
+}
+
+.MonteserratFont{
+    font-family: 'Montserrat', sans-serif;
+    color:#606060;
+}
+.NotoSansFont{
+    font-family: 'Noto Sans', sans-serif;
+    color:#606060;
+}
+
+.consentPrevButton{
+    background-color:white !important;
+    border-color:#2A72A5 !important;
+    border-width:2px !important;
+    color:#2A72A5 !important;
+}
+.connectBody1{
+    background-color:#2a72a5; 
+    padding-top:60px;
+    line-height:1;
+    /*margin-bottom:180px;*/
+}
+
+
+@media (max-width:520px){
+    .connectBody{
+        background-color:#2a72a5; 
+        padding-top:20px;
+        padding-bottom:120px;
+        margin-bottom:180px;
+    }
+    .connectBodyPicture{
+        text-align:center;
+        height:150px;
+    }
+}
+@media (max-width:992px) and (min-width:521px){
+    .connectBody{
+        background-color:#2a72a5; 
+        padding-top:20px;
+        margin-bottom:150px;
+    }
+    .connectBodyPicture{
+        text-align:center;
+        height:150px;
+        margin-bottom:20px;
+    }
+}
+@media (max-width:1315px) and (min-width:993px){
+    .connectBody{
+        background-color:#2a72a5; 
+        padding-top:20px;
+        padding-bottom:120px;
+        margin-bottom:180px;
+    }
+    .connectBodyPicture{
+        text-align:center;
+        height:70px;
+    }
+}
+@media (min-width:1316px){
+    .connectBody{
+        background-color:#2a72a5; 
+        padding-top:20px;
+        margin-bottom:150px;
+    }
+    .connectBodyPicture{
+        text-align:center;
+        height:170px;
+    }
+}
+
+.consentHeadersFont{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 28px;
+}
+
+.consentBodyFont1{
+    font-family: 'Noto Sans', sans-serif;
+    font-size:22px;
+}
+
+.consentBodyFont2{
+    font-family: 'Noto Sans', sans-serif;
+    font-size:18px;
+}
+
+.messagesHeaderFont{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    font-size:20px;
+    line-height:25px;
+    color: #6B6B6B;
+}
+
+.messagesBodyFont{
+    font-family: 'Noto Sans', sans-serif;
+    font-size:18px;
+    line-height:27px;
+    color: #2E2E2E;
+}
+
+
+.consentSubheader{
+    font-family: 'Montserrat', sans-serif;
+}
+
+.loginTitleFont{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    color: #606060;
+    line-height: 24px;
+}
+
+.userProfileBox{
+    border: 1px solid #A9AEB1;
+    border-radius:3px;
+    margin-top:20px;
+    padding-bottom:20px;
+}
+.userProfileLabels{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 23px;
+    color:#606060;
+}
+.userProfileEdit{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    color:#2A72A5 !important;
+    cursor: pointer;
+}
+
+.userProfileBodyFonts{
+    font-family: 'Noto Sans', sans-serif;
+    font-size:16px;
+    color:#2E2E2E;
+}
+
+.userProfileLinePaddings{
+    padding-top:0px;
+}
+
+
+@media (max-width: 819px) and (min-width:768px){
+    .consentSignHeader{
+        height:48px;
+    }
+}
+@media (max-width: 1208px) and (min-width:992px){
+    .consentSignHeader{
+        height:48px;
+    }  
+}
+
