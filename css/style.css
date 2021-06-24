@@ -491,6 +491,7 @@ canvas {
 }
 
 .transparent-border {
+    border-top: 5px solid transparent;
     border-bottom: 5px solid transparent;
 }
 
