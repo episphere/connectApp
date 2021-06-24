@@ -488,7 +488,10 @@ canvas {
 
 .current-page {
     border-bottom: 5px solid #FFBF17 !important;
-    border-top: 5px solid #2a72a5;
+}
+
+.transparent-border {
+    border-bottom: 5px solid transparent;
 }
 
 .badge {
