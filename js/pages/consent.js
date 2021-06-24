@@ -868,14 +868,14 @@ const consentSubmit = async e => {
         focus = false;
         hasError = true;
     }
-    if(!/^[A-Za-z ]+$/.test(CSFirstName.value)) {
+    if(/[0-9,\.<>:;!@#\$%\^&\*\+=\[\]\{\}\\\|]/.test(CSFirstName.value)) {
         const msg = 'Your first name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters.';
         errorMessageConsent('CSFirstName', msg, focus)
         focus = false;
         hasError = true;
     }
-    if(!/^[A-Za-z ]+$/.test(CSLastName.value)) {
-        const msg = 'Your last name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters.';
+    if(/[0-9,\.<>:;!@#\$%\^&\*\+=\[\]\{\}\\\|]/.test(CSLastName.value)) {
+        const msg = 'Your last name should contain only uppercase and lowercase letters. Please do not use any numbers.';
         errorMessageConsent('CSLastName', msg, focus)
         focus = false;
         hasError = true;
