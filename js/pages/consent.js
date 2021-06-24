@@ -196,9 +196,17 @@ export const consentPrivacyPage = () => {
             <div class="col-lg-2">
             </div>
             <div class="col-lg-8">
-                <p class="consentHeadersFont">How Your Privacy is Protected</p>
-                <p class="consentBodyFont1">Your privacy is important to us. We take steps to keep your information and samples safe. For example, we replace information that identifies you with a unique code to keep track of your health information and samples. All of the information we collect from you is protected under federal privacy rules, including the Privacy Act.</p>
-                <p class="consentBodyFont1">The researchers who will study your information also have to agree to follow federal privacy rules that protect your identity.</p>
+                <p class="consentHeadersFont">Your Privacy is Important to Us</p>
+                <p class="consentBodyFont2">As part of the study, we ask you to share information that can identify you, like your name, address, and social security number (optional), and health information. Our team values the important information you share with us, and will protect this information with the highest privacy standards.</p>
+                <p class="consentBodyFont2">To protect your information, we:</p>
+                <ul class="consentBodyFont2" style="margin-left:32px">
+                    <li>Follow federal privacy rules, including the <a target="_blank" href="https://www.justice.gov/archives/opcl/overview-privacy-act-1974-2015-edition">Privacy Act</a> and the <a target="_blank" href="https://grants.nih.gov/grants/guide/notice-files/NOT-OD-19-050.html">Common Rule</a>.</li>
+                    <li>Maintain tight security controls. Our information systems, including the MyConnect participant app, are watched closely by security experts.</li>
+                    <li>Remove information that can identify you, including your name, date of birth, and social security number (if you shared it), from yoursurvey answers and samples before we share them with researchers. This information is replaced with a unique number (a code) to protect your identity.</li>
+                    <li>Limit and keep track of who can access the information and samples you share. Only approved researchers who agree to our privacy rules will be allowed to use study information and samples for valid scientific reasons</li>
+                    <li>Maintain our <a target="_blank" href="https://grants.nih.gov/policy/humansubjects/coc/what-is.htm">Certificate of Confidentiality</a> from the United States government. This will help protect against any legal requests (such as a court order) to give out information that could identify you.</li>                
+                </ul>   
+                <p class="consentBodyFont2">If you have questions about our privacy safeguards, please <a target="_blank" href="https://norcfedramp.servicenowservices.com/recruit">contact us</a></p>
 
                 <div class="row" style="padding:0;">
                     <div class="col-md-2">
