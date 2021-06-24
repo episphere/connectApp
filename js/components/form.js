@@ -187,6 +187,8 @@ export const renderUserProfile = async () => {
                 <div class="col">
                     <label class="col-form-label">
                         Can we text this number? 
+                        <br>
+                        Text message charges may apply
                     </label>
                     <br>
                     <div class="btn-group btn-group-toggle col-md-4"  style="margin-left:0px;">
