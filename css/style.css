@@ -29,7 +29,7 @@ a{
 .footer-content {
     text-align: center;
     width: 100%;
-    background-color: #2a72a5;
+    background-color: #2a72a5 !important;
     margin: 0px !important;
 }
 
@@ -70,7 +70,7 @@ a{
 
 .footer-links {
     color: #ffffff !important;
-    text-decoration: none;
+    text-decoration: none !important;
 }
 
 .footer-links:hover {
@@ -856,7 +856,7 @@ input:checked + .slider:before {
 }
 
 .no-wrap {
-    white-space: nowrap;
+    white-space: nowrap !important;
 }
 
 .request-pin-div, .health-care-div, .heard-about-study-div, .passive-participant-block-div, .setting-div {
