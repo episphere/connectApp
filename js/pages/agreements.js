@@ -239,7 +239,11 @@ export const renderAgreements = async () => {
         `
     }
     else{
-        template += 'No agreement found!';
+        template += `<div class="row align-center">
+        <span class="consentBodyFont1 w-100">
+            No agreement found!
+        </span>
+    </div>`;
     }
     let siteDict = siteAcronyms();
     let consentVersions = await fetch('./forms/Consent_versioning.json').then(res => res.json());

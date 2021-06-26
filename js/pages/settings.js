@@ -400,12 +400,11 @@ export const renderSettingsPage = async () => {
     }
     else {
         template += `
-        <br>
-            <div class="row">
-                <span class="consentBodyFont1">
-                    Settings not available
+            <div class="row align-center">
+                <span class="consentBodyFont1 w-100">
+                    My Profile not available!
                 </span>
-                </div>
+            </div>
             
         `;
     }
