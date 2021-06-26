@@ -1161,10 +1161,10 @@ export const toggleCurrentPage = async (route) => {
     });
     if(route === '#' && document.getElementById('home')) document.getElementById('home').click();
     if(route === '#dashboard') document.getElementById('userDashboard').click();
-    if(route === '#notifications') document.getElementById('Notifications').click();
+    if(route === '#messages') document.getElementById('Notifications').click();
     //if(route === '#my_data') document.getElementById('userData').click();
-    if(route === '#agreements') document.getElementById('userAgreements').click();
-    if(route === '#settings') document.getElementById('userSettings').click();
+    if(route === '#forms') document.getElementById('userAgreements').click();
+    if(route === '#myprofile') document.getElementById('userSettings').click();
     if(route === '#support') document.getElementById('connectSupport').click();
     if(route === '#samples') document.getElementById('connectSamples').click();
     if(route === '#payment') document.getElementById('connectPayment').click();

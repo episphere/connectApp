@@ -161,10 +161,10 @@ const router = async () => {
     else{
         if(route === '#') userProfile();
         else if (route === '#dashboard') userProfile();
-        else if (route === '#notifications') renderNotificationsPage();
+        else if (route === '#messages') renderNotificationsPage();
         else if (route === '#sign_out') signOut();
-        else if (route === '#agreements') renderAgreements();
-        else if (route === '#settings') renderSettingsPage();
+        else if (route === '#forms') renderAgreements();
+        else if (route === '#myprofile') renderSettingsPage();
         else if (route === '#support') renderSupportPage();
         else if (route === '#samples') renderSamplesPage();
         else if (route === '#payment') renderPaymentPage();

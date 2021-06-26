@@ -7,7 +7,7 @@ export const userNavBar = () => {
         </div>
         <div class="navbar-nav transparent-border" ${/*style ="position:relative;"*/''}>
             <li class="nav-item">
-                <a class="nav-link" href="#notifications" id="Notifications">
+                <a class="nav-link" href="#messages" id="Notifications">
                     Messages
                     <!--<span class="badge">2</span>-->
                 </a>
@@ -22,17 +22,17 @@ export const userNavBar = () => {
         -->
         <div class="navbar-nav transparent-border">
             <li class="nav-item">
-                <a class="nav-link" href="#agreements" id="userAgreements"> Forms</a>
+                <a class="nav-link" href="#forms" id="userAgreements">Forms</a>
             </li>
         </div>
         <div class="navbar-nav transparent-border">
             <li class="nav-item">
-                <a class="nav-link" href="#settings" id="userSettings"> My Profile</a>
+                <a class="nav-link" href="#myprofile" id="userSettings">My Profile</a>
             </li>
         </div>
         <div class="navbar-nav transparent-border">
             <li class="nav-item">
-                <a class="nav-link" href="#payment" id="connectPayment"> Payment</a>
+                <a class="nav-link" href="#payment" id="connectPayment">Payment</a>
             </li>
         </div>
         <div class="navbar-nav transparent-border">
