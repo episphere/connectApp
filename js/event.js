@@ -1,4 +1,4 @@
-import { allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, errorMessageNumbers, BirthMonths, getAge, getMyData, retrieveNotifications, removeActiveClass, toggleNavbarMobileView, toggleDarkMode } from "./shared.js";
+import { allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, errorMessageNumbers, BirthMonths, getAge, getMyData, retrieveNotifications, removeActiveClass, toggleNavbarMobileView } from "./shared.js";
 import { initializeCanvas, addEventConsentSubmit, consentTemplate } from "./pages/consent.js";
 import { heardAboutStudy, healthCareProvider } from "./pages/healthCareProvider.js";
 import { myToDoList } from "./pages/myToDoList.js";
@@ -163,7 +163,6 @@ export const addEventHealthCareProviderSubmit = () => {
         
         const value = parseInt(document.getElementById('827220437').value);
         
-        //const r = confirm(`Are you sure ${sites()[value]} is your healthcare provider?`)
         let modalBody = document.getElementById('HealthProviderModalBody');
         let modalButton = document.getElementById('openModal');
         modalBody.innerHTML = `Are you sure ${sites()[value]} is your healthcare provider?`
@@ -1150,7 +1149,7 @@ export const retrieveNotificationsInBackgroound = async () => {
 }
 
 export const toggleCurrentPage = async (route) => {
-    const IDs = ['userDashboard', 'Notifications', 'userAgreements', 'userSettings', 'connectSupport', 'connectPayment'];
+    const IDs = ['userDashboard', 'Notifications', 'userAgreements', 'userSettings', 'connectSamples', 'connectSupport', 'connectPayment'];
     IDs.forEach(id => {
         const element = document.getElementById(id);
         element.addEventListener('click', () => {
@@ -1159,20 +1158,19 @@ export const toggleCurrentPage = async (route) => {
             toggleNavbarMobileView();
         });
     });
-    if(route === '#') document.getElementById('home').click();
+    if(route === '#' && document.getElementById('home')) document.getElementById('home').click();
     if(route === '#dashboard') document.getElementById('userDashboard').click();
-    if(route === '#notifications') document.getElementById('Notifications').click();
+    if(route === '#messages') document.getElementById('Notifications').click();
     //if(route === '#my_data') document.getElementById('userData').click();
-    if(route === '#agreements') document.getElementById('userAgreements').click();
-    if(route === '#settings') document.getElementById('userSettings').click();
+    if(route === '#forms') document.getElementById('userAgreements').click();
+    if(route === '#myprofile') document.getElementById('userSettings').click();
     if(route === '#support') document.getElementById('connectSupport').click();
     if(route === '#samples') document.getElementById('connectSamples').click();
     if(route === '#payment') document.getElementById('connectPayment').click();
-    if(document.body.classList.contains('dark-mode')) toggleDarkMode(true);
 }
 
 export const toggleCurrentPageNoUser = async (route) => {
-    const IDs = ['home', 'signIn'];
+    const IDs = ['home'];
     IDs.forEach(id => {
         const element = document.getElementById(id);
         element.addEventListener('click', () => {
@@ -1182,7 +1180,6 @@ export const toggleCurrentPageNoUser = async (route) => {
         })
     });
     if(route === '#') document.getElementById('home').click();
-    //if(route === '#sign_in') document.getElementById('signIn').click();
 }
 
 export const addEventCheckCanText = () => {

@@ -1,6 +1,7 @@
 import { getMyData } from "../shared.js";
 
 export const renderPaymentPage = async () => {
+    document.title = 'My Connect - Payment';
     const myData = await getMyData();
     let site = 0;
     if(myData.data){
