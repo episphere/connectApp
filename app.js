@@ -177,6 +177,7 @@ const router = async () => {
 const userProfile = () => {
     auth.onAuthStateChanged(async user => {
         if(user){
+            document.title = 'My Connect - Dashboard';
             const mainContent = document.getElementById('root');
             const parameters = getParameters(window.location.href);
             showAnimation();
@@ -248,7 +249,6 @@ const userProfile = () => {
                 myToDoList(myData.data, false);
             }
             else {
-
                 mainContent.innerHTML = requestPINTemplate();
                 addEventPinAutoUpperCase();
                 addEventRequestPINForm(user.metadata.a);
@@ -256,6 +256,7 @@ const userProfile = () => {
             }
         }
         else{
+            document.title = 'My Connect - Home';
             window.location.hash = '#';
         }
     });
@@ -264,6 +265,7 @@ const userProfile = () => {
 const signOut = () => {
     firebase.auth().signOut();
     window.location.hash = '#';
+    document.title = 'My Connect - Home';
 }
 
 const toggleNavBar = (route) => {

@@ -3,6 +3,7 @@ import { initializeCanvas } from './consent.js'
 const { PDFDocument, StandardFonts } = PDFLib;
 
 export const renderAgreements = async () => {
+    document.title = 'My Connect - Forms';
     showAnimation();
     const myData = await getMyData();
     let template = '';

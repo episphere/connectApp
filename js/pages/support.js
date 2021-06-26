@@ -1,6 +1,7 @@
 import { getMyData } from "../shared.js";
 
 export const renderSupportPage = async () => {
+    document.title = 'My Connect - Support';
     const myData = await getMyData();
     let site = 0;
     let link="https://norcfedramp.servicenowservices.com/recruit"

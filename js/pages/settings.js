@@ -1,13 +1,13 @@
 import { showAnimation, hideAnimation, getMyData, storeResponse, getConceptVariableName } from "../shared.js";
 
 export const renderSettingsPage = async () => {
+    document.title = 'My Connect - My Profile';
     showAnimation();
     const myData = await getMyData();
     let template = ''
     
     if(myData.code === 200 && myData.data['699625233'] !== undefined && myData.data['699625233'] === 353358909){
         const userData = myData.data;
-        console.log(userData['506826178'])
 
         template += `
             <div class="row" style="margin-top:58px">
@@ -78,8 +78,6 @@ export const renderSettingsPage = async () => {
                                 </div>
                             </div>
                         `:''}
-                        
-                        
                     </div>`
                     :''}
                     <div class="userProfileBox">
