@@ -7,12 +7,12 @@ export const footerTemplate = () => {
                     <div class="nci-dceg-footer align-left">at the National Cancer Institute</div>
                 </div>
             </div>
-            <div class="row w-100 align-left">
-                <div class="col-lg-6 content-wrapper">
+            <div class="row w-100 pt-0 align-left">
+                <div class="col-lg-6 pt-3 content-wrapper">
                     <div class="footer-heading">CONTACT</div>
                     <div class="footer-sub-heading pt-3">(800) 000-0000</div>
                 </div>
-                <div class="col-lg-6 content-wrapper">
+                <div class="col-lg-6 pt-3 content-wrapper">
                     <div class="footer-heading">POLICIES</div>
                     <div class="footer-sub-heading pt-3"><a class="footer-links" target="__blank" href="https://www.cancer.gov/global/web/policies/accessibility">Accessibility</a></div>
                     <div class="footer-sub-heading pt-3">Disclaimer</div>
