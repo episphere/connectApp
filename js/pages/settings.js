@@ -1,4 +1,4 @@
-import { showAnimation, hideAnimation, getMyData, storeResponse, toggleDarkMode, getConceptVariableName } from "../shared.js";
+import { showAnimation, hideAnimation, getMyData, storeResponse, getConceptVariableName } from "../shared.js";
 
 export const renderSettingsPage = async () => {
     showAnimation();

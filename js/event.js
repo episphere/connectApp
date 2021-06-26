@@ -1,4 +1,4 @@
-import { allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, errorMessageNumbers, BirthMonths, getAge, getMyData, retrieveNotifications, removeActiveClass, toggleNavbarMobileView, toggleDarkMode } from "./shared.js";
+import { allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, errorMessageNumbers, BirthMonths, getAge, getMyData, retrieveNotifications, removeActiveClass, toggleNavbarMobileView } from "./shared.js";
 import { initializeCanvas, addEventConsentSubmit, consentTemplate } from "./pages/consent.js";
 import { heardAboutStudy, healthCareProvider } from "./pages/healthCareProvider.js";
 import { myToDoList } from "./pages/myToDoList.js";
@@ -1159,7 +1159,7 @@ export const toggleCurrentPage = async (route) => {
             toggleNavbarMobileView();
         });
     });
-    if(route === '#') document.getElementById('home').click();
+    if(route === '#' && document.getElementById('home')) document.getElementById('home').click();
     if(route === '#dashboard') document.getElementById('userDashboard').click();
     if(route === '#notifications') document.getElementById('Notifications').click();
     //if(route === '#my_data') document.getElementById('userData').click();
@@ -1168,11 +1168,10 @@ export const toggleCurrentPage = async (route) => {
     if(route === '#support') document.getElementById('connectSupport').click();
     if(route === '#samples') document.getElementById('connectSamples').click();
     if(route === '#payment') document.getElementById('connectPayment').click();
-    if(document.body.classList.contains('dark-mode')) toggleDarkMode(true);
 }
 
 export const toggleCurrentPageNoUser = async (route) => {
-    const IDs = ['home', 'signIn'];
+    const IDs = ['home'];
     IDs.forEach(id => {
         const element = document.getElementById(id);
         element.addEventListener('click', () => {
@@ -1182,7 +1181,6 @@ export const toggleCurrentPageNoUser = async (route) => {
         })
     });
     if(route === '#') document.getElementById('home').click();
-    //if(route === '#sign_in') document.getElementById('signIn').click();
 }
 
 export const addEventCheckCanText = () => {
