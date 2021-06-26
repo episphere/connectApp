@@ -44,6 +44,7 @@ export const conceptIdMapping = (formData) => {
         let moduleId = Object.keys(formData)[0].split(".")[0];
         let moduleIdCompleted = moduleId + ".COMPLETED";
         let moduleIdCompletedTS = moduleId + ".COMPLETED_TS";
+        
         if (moduleIdCompleted in formData) {
             let connectModuleIdCompleted = fieldMapping[fieldMapping[`${moduleId}`]].completeFlag;
             formData[connectModuleIdCompleted] = 231311385;
@@ -116,17 +117,32 @@ export const getMyData = async () => {
 }
 
 export const sites = () => {
-    return {
-        531629870: 'HealthPartners',
-        548392715: 'Henry Ford Health System',
-        125001209: 'Kaiser Permanente Colorado',
-        327912200: 'Kaiser Permanente Georgia',
-        300267574: 'Kaiser Permanente Hawaii',
-        452412599: 'Kaiser Permanente Northwest',
-        303349821: 'Marshfield Clinic',
-        657167265: 'Sanford Health',
-        809703864: 'University of Chicago Medicine',
-        13: 'National Cancer Institute'
+    if(location.host === 'myconnect.cancer.gov' || location.host === 'myconnect-stage.cancer.gov') {
+        return {
+            531629870: 'HealthPartners',
+            548392715: 'Henry Ford Health System',
+            125001209: 'Kaiser Permanente Colorado',
+            327912200: 'Kaiser Permanente Georgia',
+            300267574: 'Kaiser Permanente Hawaii',
+            452412599: 'Kaiser Permanente Northwest',
+            303349821: 'Marshfield Clinic',
+            657167265: 'Sanford Health',
+            809703864: 'University of Chicago Medicine'
+        }
+    }
+    else{
+        return {
+            531629870: 'HealthPartners',
+            548392715: 'Henry Ford Health System',
+            125001209: 'Kaiser Permanente Colorado',
+            327912200: 'Kaiser Permanente Georgia',
+            300267574: 'Kaiser Permanente Hawaii',
+            452412599: 'Kaiser Permanente Northwest',
+            303349821: 'Marshfield Clinic',
+            657167265: 'Sanford Health',
+            809703864: 'University of Chicago Medicine',
+            13: 'National Cancer Institute'
+        }
     }
 }
 
@@ -713,58 +729,6 @@ export const removeActiveClass = (className, activeClass) => {
     });
 }
 
-export const enableDarkMode = async (enable) => {
-    return
-    if(!enable) toggleDarkMode(false);
-    else toggleDarkMode(true);
-}
-
-export const toggleDarkMode = (bool) => {
-    /*
-    bool = true;
-    if(bool){
-        document.body.classList.add('dark-mode');
-        
-        Array.from(document.getElementsByClassName('navbar-light')).forEach(e => {
-            e.classList.add('navbar-dark');
-            e.classList.add('bg-dark');
-            e.classList.remove('bg-light');
-            e.classList.remove('navbar-light');
-        });
-        Array.from(document.getElementsByClassName('footer-content')).forEach(e => {
-            e.classList.add('footer-dark-mode');
-        });
-        Array.from(document.getElementsByClassName('footer-tagline')).forEach(e => e.style.color = '#ffffff');
-        Array.from(document.getElementsByClassName('footer-links')).forEach(e => e.style.color = '#ffffff');
-        Array.from(document.getElementsByClassName('nav-link')).forEach(e => e.classList.add('nav-link-dark'));
-        
-        Array.from(document.getElementsByClassName('modal-content')).forEach(e => {
-            e.classList.add('dark-mode');
-        });
-    }
-    else {
-        document.body.classList.remove('dark-mode');
-        
-        Array.from(document.getElementsByClassName('navbar-dark')).forEach(e => {
-            e.classList.remove('navbar-dark');
-            e.classList.remove('bg-dark');
-            e.classList.add('bg-light');
-            e.classList.add('navbar-light');
-        });
-        Array.from(document.getElementsByClassName('footer-content')).forEach(e => {
-            e.classList.remove('footer-dark-mode');
-        });
-        Array.from(document.getElementsByClassName('footer-tagline')).forEach(e => e.style.color = '#000000');
-        Array.from(document.getElementsByClassName('footer-links')).forEach(e => e.style.color = '#4d4d4d');
-        Array.from(document.getElementsByClassName('nav-link')).forEach(e => e.classList.remove('nav-link-dark'));
-    
-        Array.from(document.getElementsByClassName('modal-content')).forEach(e => {
-            e.classList.remove('dark-mode');
-        });
-    }
-    */
-}
-
 export const toggleNavbarMobileView = () => {
     const btn = document.querySelectorAll('.navbar-toggler');
     if(btn && btn[0]){
@@ -783,7 +747,7 @@ export const getConceptVariableName = async (conceptId) => {
 //for condensed testing of questionnaires use this set of urls https://hzhao392.github.io/privatequest/test_module1.txt
 //for submodules use https://raw.githubusercontent.com/jonasalmeida/privatequest/master/submodules/module1_config.txt?token=ANWUEPNBOGO6ATOXSNG5DWDAWZ6XC
 export const questionnaireModules = {
-    'Background and Overall Health': {url: 'https://hzhao392.github.io/privatequest/test_module1.txt', moduleId:"Module1", enabled:true},
+    'Background and Overall Health': {url: 'https://raw.githubusercontent.com/jonasalmeida/privatequest/master/module1_concept_id.txt?token=AGOJYPH5B2VCWKIPPEYKOHDA3R4G4', moduleId:"Module1", enabled:true},
     'Medications, Reproductive Health, Exercise, and Sleep': {url: 'https://hzhao392.github.io/privatequest/test_module2.txt', moduleId:"Module2", enabled:false},
     'Smoking, Alcohol, and Sun Exposure': {url: 'https://hzhao392.github.io/privatequest/test_module3.txt', moduleId:"Module3", enabled:false},
     'Where You Live and Work': {url: 'https://hzhao392.github.io/privatequest/test_module4.txt', moduleId:"Module4", enabled:false},

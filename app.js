@@ -1,8 +1,6 @@
-import { getParameters, validateToken, userLoggedIn, getMyData, showAnimation, hideAnimation, connectPushNotification, enableDarkMode, toggleDarkMode, storeResponse, isBrowserCompatible } from "./js/shared.js";
+import { getParameters, validateToken, userLoggedIn, getMyData, showAnimation, hideAnimation, storeResponse, isBrowserCompatible } from "./js/shared.js";
 import { userNavBar, homeNavBar } from "./js/components/navbar.js";
 import { homePage, joinNowBtn, whereAmIInDashboard } from "./js/pages/homePage.js";
-import { signIn } from "./js/pages/signIn.js";
-import { firebaseConfig } from "./js/config.js";
 import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser } from "./js/event.js";
 import { requestPINTemplate } from "./js/pages/healthCareProvider.js";
 import { myToDoList } from "./js/pages/myToDoList.js";
@@ -15,7 +13,9 @@ import { renderSamplesPage } from "./js/pages/samples.js";
 import { renderMyDataPage } from "./js/pages/myData.js";
 import { footerTemplate } from "./js/pages/footer.js";
 import { renderVerifiedPage } from "./js/pages/verifiedPage.js";
-
+import { firebaseConfig as devFirebaseConfig } from "./dev/config.js";
+import { firebaseConfig as stageFirebaseConfig } from "./stage/config.js";
+import { firebaseConfig as prodFirebaseConfig } from "./prod/config.js";
 
 let auth = '';
 
@@ -25,16 +25,23 @@ window.onload = async () => {
         const mainContent = document.getElementById('root');
         mainContent.innerHTML = `<span class="not-compatible">Connect web application is only compatible with Chrome, Safari, Firefox or Edge.</span>`;
     }
-    if(localStorage.connect && JSON.parse(localStorage.connect).darkMode === true) enableDarkMode(true)
-    !firebase.apps.length ? firebase.initializeApp(firebaseConfig()) : firebase.app();
+    
+    if(location.host === 'myconnect.cancer.gov') {
+        !firebase.apps.length ? firebase.initializeApp(prodFirebaseConfig) : firebase.app();
+    }
+    else if(location.host === 'myconnect-stage.cancer.gov') {
+        !firebase.apps.length ? firebase.initializeApp(stageFirebaseConfig) : firebase.app();
+    }
+    else {
+        !firebase.apps.length ? firebase.initializeApp(devFirebaseConfig) : firebase.app();
+    }
+    
     auth = firebase.auth();
     if('serviceWorker' in navigator){
         try {
             navigator.serviceWorker.register('./serviceWorker.js')
             .then((registration) => {
-                const messaging = firebase.messaging();
-                messaging.useServiceWorker(registration);
-              });
+            });
         }
         catch (error) {
             console.log(error);
@@ -43,53 +50,6 @@ window.onload = async () => {
     
     const footer = document.getElementById('footer');
     footer.innerHTML = footerTemplate();
-    auth.onAuthStateChanged(async user => {
-        if(user){
-            if(localStorage.connect && JSON.parse(localStorage.connect).darkMode === true){
-                enableDarkMode(true)
-                const myData = await getMyData();
-                if(myData.code !== 200) return;
-                if(myData.data.darkMode === undefined) {
-                    const tmpObj = JSON.parse(localStorage.connect);
-                    delete tmpObj.darkMode;
-                    localStorage.connect = JSON.stringify(tmpObj);
-                    enableDarkMode(false);
-                }
-                else if(myData.data.darkMode === false){
-                    localStorage.connect = JSON.stringify({darkMode: false})
-                    enableDarkMode(false);
-                }
-            }
-            else if(localStorage.connect && JSON.parse(localStorage.connect).darkMode === false){
-                enableDarkMode(false)
-                const myData = await getMyData();
-                if(myData.code !== 200) return;
-                if(myData.data.darkMode === undefined) {
-                    const tmpObj = JSON.parse(localStorage.connect);
-                    delete tmpObj.darkMode;
-                    localStorage.connect = JSON.stringify(tmpObj);
-                    enableDarkMode(false);
-                }
-                else if(myData.data.darkMode === true){
-                    localStorage.connect = JSON.stringify({darkMode: true})
-                    enableDarkMode(true);
-                }
-            }
-            else {
-                const myData = await getMyData();
-                if(myData.code !== 200) return;
-                if(myData.data.darkMode === true){
-                    localStorage.connect = JSON.stringify({darkMode: true})
-                    enableDarkMode(true);
-                }
-                else if(myData.data.darkMode === false){
-                    localStorage.connect = JSON.stringify({darkMode: false})
-                    enableDarkMode(false);
-                }
-            }
-            
-        }
-    });
     router();
 }
 
@@ -195,26 +155,16 @@ const router = async () => {
     
     if(loggedIn === false){
         if(route === '#') homePage();
-        //else if (route === '#sign_in' && loggedIn === false) signIn();
-        //else if (route === '#dashboard') userProfile();
-        //else if (route === '#notifications') renderNotificationsPage();
         else if (route === '#sign_out') signOut();
-        /*
-        else if (route === '#agreements') renderAgreements();
-        else if (route === '#settings') renderSettingsPage();
-        else if (route === '#support') renderSupportPage();
-        else if (route === '#payment') renderPaymentPage();
-        else if (route === '#my_data') renderMyDataPage();
-        */
         else window.location.hash = '#';
     }
     else{
         if(route === '#') userProfile();
         else if (route === '#dashboard') userProfile();
-        else if (route === '#notifications') renderNotificationsPage();
+        else if (route === '#messages') renderNotificationsPage();
         else if (route === '#sign_out') signOut();
-        else if (route === '#agreements') renderAgreements();
-        else if (route === '#settings') renderSettingsPage();
+        else if (route === '#forms') renderAgreements();
+        else if (route === '#myprofile') renderSettingsPage();
         else if (route === '#support') renderSupportPage();
         else if (route === '#samples') renderSamplesPage();
         else if (route === '#payment') renderPaymentPage();
@@ -227,6 +177,7 @@ const router = async () => {
 const userProfile = () => {
     auth.onAuthStateChanged(async user => {
         if(user){
+            document.title = 'My Connect - Dashboard';
             const mainContent = document.getElementById('root');
             const parameters = getParameters(window.location.href);
             showAnimation();
@@ -298,7 +249,6 @@ const userProfile = () => {
                 myToDoList(myData.data, false);
             }
             else {
-
                 mainContent.innerHTML = requestPINTemplate();
                 addEventPinAutoUpperCase();
                 addEventRequestPINForm(user.metadata.a);
@@ -306,6 +256,7 @@ const userProfile = () => {
             }
         }
         else{
+            document.title = 'My Connect - Home';
             window.location.hash = '#';
         }
     });
@@ -313,8 +264,8 @@ const userProfile = () => {
 
 const signOut = () => {
     firebase.auth().signOut();
-    toggleDarkMode(false);
     window.location.hash = '#';
+    document.title = 'My Connect - Home';
 }
 
 const toggleNavBar = (route) => {

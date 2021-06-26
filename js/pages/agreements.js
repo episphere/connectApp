@@ -3,6 +3,7 @@ import { initializeCanvas } from './consent.js'
 const { PDFDocument, StandardFonts } = PDFLib;
 
 export const renderAgreements = async () => {
+    document.title = 'My Connect - Forms';
     showAnimation();
     const myData = await getMyData();
     let template = '';
@@ -238,7 +239,11 @@ export const renderAgreements = async () => {
         `
     }
     else{
-        template += 'No agreement found!';
+        template += `<div class="row align-center">
+        <span class="consentBodyFont1 w-100">
+            No agreement found!
+        </span>
+    </div>`;
     }
     let siteDict = siteAcronyms();
     let consentVersions = await fetch('./forms/Consent_versioning.json').then(res => res.json());
