@@ -117,17 +117,32 @@ export const getMyData = async () => {
 }
 
 export const sites = () => {
-    return {
-        531629870: 'HealthPartners',
-        548392715: 'Henry Ford Health System',
-        125001209: 'Kaiser Permanente Colorado',
-        327912200: 'Kaiser Permanente Georgia',
-        300267574: 'Kaiser Permanente Hawaii',
-        452412599: 'Kaiser Permanente Northwest',
-        303349821: 'Marshfield Clinic',
-        657167265: 'Sanford Health',
-        809703864: 'University of Chicago Medicine',
-        13: 'National Cancer Institute'
+    if(location.host === 'myconnect.cancer.gov' || location.host === 'myconnect-stage.cancer.gov') {
+        return {
+            531629870: 'HealthPartners',
+            548392715: 'Henry Ford Health System',
+            125001209: 'Kaiser Permanente Colorado',
+            327912200: 'Kaiser Permanente Georgia',
+            300267574: 'Kaiser Permanente Hawaii',
+            452412599: 'Kaiser Permanente Northwest',
+            303349821: 'Marshfield Clinic',
+            657167265: 'Sanford Health',
+            809703864: 'University of Chicago Medicine'
+        }
+    }
+    else{
+        return {
+            531629870: 'HealthPartners',
+            548392715: 'Henry Ford Health System',
+            125001209: 'Kaiser Permanente Colorado',
+            327912200: 'Kaiser Permanente Georgia',
+            300267574: 'Kaiser Permanente Hawaii',
+            452412599: 'Kaiser Permanente Northwest',
+            303349821: 'Marshfield Clinic',
+            657167265: 'Sanford Health',
+            809703864: 'University of Chicago Medicine',
+            13: 'National Cancer Institute'
+        }
     }
 }
 

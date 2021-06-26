@@ -163,7 +163,6 @@ export const addEventHealthCareProviderSubmit = () => {
         
         const value = parseInt(document.getElementById('827220437').value);
         
-        //const r = confirm(`Are you sure ${sites()[value]} is your healthcare provider?`)
         let modalBody = document.getElementById('HealthProviderModalBody');
         let modalButton = document.getElementById('openModal');
         modalBody.innerHTML = `Are you sure ${sites()[value]} is your healthcare provider?`
