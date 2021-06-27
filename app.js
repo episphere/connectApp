@@ -25,17 +25,23 @@ window.onload = async () => {
         const mainContent = document.getElementById('root');
         mainContent.innerHTML = `<span class="not-compatible">Connect web application is only compatible with Chrome, Safari, Firefox or Edge.</span>`;
     }
+
+    const script = document.createElement('script');
     
     if(location.host === 'myconnect.cancer.gov') {
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${prodFirebaseConfig.apiKey}&libraries=places`
         !firebase.apps.length ? firebase.initializeApp(prodFirebaseConfig) : firebase.app();
     }
     else if(location.host === 'myconnect-stage.cancer.gov') {
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${stageFirebaseConfig.apiKey}&libraries=places`
         !firebase.apps.length ? firebase.initializeApp(stageFirebaseConfig) : firebase.app();
     }
     else {
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${devFirebaseConfig.apiKey}&libraries=places`
         !firebase.apps.length ? firebase.initializeApp(devFirebaseConfig) : firebase.app();
     }
     
+    document.body.appendChild(script)
     auth = firebase.auth();
     if('serviceWorker' in navigator){
         try {
