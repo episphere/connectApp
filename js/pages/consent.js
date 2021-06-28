@@ -4,7 +4,7 @@ import { removeAllErrors, addEventsConsentSign } from "../event.js";
 import { renderDownloadConsentCopy } from "./agreements.js";
 
 export const consentTemplate = () => {
-    consentAboutPage();
+    consentIndigenousPage();
 }
 
 export const renderProgress = (progress) => {
@@ -13,7 +13,7 @@ export const renderProgress = (progress) => {
     let lineColor = [];
     let weight = [];
     let prog = progress - 1;
-    for(let i = 0; i < 8; i++){
+    for(let i = 0; i < 9; i++){
         if(i < prog){
             progressBar[i] = '#112f4e';
             textColor[i] = 'white';
@@ -33,7 +33,7 @@ export const renderProgress = (progress) => {
             weight[i]=''
         }
     }
-    let list = ['About','Activities','Privacy','Leaving','Results','Benefits','Consent']
+    let list = ['About','Activities','Privacy','Leaving','Results','Benefits', 'Indigenous Peoples', 'Consent']
     let toReturn = `
     <br>
     <div class="row d-none d-md-flex" style="margin-bottom:30px">
@@ -53,7 +53,9 @@ export const renderProgress = (progress) => {
             <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[4]};"></div></div>
             <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[5]};border-radius:50%;border:5px solid ${lineColor[5]};line-height:19px;color:${textColor[5]}">6</div><div style="${weight[5]}text-align:center;font-family: 'Noto Sans', sans-serif;">Benefits</div></div>
             <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[5]};"></div></div>
-            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[6]};border-radius:50%;border:5px solid ${lineColor[6]};line-height:19px;color:${textColor[6]}">7</div><div style="${weight[6]}text-align:center;font-family: 'Noto Sans', sans-serif;">Consent</div></div>
+            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[6]};border-radius:50%;border:5px solid ${lineColor[6]};line-height:19px;color:${textColor[6]}">7</div><div style="${weight[6]}text-align:center;font-family: 'Noto Sans', sans-serif;">Indigenous Peoples</div></div>
+            <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[6]};"></div></div>
+            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[7]};border-radius:50%;border:5px solid ${lineColor[7]};line-height:19px;color:${textColor[7]}">8</div><div style="${weight[7]}text-align:center;font-family: 'Noto Sans', sans-serif;">Consent</div></div>
             </div>
         </div>
         <div class="col-lg-1">
@@ -71,6 +73,7 @@ export const renderProgress = (progress) => {
             <div class="col" style="margin:2px;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[4]};"></div></div>
             <div class="col" style="margin:2px;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[5]};"></div></div>
             <div class="col" style="margin:2px;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[6]};"></div></div>
+            <div class="col" style="margin:2px;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[7]};"></div></div>
             </div>
         </div>
         <div class="col-lg-1">
@@ -343,13 +346,190 @@ export const consentLeavingPage = () => {
         consentResultsPage();
     })
     document.getElementById('toConsent').addEventListener('click', () => {
+        consentIndigenousPage();
+    })
+}
+
+export const consentIndigenousPage = () => {
+    const mainContent = document.getElementById('root');
+    let template = renderProgress(7);
+    template += `
+        <div class="row">
+            <div class="col-lg-2">
+            </div>
+            <div class="col-lg-8">
+                <p class="consentHeadersFont">Why is Connect interested in engaging Indigenous Peoples?</p>
+                <p class="consentBodyFont2">Our goal as a Connect team is to be inclusive. We want to include people from many places and backgrounds throughout the United States so our findings may benefit all communities.. It is important for Connect to include people and communities that have been left out of research in the past, such as Indigenous Peoples. Indigenous populations native to the U.S. may include people who identify as American Indian, Alaska Native, Native Hawaiian, and/or Pacific Islander and their communities.</p>
+                <p class="consentBodyFont2">Would you like to learn more about what it means to take part in Connect for anyone who identifies as an Indigenous Person? There are three screens left in this series.</p>
+                <form id="consentIndigenousInfo" method="POST">
+                    <input type="radio" name="choice" value="yes" id="consentIndigenousYes"> Yes, tell me more</input>
+                    <br>
+                    <input type="radio" name="choice" value="no" id="consentIndigenousNo" required> No, continue to consent</input>
+                    
+                    <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
+                        <div class="col-md-2 order-2 order-md-1">
+                            <button class="btn btn-primary consentPrevButton" type="button" id="backToResults" style="min-width:100%; margin-top:10px;margin-bottom:10px;">Previous</button>
+                        </div>
+                        <div class="col-md-8 order-3 order-md-2">
+                        </div>
+                        <div class="col-md-2 order-1 order-md-3">
+                            <button class="btn btn-primary consentNextButton" type="submit" id="toConsent" style="width:100%; margin-top:10px;margin-bottom:10px">Next</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="col-lg-2">
+            </div>
+        </div>
+    `
+    mainContent.innerHTML =  template;
+    document.getElementById('backToResults').addEventListener('click', () => {
+        consentLeavingPage();
+    })
+    
+    document.getElementById('consentIndigenousInfo').addEventListener('submit', (e) => {
+        e.preventDefault();
+        if(!document.getElementById("consentIndigenousYes").checked){
+            consentConsentPage();
+        }
+        else{
+            consentIndigenousAffectPage();
+        }
+    })
+}
+export const consentIndigenousAffectPage = () => {
+    const mainContent = document.getElementById('root');
+    let template = renderProgress(7);
+    template += `
+        <div class="row">
+            <div class="col-lg-2">
+            </div>
+            <div class="col-lg-8">
+                <p class="consentHeadersFont">How might my participation in Connectaffect Indigenous communities?</p>
+                <p class="consentBodyFont2">Some Indigenous Peoples and their communities have emphasized the need to learn more about certain risks and benefits to participating in research studies. Community members may be concerned that research practices will not follow traditional customs, or that conclusions made about Indigenous participants might harm Indigenous communities.</p>
+                <p class="consentBodyFont2">It is also possible that participating in research studies can benefit Indigenous communities. Learning about the health of Indigenous participants may help us make medical discoveries that benefit other people in their communities. The representation of all communities in research is an important part of advancing medicine and extending benefits to all people.</p>
+                <p class="consentBodyFont2">We want our research to respect the cultures and practices of all Indigenous Peoples.</p>
+
+                <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
+                    <div class="col-md-2 order-2 order-md-1">
+                        <button class="btn btn-primary consentPrevButton" type="button" id="backToResults" style="min-width:100%; margin-top:10px;margin-bottom:10px;">Previous</button>
+                    </div>
+                    <div class="col-md-8 order-3 order-md-2">
+                    </div>
+                    <div class="col-md-2 order-1 order-md-3">
+                        <button class="btn btn-primary consentNextButton" type="button" id="toConsent" style="width:100%; margin-top:10px;margin-bottom:10px">Next</button>
+                    </div>
+                </div>
+                
+
+            </div>
+            <div class="col-lg-2">
+            </div>
+        </div>
+    `
+    mainContent.innerHTML =  template;
+    document.getElementById('backToResults').addEventListener('click', () => {
+        consentIndigenousPage();
+    })
+    document.getElementById('toConsent').addEventListener('click', () => {
+        consentIndigenousProtectPage();
+    })
+}
+
+export const consentIndigenousProtectPage = () => {
+    const mainContent = document.getElementById('root');
+    let template = renderProgress(7);
+    template += `
+        <div class="row">
+            <div class="col-lg-2">
+            </div>
+            <div class="col-lg-8">
+                <p class="consentHeadersFont">How is my information protected?</p>
+                <p class="consentBodyFont2">If you join the study, we will remove your personal information, like your name, date of birth, address, and social security number (sharing your social security number is optional) from your survey answers and samples before we share them with researchers. Only researchers who agree to our privacy rules will be able to use your survey answers and samples for their research. These researchers will not have access to personal information that identifies you.</p>
+                <p class="consentBodyFont2">As part of our research, we look for patterns to learn more about health and disease. Your self-identified race will be linked to your information and samples and can help us study these patterns.</p>
+                <p class="consentBodyFont2">It is possible that when members of small populations (such as some Indigenous populations) take part in research, it may be easier to identify them from other information they share. This also means it may be easier to connect someone back to their community. Connect prohibits researchers from attempting to re-identify individual participants or link them to their communities.</p>
+                <p class="consentBodyFont2">It is possible that research findings could be associated with people who share your race identity. Connect is opposed to the publication of research findings that stigmatize Indigenous communities or any racial or ethnic group.</p>
+                <p class="consentBodyFont1">Samples</p>
+                <p class="consentBodyFont2">If you decide to leave the study, we will work with you to determine a plan for return or destruction of your samples, if requested. We may not be able to return or destroy samples that have already been used for research. </p>
+                <p class="consentBodyFont2">If a participant from an Indigenous community passes away during their time in the study, we will work with the participant’s family or other community members to determine a plan forreturn or destruction of their samples, if requested.</p>
+
+                <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
+                    <div class="col-md-2 order-2 order-md-1">
+                        <button class="btn btn-primary consentPrevButton" type="button" id="backToResults" style="min-width:100%; margin-top:10px;margin-bottom:10px;">Previous</button>
+                    </div>
+                    <div class="col-md-8 order-3 order-md-2">
+                    </div>
+                    <div class="col-md-2 order-1 order-md-3">
+                        <button class="btn btn-primary consentNextButton" type="button" id="toConsent" style="width:100%; margin-top:10px;margin-bottom:10px">Next</button>
+                    </div>
+                </div>
+                
+
+            </div>
+            <div class="col-lg-2">
+            </div>
+        </div>
+    `
+    mainContent.innerHTML =  template;
+    document.getElementById('backToResults').addEventListener('click', () => {
+        consentIndigenousAffectPage();
+    })
+    document.getElementById('toConsent').addEventListener('click', () => {
+        consentIndigenousOtherPage();
+    })
+}
+
+export const consentIndigenousOtherPage = () => {
+    const mainContent = document.getElementById('root');
+    let template = renderProgress(7);
+    template += `
+        <div class="row">
+            <div class="col-lg-2">
+            </div>
+            <div class="col-lg-8">
+                <p class="consentHeadersFont">What else should I know?</p>
+                <p class="consentBodyFont2">We may not understand the barriers that Indigenous Peoples face when it comes to participating in research studies. However, we hope to work with you to learn more about the considerations and concerns of your communities and advance our understanding of health and disease together. As a Connect team, we hope to make medical discoveries that will benefit all people.</p>
+                <p class="consentBodyFont2">We acknowledge past transgressions and abuses of Indigenous Peoples in research studies, and the harms these have caused Indigenous communities. We are opposed to any research that harms Indigenous Peoples and we do not support any research or researcher that has harmed any community. We respect and appreciate your willingness to work with us and know that your trust must be earned. We are committed to protecting your privacy, safeguarding your information, and maintaining the integrity of our research.</p>
+                <p class="consentBodyFont2">If you identify as an Indigenous Person and want to join Connect, please consider:</p>
+                <ul class="consentBodyFont2" style="margin-left:32px">
+                    <li>Reading more about participation and the details of what it means to take part in Connect here</li>
+                    <li>Speaking with your community members, leaders, and family about participating in Connect.</li>
+                    <li>Contacting the Connect Support Center with any questions you have. Our team is happy to speak with you and discuss any concerns you may have about taking part in the study. (Cancer.gov/connectstudy/support, or call 1-866-462-6621 8:00 a.m.-10:00 p.m. CT on weekdays, and 9:00 a.m.-6:00 p.m. CT on weekends).</li>
+                </ul>
+                <p class="consentBodyFont2">If you join now and later decide you want to leave the study, you can do so at any time, for any reason.</p>
+                <p class="consentBodyFont2">The decision to join Connect is yours to make. Please choose what you are most comfortable with. We respect your decision and your privacy, and welcome any feedback or thoughts that you would like to share with us. Please call us at 1-866-462-6621 8:00 a.m.-10:00 p.m. CT on weekdays, and 9:00 a.m.-6:00 p.m. CT on weekends, or write to us at ConnectStudy@norc.org.</p>
+                <p class="consentBodyFont2">Thank you for learning about how Connect will engage with Indigenous Peoples. On the next screen, you can view the full consent form and electronic health records release form to continue the consent process.</p>
+
+                <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
+                    <div class="col-md-2 order-2 order-md-1">
+                        <button class="btn btn-primary consentPrevButton" type="button" id="backToResults" style="min-width:100%; margin-top:10px;margin-bottom:10px;">Previous</button>
+                    </div>
+                    <div class="col-md-8 order-3 order-md-2">
+                    </div>
+                    <div class="col-md-2 order-1 order-md-3">
+                        <button class="btn btn-primary consentNextButton" type="button" id="toConsent" style="width:100%; margin-top:10px;margin-bottom:10px">Next</button>
+                    </div>
+                </div>
+                
+
+            </div>
+            <div class="col-lg-2">
+            </div>
+        </div>
+    `
+    mainContent.innerHTML =  template;
+    document.getElementById('backToResults').addEventListener('click', () => {
+        consentIndigenousProtectPage();
+    })
+    document.getElementById('toConsent').addEventListener('click', () => {
         consentConsentPage();
     })
 }
 
 export const consentConsentPage = () => {
     const mainContent = document.getElementById('root');
-    let template = renderProgress(7);
+    let template = renderProgress(8);
     /*template += `
         <div>
             <h2>Informed Consent</h2>
@@ -599,7 +779,7 @@ export const consentConsentPage = () => {
     initializeCanvas('./consent_draft.pdf', .8*1.7);
     initializeCanvas1('./consent_draft.pdf', .8*1.7);
     document.getElementById('backToConsent').addEventListener('click', () => {
-        consentLeavingPage();
+        consentIndigenousPage();
     })
     initializeCanvas('./consent_draft.pdf');
     addEventsConsentSign();
@@ -624,7 +804,7 @@ export const consentConsentPage = () => {
 
 export const consentHealthRecordsPage = () => {
     const mainContent = document.getElementById('root');
-    let template = renderProgress(8);
+    let template = renderProgress(9);
     template += ` 
        
         <div class="row" id="canvasContainer"></div>
@@ -709,7 +889,7 @@ export const consentHealthRecordsPage = () => {
 
 export const consentFinishedPage = (data) => {
     const mainContent = document.getElementById('root');
-    let template = renderProgress(8);
+    let template = renderProgress(9);
     
     template += `
     <div class="row">
