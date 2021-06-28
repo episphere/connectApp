@@ -32,7 +32,7 @@ export const userNavBar = () => {
         </div>
         <div class="navbar-nav transparent-border">
             <li class="nav-item">
-                <a class="nav-link" href="#payment" id="connectPayment"> Payment</a>
+                <a class="nav-link" href="#payment" id="connectPayment"> My Payment</a>
             </li>
         </div>
         <div class="navbar-nav transparent-border">
