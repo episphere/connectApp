@@ -1,6 +1,6 @@
 
 export const renderSamplesPage = async () => {
-   
+    document.title = 'My Connect - Samples';
     
     let template = `
     <br>

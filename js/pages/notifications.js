@@ -1,12 +1,10 @@
-import { getMyData, retrieveNotifications, showAnimation, hideAnimation } from "../shared.js";
+import { retrieveNotifications, showAnimation, hideAnimation } from "../shared.js";
 
 
 export const renderNotificationsPage = async () => {
+    document.title = 'My Connect - Messages';
     showAnimation();
-    //let template = '<h2>Notifications</h2>';
-    
     let notifs = await retrieveNotifications()
-    console.log(notifs)
 
     let template = `
         <div class="row">

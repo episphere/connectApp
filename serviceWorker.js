@@ -46,4 +46,4 @@ registerRoute(
     'POST'
 );
 
-workbox.precaching.precacheAndRoute([{url: 'index.html', revision: 'beta-v1.0.1'}]);
+workbox.precaching.precacheAndRoute([{url: 'index.html', revision: 'beta-v1.0.5'}]);

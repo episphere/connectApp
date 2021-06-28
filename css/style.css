@@ -29,7 +29,7 @@ a{
 .footer-content {
     text-align: center;
     width: 100%;
-    background-color: #2a72a5;
+    background-color: #2a72a5 !important;
     margin: 0px !important;
 }
 
@@ -70,12 +70,23 @@ a{
 
 .footer-links {
     color: #ffffff !important;
-    text-decoration: none;
+    text-decoration: none !important;
 }
 
 .footer-links:hover {
     text-decoration: none;
     color: #4d4d4d;
+}
+
+.footer-menu-item:after {
+    content: "";
+    display: inline-block;
+    position: relative;
+    top: 1px;
+    margin: 0 10px;
+    width: 1px;
+    height: 12px;
+    background: hsla(0,0%,100%,.6);
 }
 
 .gov-dept-links {
@@ -422,7 +433,10 @@ canvas {
 #loadingAnimation {
     position:fixed;
     width:100%;
-    left:0;right:0;top:0;bottom:0;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
     background-color: rgba(255,255,255,0.5);
     z-index:9999;
 }
@@ -856,7 +870,7 @@ input:checked + .slider:before {
 }
 
 .no-wrap {
-    white-space: nowrap;
+    white-space: nowrap !important;
 }
 
 .request-pin-div, .health-care-div, .heard-about-study-div, .passive-participant-block-div, .setting-div {
