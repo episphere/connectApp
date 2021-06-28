@@ -1,15 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-XCS5HGRS4L"></script>
+        <script>
+            const host = location.host;
+            let measurementID = '';
+            if(host === 'myconnect.cancer.gov') measurementID = 'G-3DN8NJWTFW'
+            else if(host === 'myconnect-stage.cancer.gov') measurementID = 'G-C2YTQG1N5W'
+            else measurementID = 'G-XCS5HGRS4L'
+            const gtagSrc = `https://www.googletagmanager.com/gtag/js?id=${measurementID}`
+            const gtagScript = document.createElement('script');
+            gtagScript.src = gtagSrc;
+            document.head.appendChild(gtagScript);
+        </script>
         <script>
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-
-            gtag('config', 'G-XCS5HGRS4L');
+            gtag('config', measurementID);
         </script>
 
         <meta charset="UTF-8">
