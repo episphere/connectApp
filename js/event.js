@@ -400,7 +400,7 @@ export const addEventUPSubmit = () => {
         const email2 = document.getElementById('UPEmail2');
         const email3 = document.getElementById('UPAdditionalEmail2');
         const email4 = document.getElementById('UPAdditionalEmail3');
-        let zip = document.getElementById('UPAddress1Zip')
+        let zip = document.getElementById('UPAddress1Zip').value;
         let city = document.getElementById('UPAddress1City');
         if(!email){
             errorMessage('UPEmail', 'Please enter an email address.', focus);
@@ -477,7 +477,6 @@ export const addEventUPSubmit = () => {
             focus = false;
             hasError = true;
         }
-
         if(zip && !/[0-9]{5}/.test(zip) ){
             errorMessage('UPAddress1Zip', 'Zip code may only contain numbers.');
             if(focus) document.getElementById('UPAddress1Zip').focus();
