@@ -51,7 +51,7 @@ export const homePage = async () => {
             <div class="col-lg-2 ">
             </div>
             <div class="col-lg-4 .d-none text-lg-left text-center connectBodyPicture" >
-                <img src="./images/newImages/Tiles2.png" alt="Connect logo" width="95%" style="float:left;">
+                <img src="./images/newImages/Tiles2.png" alt="Connect logo" width="95%" style="float:left; max-width:380px">
             </div>
             <div class="col-lg-4">
             </div>
