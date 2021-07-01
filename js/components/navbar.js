@@ -1,3 +1,5 @@
+import { urls } from "../shared";
+
 export const userNavBar = () => {
     return `
         <div class="navbar-nav transparent-border">
@@ -62,7 +64,7 @@ export const homeNavBar = () => {
                 <a class="nav-link" href="#" id="home" title="Home"> Home</a>
             </li>
         </div>
-        ${location.host !== 'myconnect.cancer.gov' && location.host !== 'myconnect-stage.cancer.gov' ? `
+        ${location.host !== urls.prod && location.host !== urls.stage ? `
             <div class="navbar-nav transparent-border">
                 <li class="nav-item">
                     <a target="_blank" class="nav-link" href="https://github.com/episphere/connect/issues" title="Please create an issue if you encounter any"> Report issue</a>

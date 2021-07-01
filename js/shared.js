@@ -2,7 +2,6 @@ import { addEventHideNotification } from "./event.js";
 import fieldMapping from './components/fieldToConceptIdMapping.js'; 
 
 const api = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app';
-// const api = 'http://localhost:8010/nih-nci-dceg-episphere-dev/us-central1/app';
 
 export const validateToken = async (token) => {
     const idToken = await getIdToken();
@@ -87,7 +86,6 @@ export const storeResponse = async (formData) => {
         },
         body: JSON.stringify(formData)
     }
-    // const response = await fetch(`http://localhost:8010/nih-nci-dceg-connect-dev/us-central1/app?api=submit`, requestObj);
     const response = await fetch(`https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app?api=submit`, requestObj);
     return response.json();
 }
@@ -107,7 +105,6 @@ export const getMyData = async () => {
             }
         });
     });
-    // const response = await fetch(`http://localhost:8010/nih-nci-dceg-episphere-dev/us-central1/app?api=getUserProfile`, {
     const response = await fetch(`https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app?api=getUserProfile`, {
         headers: {
             Authorization: "Bearer "+idToken
@@ -117,7 +114,7 @@ export const getMyData = async () => {
 }
 
 export const sites = () => {
-    if(location.host === 'myconnect.cancer.gov' || location.host === 'myconnect-stage.cancer.gov') {
+    if(location.host === urls.prod || location.host === urls.stage) {
         return {
             531629870: 'HealthPartners',
             548392715: 'Henry Ford Health System',
@@ -757,4 +754,9 @@ export const questionnaireModules = {
 export const isBrowserCompatible = () => {
     const isValidBrowser = /Chrome/.test(navigator.userAgent) || /Mozilla/.test(navigator.userAgent) || /Safari/.test(navigator.userAgent);
     return isValidBrowser;
+}
+
+export const urls = {
+    'prod': 'myconnect.cancer.gov',
+    'stage': 'myconnect-stage.cancer.gov'
 }
