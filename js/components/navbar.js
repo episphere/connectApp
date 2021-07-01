@@ -1,4 +1,4 @@
-import { urls } from "../shared";
+import { urls } from "../shared.js";
 
 export const userNavBar = () => {
     return `
