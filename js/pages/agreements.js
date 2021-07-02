@@ -3,7 +3,8 @@ import { initializeCanvas } from './consent.js'
 const { PDFDocument, StandardFonts } = PDFLib;
 
 let signaturePosJSON = {
-    "NCI":{x: 100, y: 440, x1: 100, y1: 460}
+    "Sanford":{x: 100, y: 440, x1: 100, y1: 460},
+    "HP":{x: 100, y: 440, x1: 100, y1: 460},
 }
 export const renderAgreements = async () => {
     document.title = 'My Connect - Forms';
@@ -358,12 +359,20 @@ export const renderDownloadConsentCopy = async (data) => {
 }
 
 export const renderDownloadHIPAA = async (data) => {
-    //let pdfLocation = './forms/HIPAA/' + data[412000022] + '.pdf'
-    let pdfLocation = './forms/HIPAA/Sanford_HIPAA_V1.0.pdf'
+    let pdfLocation = './forms/HIPAA/' + data[412000022] + '.pdf'
+    //let pdfLocation = './forms/HIPAA/Sanford_HIPAA_V1.0.pdf'
     let siteDict = siteAcronyms();
     let participantSite = siteDict[data['827220437']];
     let positions = signaturePosJSON[participantSite];
-    
+    if(!positions){
+        positions = {
+            x:200,
+            y:275,
+            x1:200,
+            y1:225,
+        }
+    }
+
     let pdfName = data[412000022] + '.pdf';
     const participantSignature = data[471168198] + ' ' + data[736251808]
     let seekLastPage;
