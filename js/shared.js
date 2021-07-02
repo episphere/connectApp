@@ -758,3 +758,67 @@ export const isBrowserCompatible = () => {
     const isValidBrowser = /Chrome/.test(navigator.userAgent) || /Mozilla/.test(navigator.userAgent) || /Safari/.test(navigator.userAgent);
     return isValidBrowser;
 }
+
+export const inactivityTime = (user) => {
+    let time;
+    
+    const resetTimer = () => {
+        
+        clearTimeout(time);
+        time = setTimeout(() => {
+            console.log(firebase.auth().currentUser)
+            if(!firebase.auth().currentUser) return;
+            const resposeTimeout = setTimeout(() => {
+                // log out user if they don't respond to warning after 5 minutes.
+                Array.from(document.getElementsByClassName('extend-user-session')).forEach(e => {
+                    e.click();
+                });
+                signOut();
+            }, 300000)
+            // Show warning after 20 minutes of no activity.
+            console.log(firebase.auth().currentUser)
+            if(!firebase.auth().currentUser) return;
+            const button = document.createElement('button');
+            button.dataset.toggle = 'modal';
+            button.dataset.target = '#connectMainModal'
+            document.body.appendChild(button);
+            button.click();
+            const header = document.getElementById('connectModalHeader');
+            const body = document.getElementById('connectModalBody');
+            header.innerHTML = `<h5 class="modal-title">Inactive</h5>`;
+
+            body.innerHTML = `You were inactive for 20 minutes, would you like to extend your session?
+                            <div class="modal-footer">
+                                <button type="button" title="Close" class="btn btn-dark log-out-user" data-dismiss="modal">Log Out</button>
+                                <button type="button" title="Continue" class="btn btn-primary extend-user-session" data-dismiss="modal">Continue</button>
+                            </div>`
+            document.body.removeChild(button);
+            Array.from(document.getElementsByClassName('log-out-user')).forEach(e => {
+                e.addEventListener('click', () => {
+                    clearTimeout(time)
+                    signOut();
+                })
+            })
+            document.getElementById('signOut').addEventListener('click', () =>{
+                clearTimeout(time)
+            })
+            Array.from(document.getElementsByClassName('extend-user-session')).forEach(e => {
+                e.addEventListener('click', () => {
+                    clearTimeout(resposeTimeout);
+                    resetTimer;
+                })
+            });
+            console.log('timer here')
+        }, 1200000);
+    }
+    //resetTimer();
+    window.onload = resetTimer;
+    document.onmousemove = resetTimer;
+    document.onkeypress = resetTimer;
+};
+
+const signOut = () => {
+    firebase.auth().signOut();
+    window.location.hash = '#';
+    document.title = 'My Connect - Home';
+}

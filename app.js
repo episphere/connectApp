@@ -1,4 +1,4 @@
-import { getParameters, validateToken, userLoggedIn, getMyData, showAnimation, hideAnimation, storeResponse, isBrowserCompatible } from "./js/shared.js";
+import { getParameters, validateToken, userLoggedIn, getMyData, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime } from "./js/shared.js";
 import { userNavBar, homeNavBar } from "./js/components/navbar.js";
 import { homePage, joinNowBtn, whereAmIInDashboard } from "./js/pages/homePage.js";
 import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser } from "./js/event.js";
@@ -16,6 +16,7 @@ import { renderVerifiedPage } from "./js/pages/verifiedPage.js";
 import { firebaseConfig as devFirebaseConfig } from "./dev/config.js";
 import { firebaseConfig as stageFirebaseConfig } from "./stage/config.js";
 import { firebaseConfig as prodFirebaseConfig } from "./prod/config.js";
+import { consentToProfilePage } from "./js/pages/consent.js";
 
 let auth = '';
 
@@ -43,6 +44,12 @@ window.onload = async () => {
     
     document.body.appendChild(script)
     auth = firebase.auth();
+    auth.onAuthStateChanged(async user => {
+        if(user){
+            inactivityTime();
+            console.log('inactivity launched')
+        }
+    });
     if('serviceWorker' in navigator){
         try {
             navigator.serviceWorker.register('./serviceWorker.js')
@@ -286,6 +293,8 @@ const toggleNavBar = (route) => {
             addEventRetrieveNotifications();
             toggleCurrentPage(route);
             hideAnimation();
+            //console.log('LOGGED IN')
+            
         }
         else{
             showAnimation();
