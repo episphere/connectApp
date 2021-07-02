@@ -28,7 +28,6 @@ export const   questionnaire = (url, moduleId) => {
         if (!data.data[moduleConceptId] || !data.data[moduleConceptId][startTsConceptId]){
             let formData = {};
             formData[`${startTsConceptId}`] = new Date().toISOString();
-            console.log("Module TS does not exist");
             storeResponse(formData);
         }
         transform.render({
@@ -44,7 +43,6 @@ export const   questionnaire = (url, moduleId) => {
 
 }
 function soccerFunction(){
-    console.log("Registering soccer");
     
     let work3 = document.getElementById("D_627122657");
     if (work3){

@@ -2,6 +2,9 @@ import { getMyData, hideAnimation, showAnimation, siteAcronyms, dateTime, storeR
 import { initializeCanvas } from './consent.js'
 const { PDFDocument, StandardFonts } = PDFLib;
 
+let signaturePosJSON = {
+    "NCI":{x: 100, y: 440, x1: 100, y1: 460}
+}
 export const renderAgreements = async () => {
     document.title = 'My Connect - Forms';
     showAnimation();
@@ -355,7 +358,12 @@ export const renderDownloadConsentCopy = async (data) => {
 }
 
 export const renderDownloadHIPAA = async (data) => {
-    let pdfLocation = './forms/HIPAA/' + data[412000022] + '.pdf'
+    //let pdfLocation = './forms/HIPAA/' + data[412000022] + '.pdf'
+    let pdfLocation = './forms/HIPAA/Sanford_HIPAA_V1.0.pdf'
+    let siteDict = siteAcronyms();
+    let participantSite = siteDict[data['827220437']];
+    let positions = signaturePosJSON[participantSite];
+    
     let pdfName = data[412000022] + '.pdf';
     const participantSignature = data[471168198] + ' ' + data[736251808]
     let seekLastPage;
@@ -371,15 +379,15 @@ export const renderDownloadHIPAA = async (data) => {
     editPage.drawText(`
     ${data[471168198] + ' ' + data[736251808]} 
     ${currentTime}`, {
-                x: 200,
-                y: 275,
+                x: positions.x,
+                y: positions.y,
                 size: 24,
       });
 
     editPage.drawText(`
     ${participantSignature}`, {
-        x: 200,
-        y: 225,
+        x: positions.x1,
+        y: positions.y1,
         size: 34,
         font: helveticaFont,
       });
