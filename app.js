@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import { getParameters, validateToken, userLoggedIn, getMyData, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime } from "./js/shared.js";
-=======
-import { getParameters, validateToken, userLoggedIn, getMyData, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, urls } from "./js/shared.js";
->>>>>>> 51b96d12b14077b459b24fb3924c810fe217673e
+import { getParameters, validateToken, userLoggedIn, getMyData, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls } from "./js/shared.js";
 import { userNavBar, homeNavBar } from "./js/components/navbar.js";
 import { homePage, joinNowBtn, whereAmIInDashboard } from "./js/pages/homePage.js";
 import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser } from "./js/event.js";
