@@ -1,7 +1,10 @@
 import { addEventHideNotification } from "./event.js";
 import fieldMapping from './components/fieldToConceptIdMapping.js'; 
+let api = '';
 
-const api = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app';
+if(location.host === 'myconnect.cancer.gov') api = 'https://api-myconnect.cancer.gov/app';
+else if(location.host === 'myconnect-stage.cancer.gov') api = 'https://api-myconnect-stage.cancer.gov/app';
+else api = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app';
 
 export const validateToken = async (token) => {
     const idToken = await getIdToken();
@@ -86,7 +89,11 @@ export const storeResponse = async (formData) => {
         },
         body: JSON.stringify(formData)
     }
-    const response = await fetch(`https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app?api=submit`, requestObj);
+    let url = '';
+    if(location.host === 'myconnect.cancer.gov') url = `https://api-myconnect.cancer.gov/app?api=submit`
+    else if(location.host === 'myconnect-stage.cancer.gov') url = `https://api-myconnect-stage.cancer.gov/app?api=submit`
+    else url = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app?api=submit'
+    const response = await fetch(url, requestObj);
     return response.json();
 }
 
@@ -105,7 +112,11 @@ export const getMyData = async () => {
             }
         });
     });
-    const response = await fetch(`https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app?api=getUserProfile`, {
+    let url = '';
+    if(location.host === 'myconnect.cancer.gov') url = `https://api-myconnect.cancer.gov/app?api=getUserProfile`
+    else if(location.host === 'myconnect-stage.cancer.gov') url = `https://api-myconnect-stage.cancer.gov/app?api=getUserProfile`
+    else url = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app?api=getUserProfile'
+    const response = await fetch(url, {
         headers: {
             Authorization: "Bearer "+idToken
         }
