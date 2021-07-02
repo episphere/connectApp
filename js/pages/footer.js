@@ -23,11 +23,20 @@ export const footerTemplate = () => {
             </div>
             <div class="row w-100 pt-5 align-center">
                 <ul class="menu w-100">
-                    <li class="menu-item p-0 footer-menu-item"><a class="footer-links gov-dept-links p-0" href="http://www.hhs.gov/">U.S. Department of Health and Human Services</a></li>
-                    <li class="menu-item p-0 footer-menu-item"><a class="footer-links gov-dept-links p-0" href="http://www.nih.gov/">National Institutes of Health</a></li> 
-                    <li class="menu-item p-0 footer-menu-item"><a class="footer-links gov-dept-links p-0" href="http://www.cancer.gov/">National Cancer Institute</a></li> 
-                    <li class="menu-item p-0"><a class="footer-links gov-dept-links p-0" href="http://www.usa.gov/">USA.gov</a></li>
+                    <li class="menu-item p-0 footer-menu-item"><a target="__blank" class="footer-links gov-dept-links p-0" href="http://www.hhs.gov/">U.S. Department of Health and Human Services</a></li>
+                    <li class="menu-item p-0 footer-menu-item"><a target="__blank" class="footer-links gov-dept-links p-0" href="http://www.nih.gov/">National Institutes of Health</a></li> 
+                    <li class="menu-item p-0 footer-menu-item"><a target="__blank" class="footer-links gov-dept-links p-0" href="http://www.cancer.gov/">National Cancer Institute</a></li> 
+                    <li class="menu-item p-0"><a target="__blank" class="footer-links gov-dept-links p-0" href="http://www.usa.gov/">USA.gov</a></li>
                 </ul>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-8">
+                    <p class="gov-dept-links">Connect for Cancer Prevention Study, the Connect for Cancer Prevention Study logo, and “Connect today. Prevent cancer tomorrow.” are trademarks of the U.S. Department of Health and Human Services (HHS).<sup>®</sup></p>
+                </div>
+                <div class="col-md-2">
+                </div>
             </div>
             <div class="row w-100">
                 <div class="col">

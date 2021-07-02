@@ -2,7 +2,6 @@ import { addEventHideNotification } from "./event.js";
 import fieldMapping from './components/fieldToConceptIdMapping.js'; 
 
 const api = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app';
-// const api = 'http://localhost:8010/nih-nci-dceg-episphere-dev/us-central1/app';
 
 export const validateToken = async (token) => {
     const idToken = await getIdToken();
@@ -87,7 +86,6 @@ export const storeResponse = async (formData) => {
         },
         body: JSON.stringify(formData)
     }
-    // const response = await fetch(`http://localhost:8010/nih-nci-dceg-connect-dev/us-central1/app?api=submit`, requestObj);
     const response = await fetch(`https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app?api=submit`, requestObj);
     return response.json();
 }
@@ -107,7 +105,6 @@ export const getMyData = async () => {
             }
         });
     });
-    // const response = await fetch(`http://localhost:8010/nih-nci-dceg-episphere-dev/us-central1/app?api=getUserProfile`, {
     const response = await fetch(`https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app?api=getUserProfile`, {
         headers: {
             Authorization: "Bearer "+idToken
@@ -117,7 +114,7 @@ export const getMyData = async () => {
 }
 
 export const sites = () => {
-    if(location.host === 'myconnect.cancer.gov' || location.host === 'myconnect-stage.cancer.gov') {
+    if(location.host === urls.prod || location.host === urls.stage) {
         return {
             531629870: 'HealthPartners',
             548392715: 'Henry Ford Health System',
@@ -256,7 +253,6 @@ export const errorMessageNumbers = (id, msg, focus) => {
     const currentElement = document.getElementById(id);
     const parentElement = currentElement.parentNode;
     const parent1 = parentElement.parentNode
-    console.log(parentElement)
     if(Array.from(parentElement.querySelectorAll('.form-error')).length > 0) return;
     if(msg){
         const br = document.createElement('br');
@@ -747,7 +743,7 @@ export const getConceptVariableName = async (conceptId) => {
 //for condensed testing of questionnaires use this set of urls https://hzhao392.github.io/privatequest/test_module1.txt
 //for submodules use https://raw.githubusercontent.com/jonasalmeida/privatequest/master/submodules/module1_config.txt?token=ANWUEPNBOGO6ATOXSNG5DWDAWZ6XC
 export const questionnaireModules = {
-    'Background and Overall Health': {url: 'https://raw.githubusercontent.com/jonasalmeida/privatequest/master/module1_concept_id.txt?token=AGOJYPH5B2VCWKIPPEYKOHDA3R4G4', moduleId:"Module1", enabled:true},
+    'Background and Overall Health': {url: 'https://raw.githubusercontent.com/jonasalmeida/privatequest/master/module1_concept_id.txt?token=AGOJYPDG5OC5JXN5IZYLAB3A4W3ZI', moduleId:"Module1", enabled:true},
     'Medications, Reproductive Health, Exercise, and Sleep': {url: 'https://hzhao392.github.io/privatequest/test_module2.txt', moduleId:"Module2", enabled:false},
     'Smoking, Alcohol, and Sun Exposure': {url: 'https://hzhao392.github.io/privatequest/test_module3.txt', moduleId:"Module3", enabled:false},
     'Where You Live and Work': {url: 'https://hzhao392.github.io/privatequest/test_module4.txt', moduleId:"Module4", enabled:false},
@@ -757,4 +753,69 @@ export const questionnaireModules = {
 export const isBrowserCompatible = () => {
     const isValidBrowser = /Chrome/.test(navigator.userAgent) || /Mozilla/.test(navigator.userAgent) || /Safari/.test(navigator.userAgent);
     return isValidBrowser;
+}
+
+export const inactivityTime = (user) => {
+    let time;
+    
+    const resetTimer = () => {
+        
+        clearTimeout(time);
+        time = setTimeout(() => {
+            if(!firebase.auth().currentUser) return;
+            const resposeTimeout = setTimeout(() => {
+                // log out user if they don't respond to warning after 5 minutes.
+                Array.from(document.getElementsByClassName('extend-user-session')).forEach(e => {
+                    e.click();
+                });
+                signOut();
+            }, 300000)
+            // Show warning after 20 minutes of no activity.
+            if(!firebase.auth().currentUser) return;
+            const button = document.createElement('button');
+            button.dataset.toggle = 'modal';
+            button.dataset.target = '#connectMainModal'
+            document.body.appendChild(button);
+            button.click();
+            const header = document.getElementById('connectModalHeader');
+            const body = document.getElementById('connectModalBody');
+            header.innerHTML = `<h5 class="modal-title">Inactive</h5>`;
+
+            body.innerHTML = `You were inactive for 20 minutes, would you like to extend your session?
+                            <div class="modal-footer">
+                                <button type="button" title="Close" class="btn btn-dark log-out-user" data-dismiss="modal">Log Out</button>
+                                <button type="button" title="Continue" class="btn btn-primary extend-user-session" data-dismiss="modal">Continue</button>
+                            </div>`
+            document.body.removeChild(button);
+            Array.from(document.getElementsByClassName('log-out-user')).forEach(e => {
+                e.addEventListener('click', () => {
+                    clearTimeout(time)
+                    signOut();
+                })
+            })
+            document.getElementById('signOut').addEventListener('click', () =>{
+                clearTimeout(time)
+            })
+            Array.from(document.getElementsByClassName('extend-user-session')).forEach(e => {
+                e.addEventListener('click', () => {
+                    clearTimeout(resposeTimeout);
+                    resetTimer;
+                })
+            });
+        }, 1200000);
+    }
+    //resetTimer();
+    window.onload = resetTimer;
+    document.onmousemove = resetTimer;
+    document.onkeypress = resetTimer;
+};
+
+const signOut = () => {
+    firebase.auth().signOut();
+    window.location.hash = '#';
+    document.title = 'My Connect - Home';
+}
+export const urls = {
+    'prod': 'myconnect.cancer.gov',
+    'stage': 'myconnect-stage.cancer.gov'
 }

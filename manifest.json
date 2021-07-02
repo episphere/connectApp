@@ -1,10 +1,10 @@
 {
-  "name": "Connect App",
+  "name": "My Connect",
   "short_name": "Connect",
   "theme_color": "#cd2f5a",
   "background_color": "#ffffff",
   "display": "standalone",
-  "start_url": "/connectApp/",
+  "start_url": "/",
   "icons": [
     {
       "src": "images/icons/icon-72x72.png",

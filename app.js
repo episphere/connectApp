@@ -1,4 +1,4 @@
-import { getParameters, validateToken, userLoggedIn, getMyData, showAnimation, hideAnimation, storeResponse, isBrowserCompatible } from "./js/shared.js";
+import { getParameters, validateToken, userLoggedIn, getMyData, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls } from "./js/shared.js";
 import { userNavBar, homeNavBar } from "./js/components/navbar.js";
 import { homePage, joinNowBtn, whereAmIInDashboard } from "./js/pages/homePage.js";
 import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser } from "./js/event.js";
@@ -16,6 +16,7 @@ import { renderVerifiedPage } from "./js/pages/verifiedPage.js";
 import { firebaseConfig as devFirebaseConfig } from "./dev/config.js";
 import { firebaseConfig as stageFirebaseConfig } from "./stage/config.js";
 import { firebaseConfig as prodFirebaseConfig } from "./prod/config.js";
+import { consentToProfilePage } from "./js/pages/consent.js";
 
 let auth = '';
 
@@ -25,18 +26,29 @@ window.onload = async () => {
         const mainContent = document.getElementById('root');
         mainContent.innerHTML = `<span class="not-compatible">Connect web application is only compatible with Chrome, Safari, Firefox or Edge.</span>`;
     }
+
+    const script = document.createElement('script');
     
-    if(location.host === 'myconnect.cancer.gov') {
+    if(location.host === urls.prod) {
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${prodFirebaseConfig.apiKey}&libraries=places`
         !firebase.apps.length ? firebase.initializeApp(prodFirebaseConfig) : firebase.app();
     }
-    else if(location.host === 'myconnect-stage.cancer.gov') {
+    else if(location.host === urls.stage) {
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${stageFirebaseConfig.apiKey}&libraries=places`
         !firebase.apps.length ? firebase.initializeApp(stageFirebaseConfig) : firebase.app();
     }
     else {
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${devFirebaseConfig.apiKey}&libraries=places`
         !firebase.apps.length ? firebase.initializeApp(devFirebaseConfig) : firebase.app();
     }
     
+    document.body.appendChild(script)
     auth = firebase.auth();
+    auth.onAuthStateChanged(async user => {
+        if(user){
+            inactivityTime();
+        }
+    });
     if('serviceWorker' in navigator){
         try {
             navigator.serviceWorker.register('./serviceWorker.js')
@@ -150,7 +162,6 @@ const router = async () => {
         window.location.hash = '#sign_in';
     }
     const route =  window.location.hash || '#';
-    console.log('route: ' + JSON.stringify(route))
     toggleNavBar(route);
     
     if(loggedIn === false){
@@ -280,6 +291,7 @@ const toggleNavBar = (route) => {
             addEventRetrieveNotifications();
             toggleCurrentPage(route);
             hideAnimation();
+            
         }
         else{
             showAnimation();

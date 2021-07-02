@@ -400,6 +400,8 @@ export const addEventUPSubmit = () => {
         const email2 = document.getElementById('UPEmail2');
         const email3 = document.getElementById('UPAdditionalEmail2');
         const email4 = document.getElementById('UPAdditionalEmail3');
+        let zip = document.getElementById('UPAddress1Zip').value;
+        let city = document.getElementById('UPAddress1City');
         if(!email){
             errorMessage('UPEmail', 'Please enter an email address.', focus);
             focus = false;
@@ -475,8 +477,20 @@ export const addEventUPSubmit = () => {
             focus = false;
             hasError = true;
         }
+        if(zip && !/[0-9]{5}/.test(zip) ){
+            errorMessage('UPAddress1Zip', 'Zip code may only contain numbers.');
+            if(focus) document.getElementById('UPAddress1Zip').focus();
+            focus = false;
+            hasError = true;
+        }
+        
+        /*if(city && !/^[a-zA-Z]+$/.test(city) ){
+            errorMessage('UPAddress1City', 'City name may only contain letters.');
+            if(focus) document.getElementById('UPAddress1City').focus();
+            focus = false;
+            hasError = true;
+        }*/
         if(email && /\S+@\S+\.\S+/.test(email) === false) {
-            console.log('UPEmail Error Should be here')
             errorMessage('UPEmail', 'Please enter an email address in this format: name@example.com.', focus);
             if(focus) document.getElementById('UPPhoneNumber11').focus();
             focus = false;
