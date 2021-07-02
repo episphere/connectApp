@@ -51,7 +51,7 @@ export const homePage = async () => {
             <div class="col-lg-2 ">
             </div>
             <div class="col-lg-4 .d-none text-lg-left text-center connectBodyPicture" >
-                <img src="./images/newImages/Tiles2.png" alt="Connect logo" width="95%" style="float:left;">
+                <img src="./images/newImages/Tiles2.png" alt="Connect logo" width="95%" style="float:left; max-width:380px">
             </div>
             <div class="col-lg-4">
             </div>
@@ -308,7 +308,6 @@ export const whereAmIInDashboard = async () => {
 
     }
     let data = myData.data;
-    console.log(JSON.stringify(data))
     if(data['827220437'] && data['142654897']){
         if(data['919254129'] === 353358909){
             if(data['699625233'] && data['699625233'] === 353358909 && data['821247024'] && data['821247024'] !== 197316935){
