@@ -124,7 +124,6 @@ const renderMainBody = (data, tab) => {
                 </div>
             </li>
             `
-            console.log(data[i].notification.title)
             hasNotification = true;
         }
         

@@ -248,11 +248,8 @@ export const renderAgreements = async () => {
     let siteDict = siteAcronyms();
     let consentVersions = await fetch('./forms/Consent_versioning.json').then(res => res.json());
 
-    console.log(consentVersions);
     let participantSite = siteDict[myData.data['827220437']];
-    console.log(participantSite);
     let pdfLocation = './forms/consent/' + myData.data[412000022] + '.pdf'
-    console.log(myData.data)
     document.getElementById('root').innerHTML = template;
     addEventAgreementOptions(myData);
     hideAnimation();
@@ -322,7 +319,6 @@ const addEventAgreementOptions = (myData) => {
 export const renderDownloadConsentCopy = async (data) => {
     let pdfLocation = './forms/consent/' + data[454205108] + '.pdf'
     let pdfName = data[454205108] + '.pdf';
-    console.log('Location: ' + pdfLocation);
     const participantSignature = data[471168198] + ' ' + data[736251808]
     let seekLastPage;
     //const pdfLocation = './consent_draft.pdf';
@@ -549,7 +545,6 @@ const renderSignDataDestroy = async (data) =>{
         let formData = {};
         formData['359404406'] = 353358909;
         formData['119449326'] = dateTime();        
-        console.log(formData)
         
         const response = await storeResponse(formData);
         if(response.code === 200) {
@@ -631,7 +626,6 @@ const renderSignHIPAARevoke = async (data) =>{
         await renderAgreements();
         hideAnimation();
     })
-    console.log(';aslkbjvds;lkdsbv;aslkvbs;ldk')
     const consentForm = document.getElementById('consentForm');
     consentForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -639,7 +633,6 @@ const renderSignHIPAARevoke = async (data) =>{
         let formData = {};
         formData['153713899'] = 353358909;
         formData['613641698'] = dateTime();
-        console.log(formData)
         const response = await storeResponse(formData);
         if(response.code === 200) {
             await renderAgreements();

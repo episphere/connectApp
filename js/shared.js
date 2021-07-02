@@ -264,7 +264,6 @@ export const errorMessageNumbers = (id, msg, focus) => {
     const currentElement = document.getElementById(id);
     const parentElement = currentElement.parentNode;
     const parent1 = parentElement.parentNode
-    console.log(parentElement)
     if(Array.from(parentElement.querySelectorAll('.form-error')).length > 0) return;
     if(msg){
         const br = document.createElement('br');
@@ -774,7 +773,6 @@ export const inactivityTime = (user) => {
         
         clearTimeout(time);
         time = setTimeout(() => {
-            console.log(firebase.auth().currentUser)
             if(!firebase.auth().currentUser) return;
             const resposeTimeout = setTimeout(() => {
                 // log out user if they don't respond to warning after 5 minutes.
@@ -784,7 +782,6 @@ export const inactivityTime = (user) => {
                 signOut();
             }, 300000)
             // Show warning after 20 minutes of no activity.
-            console.log(firebase.auth().currentUser)
             if(!firebase.auth().currentUser) return;
             const button = document.createElement('button');
             button.dataset.toggle = 'modal';
@@ -816,7 +813,6 @@ export const inactivityTime = (user) => {
                     resetTimer;
                 })
             });
-            console.log('timer here')
         }, 1200000);
     }
     //resetTimer();
