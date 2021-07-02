@@ -29,6 +29,15 @@ export const footerTemplate = () => {
                     <li class="menu-item p-0"><a target="__blank" class="footer-links gov-dept-links p-0" href="http://www.usa.gov/">USA.gov</a></li>
                 </ul>
             </div>
+            <div class="row">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-8">
+                    <p class="gov-dept-links">Connect for Cancer Prevention Study, the Connect for Cancer Prevention Study logo, and “Connect today. Prevent cancer tomorrow.” are trademarks of the U.S. Department of Health and Human Services (HHS).<sup>®</sup></p>
+                </div>
+                <div class="col-md-2">
+                </div>
+            </div>
             <div class="row w-100">
                 <div class="col">
                     <p class="nih-tagline">NIH…Turning Discovery Into Health<sup>®</sup></p>
