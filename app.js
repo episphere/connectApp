@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { getParameters, validateToken, userLoggedIn, getMyData, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime } from "./js/shared.js";
+=======
+import { getParameters, validateToken, userLoggedIn, getMyData, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, urls } from "./js/shared.js";
+>>>>>>> 51b96d12b14077b459b24fb3924c810fe217673e
 import { userNavBar, homeNavBar } from "./js/components/navbar.js";
 import { homePage, joinNowBtn, whereAmIInDashboard } from "./js/pages/homePage.js";
 import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser } from "./js/event.js";
@@ -29,11 +33,11 @@ window.onload = async () => {
 
     const script = document.createElement('script');
     
-    if(location.host === 'myconnect.cancer.gov') {
+    if(location.host === urls.prod) {
         script.src = `https://maps.googleapis.com/maps/api/js?key=${prodFirebaseConfig.apiKey}&libraries=places`
         !firebase.apps.length ? firebase.initializeApp(prodFirebaseConfig) : firebase.app();
     }
-    else if(location.host === 'myconnect-stage.cancer.gov') {
+    else if(location.host === urls.stage) {
         script.src = `https://maps.googleapis.com/maps/api/js?key=${stageFirebaseConfig.apiKey}&libraries=places`
         !firebase.apps.length ? firebase.initializeApp(stageFirebaseConfig) : firebase.app();
     }
