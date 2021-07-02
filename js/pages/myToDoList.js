@@ -58,7 +58,6 @@ export const myToDoList = (data, fromUserProfile) => {
                      
                 `;
                 let finalMessage = "";
-                console.log(data['831041022'])
                 if (data.hasOwnProperty('831041022') && data['831041022'] == 353358909){
                     if (!data['359404406'] || data['359404406'] == 104430631){
                         finalMessage += "You have a new <a href='#forms'>form</a> to sign.<br>You have been withdrawn from Connect per your request.<br>"
@@ -179,7 +178,6 @@ export const myToDoList = (data, fromUserProfile) => {
                     hideAnimation();
                     return;
                 }
-                console.log(finalMessage)
                 if(topMessage !== ""){
                     template += `
                     <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
@@ -286,7 +284,6 @@ export const myToDoList = (data, fromUserProfile) => {
         mainContent.innerHTML = requestPINTemplate();
         addEventPinAutoUpperCase();
         let user = firebase.auth().currentUser;
-        console.log(JSON.stringify(user))
         addEventRequestPINForm(user.metadata.a);
         hideAnimation();
     }
@@ -377,7 +374,6 @@ const renderMainBody = (data, tab) => {
         for(let obj of toDisplaySystem){
             let started = false;
             if(obj.hasOwnProperty('body')){
-                console.log(obj['body'])
                 for(let key of obj['body']){
                     
                     if(!modules[key].completed){
@@ -468,7 +464,6 @@ const renderMainBody = (data, tab) => {
                 }
             if(started == true){
                 template += '</li>'            
-                //console.log('aslkvbsldvkbsadv: ' + template)
 
             }
             }
@@ -563,9 +558,7 @@ const renderMainBody = (data, tab) => {
                     }
                 }
                 if(started == true){
-                    template += '</li>'            
-                    //console.log('aslkvbsldvkbsadv: ' + template)
-    
+                    template += '</li>'                
                 }
             }
         }
@@ -575,12 +568,10 @@ const renderMainBody = (data, tab) => {
 
 const checkIfComplete = (data) =>{
     const modules = questionnaireModules;
-    console.log(data)
     if (data[fieldMapping.Module1.conceptId] && data[fieldMapping.Module1.conceptId].COMPLETED
         && data[fieldMapping.Module2.conceptId] && data[fieldMapping.Module2.conceptId].COMPLETED
         && data[fieldMapping.Module3.conceptId] && data[fieldMapping.Module3.conceptId].COMPLETED
         && data[fieldMapping.Module4.conceptId] && data[fieldMapping.Module4.conceptId].COMPLETED) { 
-            console.log('sldvnpisdnivosbivsdovisdbvsdv')
 
             return true;
     };

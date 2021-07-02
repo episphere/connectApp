@@ -491,7 +491,6 @@ export const addEventUPSubmit = () => {
             hasError = true;
         }*/
         if(email && /\S+@\S+\.\S+/.test(email) === false) {
-            console.log('UPEmail Error Should be here')
             errorMessage('UPEmail', 'Please enter an email address in this format: name@example.com.', focus);
             if(focus) document.getElementById('UPPhoneNumber11').focus();
             focus = false;

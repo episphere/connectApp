@@ -227,7 +227,6 @@ export const renderSupportPage = async () => {
         -->
     `;
     
-    console.log(JSON.stringify(myData))
     document.getElementById('root').innerHTML = template;
     const btns = document.getElementsByClassName('faq-btn');
     Array.from(btns).forEach(element => {

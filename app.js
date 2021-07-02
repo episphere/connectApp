@@ -47,7 +47,6 @@ window.onload = async () => {
     auth.onAuthStateChanged(async user => {
         if(user){
             inactivityTime();
-            console.log('inactivity launched')
         }
     });
     if('serviceWorker' in navigator){
@@ -163,7 +162,6 @@ const router = async () => {
         window.location.hash = '#sign_in';
     }
     const route =  window.location.hash || '#';
-    console.log('route: ' + JSON.stringify(route))
     toggleNavBar(route);
     
     if(loggedIn === false){
@@ -293,7 +291,6 @@ const toggleNavBar = (route) => {
             addEventRetrieveNotifications();
             toggleCurrentPage(route);
             hideAnimation();
-            //console.log('LOGGED IN')
             
         }
         else{
