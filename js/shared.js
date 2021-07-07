@@ -1,9 +1,15 @@
 import { addEventHideNotification } from "./event.js";
 import fieldMapping from './components/fieldToConceptIdMapping.js'; 
+
+export const urls = {
+    'prod': 'myconnect.cancer.gov',
+    'stage': 'myconnect-stage.cancer.gov'
+}
+
 let api = '';
 
-if(location.host === 'myconnect.cancer.gov') api = 'https://api-myconnect.cancer.gov/app';
-else if(location.host === 'myconnect-stage.cancer.gov') api = 'https://api-myconnect-stage.cancer.gov/app';
+if(location.host === urls.prod) api = 'https://api-myconnect.cancer.gov/app';
+else if(location.host === urls.stage) api = 'https://api-myconnect-stage.cancer.gov/app';
 else api = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app';
 
 export const validateToken = async (token) => {
@@ -90,8 +96,8 @@ export const storeResponse = async (formData) => {
         body: JSON.stringify(formData)
     }
     let url = '';
-    if(location.host === 'myconnect.cancer.gov') url = `https://api-myconnect.cancer.gov/app?api=submit`
-    else if(location.host === 'myconnect-stage.cancer.gov') url = `https://api-myconnect-stage.cancer.gov/app?api=submit`
+    if(location.host === urls.prod) url = `https://api-myconnect.cancer.gov/app?api=submit`
+    else if(location.host === urls.stage) url = `https://api-myconnect-stage.cancer.gov/app?api=submit`
     else url = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app?api=submit'
     const response = await fetch(url, requestObj);
     return response.json();
@@ -113,8 +119,8 @@ export const getMyData = async () => {
         });
     });
     let url = '';
-    if(location.host === 'myconnect.cancer.gov') url = `https://api-myconnect.cancer.gov/app?api=getUserProfile`
-    else if(location.host === 'myconnect-stage.cancer.gov') url = `https://api-myconnect-stage.cancer.gov/app?api=getUserProfile`
+    if(location.host === urls.prod) url = `https://api-myconnect.cancer.gov/app?api=getUserProfile`
+    else if(location.host === urls.stage) url = `https://api-myconnect-stage.cancer.gov/app?api=getUserProfile`
     else url = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app?api=getUserProfile'
     const response = await fetch(url, {
         headers: {
@@ -790,6 +796,7 @@ export const inactivityTime = (user) => {
             button.click();
             const header = document.getElementById('connectModalHeader');
             const body = document.getElementById('connectModalBody');
+            document.getElementById('connectModalFooter').style.display = "none";
             header.innerHTML = `<h5 class="modal-title">Inactive</h5>`;
 
             body.innerHTML = `You were inactive for 20 minutes, would you like to extend your session?
@@ -825,8 +832,4 @@ const signOut = () => {
     firebase.auth().signOut();
     window.location.hash = '#';
     document.title = 'My Connect - Home';
-}
-export const urls = {
-    'prod': 'myconnect.cancer.gov',
-    'stage': 'myconnect-stage.cancer.gov'
 }
