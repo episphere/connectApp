@@ -1,9 +1,12 @@
-import { storeResponse, getMyData } from "../shared.js";
+import { storeResponse, getMyData, urls } from "../shared.js";
 import fieldMapping from '../components/fieldToConceptIdMapping.js'; 
 //import { transform } from 'https://episphere.github.io/quest/replace2.js';
 //for local testing use URL like such http://localhost:5001/replace2.js and http://localhost:5001/questionnaire.js
 import { transform } from 'https://episphere.github.io/quest/replace2.js';
 import { rbAndCbClick } from "https://episphere.github.io/quest/questionnaire.js";
+import { SOCcer as SOCcerProd } from "./../../prod/config.js";
+import { SOCcer as SOCcerStage } from "./../../stage/config.js";
+import { SOCcer as SOCcerDev } from "./../../dev/config.js";
 export const   questionnaire = (url, moduleId) => {
     //add data into render previous answers
     //inputData = {"firstName":"Alaina","age":"55","SEX":["3"],"SEX2":["6"]};
@@ -43,7 +46,10 @@ export const   questionnaire = (url, moduleId) => {
 
 }
 function soccerFunction(){
-    
+    let soccerURL = '';
+    if(location.host === urls.prod) soccerURL = SOCcerProd;
+    else if(location.host === urls.stage) soccerURL = SOCcerStage;
+    else soccerURL = SOCcerDev;
     let work3 = document.getElementById("D_627122657");
     if (work3){
         work3.addEventListener("submit", async (e) => {
@@ -53,7 +59,7 @@ function soccerFunction(){
             const occ = document.getElementById("D_761310265");
     
             // call soccer... follow up with Daniel Russ for questions
-            let soccerResults = await (await fetch(`https://sitf-raft3imjaq-uc.a.run.app/soccer/code?title=%22${jobtitle}%22`)).json();
+            let soccerResults = await (await fetch(`${soccerURL}${jobtitle}`)).json();
             let responseElement = occ.querySelector("div[class='response']");
             buildHTML(soccerResults, occ, responseElement);
         });
@@ -66,7 +72,7 @@ function soccerFunction(){
             const occ = document.getElementById("D_279637054");
     
             // call soccer...
-            let soccerResults = await (await fetch(`https://sitf-raft3imjaq-uc.a.run.app/soccer/code?title=%22${jobtitle}%22`)).json();
+            let soccerResults = await (await fetch(`${soccerURL}${jobtitle}`)).json();
             let responseElement = occ.querySelector("div[class='response']");
             buildHTML(soccerResults, occ, responseElement);
         });
