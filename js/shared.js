@@ -790,6 +790,7 @@ export const inactivityTime = (user) => {
             button.click();
             const header = document.getElementById('connectModalHeader');
             const body = document.getElementById('connectModalBody');
+            document.getElementById('connectModalFooter').style.display = "none";
             header.innerHTML = `<h5 class="modal-title">Inactive</h5>`;
 
             body.innerHTML = `You were inactive for 20 minutes, would you like to extend your session?
