@@ -9,15 +9,16 @@ export const footerTemplate = () => {
             </div>
             <div class="row w-100 pt-0 align-left">
                 <div class="col-lg-6 pt-3 content-wrapper">
-                    <div class="footer-heading">CONTACT</div>
-                    <div class="footer-sub-heading pt-3">(800) 000-0000</div>
+                    <div class="footer-heading">HAVE QUESTIONS?</div>
+                    <div class="footer-sub-heading pt-3"><a class="footer-links" target="__blank" href="https://norcfedramp.servicenowservices.com/recruit">Contact the Connect Support Center</a></div>
+                    <div class="footer-sub-heading pt-3"><a class="footer-links" href="mailto:ConnectStudy@norc.org">Email Us</a></div>
                 </div>
                 <div class="col-lg-6 pt-3 content-wrapper">
                     <div class="footer-heading">POLICIES</div>
                     <div class="footer-sub-heading pt-3"><a class="footer-links" target="__blank" href="https://www.cancer.gov/global/web/policies/accessibility">Accessibility</a></div>
-                    <div class="footer-sub-heading pt-3">Disclaimer</div>
+                    <div class="footer-sub-heading pt-3"><a class="footer-links" target="__blank" href="https://www.cancer.gov/policies/disclaimer">Disclaimer</a></div>
                     <div class="footer-sub-heading pt-3"><a class="footer-links" target="__blank" href="https://www.cancer.gov/global/web/policies/foia">FOIA</a></div>
-                    <div class="footer-sub-heading pt-3">Privacy & Security</div>
+                    <div class="footer-sub-heading pt-3"><a class="footer-links" target="__blank" href="https://www.cancer.gov/policies/privacy-security">Privacy & Security</a></div>
                     <div class="footer-sub-heading pt-3"><a class="footer-links" target="__blank" href="https://dceg.cancer.gov/about/sitemap">Site Map</a></div>
                 </div>
             </div>
