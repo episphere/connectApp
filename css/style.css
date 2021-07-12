@@ -70,7 +70,10 @@ a{
 
 .footer-links {
     color: #ffffff !important;
-    text-decoration: none !important;
+}
+
+.footer-links:hover {
+    text-decoration: underline !important;
 }
 
 .footer-links:hover {
