@@ -1,50 +1,8 @@
-import { getMyData, isBrowserCompatible, hideAnimation } from "../shared.js";
+import { getMyData, isBrowserCompatible } from "../shared.js";
 
 export const homePage = async () => {
     const mainContent = document.getElementById('root');
     const isCompatible = isBrowserCompatible();
-    fetch('https://api.digitalmedia.hhs.gov/api/v2/resources/media/1343/syndicate.json?stripStyles=true&stripScripts=false&stripBreaks=false&stripImages=false&stripClasses=true&stripIds=true&displayMethod=undefined&autoplay=false&userId=1915')
-    .then(response => response.body)
-    .then(rb =>{
-        const reader = rb.getReader();
-
-        return new ReadableStream({
-            start(controller) {
-            // The following function handles each data chunk
-            function push() {
-                // "done" is a Boolean and value a "Uint8Array"
-                reader.read().then( ({done, value}) => {
-                // If there is no more data to read
-                if (done) {
-                    console.log('done', done);
-                    controller.close();
-                    return;
-                }
-                // Get the data and send it to the browser via the controller
-                controller.enqueue(value);
-                // Check chunks by logging to the console
-                console.log(done, value);
-                push();
-                })
-            }
-
-            push();
-            }
-        });
-    })
-    .then(stream => {
-    // Respond with our stream
-    return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
-    })
-    .then(result => {
-    // Do things with result
-    let parsed = JSON.parse(result);
-    console.log(parsed.results[0].content);
-    mainContent.innerHTML = parsed.results[0].content;
-    hideAnimation();
-    });
-    //console.log(j)
-    /*
     mainContent.innerHTML = `
         ${!isCompatible ? `<span class="not-compatible">Connect web application is only compatible with Chrome, Safari, Firefox or Edge.</span>` : ``}
         <div class="row connectBody1">
@@ -328,7 +286,7 @@ export const homePage = async () => {
         -->
         
     `;
-*/
+
     
 }
 
