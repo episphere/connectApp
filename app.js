@@ -166,6 +166,9 @@ const router = async () => {
     
     if(loggedIn === false){
         if(route === '#') homePage();
+        else if(route === '#support'){
+            location.href = "https://norcfedramp.servicenowservices.com/participant"
+        }
         else if (route === '#sign_out') signOut();
         else window.location.hash = '#';
     }
