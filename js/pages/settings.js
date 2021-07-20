@@ -422,32 +422,24 @@ export const renderSettingsPage = async () => {
     })
     document.getElementById('changePassSubmit').addEventListener('click', () => {
         //document.getElementById('changPassGroup').style.display = "block"
-        console.log(document.getElementById('newPassField').value)
         let pass = document.getElementById('newPassField').value
         let passConfirm = document.getElementById('newPassFieldCheck').value
         if(pass === passConfirm){
-            console.log('true')
             changePass(pass)
         }
         else{
-            console.log('false')
         }
-        //console.log(newPassField.value)
     })
 
     document.getElementById('changeEmailSubmit').addEventListener('click', () => {
         //document.getElementById('changPassGroup').style.display = "block"
-        console.log(document.getElementById('newEmailField').value)
         let email = document.getElementById('newEmailField').value
         let emailConfirm = document.getElementById('newEmailFieldCheck').value
         if(email === emailConfirm){
-            console.log('true')
             changeEmail(email)
         }
         else{
-            console.log('false')
         }
-        //console.log(newPassField.value)
     })
     
 }
