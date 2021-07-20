@@ -4,7 +4,9 @@ import { removeAllErrors, addEventsConsentSign } from "../event.js";
 import { renderDownloadConsentCopy } from "./agreements.js";
 
 export const consentTemplate = () => {
-    consentAboutPage();
+    //consentAboutPage();
+    consentConsentPage();
+
 }
 
 export const renderProgress = (progress) => {
@@ -95,6 +97,7 @@ export const renderProgress = (progress) => {
 }
 
 export const consentAboutPage = () => {
+    window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(1);
     template += ` 
@@ -127,6 +130,7 @@ export const consentAboutPage = () => {
 }
 
 export const consentActivitiesPage = () => {
+    window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(2);
     template += `
@@ -192,6 +196,7 @@ export const consentActivitiesPage = () => {
 }
 
 export const consentPrivacyPage = () => {
+    window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(3);
     template += `
@@ -237,6 +242,7 @@ export const consentPrivacyPage = () => {
 }
 
 export const consentBenefitsPage = () => {
+    window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(4);
     template += `
@@ -274,6 +280,7 @@ export const consentBenefitsPage = () => {
 }
 
 export const consentResultsPage = () => {
+    window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(5);
     template += `
@@ -313,6 +320,7 @@ export const consentResultsPage = () => {
 }
 
 export const consentLeavingPage = () => {
+    window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(6);
     template += `
@@ -351,6 +359,7 @@ export const consentLeavingPage = () => {
 }
 
 export const consentIndigenousPage = () => {
+    window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(7);
     template += `
@@ -399,6 +408,7 @@ export const consentIndigenousPage = () => {
     })
 }
 export const consentIndigenousAffectPage = () => {
+        window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(7);
     template += `
@@ -438,6 +448,7 @@ export const consentIndigenousAffectPage = () => {
 }
 
 export const consentIndigenousProtectPage = () => {
+    window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(7);
     template += `
@@ -481,6 +492,7 @@ export const consentIndigenousProtectPage = () => {
 }
 
 export const consentIndigenousOtherPage = () => {
+    window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(7);
     template += `
@@ -528,6 +540,7 @@ export const consentIndigenousOtherPage = () => {
 }
 
 export const consentConsentPage = () => {
+    window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(8);
     /*template += `
@@ -657,7 +670,7 @@ export const consentConsentPage = () => {
                     <li>If I decide to leave the study, I can contact the Connect Support Center at <a target="_blank" href="https://norcfedramp.servicenowservices.com/recruit">Cancer.gov/connectstudy/support</a></li>
                 </ol>
                 <input type="checkbox" name="consentAnswer" value="consentYes" id="CSConsentYesCheck" required>
-                <label for="consentYes" required="" id="CSConsentYes">Yes, I agree to join Connect</label><br>
+                <label for="consentYes" style=" font-size:20px" required="" id="CSConsentYes">Yes, I agree to join Connect</label><br>
             </div>
             
             <form id="consentForm" style="margin-top:50px" method="POST">
@@ -803,6 +816,7 @@ export const consentConsentPage = () => {
 
 
 export const consentHealthRecordsPage = () => {
+    window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(9);
     template += ` 
@@ -888,6 +902,7 @@ export const consentHealthRecordsPage = () => {
 }
 
 export const consentFinishedPage = (data) => {
+    window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(9);
     
@@ -930,6 +945,7 @@ export const consentFinishedPage = (data) => {
 }
 
 export const consentToProfilePage = () => {
+    window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = '';
     
