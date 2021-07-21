@@ -1,6 +1,6 @@
 import { getParameters, validateToken, userLoggedIn, getMyData, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls } from "./js/shared.js";
 import { userNavBar, homeNavBar } from "./js/components/navbar.js";
-import { homePage, joinNowBtn, whereAmIInDashboard } from "./js/pages/homePage.js";
+import { homePage, joinNowBtn, whereAmIInDashboard, renderHomeAboutPage, renderHomeExpectationsPage, renderHomePrivacyPage } from "./js/pages/homePage.js";
 import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser } from "./js/event.js";
 import { requestPINTemplate } from "./js/pages/healthCareProvider.js";
 import { myToDoList } from "./js/pages/myToDoList.js";
@@ -166,6 +166,9 @@ const router = async () => {
     
     if(loggedIn === false){
         if(route === '#') homePage();
+        else if(route === '#about') renderHomeAboutPage();
+        else if(route === '#expectations') renderHomeExpectationsPage();
+        else if(route === '#privacy') renderHomePrivacyPage();
         else if(route === '#support'){
             location.href = "https://norcfedramp.servicenowservices.com/participant"
         }
@@ -303,7 +306,10 @@ const toggleNavBar = (route) => {
             document.getElementById('nextStepWarning') ? document.getElementById('nextStepWarning').style.display="none": '';
             toggleCurrentPageNoUser(route);
             const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
+            console.log("ROUTE: " + route)
+            if(route == "#"){
             ui.start('#signInDiv', signInConfig());
+            }
             hideAnimation();
         }
     });

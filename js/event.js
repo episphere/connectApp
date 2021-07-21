@@ -1194,6 +1194,10 @@ export const toggleCurrentPageNoUser = async (route) => {
         })
     });
     if(route === '#') document.getElementById('home').click();
+    else if(route === '#about') document.getElementById('about').click();
+    else if(route === '#expectations') document.getElementById('expectations').click();
+    else if(route === '#privacy') document.getElementById('privacy').click();
+
 }
 
 export const addEventCheckCanText = () => {

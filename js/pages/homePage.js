@@ -1,4 +1,4 @@
-import { getMyData, isBrowserCompatible } from "../shared.js";
+import { getMyData, isBrowserCompatible, renderSyndicate} from "../shared.js";
 
 export const homePage = async () => {
     const mainContent = document.getElementById('root');
@@ -339,3 +339,57 @@ export const whereAmIInDashboard = async () => {
     }
 }
 
+export const renderHomeAboutPage =  () => {
+    
+    const mainContent = document.getElementById('root');
+    const isCompatible = isBrowserCompatible();
+    mainContent.innerHTML = `
+        ${!isCompatible ? `<span class="not-compatible">Connect web application is only compatible with Chrome, Safari, Firefox or Edge.</span>` : ``}
+        <div class="row">
+            <div class="col-1">
+            </div>
+            <div class="col-10" id="connectBody">
+            </div>
+            <div class="col-1">
+            </div>
+        </div>
+        `
+    renderSyndicate("https://api.digitalmedia.hhs.gov/api/v2/resources/media/19351/syndicate.json?stripStyles=true&stripScripts=false&stripBreaks=false&stripImages=false&stripClasses=true&stripIds=false&displayMethod=undefined&autoplay=false","connectBody")
+    window.scrollTo(0, 0);
+}
+export const renderHomeExpectationsPage =  () => {
+    
+    const mainContent = document.getElementById('root');
+    const isCompatible = isBrowserCompatible();
+    mainContent.innerHTML = `
+        ${!isCompatible ? `<span class="not-compatible">Connect web application is only compatible with Chrome, Safari, Firefox or Edge.</span>` : ``}
+        <div class="row">
+        <div class="col-1">
+        </div>
+        <div class="col-10" id="connectBody">
+        </div>
+        <div class="col-1">
+        </div>
+        </div>
+        `
+    renderSyndicate("https://api.digitalmedia.hhs.gov/api/v2/resources/media/19350/syndicate.json?stripStyles=true&stripScripts=false&stripBreaks=false&stripImages=false&stripClasses=true&stripIds=false&displayMethod=undefined&autoplay=false","connectBody")
+    window.scrollTo(0, 0);
+}
+export const renderHomePrivacyPage =  () => {
+    const mainContent = document.getElementById('root');
+    const isCompatible = isBrowserCompatible();
+    mainContent.innerHTML = `
+        ${!isCompatible ? `<span class="not-compatible">Connect web application is only compatible with Chrome, Safari, Firefox or Edge.</span>` : ``}
+        <div class="row">
+        <div class="col-1">
+        </div>
+        <div class="col-10" id="connectBody">
+        </div>
+        <div class="col-1">
+        </div>
+        </div>
+        `
+    renderSyndicate("https://api.digitalmedia.hhs.gov/api/v2/resources/media/19352/syndicate.json?stripStyles=true&stripScripts=false&stripBreaks=false&stripImages=false&stripClasses=true&stripIds=false&displayMethod=undefined&autoplay=false","connectBody")
+    window.scrollTo(0, 0);
+
+}

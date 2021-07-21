@@ -130,33 +130,29 @@ export const getMyData = async () => {
     return response.json();
 }
 
+const allIHCS = {
+    531629870: 'HealthPartners',
+    548392715: 'Henry Ford Health System',
+    125001209: 'Kaiser Permanente Colorado',
+    327912200: 'Kaiser Permanente Georgia',
+    300267574: 'Kaiser Permanente Hawaii',
+    452412599: 'Kaiser Permanente Northwest',
+    303349821: 'Marshfield Clinic',
+    657167265: 'Sanford Health',
+    809703864: 'University of Chicago Medicine'
+}
+
 export const sites = () => {
-    if(location.host === urls.prod || location.host === urls.stage) {
+    if(location.host === urls.prod) {
         return {
-            531629870: 'HealthPartners',
-            548392715: 'Henry Ford Health System',
-            125001209: 'Kaiser Permanente Colorado',
-            327912200: 'Kaiser Permanente Georgia',
-            300267574: 'Kaiser Permanente Hawaii',
-            452412599: 'Kaiser Permanente Northwest',
-            303349821: 'Marshfield Clinic',
-            657167265: 'Sanford Health',
-            809703864: 'University of Chicago Medicine'
+            657167265: 'Sanford Health'
         }
     }
+    else if (location.host === urls.stage) {
+        return allIHCS
+    }
     else{
-        return {
-            531629870: 'HealthPartners',
-            548392715: 'Henry Ford Health System',
-            125001209: 'Kaiser Permanente Colorado',
-            327912200: 'Kaiser Permanente Georgia',
-            300267574: 'Kaiser Permanente Hawaii',
-            452412599: 'Kaiser Permanente Northwest',
-            303349821: 'Marshfield Clinic',
-            657167265: 'Sanford Health',
-            809703864: 'University of Chicago Medicine',
-            13: 'National Cancer Institute'
-        }
+        return { ...allIHCS, 13: 'National Cancer Institute' }
     }
 }
 
@@ -832,4 +828,46 @@ const signOut = () => {
     firebase.auth().signOut();
     window.location.hash = '#';
     document.title = 'My Connect - Home';
+}
+
+export const renderSyndicate = (url, element) => {
+    const mainContent = document.getElementById(element);
+    const isCompatible = isBrowserCompatible();
+    fetch(url)
+    .then(response => response.body)
+    .then(rb =>{
+        const reader = rb.getReader();
+
+        return new ReadableStream({
+            start(controller) {
+            // The following function handles each data chunk
+            function push() {
+                // "done" is a Boolean and value a "Uint8Array"
+                reader.read().then( ({done, value}) => {
+                // If there is no more data to read
+                if (done) {
+                    controller.close();
+                    return;
+                }
+                // Get the data and send it to the browser via the controller
+                controller.enqueue(value);
+                // Check chunks by logging to the console
+                push();
+                })
+            }
+
+            push();
+            }
+        });
+    })
+    .then(stream => {
+    // Respond with our stream
+    return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+    })
+    .then(result => {
+    // Do things with result
+    let parsed = JSON.parse(result);
+    mainContent.innerHTML = parsed.results[0].content;
+    hideAnimation();
+    });
 }

@@ -5,6 +5,7 @@ import { renderDownloadConsentCopy } from "./agreements.js";
 
 export const consentTemplate = () => {
     consentAboutPage();
+    //consentConsentPage();
 }
 
 export const renderProgress = (progress) => {
@@ -95,6 +96,7 @@ export const renderProgress = (progress) => {
 }
 
 export const consentAboutPage = () => {
+    window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(1);
     template += ` 
@@ -127,6 +129,7 @@ export const consentAboutPage = () => {
 }
 
 export const consentActivitiesPage = () => {
+    window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(2);
     template += `
@@ -192,6 +195,7 @@ export const consentActivitiesPage = () => {
 }
 
 export const consentPrivacyPage = () => {
+    window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(3);
     template += `
@@ -237,6 +241,7 @@ export const consentPrivacyPage = () => {
 }
 
 export const consentBenefitsPage = () => {
+    window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(4);
     template += `
@@ -274,6 +279,7 @@ export const consentBenefitsPage = () => {
 }
 
 export const consentResultsPage = () => {
+    window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(5);
     template += `
@@ -313,6 +319,7 @@ export const consentResultsPage = () => {
 }
 
 export const consentLeavingPage = () => {
+    window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(6);
     template += `
@@ -351,6 +358,7 @@ export const consentLeavingPage = () => {
 }
 
 export const consentIndigenousPage = () => {
+    window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(7);
     template += `
@@ -399,6 +407,7 @@ export const consentIndigenousPage = () => {
     })
 }
 export const consentIndigenousAffectPage = () => {
+        window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(7);
     template += `
@@ -438,6 +447,7 @@ export const consentIndigenousAffectPage = () => {
 }
 
 export const consentIndigenousProtectPage = () => {
+    window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(7);
     template += `
@@ -481,6 +491,7 @@ export const consentIndigenousProtectPage = () => {
 }
 
 export const consentIndigenousOtherPage = () => {
+    window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(7);
     template += `
@@ -527,7 +538,8 @@ export const consentIndigenousOtherPage = () => {
     })
 }
 
-export const consentConsentPage = () => {
+export const consentConsentPage = async () => {
+    window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(8);
     /*template += `
@@ -630,6 +642,10 @@ export const consentConsentPage = () => {
             
         </div>
     `*/
+    const myData = await getMyData();
+    let siteDict = siteAcronyms();
+    let versionJSON = await fetch('./forms/Consent_versioning.json').then(res => res.json());
+    let participantSite = siteDict[myData.data['827220437']];
     template += `
         <div class="row">
             <div class="col-lg-2">
@@ -642,12 +658,12 @@ export const consentConsentPage = () => {
                 <h4 class="consentSubheader" style="margin-top:50px">Informed Consent Form</h4>
                 <p class="consentBodyFont2" style="text-indent:40px">This form explains in detail what it means to take part in Connect.</p>
                 <div id="canvasContainer"></div>
-                <div class="row"style="margin:auto"><div style="margin:auto"><a href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf" class="consentBodyFont2"> Download an unsigned copy of the informed consent form&nbsp<i class="fas fa-file-download"></i></a></div></div>
+                <div class="row"style="margin:auto"><div style="margin:auto"><a href="${'./forms/consent/'  + participantSite + '_Consent_' + versionJSON[participantSite]['Consent'] + '.pdf'}" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf" class="consentBodyFont2"> Download an unsigned copy of the informed consent form&nbsp<i class="fas fa-file-download"></i></a></div></div>
                 
                 <h4 class="consentSubheader" style="margin-top:50px">Electronic health records release (HIPAA Authorization) form</h4>
                 <p class="consentBodyFont2" style="text-indent:40px">This allows Connect to access your electronic health records.</p>
                 <div id="canvasContainer1"></div>
-                <div class="row" style="margin:auto"><div style="margin:auto"><a href="./consent_draft.pdf" title="Download health records release form" data-toggle="tooltip" download="connect_consent.pdf" class="consentBodyFont2">Download an unsigned copy of the release form&nbsp<i class="fas fa-file-download"></i></a></div></div>
+                <div class="row" style="margin:auto"><div style="margin:auto"><a href="${'./forms/HIPAA/'  + participantSite + '_HIPAA_' + versionJSON[participantSite]['HIPAA'] + '.pdf'}" title="Download health records release form" data-toggle="tooltip" download="connect_consent.pdf" class="consentBodyFont2">Download an unsigned copy of the release form&nbsp<i class="fas fa-file-download"></i></a></div></div>
                 
                 <p class="consentBodyFont2" style="margin-top:50px">By clicking “Yes, I agree to join Connect” and typing your name, you confirm the following:</p>
                 <ol class="consentBodyFont2">
@@ -657,7 +673,7 @@ export const consentConsentPage = () => {
                     <li>If I decide to leave the study, I can contact the Connect Support Center at <a target="_blank" href="https://norcfedramp.servicenowservices.com/recruit">Cancer.gov/connectstudy/support</a></li>
                 </ol>
                 <input type="checkbox" name="consentAnswer" value="consentYes" id="CSConsentYesCheck" required>
-                <label for="consentYes" required="" id="CSConsentYes">Yes, I agree to join Connect</label><br>
+                <label for="consentYes" style=" font-size:20px" required="" id="CSConsentYes">Yes, I agree to join Connect</label><br>
             </div>
             
             <form id="consentForm" style="margin-top:50px" method="POST">
@@ -776,12 +792,18 @@ export const consentConsentPage = () => {
         }
     });
     
-    initializeCanvas('./consent_draft.pdf', .8*1.7);
-    initializeCanvas1('./consent_draft.pdf', .8*1.7);
+    let formNameConsent= './forms/consent/'  + participantSite + '_Consent_' + versionJSON[participantSite]['Consent'] + '.pdf';
+    let formNameHIPAA = './forms/HIPAA/'  + participantSite + '_HIPAA_' + versionJSON[participantSite]['HIPAA'] + '.pdf';
+    console.log(formNameConsent)
+    //let formName = './forms/consent/' + myData.data[454205108] + '.pdf'
+    //initializeCanvas(formNameConsent, .8*1.7);
+    //initializeCanvas1(formNameHIPAA, .8*1.7);
+    initializeCanvas(formNameConsent, 1);
+    initializeCanvas1(formNameHIPAA, 1);
     document.getElementById('backToConsent').addEventListener('click', () => {
         consentIndigenousPage();
     })
-    initializeCanvas('./consent_draft.pdf');
+    //initializeCanvas(formName);
     addEventsConsentSign();
     addEventConsentSubmit();
     /*
@@ -803,6 +825,7 @@ export const consentConsentPage = () => {
 
 
 export const consentHealthRecordsPage = () => {
+    window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(9);
     template += ` 
@@ -888,6 +911,7 @@ export const consentHealthRecordsPage = () => {
 }
 
 export const consentFinishedPage = (data) => {
+    window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(9);
     
@@ -930,6 +954,7 @@ export const consentFinishedPage = (data) => {
 }
 
 export const consentToProfilePage = () => {
+    window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = '';
     
