@@ -64,6 +64,21 @@ export const homeNavBar = () => {
                 <a class="nav-link" href="#" id="home" title="Home"> Home</a>
             </li>
         </div>
+        <div class="navbar-nav transparent-border">
+            <li class="nav-item">
+                <a class="nav-link" href="#about" id="about" title="About"> About</a>
+            </li>
+        </div>
+        <div class="navbar-nav transparent-border">
+            <li class="nav-item">
+                <a class="nav-link" href="#expectations" id="expectations" title="Expectations"> What to expect</a>
+            </li>
+        </div>
+        <div class="navbar-nav transparent-border">
+            <li class="nav-item">
+                <a class="nav-link" href="#privacy" id="privacy" title="Privacy"> Privacy</a>
+            </li>
+        </div>
         ${location.host !== urls.prod && location.host !== urls.stage ? `
             <div class="navbar-nav transparent-border">
                 <li class="nav-item">
