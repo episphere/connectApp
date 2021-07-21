@@ -1184,7 +1184,7 @@ export const toggleCurrentPage = async (route) => {
 }
 
 export const toggleCurrentPageNoUser = async (route) => {
-    const IDs = ['home'];
+    const IDs = ['home', 'about', 'expectations', 'privacy'];
     IDs.forEach(id => {
         const element = document.getElementById(id);
         element.addEventListener('click', () => {
