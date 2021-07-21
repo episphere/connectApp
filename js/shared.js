@@ -130,33 +130,29 @@ export const getMyData = async () => {
     return response.json();
 }
 
+const allIHCS = {
+    531629870: 'HealthPartners',
+    548392715: 'Henry Ford Health System',
+    125001209: 'Kaiser Permanente Colorado',
+    327912200: 'Kaiser Permanente Georgia',
+    300267574: 'Kaiser Permanente Hawaii',
+    452412599: 'Kaiser Permanente Northwest',
+    303349821: 'Marshfield Clinic',
+    657167265: 'Sanford Health',
+    809703864: 'University of Chicago Medicine'
+}
+
 export const sites = () => {
-    if(location.host === urls.prod || location.host === urls.stage) {
+    if(location.host === urls.prod) {
         return {
-            531629870: 'HealthPartners',
-            548392715: 'Henry Ford Health System',
-            125001209: 'Kaiser Permanente Colorado',
-            327912200: 'Kaiser Permanente Georgia',
-            300267574: 'Kaiser Permanente Hawaii',
-            452412599: 'Kaiser Permanente Northwest',
-            303349821: 'Marshfield Clinic',
-            657167265: 'Sanford Health',
-            809703864: 'University of Chicago Medicine'
+            657167265: 'Sanford Health'
         }
     }
+    else if (location.host === urls.stage) {
+        return allIHCS
+    }
     else{
-        return {
-            531629870: 'HealthPartners',
-            548392715: 'Henry Ford Health System',
-            125001209: 'Kaiser Permanente Colorado',
-            327912200: 'Kaiser Permanente Georgia',
-            300267574: 'Kaiser Permanente Hawaii',
-            452412599: 'Kaiser Permanente Northwest',
-            303349821: 'Marshfield Clinic',
-            657167265: 'Sanford Health',
-            809703864: 'University of Chicago Medicine',
-            13: 'National Cancer Institute'
-        }
+        return { ...allIHCS, 13: 'National Cancer Institute' }
     }
 }
 
