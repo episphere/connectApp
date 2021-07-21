@@ -34,6 +34,32 @@ registerRoute(
     'GET'
 );
 
+registerRoute(
+    new RegExp('https://api-myconnect-stage.cancer.gov/.+'),
+    new NetworkFirst({
+        cacheName: 'api-cache',
+        plugins: [
+            new CacheableResponsePlugin({
+                statuses: [200],
+            })
+        ]
+    }),
+    'GET'
+);
+
+registerRoute(
+    new RegExp('https://api-myconnect.cancer.gov/.+'),
+    new NetworkFirst({
+        cacheName: 'api-cache',
+        plugins: [
+            new CacheableResponsePlugin({
+                statuses: [200],
+            })
+        ]
+    }),
+    'GET'
+);
+
 const bgSyncPlugin = new BackgroundSyncPlugin('ConnectAppBgSync', {
     maxRetentionTime: 7 * 24 * 60 // Retry for max of 24 Hours (specified in minutes)
 });
@@ -46,4 +72,20 @@ registerRoute(
     'POST'
 );
 
-workbox.precaching.precacheAndRoute([{url: 'index.html', revision: 'beta-v1.0.6'}]);
+registerRoute(
+    new RegExp('https://api-myconnect-stage.cancer.gov/.+'),
+    new NetworkOnly({
+      plugins: [bgSyncPlugin]
+    }),
+    'POST'
+);
+
+registerRoute(
+    new RegExp('https://api-myconnect.cancer.gov/.+'),
+    new NetworkOnly({
+      plugins: [bgSyncPlugin]
+    }),
+    'POST'
+);
+
+workbox.precaching.precacheAndRoute([{url: 'index.html', revision: '1.0.0'}]);
