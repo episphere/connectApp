@@ -868,6 +868,8 @@ export const renderSyndicate = (url, element) => {
     // Do things with result
     let parsed = JSON.parse(result);
     mainContent.innerHTML = parsed.results[0].content;
+    let toHide = document.getElementsByClassName('syndicate');
+    toHide[1].style.display = "none"
     hideAnimation();
     });
 }
