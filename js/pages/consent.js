@@ -4,8 +4,8 @@ import { removeAllErrors, addEventsConsentSign } from "../event.js";
 import { renderDownloadConsentCopy, renderDownloadHIPAA } from "./agreements.js";
 
 export const consentTemplate = () => {
-    consentAboutPage();
-    //consentConsentPage();
+    //consentAboutPage();
+    consentConsentPage();
     //consentFinishedPage();
 }
 
@@ -799,8 +799,8 @@ export const consentConsentPage = async () => {
     //let formName = './forms/consent/' + myData.data[454205108] + '.pdf'
     //initializeCanvas(formNameConsent, .8*1.7);
     //initializeCanvas1(formNameHIPAA, .8*1.7);
-    initializeCanvas(formNameConsent, 1);
-    initializeCanvas1(formNameHIPAA, 1);
+    initializeCanvas(formNameConsent);
+    initializeCanvas1(formNameHIPAA);
     document.getElementById('backToConsent').addEventListener('click', () => {
         consentIndigenousPage();
     })
@@ -994,13 +994,13 @@ export const consentToProfilePage = () => {
 
 export const initializeCanvas = (file, customScale) => {
     let scale = 1;
-    if(window.innerWidth > 1000) scale = 1.5;
+    if(window.innerWidth > 1000) scale = 1.3;
     if(window.innerWidth < 700) scale = 0.7;
     if(customScale) scale = customScale
     drawCanvas(file,scale);
     window.addEventListener('resize', () => {
         let scale = 1;
-        if(window.innerWidth > 1000) scale = 1.5;
+        if(window.innerWidth > 1000) scale = 1.3;
         if(window.innerWidth < 700) scale = 0.7
         drawCanvas(file, scale);
     }, false);
@@ -1029,13 +1029,13 @@ const drawCanvas = (file, scale) => {
 
 export const initializeCanvas1 = (file, customScale) => {
     let scale = 1;
-    if(window.innerWidth > 1000) scale = 1.5;
+    if(window.innerWidth > 1000) scale = 1.3;
     if(window.innerWidth < 700) scale = 0.7;
     if(customScale) scale = customScale
     drawCanvas1(file,scale);
     window.addEventListener('resize', () => {
         let scale = 1;
-        if(window.innerWidth > 1000) scale = 1.5;
+        if(window.innerWidth > 1000) scale = 1.3;
         if(window.innerWidth < 700) scale = 0.7
         drawCanvas1(file, scale);
     }, false);
