@@ -152,6 +152,20 @@ export const myToDoList = (data, fromUserProfile) => {
                     hideAnimation();
                     return;
                 }
+                else if(data['821247024'] && data['821247024'] == 922622075) {
+                    template += `
+                    <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
+                        Our records show that there is another account linked to your sign in information. Please sign out of this account and sign in again using a different email address or phone number. If you cannot remember the information you used to create your account, please contact the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling 1-877-505-0253.
+                    </div>
+                    </div>
+                    <div class="col-lg-2">
+                    </div>
+                    </div>
+                    `
+                    mainContent.innerHTML = template;
+                    hideAnimation();
+                    return;
+                }
                 else if(data['821247024'] && data['821247024'] == 160161595) {
                     let sites = sites();
                     template += `
@@ -352,13 +366,13 @@ const renderMainBody = (data, tab) => {
         modules['Background and Overall Health'].completed = true;
     };
     if (data[fieldMapping.Module2.conceptId] && data[fieldMapping.Module2.conceptId].COMPLETED) { 
-        modules['Medications, Reproductive Health, Exercise, and Sleep'].completed = true;
+        modules['Medications, Reproductive Health, Exercise, and Sleep'].completed = false;
     };
     if (data[fieldMapping.Module3.conceptId] && data[fieldMapping.Module3.conceptId].COMPLETED) { 
-        modules['Smoking, Alcohol, and Sun Exposure'].completed = true;
+        modules['Smoking, Alcohol, and Sun Exposure'].completed = false;
     };
     if (data[fieldMapping.Module4.conceptId] && data[fieldMapping.Module4.conceptId].COMPLETED) { 
-        modules["Where You Live and Work"].completed  = true
+        modules["Where You Live and Work"].completed  = false
     };
     if ((data[fieldMapping.verification] && data[fieldMapping.verification] == fieldMapping.verified)) { 
         modules['Enter SSN'].enabled = true;
@@ -375,7 +389,7 @@ const renderMainBody = (data, tab) => {
             let started = false;
             if(obj.hasOwnProperty('body')){
                 for(let key of obj['body']){
-                    
+
                     if(!modules[key].completed){
 
                         if(!started){
@@ -422,6 +436,7 @@ const renderMainBody = (data, tab) => {
                                             </li>`;*/
                             }
                         }
+                        
                         hasModlesRemaining = true
                         template += `<div style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
                                         <div class="row">

@@ -8,6 +8,18 @@ import { SOCcer as SOCcerProd } from "./../../prod/config.js";
 import { SOCcer as SOCcerStage } from "./../../stage/config.js";
 import { SOCcer as SOCcerDev } from "./../../dev/config.js";
 export const   questionnaire = (url, moduleId) => {
+    let rootElement = document.getElementById('root');
+    rootElement.innerHTML = `
+    <div class="row">
+        <div class = "col-md-1">
+        </div>
+        <div class = "col-md-10" id="questionnaireRoot">
+        </div>
+        <div class = "col-md-1">
+        </div>
+    </div>
+    
+    `
     //add data into render previous answers
     //inputData = {"firstName":"Alaina","age":"55","SEX":["3"],"SEX2":["6"]};
     getMyData().then(data => {
@@ -39,7 +51,7 @@ export const   questionnaire = (url, moduleId) => {
                 store: storeResponse,
                 retrieve: getMyData,
                 soccer: soccerFunction
-            }, 'root', inputData)
+            }, 'questionnaireRoot', inputData)
 
 
     })
