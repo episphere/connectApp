@@ -3,7 +3,7 @@ import { initializeCanvas } from './consent.js'
 const { PDFDocument, StandardFonts } = PDFLib;
 
 let signaturePosJSON = {
-    "Sanford":{x: 100, y: 440, x1: 100, y1: 460},
+    "Sanford":{x: 100, y: 410, x1: 100, y1: 450},
     "HP":{x: 100, y: 440, x1: 100, y1: 460},
 }
 export const renderAgreements = async () => {
@@ -337,15 +337,15 @@ export const renderDownloadConsentCopy = async (data) => {
     editPage.drawText(`
     ${data[471168198] + ' ' + data[736251808]} 
     ${currentTime}`, {
-                x: 200,
-                y: 275,
+                x: 110,
+                y: 400,
                 size: 24,
       });
 
     editPage.drawText(`
     ${participantSignature}`, {
-        x: 200,
-        y: 225,
+        x: 110,
+        y: 330,
         size: 34,
         font: helveticaFont,
       });
