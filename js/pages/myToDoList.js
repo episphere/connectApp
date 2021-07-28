@@ -366,13 +366,13 @@ const renderMainBody = (data, tab) => {
         modules['Background and Overall Health'].completed = true;
     };
     if (data[fieldMapping.Module2.conceptId] && data[fieldMapping.Module2.conceptId].COMPLETED) { 
-        modules['Medications, Reproductive Health, Exercise, and Sleep'].completed = true;
+        modules['Medications, Reproductive Health, Exercise, and Sleep'].completed = false;
     };
     if (data[fieldMapping.Module3.conceptId] && data[fieldMapping.Module3.conceptId].COMPLETED) { 
-        modules['Smoking, Alcohol, and Sun Exposure'].completed = true;
+        modules['Smoking, Alcohol, and Sun Exposure'].completed = false;
     };
     if (data[fieldMapping.Module4.conceptId] && data[fieldMapping.Module4.conceptId].COMPLETED) { 
-        modules["Where You Live and Work"].completed  = true;
+        modules["Where You Live and Work"].completed  = false;
     };
     if ((data[fieldMapping.verification] && data[fieldMapping.verification] == fieldMapping.verified)) { 
         modules['Enter SSN'].enabled = true;

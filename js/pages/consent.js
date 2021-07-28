@@ -804,7 +804,7 @@ export const consentConsentPage = async () => {
         consentIndigenousPage();
     })
     //initializeCanvas(formName);
-    addEventsConsentSign();
+    //addEventsConsentSign();
     addEventConsentSubmit();
     /*
     const userProfileForm = document.getElementById('consentCheckboxForm');
@@ -905,7 +905,7 @@ export const consentHealthRecordsPage = () => {
         consentConsentPage();
     })
     initializeCanvas('./consent_draft.pdf');
-    addEventsConsentSign();
+    //addEventsConsentSign();
     addEventConsentSubmit();
 
 }
