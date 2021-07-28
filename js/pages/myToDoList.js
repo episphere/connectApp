@@ -360,19 +360,19 @@ const renderMainBody = (data, tab) => {
     modules['Enter SSN'].estimatedTime = 'Less than 5 minutes'
     //if module 1 exists and completed
     if (data[fieldMapping.Module1.conceptId] && data[fieldMapping.Module1.conceptId].COMPLETED) { 
-        modules["Smoking, Alcohol, and Sun Exposure"].enabled = true;
-        modules["Where You Live and Work"].enabled = true;
-        modules['Medications, Reproductive Health, Exercise, and Sleep'].enabled = true;
+        modules["Smoking, Alcohol, and Sun Exposure"].enabled = false;
+        modules["Where You Live and Work"].enabled = false;
+        modules['Medications, Reproductive Health, Exercise, and Sleep'].enabled = false;
         modules['Background and Overall Health'].completed = true;
     };
     if (data[fieldMapping.Module2.conceptId] && data[fieldMapping.Module2.conceptId].COMPLETED) { 
-        modules['Medications, Reproductive Health, Exercise, and Sleep'].completed = false;
+        modules['Medications, Reproductive Health, Exercise, and Sleep'].completed = true;
     };
     if (data[fieldMapping.Module3.conceptId] && data[fieldMapping.Module3.conceptId].COMPLETED) { 
-        modules['Smoking, Alcohol, and Sun Exposure'].completed = false;
+        modules['Smoking, Alcohol, and Sun Exposure'].completed = true;
     };
     if (data[fieldMapping.Module4.conceptId] && data[fieldMapping.Module4.conceptId].COMPLETED) { 
-        modules["Where You Live and Work"].completed  = false;
+        modules["Where You Live and Work"].completed  = true;
     };
     if ((data[fieldMapping.verification] && data[fieldMapping.verification] == fieldMapping.verified)) { 
         modules['Enter SSN'].enabled = true;
