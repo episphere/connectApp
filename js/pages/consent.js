@@ -1,11 +1,12 @@
 import { todaysDate, storeResponse, dataSavingBtn, dateTime, errorMessageConsent, siteAcronyms, getMyData } from "../shared.js";
 import { renderUserProfile } from "../components/form.js";
 import { removeAllErrors, addEventsConsentSign } from "../event.js";
-import { renderDownloadConsentCopy } from "./agreements.js";
+import { renderDownloadConsentCopy, renderDownloadHIPAA } from "./agreements.js";
 
 export const consentTemplate = () => {
     consentAboutPage();
     //consentConsentPage();
+    //consentFinishedPage();
 }
 
 export const renderProgress = (progress) => {
@@ -209,7 +210,7 @@ export const consentPrivacyPage = () => {
                 <ul class="consentBodyFont2" style="margin-left:32px">
                     <li>Follow federal privacy rules, including the <a target="_blank" href="https://www.justice.gov/archives/opcl/overview-privacy-act-1974-2015-edition">Privacy Act</a> and the <a target="_blank" href="https://grants.nih.gov/grants/guide/notice-files/NOT-OD-19-050.html">Common Rule</a>.</li>
                     <li>Maintain tight security controls. Our information systems, including the MyConnect participant app, are watched closely by security experts.</li>
-                    <li>Remove information that can identify you, including your name, date of birth, and social security number (if you shared it), from yoursurvey answers and samples before we share them with researchers. This information is replaced with a unique number (a code) to protect your identity.</li>
+                    <li>Remove information that can identify you, including your name, date of birth, and social security number (if you shared it), from your survey answers and samples before we share them with researchers. This information is replaced with a unique number (a code) to protect your identity.</li>
                     <li>Limit and keep track of who can access the information and samples you share. Only approved researchers who agree to our privacy rules will be allowed to use study information and samples for valid scientific reasons</li>
                     <li>Maintain our <a target="_blank" href="https://grants.nih.gov/policy/humansubjects/coc/what-is.htm">Certificate of Confidentiality</a> from the United States government. This will help protect against any legal requests (such as a court order) to give out information that could identify you.</li>                
                 </ul>   
@@ -663,7 +664,7 @@ export const consentConsentPage = async () => {
                 <h4 class="consentSubheader" style="margin-top:50px">Electronic health records release (HIPAA Authorization) form</h4>
                 <p class="consentBodyFont2" style="text-indent:40px">This allows Connect to access your electronic health records.</p>
                 <div id="canvasContainer1"></div>
-                <div class="row" style="margin:auto"><div style="margin:auto"><a href="${'./forms/HIPAA/'  + participantSite + '_HIPAA_' + versionJSON[participantSite]['HIPAA'] + '.pdf'}" title="Download health records release form" data-toggle="tooltip" download="connect_consent.pdf" class="consentBodyFont2">Download an unsigned copy of the release form&nbsp<i class="fas fa-file-download"></i></a></div></div>
+                <div class="row" style="margin:auto"><div style="margin:auto"><a href="${'./forms/HIPAA/'  + participantSite + '_HIPAA_' + versionJSON[participantSite]['HIPAA'] + '.pdf'}" title="Download health records release form" data-toggle="tooltip" download="connect_hipaa.pdf" class="consentBodyFont2">Download an unsigned copy of the release form&nbsp<i class="fas fa-file-download"></i></a></div></div>
                 
                 <p class="consentBodyFont2" style="margin-top:50px">By clicking “Yes, I agree to join Connect” and typing your name, you confirm the following:</p>
                 <ol class="consentBodyFont2">
@@ -794,17 +795,16 @@ export const consentConsentPage = async () => {
     
     let formNameConsent= './forms/consent/'  + participantSite + '_Consent_' + versionJSON[participantSite]['Consent'] + '.pdf';
     let formNameHIPAA = './forms/HIPAA/'  + participantSite + '_HIPAA_' + versionJSON[participantSite]['HIPAA'] + '.pdf';
-    console.log(formNameConsent)
     //let formName = './forms/consent/' + myData.data[454205108] + '.pdf'
     //initializeCanvas(formNameConsent, .8*1.7);
     //initializeCanvas1(formNameHIPAA, .8*1.7);
-    initializeCanvas(formNameConsent, 1);
-    initializeCanvas1(formNameHIPAA, 1);
+    initializeCanvas(formNameConsent);
+    initializeCanvas1(formNameHIPAA);
     document.getElementById('backToConsent').addEventListener('click', () => {
         consentIndigenousPage();
     })
     //initializeCanvas(formName);
-    addEventsConsentSign();
+    //addEventsConsentSign();
     addEventConsentSubmit();
     /*
     const userProfileForm = document.getElementById('consentCheckboxForm');
@@ -905,16 +905,20 @@ export const consentHealthRecordsPage = () => {
         consentConsentPage();
     })
     initializeCanvas('./consent_draft.pdf');
-    addEventsConsentSign();
+    //addEventsConsentSign();
     addEventConsentSubmit();
 
 }
 
-export const consentFinishedPage = (data) => {
+export const consentFinishedPage = async () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(9);
-    
+    const myData = await getMyData();
+    let data = myData.data;
+    let siteDict = siteAcronyms();
+    let versionJSON = await fetch('./forms/Consent_versioning.json').then(res => res.json());
+    let participantSite = siteDict[myData.data['827220437']];
     template += `
     <div class="row">
         <div class="col-lg-2">
@@ -924,9 +928,8 @@ export const consentFinishedPage = (data) => {
                 <h2>You have completed the consent process</h2>
             </div>
             <div style="margin-left:20px">
-                
-                <div class="row"><div style="margin-left:20px"><i class="fas fa-file-download"></i> <a style="margin-left:10px" href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf" id="consentDownload">Download a copy of your signed consent form&nbsp</a></div></div>
-                <div class="row"><div style="margin-left:20px"><i class="fas fa-file-download"></i> <a style="margin-left:10px" href="./consent_draft.pdf" title="Download health records release form" data-toggle="tooltip" download="connect_consent.pdf" id="healthRecordsDownload">Download a copy of your signed health records release form&nbsp</a></div></div>
+                <div class="row"><div style="margin-left:20px"><i class="fas fa-file-download"></i> <a style="margin-left:10px" type="button" title="Download consent form" data-toggle="tooltip" id="consentDownload">Download a copy of your signed consent form&nbsp</a></div></div>
+                <div class="row"><div style="margin-left:20px"><i class="fas fa-file-download"></i> <a style="margin-left:10px" type="button" title="Download health records release form" data-toggle="tooltip" id="healthRecordsDownload">Download a copy of your signed health records release form&nbsp</a></div></div>
             </div>
             
             <div>
@@ -947,7 +950,7 @@ export const consentFinishedPage = (data) => {
         renderDownloadConsentCopy(data);
     });
     document.getElementById('healthRecordsDownload').addEventListener('click', () => {
-        renderDownloadConsentCopy(data);
+        renderDownloadHIPAA(data);
     });
     
 
@@ -991,13 +994,13 @@ export const consentToProfilePage = () => {
 
 export const initializeCanvas = (file, customScale) => {
     let scale = 1;
-    if(window.innerWidth > 1000) scale = 1.5;
+    if(window.innerWidth > 1000) scale = 1.3;
     if(window.innerWidth < 700) scale = 0.7;
     if(customScale) scale = customScale
     drawCanvas(file,scale);
     window.addEventListener('resize', () => {
         let scale = 1;
-        if(window.innerWidth > 1000) scale = 1.5;
+        if(window.innerWidth > 1000) scale = 1.3;
         if(window.innerWidth < 700) scale = 0.7
         drawCanvas(file, scale);
     }, false);
@@ -1026,13 +1029,13 @@ const drawCanvas = (file, scale) => {
 
 export const initializeCanvas1 = (file, customScale) => {
     let scale = 1;
-    if(window.innerWidth > 1000) scale = 1.5;
+    if(window.innerWidth > 1000) scale = 1.3;
     if(window.innerWidth < 700) scale = 0.7;
     if(customScale) scale = customScale
     drawCanvas1(file,scale);
     window.addEventListener('resize', () => {
         let scale = 1;
-        if(window.innerWidth > 1000) scale = 1.5;
+        if(window.innerWidth > 1000) scale = 1.3;
         if(window.innerWidth < 700) scale = 0.7
         drawCanvas1(file, scale);
     }, false);
@@ -1137,5 +1140,5 @@ const consentSubmit = async e => {
     formData['507120821'] = 554563961;
     const response = await storeResponse(formData);
     formData['335767902'] = new Date().toISOString();
-    if(response.code === 200) consentFinishedPage (formData);
+    if(response.code === 200) consentFinishedPage ();
 }
