@@ -158,9 +158,6 @@ const router = async () => {
     manageEmailActions()
     const parameters = getParameters(window.location.href);
     let loggedIn = await userLoggedIn();
-    if(parameters && parameters.token && loggedIn === false){
-        window.location.hash = '#sign_in';
-    }
     const route =  window.location.hash || '#';
     toggleNavBar(route);
     

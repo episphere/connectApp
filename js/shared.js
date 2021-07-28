@@ -226,6 +226,7 @@ export const getParameters = (URL) => {
     const index = hash.indexOf('?');
     if(index !== -1){
         let query = hash.slice(index+1, hash.length);
+        query = query.replace(/#\?/g, "&")
         if(query.indexOf('#') !== -1) query = query.slice(0, query.indexOf('#'))
         const array = query.split('&');
         let obj = {};
