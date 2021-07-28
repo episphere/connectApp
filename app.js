@@ -85,7 +85,7 @@ const handleResetPassword = (auth, actionCode) => {
                     <i class="fas fa-eye show-text" id="showPassword" title="Show password"></i>
                 </div>
                 </br>
-                <button type="submit" class="btn btn-primary">Update password</button>
+                <button type="submit" class="btn btn-primary mb-3">Update password</button>
             </form>
         `;
         const form = document.getElementById('resetPasswordForm');
@@ -132,7 +132,7 @@ window.onhashchange = () => {
     router();
 }
 
-const manageEmailActions = () => {
+const router = async () => {
     const parameters = getParameters(window.location.href);
     if(parameters && parameters['mode']){
         const mode = parameters['mode'];
@@ -151,12 +151,9 @@ const manageEmailActions = () => {
             default:
             // Error: invalid mode.
         }
+        if(['resetPassword', 'verifyEmail'].includes(parameters['mode'])) return;
     }
-}
 
-const router = async () => {
-    manageEmailActions()
-    const parameters = getParameters(window.location.href);
     let loggedIn = await userLoggedIn();
     const route =  window.location.hash || '#';
     toggleNavBar(route);
@@ -303,9 +300,8 @@ const toggleNavBar = (route) => {
             document.getElementById('nextStepWarning') ? document.getElementById('nextStepWarning').style.display="none": '';
             toggleCurrentPageNoUser(route);
             const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
-            console.log("ROUTE: " + route)
             if(route == "#"){
-            ui.start('#signInDiv', signInConfig());
+                ui.start('#signInDiv', signInConfig());
             }
             hideAnimation();
         }
