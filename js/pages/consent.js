@@ -795,17 +795,16 @@ export const consentConsentPage = async () => {
     
     let formNameConsent= './forms/consent/'  + participantSite + '_Consent_' + versionJSON[participantSite]['Consent'] + '.pdf';
     let formNameHIPAA = './forms/HIPAA/'  + participantSite + '_HIPAA_' + versionJSON[participantSite]['HIPAA'] + '.pdf';
-    console.log(formNameConsent)
     //let formName = './forms/consent/' + myData.data[454205108] + '.pdf'
     //initializeCanvas(formNameConsent, .8*1.7);
     //initializeCanvas1(formNameHIPAA, .8*1.7);
-    initializeCanvas(formNameConsent, 1);
-    initializeCanvas1(formNameHIPAA, 1);
+    initializeCanvas(formNameConsent);
+    initializeCanvas1(formNameHIPAA);
     document.getElementById('backToConsent').addEventListener('click', () => {
         consentIndigenousPage();
     })
     //initializeCanvas(formName);
-    addEventsConsentSign();
+    //addEventsConsentSign();
     addEventConsentSubmit();
     /*
     const userProfileForm = document.getElementById('consentCheckboxForm');
@@ -906,16 +905,17 @@ export const consentHealthRecordsPage = () => {
         consentConsentPage();
     })
     initializeCanvas('./consent_draft.pdf');
-    addEventsConsentSign();
+    //addEventsConsentSign();
     addEventConsentSubmit();
 
 }
 
-export const consentFinishedPage = async (data) => {
+export const consentFinishedPage = async () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(9);
     const myData = await getMyData();
+    let data = myData.data;
     let siteDict = siteAcronyms();
     let versionJSON = await fetch('./forms/Consent_versioning.json').then(res => res.json());
     let participantSite = siteDict[myData.data['827220437']];
@@ -994,13 +994,13 @@ export const consentToProfilePage = () => {
 
 export const initializeCanvas = (file, customScale) => {
     let scale = 1;
-    if(window.innerWidth > 1000) scale = 1.5;
+    if(window.innerWidth > 1000) scale = 1.3;
     if(window.innerWidth < 700) scale = 0.7;
     if(customScale) scale = customScale
     drawCanvas(file,scale);
     window.addEventListener('resize', () => {
         let scale = 1;
-        if(window.innerWidth > 1000) scale = 1.5;
+        if(window.innerWidth > 1000) scale = 1.3;
         if(window.innerWidth < 700) scale = 0.7
         drawCanvas(file, scale);
     }, false);
@@ -1029,13 +1029,13 @@ const drawCanvas = (file, scale) => {
 
 export const initializeCanvas1 = (file, customScale) => {
     let scale = 1;
-    if(window.innerWidth > 1000) scale = 1.5;
+    if(window.innerWidth > 1000) scale = 1.3;
     if(window.innerWidth < 700) scale = 0.7;
     if(customScale) scale = customScale
     drawCanvas1(file,scale);
     window.addEventListener('resize', () => {
         let scale = 1;
-        if(window.innerWidth > 1000) scale = 1.5;
+        if(window.innerWidth > 1000) scale = 1.3;
         if(window.innerWidth < 700) scale = 0.7
         drawCanvas1(file, scale);
     }, false);
@@ -1140,5 +1140,5 @@ const consentSubmit = async e => {
     formData['507120821'] = 554563961;
     const response = await storeResponse(formData);
     formData['335767902'] = new Date().toISOString();
-    if(response.code === 200) consentFinishedPage (formData);
+    if(response.code === 200) consentFinishedPage ();
 }

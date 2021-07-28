@@ -372,7 +372,7 @@ const renderMainBody = (data, tab) => {
         modules['Smoking, Alcohol, and Sun Exposure'].completed = false;
     };
     if (data[fieldMapping.Module4.conceptId] && data[fieldMapping.Module4.conceptId].COMPLETED) { 
-        modules["Where You Live and Work"].completed  = false
+        modules["Where You Live and Work"].completed  = false;
     };
     if ((data[fieldMapping.verification] && data[fieldMapping.verification] == fieldMapping.verified)) { 
         modules['Enter SSN'].enabled = true;
