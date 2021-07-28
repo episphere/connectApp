@@ -4,8 +4,8 @@ import { removeAllErrors, addEventsConsentSign } from "../event.js";
 import { renderDownloadConsentCopy, renderDownloadHIPAA } from "./agreements.js";
 
 export const consentTemplate = () => {
-    //consentAboutPage();
-    consentConsentPage();
+    consentAboutPage();
+    //consentConsentPage();
     //consentFinishedPage();
 }
 
@@ -795,7 +795,6 @@ export const consentConsentPage = async () => {
     
     let formNameConsent= './forms/consent/'  + participantSite + '_Consent_' + versionJSON[participantSite]['Consent'] + '.pdf';
     let formNameHIPAA = './forms/HIPAA/'  + participantSite + '_HIPAA_' + versionJSON[participantSite]['HIPAA'] + '.pdf';
-    console.log(formNameConsent)
     //let formName = './forms/consent/' + myData.data[454205108] + '.pdf'
     //initializeCanvas(formNameConsent, .8*1.7);
     //initializeCanvas1(formNameHIPAA, .8*1.7);
@@ -911,11 +910,12 @@ export const consentHealthRecordsPage = () => {
 
 }
 
-export const consentFinishedPage = async (data) => {
+export const consentFinishedPage = async () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(9);
     const myData = await getMyData();
+    let data = myData.data;
     let siteDict = siteAcronyms();
     let versionJSON = await fetch('./forms/Consent_versioning.json').then(res => res.json());
     let participantSite = siteDict[myData.data['827220437']];
@@ -1140,5 +1140,5 @@ const consentSubmit = async e => {
     formData['507120821'] = 554563961;
     const response = await storeResponse(formData);
     formData['335767902'] = new Date().toISOString();
-    if(response.code === 200) consentFinishedPage (formData);
+    if(response.code === 200) consentFinishedPage ();
 }
