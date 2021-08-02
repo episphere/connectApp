@@ -167,10 +167,10 @@ export const myToDoList = (data, fromUserProfile) => {
                     return;
                 }
                 else if(data['821247024'] && data['821247024'] == 160161595) {
-                    let sites = sites();
+                    let siteList = sites();
                     template += `
                     <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
-                        We need more information from you to check that you can be part of the Connect for Cancer Prevention Study. Please contact ${sites[data['827220437']]} to confirm your eligibility for Connect.
+                        We need more information from you to check that you can be part of the Connect for Cancer Prevention Study. Please contact ${siteList[data['827220437']]} to confirm your eligibility for Connect.
                     </div>
                     </div>
                     <div class="col-lg-2">
