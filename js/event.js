@@ -912,9 +912,10 @@ const verifyUserDetails = (formData) => {
         <button type="button" title="Close" class="btn btn-dark" data-dismiss="modal">Go Back</button>
         <button type="button" id="confirmReview" title="Confirm details" class="btn btn-primary consentNextButton" data-dismiss="modal">Submit</button>
     `;
+    document.getElementById('connectModalFooter').style.display = 'block';
 
     //make sure this is not hidden
-    
+
 
     document.getElementById('confirmReview').addEventListener('click', async () => {
         dataSavingBtn('save-data');
