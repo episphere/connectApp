@@ -913,6 +913,9 @@ const verifyUserDetails = (formData) => {
         <button type="button" id="confirmReview" title="Confirm details" class="btn btn-primary consentNextButton" data-dismiss="modal">Submit</button>
     `;
 
+    //make sure this is not hidden
+    
+
     document.getElementById('confirmReview').addEventListener('click', async () => {
         dataSavingBtn('save-data');
         formData['699625233'] = 353358909;
