@@ -31,6 +31,10 @@ export const   questionnaire = (url, moduleId) => {
         if (data.data[fieldMapping['Module1'].conceptId] && data.data[fieldMapping['Module1'].conceptId]['D_407056417']){
             inputData["D_407056417"] = data.data[fieldMapping['Module1'].conceptId]['D_407056417'];
         }
+        if (data.data[fieldMapping['Module1'].conceptId] && data.data[fieldMapping['Module1'].conceptId]['D_613744428']){
+            inputData["D_613744428"] = data.data[fieldMapping['Module1'].conceptId]['D_613744428'];
+        }
+        D_613744428
         let birthMonth =  data.data[fieldMapping.birthMonth];
         let birthDay =  data.data[fieldMapping.birthDay];
         let birthYear =  data.data[fieldMapping.birthYear];
