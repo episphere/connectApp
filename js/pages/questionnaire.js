@@ -25,9 +25,11 @@ export const   questionnaire = (url, moduleId) => {
     getMyData().then(data => {
         let inputData = {};
         inputData["firstName"] = data.data[fieldMapping.fName];
-        console.log(data.data.Module1);
-        if (data.data.Module1 && data.data.Module1.SEX){
-            inputData["SEX"] = data.data.Module1.SEX;
+        //console.log('Module 1 data: ;dasklsad;lkf')
+        //console.log(data.data[fieldMapping['Module1'].conceptId]['D_407056417']);
+        console.log('debugging log')
+        if (data.data[fieldMapping['Module1'].conceptId] && data.data[fieldMapping['Module1'].conceptId]['D_407056417']){
+            inputData["D_407056417"] = data.data[fieldMapping['Module1'].conceptId]['D_407056417'];
         }
         let birthMonth =  data.data[fieldMapping.birthMonth];
         let birthDay =  data.data[fieldMapping.birthDay];
