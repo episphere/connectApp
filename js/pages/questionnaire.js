@@ -25,6 +25,7 @@ export const   questionnaire = (url, moduleId) => {
     getMyData().then(data => {
         let inputData = {};
         inputData["firstName"] = data.data[fieldMapping.fName];
+        console.log(data.data.Module1);
         if (data.data.Module1 && data.data.Module1.SEX){
             inputData["SEX"] = data.data.Module1.SEX;
         }
