@@ -360,9 +360,9 @@ const renderMainBody = (data, tab) => {
     modules['Enter SSN'].estimatedTime = 'Less than 5 minutes'
     //if module 1 exists and completed
     if (data[fieldMapping.Module1.conceptId] && data[fieldMapping.Module1.conceptId].COMPLETED) { 
-        modules["Smoking, Alcohol, and Sun Exposure"].enabled = false;
-        modules["Where You Live and Work"].enabled = false;
-        modules['Medications, Reproductive Health, Exercise, and Sleep'].enabled = false;
+        modules["Smoking, Alcohol, and Sun Exposure"].enabled = true;
+        modules["Where You Live and Work"].enabled = true;
+        modules['Medications, Reproductive Health, Exercise, and Sleep'].enabled = true;
         modules['Background and Overall Health'].completed = true;
     };
     if (data[fieldMapping.Module2.conceptId] && data[fieldMapping.Module2.conceptId].COMPLETED) { 
