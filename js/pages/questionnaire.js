@@ -26,8 +26,8 @@ export const   questionnaire = (url, moduleId) => {
         let inputData = {};
         inputData["firstName"] = data.data[fieldMapping.fName];
         //console.log('Module 1 data: ;dasklsad;lkf')
-        //console.log(data.data[fieldMapping['Module1'].conceptId]['D_407056417']);
         console.log('debugging log')
+        console.log(data.data[fieldMapping['Module1'].conceptId]['D_407056417']);
         if (data.data[fieldMapping['Module1'].conceptId] && data.data[fieldMapping['Module1'].conceptId]['D_407056417']){
             inputData["D_407056417"] = data.data[fieldMapping['Module1'].conceptId]['D_407056417'];
         }
