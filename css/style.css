@@ -1150,3 +1150,18 @@ input:checked + .slider:before {
     }  
 }
 
+h2{
+    font-family: 'Montserrat', sans-serif;
+}
+h2 p{
+    font-family: 'Montserrat', sans-serif;
+}
+h3{
+    font-family: 'Montserrat', sans-serif;
+}
+h3 p{
+    font-family: 'Montserrat', sans-serif;
+}
+p{
+    font-family: 'Noto Sans', sans-serif;
+}

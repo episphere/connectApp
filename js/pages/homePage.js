@@ -354,10 +354,10 @@ export const renderHomeAboutPage =  () => {
             </div>
         </div>
         `
-    renderSyndicate("https://api.digitalmedia.hhs.gov/api/v2/resources/media/19351/syndicate.json?stripStyles=true&stripScripts=false&stripBreaks=false&stripImages=false&stripClasses=true&stripIds=false&displayMethod=undefined&autoplay=false","connectBody")
+    renderSyndicate("https://api.digitalmedia.hhs.gov/api/v2/resources/media/19351/syndicate.json?stripStyles=false&stripScripts=false&stripBreaks=false&stripImages=false&stripClasses=false&stripIds=false&displayMethod=undefined&autoplay=false","connectBody", 'about')
     window.scrollTo(0, 0);
 }
-export const renderHomeExpectationsPage =  () => {
+export const renderHomeExpectationsPage = () => {
     
     const mainContent = document.getElementById('root');
     const isCompatible = isBrowserCompatible();
@@ -372,8 +372,13 @@ export const renderHomeExpectationsPage =  () => {
         </div>
         </div>
         `
-    renderSyndicate("https://api.digitalmedia.hhs.gov/api/v2/resources/media/19350/syndicate.json?stripStyles=true&stripScripts=false&stripBreaks=false&stripImages=false&stripClasses=true&stripIds=false&displayMethod=undefined&autoplay=false","connectBody")
+    renderSyndicate("https://api.digitalmedia.hhs.gov/api/v2/resources/media/19350/syndicate.json?stripStyles=false&stripScripts=false&stripBreaks=false&stripImages=false&stripClasses=false&stripIds=false&displayMethod=undefined&autoplay=false","connectBody", 'expectations')
     window.scrollTo(0, 0);
+    let sections = document.getElementsByTagName('h2')
+    //console.log(sections)
+    
+    
+    console.log(sections[0]);
 }
 export const renderHomePrivacyPage =  () => {
     const mainContent = document.getElementById('root');
@@ -389,7 +394,7 @@ export const renderHomePrivacyPage =  () => {
         </div>
         </div>
         `
-    renderSyndicate("https://api.digitalmedia.hhs.gov/api/v2/resources/media/19352/syndicate.json?stripStyles=true&stripScripts=false&stripBreaks=false&stripImages=false&stripClasses=true&stripIds=false&displayMethod=undefined&autoplay=false","connectBody")
+    renderSyndicate("https://api.digitalmedia.hhs.gov/api/v2/resources/media/19352/syndicate.json?stripStyles=false&stripScripts=false&stripBreaks=false&stripImages=false&stripClasses=false&stripIds=false&displayMethod=undefined&autoplay=false","connectBody", 'privacy')
     window.scrollTo(0, 0);
 
 }

@@ -831,7 +831,7 @@ const signOut = () => {
     document.title = 'My Connect - Home';
 }
 
-export const renderSyndicate = (url, element) => {
+export const renderSyndicate = (url, element, page) => {
     const mainContent = document.getElementById(element);
     const isCompatible = isBrowserCompatible();
     fetch(url)
@@ -871,6 +871,23 @@ export const renderSyndicate = (url, element) => {
     mainContent.innerHTML = parsed.results[0].content;
     let toHide = document.getElementsByClassName('syndicate');
     toHide[1].style.display = "none"
+    if(page == "expectations"){
+        let ids = ['joining-connect', 'after-you-join', 'long-term-study-activities', 'what-connect-will-do', 'how-your-information-will-help-prevent-cancer']
+        let sections = document.getElementsByTagName('section');
+        for(let i = 0; i < sections.length; i++){
+            let section = sections[i];
+            section.id = ids[i];
+        }
+    }
+    if(page == "about"){
+        let ids = ['why-connect-is-important','what-to-expect-if-you-decide-to-join','where-this-study-takes-place','about-our-researchers','a-resource-for-science']
+        let sections = document.getElementsByTagName('section');
+        for(let i = 0; i < sections.length; i++){
+            let section = sections[i];
+            section.id = ids[i];
+        }
+    }
     hideAnimation();
+
     });
 }
