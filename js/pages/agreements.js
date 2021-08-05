@@ -572,6 +572,7 @@ const renderSignDataDestroy = async (data) =>{
 }
 
 const renderSignHIPAARevoke = async (data) =>{
+    console.log('hipaa revoke part dusf;bsdlvjb ')
     let consentVersions = await fetch('./forms/Consent_versioning.json').then(res => res.json());
 
     document.getElementById('root').innerHTML = `
@@ -650,8 +651,12 @@ const renderSignHIPAARevoke = async (data) =>{
         let formData = {};
         formData['153713899'] = 353358909;
         formData['613641698'] = dateTime();
+        formData['slkbdslvksbd'] = 124124;
+
+        console.log(formData);
         const response = await storeResponse(formData);
         if(response.code === 200) {
+            console.log(response);
             await renderAgreements();
         }
         hideAnimation();

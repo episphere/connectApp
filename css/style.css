@@ -1150,6 +1150,12 @@ input:checked + .slider:before {
     }  
 }
 
+h1{
+    font-family: 'Montserrat', sans-serif;
+}
+h1 p{
+    font-family: 'Montserrat', sans-serif;
+}
 h2{
     font-family: 'Montserrat', sans-serif;
 }
