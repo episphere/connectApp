@@ -289,7 +289,7 @@ export const consentResultsPage = () => {
             </div>
             <div class="col-lg-8">
                 <p class="consentHeadersFont">Receiving Study Results</p>
-                <p class="consentBodyFont1">We will be sharing some of the things we learn with you. You can choose which results you want to receive. These may include results from your surveys and results from the study of your samples, which could include ancestry information.</p>
+                <p class="consentBodyFont1">We will be sharing some of the things we learn with you. You can choose which results you want to receive. These may include results from your surveys and results from your samples, which could include ancestry information.</p>
                 <p class="consentBodyFont2">You can also choose to receive general findings about cancer or other health information from all the people taking part in the study and updates about Connect.</p>
                 <p class="consentBodyFont2">We will alert you when results are available and share them securely if you choose to receive them.</p>
                 <p class="consentBodyFont2">We will not add information about Connect to your health record or share your information with your health care provider, but you are free to do so with any results you receive.</p>
@@ -368,7 +368,7 @@ export const consentIndigenousPage = () => {
             </div>
             <div class="col-lg-8">
                 <p class="consentHeadersFont">Why is Connect interested in engaging Indigenous Peoples?</p>
-                <p class="consentBodyFont2">Our goal as a Connect team is to be inclusive. We want to include people from many places and backgrounds throughout the United States so our findings may benefit all communities.. It is important for Connect to include people and communities that have been left out of research in the past, such as Indigenous Peoples. Indigenous populations native to the U.S. may include people who identify as American Indian, Alaska Native, Native Hawaiian, and/or Pacific Islander and their communities.</p>
+                <p class="consentBodyFont2">Our goal as a Connect team is to be inclusive. We want to include people from many places and backgrounds throughout the United States so our findings may benefit all communities. It is important for Connect to include people and communities that have been left out of research in the past, such as Indigenous Peoples. Indigenous populations native to the U.S. may include people who identify as American Indian, Alaska Native, Native Hawaiian, and/or Pacific Islander and their communities.</p>
                 <p class="consentBodyFont2">Would you like to learn more about what it means to take part in Connect for anyone who identifies as an Indigenous Person? There are three screens left in this series.</p>
                 <form id="consentIndigenousInfo" method="POST">
                     <input type="radio" name="choice" value="yes" id="consentIndigenousYes"> Yes, tell me more</input>
@@ -505,9 +505,9 @@ export const consentIndigenousOtherPage = () => {
                 <p class="consentBodyFont2">We acknowledge past transgressions and abuses of Indigenous Peoples in research studies, and the harms these have caused Indigenous communities. We are opposed to any research that harms Indigenous Peoples and we do not support any research or researcher that has harmed any community. We respect and appreciate your willingness to work with us and know that your trust must be earned. We are committed to protecting your privacy, safeguarding your information, and maintaining the integrity of our research.</p>
                 <p class="consentBodyFont2">If you identify as an Indigenous Person and want to join Connect, please consider:</p>
                 <ul class="consentBodyFont2" style="margin-left:32px">
-                    <li>Reading more about participation and the details of what it means to take part in Connect here</li>
+                    <li>Reading more about participation and the details of what it means to take part in Connect <a class="footer-links" target="__blank" href="https://www.cancer.gov/connect-prevention-study/what-to-expect">here</a></li>
                     <li>Speaking with your community members, leaders, and family about participating in Connect.</li>
-                    <li>Contacting the Connect Support Center with any questions you have. Our team is happy to speak with you and discuss any concerns you may have about taking part in the study. (Cancer.gov/connectstudy/support, or call 1-866-462-6621 8:00 a.m.-10:00 p.m. CT on weekdays, and 9:00 a.m.-6:00 p.m. CT on weekends).</li>
+                    <li>Contacting the Connect Support Center with any questions you have. Our team is happy to speak with you and discuss any concerns you may have about taking part in the study. (<a class="footer-links" target="__blank" href="https://norcfedramp.servicenowservices.com/recruit">Cancer.gov/connectstudy/support</a>, or call 1-866-462-6621 8:00 a.m.-10:00 p.m. CT on weekdays, and 9:00 a.m.-6:00 p.m. CT on weekends).</li>
                 </ul>
                 <p class="consentBodyFont2">If you join now and later decide you want to leave the study, you can do so at any time, for any reason.</p>
                 <p class="consentBodyFont2">The decision to join Connect is yours to make. Please choose what you are most comfortable with. We respect your decision and your privacy, and welcome any feedback or thoughts that you would like to share with us. Please call us at 1-866-462-6621 8:00 a.m.-10:00 p.m. CT on weekdays, and 9:00 a.m.-6:00 p.m. CT on weekends, or write to us at ConnectStudy@norc.org.</p>
