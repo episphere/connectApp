@@ -173,7 +173,7 @@ export const renderAgreements = async () => {
                                                 </span>
                                                 <br>
                                                 <span class = "consentBodyFont2">
-                                                    Your signed agreement to participate in the Connect for Cancer Prevention Study.This form has important information about your privacy and what you will be asked to do as a Connect participant
+                                                    Your signed agreement to participate in the Connect for Cancer Prevention Study. This form has important information about your privacy and what you will be asked to do as a Connect participant
                                                 </span>
                                                 <br>
                                                 <br>
