@@ -152,7 +152,7 @@ export const renderUserProfile = async () => {
                 <div class="col">
                     <label class="col-form-label">
                         <b>
-                            *One phone number is required.
+                            One phone number is required.<span class="required">*</span>
                         </b>
                     </label>
                 </div>
