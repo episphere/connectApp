@@ -243,7 +243,7 @@ const userProfile = () => {
                         <div class="col-md-2">
                         </div>
                         <div class="col-md-8">
-                            <div class="verifyEmailText">Please click the link we sent to your email to verify your contact information. Be sure to check your spam folder.</div>
+                            <div class="verifyEmailText">Please click the link we sent to your email to verify your contact information.<br>Be sure to check your spam folder.</div>
                         </div>
                         <div class="col-md-2">
                         </div>

@@ -416,7 +416,7 @@ export const consentIndigenousAffectPage = () => {
             <div class="col-lg-2">
             </div>
             <div class="col-lg-8">
-                <p class="consentHeadersFont">How might my participation in Connectaffect Indigenous communities?</p>
+                <p class="consentHeadersFont">How might my participation in Connect affect Indigenous communities?</p>
                 <p class="consentBodyFont2">Some Indigenous Peoples and their communities have emphasized the need to learn more about certain risks and benefits to participating in research studies. Community members may be concerned that research practices will not follow traditional customs, or that conclusions made about Indigenous participants might harm Indigenous communities.</p>
                 <p class="consentBodyFont2">It is also possible that participating in research studies can benefit Indigenous communities. Learning about the health of Indigenous participants may help us make medical discoveries that benefit other people in their communities. The representation of all communities in research is an important part of advancing medicine and extending benefits to all people.</p>
                 <p class="consentBodyFont2">We want our research to respect the cultures and practices of all Indigenous Peoples.</p>
