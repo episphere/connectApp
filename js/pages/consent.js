@@ -172,12 +172,12 @@ export const consentActivitiesPage = () => {
                     <li>Sharing information from wearable electronic health trackers or apps that measure things like diet, sleep, or air quality in your environment</li>
                 </ul>  
                 <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
-                    <div class="col-md-2 order-2 order-md-1">
+                    <div class="col-md-2">
                         <button class="btn btn-primary consentPrevButton" type="button" id="backToAbout" style="min-width:100%; margin-top:10px;margin-bottom:10px;">Previous</button>
                     </div>
-                    <div class="col-md-8 order-3 order-md-2">
+                    <div class="col-md-8">
                     </div>
-                    <div class="col-md-2 order-1 order-md-3">
+                    <div class="col-md-2">
                         <button class="btn btn-primary consentNextButton" type="button" id="toPrivacy" style="width:100%; margin-top:10px;margin-bottom:10px">Next</button>
                     </div>
                 </div>
