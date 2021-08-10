@@ -110,11 +110,11 @@ export const consentAboutPage = () => {
                 <p class="consentBodyFont2">Researchers will study things like habits, behaviors, and the environment you and others live in that can help us learn how cancer may form. Researchers hope to learn new ways to stop cancer from forming in the first place.</p>
                 <p class="consentBodyFont2">Connect is studying cancer prevention. Researchers will not look for treatments for cancer, give medical care, or share medical advice.</p>
                 <div class="row" style="padding:0;">
-                    <div class="col-md-2 order-2 order-md-1">
+                    <div class="col-md-2">
                     </div>
-                    <div class="col-md-8 order-3 order-md-2">
+                    <div class="col-md-8">
                     </div>
-                    <div class="col-md-2 order-1 order-md-3">
+                    <div class="col-md-2">
                         <button class="btn btn-primary consentNextButton" type="button" id="toActivities" style="margin-top:100px; width:100%;"><b>Next<b></button>
                     </div>
                 </div>
@@ -295,12 +295,12 @@ export const consentResultsPage = () => {
                 <p class="consentBodyFont2">We will not add information about Connect to your health record or share your information with your health care provider, but you are free to do so with any results you receive.</p>
                 
                 <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
-                    <div class="col-md-2 order-2 order-md-1">
+                    <div class="col-md-2">
                         <button class="btn btn-primary consentPrevButton" type="button" id="backToBenefits" style="min-width:100%; margin-top:10px;margin-bottom:10px;">Previous</button>
                     </div>
-                    <div class="col-md-8 order-3 order-md-2">
+                    <div class="col-md-8">
                     </div>
-                    <div class="col-md-2 order-1 order-md-3">
+                    <div class="col-md-2">
                         <button class="btn btn-primary consentNextButton" type="button" id="toLeaving" style="width:100%; margin-top:10px;margin-bottom:10px">Next</button>
                     </div>
                 </div>
@@ -333,12 +333,12 @@ export const consentLeavingPage = () => {
                 <p class="consentBodyFont1">You will receive $25 in cash or as a gift card after you complete the first online survey and donate your first blood sample.</p>
                 
                 <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
-                    <div class="col-md-2 order-2 order-md-1">
+                    <div class="col-md-2">
                         <button class="btn btn-primary consentPrevButton" type="button" id="backToResults" style="min-width:100%; margin-top:10px;margin-bottom:10px;">Previous</button>
                     </div>
-                    <div class="col-md-8 order-3 order-md-2">
+                    <div class="col-md-8">
                     </div>
-                    <div class="col-md-2 order-1 order-md-3">
+                    <div class="col-md-2">
                         <button class="btn btn-primary consentNextButton" type="button" id="toConsent" style="width:100%; margin-top:10px;margin-bottom:10px">Next</button>
                     </div>
                 </div>
@@ -376,12 +376,12 @@ export const consentIndigenousPage = () => {
                     <input type="radio" name="choice" value="no" id="consentIndigenousNo" required> No, continue to consent</input>
                     
                     <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
-                        <div class="col-md-2 order-2 order-md-1">
+                        <div class="col-md-2">
                             <button class="btn btn-primary consentPrevButton" type="button" id="backToResults" style="min-width:100%; margin-top:10px;margin-bottom:10px;">Previous</button>
                         </div>
-                        <div class="col-md-8 order-3 order-md-2">
+                        <div class="col-md-8">
                         </div>
-                        <div class="col-md-2 order-1 order-md-3">
+                        <div class="col-md-2">
                             <button class="btn btn-primary consentNextButton" type="submit" id="toConsent" style="width:100%; margin-top:10px;margin-bottom:10px">Next</button>
                         </div>
                     </div>
@@ -422,12 +422,12 @@ export const consentIndigenousAffectPage = () => {
                 <p class="consentBodyFont2">We want our research to respect the cultures and practices of all Indigenous Peoples.</p>
 
                 <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
-                    <div class="col-md-2 order-2 order-md-1">
+                    <div class="col-md-2">
                         <button class="btn btn-primary consentPrevButton" type="button" id="backToResults" style="min-width:100%; margin-top:10px;margin-bottom:10px;">Previous</button>
                     </div>
-                    <div class="col-md-8 order-3 order-md-2">
+                    <div class="col-md-8">
                     </div>
-                    <div class="col-md-2 order-1 order-md-3">
+                    <div class="col-md-2">
                         <button class="btn btn-primary consentNextButton" type="button" id="toConsent" style="width:100%; margin-top:10px;margin-bottom:10px">Next</button>
                     </div>
                 </div>
@@ -466,12 +466,12 @@ export const consentIndigenousProtectPage = () => {
                 <p class="consentBodyFont2">If a participant from an Indigenous community passes away during their time in the study, we will work with the participant’s family or other community members to determine a plan forreturn or destruction of their samples, if requested.</p>
 
                 <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
-                    <div class="col-md-2 order-2 order-md-1">
+                    <div class="col-md-2">
                         <button class="btn btn-primary consentPrevButton" type="button" id="backToResults" style="min-width:100%; margin-top:10px;margin-bottom:10px;">Previous</button>
                     </div>
-                    <div class="col-md-8 order-3 order-md-2">
+                    <div class="col-md-8">
                     </div>
-                    <div class="col-md-2 order-1 order-md-3">
+                    <div class="col-md-2">
                         <button class="btn btn-primary consentNextButton" type="button" id="toConsent" style="width:100%; margin-top:10px;margin-bottom:10px">Next</button>
                     </div>
                 </div>
@@ -514,12 +514,12 @@ export const consentIndigenousOtherPage = () => {
                 <p class="consentBodyFont2">Thank you for learning about how Connect will engage with Indigenous Peoples. On the next screen, you can view the full consent form and electronic health records release form to continue the consent process.</p>
 
                 <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
-                    <div class="col-md-2 order-2 order-md-1">
+                    <div class="col-md-2">
                         <button class="btn btn-primary consentPrevButton" type="button" id="backToResults" style="min-width:100%; margin-top:10px;margin-bottom:10px;">Previous</button>
                     </div>
-                    <div class="col-md-8 order-3 order-md-2">
+                    <div class="col-md-8">
                     </div>
-                    <div class="col-md-2 order-1 order-md-3">
+                    <div class="col-md-2">
                         <button class="btn btn-primary consentNextButton" type="button" id="toConsent" style="width:100%; margin-top:10px;margin-bottom:10px">Next</button>
                     </div>
                 </div>
@@ -767,12 +767,12 @@ export const consentConsentPage = async () => {
                 -->
                 
                 <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
-                    <div class="col-md-2 order-2 order-md-1">
+                    <div class="col-md-2">
                         <button class="btn btn-primary consentPrevButton" type="button" id="backToConsent" style="min-width:100%; margin-top:10px;margin-bottom:10px;">Previous</button>
                     </div>
-                    <div class="col-md-8 order-3 order-md-2">
+                    <div class="col-md-8">
                     </div>
-                    <div class="col-md-2 order-1 order-md-3">
+                    <div class="col-md-2">
                         <button class="btn btn-primary save-data consentNextButton" type="submit" id="toConsent" style="width:100%; margin-top:10px;margin-bottom:10px">Submit</button>
                     </div>
                 </div>
