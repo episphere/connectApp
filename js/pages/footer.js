@@ -23,7 +23,7 @@ export const footerTemplate = () => {
                 </div>
             </div>
             <div class="row w-100 pt-5 align-center" style="margin:0">
-                <ul class="menu w-100">
+                <ul class="menu w-100" style="padding:0">
                     <li class="menu-item p-0 footer-menu-item"><a target="__blank" class="footer-links gov-dept-links p-0" href="http://www.hhs.gov/">U.S. Department of Health and Human Services</a></li>
                     <li class="menu-item p-0 footer-menu-item"><a target="__blank" class="footer-links gov-dept-links p-0" href="http://www.nih.gov/">National Institutes of Health</a></li> 
                     <li class="menu-item p-0 footer-menu-item"><a target="__blank" class="footer-links gov-dept-links p-0" href="http://www.cancer.gov/">National Cancer Institute</a></li> 
@@ -39,7 +39,7 @@ export const footerTemplate = () => {
                 <div class="col-md-2">
                 </div>
             </div>
-            <div class="row w-100">
+            <div class="row w-100" style="margin:0">
                 <div class="col">
                     <p class="nih-tagline">NIH…Turning Discovery Into Health<sup>®</sup></p>
                 </div>
