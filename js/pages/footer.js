@@ -3,17 +3,17 @@ export const footerTemplate = () => {
         <div class="row footer-content">
             <div class="row w-100">
                 <div class="col content-wrapper">
-                    <div class="dceg-footer align-left">Division of Cancer Epidemiology and Genetics</div>
-                    <div class="nci-dceg-footer align-left">at the National Cancer Institute</div>
+                    <div class="dceg-footer align-left text-center text-sm-left">Division of Cancer Epidemiology and Genetics</div>
+                    <div class="nci-dceg-footer align-left text-center text-sm-left">at the National Cancer Institute</div>
                 </div>
             </div>
             <div class="row w-100 pt-0 align-left">
-                <div class="col-lg-6 pt-3 content-wrapper">
+                <div class="col-lg-6 pt-3 content-wrapper text-center text-sm-left">
                     <div class="footer-heading">HAVE QUESTIONS?</div>
                     <div class="footer-sub-heading pt-3"><a class="footer-links" target="__blank" href="https://norcfedramp.servicenowservices.com/recruit">Contact the Connect Support Center</a></div>
                     <div class="footer-sub-heading pt-3"><a class="footer-links" href="mailto:ConnectStudy@norc.org">Email Us</a></div>
                 </div>
-                <div class="col-lg-6 pt-3 content-wrapper">
+                <div class="col-lg-6 pt-3 content-wrapper text-center text-sm-left">
                     <div class="footer-heading">POLICIES</div>
                     <div class="footer-sub-heading pt-3"><a class="footer-links" target="__blank" href="https://www.cancer.gov/global/web/policies/accessibility">Accessibility</a></div>
                     <div class="footer-sub-heading pt-3"><a class="footer-links" target="__blank" href="https://www.cancer.gov/policies/disclaimer">Disclaimer</a></div>

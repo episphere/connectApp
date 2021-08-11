@@ -4,8 +4,8 @@ import { removeAllErrors, addEventsConsentSign } from "../event.js";
 import { renderDownloadConsentCopy, renderDownloadHIPAA } from "./agreements.js";
 
 export const consentTemplate = () => {
-    consentAboutPage();
-    //consentConsentPage();
+    //consentAboutPage();
+    consentConsentPage();
     //consentFinishedPage();
 }
 
@@ -673,8 +673,8 @@ export const consentConsentPage = async () => {
                     <li>If I have questions, I can contact the Connect Support Center at <a target="_blank" href="https://norcfedramp.servicenowservices.com/recruit">Cancer.gov/connectstudy/support</a> or by calling 1-866-462-6621</li>
                     <li>If I decide to leave the study, I can contact the Connect Support Center at <a target="_blank" href="https://norcfedramp.servicenowservices.com/recruit">Cancer.gov/connectstudy/support</a></li>
                 </ol>
-                <input type="checkbox" name="consentAnswer" value="consentYes" id="CSConsentYesCheck" required>
-                <label for="consentYes" style=" font-size:20px" required="" id="CSConsentYes">Yes, I agree to join Connect</label><br>
+                <input type="checkbox" name="consentAnswer" value="consentYes" id="CSConsentYesCheck">
+                <label for="consentYes" style=" font-size:20px" id="CSConsentYes">Yes, I agree to join Connect</label><br>
             </div>
             
             <form id="consentForm" style="margin-top:50px" method="POST">
@@ -684,7 +684,7 @@ export const consentConsentPage = async () => {
                             <label class="consent-form-label consentSignHeader">
                                 First name<span class="required">*</span>
                             </label>
-                            <input required type="text" autocomplete="off" id="CSFirstName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
+                            <input  type="text" autocomplete="off" id="CSFirstName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
                         </div>
                         <div class="col-md-2 consent-form" style="margin-bottom:20px;">
                             <label class="consent-form-label consentSignHeader">
@@ -696,7 +696,7 @@ export const consentConsentPage = async () => {
                             <label class="consent-form-label consentSignHeader">
                                 Last name<span class="required">*</span>
                             </label>
-                            <input required type="text" autocomplete="off" id="CSLastName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
+                            <input  type="text" autocomplete="off" id="CSLastName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
                         </div>
                         <div class="col-md-2  consent-form" style="margin-bottom:20px;">
                             <label class="consent-form-label consentSignHeader">
@@ -1068,6 +1068,7 @@ export const addEventConsentSubmit = () => {
 }
 
 const consentSubmit = async e => {
+    console.log('sldvkjsbvlkjsbdv')
     e.preventDefault();
     removeAllErrors();
     let formData = {};
@@ -1079,23 +1080,38 @@ const consentSubmit = async e => {
     let focus = true;
     var radios = document.getElementsByName('consentAnswer');
     if(!radios[0].checked){
+        
         const msg = 'You must check yes to continue.';
         errorMessageConsent('CSConsentYes', msg, focus)
         focus = false;
         hasError = true;
     }
-    if(/[0-9,\.<>:;!@#\$%\^&\*\+=\[\]\{\}\\\|]/.test(CSFirstName.value)) {
-        const msg = 'Your first name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters.';
-        errorMessageConsent('CSFirstName', msg, focus)
-        focus = false;
-        hasError = true;
-    }
-    if(/[0-9,\.<>:;!@#\$%\^&\*\+=\[\]\{\}\\\|]/.test(CSLastName.value)) {
-        const msg = 'Your last name should contain only uppercase and lowercase letters. Please do not use any numbers.';
-        errorMessageConsent('CSLastName', msg, focus)
-        focus = false;
-        hasError = true;
-    }
+    if(!hasError){
+        if(CSFirstName.value.trim() == "") {
+            const msg = 'A first name is required';
+            errorMessageConsent('CSFirstName', msg, focus)
+            focus = false;
+            hasError = true;
+        }
+        if(CSLastName.value.trim() == "") {
+            const msg = 'A last name is required';
+            errorMessageConsent('CSLastName', msg, focus)
+            focus = false;
+            hasError = true;
+        }
+        if(/[0-9,\.<>:;!@#\$%\^&\*\+=\[\]\{\}\\\|]/.test(CSFirstName.value)) {
+            const msg = 'Your first name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters.';
+            errorMessageConsent('CSFirstName', msg, focus)
+            focus = false;
+            hasError = true;
+        }
+        if(/[0-9,\.<>:;!@#\$%\^&\*\+=\[\]\{\}\\\|]/.test(CSLastName.value)) {
+            const msg = 'Your last name should contain only uppercase and lowercase letters. Please do not use any numbers.';
+            errorMessageConsent('CSLastName', msg, focus)
+            focus = false;
+            hasError = true;
+        }
+}
     if(hasError) return false;
     dataSavingBtn('save-data');
     const CSDate = todaysDate();

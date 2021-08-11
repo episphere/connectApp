@@ -70,6 +70,61 @@ export const conceptIdMapping = (formData) => {
     return formData;
 }
 
+export const gridFiltering = (formData) => {
+    try {
+
+        let moduleId = Object.keys(formData)[0].split(".")[0];
+        let moduleIdCompleted = moduleId + ".COMPLETED";
+        let moduleIdCompletedTS = moduleId + ".COMPLETED_TS";
+        
+        if (moduleIdCompleted in formData) {
+            let connectModuleIdCompleted = fieldMapping[fieldMapping[`${moduleId}`]].completeFlag;
+            formData[connectModuleIdCompleted] = 231311385;
+        }
+        if (moduleIdCompletedTS in formData) {
+            let connectModuleIdCompletedTS = fieldMapping[fieldMapping[`${moduleId}`]].completeTs;
+            formData[connectModuleIdCompletedTS] = formData[moduleIdCompletedTS];
+        }
+
+
+    } catch (error) {
+        console.log("questMapping error",error);
+    }
+}
+
+export const storeResponseQuest = async (formData) => {
+
+    formData = conceptIdMapping(formData);
+    formData = gridFiltering(formData)
+    const idToken = await new Promise((resolve, reject) => {
+        const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+            unsubscribe();
+            if (user) {
+                user.getIdToken().then((idToken) => {
+                    resolve(idToken);
+            }, (error) => {
+                resolve(null);
+            });
+            } else {
+            resolve(null);
+            }
+        });
+    });
+    let requestObj = {
+        method: "POST",
+        headers:{
+            Authorization:"Bearer "+idToken,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+    }
+    let url = '';
+    if(location.host === urls.prod) url = `https://api-myconnect.cancer.gov/app?api=submit`
+    else if(location.host === urls.stage) url = `https://api-myconnect-stage.cancer.gov/app?api=submit`
+    else url = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app?api=submit'
+    const response = await fetch(url, requestObj);
+    return response.json();
+}
 export const storeResponse = async (formData) => {
 
     formData = conceptIdMapping(formData);
@@ -886,6 +941,27 @@ export const renderSyndicate = (url, element, page) => {
             let section = sections[i];
             section.id = ids[i];
         }
+    }
+    let aLinks = document.getElementsByTagName('a');
+    let allIds = ['#','#about','#expectations','#privacy','joining-connect', 'after-you-join', 'long-term-study-activities', 'what-connect-will-do', 'how-your-information-will-help-prevent-cancer','why-connect-is-important','what-to-expect-if-you-decide-to-join','where-this-study-takes-place','about-our-researchers','a-resource-for-science']
+    for(let i = 0; i < aLinks.length; i++){
+        let section = aLinks[i];
+        let found = false;
+        for(let j = 0; j < allIds.length; j++){
+            //console.log(section.href)
+            //console.log(allIds[j])
+            if(section.href.includes(allIds[j])){
+                found = true;
+                //console.log(section.href)
+                //console.log(allIds[j])
+                //console.log(found)
+            }
+        }
+        if(!found){
+            section.target = "_blank";
+            console.log(section.href);
+        }
+        
     }
     hideAnimation();
 
