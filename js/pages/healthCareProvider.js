@@ -10,8 +10,8 @@ export const requestPINTemplate = () => {
             <form method="POST" id="requestPINForm">
                 <div class="form-group row">
                     
-                    <label><strong>If you received a PIN as part of your study invitation, please enter it here.</label>
-                    <label>Your PIN should be 6 characters and will include only numbers and uppercase letters.</strong></label>
+                    <label style="width:100%"><strong>If you received a PIN as part of your study invitation, please enter it here.<br>
+                    Your PIN should be 6 characters and will include only numbers and uppercase letters.<br></strong></label>
                     <label><input style="margin-left:0px;" type="text" maxlength="6" id="participantPIN" class="form-control" placeholder="Enter PIN"></label>
                 </div>
 
