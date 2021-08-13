@@ -3,8 +3,12 @@ import { initializeCanvas } from './consent.js'
 const { PDFDocument, StandardFonts } = PDFLib;
 
 let signaturePosJSON = {
-    "Sanford":{x: 100, y: 410, x1: 100, y1: 450},
-    "HP":{x: 100, y: 440, x1: 100, y1: 460},
+    "Sanford":{nameX:100,nameY:410,signatureX:100,signatureY:450,dateX:100,dateY:370},
+    "HP":{nameX:100,nameY:415,signatureX:100,signatureY:465,dateX:100,dateY:365}
+}
+let signaturePosConsentJSON = {
+    "HP":{nameX:90,nameY:415,signatureX:110,signatureY:340,dateX:90,dateY:380},
+    "Sanford":{nameX:120,nameY:410,signatureX:120,signatureY:450,dateX:120,dateY:370}
 }
 export const renderAgreements = async () => {
     document.title = 'My Connect - Forms';
@@ -333,43 +337,34 @@ export const renderDownloadConsentCopy = async (data) => {
     for (let i = 0; i <= pages.length; i++) {seekLastPage = i}
     const editPage = pages[seekLastPage-1];
     const currentTime = new Date(data[454445267]).toLocaleDateString();
+    let siteDict = siteAcronyms();
+    let participantSite = siteDict[data['827220437']];
 
-    editPage.drawText(`
-    ${data[471168198] + ' ' + data[736251808]} 
-    ${currentTime}`, {
-                x: 110,
-                y: 400,
-                size: 24,
-      });
+    let coords = signaturePosConsentJSON[participantSite]
+    //renderDownload(participantSignature, currentTime, pdfLocation, {x:110,y:400},{x1:110,y1:330});
+    if(!coords){
+        coords = {nameX:110,nameY:400,signatureX:110,signatureY:330,dateX:110,dateY:370}
+    }
+    renderDownload(participantSignature, currentTime, pdfLocation, {x:coords.nameX,y:coords.nameY},{x1:coords.signatureX,y1:coords.signatureY},{x:coords.dateX,y:coords.dateY});
 
-    editPage.drawText(`
-    ${participantSignature}`, {
-        x: 110,
-        y: 330,
-        size: 34,
-        font: helveticaFont,
-      });
-    
-    // Serialize the PDFDocument to bytes (a Uint8Array)
-    const pdfBytes = await pdfConsentDoc.save();
-
-    // Trigger the browser to download the PDF document
-    download(pdfBytes, pdfName, "application/pdf");
-    
 }
 
 export const renderDownloadHIPAA = async (data) => {
+    //let pdfLocation = './forms/HIPAA/Sanford_HIPAA_V1.0.pdf'
     let pdfLocation = './forms/HIPAA/' + data[412000022] + '.pdf'
     //let pdfLocation = './forms/HIPAA/Sanford_HIPAA_V1.0.pdf'
     let siteDict = siteAcronyms();
     let participantSite = siteDict[data['827220437']];
-    let positions = signaturePosJSON[participantSite];
-    if(!positions){
-        positions = {
-            x:200,
-            y:275,
-            x1:200,
-            y1:225,
+    let coords = signaturePosJSON[participantSite];
+    
+    if(!coords){
+        coords = {
+            nameX:200,
+            nameY:275,
+            signatureX:200,
+            signatureY:225,
+            dateX:200,
+            dateY:325
         }
     }
 
@@ -384,28 +379,7 @@ export const renderDownloadHIPAA = async (data) => {
     for (let i = 0; i <= pages.length; i++) {seekLastPage = i}
     const editPage = pages[seekLastPage-1];
     const currentTime = new Date(data[262613359]).toLocaleDateString();
-
-    editPage.drawText(`
-    ${data[471168198] + ' ' + data[736251808]} 
-    ${currentTime}`, {
-                x: positions.x,
-                y: positions.y,
-                size: 24,
-      });
-
-    editPage.drawText(`
-    ${participantSignature}`, {
-        x: positions.x1,
-        y: positions.y1,
-        size: 34,
-        font: helveticaFont,
-      });
-    
-    // Serialize the PDFDocument to bytes (a Uint8Array)
-    const pdfBytes = await pdfConsentDoc.save();
-
-    // Trigger the browser to download the PDF document
-    download(pdfBytes, pdfName, "application/pdf");
+    renderDownload(participantSignature, currentTime, pdfLocation, {x:coords.nameX,y:coords.nameY},{x1:coords.signatureX,y1:coords.signatureY},{x:coords.dateX,y:coords.dateY});
     
 }
 
@@ -661,4 +635,44 @@ const renderSignHIPAARevoke = async (data) =>{
         }
         hideAnimation();
     })
+}
+
+const renderDownload = async (participant, timeStamp, fileLocation, nameCoordinates, signatureCoordinates, timeCoordinates) => {
+    let fileLocationDownload = fileLocation.slice(2)
+    const participantPrintName = participant
+    const participantSignature = participant
+    let seekLastPage;
+    const pdfLocation = fileLocation;
+    const existingPdfBytes = await fetch(pdfLocation).then(res => res.arrayBuffer());
+    const pdfDoc = await PDFDocument.load(existingPdfBytes);
+    const helveticaFont = await pdfDoc.embedFont(StandardFonts.TimesRomanItalic);
+    const pages = pdfDoc.getPages();
+    for (let i = 0; i <= pages.length; i++) {seekLastPage = i}
+    const editPage = pages[seekLastPage-1];
+
+    editPage.drawText(`
+    ${participantPrintName}`, {
+                x: nameCoordinates.x,
+                y: nameCoordinates.y,
+                size: 24,
+      });
+    editPage.drawText(`
+    ${timeStamp}`, {
+                x: timeCoordinates.x,
+                y: timeCoordinates.y,
+                size: 24,
+      });
+    editPage.drawText(`
+    ${participantSignature}`, {
+        x: signatureCoordinates.x1,
+        y: signatureCoordinates.y1,
+        size: 20,
+        font: helveticaFont,
+      });
+    
+    // Serialize the PDFDocument to bytes (a Uint8Array)
+    const pdfBytes = await pdfDoc.save();
+
+    // Trigger the browser to download the PDF document
+    download(pdfBytes, fileLocationDownload, "application/pdf");
 }
