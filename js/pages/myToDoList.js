@@ -78,6 +78,16 @@ export const myToDoList = (data, fromUserProfile) => {
                         finalMessage += "You have been withdrawn from Connect per your request.<br>"
                     }
                 }
+                if(finalMessage !== ""){
+                    template += `
+                    <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
+                        ${finalMessage}
+                    </div>
+                    `
+                    mainContent.innerHTML = template;
+                    hideAnimation();
+                    return;
+                }
                 else if (((data.hasOwnProperty('773707518') && data['773707518'] == 353358909)) && (!data['153713899'] || data['153713899'] == 104430631)){
                     topMessage += "You have a new <a href='#forms'>form</a> to sign.<br>"
                 }
@@ -182,16 +192,7 @@ export const myToDoList = (data, fromUserProfile) => {
                     return;
                     
                 }
-                if(finalMessage !== ""){
-                    template += `
-                    <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
-                        ${finalMessage}
-                    </div>
-                    `
-                    mainContent.innerHTML = template;
-                    hideAnimation();
-                    return;
-                }
+                
                 if(topMessage !== ""){
                     template += `
                     <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
