@@ -29,10 +29,10 @@ export default
     "D_965707586" : "Module3",
     "D_716117817" : "Module4",
     "D_166676176" : "ModuleSsn",
-    "Module1": {"conceptId":"D_726699695","startTs":"205553981", "completeTs": "517311251", "completeFlag":"949302066"},
-    "Module2": {"conceptId":"D_745268907","startTs":"541836531", "completeTs": "832139544", "completeFlag":"536735468"},
-    "Module3": {"conceptId":"D_965707586","startTs":"386488297", "completeTs": "770257102", "completeFlag":"976570371"},
-    "Module4": {"conceptId":"D_716117817","startTs":"452942800", "completeTs": "264644252", "completeFlag":"663265240"},
+    "Module1": {"conceptId":"D_726699695","startTs":"205553981", "completeTs": "517311251", "completeFlag":"949302066", "statusFlag":"949302066"},
+    "Module2": {"conceptId":"D_745268907","startTs":"541836531", "completeTs": "832139544", "completeFlag":"536735468", "statusFlag":"536735468"},
+    "Module3": {"conceptId":"D_965707586","startTs":"386488297", "completeTs": "770257102", "completeFlag":"976570371", "statusFlag":"976570371"},
+    "Module4": {"conceptId":"D_716117817","startTs":"452942800", "completeTs": "264644252", "completeFlag":"663265240", "statusFlag":"663265240"},
     "ModuleSsn": {"conceptId":"D_166676176", "completeTs": "454067894", "completeFlag":"311580100"}
 }
 

@@ -52,9 +52,11 @@ export const   questionnaire = (url, moduleId) => {
         }
         let moduleConceptId = fieldMapping[`${moduleId}`].conceptId;
         let startTsConceptId = fieldMapping[`${moduleId}`].startTs;
+        let statusConceptId = fieldMapping[`${moduleId}`].statusFlag;
         if (!data.data[moduleConceptId] || !data.data[moduleConceptId][startTsConceptId]){
             let formData = {};
             formData[`${startTsConceptId}`] = new Date().toISOString();
+            formData[`${statusConceptId}`] = 615768760;
             storeResponse(formData);
         }
         transform.render({
