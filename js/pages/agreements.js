@@ -394,7 +394,7 @@ export const renderDownloadRevoke = async (data) => {
     const pages = pdfConsentDoc.getPages();
     for (let i = 0; i <= pages.length; i++) {seekLastPage = i}
     const editPage = pages[seekLastPage-1];
-    const currentTime = new Date(data[335767902]).toLocaleDateString();
+    const currentTime = new Date(data[613641698]).toLocaleDateString();
     renderDownload(participantSignature, currentTime, pdfLocation, {x:150,y:420},{x1:150,y1:400},{x:155,y:380},20,15,20);
 
     /*
@@ -433,7 +433,7 @@ export const renderDownloadDestroy = async (data) => {
     const pages = pdfConsentDoc.getPages();
     for (let i = 0; i <= pages.length; i++) {seekLastPage = i}
     const editPage = pages[seekLastPage-1];
-    const currentTime = new Date(data[335767902]).toLocaleDateString();
+    const currentTime = new Date(data[119449326]).toLocaleDateString();
     renderDownload(participantSignature, currentTime, pdfLocation, {x:150,y:420},{x1:150,y1:400},{x:155,y:380},20,15,20);
 
 }
