@@ -345,7 +345,7 @@ export const renderDownloadConsentCopy = async (data) => {
     if(!coords){
         coords = {nameX:110,nameY:400,signatureX:110,signatureY:330,dateX:110,dateY:370}
     }
-    renderDownload(participantSignature, currentTime, pdfLocation, {x:coords.nameX,y:coords.nameY},{x1:coords.signatureX,y1:coords.signatureY},{x:coords.dateX,y:coords.dateY});
+    renderDownload(participantSignature, currentTime, pdfLocation, {x:coords.nameX,y:coords.nameY},{x1:coords.signatureX,y1:coords.signatureY},{x:coords.dateX,y:coords.dateY},24,24,20);
 
 }
 
@@ -379,7 +379,7 @@ export const renderDownloadHIPAA = async (data) => {
     for (let i = 0; i <= pages.length; i++) {seekLastPage = i}
     const editPage = pages[seekLastPage-1];
     const currentTime = new Date(data[262613359]).toLocaleDateString();
-    renderDownload(participantSignature, currentTime, pdfLocation, {x:coords.nameX,y:coords.nameY},{x1:coords.signatureX,y1:coords.signatureY},{x:coords.dateX,y:coords.dateY});
+    renderDownload(participantSignature, currentTime, pdfLocation, {x:coords.nameX,y:coords.nameY},{x1:coords.signatureX,y1:coords.signatureY},{x:coords.dateX,y:coords.dateY},24,24,20);
     
 }
 
@@ -387,7 +387,7 @@ export const renderDownloadHIPAA = async (data) => {
 export const renderDownloadRevoke = async (data) => {
     const participantSignature = data[471168198] + ' ' + data[736251808]
     let seekLastPage;
-    const pdfLocation = './consent_draft.pdf';
+    const pdfLocation = './forms/HIPAA_Revocation_V1.0.pdf';
     const existingPdfBytes = await fetch(pdfLocation).then(res => res.arrayBuffer());
     const pdfConsentDoc = await PDFDocument.load(existingPdfBytes);
     const helveticaFont = await pdfConsentDoc.embedFont(StandardFonts.TimesRomanItalic);
@@ -395,7 +395,9 @@ export const renderDownloadRevoke = async (data) => {
     for (let i = 0; i <= pages.length; i++) {seekLastPage = i}
     const editPage = pages[seekLastPage-1];
     const currentTime = new Date(data[335767902]).toLocaleDateString();
+    renderDownload(participantSignature, currentTime, pdfLocation, {x:150,y:420},{x1:150,y1:400},{x:155,y:380},20,15,20);
 
+    /*
     editPage.drawText(`
     ${data[471168198] + ' ' + data[736251808]} 
     ${currentTime}`, {
@@ -417,14 +419,14 @@ export const renderDownloadRevoke = async (data) => {
 
     // Trigger the browser to download the PDF document
     download(pdfBytes, "consent_draft.pdf", "application/pdf");
-    
+    */
 }
 
 
 export const renderDownloadDestroy = async (data) => {
     const participantSignature = data[471168198] + ' ' + data[736251808]
     let seekLastPage;
-    const pdfLocation = './consent_draft.pdf';
+    const pdfLocation = './forms/Data_Destruction_V1.0.pdf';
     const existingPdfBytes = await fetch(pdfLocation).then(res => res.arrayBuffer());
     const pdfConsentDoc = await PDFDocument.load(existingPdfBytes);
     const helveticaFont = await pdfConsentDoc.embedFont(StandardFonts.TimesRomanItalic);
@@ -432,29 +434,8 @@ export const renderDownloadDestroy = async (data) => {
     for (let i = 0; i <= pages.length; i++) {seekLastPage = i}
     const editPage = pages[seekLastPage-1];
     const currentTime = new Date(data[335767902]).toLocaleDateString();
+    renderDownload(participantSignature, currentTime, pdfLocation, {x:150,y:420},{x1:150,y1:400},{x:155,y:380},20,15,20);
 
-    editPage.drawText(`
-    ${data[471168198] + ' ' + data[736251808]} 
-    ${currentTime}`, {
-                x: 200,
-                y: 275,
-                size: 24,
-      });
-
-    editPage.drawText(`
-    ${participantSignature}`, {
-        x: 200,
-        y: 225,
-        size: 34,
-        font: helveticaFont,
-      });
-    
-    // Serialize the PDFDocument to bytes (a Uint8Array)
-    const pdfBytes = await pdfConsentDoc.save();
-
-    // Trigger the browser to download the PDF document
-    download(pdfBytes, "consent_draft.pdf", "application/pdf");
-    
 }
 
 const renderSignDataDestroy = async (data) =>{
@@ -468,7 +449,7 @@ const renderSignDataDestroy = async (data) =>{
     <div style="width:80%; margin:auto">
         <h4 class="consentSubheader" style="margin-top:50px">Data destruction request form</h4>
         <div id="canvasContainer"></div>
-        <div class="row" style="margin:auto"><div style="margin:auto"><a href="./forms/DataDestruction_${consentVersions['DataDestruction']}.pdf" title="Download Data destruction request form" data-toggle="tooltip" download="DataDestruction_${consentVersions['DataDestruction']}.pdf" class="consentBodyFont2"> Download an unsigned copy of the Data destruction request form&nbsp<i class="fas fa-file-download"></i></a></div></div>
+        <div class="row" style="margin:auto"><div style="margin:auto"><a href="./forms/Data_Destruction_${consentVersions['DataDestruction']}.pdf" title="Download Data destruction request form" data-toggle="tooltip" download="DataDestruction_${consentVersions['DataDestruction']}.pdf" class="consentBodyFont2"> Download an unsigned copy of the Data destruction request form&nbsp<i class="fas fa-file-download"></i></a></div></div>
     </div>
     
     <form id="consentForm" style="margin-top:20px; margin-bottom:50px;" method="POST">
@@ -523,7 +504,7 @@ const renderSignDataDestroy = async (data) =>{
     </div>
         `;
     //document.getElementById('connectModalBody').innerHTML = '';
-    initializeCanvas(`./forms/DataDestruction_${consentVersions['DataDestruction']}.pdf`, 1);
+    initializeCanvas(`./forms/Data_Destruction_${consentVersions['DataDestruction']}.pdf`, 1);
     document.getElementById('backToAgreements').addEventListener('click', async () =>{
         showAnimation();
         await renderAgreements();
@@ -557,7 +538,7 @@ const renderSignHIPAARevoke = async (data) =>{
     <div style="width:80%; margin:auto">
         <h4 class="consentSubheader" style="margin-top:50px">HIPAA Revocation Form</h4>
         <div id="canvasContainer"></div>
-        <div class="row" style="margin:auto"><div style="margin:auto"><a href="./forms/Revocation_${consentVersions['Revocation']}.pdf" title="Download HIPAA Revocation form" data-toggle="tooltip" download="Revocation_${consentVersions['Revocation']}.pdf" class="consentBodyFont2"> Download an unsigned copy of the HIPAA Revocation form&nbsp<i class="fas fa-file-download"></i></a></div></div>
+        <div class="row" style="margin:auto"><div style="margin:auto"><a href="./forms/HIPAA_Revocation_${consentVersions['Revocation']}.pdf" title="Download HIPAA Revocation form" data-toggle="tooltip" download="Revocation_${consentVersions['Revocation']}.pdf" class="consentBodyFont2"> Download an unsigned copy of the HIPAA Revocation form&nbsp<i class="fas fa-file-download"></i></a></div></div>
     </div>
     
     <form id="consentForm" style="margin-top:20px; margin-bottom:50px;" method="POST">
@@ -612,7 +593,7 @@ const renderSignHIPAARevoke = async (data) =>{
     </div>
         `;
     //document.getElementById('connectModalBody').innerHTML = '';
-    initializeCanvas('./consent_draft.pdf', 1);
+    initializeCanvas('./forms/HIPAA_Revocation_V1.0.pdf', 1);
     document.getElementById('backToAgreements').addEventListener('click', async () =>{
         showAnimation();
         await renderAgreements();
@@ -637,7 +618,7 @@ const renderSignHIPAARevoke = async (data) =>{
     })
 }
 
-const renderDownload = async (participant, timeStamp, fileLocation, nameCoordinates, signatureCoordinates, timeCoordinates) => {
+const renderDownload = async (participant, timeStamp, fileLocation, nameCoordinates, signatureCoordinates, timeCoordinates, nameSize, timeSize, signSize) => {
     let fileLocationDownload = fileLocation.slice(2)
     const participantPrintName = participant
     const participantSignature = participant
@@ -654,19 +635,19 @@ const renderDownload = async (participant, timeStamp, fileLocation, nameCoordina
     ${participantPrintName}`, {
                 x: nameCoordinates.x,
                 y: nameCoordinates.y,
-                size: 24,
+                size: nameSize,
       });
     editPage.drawText(`
     ${timeStamp}`, {
                 x: timeCoordinates.x,
                 y: timeCoordinates.y,
-                size: 24,
+                size: timeSize,
       });
     editPage.drawText(`
     ${participantSignature}`, {
         x: signatureCoordinates.x1,
         y: signatureCoordinates.y1,
-        size: 20,
+        size: signSize,
         font: helveticaFont,
       });
     
