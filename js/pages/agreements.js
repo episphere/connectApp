@@ -455,25 +455,28 @@ const renderSignDataDestroy = async (data) =>{
     <form id="consentForm" style="margin-top:20px; margin-bottom:50px;" method="POST">
         <div id="CSConsentNameSignContainer" style="">
             <div class="row" style="width:80%; margin:auto; padding-left:0px; padding-right:0px">
-                <div class="col-4 form-group consent-form">
+                <div class="col-md-4 form-group consent-form">
                     <label class="consent-form-label">
                         First name<span class="required">*</span>
                     </label>
                     <input required type="text" autocomplete="off" id="CSFirstName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
+                    <br>
                 </div>
-                <div class="col-2 form-group consent-form">
+                <div class="col-md-2 form-group consent-form">
                     <label class="consent-form-label">
                         Middle name<span></span>
                     </label>
                     <input type="text" autocomplete="off" id="CSMiddleName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
+                    <br>
                 </div>
-                <div class="col-4 form-group consent-form">
+                <div class="col-md-4 form-group consent-form">
                     <label class="consent-form-label">
                         Last name<span class="required">*</span>
                     </label>
                     <input required type="text" autocomplete="off" id="CSLastName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
+                    <br>
                 </div>
-                <div class="col-2 form-group consent-form">
+                <div class="col-md-2 form-group consent-form">
                     <label class="consent-form-label">
                         Suffix<span></span>
                     </label>
@@ -488,6 +491,7 @@ const renderSignDataDestroy = async (data) =>{
                         <option value="537892528">3rd</option>
 
                     </select>
+                    <br>
                 </div>
             </div>
             <div class="row" style="width:80%; margin:auto; padding-left:0px; padding-right:0px">
@@ -544,25 +548,28 @@ const renderSignHIPAARevoke = async (data) =>{
     <form id="consentForm" style="margin-top:20px; margin-bottom:50px;" method="POST">
         <div id="CSConsentNameSignContainer" style="">
             <div class="row" style="width:80%; margin:auto; padding-left:0px; padding-right:0px">
-                <div class="col-4 form-group consent-form">
+                <div class="col-md-4 form-group consent-form">
                     <label class="consent-form-label">
                         First name<span class="required">*</span>
                     </label>
                     <input required type="text" autocomplete="off" id="CSFirstName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
+                    <br>
                 </div>
-                <div class="col-2 form-group consent-form">
+                <div class="col-md-2 form-group consent-form">
                     <label class="consent-form-label">
                         Middle name<span></span>
                     </label>
                     <input type="text" autocomplete="off" id="CSMiddleName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
+                    <br>
                 </div>
-                <div class="col-4 form-group consent-form">
+                <div class="col-md-4 form-group consent-form">
                     <label class="consent-form-label">
                         Last name<span class="required">*</span>
                     </label>
                     <input required type="text" autocomplete="off" id="CSLastName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
+                    <br>
                 </div>
-                <div class="col-2 form-group consent-form">
+                <div class="col-md-2 form-group consent-form">
                     <label class="consent-form-label">
                         Suffix<span></span>
                     </label>
@@ -577,6 +584,7 @@ const renderSignHIPAARevoke = async (data) =>{
                         <option value="537892528">3rd</option>
 
                     </select>
+                    <br>
                 </div>
             </div>
             <div class="row" style="width:80%; margin:auto; padding-left:0px; padding-right:0px">
