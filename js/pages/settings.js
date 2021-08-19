@@ -555,7 +555,7 @@ const changeEmail = (newEmail) =>{
     var user = firebase.auth().currentUser;
     //var newPassword = getASecureRandomPassword();
 
-    user.updateEmail(newPassword).then(function() {
+    user.updateEmail(newEmail).then(function() {
     // Update successful.
         document.getElementById('changEmailGroup').style.display = 'none';
         document.getElementById('emailSuccess').style.display = 'block';

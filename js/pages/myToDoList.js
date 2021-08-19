@@ -20,7 +20,7 @@ export const myToDoList = (data, fromUserProfile) => {
             //In the future, we will want to just have active recruits passing this check
             //data['512820379'] && data['512820379'] === 854703046 becomes
             //data['512820379'] && data['512820379'] !== 486306141
-            if(data['699625233'] && data['699625233'] === 353358909 && data['512820379'] && data['512820379'] === 854703046 && data['821247024'] && data['821247024'] !== 197316935/*data['948195369'] && data['948195369'] !== 353358909*//*data['512820379'] && data['512820379'] !== 486306141 && data['821247024'] && data['821247024'] !== 197316935*/){
+            if(data['699625233'] && data['699625233'] === 353358909 && data['512820379'] && data['512820379'] === 854703046 && data['821247024'] && (data['821247024'] == 875007964)/*data['948195369'] && data['948195369'] !== 353358909*//*data['512820379'] && data['512820379'] !== 486306141 && data['821247024'] && data['821247024'] !== 197316935*/){
                 blockParticipant();
                 hideAnimation();
                 return;
@@ -77,6 +77,16 @@ export const myToDoList = (data, fromUserProfile) => {
                     else{
                         finalMessage += "You have been withdrawn from Connect per your request.<br>"
                     }
+                }
+                if(finalMessage !== ""){
+                    template += `
+                    <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
+                        ${finalMessage}
+                    </div>
+                    `
+                    mainContent.innerHTML = template;
+                    hideAnimation();
+                    return;
                 }
                 else if (((data.hasOwnProperty('773707518') && data['773707518'] == 353358909)) && (!data['153713899'] || data['153713899'] == 104430631)){
                     topMessage += "You have a new <a href='#forms'>form</a> to sign.<br>"
@@ -141,7 +151,7 @@ export const myToDoList = (data, fromUserProfile) => {
                     <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
                         Based on our records you are not eligible for the Connect for Cancer Prevention Study. Thank you for your interest. Any information that you have already provided will remain private. We will not use any information you shared for our research.
                         <br>
-                        If you think this is a mistake or if you have any questions, please contact the Connect Support Center. [<a href="https://norcfedramp.servicenowservices.com/participant" target="_blank">MyConnect.cancer.gov/support</a>]
+                        If you think this is a mistake or if you have any questions, please contact the <a href="https://norcfedramp.servicenowservices.com/participant" target="_blank">Connect Support Center</a>.
                     </div>
                     </div>
                     <div class="col-lg-2">
@@ -167,10 +177,10 @@ export const myToDoList = (data, fromUserProfile) => {
                     return;
                 }
                 else if(data['821247024'] && data['821247024'] == 160161595) {
-                    let sites = sites();
+                    let siteList = sites();
                     template += `
                     <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
-                        We need more information from you to check that you can be part of the Connect for Cancer Prevention Study. Please contact ${sites[data['827220437']]} to confirm your eligibility for Connect.
+                        Our study team has been trying to contact you about your eligibility for the Connect for Cancer Prevention Study. We need more information from you to check that you can be part of Connect. Please contact the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling 1-877-505-0253 to confirm that you can take part in the study.    
                     </div>
                     </div>
                     <div class="col-lg-2">
@@ -182,16 +192,7 @@ export const myToDoList = (data, fromUserProfile) => {
                     return;
                     
                 }
-                if(finalMessage !== ""){
-                    template += `
-                    <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
-                        ${finalMessage}
-                    </div>
-                    `
-                    mainContent.innerHTML = template;
-                    hideAnimation();
-                    return;
-                }
+                
                 if(topMessage !== ""){
                     template += `
                     <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
@@ -360,9 +361,9 @@ const renderMainBody = (data, tab) => {
     modules['Enter SSN'].estimatedTime = 'Less than 5 minutes'
     //if module 1 exists and completed
     if (data[fieldMapping.Module1.conceptId] && data[fieldMapping.Module1.conceptId].COMPLETED) { 
-        modules["Smoking, Alcohol, and Sun Exposure"].enabled = false;
-        modules["Where You Live and Work"].enabled = false;
-        modules['Medications, Reproductive Health, Exercise, and Sleep'].enabled = false;
+        modules["Smoking, Alcohol, and Sun Exposure"].enabled = true;
+        modules["Where You Live and Work"].enabled = true;
+        modules['Medications, Reproductive Health, Exercise, and Sleep'].enabled = true;
         modules['Background and Overall Health'].completed = true;
     };
     if (data[fieldMapping.Module2.conceptId] && data[fieldMapping.Module2.conceptId].COMPLETED) { 

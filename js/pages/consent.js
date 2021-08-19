@@ -35,7 +35,7 @@ export const renderProgress = (progress) => {
             weight[i]=''
         }
     }
-    let list = ['About','Activities','Privacy','Leaving','Results','Benefits', 'Indigenous Peoples', 'Consent']
+    let list = ['About','Activities','Privacy','Leaving','Results','Benefits', 'Indigenous Peoples', 'Consent', '']
     let toReturn = `
     <br>
     <div class="row d-none d-md-flex" style="margin-bottom:30px">
@@ -86,8 +86,8 @@ export const renderProgress = (progress) => {
         </div>
         <div class="col-lg-10">
             <div class="row" style"padding-bottom:0px;padding-top:0px;">
-                <div class="consentBodyFont2" style="text-align:center;width:30px;height:30px;background:#2A72A5;border-radius:50%;border:5px solid #2A72A5;line-height:19px;color:white; display:inline;">${progress}</div>
-                <p class="consentBodyFont2" style="margin-left:4px; color:#2A72A5;"> of 7 <b style="color:#2E2E2E; font-family: 'Noto Sans', sans-serif; font-weight:bold;">${list[progress-1]}</b></p> 
+                <div class="consentBodyFont2" style="text-align:center;width:30px;height:30px;background:#2A72A5;border-radius:50%;border:5px solid #2A72A5;line-height:19px;color:white; display:inline;">${progress > 7?7:progress}</div>
+                <p class="consentBodyFont2" style="margin-left:4px; color:#2A72A5;"> of 7 <b style="color:#2E2E2E; font-family: 'Noto Sans', sans-serif; font-weight:bold;">${progress > 7?'':list[progress-1]}</b></p> 
             </div>
         </div>
         <div class="col-lg-1">
@@ -110,11 +110,11 @@ export const consentAboutPage = () => {
                 <p class="consentBodyFont2">Researchers will study things like habits, behaviors, and the environment you and others live in that can help us learn how cancer may form. Researchers hope to learn new ways to stop cancer from forming in the first place.</p>
                 <p class="consentBodyFont2">Connect is studying cancer prevention. Researchers will not look for treatments for cancer, give medical care, or share medical advice.</p>
                 <div class="row" style="padding:0;">
-                    <div class="col-md-2 order-2 order-md-1">
+                    <div class="col-md-2">
                     </div>
-                    <div class="col-md-8 order-3 order-md-2">
+                    <div class="col-md-8">
                     </div>
-                    <div class="col-md-2 order-1 order-md-3">
+                    <div class="col-md-2">
                         <button class="btn btn-primary consentNextButton" type="button" id="toActivities" style="margin-top:100px; width:100%;"><b>Next<b></button>
                     </div>
                 </div>
@@ -172,12 +172,12 @@ export const consentActivitiesPage = () => {
                     <li>Sharing information from wearable electronic health trackers or apps that measure things like diet, sleep, or air quality in your environment</li>
                 </ul>  
                 <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
-                    <div class="col-md-2 order-2 order-md-1">
+                    <div class="col-md-2">
                         <button class="btn btn-primary consentPrevButton" type="button" id="backToAbout" style="min-width:100%; margin-top:10px;margin-bottom:10px;">Previous</button>
                     </div>
-                    <div class="col-md-8 order-3 order-md-2">
+                    <div class="col-md-8">
                     </div>
-                    <div class="col-md-2 order-1 order-md-3">
+                    <div class="col-md-2">
                         <button class="btn btn-primary consentNextButton" type="button" id="toPrivacy" style="width:100%; margin-top:10px;margin-bottom:10px">Next</button>
                     </div>
                 </div>
@@ -289,18 +289,18 @@ export const consentResultsPage = () => {
             </div>
             <div class="col-lg-8">
                 <p class="consentHeadersFont">Receiving Study Results</p>
-                <p class="consentBodyFont1">We will be sharing some of the things we learn with you. You can choose which results you want to receive. These may include results from your surveys and results from the study of your samples, which could include ancestry information.</p>
+                <p class="consentBodyFont1">We will be sharing some of the things we learn with you. You can choose which results you want to receive. These may include results from your surveys and results from your samples, which could include ancestry information.</p>
                 <p class="consentBodyFont2">You can also choose to receive general findings about cancer or other health information from all the people taking part in the study and updates about Connect.</p>
                 <p class="consentBodyFont2">We will alert you when results are available and share them securely if you choose to receive them.</p>
                 <p class="consentBodyFont2">We will not add information about Connect to your health record or share your information with your health care provider, but you are free to do so with any results you receive.</p>
                 
                 <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
-                    <div class="col-md-2 order-2 order-md-1">
+                    <div class="col-md-2">
                         <button class="btn btn-primary consentPrevButton" type="button" id="backToBenefits" style="min-width:100%; margin-top:10px;margin-bottom:10px;">Previous</button>
                     </div>
-                    <div class="col-md-8 order-3 order-md-2">
+                    <div class="col-md-8">
                     </div>
-                    <div class="col-md-2 order-1 order-md-3">
+                    <div class="col-md-2">
                         <button class="btn btn-primary consentNextButton" type="button" id="toLeaving" style="width:100%; margin-top:10px;margin-bottom:10px">Next</button>
                     </div>
                 </div>
@@ -333,12 +333,12 @@ export const consentLeavingPage = () => {
                 <p class="consentBodyFont1">You will receive $25 in cash or as a gift card after you complete the first online survey and donate your first blood sample.</p>
                 
                 <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
-                    <div class="col-md-2 order-2 order-md-1">
+                    <div class="col-md-2">
                         <button class="btn btn-primary consentPrevButton" type="button" id="backToResults" style="min-width:100%; margin-top:10px;margin-bottom:10px;">Previous</button>
                     </div>
-                    <div class="col-md-8 order-3 order-md-2">
+                    <div class="col-md-8">
                     </div>
-                    <div class="col-md-2 order-1 order-md-3">
+                    <div class="col-md-2">
                         <button class="btn btn-primary consentNextButton" type="button" id="toConsent" style="width:100%; margin-top:10px;margin-bottom:10px">Next</button>
                     </div>
                 </div>
@@ -368,7 +368,7 @@ export const consentIndigenousPage = () => {
             </div>
             <div class="col-lg-8">
                 <p class="consentHeadersFont">Why is Connect interested in engaging Indigenous Peoples?</p>
-                <p class="consentBodyFont2">Our goal as a Connect team is to be inclusive. We want to include people from many places and backgrounds throughout the United States so our findings may benefit all communities.. It is important for Connect to include people and communities that have been left out of research in the past, such as Indigenous Peoples. Indigenous populations native to the U.S. may include people who identify as American Indian, Alaska Native, Native Hawaiian, and/or Pacific Islander and their communities.</p>
+                <p class="consentBodyFont2">Our goal as a Connect team is to be inclusive. We want to include people from many places and backgrounds throughout the United States so our findings may benefit all communities. It is important for Connect to include people and communities that have been left out of research in the past, such as Indigenous Peoples. Indigenous populations native to the U.S. may include people who identify as American Indian, Alaska Native, Native Hawaiian, and/or Pacific Islander and their communities.</p>
                 <p class="consentBodyFont2">Would you like to learn more about what it means to take part in Connect for anyone who identifies as an Indigenous Person? There are three screens left in this series.</p>
                 <form id="consentIndigenousInfo" method="POST">
                     <input type="radio" name="choice" value="yes" id="consentIndigenousYes"> Yes, tell me more</input>
@@ -376,12 +376,12 @@ export const consentIndigenousPage = () => {
                     <input type="radio" name="choice" value="no" id="consentIndigenousNo" required> No, continue to consent</input>
                     
                     <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
-                        <div class="col-md-2 order-2 order-md-1">
+                        <div class="col-md-2">
                             <button class="btn btn-primary consentPrevButton" type="button" id="backToResults" style="min-width:100%; margin-top:10px;margin-bottom:10px;">Previous</button>
                         </div>
-                        <div class="col-md-8 order-3 order-md-2">
+                        <div class="col-md-8">
                         </div>
-                        <div class="col-md-2 order-1 order-md-3">
+                        <div class="col-md-2">
                             <button class="btn btn-primary consentNextButton" type="submit" id="toConsent" style="width:100%; margin-top:10px;margin-bottom:10px">Next</button>
                         </div>
                     </div>
@@ -416,18 +416,18 @@ export const consentIndigenousAffectPage = () => {
             <div class="col-lg-2">
             </div>
             <div class="col-lg-8">
-                <p class="consentHeadersFont">How might my participation in Connectaffect Indigenous communities?</p>
+                <p class="consentHeadersFont">How might my participation in Connect affect Indigenous communities?</p>
                 <p class="consentBodyFont2">Some Indigenous Peoples and their communities have emphasized the need to learn more about certain risks and benefits to participating in research studies. Community members may be concerned that research practices will not follow traditional customs, or that conclusions made about Indigenous participants might harm Indigenous communities.</p>
                 <p class="consentBodyFont2">It is also possible that participating in research studies can benefit Indigenous communities. Learning about the health of Indigenous participants may help us make medical discoveries that benefit other people in their communities. The representation of all communities in research is an important part of advancing medicine and extending benefits to all people.</p>
                 <p class="consentBodyFont2">We want our research to respect the cultures and practices of all Indigenous Peoples.</p>
 
                 <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
-                    <div class="col-md-2 order-2 order-md-1">
+                    <div class="col-md-2">
                         <button class="btn btn-primary consentPrevButton" type="button" id="backToResults" style="min-width:100%; margin-top:10px;margin-bottom:10px;">Previous</button>
                     </div>
-                    <div class="col-md-8 order-3 order-md-2">
+                    <div class="col-md-8">
                     </div>
-                    <div class="col-md-2 order-1 order-md-3">
+                    <div class="col-md-2">
                         <button class="btn btn-primary consentNextButton" type="button" id="toConsent" style="width:100%; margin-top:10px;margin-bottom:10px">Next</button>
                     </div>
                 </div>
@@ -466,12 +466,12 @@ export const consentIndigenousProtectPage = () => {
                 <p class="consentBodyFont2">If a participant from an Indigenous community passes away during their time in the study, we will work with the participant’s family or other community members to determine a plan forreturn or destruction of their samples, if requested.</p>
 
                 <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
-                    <div class="col-md-2 order-2 order-md-1">
+                    <div class="col-md-2">
                         <button class="btn btn-primary consentPrevButton" type="button" id="backToResults" style="min-width:100%; margin-top:10px;margin-bottom:10px;">Previous</button>
                     </div>
-                    <div class="col-md-8 order-3 order-md-2">
+                    <div class="col-md-8">
                     </div>
-                    <div class="col-md-2 order-1 order-md-3">
+                    <div class="col-md-2">
                         <button class="btn btn-primary consentNextButton" type="button" id="toConsent" style="width:100%; margin-top:10px;margin-bottom:10px">Next</button>
                     </div>
                 </div>
@@ -505,21 +505,21 @@ export const consentIndigenousOtherPage = () => {
                 <p class="consentBodyFont2">We acknowledge past transgressions and abuses of Indigenous Peoples in research studies, and the harms these have caused Indigenous communities. We are opposed to any research that harms Indigenous Peoples and we do not support any research or researcher that has harmed any community. We respect and appreciate your willingness to work with us and know that your trust must be earned. We are committed to protecting your privacy, safeguarding your information, and maintaining the integrity of our research.</p>
                 <p class="consentBodyFont2">If you identify as an Indigenous Person and want to join Connect, please consider:</p>
                 <ul class="consentBodyFont2" style="margin-left:32px">
-                    <li>Reading more about participation and the details of what it means to take part in Connect here</li>
+                    <li>Reading more about participation and the details of what it means to take part in Connect <a target="__blank" href="https://www.cancer.gov/connect-prevention-study/what-to-expect">here</a></li>
                     <li>Speaking with your community members, leaders, and family about participating in Connect.</li>
-                    <li>Contacting the Connect Support Center with any questions you have. Our team is happy to speak with you and discuss any concerns you may have about taking part in the study. (Cancer.gov/connectstudy/support, or call 1-866-462-6621 8:00 a.m.-10:00 p.m. CT on weekdays, and 9:00 a.m.-6:00 p.m. CT on weekends).</li>
+                    <li>Contacting the Connect Support Center with any questions you have. Our team is happy to speak with you and discuss any concerns you may have about taking part in the study. (<a target="__blank" href="https://norcfedramp.servicenowservices.com/recruit">Cancer.gov/connectstudy/support</a>, or call 1-866-462-6621 8:00 a.m.-10:00 p.m. CT on weekdays, and 9:00 a.m.-6:00 p.m. CT on weekends).</li>
                 </ul>
                 <p class="consentBodyFont2">If you join now and later decide you want to leave the study, you can do so at any time, for any reason.</p>
                 <p class="consentBodyFont2">The decision to join Connect is yours to make. Please choose what you are most comfortable with. We respect your decision and your privacy, and welcome any feedback or thoughts that you would like to share with us. Please call us at 1-866-462-6621 8:00 a.m.-10:00 p.m. CT on weekdays, and 9:00 a.m.-6:00 p.m. CT on weekends, or write to us at ConnectStudy@norc.org.</p>
                 <p class="consentBodyFont2">Thank you for learning about how Connect will engage with Indigenous Peoples. On the next screen, you can view the full consent form and electronic health records release form to continue the consent process.</p>
 
                 <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
-                    <div class="col-md-2 order-2 order-md-1">
+                    <div class="col-md-2">
                         <button class="btn btn-primary consentPrevButton" type="button" id="backToResults" style="min-width:100%; margin-top:10px;margin-bottom:10px;">Previous</button>
                     </div>
-                    <div class="col-md-8 order-3 order-md-2">
+                    <div class="col-md-8">
                     </div>
-                    <div class="col-md-2 order-1 order-md-3">
+                    <div class="col-md-2">
                         <button class="btn btn-primary consentNextButton" type="button" id="toConsent" style="width:100%; margin-top:10px;margin-bottom:10px">Next</button>
                     </div>
                 </div>
@@ -673,8 +673,8 @@ export const consentConsentPage = async () => {
                     <li>If I have questions, I can contact the Connect Support Center at <a target="_blank" href="https://norcfedramp.servicenowservices.com/recruit">Cancer.gov/connectstudy/support</a> or by calling 1-866-462-6621</li>
                     <li>If I decide to leave the study, I can contact the Connect Support Center at <a target="_blank" href="https://norcfedramp.servicenowservices.com/recruit">Cancer.gov/connectstudy/support</a></li>
                 </ol>
-                <input type="checkbox" name="consentAnswer" value="consentYes" id="CSConsentYesCheck" required>
-                <label for="consentYes" style=" font-size:20px" required="" id="CSConsentYes">Yes, I agree to join Connect</label><br>
+                <input type="checkbox" name="consentAnswer" value="consentYes" id="CSConsentYesCheck">
+                <label for="consentYes" style=" font-size:20px" id="CSConsentYes">Yes, I agree to join Connect</label><br>
             </div>
             
             <form id="consentForm" style="margin-top:50px" method="POST">
@@ -684,7 +684,7 @@ export const consentConsentPage = async () => {
                             <label class="consent-form-label consentSignHeader">
                                 First name<span class="required">*</span>
                             </label>
-                            <input required type="text" autocomplete="off" id="CSFirstName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
+                            <input  type="text" autocomplete="off" id="CSFirstName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
                         </div>
                         <div class="col-md-2 consent-form" style="margin-bottom:20px;">
                             <label class="consent-form-label consentSignHeader">
@@ -696,7 +696,7 @@ export const consentConsentPage = async () => {
                             <label class="consent-form-label consentSignHeader">
                                 Last name<span class="required">*</span>
                             </label>
-                            <input required type="text" autocomplete="off" id="CSLastName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
+                            <input  type="text" autocomplete="off" id="CSLastName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
                         </div>
                         <div class="col-md-2  consent-form" style="margin-bottom:20px;">
                             <label class="consent-form-label consentSignHeader">
@@ -767,12 +767,12 @@ export const consentConsentPage = async () => {
                 -->
                 
                 <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
-                    <div class="col-md-2 order-2 order-md-1">
+                    <div class="col-md-2">
                         <button class="btn btn-primary consentPrevButton" type="button" id="backToConsent" style="min-width:100%; margin-top:10px;margin-bottom:10px;">Previous</button>
                     </div>
-                    <div class="col-md-8 order-3 order-md-2">
+                    <div class="col-md-8">
                     </div>
-                    <div class="col-md-2 order-1 order-md-3">
+                    <div class="col-md-2">
                         <button class="btn btn-primary save-data consentNextButton" type="submit" id="toConsent" style="width:100%; margin-top:10px;margin-bottom:10px">Submit</button>
                     </div>
                 </div>
@@ -1068,6 +1068,7 @@ export const addEventConsentSubmit = () => {
 }
 
 const consentSubmit = async e => {
+    console.log('sldvkjsbvlkjsbdv')
     e.preventDefault();
     removeAllErrors();
     let formData = {};
@@ -1079,23 +1080,38 @@ const consentSubmit = async e => {
     let focus = true;
     var radios = document.getElementsByName('consentAnswer');
     if(!radios[0].checked){
+        
         const msg = 'You must check yes to continue.';
         errorMessageConsent('CSConsentYes', msg, focus)
         focus = false;
         hasError = true;
     }
-    if(/[0-9,\.<>:;!@#\$%\^&\*\+=\[\]\{\}\\\|]/.test(CSFirstName.value)) {
-        const msg = 'Your first name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters.';
-        errorMessageConsent('CSFirstName', msg, focus)
-        focus = false;
-        hasError = true;
-    }
-    if(/[0-9,\.<>:;!@#\$%\^&\*\+=\[\]\{\}\\\|]/.test(CSLastName.value)) {
-        const msg = 'Your last name should contain only uppercase and lowercase letters. Please do not use any numbers.';
-        errorMessageConsent('CSLastName', msg, focus)
-        focus = false;
-        hasError = true;
-    }
+    if(!hasError){
+        if(CSFirstName.value.trim() == "") {
+            const msg = 'A first name is required';
+            errorMessageConsent('CSFirstName', msg, focus)
+            focus = false;
+            hasError = true;
+        }
+        if(CSLastName.value.trim() == "") {
+            const msg = 'A last name is required';
+            errorMessageConsent('CSLastName', msg, focus)
+            focus = false;
+            hasError = true;
+        }
+        if(/[0-9,\.<>:;!@#\$%\^&\*\+=\[\]\{\}\\\|]/.test(CSFirstName.value)) {
+            const msg = 'Your first name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters.';
+            errorMessageConsent('CSFirstName', msg, focus)
+            focus = false;
+            hasError = true;
+        }
+        if(/[0-9,\.<>:;!@#\$%\^&\*\+=\[\]\{\}\\\|]/.test(CSLastName.value)) {
+            const msg = 'Your last name should contain only uppercase and lowercase letters. Please do not use any numbers.';
+            errorMessageConsent('CSLastName', msg, focus)
+            focus = false;
+            hasError = true;
+        }
+}
     if(hasError) return false;
     dataSavingBtn('save-data');
     const CSDate = todaysDate();

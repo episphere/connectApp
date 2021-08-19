@@ -25,8 +25,20 @@ export const   questionnaire = (url, moduleId) => {
     getMyData().then(data => {
         let inputData = {};
         inputData["firstName"] = data.data[fieldMapping.fName];
-        if (data.data.Module1 && data.data.Module1.SEX){
-            inputData["SEX"] = data.data.Module1.SEX;
+        //console.log('Module 1 data: ;dasklsad;lkf')
+        //console.log('debugging log')
+        //console.log(data.data[fieldMapping['Module1'].conceptId]['D_407056417']);
+        if (data.data[fieldMapping['Module1'].conceptId] && data.data[fieldMapping['Module1'].conceptId]['D_407056417']){
+            inputData["D_407056417"] = data.data[fieldMapping['Module1'].conceptId]['D_407056417'];
+        }
+        if (data.data[fieldMapping['Module1'].conceptId] && data.data[fieldMapping['Module1'].conceptId]['D_613744428']){
+            inputData["D_613744428"] = data.data[fieldMapping['Module1'].conceptId]['D_613744428'];
+        }
+        if (data.data[fieldMapping['Module1'].conceptId] && data.data[fieldMapping['Module1'].conceptId]['D_750420077']){
+            inputData["D_750420077"] = data.data[fieldMapping['Module1'].conceptId]['D_750420077'];
+        }
+        if (data.data[fieldMapping['Module1'].conceptId] && data.data[fieldMapping['Module1'].conceptId]['D_289664241']){
+            inputData["D_289664241"] = data.data[fieldMapping['Module1'].conceptId]['D_289664241'];
         }
         let birthMonth =  data.data[fieldMapping.birthMonth];
         let birthDay =  data.data[fieldMapping.birthDay];
@@ -40,9 +52,11 @@ export const   questionnaire = (url, moduleId) => {
         }
         let moduleConceptId = fieldMapping[`${moduleId}`].conceptId;
         let startTsConceptId = fieldMapping[`${moduleId}`].startTs;
+        let statusConceptId = fieldMapping[`${moduleId}`].statusFlag;
         if (!data.data[moduleConceptId] || !data.data[moduleConceptId][startTsConceptId]){
             let formData = {};
             formData[`${startTsConceptId}`] = new Date().toISOString();
+            formData[`${statusConceptId}`] = 615768760;
             storeResponse(formData);
         }
         transform.render({

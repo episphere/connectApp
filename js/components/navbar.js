@@ -39,7 +39,7 @@ export const userNavBar = () => {
         </div>
         <div class="navbar-nav transparent-border">
             <li class="nav-item">
-                <a class="nav-link" href="#samples" id="connectSamples"> Samples</a>
+                <a class="nav-link" href="#samples" id="connectSamples"> My Samples</a>
             </li>
         </div>
     

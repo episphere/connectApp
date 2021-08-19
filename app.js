@@ -157,16 +157,22 @@ const router = async () => {
     let loggedIn = await userLoggedIn();
     const route =  window.location.hash || '#';
     toggleNavBar(route);
-    
+    let exceptions = ['#joining-connect','#after-you-join','#long-term-study-activities','#what-connect-will-do','#how-your-information-will-help-prevent-cancer','#why-connect-is-important','#what-to-expect-if-you-decide-to-join','#where-this-study-takes-place','#about-our-researchers','#a-resource-for-science']
     if(loggedIn === false){
         if(route === '#') homePage();
         else if(route === '#about') renderHomeAboutPage();
-        else if(route === '#expectations') renderHomeExpectationsPage();
+        else if(route === '#expectations') {
+            renderHomeExpectationsPage();
+        }
         else if(route === '#privacy') renderHomePrivacyPage();
         else if(route === '#support'){
             location.href = "https://norcfedramp.servicenowservices.com/participant"
         }
-        else if (route === '#sign_out') signOut();
+        else if (exceptions.includes(route)){
+            if(!document.getElementById(route.substring(1))){
+                window.location.hash = '#'
+            }
+        }
         else window.location.hash = '#';
     }
     else{
@@ -237,7 +243,7 @@ const userProfile = () => {
                         <div class="col-md-2">
                         </div>
                         <div class="col-md-8">
-                            <div class="verifyEmailText">Please click the link we sent to your email to verify your contact information. Be sure to check your spam folder.</div>
+                            <div class="verifyEmailText">Please click the link we sent to your email to verify your contact information.<br>Be sure to check your spam folder.</div>
                         </div>
                         <div class="col-md-2">
                         </div>
