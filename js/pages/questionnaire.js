@@ -50,13 +50,13 @@ export const   questionnaire = (url, moduleId) => {
             inputData["age"] = Math.abs(ageDate.getUTCFullYear() - 1970);
             inputData["AGE"] = Math.abs(ageDate.getUTCFullYear() - 1970);
         }
-        console.log('--------------Input Data:-------------')
-        console.log(inputData);
-        console.log(moduleId)
+        //console.log('--------------Input Data:-------------')
+        //console.log(inputData);
+        //console.log(moduleId)
         let moduleConceptId = fieldMapping[`${moduleId}`].conceptId;
         let startTsConceptId = fieldMapping[`${moduleId}`].startTs;
         let statusConceptId = fieldMapping[`${moduleId}`].statusFlag;
-        console.log(data.data[moduleConceptId])
+        //console.log(data.data[moduleConceptId])
         if (!data.data[moduleConceptId] || !data.data[moduleConceptId][startTsConceptId]){
             let formData = {};
             formData[`${startTsConceptId}`] = new Date().toISOString();

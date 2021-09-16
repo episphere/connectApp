@@ -1068,7 +1068,6 @@ export const addEventConsentSubmit = () => {
 }
 
 const consentSubmit = async e => {
-    console.log('sldvkjsbvlkjsbdv')
     e.preventDefault();
     removeAllErrors();
     let formData = {};

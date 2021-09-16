@@ -539,7 +539,6 @@ const renderSignDataDestroy = async (data) =>{
 }
 
 const renderSignHIPAARevoke = async (data) =>{
-    console.log('hipaa revoke part dusf;bsdlvjb ')
     let consentVersions = await fetch('./forms/Consent_versioning.json').then(res => res.json());
 
     document.getElementById('root').innerHTML = `
