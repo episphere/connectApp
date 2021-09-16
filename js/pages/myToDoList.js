@@ -335,15 +335,15 @@ const renderMainBody = (data, tab) => {
 
     let toDisplayKeys = ['First Survey', 'Background and Overall Health', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure', "Where You Live and Work",'Enter SSN']
     
-    //let toDisplaySystem = [{'header':'Testing Survey', 'body':['TestModule']}, {'header':'First Survey', 'body': ['Background and Overall Health', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure', "Where You Live and Work"]}, {'body':['Enter SSN']}]
-    let toDisplaySystem = [{'header':'First Survey', 'body': ['Background and Overall Health', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure', "Where You Live and Work"]}, {'body':['Enter SSN']}]
+    let toDisplaySystem = [{'header':'Testing Survey', 'body':['TestModule']}, {'header':'First Survey', 'body': ['Background and Overall Health', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure', "Where You Live and Work"]}, {'body':['Enter SSN']}]
+    //let toDisplaySystem = [{'header':'First Survey', 'body': ['Background and Overall Health', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure', "Where You Live and Work"]}, {'body':['Enter SSN']}]
     if(data['821247024'] && data['821247024'] == 875007964){
         toDisplaySystem = [{'header':'First Survey', 'body': ['Background and Overall Health', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure', "Where You Live and Work"]}]
     }
     
     const modules = questionnaireModules;
     console.log(JSON.stringify(modules['Background and Overall Health']))
-    /*
+    
     modules['Testing Survey'] = {};
     modules['Testing Survey'].description = 'This is the Test Module';
     modules['Testing Survey'].hasIcon = false;
@@ -351,8 +351,7 @@ const renderMainBody = (data, tab) => {
     modules['TestModule'] = {"url":"https://raw.githubusercontent.com/jonasalmeida/privatequest/master/mockModule.txt?token=AGOJYPBPWBE2ONWJ3FCT7VDBJLP4E","moduleId":"TestModule","enabled":true}
     modules['TestModule'].header = 'Testing Module'; 
     modules['TestModule'].description = 'This is the testing module!';
-    modules['TestModule'].estimatedTime = '20 to 30 minutes'
-    */
+    modules['TestModule'].estimatedTime = '20 to 30 minutes
     modules['First Survey'] = {};
     modules['First Survey'].description = 'This survey is split into four sections that ask about a wide range of topics, including information about your medical history, family, work, and health behaviors. You can answer all of the questions at one time, or pause and return to complete the survey later. If you pause, your answers will be saved so you can pick up where you left off. You can skip any questions that you do not want to answer.';
     modules['First Survey'].hasIcon = false;
