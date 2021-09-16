@@ -520,7 +520,15 @@ const renderSignDataDestroy = async (data) =>{
         showAnimation();
         let formData = {};
         formData['359404406'] = 353358909;
-        formData['119449326'] = dateTime();        
+        formData['119449326'] = dateTime();      
+        formData['883668444'] = 274399168;
+        formData['304438543'] = `Data_Destruction_${consentVersions['DataDestruction']}`;  
+        formData['104278817'] = document.getElementById('CSFirstName').value;
+        formData['268665918'] = document.getElementById('CSMiddleName').value;
+        formData['744604255'] = document.getElementById('CSLastName').value;
+        formData['592227431'] = document.getElementById('CSNameSuffix').value;
+
+
         
         const response = await storeResponse(formData);
         if(response.code === 200) {
@@ -531,7 +539,6 @@ const renderSignDataDestroy = async (data) =>{
 }
 
 const renderSignHIPAARevoke = async (data) =>{
-    console.log('hipaa revoke part dusf;bsdlvjb ')
     let consentVersions = await fetch('./forms/Consent_versioning.json').then(res => res.json());
 
     document.getElementById('root').innerHTML = `
@@ -614,7 +621,14 @@ const renderSignHIPAARevoke = async (data) =>{
         let formData = {};
         formData['153713899'] = 353358909;
         formData['613641698'] = dateTime();
-        formData['slkbdslvksbd'] = 124124;
+        formData['577794331'] = 451449689;
+        formData['407743866'] = `HIPAA_Revocation_${consentVersions['Revocation']}`;  
+        formData['765336427'] = document.getElementById('CSFirstName').value;
+        formData['826240317'] = document.getElementById('CSMiddleName').value;
+        formData['479278368'] = document.getElementById('CSLastName').value;
+        formData['693626233'] = document.getElementById('CSNameSuffix').value;
+
+
 
         console.log(formData);
         const response = await storeResponse(formData);

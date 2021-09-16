@@ -1,4 +1,4 @@
-import { storeResponse, getMyData, urls } from "../shared.js";
+import { storeResponse, getMyData, urls,storeResponseQuest } from "../shared.js";
 import fieldMapping from '../components/fieldToConceptIdMapping.js'; 
 //import { transform } from 'https://episphere.github.io/quest/replace2.js';
 //for local testing use URL like such http://localhost:5001/replace2.js and http://localhost:5001/questionnaire.js
@@ -50,9 +50,13 @@ export const   questionnaire = (url, moduleId) => {
             inputData["age"] = Math.abs(ageDate.getUTCFullYear() - 1970);
             inputData["AGE"] = Math.abs(ageDate.getUTCFullYear() - 1970);
         }
+        //console.log('--------------Input Data:-------------')
+        //console.log(inputData);
+        //console.log(moduleId)
         let moduleConceptId = fieldMapping[`${moduleId}`].conceptId;
         let startTsConceptId = fieldMapping[`${moduleId}`].startTs;
         let statusConceptId = fieldMapping[`${moduleId}`].statusFlag;
+        //console.log(data.data[moduleConceptId])
         if (!data.data[moduleConceptId] || !data.data[moduleConceptId][startTsConceptId]){
             let formData = {};
             formData[`${startTsConceptId}`] = new Date().toISOString();
