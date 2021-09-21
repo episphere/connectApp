@@ -351,7 +351,7 @@ const renderMainBody = (data, tab) => {
     modules['TestModule'] = {"url":"https://raw.githubusercontent.com/jonasalmeida/privatequest/master/mockModule.txt?token=AGOJYPBPWBE2ONWJ3FCT7VDBJLP4E","moduleId":"TestModule","enabled":true}
     modules['TestModule'].header = 'Testing Module'; 
     modules['TestModule'].description = 'This is the testing module!';
-    modules['TestModule'].estimatedTime = '20 to 30 minutes
+    modules['TestModule'].estimatedTime = '20 to 30 minutes';
     modules['First Survey'] = {};
     modules['First Survey'].description = 'This survey is split into four sections that ask about a wide range of topics, including information about your medical history, family, work, and health behaviors. You can answer all of the questions at one time, or pause and return to complete the survey later. If you pause, your answers will be saved so you can pick up where you left off. You can skip any questions that you do not want to answer.';
     modules['First Survey'].hasIcon = false;
