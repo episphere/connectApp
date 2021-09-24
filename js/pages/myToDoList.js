@@ -178,9 +178,39 @@ export const myToDoList = (data, fromUserProfile) => {
                 }
                 else if(data['821247024'] && data['821247024'] == 160161595) {
                     let siteList = sites();
+                    let site =data['827220437']
+                    let body = `the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling 1-877-505-0253`;
+                    if(site == 531629870){
+                        body = `HealthPartners by emailing <a href = "mailto:ConnectStudy@healthpartners.com">ConnectStudy@healthpartners.com</a> or calling 952-967-5067`
+                    }
+                    if(site == 548392715){
+                        body = `Henry Ford Health System by emailing <a href = "mailto:ConnectStudy@hfhs.org">ConnectStudy@hfhs.org</a>`
+                    }
+                    if(site == 125001209){
+                        body = `KP Colorado by emailing <a href = "mailto:Connect-Study-KPCO@kp.org">Connect-Study-KPCO@kp.org</a> or calling 303-636-3126`
+                    }
+                    if(site == 327912200){
+                        body = `KP Georgia by emailing <a href = "mailto:Connect-Study-KPGA@kp.org">Connect-Study-KPGA@kp.org</a> or calling 404-745-5115`
+                    }
+                    if(site == 300267574){
+                        body = `KP Hawaii by emailing <a href = "mailto:Connect-Study-KPHI@kp.org">Connect-Study-KPHI@kp.org</a> or calling 833-417-0846`
+                    }
+                    if(site == 452412599){
+                        body = `KP Northwest by emailing <a href = "mailto:Connect-Study-KPNW@kp.org">Connect-Study-KPNW@kp.org</a> or calling 1-866-554-6039 (tollfree) or 503-528-3985`
+                    }
+                    if(site == 303349821){
+                        body = `the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling 1-877-505-0253`
+                    }
+                    if(site == 657167265){
+                        body = `Sanford Health by emailing <a href = "mailto:ConnectStudy@sanfordhealth.org">ConnectStudy@sanfordhealth.org</a> or calling 605-312-6100`
+                    }
+                    if(site == 809703864){
+                        body = `the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org or calling 1-877-505-0253`
+                    }
+
                     template += `
                     <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
-                        Our study team has been trying to contact you about your eligibility for the Connect for Cancer Prevention Study. We need more information from you to check that you can be part of Connect. Please contact the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling 1-877-505-0253 to confirm that you can take part in the study.    
+                        Our study team has been trying to contact you about your eligibility for the Connect for Cancer Prevention Study. We need more information from you to check that you can be part of Connect. Please contact ${site} to confirm that you can take part in the study.    
                     </div>
                     </div>
                     <div class="col-lg-2">
