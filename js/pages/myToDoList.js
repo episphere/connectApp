@@ -205,7 +205,7 @@ export const myToDoList = (data, fromUserProfile) => {
                         body = `Sanford Health by emailing <a href = "mailto:ConnectStudy@sanfordhealth.org">ConnectStudy@sanfordhealth.org</a> or calling 605-312-6100`
                     }
                     if(site == 809703864){
-                        body = `the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org or calling 1-877-505-0253`
+                        body = `the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling 1-877-505-0253`
                     }
 
                     template += `
