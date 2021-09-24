@@ -210,7 +210,7 @@ export const myToDoList = (data, fromUserProfile) => {
 
                     template += `
                     <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
-                        Our study team has been trying to contact you about your eligibility for the Connect for Cancer Prevention Study. We need more information from you to check that you can be part of Connect. Please contact ${site} to confirm that you can take part in the study.    
+                        Our study team has been trying to contact you about your eligibility for the Connect for Cancer Prevention Study. We need more information from you to check that you can be part of Connect. Please contact ${body} to confirm that you can take part in the study.    
                     </div>
                     </div>
                     <div class="col-lg-2">
