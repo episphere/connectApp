@@ -192,7 +192,7 @@ const allIHCS = {
     327912200: 'Kaiser Permanente Georgia',
     300267574: 'Kaiser Permanente Hawaii',
     452412599: 'Kaiser Permanente Northwest',
-    303349821: 'Marshfield Clinic',
+    303349821: 'Marshfield Clinic Health System',
     657167265: 'Sanford Health',
     809703864: 'University of Chicago Medicine'
 }
