@@ -307,7 +307,9 @@ const toggleNavBar = (route) => {
             toggleCurrentPageNoUser(route);
             const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
             if(route == "#"){
-                ui.start('#signInDiv', signInConfig());
+                if(location.host === urls.prod) api = ui.start('#signInDiv', signInConfig());
+                else if(location.host === urls.stage) api = ui.start('#signInDiv', signInConfig());
+                else ui.start('#signInDiv', signInConfigDev());
             }
             hideAnimation();
         }
@@ -318,6 +320,21 @@ const signInConfig = () => {
     return {
         signInSuccessUrl: '#dashboard',
         signInOptions: [
+            firebase.auth.PhoneAuthProvider.PROVIDER_ID
+        ],
+        credentialHelper: 'none'
+    }
+}
+
+const signInConfigDev = () => {
+    return {
+        signInSuccessUrl: '#dashboard',
+        signInOptions: [
+            firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+            {
+                provider:firebase.auth.EmailAuthProvider.PROVIDER_ID,
+                signInMethod: firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD
+            },
             firebase.auth.PhoneAuthProvider.PROVIDER_ID
         ],
         credentialHelper: 'none'
