@@ -378,7 +378,6 @@ const renderMainBody = (data, tab) => {
     modules['Testing Survey'].description = 'This is the Test Module';
     modules['Testing Survey'].hasIcon = false;
     modules['Testing Survey'].noButton = true;
-    modules['TestModule'] = {"url":"https://raw.githubusercontent.com/jonasalmeida/privatequest/master/mockModule.txt?token=AGOJYPBPWBE2ONWJ3FCT7VDBJLP4E","moduleId":"TestModule","enabled":true}
     modules['TestModule'].header = 'Testing Module'; 
     modules['TestModule'].description = 'This is the testing module!';
     modules['TestModule'].estimatedTime = '20 to 30 minutes';
