@@ -200,7 +200,8 @@ const allIHCS = {
 export const sites = () => {
     if(location.host === urls.prod) {
         return {
-            657167265: 'Sanford Health'
+            657167265: 'Sanford Health',
+            531629870: 'HealthPartners'
         }
     }
     else if (location.host === urls.stage) {
