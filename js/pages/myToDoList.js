@@ -435,9 +435,19 @@ const renderMainBody = (data, tab) => {
         for(let obj of toDisplaySystem){
             let started = false;
             if(obj.hasOwnProperty('body')){
+                let anyFound = false;
+                for(let key of obj['body']){
+                    if(!modules[key].completed){
+                        anyFound = true;
+                    }
+                    
+                }
+                
                 for(let key of obj['body']){
 
-                    if(!modules[key].completed){
+
+                    //if(!modules[key].completed){
+                    if(anyFound){
 
                         if(!started){
                             if(obj.hasOwnProperty('header')){
@@ -483,45 +493,87 @@ const renderMainBody = (data, tab) => {
                                             </li>`;*/
                             }
                         }
-                        
-                        hasModlesRemaining = true
-                        template += `<div style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
-                                        <div class="row">
-                                            ${modules[key].hasOwnProperty('hasIcon') && modules[key]['hasIcon'] == false? `` : `
-                                            <div class="col-md-1">
-                                                <i class="fas fa-clipboard-list d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
-                                            </div>
-                                            `}
+                        if(!modules[key].completed){
+                            hasModlesRemaining = true
+                            template += `<div style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
+                                            <div class="row">
+                                                ${modules[key].hasOwnProperty('hasIcon') && modules[key]['hasIcon'] == false? `` : `
+                                                <div class="col-md-1">
+                                                    <i class="fas fa-clipboard-list d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
+                                                </div>
+                                                `}
 
-                                            <div class="${modules[key].hasOwnProperty('hasIcon') && modules[key]['hasIcon'] == false? 'col-9':'col-md-8'}">
-                                            <p class="style="font-style:bold; font-size:24px; margin-left:30px">
-                                                <b style="color:#5c2d93; font-size:18px;">
-                                                ${modules[key]['header']?modules[key]['header']:key}
-                                                </b>
-                                                <br> 
-                                                ${modules[key].description}
-                                                <br>
-                                                <br>
-                                                ${modules[key].estimatedTime ? `
-                                                <em>
-                                                Estimated Time: ${modules[key].estimatedTime}
-                                                </em>
-                                                ` : ''}
-                                                
-                                            </p>
+                                                <div class="${modules[key].hasOwnProperty('hasIcon') && modules[key]['hasIcon'] == false? 'col-9':'col-md-8'}">
+                                                <p class="style="font-style:bold; font-size:24px; margin-left:30px">
+                                                    <b style="color:#5c2d93; font-size:18px;">
+                                                    ${modules[key]['header']?modules[key]['header']:key}
+                                                    </b>
+                                                    <br> 
+                                                    ${modules[key].description}
+                                                    <br>
+                                                    <br>
+                                                    ${modules[key].estimatedTime ? `
+                                                    <em>
+                                                    Estimated Time: ${modules[key].estimatedTime}
+                                                    </em>
+                                                    ` : ''}
+                                                    
+                                                </p>
+                                                </div>
+                                            
+                                                ${modules[key].hasOwnProperty('noButton') && modules[key]['noButton'] == true? '' : `
+                                                <div class="col-md-3">
+                                                    <button class="btn survey-list-active btn-agreement questionnaire-module ${(modules[key].enabled && !modules[key].unreleased) ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${key}" module_id="${modules[key].moduleId}" data-module-url="${modules[key].url ? modules[key].url : ''}" style=""><b>${modules[key].unreleased  ?  'Coming soon' : 'Start'}</b></button>    
+                                                </div>
+                                                `}
                                             </div>
-                                        
-                                            ${modules[key].hasOwnProperty('noButton') && modules[key]['noButton'] == true? '' : `
-                                            <div class="col-md-3">
-                                                <button class="btn survey-list-active btn-agreement questionnaire-module ${(modules[key].enabled && !modules[key].unreleased) ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${key}" module_id="${modules[key].moduleId}" data-module-url="${modules[key].url ? modules[key].url : ''}" style=""><b>${modules[key].unreleased  ?  'Coming soon' : 'Start'}</b></button>    
+                                            
+                                        </div>`
+                                            /*
+                                            <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="width:90%; margin-bottom:20px;">${key}</button>
+                                        </li>`;*/
+                        }
+                        else{
+                            hasModlesRemaining = true
+                            template += `<div style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
+                                            <div class="row">
+                                                ${modules[key].hasOwnProperty('hasIcon') && modules[key]['hasIcon'] == false? `` : `
+                                                <div class="col-md-1">
+                                                    <i class="fas fa-clipboard-list d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
+                                                </div>
+                                                `}
+
+                                                <div class="${modules[key].hasOwnProperty('hasIcon') && modules[key]['hasIcon'] == false? 'col-9':'col-md-8'}">
+                                                <p class="style="font-style:bold; font-size:24px; margin-left:30px">
+                                                    <b style="color:#5c2d93; font-size:18px;">
+                                                    ${modules[key]['header']?modules[key]['header']:key}
+                                                    </b>
+                                                    <br> 
+                                                    ${modules[key].description}
+                                                    <br>
+                                                    <br>
+                                                    ${modules[key].estimatedTime ? `
+                                                    <em>
+                                                    Completed Time: ${new Date(data[fieldMapping[modules[key].moduleId].completeTs]).toLocaleString()}
+                                                    </em>
+                                                    ` : ''}
+                                                    
+                                                    
+                                                </p>
+                                                </div>
+                                            
+                                                ${/*modules[key].hasOwnProperty('noButton') && modules[key]['noButton'] == true? '' : `
+                                                <div class="col-md-3">
+                                                    <button class="btn survey-list-active btn-agreement questionnaire-module ${(modules[key].enabled && !modules[key].unreleased) ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${key}" module_id="${modules[key].moduleId}" data-module-url="${modules[key].url ? modules[key].url : ''}" style=""><b>${modules[key].unreleased  ?  'Coming soon' : 'Start'}</b></button>    
+                                                </div>
+                        `*/''}
                                             </div>
-                                            `}
-                                        </div>
-                                        
-                                    </div>`
-                                        /*
-                                        <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="width:90%; margin-bottom:20px;">${key}</button>
-                                    </li>`;*/
+                                            
+                                        </div>`
+                                            /*
+                                            <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="width:90%; margin-bottom:20px;">${key}</button>
+                                        </li>`;*/
+                        }
                     }
                 }
             if(started == true){
@@ -547,7 +599,16 @@ const renderMainBody = (data, tab) => {
             let started = false;
             if(obj.hasOwnProperty('body')){
                 for(let key of obj['body']){
-                    if(modules[key].completed){
+
+                    let anyFound = false;
+                    for(let key of obj['body']){
+                        if(!modules[key].completed){
+                            anyFound = true;
+                        }
+                    }
+
+                    if(!anyFound){
+                    //if(modules[key].completed){
                         if(!started){
                             if(obj.hasOwnProperty('header')){
                                 let thisKey = obj['header'];
