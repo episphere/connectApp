@@ -307,8 +307,8 @@ const toggleNavBar = (route) => {
             toggleCurrentPageNoUser(route);
             const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
             if(route == "#"){
-                if(location.host === urls.prod) api = ui.start('#signInDiv', signInConfig());
-                else if(location.host === urls.stage) api = ui.start('#signInDiv', signInConfigDev());
+                if(location.host === urls.prod) ui.start('#signInDiv', signInConfig());
+                else if(location.host === urls.stage) ui.start('#signInDiv', signInConfigDev());
                 else ui.start('#signInDiv', signInConfigDev());
             }
             hideAnimation();
