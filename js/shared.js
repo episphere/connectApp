@@ -192,7 +192,7 @@ const allIHCS = {
     327912200: 'Kaiser Permanente Georgia',
     300267574: 'Kaiser Permanente Hawaii',
     452412599: 'Kaiser Permanente Northwest',
-    303349821: 'Marshfield Clinic',
+    303349821: 'Marshfield Clinic Health System',
     657167265: 'Sanford Health',
     809703864: 'University of Chicago Medicine'
 }
@@ -200,7 +200,8 @@ const allIHCS = {
 export const sites = () => {
     if(location.host === urls.prod) {
         return {
-            657167265: 'Sanford Health'
+            657167265: 'Sanford Health',
+            531629870: 'HealthPartners'
         }
     }
     else if (location.host === urls.stage) {
@@ -811,8 +812,11 @@ export const getConceptVariableName = async (conceptId) => {
 //for local testing use URL like such http://localhost:5001/questionnaires/submodules/module1_config.txt
 //for condensed testing of questionnaires use this set of urls https://hzhao392.github.io/privatequest/test_module1.txt
 //for submodules use https://raw.githubusercontent.com/jonasalmeida/privatequest/master/submodules/module1_config.txt?token=ANWUEPNBOGO6ATOXSNG5DWDAWZ6XC
+//'Background and Overall Health': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/module1.txt', moduleId:"Module1", enabled:true},
+//    'TestModule': {"url":"https://raw.githubusercontent.com/jonasalmeida/privatequest/master/mockModule.txt?token=AGOJYPBPWBE2ONWJ3FCT7VDBJLP4E","moduleId":"TestModule","enabled":true},
+
 export const questionnaireModules = {
-    'Background and Overall Health': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/module1.txt', moduleId:"Module1", enabled:true},
+    'Background and Overall Health': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/module1Stage.txt', moduleId:"Module1", enabled:true},
     'Medications, Reproductive Health, Exercise, and Sleep': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/module2.txt', moduleId:"Module2", enabled:false},
     'Smoking, Alcohol, and Sun Exposure': {url: 'https://hzhao392.github.io/privatequest/test_module3.txt', moduleId:"Module3", enabled:false},
     'Where You Live and Work': {url: 'https://hzhao392.github.io/privatequest/test_module4.txt', moduleId:"Module4", enabled:false},

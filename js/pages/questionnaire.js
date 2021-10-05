@@ -148,6 +148,7 @@ function buildHTML(soccerResults, question, responseElement) {
   }
 
 export const blockParticipant = () => {
+    
     const mainContent = document.getElementById('root');
     mainContent.innerHTML = `
     <div class = "row" style="margin-top:25px">
@@ -160,5 +161,6 @@ export const blockParticipant = () => {
         <div class="col-lg-2">
         </div>
     `
+    window.scrollTo(0, 0);
 
 }
