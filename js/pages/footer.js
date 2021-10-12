@@ -1,3 +1,5 @@
+import { urls } from "./../shared.js"
+
 export const footerTemplate = () => {
     return `
         <div class="row footer-content" style="margin:0">
@@ -21,10 +23,12 @@ export const footerTemplate = () => {
                     <div class="footer-sub-heading pt-3"><a class="footer-links" target="__blank" href="https://www.cancer.gov/policies/privacy-security">Privacy & Security</a></div>
                     <div class="footer-sub-heading pt-3"><a class="footer-links" target="__blank" href="https://dceg.cancer.gov/about/sitemap">Site Map</a></div>
                 </div>
-                <div class="col-lg-4 pt-3 content-wrapper text-center text-sm-left">
-                    <div class="footer-heading">TRANSLATE</div>
-                    <div class="footer-sub-heading pt-3" id="google_translate_element"></div>
-                </div>
+                ${location.host !== urls.stage && location.host !== urls.prod ? `
+                    <div class="col-lg-4 pt-3 content-wrapper text-center text-sm-left">
+                        <div class="footer-heading">TRANSLATE</div>
+                        <div class="footer-sub-heading pt-3" id="google_translate_element"></div>
+                    </div>
+                `: ``}
             </div>
             <div class="row w-100 pt-5 align-center" style="margin:0">
                 <ul class="menu w-100" style="padding:0">
