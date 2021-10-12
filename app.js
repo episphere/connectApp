@@ -314,7 +314,7 @@ const toggleNavBar = (route) => {
             if(route == "#"){
                 if(location.host === urls.prod) ui.start('#signInDiv', signInConfig());
                 else if(location.host === urls.stage) ui.start('#signInDiv', signInConfig());
-                else ui.start('#signInDiv', signInConfig());
+                else ui.start('#signInDiv', signInConfigDev());
             }
             hideAnimation();
         }
@@ -339,6 +339,7 @@ const signInConfigDev = () => {
     return {
         signInSuccessUrl: '#dashboard',
         signInOptions: [
+            firebase.auth.GoogleAuthProvider.PROVIDER_ID,
             {
                 provider:firebase.auth.EmailAuthProvider.PROVIDER_ID,
                 signInMethod: firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD
