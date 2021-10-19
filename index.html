@@ -19,6 +19,33 @@
             gtag('config', measurementID);
         </script>
 
+        <script>
+            if(location.host !== 'myconnect.cancer.gov') {
+                const sentryScript = document.createElement('script');
+                sentryScript.src = 'https://browser.sentry-cdn.com/4.0.5/bundle.min.js';
+                document.head.appendChild(sentryScript);
+            }
+        </script>
+        <script>
+            if(location.host !== 'myconnect.cancer.gov') {
+                (function () {
+                    'use strict';
+                    Sentry.init({ dsn: 'https://04374c33d6d54911b0c28caea924a131@o1017362.ingest.sentry.io/6019591' });
+                    // function handleHelloClick() {
+                    //     try {
+                    //         throw new Error('Caught');
+                    //     } catch (err) {
+                    //         Sentry.captureException(err);
+                    //     }
+                    // }
+                    // function handleErrorClick() {
+                    //     throw new Error('Uncaught');
+                    // }
+                    // handleErrorClick()
+                })();
+            }
+        </script>
+
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
