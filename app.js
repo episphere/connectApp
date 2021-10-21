@@ -201,7 +201,10 @@ const userProfile = () => {
         if(user){
             document.title = 'My Connect - Dashboard';
             const mainContent = document.getElementById('root');
-            const parameters = getParameters(window.location.href);
+            let href = location.href;
+            const specialParameter = 'continueUrl=';
+            if(href.includes(specialParameter)) href = href.substr(href.indexOf(specialParameter) + specialParameter.length, href.length);
+            const parameters = getParameters(href);
             showAnimation();
             if(parameters && parameters.token){
                 const response = await validateToken(parameters.token);
