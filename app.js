@@ -313,7 +313,7 @@ const toggleNavBar = (route) => {
             const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
             if(route == "#"){
                 if(location.host === urls.prod) ui.start('#signInDiv', signInConfig());
-                else if(location.host === urls.stage) ui.start('#signInDiv', signInConfigDev());
+                else if(location.host === urls.stage) ui.start('#signInDiv', signInConfig());
                 else ui.start('#signInDiv', signInConfigDev());
             }
             hideAnimation();
@@ -325,6 +325,10 @@ const signInConfig = () => {
     return {
         signInSuccessUrl: '#dashboard',
         signInOptions: [
+            {
+                provider:firebase.auth.EmailAuthProvider.PROVIDER_ID,
+                signInMethod: firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD
+            },
             firebase.auth.PhoneAuthProvider.PROVIDER_ID
         ],
         credentialHelper: 'none'
