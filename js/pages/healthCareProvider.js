@@ -10,7 +10,8 @@ export const requestPINTemplate = () => {
             <form method="POST" id="requestPINForm">
                 <div class="form-group row">
                     
-                    <label><strong>If you received a PIN as part of your study invitation, please enter it here. Your PIN should be 6 characters and will include only numbers and uppercase letters.</strong></label>
+                    <label style="width:100%"><strong>If you received a PIN as part of your study invitation, please enter it here.<br>
+                    Your PIN should be 6 characters and will include only numbers and uppercase letters.<br></strong></label>
                     <label><input style="margin-left:0px;" type="text" maxlength="6" id="participantPIN" class="form-control" placeholder="Enter PIN"></label>
                 </div>
 
@@ -98,25 +99,22 @@ export const heardAboutStudy = () => {
             <label><strong>How did you hear about this study? (Select all that apply)</strong></label>
             <div class="form-group">
                 <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox2"> Email or text invitation</label>
-                </div>
-                <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox3"> Letter or brochure in mail</label>
-                </div>
-                <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox6"> Invitation through my patient portal (such as MyChart)</label>
-                </div>
-                <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox12"> Phone call invitation</label>
-                </div>
-                <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox1"> Physician or other health care staff</label>
+                    <label><input type="checkbox" id="checkbox8"> Another Connect participant</label>
                 </div>
                 <div class="checkbox">
                     <label><input type="checkbox" id="checkbox13"> Connect research staff at my health care system</label>
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox4"> News article or press release about Connect </label>
+                    <label><input type="checkbox" id="checkbox10"> Connect table at public event</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" id="checkbox16"> Connect website on Cancer.gov</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" id="checkbox2"> Email or text invitation</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" id="checkbox7"> Family or friend</label>
                 </div>
                 <div class="checkbox">
                     <label><input type="checkbox" id="checkbox14"> Health care system newsletter</label>
@@ -125,31 +123,34 @@ export const heardAboutStudy = () => {
                     <label><input type="checkbox" id="checkbox15"> Health care system website</label>
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox16"> Connect website on Cancer.gov</label>
+                    <label><input type="checkbox" id="checkbox6"> Invitation through my patient portal (such as MyChart)</label>
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox5"> Social media post (on Facebook, Twitter, Instagram, or other channels)</label>
+                    <label><input type="checkbox" id="checkbox3"> Letter or brochure in mail</label>
                 </div>
                 <div class="checkbox">
                     <label><input type="checkbox" id="checkbox17"> Local news, television, or radio station</label>
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox18"> Video</label>
+                    <label><input type="checkbox" id="checkbox4"> News article or press release about Connect </label>
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox7"> Family or friend</label>
+                    <label><input type="checkbox" id="checkbox12"> Phone call invitation</label>
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox8"> Another Connect participant</label>
+                    <label><input type="checkbox" id="checkbox1"> Physician or other health care staff</label>
                 </div>
                 <div class="checkbox">
                     <label><input type="checkbox" id="checkbox9"> Poster, flyer, or sign at my health care system</label>
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox10"> Connect table at public event</label>
+                    <label><input type="checkbox" id="checkbox19"> Recorded message</label>
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox19"> Recorded message</label>
+                    <label><input type="checkbox" id="checkbox5"> Social media post (on Facebook, Twitter, Instagram, or other channels)</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" id="checkbox18"> Video</label>
                 </div>
                 <div class="checkbox">
                     <label><input type="checkbox"  id="checkbox11"> Other</label>

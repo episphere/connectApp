@@ -1,7 +1,7 @@
 {
   "name": "My Connect",
   "short_name": "Connect",
-  "theme_color": "#cd2f5a",
+  "theme_color": "#2a72a5",
   "background_color": "#ffffff",
   "display": "standalone",
   "start_url": "/",

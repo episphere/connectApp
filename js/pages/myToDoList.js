@@ -10,7 +10,7 @@ export const myToDoList = (data, fromUserProfile) => {
     const mainContent = document.getElementById('root');
     if(!data['507120821']){
         let formData = {
-            '507120821':939311541
+            '507120821':845979108
         }
         storeResponse(formData);
     }
@@ -20,7 +20,7 @@ export const myToDoList = (data, fromUserProfile) => {
             //In the future, we will want to just have active recruits passing this check
             //data['512820379'] && data['512820379'] === 854703046 becomes
             //data['512820379'] && data['512820379'] !== 486306141
-            if(data['699625233'] && data['699625233'] === 353358909 && data['512820379'] && data['512820379'] === 854703046 && data['821247024'] && data['821247024'] !== 197316935/*data['948195369'] && data['948195369'] !== 353358909*//*data['512820379'] && data['512820379'] !== 486306141 && data['821247024'] && data['821247024'] !== 197316935*/){
+            if(data['699625233'] && data['699625233'] === 353358909 && data['512820379'] && data['512820379'] === 854703046 && data['821247024'] && (data['821247024'] == 875007964)/*data['948195369'] && data['948195369'] !== 353358909*//*data['512820379'] && data['512820379'] !== 486306141 && data['821247024'] && data['821247024'] !== 197316935*/){
                 blockParticipant();
                 hideAnimation();
                 return;
@@ -77,6 +77,16 @@ export const myToDoList = (data, fromUserProfile) => {
                     else{
                         finalMessage += "You have been withdrawn from Connect per your request.<br>"
                     }
+                }
+                if(finalMessage !== ""){
+                    template += `
+                    <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
+                        ${finalMessage}
+                    </div>
+                    `
+                    mainContent.innerHTML = template;
+                    hideAnimation();
+                    return;
                 }
                 else if (((data.hasOwnProperty('773707518') && data['773707518'] == 353358909)) && (!data['153713899'] || data['153713899'] == 104430631)){
                     topMessage += "You have a new <a href='#forms'>form</a> to sign.<br>"
@@ -141,7 +151,7 @@ export const myToDoList = (data, fromUserProfile) => {
                     <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
                         Based on our records you are not eligible for the Connect for Cancer Prevention Study. Thank you for your interest. Any information that you have already provided will remain private. We will not use any information you shared for our research.
                         <br>
-                        If you think this is a mistake or if you have any questions, please contact the Connect Support Center. [<a href="https://norcfedramp.servicenowservices.com/participant" target="_blank">MyConnect.cancer.gov/support</a>]
+                        If you think this is a mistake or if you have any questions, please contact the <a href="https://norcfedramp.servicenowservices.com/participant" target="_blank">Connect Support Center</a>.
                     </div>
                     </div>
                     <div class="col-lg-2">
@@ -167,10 +177,40 @@ export const myToDoList = (data, fromUserProfile) => {
                     return;
                 }
                 else if(data['821247024'] && data['821247024'] == 160161595) {
-                    let sites = sites();
+                    let siteList = sites();
+                    let site =data['827220437']
+                    let body = `the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling 1-877-505-0253`;
+                    if(site == 531629870){
+                        body = `HealthPartners by emailing <a href = "mailto:ConnectStudy@healthpartners.com">ConnectStudy@healthpartners.com</a> or calling 952-967-5067`
+                    }
+                    if(site == 548392715){
+                        body = `Henry Ford Health System by emailing <a href = "mailto:ConnectStudy@hfhs.org">ConnectStudy@hfhs.org</a>`
+                    }
+                    if(site == 125001209){
+                        body = `KP Colorado by emailing <a href = "mailto:Connect-Study-KPCO@kp.org">Connect-Study-KPCO@kp.org</a> or calling 303-636-3126`
+                    }
+                    if(site == 327912200){
+                        body = `KP Georgia by emailing <a href = "mailto:Connect-Study-KPGA@kp.org">Connect-Study-KPGA@kp.org</a> or calling 404-745-5115`
+                    }
+                    if(site == 300267574){
+                        body = `KP Hawaii by emailing <a href = "mailto:Connect-Study-KPHI@kp.org">Connect-Study-KPHI@kp.org</a> or calling 833-417-0846`
+                    }
+                    if(site == 452412599){
+                        body = `KP Northwest by emailing <a href = "mailto:Connect-Study-KPNW@kp.org">Connect-Study-KPNW@kp.org</a> or calling 1-866-554-6039 (toll-free) or 503-528-3985`
+                    }
+                    if(site == 303349821){
+                        body = `the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling 1-877-505-0253`
+                    }
+                    if(site == 657167265){
+                        body = `Sanford Health by emailing <a href = "mailto:ConnectStudy@sanfordhealth.org">ConnectStudy@sanfordhealth.org</a> or calling 605-312-6100`
+                    }
+                    if(site == 809703864){
+                        body = `the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling 1-877-505-0253`
+                    }
+
                     template += `
                     <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
-                        We need more information from you to check that you can be part of the Connect for Cancer Prevention Study. Please contact ${sites[data['827220437']]} to confirm your eligibility for Connect.
+                        Our study team has been trying to contact you about your eligibility for the Connect for Cancer Prevention Study. We need more information from you to check that you can be part of Connect. Please contact ${body} to confirm that you can take part in the study.    
                     </div>
                     </div>
                     <div class="col-lg-2">
@@ -182,16 +222,7 @@ export const myToDoList = (data, fromUserProfile) => {
                     return;
                     
                 }
-                if(finalMessage !== ""){
-                    template += `
-                    <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
-                        ${finalMessage}
-                    </div>
-                    `
-                    mainContent.innerHTML = template;
-                    hideAnimation();
-                    return;
-                }
+                
                 if(topMessage !== ""){
                     template += `
                     <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
@@ -311,8 +342,11 @@ export const myToDoList = (data, fromUserProfile) => {
 
 const addEventToDoList = () => {
     const modules = document.getElementsByClassName('questionnaire-module');
+    
+    
     Array.from(modules).forEach(module => {
         module.addEventListener('click',() => {
+            
             if (!module.classList.contains("btn-disbaled")){
                 const url = module.dataset.moduleUrl;
                 const moduleId = module.getAttribute("module_id");
@@ -331,12 +365,23 @@ const renderMainBody = (data, tab) => {
 
     let toDisplayKeys = ['First Survey', 'Background and Overall Health', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure', "Where You Live and Work",'Enter SSN']
     
+    //let toDisplaySystem = [{'header':'Testing Survey', 'body':['TestModule']}, {'header':'First Survey', 'body': ['Background and Overall Health', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure', "Where You Live and Work"]}, {'body':['Enter SSN']}]
     let toDisplaySystem = [{'header':'First Survey', 'body': ['Background and Overall Health', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure', "Where You Live and Work"]}, {'body':['Enter SSN']}]
     if(data['821247024'] && data['821247024'] == 875007964){
         toDisplaySystem = [{'header':'First Survey', 'body': ['Background and Overall Health', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure', "Where You Live and Work"]}]
     }
     
     const modules = questionnaireModules;
+    console.log(JSON.stringify(modules['Background and Overall Health']))
+    /*
+    modules['Testing Survey'] = {};
+    modules['Testing Survey'].description = 'This is the Test Module';
+    modules['Testing Survey'].hasIcon = false;
+    modules['Testing Survey'].noButton = true;
+    modules['TestModule'].header = 'Testing Module'; 
+    modules['TestModule'].description = 'This is the testing module!';
+    modules['TestModule'].estimatedTime = '20 to 30 minutes';
+    */
     modules['First Survey'] = {};
     modules['First Survey'].description = 'This survey is split into four sections that ask about a wide range of topics, including information about your medical history, family, work, and health behaviors. You can answer all of the questions at one time, or pause and return to complete the survey later. If you pause, your answers will be saved so you can pick up where you left off. You can skip any questions that you do not want to answer.';
     modules['First Survey'].hasIcon = false;
@@ -359,10 +404,13 @@ const renderMainBody = (data, tab) => {
     modules['Enter SSN'].noButton = false;
     modules['Enter SSN'].estimatedTime = 'Less than 5 minutes'
     //if module 1 exists and completed
+    modules["Smoking, Alcohol, and Sun Exposure"].unreleased = true;
+    modules["Where You Live and Work"].unreleased = true;
+    modules['Medications, Reproductive Health, Exercise, and Sleep'].unreleased = true;
     if (data[fieldMapping.Module1.conceptId] && data[fieldMapping.Module1.conceptId].COMPLETED) { 
-        modules["Smoking, Alcohol, and Sun Exposure"].enabled = false;
-        modules["Where You Live and Work"].enabled = false;
-        modules['Medications, Reproductive Health, Exercise, and Sleep'].enabled = false;
+        modules["Smoking, Alcohol, and Sun Exposure"].enabled = true;
+        modules["Where You Live and Work"].enabled = true;
+        modules['Medications, Reproductive Health, Exercise, and Sleep'].enabled = true;
         modules['Background and Overall Health'].completed = true;
     };
     if (data[fieldMapping.Module2.conceptId] && data[fieldMapping.Module2.conceptId].COMPLETED) { 
@@ -388,9 +436,19 @@ const renderMainBody = (data, tab) => {
         for(let obj of toDisplaySystem){
             let started = false;
             if(obj.hasOwnProperty('body')){
+                let anyFound = false;
+                for(let key of obj['body']){
+                    if(!modules[key].completed){
+                        anyFound = true;
+                    }
+                    
+                }
+                
                 for(let key of obj['body']){
 
-                    if(!modules[key].completed){
+
+                    //if(!modules[key].completed){
+                    if(anyFound){
 
                         if(!started){
                             if(obj.hasOwnProperty('header')){
@@ -424,7 +482,7 @@ const renderMainBody = (data, tab) => {
                                                 
                                                     ${modules[thisKey].hasOwnProperty('noButton') && modules[thisKey]['noButton'] == true? '' : `
                                                     <div class="col-md-3">
-                                                        <button class="btn survey-list-active btn-agreement questionnaire-module ${modules[thisKey].enabled ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${thisKey}" module_id="${modules[thisKey].moduleId}" data-module-url="${modules[thisKey].url ? modules[thisKey].url : ''}" style=""><b>Start</b></button>    
+                                                        <button class="btn survey-list-active btn-agreement questionnaire-module ${(modules[thisKey].enabled && modules[thisKey].unreleased) ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${thisKey}" module_id="${modules[thisKey].moduleId}" data-module-url="${modules[thisKey].url ? modules[thisKey].url : ''}" style=""><b>${modules[thisKey].unreleased  ? 'Coming soon' : 'Start'}</b></button>    
                                                     </div>
                                                     `}
                                                 </div>
@@ -436,45 +494,87 @@ const renderMainBody = (data, tab) => {
                                             </li>`;*/
                             }
                         }
-                        
-                        hasModlesRemaining = true
-                        template += `<div style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
-                                        <div class="row">
-                                            ${modules[key].hasOwnProperty('hasIcon') && modules[key]['hasIcon'] == false? `` : `
-                                            <div class="col-md-1">
-                                                <i class="fas fa-clipboard-list d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
-                                            </div>
-                                            `}
+                        if(!modules[key].completed){
+                            hasModlesRemaining = true
+                            template += `<div style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
+                                            <div class="row">
+                                                ${modules[key].hasOwnProperty('hasIcon') && modules[key]['hasIcon'] == false? `` : `
+                                                <div class="col-md-1">
+                                                    <i class="fas fa-clipboard-list d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
+                                                </div>
+                                                `}
 
-                                            <div class="${modules[key].hasOwnProperty('hasIcon') && modules[key]['hasIcon'] == false? 'col-9':'col-md-8'}">
-                                            <p class="style="font-style:bold; font-size:24px; margin-left:30px">
-                                                <b style="color:#5c2d93; font-size:18px;">
-                                                ${modules[key]['header']?modules[key]['header']:key}
-                                                </b>
-                                                <br> 
-                                                ${modules[key].description}
-                                                <br>
-                                                <br>
-                                                ${modules[key].estimatedTime ? `
-                                                <em>
-                                                Estimated Time: ${modules[key].estimatedTime}
-                                                </em>
-                                                ` : ''}
-                                                
-                                            </p>
+                                                <div class="${modules[key].hasOwnProperty('hasIcon') && modules[key]['hasIcon'] == false? 'col-9':'col-md-8'}">
+                                                <p class="style="font-style:bold; font-size:24px; margin-left:30px">
+                                                    <b style="color:#5c2d93; font-size:18px;">
+                                                    ${modules[key]['header']?modules[key]['header']:key}
+                                                    </b>
+                                                    <br> 
+                                                    ${modules[key].description}
+                                                    <br>
+                                                    <br>
+                                                    ${modules[key].estimatedTime ? `
+                                                    <em>
+                                                    Estimated Time: ${modules[key].estimatedTime}
+                                                    </em>
+                                                    ` : ''}
+                                                    
+                                                </p>
+                                                </div>
+                                            
+                                                ${modules[key].hasOwnProperty('noButton') && modules[key]['noButton'] == true? '' : `
+                                                <div class="col-md-3">
+                                                    <button class="btn survey-list-active btn-agreement questionnaire-module ${(modules[key].enabled && !modules[key].unreleased) ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${key}" module_id="${modules[key].moduleId}" data-module-url="${modules[key].url ? modules[key].url : ''}" style=""><b>${modules[key].unreleased  ?  'Coming soon' : 'Start'}</b></button>    
+                                                </div>
+                                                `}
                                             </div>
-                                        
-                                            ${modules[key].hasOwnProperty('noButton') && modules[key]['noButton'] == true? '' : `
-                                            <div class="col-md-3">
-                                                <button class="btn survey-list-active btn-agreement questionnaire-module ${modules[key].enabled ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${key}" module_id="${modules[key].moduleId}" data-module-url="${modules[key].url ? modules[key].url : ''}" style=""><b>Start</b></button>    
+                                            
+                                        </div>`
+                                            /*
+                                            <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="width:90%; margin-bottom:20px;">${key}</button>
+                                        </li>`;*/
+                        }
+                        else{
+                            hasModlesRemaining = true
+                            template += `<div style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
+                                            <div class="row">
+                                                ${modules[key].hasOwnProperty('hasIcon') && modules[key]['hasIcon'] == false? `` : `
+                                                <div class="col-md-1">
+                                                    <i class="fas fa-clipboard-list d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
+                                                </div>
+                                                `}
+
+                                                <div class="${modules[key].hasOwnProperty('hasIcon') && modules[key]['hasIcon'] == false? 'col-9':'col-md-8'}">
+                                                <p class="style="font-style:bold; font-size:24px; margin-left:30px">
+                                                    <b style="color:#5c2d93; font-size:18px;">
+                                                    ${modules[key]['header']?modules[key]['header']:key}
+                                                    </b>
+                                                    <br> 
+                                                    ${modules[key].description}
+                                                    <br>
+                                                    <br>
+                                                    ${modules[key].estimatedTime ? `
+                                                    <em>
+                                                    Completed Time: ${new Date(data[fieldMapping[modules[key].moduleId].completeTs]).toLocaleString()}
+                                                    </em>
+                                                    ` : ''}
+                                                    
+                                                    
+                                                </p>
+                                                </div>
+                                            
+                                                ${/*modules[key].hasOwnProperty('noButton') && modules[key]['noButton'] == true? '' : `
+                                                <div class="col-md-3">
+                                                    <button class="btn survey-list-active btn-agreement questionnaire-module ${(modules[key].enabled && !modules[key].unreleased) ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${key}" module_id="${modules[key].moduleId}" data-module-url="${modules[key].url ? modules[key].url : ''}" style=""><b>${modules[key].unreleased  ?  'Coming soon' : 'Start'}</b></button>    
+                                                </div>
+                        `*/''}
                                             </div>
-                                            `}
-                                        </div>
-                                        
-                                    </div>`
-                                        /*
-                                        <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="width:90%; margin-bottom:20px;">${key}</button>
-                                    </li>`;*/
+                                            
+                                        </div>`
+                                            /*
+                                            <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="width:90%; margin-bottom:20px;">${key}</button>
+                                        </li>`;*/
+                        }
                     }
                 }
             if(started == true){
@@ -500,7 +600,16 @@ const renderMainBody = (data, tab) => {
             let started = false;
             if(obj.hasOwnProperty('body')){
                 for(let key of obj['body']){
-                    if(modules[key].completed){
+
+                    let anyFound = false;
+                    for(let key of obj['body']){
+                        if(!modules[key].completed){
+                            anyFound = true;
+                        }
+                    }
+
+                    if(!anyFound){
+                    //if(modules[key].completed){
                         if(!started){
                             if(obj.hasOwnProperty('header')){
                                 let thisKey = obj['header'];

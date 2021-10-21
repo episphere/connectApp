@@ -70,6 +70,61 @@ export const conceptIdMapping = (formData) => {
     return formData;
 }
 
+export const gridFiltering = (formData) => {
+    try {
+
+        let moduleId = Object.keys(formData)[0].split(".")[0];
+        let moduleIdCompleted = moduleId + ".COMPLETED";
+        let moduleIdCompletedTS = moduleId + ".COMPLETED_TS";
+        
+        if (moduleIdCompleted in formData) {
+            let connectModuleIdCompleted = fieldMapping[fieldMapping[`${moduleId}`]].completeFlag;
+            formData[connectModuleIdCompleted] = 231311385;
+        }
+        if (moduleIdCompletedTS in formData) {
+            let connectModuleIdCompletedTS = fieldMapping[fieldMapping[`${moduleId}`]].completeTs;
+            formData[connectModuleIdCompletedTS] = formData[moduleIdCompletedTS];
+        }
+
+
+    } catch (error) {
+        console.log("questMapping error",error);
+    }
+}
+
+export const storeResponseQuest = async (formData) => {
+
+    formData = conceptIdMapping(formData);
+    formData = gridFiltering(formData)
+    const idToken = await new Promise((resolve, reject) => {
+        const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+            unsubscribe();
+            if (user) {
+                user.getIdToken().then((idToken) => {
+                    resolve(idToken);
+            }, (error) => {
+                resolve(null);
+            });
+            } else {
+            resolve(null);
+            }
+        });
+    });
+    let requestObj = {
+        method: "POST",
+        headers:{
+            Authorization:"Bearer "+idToken,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+    }
+    let url = '';
+    if(location.host === urls.prod) url = `https://api-myconnect.cancer.gov/app?api=submit`
+    else if(location.host === urls.stage) url = `https://api-myconnect-stage.cancer.gov/app?api=submit`
+    else url = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app?api=submit'
+    const response = await fetch(url, requestObj);
+    return response.json();
+}
 export const storeResponse = async (formData) => {
 
     formData = conceptIdMapping(formData);
@@ -137,7 +192,7 @@ const allIHCS = {
     327912200: 'Kaiser Permanente Georgia',
     300267574: 'Kaiser Permanente Hawaii',
     452412599: 'Kaiser Permanente Northwest',
-    303349821: 'Marshfield Clinic',
+    303349821: 'Marshfield Clinic Health System',
     657167265: 'Sanford Health',
     809703864: 'University of Chicago Medicine'
 }
@@ -145,7 +200,8 @@ const allIHCS = {
 export const sites = () => {
     if(location.host === urls.prod) {
         return {
-            657167265: 'Sanford Health'
+            657167265: 'Sanford Health',
+            531629870: 'HealthPartners'
         }
     }
     else if (location.host === urls.stage) {
@@ -756,8 +812,11 @@ export const getConceptVariableName = async (conceptId) => {
 //for local testing use URL like such http://localhost:5001/questionnaires/submodules/module1_config.txt
 //for condensed testing of questionnaires use this set of urls https://hzhao392.github.io/privatequest/test_module1.txt
 //for submodules use https://raw.githubusercontent.com/jonasalmeida/privatequest/master/submodules/module1_config.txt?token=ANWUEPNBOGO6ATOXSNG5DWDAWZ6XC
+//'Background and Overall Health': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/module1.txt', moduleId:"Module1", enabled:true},
+//    'TestModule': {"url":"https://raw.githubusercontent.com/jonasalmeida/privatequest/master/mockModule.txt?token=AGOJYPBPWBE2ONWJ3FCT7VDBJLP4E","moduleId":"TestModule","enabled":true},
+
 export const questionnaireModules = {
-    'Background and Overall Health': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/module1.txt', moduleId:"Module1", enabled:true},
+    'Background and Overall Health': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/module1Stage.txt', moduleId:"Module1", enabled:true},
     'Medications, Reproductive Health, Exercise, and Sleep': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/module2.txt', moduleId:"Module2", enabled:false},
     'Smoking, Alcohol, and Sun Exposure': {url: 'https://hzhao392.github.io/privatequest/test_module3.txt', moduleId:"Module3", enabled:false},
     'Where You Live and Work': {url: 'https://hzhao392.github.io/privatequest/test_module4.txt', moduleId:"Module4", enabled:false},
@@ -831,7 +890,7 @@ const signOut = () => {
     document.title = 'My Connect - Home';
 }
 
-export const renderSyndicate = (url, element) => {
+export const renderSyndicate = (url, element, page) => {
     const mainContent = document.getElementById(element);
     const isCompatible = isBrowserCompatible();
     fetch(url)
@@ -871,6 +930,44 @@ export const renderSyndicate = (url, element) => {
     mainContent.innerHTML = parsed.results[0].content;
     let toHide = document.getElementsByClassName('syndicate');
     toHide[1].style.display = "none"
+    if(page == "expectations"){
+        let ids = ['joining-connect', 'after-you-join', 'long-term-study-activities', 'what-connect-will-do', 'how-your-information-will-help-prevent-cancer']
+        let sections = document.getElementsByTagName('section');
+        for(let i = 0; i < sections.length; i++){
+            let section = sections[i];
+            section.id = ids[i];
+        }
+    }
+    if(page == "about"){
+        let ids = ['why-connect-is-important','what-to-expect-if-you-decide-to-join','where-this-study-takes-place','about-our-researchers','a-resource-for-science']
+        let sections = document.getElementsByTagName('section');
+        for(let i = 0; i < sections.length; i++){
+            let section = sections[i];
+            section.id = ids[i];
+        }
+    }
+    let aLinks = document.getElementsByTagName('a');
+    let allIds = ['#','#about','#expectations','#privacy','joining-connect', 'after-you-join', 'long-term-study-activities', 'what-connect-will-do', 'how-your-information-will-help-prevent-cancer','why-connect-is-important','what-to-expect-if-you-decide-to-join','where-this-study-takes-place','about-our-researchers','a-resource-for-science']
+    for(let i = 0; i < aLinks.length; i++){
+        let section = aLinks[i];
+        let found = false;
+        for(let j = 0; j < allIds.length; j++){
+            //console.log(section.href)
+            //console.log(allIds[j])
+            if(section.href.includes(allIds[j])){
+                found = true;
+                //console.log(section.href)
+                //console.log(allIds[j])
+                //console.log(found)
+            }
+        }
+        if(!found){
+            section.target = "_blank";
+            console.log(section.href);
+        }
+        
+    }
     hideAnimation();
+
     });
 }

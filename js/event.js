@@ -532,7 +532,7 @@ export const addEventUPSubmit = () => {
         
         if(hasError) return false;
         let formData = {};
-        formData['507120821'] = 928145508;
+        formData['507120821'] = 602439976;
         formData['399159511'] = document.getElementById('UPFirstName').value.trim();
         formData['query.firstName'] = document.getElementById('UPFirstName').value.trim().toLowerCase();
         formData['231676651'] = document.getElementById('UPMiddleInitial').value.trim();
@@ -912,6 +912,10 @@ const verifyUserDetails = (formData) => {
         <button type="button" title="Close" class="btn btn-dark" data-dismiss="modal">Go Back</button>
         <button type="button" id="confirmReview" title="Confirm details" class="btn btn-primary consentNextButton" data-dismiss="modal">Submit</button>
     `;
+    document.getElementById('connectModalFooter').style.display = 'block';
+
+    //make sure this is not hidden
+
 
     document.getElementById('confirmReview').addEventListener('click', async () => {
         dataSavingBtn('save-data');

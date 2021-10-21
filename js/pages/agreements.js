@@ -3,8 +3,14 @@ import { initializeCanvas } from './consent.js'
 const { PDFDocument, StandardFonts } = PDFLib;
 
 let signaturePosJSON = {
-    "Sanford":{x: 100, y: 410, x1: 100, y1: 450},
-    "HP":{x: 100, y: 440, x1: 100, y1: 460},
+    "Sanford":{nameX:100,nameY:410,signatureX:100,signatureY:450,dateX:100,dateY:370},
+    "HP":{nameX:100,nameY:415,signatureX:100,signatureY:465,dateX:100,dateY:365},
+    "Marshfield":{nameX:100,nameY:425,signatureX:100,signatureY:465,dateX:100,dateY:385}
+}
+let signaturePosConsentJSON = {
+    "HP":{nameX:90,nameY:415,signatureX:110,signatureY:340,dateX:90,dateY:380},
+    "Sanford":{nameX:120,nameY:410,signatureX:120,signatureY:450,dateX:120,dateY:370},
+    "Marshfield":{nameX:110,nameY:415,signatureX:115,signatureY:340,dateX:110,dateY:380}
 }
 export const renderAgreements = async () => {
     document.title = 'My Connect - Forms';
@@ -173,7 +179,7 @@ export const renderAgreements = async () => {
                                                 </span>
                                                 <br>
                                                 <span class = "consentBodyFont2">
-                                                    Your signed agreement to participate in the Connect for Cancer Prevention Study.This form has important information about your privacy and what you will be asked to do as a Connect participant
+                                                    Your signed agreement to participate in the Connect for Cancer Prevention Study. This form has important information about your privacy and what you will be asked to do as a Connect participant
                                                 </span>
                                                 <br>
                                                 <br>
@@ -333,43 +339,34 @@ export const renderDownloadConsentCopy = async (data) => {
     for (let i = 0; i <= pages.length; i++) {seekLastPage = i}
     const editPage = pages[seekLastPage-1];
     const currentTime = new Date(data[454445267]).toLocaleDateString();
+    let siteDict = siteAcronyms();
+    let participantSite = siteDict[data['827220437']];
 
-    editPage.drawText(`
-    ${data[471168198] + ' ' + data[736251808]} 
-    ${currentTime}`, {
-                x: 110,
-                y: 400,
-                size: 24,
-      });
+    let coords = signaturePosConsentJSON[participantSite]
+    //renderDownload(participantSignature, currentTime, pdfLocation, {x:110,y:400},{x1:110,y1:330});
+    if(!coords){
+        coords = {nameX:110,nameY:400,signatureX:110,signatureY:330,dateX:110,dateY:370}
+    }
+    renderDownload(participantSignature, currentTime, pdfLocation, {x:coords.nameX,y:coords.nameY},{x1:coords.signatureX,y1:coords.signatureY},{x:coords.dateX,y:coords.dateY},24,24,20);
 
-    editPage.drawText(`
-    ${participantSignature}`, {
-        x: 110,
-        y: 330,
-        size: 34,
-        font: helveticaFont,
-      });
-    
-    // Serialize the PDFDocument to bytes (a Uint8Array)
-    const pdfBytes = await pdfConsentDoc.save();
-
-    // Trigger the browser to download the PDF document
-    download(pdfBytes, pdfName, "application/pdf");
-    
 }
 
 export const renderDownloadHIPAA = async (data) => {
+    //let pdfLocation = './forms/HIPAA/Sanford_HIPAA_V1.0.pdf'
     let pdfLocation = './forms/HIPAA/' + data[412000022] + '.pdf'
     //let pdfLocation = './forms/HIPAA/Sanford_HIPAA_V1.0.pdf'
     let siteDict = siteAcronyms();
     let participantSite = siteDict[data['827220437']];
-    let positions = signaturePosJSON[participantSite];
-    if(!positions){
-        positions = {
-            x:200,
-            y:275,
-            x1:200,
-            y1:225,
+    let coords = signaturePosJSON[participantSite];
+    
+    if(!coords){
+        coords = {
+            nameX:200,
+            nameY:275,
+            signatureX:200,
+            signatureY:225,
+            dateX:200,
+            dateY:325
         }
     }
 
@@ -384,28 +381,7 @@ export const renderDownloadHIPAA = async (data) => {
     for (let i = 0; i <= pages.length; i++) {seekLastPage = i}
     const editPage = pages[seekLastPage-1];
     const currentTime = new Date(data[262613359]).toLocaleDateString();
-
-    editPage.drawText(`
-    ${data[471168198] + ' ' + data[736251808]} 
-    ${currentTime}`, {
-                x: positions.x,
-                y: positions.y,
-                size: 24,
-      });
-
-    editPage.drawText(`
-    ${participantSignature}`, {
-        x: positions.x1,
-        y: positions.y1,
-        size: 34,
-        font: helveticaFont,
-      });
-    
-    // Serialize the PDFDocument to bytes (a Uint8Array)
-    const pdfBytes = await pdfConsentDoc.save();
-
-    // Trigger the browser to download the PDF document
-    download(pdfBytes, pdfName, "application/pdf");
+    renderDownload(participantSignature, currentTime, pdfLocation, {x:coords.nameX,y:coords.nameY},{x1:coords.signatureX,y1:coords.signatureY},{x:coords.dateX,y:coords.dateY},24,24,20);
     
 }
 
@@ -413,15 +389,17 @@ export const renderDownloadHIPAA = async (data) => {
 export const renderDownloadRevoke = async (data) => {
     const participantSignature = data[471168198] + ' ' + data[736251808]
     let seekLastPage;
-    const pdfLocation = './consent_draft.pdf';
+    const pdfLocation = './forms/HIPAA_Revocation_V1.0.pdf';
     const existingPdfBytes = await fetch(pdfLocation).then(res => res.arrayBuffer());
     const pdfConsentDoc = await PDFDocument.load(existingPdfBytes);
     const helveticaFont = await pdfConsentDoc.embedFont(StandardFonts.TimesRomanItalic);
     const pages = pdfConsentDoc.getPages();
     for (let i = 0; i <= pages.length; i++) {seekLastPage = i}
     const editPage = pages[seekLastPage-1];
-    const currentTime = new Date(data[335767902]).toLocaleDateString();
+    const currentTime = new Date(data[613641698]).toLocaleDateString();
+    renderDownload(participantSignature, currentTime, pdfLocation, {x:150,y:420},{x1:150,y1:400},{x:155,y:380},20,15,20);
 
+    /*
     editPage.drawText(`
     ${data[471168198] + ' ' + data[736251808]} 
     ${currentTime}`, {
@@ -443,44 +421,23 @@ export const renderDownloadRevoke = async (data) => {
 
     // Trigger the browser to download the PDF document
     download(pdfBytes, "consent_draft.pdf", "application/pdf");
-    
+    */
 }
 
 
 export const renderDownloadDestroy = async (data) => {
     const participantSignature = data[471168198] + ' ' + data[736251808]
     let seekLastPage;
-    const pdfLocation = './consent_draft.pdf';
+    const pdfLocation = './forms/Data_Destruction_V1.0.pdf';
     const existingPdfBytes = await fetch(pdfLocation).then(res => res.arrayBuffer());
     const pdfConsentDoc = await PDFDocument.load(existingPdfBytes);
     const helveticaFont = await pdfConsentDoc.embedFont(StandardFonts.TimesRomanItalic);
     const pages = pdfConsentDoc.getPages();
     for (let i = 0; i <= pages.length; i++) {seekLastPage = i}
     const editPage = pages[seekLastPage-1];
-    const currentTime = new Date(data[335767902]).toLocaleDateString();
+    const currentTime = new Date(data[119449326]).toLocaleDateString();
+    renderDownload(participantSignature, currentTime, pdfLocation, {x:150,y:420},{x1:150,y1:400},{x:155,y:380},20,15,20);
 
-    editPage.drawText(`
-    ${data[471168198] + ' ' + data[736251808]} 
-    ${currentTime}`, {
-                x: 200,
-                y: 275,
-                size: 24,
-      });
-
-    editPage.drawText(`
-    ${participantSignature}`, {
-        x: 200,
-        y: 225,
-        size: 34,
-        font: helveticaFont,
-      });
-    
-    // Serialize the PDFDocument to bytes (a Uint8Array)
-    const pdfBytes = await pdfConsentDoc.save();
-
-    // Trigger the browser to download the PDF document
-    download(pdfBytes, "consent_draft.pdf", "application/pdf");
-    
 }
 
 const renderSignDataDestroy = async (data) =>{
@@ -494,31 +451,34 @@ const renderSignDataDestroy = async (data) =>{
     <div style="width:80%; margin:auto">
         <h4 class="consentSubheader" style="margin-top:50px">Data destruction request form</h4>
         <div id="canvasContainer"></div>
-        <div class="row" style="margin:auto"><div style="margin:auto"><a href="./forms/DataDestruction_${consentVersions['DataDestruction']}.pdf" title="Download Data destruction request form" data-toggle="tooltip" download="DataDestruction_${consentVersions['DataDestruction']}.pdf" class="consentBodyFont2"> Download an unsigned copy of the Data destruction request form&nbsp<i class="fas fa-file-download"></i></a></div></div>
+        <div class="row" style="margin:auto"><div style="margin:auto"><a href="./forms/Data_Destruction_${consentVersions['DataDestruction']}.pdf" title="Download Data destruction request form" data-toggle="tooltip" download="DataDestruction_${consentVersions['DataDestruction']}.pdf" class="consentBodyFont2"> Download an unsigned copy of the Data destruction request form&nbsp<i class="fas fa-file-download"></i></a></div></div>
     </div>
     
     <form id="consentForm" style="margin-top:20px; margin-bottom:50px;" method="POST">
         <div id="CSConsentNameSignContainer" style="">
             <div class="row" style="width:80%; margin:auto; padding-left:0px; padding-right:0px">
-                <div class="col-4 form-group consent-form">
+                <div class="col-md-4 form-group consent-form">
                     <label class="consent-form-label">
                         First name<span class="required">*</span>
                     </label>
                     <input required type="text" autocomplete="off" id="CSFirstName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
+                    <br>
                 </div>
-                <div class="col-2 form-group consent-form">
+                <div class="col-md-2 form-group consent-form">
                     <label class="consent-form-label">
                         Middle name<span></span>
                     </label>
                     <input type="text" autocomplete="off" id="CSMiddleName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
+                    <br>
                 </div>
-                <div class="col-4 form-group consent-form">
+                <div class="col-md-4 form-group consent-form">
                     <label class="consent-form-label">
                         Last name<span class="required">*</span>
                     </label>
                     <input required type="text" autocomplete="off" id="CSLastName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
+                    <br>
                 </div>
-                <div class="col-2 form-group consent-form">
+                <div class="col-md-2 form-group consent-form">
                     <label class="consent-form-label">
                         Suffix<span></span>
                     </label>
@@ -533,6 +493,7 @@ const renderSignDataDestroy = async (data) =>{
                         <option value="537892528">3rd</option>
 
                     </select>
+                    <br>
                 </div>
             </div>
             <div class="row" style="width:80%; margin:auto; padding-left:0px; padding-right:0px">
@@ -549,7 +510,7 @@ const renderSignDataDestroy = async (data) =>{
     </div>
         `;
     //document.getElementById('connectModalBody').innerHTML = '';
-    initializeCanvas(`./forms/DataDestruction_${consentVersions['DataDestruction']}.pdf`, 1);
+    initializeCanvas(`./forms/Data_Destruction_${consentVersions['DataDestruction']}.pdf`, 1);
     document.getElementById('backToAgreements').addEventListener('click', async () =>{
         showAnimation();
         await renderAgreements();
@@ -561,7 +522,15 @@ const renderSignDataDestroy = async (data) =>{
         showAnimation();
         let formData = {};
         formData['359404406'] = 353358909;
-        formData['119449326'] = dateTime();        
+        formData['119449326'] = dateTime();      
+        formData['883668444'] = 274399168;
+        formData['304438543'] = `Data_Destruction_${consentVersions['DataDestruction']}`;  
+        formData['104278817'] = document.getElementById('CSFirstName').value;
+        formData['268665918'] = document.getElementById('CSMiddleName').value;
+        formData['744604255'] = document.getElementById('CSLastName').value;
+        formData['592227431'] = document.getElementById('CSNameSuffix').value;
+
+
         
         const response = await storeResponse(formData);
         if(response.code === 200) {
@@ -582,31 +551,34 @@ const renderSignHIPAARevoke = async (data) =>{
     <div style="width:80%; margin:auto">
         <h4 class="consentSubheader" style="margin-top:50px">HIPAA Revocation Form</h4>
         <div id="canvasContainer"></div>
-        <div class="row" style="margin:auto"><div style="margin:auto"><a href="./forms/Revocation_${consentVersions['Revocation']}.pdf" title="Download HIPAA Revocation form" data-toggle="tooltip" download="Revocation_${consentVersions['Revocation']}.pdf" class="consentBodyFont2"> Download an unsigned copy of the HIPAA Revocation form&nbsp<i class="fas fa-file-download"></i></a></div></div>
+        <div class="row" style="margin:auto"><div style="margin:auto"><a href="./forms/HIPAA_Revocation_${consentVersions['Revocation']}.pdf" title="Download HIPAA Revocation form" data-toggle="tooltip" download="Revocation_${consentVersions['Revocation']}.pdf" class="consentBodyFont2"> Download an unsigned copy of the HIPAA Revocation form&nbsp<i class="fas fa-file-download"></i></a></div></div>
     </div>
     
     <form id="consentForm" style="margin-top:20px; margin-bottom:50px;" method="POST">
         <div id="CSConsentNameSignContainer" style="">
             <div class="row" style="width:80%; margin:auto; padding-left:0px; padding-right:0px">
-                <div class="col-4 form-group consent-form">
+                <div class="col-md-4 form-group consent-form">
                     <label class="consent-form-label">
                         First name<span class="required">*</span>
                     </label>
                     <input required type="text" autocomplete="off" id="CSFirstName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
+                    <br>
                 </div>
-                <div class="col-2 form-group consent-form">
+                <div class="col-md-2 form-group consent-form">
                     <label class="consent-form-label">
                         Middle name<span></span>
                     </label>
                     <input type="text" autocomplete="off" id="CSMiddleName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
+                    <br>
                 </div>
-                <div class="col-4 form-group consent-form">
+                <div class="col-md-4 form-group consent-form">
                     <label class="consent-form-label">
                         Last name<span class="required">*</span>
                     </label>
                     <input required type="text" autocomplete="off" id="CSLastName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
+                    <br>
                 </div>
-                <div class="col-2 form-group consent-form">
+                <div class="col-md-2 form-group consent-form">
                     <label class="consent-form-label">
                         Suffix<span></span>
                     </label>
@@ -621,6 +593,7 @@ const renderSignHIPAARevoke = async (data) =>{
                         <option value="537892528">3rd</option>
 
                     </select>
+                    <br>
                 </div>
             </div>
             <div class="row" style="width:80%; margin:auto; padding-left:0px; padding-right:0px">
@@ -637,7 +610,7 @@ const renderSignHIPAARevoke = async (data) =>{
     </div>
         `;
     //document.getElementById('connectModalBody').innerHTML = '';
-    initializeCanvas('./consent_draft.pdf', 1);
+    initializeCanvas('./forms/HIPAA_Revocation_V1.0.pdf', 1);
     document.getElementById('backToAgreements').addEventListener('click', async () =>{
         showAnimation();
         await renderAgreements();
@@ -650,10 +623,61 @@ const renderSignHIPAARevoke = async (data) =>{
         let formData = {};
         formData['153713899'] = 353358909;
         formData['613641698'] = dateTime();
+        formData['577794331'] = 451449689;
+        formData['407743866'] = `HIPAA_Revocation_${consentVersions['Revocation']}`;  
+        formData['765336427'] = document.getElementById('CSFirstName').value;
+        formData['826240317'] = document.getElementById('CSMiddleName').value;
+        formData['479278368'] = document.getElementById('CSLastName').value;
+        formData['693626233'] = document.getElementById('CSNameSuffix').value;
+
+
+
+        console.log(formData);
         const response = await storeResponse(formData);
         if(response.code === 200) {
+            console.log(response);
             await renderAgreements();
         }
         hideAnimation();
     })
+}
+
+const renderDownload = async (participant, timeStamp, fileLocation, nameCoordinates, signatureCoordinates, timeCoordinates, nameSize, timeSize, signSize) => {
+    let fileLocationDownload = fileLocation.slice(2)
+    const participantPrintName = participant
+    const participantSignature = participant
+    let seekLastPage;
+    const pdfLocation = fileLocation;
+    const existingPdfBytes = await fetch(pdfLocation).then(res => res.arrayBuffer());
+    const pdfDoc = await PDFDocument.load(existingPdfBytes);
+    const helveticaFont = await pdfDoc.embedFont(StandardFonts.TimesRomanItalic);
+    const pages = pdfDoc.getPages();
+    for (let i = 0; i <= pages.length; i++) {seekLastPage = i}
+    const editPage = pages[seekLastPage-1];
+
+    editPage.drawText(`
+    ${participantPrintName}`, {
+                x: nameCoordinates.x,
+                y: nameCoordinates.y,
+                size: nameSize,
+      });
+    editPage.drawText(`
+    ${timeStamp}`, {
+                x: timeCoordinates.x,
+                y: timeCoordinates.y,
+                size: timeSize,
+      });
+    editPage.drawText(`
+    ${participantSignature}`, {
+        x: signatureCoordinates.x1,
+        y: signatureCoordinates.y1,
+        size: signSize,
+        font: helveticaFont,
+      });
+    
+    // Serialize the PDFDocument to bytes (a Uint8Array)
+    const pdfBytes = await pdfDoc.save();
+
+    // Trigger the browser to download the PDF document
+    download(pdfBytes, fileLocationDownload, "application/pdf");
 }
