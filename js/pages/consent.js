@@ -463,7 +463,7 @@ export const consentIndigenousProtectPage = () => {
                 <p class="consentBodyFont2">It is possible that research findings could be associated with people who share your race identity. Connect is opposed to the publication of research findings that stigmatize Indigenous communities or any racial or ethnic group.</p>
                 <p class="consentBodyFont1">Samples</p>
                 <p class="consentBodyFont2">If you decide to leave the study, we will work with you to determine a plan for return or destruction of your samples, if requested. We may not be able to return or destroy samples that have already been used for research. </p>
-                <p class="consentBodyFont2">If a participant from an Indigenous community passes away during their time in the study, we will work with the participant’s family or other community members to determine a plan forreturn or destruction of their samples, if requested.</p>
+                <p class="consentBodyFont2">If a participant from an Indigenous community passes away during their time in the study, we will work with the participant’s family or other community members to determine a plan for return or destruction of their samples, if requested.</p>
 
                 <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
                     <div class="col-md-2">
