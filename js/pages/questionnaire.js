@@ -1,4 +1,4 @@
-import { storeResponse, getMyData, urls,storeResponseQuest } from "../shared.js";
+import { storeResponse, getMyData, urls,storeResponseQuest, showAnimation, hideAnimation } from "../shared.js";
 import fieldMapping from '../components/fieldToConceptIdMapping.js'; 
 //import { transform } from 'https://episphere.github.io/quest/replace2.js';
 //for local testing use URL like such http://localhost:5001/replace2.js and http://localhost:5001/questionnaire.js
@@ -63,6 +63,7 @@ export const   questionnaire = (url, moduleId) => {
             formData[`${statusConceptId}`] = 615768760;
             storeResponse(formData);
         }
+        showAnimation();
         transform.render({
                 url: url,
                 activate: true,
@@ -70,8 +71,7 @@ export const   questionnaire = (url, moduleId) => {
                 retrieve: getMyData,
                 soccer: soccerFunction
             }, 'questionnaireRoot', inputData)
-
-
+            
     })
 
 }
@@ -107,6 +107,7 @@ function soccerFunction(){
             buildHTML(soccerResults, occ, responseElement);
         });
     }
+    hideAnimation();
 }
 //BUILDING SOCCER
 function buildHTML(soccerResults, question, responseElement) {
