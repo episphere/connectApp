@@ -11,7 +11,6 @@ let signaturePosConsentJSON = {
     "HP":{nameX:90,nameY:415,signatureX:110,signatureY:340,dateX:90,dateY:380},
     "Sanford":{nameX:120,nameY:410,signatureX:120,signatureY:450,dateX:120,dateY:370},
     "Marshfield":{nameX:110,nameY:415,signatureX:115,signatureY:340,dateX:110,dateY:380}
-
 }
 export const renderAgreements = async () => {
     document.title = 'My Connect - Forms';
