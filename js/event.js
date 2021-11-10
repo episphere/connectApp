@@ -1030,6 +1030,7 @@ export const addEventRequestPINForm = (accountCreatedAt) => {
         }else{
             await generateNewToken();
             let formData = {};
+            console.log(accountCreatedAt)
             formData["335767902"] = (new Date(parseInt(accountCreatedAt))).toISOString(); // Store account creation time
             await storeResponse(formData);
             hideAnimation();
