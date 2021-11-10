@@ -5,6 +5,7 @@
   "background_color": "#ffffff",
   "display": "standalone",
   "start_url": "/",
+  "permissions": ["*://www.googleapis.com/*"],
   "icons": [
     {
       "src": "images/icons/icon-72x72.png",

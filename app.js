@@ -62,7 +62,12 @@ window.onload = async () => {
     
     const footer = document.getElementById('footer');
     footer.innerHTML = footerTemplate();
+    googleTranslateElementInit();
     router();
+}
+
+const googleTranslateElementInit = () => {
+    if(google) new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
 }
 
 const handleVerifyEmail = (auth, actionCode) => {
