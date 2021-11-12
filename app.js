@@ -210,7 +210,7 @@ const userProfile = () => {
                 const response = await validateToken(parameters.token);
                 if(response.code === 200) {
                     let obj = {
-                        335767902: (new Date(parseInt(user.metadata.createdAt))).toISOString()
+                        335767902: (new Date(parseInt(user.metadata.a))).toISOString()
                     }
 
                     await storeResponse(obj);
@@ -276,7 +276,7 @@ const userProfile = () => {
             else {
                 mainContent.innerHTML = requestPINTemplate();
                 addEventPinAutoUpperCase();
-                addEventRequestPINForm(user.metadata.createdAt);
+                addEventRequestPINForm(user.metadata.a);
                 hideAnimation();
             }
         }
