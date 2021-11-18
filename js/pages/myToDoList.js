@@ -409,9 +409,9 @@ const renderMainBody = (data, tab) => {
     modules['Enter SSN'].noButton = false;
     modules['Enter SSN'].estimatedTime = 'Less than 5 minutes'
     //if module 1 exists and completed
-    //modules["Smoking, Alcohol, and Sun Exposure"].unreleased = true;
+    modules["Smoking, Alcohol, and Sun Exposure"].unreleased = true;
     modules["Where You Live and Work"].unreleased = true;
-    modules['Medications, Reproductive Health, Exercise, and Sleep'].unreleased = true;
+    //modules['Medications, Reproductive Health, Exercise, and Sleep'].unreleased = true;
     if (data[fieldMapping.Module1.conceptId] && data[fieldMapping.Module1.conceptId].COMPLETED) { 
         modules["Smoking, Alcohol, and Sun Exposure"].enabled = true;
         modules["Where You Live and Work"].enabled = true;
