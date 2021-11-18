@@ -23,6 +23,7 @@ export const   questionnaire = (url, moduleId) => {
     //add data into render previous answers
     //inputData = {"firstName":"Alaina","age":"55","SEX":["3"],"SEX2":["6"]};
     getMyData().then(data => {
+        showAnimation();
         let inputData = {};
         inputData["firstName"] = data.data[fieldMapping.fName];
         //console.log('Module 1 data: ;dasklsad;lkf')
@@ -63,7 +64,7 @@ export const   questionnaire = (url, moduleId) => {
             formData[`${statusConceptId}`] = 615768760;
             storeResponse(formData);
         }
-        showAnimation();
+        
         transform.render({
                 url: url,
                 activate: true,
