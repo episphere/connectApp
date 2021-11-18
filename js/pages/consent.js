@@ -4,7 +4,7 @@ import { removeAllErrors, addEventsConsentSign } from "../event.js";
 import { renderDownloadConsentCopy, renderDownloadHIPAA } from "./agreements.js";
 
 export const consentTemplate = () => {
-    consentAboutPage();
+    consentWelcomePage();
     //consentConsentPage();
     //consentFinishedPage();
 }
@@ -35,7 +35,7 @@ export const renderProgress = (progress) => {
             weight[i]=''
         }
     }
-    let list = ['About','Activities','Privacy','Leaving','Results','Benefits', 'Indigenous Peoples', 'Consent', '']
+    let list = ['Welcome','About','Activities','Privacy','Leaving','Results','Benefits', 'Indigenous Peoples', 'Consent', '']
     let toReturn = `
     <br>
     <div class="row d-none d-md-flex" style="margin-bottom:30px">
@@ -43,21 +43,23 @@ export const renderProgress = (progress) => {
         </div>
         <div class="col-lg-10">
             <div class="row">
-            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[0]};border-radius:50%;border:5px solid ${lineColor[0]};line-height:19px;color:${textColor[0]};">1</div><div style="${weight[0]}text-align:center;font-family: 'Noto Sans', sans-serif;">About</div></div>
+            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[0]};border-radius:50%;border:5px solid ${lineColor[0]};line-height:19px;color:${textColor[0]}">1</div><div style="${weight[0]}text-align:center;font-family: 'Noto Sans', sans-serif;">${list[0]}</div></div>
             <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[0]};"></div></div>
-            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[1]};border-radius:50%;border:5px solid ${lineColor[1]};line-height:19px;color:${textColor[1]}">2</div><div style="${weight[1]}text-align:center;font-family: 'Noto Sans', sans-serif;">Activities</div></div>
+            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[1]};border-radius:50%;border:5px solid ${lineColor[1]};line-height:19px;color:${textColor[1]}">2</div><div style="${weight[1]}text-align:center;font-family: 'Noto Sans', sans-serif;">${list[1]}</div></div>
             <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[1]};"></div></div>
-            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[2]};border-radius:50%;border:5px solid ${lineColor[2]};line-height:19px;color:${textColor[2]}">3</div><div style="${weight[2]}text-align:center;font-family: 'Noto Sans', sans-serif;">Privacy</div></div>
+            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[2]};border-radius:50%;border:5px solid ${lineColor[2]};line-height:19px;color:${textColor[2]}">3</div><div style="${weight[2]}text-align:center;font-family: 'Noto Sans', sans-serif;">${list[2]}</div></div>
             <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[2]};"></div></div>
-            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[3]};border-radius:50%;border:5px solid ${lineColor[3]};line-height:19px;color:${textColor[3]}">4</div><div style="${weight[3]}text-align:center;font-family: 'Noto Sans', sans-serif;">Leaving</div></div>
+            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[3]};border-radius:50%;border:5px solid ${lineColor[3]};line-height:19px;color:${textColor[3]}">4</div><div style="${weight[3]}text-align:center;font-family: 'Noto Sans', sans-serif;">${list[3]}</div></div>
             <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[3]};"></div></div>
-            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[4]};border-radius:50%;border:5px solid ${lineColor[4]};line-height:19px;color:${textColor[4]}">5</div><div style="${weight[4]}text-align:center;font-family: 'Noto Sans', sans-serif;">Results</div></div>
+            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[4]};border-radius:50%;border:5px solid ${lineColor[4]};line-height:19px;color:${textColor[4]}">5</div><div style="${weight[4]}text-align:center;font-family: 'Noto Sans', sans-serif;">${list[4]}</div></div>
             <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[4]};"></div></div>
-            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[5]};border-radius:50%;border:5px solid ${lineColor[5]};line-height:19px;color:${textColor[5]}">6</div><div style="${weight[5]}text-align:center;font-family: 'Noto Sans', sans-serif;">Benefits</div></div>
+            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[5]};border-radius:50%;border:5px solid ${lineColor[5]};line-height:19px;color:${textColor[5]}">6</div><div style="${weight[5]}text-align:center;font-family: 'Noto Sans', sans-serif;">${list[5]}</div></div>
             <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[5]};"></div></div>
-            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[6]};border-radius:50%;border:5px solid ${lineColor[6]};line-height:19px;color:${textColor[6]}">7</div><div style="${weight[6]}text-align:center;font-family: 'Noto Sans', sans-serif;">Indigenous Peoples</div></div>
+            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[6]};border-radius:50%;border:5px solid ${lineColor[6]};line-height:19px;color:${textColor[6]}">7</div><div style="${weight[6]}text-align:center;font-family: 'Noto Sans', sans-serif;">${list[6]}</div></div>
             <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[6]};"></div></div>
-            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[7]};border-radius:50%;border:5px solid ${lineColor[7]};line-height:19px;color:${textColor[7]}">8</div><div style="${weight[7]}text-align:center;font-family: 'Noto Sans', sans-serif;">Consent</div></div>
+            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[7]};border-radius:50%;border:5px solid ${lineColor[7]};line-height:19px;color:${textColor[7]}">8</div><div style="${weight[7]}text-align:center;font-family: 'Noto Sans', sans-serif;">${list[7]}</div></div>
+            <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[7]};"></div></div>
+            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[8]};border-radius:50%;border:5px solid ${lineColor[8]};line-height:19px;color:${textColor[8]}">9</div><div style="${weight[8]}text-align:center;font-family: 'Noto Sans', sans-serif;">${list[8]}</div></div>
             </div>
         </div>
         <div class="col-lg-1">
@@ -87,7 +89,7 @@ export const renderProgress = (progress) => {
         <div class="col-lg-10">
             <div class="row" style"padding-bottom:0px;padding-top:0px;">
                 <div class="consentBodyFont2" style="text-align:center;width:30px;height:30px;background:#2A72A5;border-radius:50%;border:5px solid #2A72A5;line-height:19px;color:white; display:inline;">${progress > 7?7:progress}</div>
-                <p class="consentBodyFont2" style="margin-left:4px; color:#2A72A5;"> of 7 <b style="color:#2E2E2E; font-family: 'Noto Sans', sans-serif; font-weight:bold;">${progress > 7?'':list[progress-1]}</b></p> 
+                <p class="consentBodyFont2" style="margin-left:4px; color:#2A72A5;"> of 9 <b style="color:#2E2E2E; font-family: 'Noto Sans', sans-serif; font-weight:bold;">${progress > 7?'':list[progress-1]}</b></p> 
             </div>
         </div>
         <div class="col-lg-1">
@@ -96,7 +98,7 @@ export const renderProgress = (progress) => {
     return toReturn;
 }
 
-export const consentAboutPage = () => {
+export const consentWelcomePage = () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(1);
@@ -105,10 +107,9 @@ export const consentAboutPage = () => {
             <div class="col-lg-2">
             </div>
             <div class="col-lg-8">
-                <p class="consentHeadersFont"><b>What is the Connect for Cancer Prevention Study?</b></p>
-                <p class="consentBodyFont1">This research study will explore causes of cancer and learn how to better prevent cancer in adults. Since it takes time to understand what causes cancer, Connect will go on for many years. The longer you participate, the more we may learn.</p>
-                <p class="consentBodyFont2">Researchers will study things like habits, behaviors, and the environment you and others live in that can help us learn how cancer may form. Researchers hope to learn new ways to stop cancer from forming in the first place.</p>
-                <p class="consentBodyFont2">Connect is studying cancer prevention. Researchers will not look for treatments for cancer, give medical care, or share medical advice.</p>
+                <p class="consentHeadersFont"><b>Welcome</b></p>
+                <p class="consentBodyFont1">Thank you for your interest in the <b>Connect for Cancer Prevention Study!</b> First, we will tell you about Connect and what it means to take part in this research study.</p>
+                <p class="consentBodyFont1">After you have learned about Connect, you will view the full informed consent form and electronic health records release form. These forms provide more details about the study. Then, you can decide if you want to join Connect.</p>
                 <div class="row" style="padding:0;">
                     <div class="col-md-2">
                     </div>
@@ -125,7 +126,44 @@ export const consentAboutPage = () => {
     mainContent.innerHTML = template;
 
     document.getElementById('toActivities').addEventListener('click', () => {
+        consentAboutPage();
+    })
+}
+
+export const consentAboutPage = () => {
+    window.scrollTo(0, 0);
+    const mainContent = document.getElementById('root');
+    let template = renderProgress(1);
+    template += ` 
+        <div class="row">
+            <div class="col-lg-2">
+            </div>
+            <div class="col-lg-8">
+                <p class="consentHeadersFont"><b>What is the Connect for Cancer Prevention Study?</b></p>
+                <p class="consentBodyFont1">This research study will explore causes of cancer and learn how to better prevent cancer in adults. Since it takes time to understand what causes cancer, Connect will go on for many years. The longer you participate, the more we may learn.</p>
+                <p class="consentBodyFont2">Researchers will study things like habits, behaviors, and the environment you and others live in that can help us learn how cancer may form. Researchers hope to learn new ways to stop cancer from forming in the first place.</p>
+                <p class="consentBodyFont2">Connect is studying cancer prevention. Researchers will not look for treatments for cancer, give medical care, or share medical advice.</p>
+                <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
+                    <div class="col-md-2">
+                        <button class="btn btn-primary consentPrevButton" type="button" id="backToAbout" style="min-width:100%; margin-top:10px;margin-bottom:10px;">Previous</button>
+                    </div>
+                    <div class="col-md-8">
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-primary consentNextButton" type="button" id="toActivities" style="width:100%; margin-top:10px;margin-bottom:10px">Next</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2">
+            </div>
+        </div>`
+    mainContent.innerHTML = template;
+
+    document.getElementById('toActivities').addEventListener('click', () => {
         consentActivitiesPage();
+    })
+    document.getElementById('backToAbout').addEventListener('click', () => {
+        consentWelcomePage();
     })
 }
 
