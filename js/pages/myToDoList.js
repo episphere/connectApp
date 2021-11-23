@@ -223,6 +223,7 @@ export const myToDoList = (data, fromUserProfile) => {
                     </div>
                     `
                     mainContent.innerHTML = template;
+                    window.scrollTo(0,0)
                     hideAnimation();
                     return;
                     
