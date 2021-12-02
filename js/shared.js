@@ -210,7 +210,11 @@ export const sites = () => {
             657167265: 'Sanford Health',
             531629870: 'HealthPartners',
             303349821: 'Marshfield Clinic Health System',
-            809703864: 'University of Chicago Medicine'
+            809703864: 'University of Chicago Medicine',
+            125001209: 'Kaiser Permanente Colorado',
+            327912200: 'Kaiser Permanente Georgia',
+            300267574: 'Kaiser Permanente Hawaii',
+            452412599: 'Kaiser Permanente Northwest',
         }
         //return allIHCS
     }
