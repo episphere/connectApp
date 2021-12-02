@@ -88,8 +88,8 @@ export const renderProgress = (progress) => {
         </div>
         <div class="col-lg-10">
             <div class="row" style"padding-bottom:0px;padding-top:0px;">
-                <div class="consentBodyFont2" style="text-align:center;width:30px;height:30px;background:#2A72A5;border-radius:50%;border:5px solid #2A72A5;line-height:19px;color:white; display:inline;">${progress > 7?7:progress}</div>
-                <p class="consentBodyFont2" style="margin-left:4px; color:#2A72A5;"> of 9 <b style="color:#2E2E2E; font-family: 'Noto Sans', sans-serif; font-weight:bold;">${progress > 7?'':list[progress-1]}</b></p> 
+                <div class="consentBodyFont2" style="text-align:center;width:30px;height:30px;background:#2A72A5;border-radius:50%;border:5px solid #2A72A5;line-height:19px;color:white; display:inline;">${progress > 9?9:progress}</div>
+                <p class="consentBodyFont2" style="margin-left:4px; color:#2A72A5;"> of 9 <b style="color:#2E2E2E; font-family: 'Noto Sans', sans-serif; font-weight:bold;">${progress > 9?'':list[progress-1]}</b></p> 
             </div>
         </div>
         <div class="col-lg-1">
@@ -133,7 +133,7 @@ export const consentWelcomePage = () => {
 export const consentAboutPage = () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
-    let template = renderProgress(1);
+    let template = renderProgress(2);
     template += ` 
         <div class="row">
             <div class="col-lg-2">
@@ -170,7 +170,7 @@ export const consentAboutPage = () => {
 export const consentActivitiesPage = () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
-    let template = renderProgress(2);
+    let template = renderProgress(3);
     template += `
         <div class="row">
             <div class="col-lg-2">
@@ -236,7 +236,7 @@ export const consentActivitiesPage = () => {
 export const consentPrivacyPage = () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
-    let template = renderProgress(3);
+    let template = renderProgress(4);
     template += `
         <div class="row">
             <div class="col-lg-2">
@@ -282,7 +282,7 @@ export const consentPrivacyPage = () => {
 export const consentBenefitsPage = () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
-    let template = renderProgress(4);
+    let template = renderProgress(5);
     template += `
         <div class="row">
             <div class="col-lg-2">
@@ -320,7 +320,7 @@ export const consentBenefitsPage = () => {
 export const consentResultsPage = () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
-    let template = renderProgress(5);
+    let template = renderProgress(6);
     template += `
         <div class="row">
             <div class="col-lg-2">
@@ -360,7 +360,7 @@ export const consentResultsPage = () => {
 export const consentLeavingPage = () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
-    let template = renderProgress(6);
+    let template = renderProgress(7);
     template += `
         <div class="row">
             <div class="col-lg-2">
@@ -399,7 +399,7 @@ export const consentLeavingPage = () => {
 export const consentIndigenousPage = () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
-    let template = renderProgress(7);
+    let template = renderProgress(8);
     template += `
         <div class="row">
             <div class="col-lg-2">
@@ -448,7 +448,7 @@ export const consentIndigenousPage = () => {
 export const consentIndigenousAffectPage = () => {
         window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
-    let template = renderProgress(7);
+    let template = renderProgress(8);
     template += `
         <div class="row">
             <div class="col-lg-2">
@@ -488,7 +488,7 @@ export const consentIndigenousAffectPage = () => {
 export const consentIndigenousProtectPage = () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
-    let template = renderProgress(7);
+    let template = renderProgress(8);
     template += `
         <div class="row">
             <div class="col-lg-2">
@@ -532,7 +532,7 @@ export const consentIndigenousProtectPage = () => {
 export const consentIndigenousOtherPage = () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
-    let template = renderProgress(7);
+    let template = renderProgress(8);
     template += `
         <div class="row">
             <div class="col-lg-2">
@@ -580,7 +580,7 @@ export const consentIndigenousOtherPage = () => {
 export const consentConsentPage = async () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
-    let template = renderProgress(8);
+    let template = renderProgress(9);
     /*template += `
         <div>
             <h2>Informed Consent</h2>
@@ -865,7 +865,7 @@ export const consentConsentPage = async () => {
 export const consentHealthRecordsPage = () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
-    let template = renderProgress(9);
+    let template = renderProgress(10);
     template += ` 
        
         <div class="row" id="canvasContainer"></div>
@@ -951,7 +951,7 @@ export const consentHealthRecordsPage = () => {
 export const consentFinishedPage = async () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
-    let template = renderProgress(9);
+    let template = renderProgress(10);
     const myData = await getMyData();
     let data = myData.data;
     let siteDict = siteAcronyms();
