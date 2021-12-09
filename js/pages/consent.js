@@ -756,14 +756,6 @@ export const consentConsentPage = async () => {
                             Please enter your legal name. If you are a member of Kaiser Permanente, please enter your first and last name exactly as it appears on your Kaiser Permanente ID card.
                         </p>
                     </div>
-                    <div class="row" style="width:80%; margin:auto; padding-left:0px; padding-right:0px">
-                        <div class="col-md-4  consent-form" style="margin-bottom:20px;">
-                            <label class="consent-form-label consentSignHeader">
-                                Date<span class="required">*</span>
-                            </label>
-                            <input  type="text" autocomplete="off" id="CSFirstName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
-                        </div>
-                    </div>
                 
                     <!--
                     <div class="row" style="width:80%; margin:auto;">
