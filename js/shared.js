@@ -210,7 +210,11 @@ export const sites = () => {
             657167265: 'Sanford Health',
             531629870: 'HealthPartners',
             303349821: 'Marshfield Clinic Health System',
-            809703864: 'University of Chicago Medicine'
+            809703864: 'University of Chicago Medicine',
+            125001209: 'Kaiser Permanente Colorado',
+            327912200: 'Kaiser Permanente Georgia',
+            300267574: 'Kaiser Permanente Hawaii',
+            452412599: 'Kaiser Permanente Northwest',
         }
         //return allIHCS
     }
@@ -824,7 +828,7 @@ export const getConceptVariableName = async (conceptId) => {
 
 export const questionnaireModules = {
     'Background and Overall Health': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/module1Stage.txt', moduleId:"Module1", enabled:true},
-    'Medications, Reproductive Health, Exercise, and Sleep': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/module2.txt', moduleId:"Module2", enabled:false},
+    'Medications, Reproductive Health, Exercise, and Sleep': {url: 'https://raw.githubusercontent.com/jonasalmeida/privatequest/master/module2_concept_id.txt?token=AGOJYPCSF2MSVW75IPMQLHDBT5RDA', moduleId:"Module2", enabled:false},
     'Smoking, Alcohol, and Sun Exposure': {url: 'https://hzhao392.github.io/privatequest/test_module3.txt', moduleId:"Module3", enabled:false},
     'Where You Live and Work': {url: 'https://hzhao392.github.io/privatequest/test_module4.txt', moduleId:"Module4", enabled:false},
     'Enter SSN': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/ssnModule.txt', moduleId:"ModuleSsn", enabled:false}

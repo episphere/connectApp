@@ -95,13 +95,15 @@ export const myToDoList = (data, fromUserProfile) => {
                 if(!data['821247024'] || data['821247024'] == 875007964){
                     if(data['unverifiedSeen'] && data['unverifiedSeen'] === true){
                         
-                        topMessage += `
+                        /*topMessage += `
                             ${checkIfComplete(data) ? 'Thank you for completing your first Connect survey! We will be in touch with next steps.':'Please complete your first Connect survey.<br>Thank you for being a part of Connect.'}
-                        `
+                        `*/
+                        topMessage += '';
                     }
                     else{
                         //first seen
                         //update verifiedSeen to be false
+                        /*
                         topMessage += `
                             Great news! We have confirmed that you are eligible for the Connect for Cancer Prevention Study. You are now an official Connect participant.
                             <br>
@@ -110,9 +112,12 @@ export const myToDoList = (data, fromUserProfile) => {
                             Thank you for being a part of Connect and for your commitment to help us learn more about how to prevent cancer.
                             <br>
                         `
-                        let formData = {};
+                        */
+                        topMessage = '';
+                        
+                        /*let formData = {};
                         formData['unverifiedSeen'] = true;
-                        storeResponse(formData);
+                        storeResponse(formData);*/
                     }
                     topMessage += `
                         ${fromUserProfile ? 
@@ -136,7 +141,7 @@ export const myToDoList = (data, fromUserProfile) => {
                         topMessage += `
                             Great news! We have confirmed that you are eligible for the Connect for Cancer Prevention Study. You are now an official Connect participant.
                             <br>
-                            ${checkIfComplete(data) ? 'Thank you for completing your first Connect survey! We will be in touch with next steps.':'The next step is to complete your first Connect survey'}
+                            ${checkIfComplete(data) ? 'Thank you for completing your first Connect survey! We will be in touch with next steps.':'The next step is to complete your first Connect survey.'}
                             <br>
                             Thank you for being a part of Connect and for your commitment to help us learn more about how to prevent cancer.
                             <br>
@@ -218,6 +223,7 @@ export const myToDoList = (data, fromUserProfile) => {
                     </div>
                     `
                     mainContent.innerHTML = template;
+                    window.scrollTo(0,0)
                     hideAnimation();
                     return;
                     
