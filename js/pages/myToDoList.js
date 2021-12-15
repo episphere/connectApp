@@ -130,9 +130,12 @@ export const myToDoList = (data, fromUserProfile) => {
                 }
                 else if(data['821247024'] && data['821247024'] == 197316935) {
                     if(data['verifiedSeen'] && data['verifiedSeen'] === true){
-                        
+                        /*
                         topMessage += `
                             ${checkIfComplete(data) ? 'Thank you for completing your first Connect survey! We will be in touch with next steps.':'Please complete your first Connect survey.<br>Thank you for being a part of Connect.'}
+                        `*/
+                        topMessage += `
+                            ${checkIfComplete(data) ? 'Thank you for completing your first Connect survey! We will be in touch with next steps.':''}
                         `
                     }
                     else{
