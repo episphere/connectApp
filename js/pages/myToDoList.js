@@ -78,7 +78,7 @@ export const myToDoList = (data, fromUserProfile) => {
                         finalMessage += "You have been withdrawn from Connect per your request.<br>"
                     }
                 }
-                if(finalMessage !== ""){
+                if(finalMessage.trim() !== ""){
                     template += `
                     <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
                         ${finalMessage}
@@ -232,7 +232,7 @@ export const myToDoList = (data, fromUserProfile) => {
                     
                 }
                 
-                if(topMessage !== ""){
+                if(topMessage.trim() !== ""){
                     template += `
                     <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
                         ${topMessage}
