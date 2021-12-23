@@ -40,7 +40,7 @@ export const homePage = async () => {
                     <div id="signInDiv">
                     </div>
                     <p>
-                        <div style="font-size:8px;padding-left:24px; padding-right:24px;margin:auto;.">
+                        <div style="font-size:12px;padding-left:24px; padding-right:24px;margin:auto;.">
                             If you are a Connect participant, please sign in with the email or phone number you used to sign up for the study.
                         </div>
                     </p>
