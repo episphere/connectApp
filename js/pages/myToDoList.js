@@ -251,7 +251,7 @@ export const myToDoList = (data, fromUserProfile) => {
                 template += `
                 <div style="border: 1px solid #dee2e6; padding: 20px; border-radius:0px 10px 10px 10px;" id="surveyMainBody">
                 `;
-                const modules = questionnaireModules;
+                const modules = questionnaireModules();
                 // if (data.Module1 && data.Module1.COMPLETED) { modules["Enter SSN"].enabled = true};
                 // if (data.ModuleSsn && data.ModuleSsn.COMPLETED) { modules["Medications, Reproductive Health, Exercise, and Sleep"].enabled = true};
                 // if (data.Module2 && data.Module2.COMPLETED) { modules["Smoking, Alcohol, and Sun Exposure"].enabled = true};
@@ -380,7 +380,7 @@ const renderMainBody = (data, tab) => {
         toDisplaySystem = [{'header':'First Survey', 'body': ['Background and Overall Health', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure', "Where You Live and Work"]}]
     }
     
-    const modules = questionnaireModules;
+    const modules = questionnaireModules();
     console.log(JSON.stringify(modules['Background and Overall Health']))
     /*
     modules['Testing Survey'] = {};
@@ -700,7 +700,7 @@ const renderMainBody = (data, tab) => {
 }
 
 const checkIfComplete = (data) =>{
-    const modules = questionnaireModules;
+    const modules = questionnaireModules();
     if (data[fieldMapping.Module1.conceptId] && data[fieldMapping.Module1.conceptId].COMPLETED
         && data[fieldMapping.Module2.conceptId] && data[fieldMapping.Module2.conceptId].COMPLETED
         && data[fieldMapping.Module3.conceptId] && data[fieldMapping.Module3.conceptId].COMPLETED
