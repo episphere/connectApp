@@ -455,9 +455,9 @@ export const consentIndigenousAffectPage = () => {
             </div>
             <div class="col-lg-8">
                 <p class="consentHeadersFont">How might my participation in Connect affect Indigenous communities?</p>
-                <p class="consentBodyFont2">Some Indigenous Peoples and their communities have emphasized the need to learn more about certain risks and benefits to participating in research studies. Community members may be concerned that research practices will not follow traditional customs, or that conclusions made about Indigenous participants might harm Indigenous communities.</p>
-                <p class="consentBodyFont2">It is also possible that participating in research studies can benefit Indigenous communities. Learning about the health of Indigenous participants may help us make medical discoveries that benefit other people in their communities. The representation of all communities in research is an important part of advancing medicine and extending benefits to all people.</p>
-                <p class="consentBodyFont2">We want our research to respect the cultures and practices of all Indigenous Peoples.</p>
+                <p class="consentBodyFont2">Some Indigenous Peoples and their communities have emphasized the need to learn more about certain risks and benefits to participating in research studies. Community members may be concerned that research practices will not follow traditional customs, or that conclusions made about Indigenous participants might harm Indigenous communities. Learning about the health of Indigenous participants may help us make medical discoveries that benefit other people in their communities. The representation of all communities in research is an important part of advancing medicine and extending benefits to all people.</p>
+                <p class="consentBodyFont2">We acknowledge past transgressions and abuses of Indigenous Peoples in research studies, and the harms these have caused Indigenous communities. We are opposed to any research that harms Indigenous Peoples and we do not support any research or researcher that has harmed any community. We respect and appreciate your willingness to work with us and know that your trust must be earned. We are committed to protecting your privacy, safeguarding your information, and maintaining the integrity of our research. We want our research to respect the cultures and practices of all Indigenous Peoples.</p>
+                <p class="consentBodyFont2">We may not understand the barriers that Indigenous Peoples face when it comes to participating in research studies. However, we hope to work with you to learn more about the considerations and concerns of your communities and advance our understanding of health and disease together. As a Connect team, we hope to make medical discoveries that will benefit all people.</p>
 
                 <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
                     <div class="col-md-2">
@@ -539,11 +539,9 @@ export const consentIndigenousOtherPage = () => {
             </div>
             <div class="col-lg-8">
                 <p class="consentHeadersFont">What else should I know?</p>
-                <p class="consentBodyFont2">We may not understand the barriers that Indigenous Peoples face when it comes to participating in research studies. However, we hope to work with you to learn more about the considerations and concerns of your communities and advance our understanding of health and disease together. As a Connect team, we hope to make medical discoveries that will benefit all people.</p>
-                <p class="consentBodyFont2">We acknowledge past transgressions and abuses of Indigenous Peoples in research studies, and the harms these have caused Indigenous communities. We are opposed to any research that harms Indigenous Peoples and we do not support any research or researcher that has harmed any community. We respect and appreciate your willingness to work with us and know that your trust must be earned. We are committed to protecting your privacy, safeguarding your information, and maintaining the integrity of our research.</p>
                 <p class="consentBodyFont2">If you identify as an Indigenous Person and want to join Connect, please consider:</p>
                 <ul class="consentBodyFont2" style="margin-left:32px">
-                    <li>Reading more about participation and the details of what it means to take part in Connect <a target="__blank" href="https://www.cancer.gov/connect-prevention-study/what-to-expect">here</a></li>
+                    <li>Reading more about participation and the details of what it means to take part in Connect <a target="__blank" href="https://www.cancer.gov/connect-prevention-study/what-to-expect">here</a>.</li>
                     <li>Speaking with your community members, leaders, and family about participating in Connect.</li>
                     <li>Contacting the Connect Support Center with any questions you have. Our team is happy to speak with you and discuss any concerns you may have about taking part in the study. (<a target="__blank" href="https://norcfedramp.servicenowservices.com/recruit">Cancer.gov/connectstudy/support</a>, or call 1-866-462-6621 8:00 a.m.-10:00 p.m. CT on weekdays, and 9:00 a.m.-6:00 p.m. CT on weekends).</li>
                 </ul>
@@ -691,7 +689,7 @@ export const consentConsentPage = async () => {
             </div>
             <div class="col-lg-8">
                 <p class="consentHeadersFont">Informed Consent</p>
-                <p class="consentBodyFont1">To join Connect, we need you to review the full informed consent form and electronic health records release (HIPAA Authorization) form below. If you have any questions, contact the Connect Support Center at <a target="_blank" href="https://norcfedramp.servicenowservices.com/recruit">Cancer.gov/connectstudy/support</a> or call 1-866-462-6621. Once you are comfortable with the study and decide to join, please sign the forms electronically.</p>
+                <p class="consentBodyFont1">To join Connect, we need you to review the full informed consent form and electronic health records release (HIPAA Authorization) form below. If you have any questions, contact the Connect Support Center at <a target="_blank" href="https://norcfedramp.servicenowservices.com/recruit">Cancer.gov/connectstudy/support</a> or call 1-866-462-6621. Once you are comfortable with the study and decide to join, please sign the forms electronically by typing your name into the fields below and click "Next" to view your completed forms. These completed forms on the next screen will contain your name filled into the signature sections.</p>
             
             <div style="width:80%; margin:auto">
                 <h4 class="consentSubheader" style="margin-top:50px">Informed Consent Form</h4>
@@ -752,6 +750,11 @@ export const consentConsentPage = async () => {
 
                             </select>
                         </div>
+                    </div>
+                    <div class="row" style="width:80%; margin:auto; padding-left:0px; padding-right:0px ">
+                        <p class="consentBodyFont2" style="color:gray">
+                            Please enter your legal name. If you are a member of Kaiser Permanente, please enter your first and last name exactly as it appears on your Kaiser Permanente ID card.
+                        </p>
                     </div>
                 
                     <!--
