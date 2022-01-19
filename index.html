@@ -19,14 +19,6 @@
             gtag('config', measurementID);
         </script>
 
-        <script>
-            if(location.host !== 'myconnect.cancer.gov') {
-                const sentryScript = document.createElement('script');
-                sentryScript.src = 'https://browser.sentry-cdn.com/6.13.3/bundle.tracing.min.js';
-                document.head.appendChild(sentryScript);
-            }
-        </script>
-
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -114,8 +106,12 @@
         <script>
             if(location.host !== 'myconnect.cancer.gov') {
                 (function () {
-                    'use strict';
-                    Sentry.init({ dsn: 'https://51d04e10ed614392b0558c49c072a42a@o1088108.ingest.sentry.io/6139074' });
+                    const sentryScript = document.createElement('script');
+                    sentryScript.src = 'https://browser.sentry-cdn.com/6.13.3/bundle.tracing.min.js';
+                    document.head.appendChild(sentryScript);
+                    sentryScript.addEventListener('load', () => {
+                        Sentry.init({ dsn: 'https://51d04e10ed614392b0558c49c072a42a@o1088108.ingest.sentry.io/6139074' });
+                    })
                 })();
             }
         </script>
