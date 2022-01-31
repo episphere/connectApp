@@ -6,160 +6,180 @@ export const renderSamplesPage = async () => {
     getMyData().then(res => {
         const site = locations.filter(location => location.concept == res.data['827220437'])[0];
 
-        let template = `
-        <br>
+        let template; 
+
+        if(site) {
+            template = `
+            <br>
+            
+            <div class="row">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-8">
+                    <div class="row" style="width:100%">
+                        <div class="consentHeadersFont" style="color:#606060;width:100%">
+                            <div>
+                                Donating Your Samples at ${site.name}
+                            </div>
+                        </div>
+                        <div class="messagesBodyFont" style="width:100%">
+                            <div>
+                                ${site.donatingSamples}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="width:100%">
+                        <div class="consentHeadersFont" style="color:#606060;width:100%">
+                            <div>
+                                When Should I Donate My Samples?
+                            </div>
+                        </div>
+                        <div class="messagesBodyFont" style="width:100%">
+                            <div>
+                                ${site.whenToDonate}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="width:100%">
+                        <div class="consentHeadersFont" style="color:#606060;width:100%">
+                            <div>
+                                How Do I Donate My Samples?
+                            </div>
+                        </div>
+                        <div class="messagesBodyFont" style="width:100%">
+                            <div>
+                                ${site.howToDonate}
+                            </div>
+                        </div>          
+                    </div>
+                    <div class="row" style="width:100%">
+                        <div class="consentHeadersFont" style="color:#606060;width:100%">
+                            <div>
+                                Where Do I Donate My Samples?
+                            </div>
+                        </div>
+                        <div class="row" style="width:100%">
+                            <div class="messagesHeaderFont">
+                                ${site.fullName}
+                            </div>
+                        </div>
+                        <div class="row" style="width:100%">
+                            <div style="width:100%">
+                                <div class="messagesHeaderFont">
+                                    Address and Relevant Directions
+                                </div>
+                                <div class="messagesBodyFont">
+                                    ${site.address}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="width:100%">
+                            <div style="width:100%">
+                                <div class="messagesHeaderFont">
+                                    Hours
+                                </div>
+                                <div class="messagesBodyFont">
+                                    ${site.hours}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="width:100%">
+                            <div style="width:100%">
+                                <div class="messagesHeaderFont">
+                                    Parking Instructions
+                                </div>
+                                <div class="messagesBodyFont">
+                                    ${site.parking}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="width:100%">
+                            <div style="width:100%">
+                                <div class="messagesHeaderFont">
+                                    Scheduling Information
+                                </div>
+                                <div class="messagesBodyFont">
+                                    ${site.scheduling}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="width:100%">
+                        <div class="consentHeadersFont" style="color:#606060;width:100%">
+                            <div>
+                                How Long Will My Appointment Take?
+                            </div>
+                        </div>
+                        <div class="messagesBodyFont" style="width:100%">
+                            <div>
+                                ${site.howLong}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="width:100%">
+                        <div class="consentHeadersFont" style="color:#606060;width:100%">
+                            <div>
+                                How Should I Prepare On the Day of My Appointment?
+                            </div>
+                        </div>
+                        <div class="messagesBodyFont" style="width:100%">
+                            <div>
+                                ${site.prepareInstructions}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="width:100%">
+                        <div class="consentHeadersFont" style="color:#606060;width:100%">
+                            <div>
+                                What Will Happen During My Appointment?
+                            </div>
+                        </div>
+                        <div class="messagesBodyFont" style="width:100%">
+                            <div>
+                                ${site.whatHappens}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="width:100%">
+                        <div class="consentHeadersFont" style="color:#606060;width:100%">
+                            <div>
+                                Questions? Contact the Connect Support Center
+                            </div>
+                        </div>
+                        <div class="messagesBodyFont" style="width:100%">
+                            <div>
+                                MyConnect.cancer.gov/support
+                                <br>
+                                <br>
+                                ConnectSupport@norc.org
+                                <br>
+                                <br>
+                                Call 1-877-505-0253 (8:00 a.m.-10:00 p.m. CT on weekdays and 9:00 a.m.-6:00 p.m. CT on weekends)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                </div>
+            </div>    
+            `;
+        }
+        else {
+            template = `
+            <br>
+            
+            <div class="row">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-8 NotoSansFont">
+                    We will begin collecting samples early in 2022. We will reach out to you with instructions and next steps when it is time to donate samples. Thank you for being part of Connect!
+                </div>
+                <div class="col-md-2">
+                </div>
+            </div>    
+            `;
+        }
         
-        <div class="row">
-            <div class="col-md-2">
-            </div>
-            <div class="col-md-8">
-                <div class="row" style="width:100%">
-                    <div class="consentHeadersFont" style="color:#606060;width:100%">
-                        <div>
-                            Donating Your Samples at ${site.name}
-                        </div>
-                    </div>
-                    <div class="messagesBodyFont" style="width:100%">
-                        <div>
-                            ${site.donatingSamples}
-                        </div>
-                    </div>
-                </div>
-                <div class="row" style="width:100%">
-                    <div class="consentHeadersFont" style="color:#606060;width:100%">
-                        <div>
-                            When Should I Donate My Samples?
-                        </div>
-                    </div>
-                    <div class="messagesBodyFont" style="width:100%">
-                        <div>
-                            ${site.whenToDonate}
-                        </div>
-                    </div>
-                </div>
-                <div class="row" style="width:100%">
-                    <div class="consentHeadersFont" style="color:#606060;width:100%">
-                        <div>
-                            How Do I Donate My Samples?
-                        </div>
-                    </div>
-                    <div class="messagesBodyFont" style="width:100%">
-                        <div>
-                            ${site.howToDonate}
-                        </div>
-                    </div>          
-                </div>
-                <div class="row" style="width:100%">
-                    <div class="consentHeadersFont" style="color:#606060;width:100%">
-                        <div>
-                            Where Do I Donate My Samples?
-                        </div>
-                    </div>
-                    <div class="row" style="width:100%">
-                        <div class="messagesHeaderFont">
-                            ${site.fullName}
-                        </div>
-                    </div>
-                    <div class="row" style="width:100%">
-                        <div style="width:100%">
-                            <div class="messagesHeaderFont">
-                                Address and Relevant Directions
-                            </div>
-                            <div class="messagesBodyFont">
-                                ${site.address}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" style="width:100%">
-                        <div style="width:100%">
-                            <div class="messagesHeaderFont">
-                                Hours
-                            </div>
-                            <div class="messagesBodyFont">
-                                ${site.hours}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" style="width:100%">
-                        <div style="width:100%">
-                            <div class="messagesHeaderFont">
-                                Parking Instructions
-                            </div>
-                            <div class="messagesBodyFont">
-                                ${site.parking}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" style="width:100%">
-                        <div style="width:100%">
-                            <div class="messagesHeaderFont">
-                                Scheduling Information
-                            </div>
-                            <div class="messagesBodyFont">
-                                ${site.scheduling}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row" style="width:100%">
-                    <div class="consentHeadersFont" style="color:#606060;width:100%">
-                        <div>
-                            How Long Will My Appointment Take?
-                        </div>
-                    </div>
-                    <div class="messagesBodyFont" style="width:100%">
-                        <div>
-                            ${site.howLong}
-                        </div>
-                    </div>
-                </div>
-                <div class="row" style="width:100%">
-                    <div class="consentHeadersFont" style="color:#606060;width:100%">
-                        <div>
-                            How Should I Prepare On the Day of My Appointment?
-                        </div>
-                    </div>
-                    <div class="messagesBodyFont" style="width:100%">
-                        <div>
-                            ${site.prepareInstructions}
-                        </div>
-                    </div>
-                </div>
-                <div class="row" style="width:100%">
-                    <div class="consentHeadersFont" style="color:#606060;width:100%">
-                        <div>
-                            What Will Happen During My Appointment?
-                        </div>
-                    </div>
-                    <div class="messagesBodyFont" style="width:100%">
-                        <div>
-                            ${site.whatHappens}
-                        </div>
-                    </div>
-                </div>
-                <div class="row" style="width:100%">
-                    <div class="consentHeadersFont" style="color:#606060;width:100%">
-                        <div>
-                            Questions? Contact the Connect Support Center
-                        </div>
-                    </div>
-                    <div class="messagesBodyFont" style="width:100%">
-                        <div>
-                            MyConnect.cancer.gov/support
-                            <br>
-                            <br>
-                            ConnectSupport@norc.org
-                            <br>
-                            <br>
-                            Call 1-877-505-0253 (8:00 a.m.-10:00 p.m. CT on weekdays and 9:00 a.m.-6:00 p.m. CT on weekends)
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2">
-            </div>
-        </div>    
-        `;
         document.getElementById('root').innerHTML = template;
     });
 }
