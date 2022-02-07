@@ -6,6 +6,8 @@ let signaturePosJSON = {
     "Sanford":{nameX:100,nameY:410,signatureX:100,signatureY:450,dateX:100,dateY:370},
     "HP":{nameX:100,nameY:415,signatureX:100,signatureY:465,dateX:100,dateY:365},
     "Marshfield":{nameX:100,nameY:425,signatureX:100,signatureY:465,dateX:100,dateY:385},
+    "HFHS":{nameX:100,nameY:440,signatureX:110,signatureY:480,dateX:100,dateY:400},
+    "UChicago":{nameX:100,nameY:425,signatureX:110,signatureY:465,dateX:100,dateY:385},
     "KPCO": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
     "KPGA": {nameX:110,nameY:345,signatureX:110,signatureY:385,dateX:110,dateY:305},
     "KPHI": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
@@ -16,6 +18,8 @@ let signaturePosConsentJSON = {
     "HP":{nameX:90,nameY:415,signatureX:110,signatureY:340,dateX:90,dateY:380},
     "Sanford":{nameX:120,nameY:410,signatureX:120,signatureY:450,dateX:120,dateY:370},
     "Marshfield":{nameX:110,nameY:415,signatureX:115,signatureY:340,dateX:110,dateY:380},
+    "HFHS":{nameX:110,nameY:380,signatureX:115,signatureY:300,dateX:110,dateY:340},
+    "UChicago":{nameX:110,nameY:380,signatureX:115,signatureY:300,dateX:110,dateY:340},
     "KPCO": {nameX:110,nameY:395,signatureX:110,signatureY:315,dateX:110,dateY:355},
     "KPGA": {nameX:110,nameY:395,signatureX:110,signatureY:315,dateX:110,dateY:355},
     "KPHI": {nameX:110,nameY:365,signatureX:110,signatureY:285,dateX:110,dateY:325},
@@ -339,7 +343,7 @@ const addEventAgreementOptions = (myData) => {
 export const renderDownloadConsentCopy = async (data) => {
 
     let pdfLocation = './forms/consent/' + data[454205108] + '.pdf'
-    //let pdfLocation = './forms/consent/' + 'KPNW_Consent_V1.0' + '.pdf'
+    //let pdfLocation = './forms/consent/' + 'UChicago_Consent_V1.0' + '.pdf'
     let pdfName = data[454205108] + '.pdf';
     const participantSignature = data[471168198] + ' ' + data[736251808]
     let seekLastPage;
@@ -353,7 +357,7 @@ export const renderDownloadConsentCopy = async (data) => {
     const currentTime = new Date(data[454445267]).toLocaleDateString();
     let siteDict = siteAcronyms();
     let participantSite = siteDict[data['827220437']];
-    //participantSite = "KPNW"
+    //let participantSite = "UChicago"
     let coords = signaturePosConsentJSON[participantSite]
     //renderDownload(participantSignature, currentTime, pdfLocation, {x:110,y:400},{x1:110,y1:330});
     if(!coords){
@@ -364,11 +368,11 @@ export const renderDownloadConsentCopy = async (data) => {
 }
 
 export const renderDownloadHIPAA = async (data) => {
-    //let pdfLocation = './forms/HIPAA/KPNW_HIPAA_V1.0.pdf'
+    //let pdfLocation = './forms/HIPAA/UChicago_HIPAA_V1.0.pdf'
     let pdfLocation = './forms/HIPAA/' + data[412000022] + '.pdf'
     let siteDict = siteAcronyms();
     let participantSite = siteDict[data['827220437']];
-    //participantSite = "KPNW"
+    //let participantSite = "UChicago"
 
     let coords = signaturePosJSON[participantSite];
     
