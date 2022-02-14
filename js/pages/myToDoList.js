@@ -78,7 +78,7 @@ export const myToDoList = (data, fromUserProfile) => {
                         finalMessage += "You have been withdrawn from Connect per your request.<br>"
                     }
                 }
-                if(finalMessage !== ""){
+                if(finalMessage.trim() !== ""){
                     template += `
                     <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
                         ${finalMessage}
@@ -95,13 +95,15 @@ export const myToDoList = (data, fromUserProfile) => {
                 if(!data['821247024'] || data['821247024'] == 875007964){
                     if(data['unverifiedSeen'] && data['unverifiedSeen'] === true){
                         
-                        topMessage += `
+                        /*topMessage += `
                             ${checkIfComplete(data) ? 'Thank you for completing your first Connect survey! We will be in touch with next steps.':'Please complete your first Connect survey.<br>Thank you for being a part of Connect.'}
-                        `
+                        `*/
+                        topMessage += '';
                     }
                     else{
                         //first seen
                         //update verifiedSeen to be false
+                        /*
                         topMessage += `
                             Great news! We have confirmed that you are eligible for the Connect for Cancer Prevention Study. You are now an official Connect participant.
                             <br>
@@ -110,9 +112,12 @@ export const myToDoList = (data, fromUserProfile) => {
                             Thank you for being a part of Connect and for your commitment to help us learn more about how to prevent cancer.
                             <br>
                         `
-                        let formData = {};
+                        */
+                        topMessage = '';
+                        
+                        /*let formData = {};
                         formData['unverifiedSeen'] = true;
-                        storeResponse(formData);
+                        storeResponse(formData);*/
                     }
                     topMessage += `
                         ${fromUserProfile ? 
@@ -125,9 +130,12 @@ export const myToDoList = (data, fromUserProfile) => {
                 }
                 else if(data['821247024'] && data['821247024'] == 197316935) {
                     if(data['verifiedSeen'] && data['verifiedSeen'] === true){
-                        
+                        /*
                         topMessage += `
                             ${checkIfComplete(data) ? 'Thank you for completing your first Connect survey! We will be in touch with next steps.':'Please complete your first Connect survey.<br>Thank you for being a part of Connect.'}
+                        `*/
+                        topMessage += `
+                            ${checkIfComplete(data) ? 'Thank you for completing your first Connect survey! We will be in touch with next steps.':''}
                         `
                     }
                     else{
@@ -136,7 +144,7 @@ export const myToDoList = (data, fromUserProfile) => {
                         topMessage += `
                             Great news! We have confirmed that you are eligible for the Connect for Cancer Prevention Study. You are now an official Connect participant.
                             <br>
-                            ${checkIfComplete(data) ? 'Thank you for completing your first Connect survey! We will be in touch with next steps.':'The next step is to complete your first Connect survey'}
+                            ${checkIfComplete(data) ? 'Thank you for completing your first Connect survey! We will be in touch with next steps.':'The next step is to complete your first Connect survey.'}
                             <br>
                             Thank you for being a part of Connect and for your commitment to help us learn more about how to prevent cancer.
                             <br>
@@ -218,12 +226,13 @@ export const myToDoList = (data, fromUserProfile) => {
                     </div>
                     `
                     mainContent.innerHTML = template;
+                    window.scrollTo(0,0)
                     hideAnimation();
                     return;
                     
                 }
                 
-                if(topMessage !== ""){
+                if(topMessage.trim() !== ""){
                     template += `
                     <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
                         ${topMessage}
@@ -242,7 +251,7 @@ export const myToDoList = (data, fromUserProfile) => {
                 template += `
                 <div style="border: 1px solid #dee2e6; padding: 20px; border-radius:0px 10px 10px 10px;" id="surveyMainBody">
                 `;
-                const modules = questionnaireModules;
+                const modules = questionnaireModules();
                 // if (data.Module1 && data.Module1.COMPLETED) { modules["Enter SSN"].enabled = true};
                 // if (data.ModuleSsn && data.ModuleSsn.COMPLETED) { modules["Medications, Reproductive Health, Exercise, and Sleep"].enabled = true};
                 // if (data.Module2 && data.Module2.COMPLETED) { modules["Smoking, Alcohol, and Sun Exposure"].enabled = true};
@@ -371,7 +380,7 @@ const renderMainBody = (data, tab) => {
         toDisplaySystem = [{'header':'First Survey', 'body': ['Background and Overall Health', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure', "Where You Live and Work"]}]
     }
     
-    const modules = questionnaireModules;
+    const modules = questionnaireModules();
     console.log(JSON.stringify(modules['Background and Overall Health']))
     /*
     modules['Testing Survey'] = {};
@@ -691,7 +700,7 @@ const renderMainBody = (data, tab) => {
 }
 
 const checkIfComplete = (data) =>{
-    const modules = questionnaireModules;
+    const modules = questionnaireModules();
     if (data[fieldMapping.Module1.conceptId] && data[fieldMapping.Module1.conceptId].COMPLETED
         && data[fieldMapping.Module2.conceptId] && data[fieldMapping.Module2.conceptId].COMPLETED
         && data[fieldMapping.Module3.conceptId] && data[fieldMapping.Module3.conceptId].COMPLETED

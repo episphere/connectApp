@@ -4,7 +4,7 @@ import { removeAllErrors, addEventsConsentSign } from "../event.js";
 import { renderDownloadConsentCopy, renderDownloadHIPAA } from "./agreements.js";
 
 export const consentTemplate = () => {
-    consentAboutPage();
+    consentWelcomePage();
     //consentConsentPage();
     //consentFinishedPage();
 }
@@ -35,7 +35,7 @@ export const renderProgress = (progress) => {
             weight[i]=''
         }
     }
-    let list = ['About','Activities','Privacy','Leaving','Results','Benefits', 'Indigenous Peoples', 'Consent', '']
+    let list = ['Welcome','About','Activities','Privacy','Leaving','Results','Benefits', 'Indigenous Peoples', 'Consent', '']
     let toReturn = `
     <br>
     <div class="row d-none d-md-flex" style="margin-bottom:30px">
@@ -43,21 +43,23 @@ export const renderProgress = (progress) => {
         </div>
         <div class="col-lg-10">
             <div class="row">
-            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[0]};border-radius:50%;border:5px solid ${lineColor[0]};line-height:19px;color:${textColor[0]};">1</div><div style="${weight[0]}text-align:center;font-family: 'Noto Sans', sans-serif;">About</div></div>
+            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[0]};border-radius:50%;border:5px solid ${lineColor[0]};line-height:19px;color:${textColor[0]}">1</div><div style="${weight[0]}text-align:center;font-family: 'Noto Sans', sans-serif;">${list[0]}</div></div>
             <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[0]};"></div></div>
-            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[1]};border-radius:50%;border:5px solid ${lineColor[1]};line-height:19px;color:${textColor[1]}">2</div><div style="${weight[1]}text-align:center;font-family: 'Noto Sans', sans-serif;">Activities</div></div>
+            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[1]};border-radius:50%;border:5px solid ${lineColor[1]};line-height:19px;color:${textColor[1]}">2</div><div style="${weight[1]}text-align:center;font-family: 'Noto Sans', sans-serif;">${list[1]}</div></div>
             <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[1]};"></div></div>
-            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[2]};border-radius:50%;border:5px solid ${lineColor[2]};line-height:19px;color:${textColor[2]}">3</div><div style="${weight[2]}text-align:center;font-family: 'Noto Sans', sans-serif;">Privacy</div></div>
+            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[2]};border-radius:50%;border:5px solid ${lineColor[2]};line-height:19px;color:${textColor[2]}">3</div><div style="${weight[2]}text-align:center;font-family: 'Noto Sans', sans-serif;">${list[2]}</div></div>
             <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[2]};"></div></div>
-            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[3]};border-radius:50%;border:5px solid ${lineColor[3]};line-height:19px;color:${textColor[3]}">4</div><div style="${weight[3]}text-align:center;font-family: 'Noto Sans', sans-serif;">Leaving</div></div>
+            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[3]};border-radius:50%;border:5px solid ${lineColor[3]};line-height:19px;color:${textColor[3]}">4</div><div style="${weight[3]}text-align:center;font-family: 'Noto Sans', sans-serif;">${list[3]}</div></div>
             <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[3]};"></div></div>
-            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[4]};border-radius:50%;border:5px solid ${lineColor[4]};line-height:19px;color:${textColor[4]}">5</div><div style="${weight[4]}text-align:center;font-family: 'Noto Sans', sans-serif;">Results</div></div>
+            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[4]};border-radius:50%;border:5px solid ${lineColor[4]};line-height:19px;color:${textColor[4]}">5</div><div style="${weight[4]}text-align:center;font-family: 'Noto Sans', sans-serif;">${list[4]}</div></div>
             <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[4]};"></div></div>
-            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[5]};border-radius:50%;border:5px solid ${lineColor[5]};line-height:19px;color:${textColor[5]}">6</div><div style="${weight[5]}text-align:center;font-family: 'Noto Sans', sans-serif;">Benefits</div></div>
+            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[5]};border-radius:50%;border:5px solid ${lineColor[5]};line-height:19px;color:${textColor[5]}">6</div><div style="${weight[5]}text-align:center;font-family: 'Noto Sans', sans-serif;">${list[5]}</div></div>
             <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[5]};"></div></div>
-            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[6]};border-radius:50%;border:5px solid ${lineColor[6]};line-height:19px;color:${textColor[6]}">7</div><div style="${weight[6]}text-align:center;font-family: 'Noto Sans', sans-serif;">Indigenous Peoples</div></div>
+            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[6]};border-radius:50%;border:5px solid ${lineColor[6]};line-height:19px;color:${textColor[6]}">7</div><div style="${weight[6]}text-align:center;font-family: 'Noto Sans', sans-serif;">${list[6]}</div></div>
             <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[6]};"></div></div>
-            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[7]};border-radius:50%;border:5px solid ${lineColor[7]};line-height:19px;color:${textColor[7]}">8</div><div style="${weight[7]}text-align:center;font-family: 'Noto Sans', sans-serif;">Consent</div></div>
+            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[7]};border-radius:50%;border:5px solid ${lineColor[7]};line-height:19px;color:${textColor[7]}">8</div><div style="${weight[7]}text-align:center;font-family: 'Noto Sans', sans-serif;">${list[7]}</div></div>
+            <div class="col" style="margin:0;padding:0"><div style="width=100%;height:10px;margin-top:11px;margin-bottom:5px;background:${lineColor[7]};"></div></div>
+            <div class="col" style="margin:0;padding:0;width:40px;"><div style="margin:auto;text-align:center;width:30px;height:30px;background:${progressBar[8]};border-radius:50%;border:5px solid ${lineColor[8]};line-height:19px;color:${textColor[8]}">9</div><div style="${weight[8]}text-align:center;font-family: 'Noto Sans', sans-serif;">${list[8]}</div></div>
             </div>
         </div>
         <div class="col-lg-1">
@@ -86,8 +88,8 @@ export const renderProgress = (progress) => {
         </div>
         <div class="col-lg-10">
             <div class="row" style"padding-bottom:0px;padding-top:0px;">
-                <div class="consentBodyFont2" style="text-align:center;width:30px;height:30px;background:#2A72A5;border-radius:50%;border:5px solid #2A72A5;line-height:19px;color:white; display:inline;">${progress > 7?7:progress}</div>
-                <p class="consentBodyFont2" style="margin-left:4px; color:#2A72A5;"> of 7 <b style="color:#2E2E2E; font-family: 'Noto Sans', sans-serif; font-weight:bold;">${progress > 7?'':list[progress-1]}</b></p> 
+                <div class="consentBodyFont2" style="text-align:center;width:30px;height:30px;background:#2A72A5;border-radius:50%;border:5px solid #2A72A5;line-height:19px;color:white; display:inline;">${progress > 9?9:progress}</div>
+                <p class="consentBodyFont2" style="margin-left:4px; color:#2A72A5;"> of 9 <b style="color:#2E2E2E; font-family: 'Noto Sans', sans-serif; font-weight:bold;">${progress > 9?'':list[progress-1]}</b></p> 
             </div>
         </div>
         <div class="col-lg-1">
@@ -96,7 +98,7 @@ export const renderProgress = (progress) => {
     return toReturn;
 }
 
-export const consentAboutPage = () => {
+export const consentWelcomePage = () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(1);
@@ -105,10 +107,9 @@ export const consentAboutPage = () => {
             <div class="col-lg-2">
             </div>
             <div class="col-lg-8">
-                <p class="consentHeadersFont"><b>What is the Connect for Cancer Prevention Study?</b></p>
-                <p class="consentBodyFont1">This research study will explore causes of cancer and learn how to better prevent cancer in adults. Since it takes time to understand what causes cancer, Connect will go on for many years. The longer you participate, the more we may learn.</p>
-                <p class="consentBodyFont2">Researchers will study things like habits, behaviors, and the environment you and others live in that can help us learn how cancer may form. Researchers hope to learn new ways to stop cancer from forming in the first place.</p>
-                <p class="consentBodyFont2">Connect is studying cancer prevention. Researchers will not look for treatments for cancer, give medical care, or share medical advice.</p>
+                <p class="consentHeadersFont"><b>Welcome</b></p>
+                <p class="consentBodyFont1">Thank you for your interest in the <b>Connect for Cancer Prevention Study!</b> First, we will tell you about Connect and what it means to take part in this research study.</p>
+                <p class="consentBodyFont1">After you have learned about Connect, you will view the full informed consent form and electronic health records release form. These forms provide more details about the study. Then, you can decide if you want to join Connect.</p>
                 <div class="row" style="padding:0;">
                     <div class="col-md-2">
                     </div>
@@ -125,14 +126,51 @@ export const consentAboutPage = () => {
     mainContent.innerHTML = template;
 
     document.getElementById('toActivities').addEventListener('click', () => {
+        consentAboutPage();
+    })
+}
+
+export const consentAboutPage = () => {
+    window.scrollTo(0, 0);
+    const mainContent = document.getElementById('root');
+    let template = renderProgress(2);
+    template += ` 
+        <div class="row">
+            <div class="col-lg-2">
+            </div>
+            <div class="col-lg-8">
+                <p class="consentHeadersFont"><b>What is the Connect for Cancer Prevention Study?</b></p>
+                <p class="consentBodyFont1">This research study will explore causes of cancer and learn how to better prevent cancer in adults. Since it takes time to understand what causes cancer, Connect will go on for many years. The longer you participate, the more we may learn.</p>
+                <p class="consentBodyFont2">Researchers will study things like habits, behaviors, and the environment you and others live in that can help us learn how cancer may form. Researchers hope to learn new ways to stop cancer from forming in the first place.</p>
+                <p class="consentBodyFont2">Connect is studying cancer prevention. Researchers will not look for treatments for cancer, give medical care, or share medical advice.</p>
+                <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
+                    <div class="col-md-2">
+                        <button class="btn btn-primary consentPrevButton" type="button" id="backToAbout" style="min-width:100%; margin-top:10px;margin-bottom:10px;">Previous</button>
+                    </div>
+                    <div class="col-md-8">
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-primary consentNextButton" type="button" id="toActivities" style="width:100%; margin-top:10px;margin-bottom:10px">Next</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2">
+            </div>
+        </div>`
+    mainContent.innerHTML = template;
+
+    document.getElementById('toActivities').addEventListener('click', () => {
         consentActivitiesPage();
+    })
+    document.getElementById('backToAbout').addEventListener('click', () => {
+        consentWelcomePage();
     })
 }
 
 export const consentActivitiesPage = () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
-    let template = renderProgress(2);
+    let template = renderProgress(3);
     template += `
         <div class="row">
             <div class="col-lg-2">
@@ -198,7 +236,7 @@ export const consentActivitiesPage = () => {
 export const consentPrivacyPage = () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
-    let template = renderProgress(3);
+    let template = renderProgress(4);
     template += `
         <div class="row">
             <div class="col-lg-2">
@@ -244,7 +282,7 @@ export const consentPrivacyPage = () => {
 export const consentBenefitsPage = () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
-    let template = renderProgress(4);
+    let template = renderProgress(5);
     template += `
         <div class="row">
             <div class="col-lg-2">
@@ -282,7 +320,7 @@ export const consentBenefitsPage = () => {
 export const consentResultsPage = () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
-    let template = renderProgress(5);
+    let template = renderProgress(6);
     template += `
         <div class="row">
             <div class="col-lg-2">
@@ -322,7 +360,7 @@ export const consentResultsPage = () => {
 export const consentLeavingPage = () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
-    let template = renderProgress(6);
+    let template = renderProgress(7);
     template += `
         <div class="row">
             <div class="col-lg-2">
@@ -361,7 +399,7 @@ export const consentLeavingPage = () => {
 export const consentIndigenousPage = () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
-    let template = renderProgress(7);
+    let template = renderProgress(8);
     template += `
         <div class="row">
             <div class="col-lg-2">
@@ -410,16 +448,16 @@ export const consentIndigenousPage = () => {
 export const consentIndigenousAffectPage = () => {
         window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
-    let template = renderProgress(7);
+    let template = renderProgress(8);
     template += `
         <div class="row">
             <div class="col-lg-2">
             </div>
             <div class="col-lg-8">
                 <p class="consentHeadersFont">How might my participation in Connect affect Indigenous communities?</p>
-                <p class="consentBodyFont2">Some Indigenous Peoples and their communities have emphasized the need to learn more about certain risks and benefits to participating in research studies. Community members may be concerned that research practices will not follow traditional customs, or that conclusions made about Indigenous participants might harm Indigenous communities.</p>
-                <p class="consentBodyFont2">It is also possible that participating in research studies can benefit Indigenous communities. Learning about the health of Indigenous participants may help us make medical discoveries that benefit other people in their communities. The representation of all communities in research is an important part of advancing medicine and extending benefits to all people.</p>
-                <p class="consentBodyFont2">We want our research to respect the cultures and practices of all Indigenous Peoples.</p>
+                <p class="consentBodyFont2">Some Indigenous Peoples and their communities have emphasized the need to learn more about certain risks and benefits to participating in research studies. Community members may be concerned that research practices will not follow traditional customs, or that conclusions made about Indigenous participants might harm Indigenous communities. Learning about the health of Indigenous participants may help us make medical discoveries that benefit other people in their communities. The representation of all communities in research is an important part of advancing medicine and extending benefits to all people.</p>
+                <p class="consentBodyFont2">We acknowledge past transgressions and abuses of Indigenous Peoples in research studies, and the harms these have caused Indigenous communities. We are opposed to any research that harms Indigenous Peoples and we do not support any research or researcher that has harmed any community. We respect and appreciate your willingness to work with us and know that your trust must be earned. We are committed to protecting your privacy, safeguarding your information, and maintaining the integrity of our research. We want our research to respect the cultures and practices of all Indigenous Peoples.</p>
+                <p class="consentBodyFont2">We may not understand the barriers that Indigenous Peoples face when it comes to participating in research studies. However, we hope to work with you to learn more about the considerations and concerns of your communities and advance our understanding of health and disease together. As a Connect team, we hope to make medical discoveries that will benefit all people.</p>
 
                 <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
                     <div class="col-md-2">
@@ -450,7 +488,7 @@ export const consentIndigenousAffectPage = () => {
 export const consentIndigenousProtectPage = () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
-    let template = renderProgress(7);
+    let template = renderProgress(8);
     template += `
         <div class="row">
             <div class="col-lg-2">
@@ -494,18 +532,16 @@ export const consentIndigenousProtectPage = () => {
 export const consentIndigenousOtherPage = () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
-    let template = renderProgress(7);
+    let template = renderProgress(8);
     template += `
         <div class="row">
             <div class="col-lg-2">
             </div>
             <div class="col-lg-8">
                 <p class="consentHeadersFont">What else should I know?</p>
-                <p class="consentBodyFont2">We may not understand the barriers that Indigenous Peoples face when it comes to participating in research studies. However, we hope to work with you to learn more about the considerations and concerns of your communities and advance our understanding of health and disease together. As a Connect team, we hope to make medical discoveries that will benefit all people.</p>
-                <p class="consentBodyFont2">We acknowledge past transgressions and abuses of Indigenous Peoples in research studies, and the harms these have caused Indigenous communities. We are opposed to any research that harms Indigenous Peoples and we do not support any research or researcher that has harmed any community. We respect and appreciate your willingness to work with us and know that your trust must be earned. We are committed to protecting your privacy, safeguarding your information, and maintaining the integrity of our research.</p>
                 <p class="consentBodyFont2">If you identify as an Indigenous Person and want to join Connect, please consider:</p>
                 <ul class="consentBodyFont2" style="margin-left:32px">
-                    <li>Reading more about participation and the details of what it means to take part in Connect <a target="__blank" href="https://www.cancer.gov/connect-prevention-study/what-to-expect">here</a></li>
+                    <li>Reading more about participation and the details of what it means to take part in Connect <a target="__blank" href="https://www.cancer.gov/connect-prevention-study/what-to-expect">here</a>.</li>
                     <li>Speaking with your community members, leaders, and family about participating in Connect.</li>
                     <li>Contacting the Connect Support Center with any questions you have. Our team is happy to speak with you and discuss any concerns you may have about taking part in the study. (<a target="__blank" href="https://norcfedramp.servicenowservices.com/recruit">Cancer.gov/connectstudy/support</a>, or call 1-866-462-6621 8:00 a.m.-10:00 p.m. CT on weekdays, and 9:00 a.m.-6:00 p.m. CT on weekends).</li>
                 </ul>
@@ -542,7 +578,7 @@ export const consentIndigenousOtherPage = () => {
 export const consentConsentPage = async () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
-    let template = renderProgress(8);
+    let template = renderProgress(9);
     /*template += `
         <div>
             <h2>Informed Consent</h2>
@@ -653,7 +689,7 @@ export const consentConsentPage = async () => {
             </div>
             <div class="col-lg-8">
                 <p class="consentHeadersFont">Informed Consent</p>
-                <p class="consentBodyFont1">To join Connect, we need you to review the full informed consent form and electronic health records release (HIPAA Authorization) form below. If you have any questions, contact the Connect Support Center at <a target="_blank" href="https://norcfedramp.servicenowservices.com/recruit">Cancer.gov/connectstudy/support</a> or call 1-866-462-6621. Once you are comfortable with the study and decide to join, please sign the forms electronically.</p>
+                <p class="consentBodyFont1">To join Connect, we need you to review the full informed consent form and electronic health records release (HIPAA Authorization) form below. If you have any questions, contact the Connect Support Center at <a target="_blank" href="https://norcfedramp.servicenowservices.com/recruit">Cancer.gov/connectstudy/support</a> or call 1-866-462-6621. Once you are comfortable with the study and decide to join, please sign the forms electronically by typing your name into the fields below and click "Next" to view your completed forms. These completed forms on the next screen will contain your name filled into the signature sections.</p>
             
             <div style="width:80%; margin:auto">
                 <h4 class="consentSubheader" style="margin-top:50px">Informed Consent Form</h4>
@@ -714,6 +750,11 @@ export const consentConsentPage = async () => {
 
                             </select>
                         </div>
+                    </div>
+                    <div class="row" style="width:80%; margin:auto; padding-left:0px; padding-right:0px ">
+                        <p class="consentBodyFont2" style="color:gray">
+                            Please enter your legal name. If you are a member of Kaiser Permanente, please enter your first and last name exactly as it appears on your Kaiser Permanente ID card.
+                        </p>
                     </div>
                 
                     <!--
@@ -827,7 +868,7 @@ export const consentConsentPage = async () => {
 export const consentHealthRecordsPage = () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
-    let template = renderProgress(9);
+    let template = renderProgress(10);
     template += ` 
        
         <div class="row" id="canvasContainer"></div>
@@ -913,7 +954,7 @@ export const consentHealthRecordsPage = () => {
 export const consentFinishedPage = async () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
-    let template = renderProgress(9);
+    let template = renderProgress(10);
     const myData = await getMyData();
     let data = myData.data;
     let siteDict = siteAcronyms();
