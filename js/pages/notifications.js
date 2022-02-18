@@ -132,7 +132,7 @@ const renderMainBody = (data, tab) => {
         template += `
             <div class="row">
                 <span class="messagesHeaderFont" style="text-align:center; margin:auto;">
-                    You currently have no messages!
+                    You have no messages.
                 </span>
             </div>
             `
