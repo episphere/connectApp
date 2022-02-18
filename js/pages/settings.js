@@ -402,7 +402,7 @@ export const renderSettingsPage = async () => {
         template += `
             <div class="row align-center">
                 <span class="consentBodyFont1 w-100">
-                    My Profile not available!
+                    You have not completed your profile yet.
                 </span>
             </div>
             
@@ -410,38 +410,39 @@ export const renderSettingsPage = async () => {
     }
     document.getElementById('root').innerHTML = template;
     hideAnimation();
+
     if(myData.code === 200 && myData.data['699625233'] !== undefined && myData.data['699625233'] === 353358909){
         //addEventEditName(myData);
         addEventEditUP(myData.data);
-    }
-    document.getElementById('changePass').addEventListener('click', () => {
-        document.getElementById('changPassGroup').style.display = "block"
-    })
-    document.getElementById('changeEmail').addEventListener('click', () => {
-        document.getElementById('changEmailGroup').style.display = "block"
-    })
-    document.getElementById('changePassSubmit').addEventListener('click', () => {
-        //document.getElementById('changPassGroup').style.display = "block"
-        let pass = document.getElementById('newPassField').value
-        let passConfirm = document.getElementById('newPassFieldCheck').value
-        if(pass === passConfirm){
-            changePass(pass)
-        }
-        else{
-        }
-    })
 
-    document.getElementById('changeEmailSubmit').addEventListener('click', () => {
-        //document.getElementById('changPassGroup').style.display = "block"
-        let email = document.getElementById('newEmailField').value
-        let emailConfirm = document.getElementById('newEmailFieldCheck').value
-        if(email === emailConfirm){
-            changeEmail(email)
-        }
-        else{
-        }
-    })
+        document.getElementById('changePass').addEventListener('click', () => {
+            document.getElementById('changPassGroup').style.display = "block"
+        })
+        document.getElementById('changeEmail').addEventListener('click', () => {
+            document.getElementById('changEmailGroup').style.display = "block"
+        })
+        document.getElementById('changePassSubmit').addEventListener('click', () => {
+            //document.getElementById('changPassGroup').style.display = "block"
+            let pass = document.getElementById('newPassField').value
+            let passConfirm = document.getElementById('newPassFieldCheck').value
+            if(pass === passConfirm){
+                changePass(pass)
+            }
+            else{
+            }
+        })
     
+        document.getElementById('changeEmailSubmit').addEventListener('click', () => {
+            //document.getElementById('changPassGroup').style.display = "block"
+            let email = document.getElementById('newEmailField').value
+            let emailConfirm = document.getElementById('newEmailFieldCheck').value
+            if(email === emailConfirm){
+                changeEmail(email)
+            }
+            else{
+            }
+        })
+    }
 }
 
 const addEventEditUP = (data) => {
