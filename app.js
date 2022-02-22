@@ -25,6 +25,7 @@ window.onload = async () => {
     if(!isCompatible) {
         const mainContent = document.getElementById('root');
         mainContent.innerHTML = `<span class="not-compatible">Connect web application is only compatible with Chrome, Safari, Firefox or Edge.</span>`;
+        return;
     }
 
     const script = document.createElement('script');
