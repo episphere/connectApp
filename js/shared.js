@@ -856,11 +856,9 @@ export const isBrowserCompatible = () => {
         browserName = "firefox";
     } else if(userAgent.match(/safari/i)){
         browserName = "safari";
-    } else if(userAgent.match(/opr\//i)){
-        browserName = "opera";
     } else if(userAgent.match(/edg/i)){
         browserName = "edge";
-    }
+    } else browserName = 'Not supported'
     const isValidBrowser = /Chrome/i.test(browserName) || /Firefox/i.test(browserName) || /Safari/i.test(browserName);
     return isValidBrowser;
 }
