@@ -32,7 +32,25 @@
         <link rel="stylesheet" href="./lib/bootstrap.min.css">
         <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
         <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Noto+Sans&display=swap" rel="stylesheet"> 
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Noto+Sans&display=swap" rel="stylesheet">
+        <script>
+            const userAgent = navigator.userAgent;
+            let browserName;
+            
+            if(userAgent.match(/chrome|chromium|crios/i)){
+                browserName = "chrome";
+            } else if(userAgent.match(/firefox|fxios/i)){
+                browserName = "firefox";
+            } else if(userAgent.match(/safari/i)){
+                browserName = "safari";
+            } else if(userAgent.match(/edg/i)){
+                browserName = "edge";
+            } else browserName = 'Not supported'
+            const isValidBrowser = /Chrome/i.test(browserName) || /Firefox/i.test(browserName) || /Safari/i.test(browserName);
+            if(!isValidBrowser){
+                alert('This website is not supported on your browser. Please use Chrome, Edge, Safari, or Firefox.');
+            }
+        </script> 
     </head>
     <body>
         <main>
