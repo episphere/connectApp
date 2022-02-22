@@ -849,11 +849,11 @@ export const questionnaireModules = () => {
 export const isBrowserCompatible = () => {
     const userAgent = navigator.userAgent;
     let browserName;
-    
+    // else if(userAgent.match(/firefox|fxios/i)){
+    //     browserName = "firefox";
+    // }
     if(userAgent.match(/chrome|chromium|crios/i)){
         browserName = "chrome";
-    } else if(userAgent.match(/firefox|fxios/i)){
-        browserName = "firefox";
     } else if(userAgent.match(/safari/i)){
         browserName = "safari";
     } else if(userAgent.match(/edg/i)){

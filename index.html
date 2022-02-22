@@ -39,8 +39,6 @@
             
             if(userAgent.match(/chrome|chromium|crios/i)){
                 browserName = "chrome";
-            } else if(userAgent.match(/firefox|fxios/i)){
-                browserName = "firefox";
             } else if(userAgent.match(/safari/i)){
                 browserName = "safari";
             } else if(userAgent.match(/edg/i)){
@@ -48,7 +46,7 @@
             } else browserName = 'Not supported'
             const isValidBrowser = /Chrome/i.test(browserName) || /Firefox/i.test(browserName) || /Safari/i.test(browserName);
             if(!isValidBrowser){
-                alert('My Connect is not supported on your browser. Please use Chrome, Edge, Safari, or Firefox.');
+                alert('My Connect is not supported on your browser. Please use Chrome, Edge, or Safari.');
             }
         </script> 
     </head>
