@@ -265,6 +265,7 @@ export const myToDoList = (data, fromUserProfile) => {
                 template += `</ul>`
                 template += `
                     </div>
+                    </div>
                     <div class="col-lg-2">
                     </div>
                 </div>
@@ -379,6 +380,10 @@ const renderMainBody = (data, tab) => {
     if(data['821247024'] && data['821247024'] == 875007964){
         toDisplaySystem = [{'header':'First Survey', 'body': ['Background and Overall Health', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure', "Where You Live and Work"]}]
     }
+
+    if(data['331584571'] && data['331584571']['266600170'] && data['331584571']['266600170']['840048338']) {
+        toDisplaySystem.unshift({'body':['Biospecimen Survey']});
+    }
     
     const modules = questionnaireModules();
     console.log(JSON.stringify(modules['Background and Overall Health']))
@@ -412,6 +417,11 @@ const renderMainBody = (data, tab) => {
     modules['Enter SSN'].hasIcon = false;
     modules['Enter SSN'].noButton = false;
     modules['Enter SSN'].estimatedTime = 'Less than 5 minutes'
+
+    modules['Biospecimen Survey'].header = 'Baseline Blood, Urine, and Mouthwash Sample Survey';
+    modules['Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples, and your history of COVID-19. ';
+    modules['Biospecimen Survey'].estimatedTime = '10 to 15 minutes';
+
     //if module 1 exists and completed
     modules["Smoking, Alcohol, and Sun Exposure"].unreleased = true;
     modules["Where You Live and Work"].unreleased = true;
