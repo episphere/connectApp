@@ -203,7 +203,8 @@ export const sites = () => {
             657167265: 'Sanford Health',
             531629870: 'HealthPartners',
             303349821: 'Marshfield Clinic Health System',
-            125001209: 'Kaiser Permanente Colorado'
+            125001209: 'Kaiser Permanente Colorado',
+            452412599: 'Kaiser Permanente Northwest'
         }
     }
     else if (location.host === urls.stage) {
