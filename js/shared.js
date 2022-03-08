@@ -849,7 +849,21 @@ export const questionnaireModules = () => {
     }
 }
 export const isBrowserCompatible = () => {
-    const isValidBrowser = /Chrome/.test(navigator.userAgent) || /Mozilla/.test(navigator.userAgent) || /Safari/.test(navigator.userAgent);
+    const userAgent = navigator.userAgent;
+    let browserName;
+    // else if(userAgent.match(/firefox|fxios/i)){
+    //     browserName = "firefox";
+    // }
+    if(userAgent.match(/chrome|chromium|crios/i)){
+        browserName = "chrome";
+    } else if (userAgent.match(/firefox/i)) {
+        browserName = "firefox";
+    } else if(userAgent.match(/safari/i)){
+        browserName = "safari";
+    } else if(userAgent.match(/edg/i)){
+        browserName = "edge";
+    } else browserName = 'Not supported'
+    const isValidBrowser = /Chrome/i.test(browserName) || /Firefox/i.test(browserName) || /Safari/i.test(browserName) || /Edge/i.test(browserName);
     return isValidBrowser;
 }
 

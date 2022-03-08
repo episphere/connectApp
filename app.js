@@ -24,7 +24,8 @@ window.onload = async () => {
     const isCompatible = isBrowserCompatible();
     if(!isCompatible) {
         const mainContent = document.getElementById('root');
-        mainContent.innerHTML = `<span class="not-compatible">Connect web application is only compatible with Chrome, Safari, Firefox or Edge.</span>`;
+        mainContent.innerHTML = `<span class="not-compatible">The MyConnect app is not supported on your browser. Please use Chrome, Edge, Safari or Firefox.</span>`;
+        return;
     }
 
     const script = document.createElement('script');
