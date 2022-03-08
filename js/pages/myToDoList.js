@@ -447,6 +447,9 @@ const renderMainBody = (data, tab) => {
     if (data[fieldMapping.ModuleSsn.conceptId] && data[fieldMapping.ModuleSsn.conceptId].COMPLETED) { 
         modules['Enter SSN'].completed = true;
     };
+    if (data[fieldMapping.Biospecimen.conceptId] && data[fieldMapping.Biospecimen.conceptId].COMPLETED) { 
+        modules['Biospecimen Survey'].completed = true;
+    };
 
 
     if(tab === 'todo'){
