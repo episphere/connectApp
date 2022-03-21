@@ -10,6 +10,18 @@ import { SOCcer as SOCcerDev } from "./../../dev/config.js";
 export const   questionnaire = (url, moduleId) => {
     let rootElement = document.getElementById('root');
     rootElement.innerHTML = `
+    
+    <div class="row">
+        <div class = "col-md-1">
+        </div>
+        <div class = "col-md-10">
+            <div class="progress">
+                <div id="questProgBar" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </div>
+        <div class = "col-md-1">
+        </div>
+    </div>
     <div class="row">
         <div class = "col-md-1">
         </div>
@@ -22,6 +34,7 @@ export const   questionnaire = (url, moduleId) => {
     `
     //add data into render previous answers
     //inputData = {"firstName":"Alaina","age":"55","SEX":["3"],"SEX2":["6"]};
+
     getMyData().then(data => {
         showAnimation();
         let inputData = {};
@@ -72,7 +85,54 @@ export const   questionnaire = (url, moduleId) => {
                 retrieve: getMyData,
                 soccer: soccerFunction
             }, 'questionnaireRoot', inputData)
-            
+            .then(() => {
+                let nexts = document.getElementsByClassName('next')
+                let previouses = document.getElementsByClassName('previous')
+                console.log('sdlkvbsldkvbsdklvb')
+                //console.log(abc)
+                console.log(previouses.length)
+                for(let i = 0; i < nexts.length; i++){
+                    //nexts.addEventListener()
+                    /*nexts.addEventListener(()=>{
+        
+                    })*/
+                    //console.log(i)
+                }
+
+                let observer = new MutationObserver( mutations =>{
+                    let forms = document.getElementsByTagName('form')
+                    let numForms = forms.length;
+                    
+                    mutations.forEach(function(mutation) {
+                        if(mutation.attributeName == "class"){
+                            //let currentClassState = mutation.target.classList.contains('active')
+                            //console.log(currentClassState)
+                            //console.log(mutation)
+                            if(mutation.target.classList.contains('active')){
+                                let found = 0;
+                                for(let i = 0; i < forms.length; i++){
+                                    if(forms[i].id == mutation.target.id){
+                                        found = i
+                                    }
+                                }
+                                let progBar = document.getElementById('questProgBar')
+                                progBar.style.width = (parseInt(found/numForms * 100)).toString() + '%'
+                            }
+                            
+                        }
+                    });
+                    
+                });
+                let elemId = document.getElementById('questionnaireRoot');
+                console.log(elemId)
+                observer.observe(elemId, {
+                    childList: true, // observe direct children
+                    subtree: true, // lower descendants too
+                    //characterDataOldValue: true, // pass old data to callback
+                    attributes:true,
+                  });
+            })
+        
     })
 
 }
