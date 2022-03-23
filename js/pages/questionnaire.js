@@ -11,7 +11,7 @@ export const   questionnaire = (url, moduleId) => {
     let rootElement = document.getElementById('root');
     rootElement.innerHTML = `
     
-    <div class="row">
+    <div class="row" style="margin-top:50px">
         <div class = "col-md-1">
         </div>
         <div class = "col-md-10">
@@ -86,18 +86,35 @@ export const   questionnaire = (url, moduleId) => {
                 soccer: soccerFunction
             }, 'questionnaireRoot', inputData)
             .then(() => {
-                let nexts = document.getElementsByClassName('next')
-                let previouses = document.getElementsByClassName('previous')
-                console.log('sdlkvbsldkvbsdklvb')
-                //console.log(abc)
-                console.log(previouses.length)
-                for(let i = 0; i < nexts.length; i++){
-                    //nexts.addEventListener()
-                    /*nexts.addEventListener(()=>{
-        
-                    })*/
-                    //console.log(i)
+                //Grid fix first
+                let grids = document.getElementsByClassName('d-lg-block');
+                let max = grids.length;
+                for(let i = 0; i < max; i++){
+                    let curr = grids[0]
+                    curr.classList.add('d-xxl-block')
+                    curr.classList.remove('d-lg-block')
                 }
+                let ungrid = document.getElementsByClassName('d-lg-none');
+                max = ungrid.length
+                for(let i = 0; i < max; i++){
+                    ungrid[0].classList.add('d-xxl-none')
+                    ungrid[0].classList.remove('d-lg-none')
+
+                }
+
+                //Add progress bar
+                let formsFound = document.getElementsByTagName('form')
+                let totalForms = formsFound.length;
+                let currFound = 0
+                for(let i = 0; i < formsFound.length; i++){
+                    let currForm = formsFound[i]
+                    if(currForm.classList.contains('active')){
+                        currFound = i;
+                        i = formsFound.length;
+                    }
+                }
+                let pBar = document.getElementById('questProgBar')
+                pBar.style.width = (parseInt(currFound/(totalForms-1) * 100)).toString() + '%'
 
                 let observer = new MutationObserver( mutations =>{
                     let forms = document.getElementsByTagName('form')
@@ -116,7 +133,7 @@ export const   questionnaire = (url, moduleId) => {
                                     }
                                 }
                                 let progBar = document.getElementById('questProgBar')
-                                progBar.style.width = (parseInt(found/numForms * 100)).toString() + '%'
+                                progBar.style.width = (parseInt(found/(numForms-1) * 100)).toString() + '%'
                             }
                             
                         }
