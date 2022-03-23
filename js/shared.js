@@ -204,7 +204,9 @@ export const sites = () => {
             531629870: 'HealthPartners',
             303349821: 'Marshfield Clinic Health System',
             125001209: 'Kaiser Permanente Colorado',
-            452412599: 'Kaiser Permanente Northwest'
+            452412599: 'Kaiser Permanente Northwest',
+            327912200: 'Kaiser Permanente Georgia',
+            300267574: 'Kaiser Permanente Hawaii'
         }
     }
     else if (location.host === urls.stage) {
