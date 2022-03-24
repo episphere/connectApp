@@ -17,6 +17,7 @@ import { firebaseConfig as devFirebaseConfig } from "./dev/config.js";
 import { firebaseConfig as stageFirebaseConfig } from "./stage/config.js";
 import { firebaseConfig as prodFirebaseConfig } from "./prod/config.js";
 import { consentToProfilePage } from "./js/pages/consent.js";
+import { checkDefaultFlags } from "https://episphere.github.io/dashboard/siteManagerDashboard/utils.js";
 
 let auth = '';
 
@@ -226,6 +227,10 @@ const userProfile = () => {
                     await storeResponse(tmp);
                 }
             }
+
+            let defaultConcepts = checkDefaultFlags(userData.data);
+            if(Object.entries(defaultConcepts).length != 0) await storeResponse(defaultConcepts);
+
             window.history.replaceState({},'Dashboard', './#dashboard');
             if(user.email && !user.emailVerified){
                 const mainContent = document.getElementById('root');
