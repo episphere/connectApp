@@ -168,6 +168,9 @@ function soccerFunction(){
     
             // call soccer... follow up with Daniel Russ for questions
             let soccerResults = await (await fetch(`${soccerURL}${jobtitle}`)).json();
+            for(let i = 0; i < soccerResults.length; i++){
+                soccerResults[i]['code'] += '-' + i;
+            }
             let responseElement = occ.querySelector("div[class='response']");
             buildHTML(soccerResults, occ, responseElement);
         });
@@ -181,6 +184,9 @@ function soccerFunction(){
     
             // call soccer...
             let soccerResults = await (await fetch(`${soccerURL}${jobtitle}`)).json();
+            for(let i = 0; i < soccerResults.length; i++){
+                soccerResults[i]['code'] += '-' + i;
+            }
             let responseElement = occ.querySelector("div[class='response']");
             buildHTML(soccerResults, occ, responseElement);
         });
