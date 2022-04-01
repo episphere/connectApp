@@ -1,5 +1,6 @@
 import { addEventHideNotification } from "./event.js";
 import fieldMapping from './components/fieldToConceptIdMapping.js'; 
+import { checkPaymentEligibility } from "https://episphere.github.io/dashboard/siteManagerDashboard/utils.js";
 
 export const urls = {
     'prod': 'myconnect.cancer.gov',
@@ -177,6 +178,34 @@ export const getMyData = async () => {
     if(location.host === urls.prod) url = `https://api-myconnect.cancer.gov/app?api=getUserProfile`
     else if(location.host === urls.stage) url = `https://api-myconnect-stage.cancer.gov/app?api=getUserProfile`
     else url = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app?api=getUserProfile'
+    const response = await fetch(url, {
+        headers: {
+            Authorization: "Bearer "+idToken
+        }
+    })
+    return response.json();
+}
+
+export const getMyCollections = async () => {
+    const idToken = await new Promise((resolve, reject) => {
+        const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+            unsubscribe();
+            if (user) {
+                user.getIdToken().then((idToken) => {
+                    resolve(idToken);
+            }, (error) => {
+                resolve(null);
+            });
+            } else {
+            resolve(null);
+            }
+        });
+    });
+    let url = '';
+    //if(location.host === urls.prod) url = `https://api-myconnect.cancer.gov/app?api=getUserProfile`
+    //else if(location.host === urls.stage) url = `https://api-myconnect-stage.cancer.gov/app?api=getUserProfile`
+    //else 
+    url = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app?api=getUserCollections';
     const response = await fetch(url, {
         headers: {
             Authorization: "Bearer "+idToken
@@ -1012,4 +1041,25 @@ export const renderSyndicate = (url, element, page) => {
     hideAnimation();
 
     });
+}
+
+export const verifyPaymentEligibility = async (formData) => {
+
+    if(formData['130371375']['266600170']['731498909'] === 104430631) {
+
+        const responseCollections = await getMyCollections();
+        const baselineCollections = responseCollections.data.filter(collection => collection['331584571'] === 266600170);
+
+        const incentiveEligible = await checkPaymentEligibility(formData, baselineCollections);
+
+        if(incentiveEligible) {
+            const incentiveData = {
+                '130371375.266600170.731498909': 353358909,
+                '130371375.266600170.222373868': formData['827220437'] === 809703864 ? 104430631 : 353358909,
+                '130371375.266600170.787567527': new Date().toISOString(),
+            };
+
+            await storeResponse(incentiveData);
+        } 
+    }
 }
