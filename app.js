@@ -1,4 +1,4 @@
-import { getParameters, validateToken, userLoggedIn, getMyData, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls } from "./js/shared.js";
+import { getParameters, validateToken, userLoggedIn, getMyData, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, verifyPaymentEligibility } from "./js/shared.js";
 import { userNavBar, homeNavBar } from "./js/components/navbar.js";
 import { homePage, joinNowBtn, whereAmIInDashboard, renderHomeAboutPage, renderHomeExpectationsPage, renderHomePrivacyPage } from "./js/pages/homePage.js";
 import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser } from "./js/event.js";
@@ -230,6 +230,8 @@ const userProfile = () => {
 
             let defaultConcepts = checkDefaultFlags(userData.data);
             if(Object.entries(defaultConcepts).length != 0) await storeResponse(defaultConcepts);
+
+            // await verifyPaymentEligibility(userData.data);
 
             window.history.replaceState({},'Dashboard', './#dashboard');
             if(user.email && !user.emailVerified){

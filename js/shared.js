@@ -1,5 +1,6 @@
 import { addEventHideNotification } from "./event.js";
 import fieldMapping from './components/fieldToConceptIdMapping.js'; 
+import { checkPaymentEligibility } from "https://episphere.github.io/dashboard/siteManagerDashboard/utils.js";
 
 export const urls = {
     'prod': 'myconnect.cancer.gov',
@@ -1012,4 +1013,25 @@ export const renderSyndicate = (url, element, page) => {
     hideAnimation();
 
     });
+}
+
+export const verifyPaymentEligibility = async (formData) => {
+
+    if(formData['130371375']['266600170']['731498909'] === 104430631) {
+        //const responseCollections = await getParticipantCollections(formData.token);
+        //const baselineCollections = responseCollections.data.filter(collection => collection['331584571'] === 266600170);
+
+        const incentiveEligible = await checkPaymentEligibility(formData, baselineCollections);
+
+        if(incentiveEligible) {
+            const incentiveData = {
+                '130371375.266600170.731498909': 353358909,
+                '130371375.266600170.222373868': formData['827220437'] === 809703864 ? 104430631 : 353358909,
+                '130371375.266600170.787567527': new Date().toISOString(),
+                uid: formData.state.uid
+            };
+
+            // await updateParticipant(incentiveData); store response?
+        } 
+    }
 }
