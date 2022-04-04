@@ -1045,7 +1045,7 @@ export const renderSyndicate = (url, element, page) => {
 
 export const verifyPaymentEligibility = async (formData) => {
 
-    if(formData['130371375']['266600170']['731498909'] === 104430631) {
+    if(formData && formData['130371375'] && formData['130371375']['266600170']['731498909'] === 104430631) {
 
         const responseCollections = await getMyCollections();
         const responseCollectionsData = responseCollections.data;
