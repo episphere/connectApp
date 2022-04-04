@@ -1048,7 +1048,13 @@ export const verifyPaymentEligibility = async (formData) => {
     if(formData['130371375']['266600170']['731498909'] === 104430631) {
 
         const responseCollections = await getMyCollections();
-        const baselineCollections = responseCollections.data.filter(collection => collection['331584571'] === 266600170);
+        const responseCollectionsData = responseCollections.data;
+
+        if(!responseCollectionsData) return;
+
+        const baselineCollections = responseCollectionsData.data.filter(collection => collection['331584571'] === 266600170);
+
+        if(baselineCollections.length === 0) return;
 
         const incentiveEligible = await checkPaymentEligibility(formData, baselineCollections);
 
