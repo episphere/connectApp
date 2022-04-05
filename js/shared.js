@@ -1052,7 +1052,7 @@ export const verifyPaymentEligibility = async (formData) => {
 
         if(!responseCollectionsData) return;
 
-        const baselineCollections = responseCollectionsData.data.filter(collection => collection['331584571'] === 266600170);
+        const baselineCollections = responseCollectionsData.filter(collection => collection['331584571'] === 266600170);
 
         if(baselineCollections.length === 0) return;
 
