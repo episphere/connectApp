@@ -423,8 +423,8 @@ const renderMainBody = (data, tab) => {
     modules['Biospecimen Survey'].estimatedTime = '10 to 15 minutes';
 
     //if module 1 exists and completed
-    modules["Smoking, Alcohol, and Sun Exposure"].unreleased = true;
-    modules["Where You Live and Work"].unreleased = true;
+    //modules["Smoking, Alcohol, and Sun Exposure"].unreleased = true;
+    //modules["Where You Live and Work"].unreleased = true;
     
     if (data[fieldMapping.Module1.conceptId] && data[fieldMapping.Module1.conceptId].COMPLETED) { 
         modules["Smoking, Alcohol, and Sun Exposure"].enabled = true;
