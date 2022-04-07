@@ -231,6 +231,7 @@ export const sites = () => {
         return {
             657167265: 'Sanford Health',
             531629870: 'HealthPartners',
+            548392715: 'Henry Ford Health System',
             303349821: 'Marshfield Clinic Health System',
             125001209: 'Kaiser Permanente Colorado',
             452412599: 'Kaiser Permanente Northwest',
