@@ -231,7 +231,9 @@ const userProfile = () => {
             let defaultConcepts = checkDefaultFlags(userData.data);
             if(Object.entries(defaultConcepts).length != 0) await storeResponse(defaultConcepts);
 
-            await verifyPaymentEligibility(userData.data);
+            if(userData.data['827220437']) {
+                await verifyPaymentEligibility(userData.data);
+            }
 
             window.history.replaceState({},'Dashboard', './#dashboard');
             if(user.email && !user.emailVerified){
