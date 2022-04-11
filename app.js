@@ -231,7 +231,7 @@ const userProfile = () => {
             let defaultConcepts = checkDefaultFlags(userData.data);
             if(Object.entries(defaultConcepts).length != 0) await storeResponse(defaultConcepts);
 
-            if(userData.data['827220437']) {
+            if(userData.code === 200 && userData.data['827220437']) {
                 await verifyPaymentEligibility(userData.data);
             }
 
