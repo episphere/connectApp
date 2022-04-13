@@ -128,6 +128,7 @@ export const storeResponseQuest = async (formData) => {
 }
 export const storeResponse = async (formData) => {
 
+    console.log("beginning of storeResponse()");
     formData = conceptIdMapping(formData);
     const idToken = await new Promise((resolve, reject) => {
         const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
@@ -156,6 +157,7 @@ export const storeResponse = async (formData) => {
     else if(location.host === urls.stage) url = `https://api-myconnect-stage.cancer.gov/app?api=submit`
     else url = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app?api=submit'
     const response = await fetch(url, requestObj);
+    console.log("end of storeResponse()");
     return response.json();
 }
 
@@ -913,6 +915,9 @@ export const inactivityTime = (user) => {
                 Array.from(document.getElementsByClassName('extend-user-session')).forEach(e => {
                     e.click();
                 });
+
+                console.log("responseTimeout has been reached!");
+
                 signOut();
             }, 300000)
             // Show warning after 20 minutes of no activity.
@@ -933,6 +938,9 @@ export const inactivityTime = (user) => {
                                 <button type="button" title="Continue" class="btn btn-primary extend-user-session" data-dismiss="modal">Continue</button>
                             </div>`
             document.body.removeChild(button);
+
+            console.log("initial timeout has been reached!");
+
             Array.from(document.getElementsByClassName('log-out-user')).forEach(e => {
                 e.addEventListener('click', () => {
                     clearTimeout(time)
@@ -957,6 +965,9 @@ export const inactivityTime = (user) => {
 };
 
 const signOut = () => {
+
+    console.log("signing current user out!");
+
     firebase.auth().signOut();
     window.location.hash = '#';
     document.title = 'My Connect - Home';
