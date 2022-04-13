@@ -63,7 +63,6 @@ export const conceptIdMapping = (formData) => {
             formData[connectModuleIdCompletedTS] = formData[moduleIdCompletedTS];
         }
 
-
     } catch (error) {
         console.log("conceptIdMapping error",error);
     }
@@ -129,6 +128,8 @@ export const storeResponseQuest = async (formData) => {
 export const storeResponse = async (formData) => {
 
     formData = conceptIdMapping(formData);
+    formData = await checkDerivedConcepts(formData);
+
     const idToken = await new Promise((resolve, reject) => {
         const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             unsubscribe();
@@ -1069,4 +1070,22 @@ export const verifyPaymentEligibility = async (formData) => {
             await storeResponse(incentiveData);
         } 
     }
+}
+
+export const checkDerivedConcepts = async (formData) => {
+
+    let userData = await getMyData();
+    if(userData.code === 200) {
+
+        userData = userData.data;
+
+        // all baseline surveys completed
+        if(!userData['100767870']) {
+            if (userData['949302066'] === 231311385 && userData['536735468'] === 231311385 && userData['976570371'] === 231311385 && userData['663265240'] === 231311385) {
+                formData['100767870'] = 353358909;
+            }
+        }
+    }
+
+    return formData;
 }
