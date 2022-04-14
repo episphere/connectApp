@@ -1081,3 +1081,19 @@ export const verifyPaymentEligibility = async (formData) => {
         } 
     }
 }
+
+export const checkDerivedConcepts = async (data) => {
+
+    let updates = {};
+
+    // all baseline surveys completed
+    if(!data['100767870']) {
+        if (data['949302066'] === 231311385 && data['536735468'] === 231311385 && data['976570371'] === 231311385 && data['663265240'] === 231311385) {
+            updates['100767870'] = 353358909;
+        }
+    }
+
+    if(Object.keys(updates).length > 0) {
+        await storeResponse(updates);
+    }
+}
