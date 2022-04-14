@@ -1071,23 +1071,18 @@ export const verifyPaymentEligibility = async (formData) => {
     }
 }
 
-export const checkDerivedConcepts = async () => {
+export const checkDerivedConcepts = async (data) => {
 
-    //let response = await getMyData();
-    if(response.code === 200) {
+    let updates = {};
 
-        let userData = userData.data;
-        let updates = {};
-
-        // all baseline surveys completed
-        if(!userData['100767870']) {
-            if (userData['949302066'] === 231311385 && userData['536735468'] === 231311385 && userData['976570371'] === 231311385 && userData['663265240'] === 231311385) {
-                updates['100767870'] = 353358909;
-            }
+    // all baseline surveys completed
+    if(!data['100767870']) {
+        if (data['949302066'] === 231311385 && data['536735468'] === 231311385 && data['976570371'] === 231311385 && data['663265240'] === 231311385) {
+            updates['100767870'] = 353358909;
         }
+    }
 
-        if(updates.length != 0) {
-            await storeResponse(updates);
-        }
+    if(Object.keys(updates).length > 0) {
+        await storeResponse(updates);
     }
 }
