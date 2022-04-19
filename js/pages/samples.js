@@ -3,6 +3,8 @@ import { getMyData } from "../shared.js";
 export const renderSamplesPage = async () => {
     document.title = 'My Connect - Samples';
 
+    /*
+
     getMyData().then(res => {
         const site = locations.filter(location => location.concept == res.data['827220437'])[0];
 
@@ -224,6 +226,24 @@ export const renderSamplesPage = async () => {
         
         document.getElementById('root').innerHTML = template;
     });
+
+    */
+
+    let template = `
+    <br>
+    
+    <div class="row">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8 NotoSansFont">
+            We plan to begin collecting samples later this year. We will send you an email with instructions and next steps when it is time to donate samples. Thank you for being part of Connect!
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>    
+    `;
+
+    document.getElementById('root').innerHTML = template;
 }
 
 const health_partners = {
