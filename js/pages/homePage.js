@@ -1,10 +1,8 @@
-import { getMyData, isBrowserCompatible, renderSyndicate} from "../shared.js";
+import { getMyData, renderSyndicate} from "../shared.js";
 
 export const homePage = async () => {
     const mainContent = document.getElementById('root');
-    const isCompatible = isBrowserCompatible();
     mainContent.innerHTML = `
-        ${!isCompatible ? `<span class="not-compatible">Connect web application is only compatible with Chrome, Safari, Firefox or Edge.</span>` : ``}
         <div class="row connectBody1">
             <div class="col-lg-2 o">
             </div>
@@ -347,9 +345,7 @@ export const whereAmIInDashboard = async () => {
 export const renderHomeAboutPage =  () => {
     
     const mainContent = document.getElementById('root');
-    const isCompatible = isBrowserCompatible();
     mainContent.innerHTML = `
-        ${!isCompatible ? `<span class="not-compatible">Connect web application is only compatible with Chrome, Safari, Firefox or Edge.</span>` : ``}
         <div class="row">
             <div class="col-1">
             </div>
@@ -365,9 +361,7 @@ export const renderHomeAboutPage =  () => {
 export const renderHomeExpectationsPage = () => {
     
     const mainContent = document.getElementById('root');
-    const isCompatible = isBrowserCompatible();
     mainContent.innerHTML = `
-        ${!isCompatible ? `<span class="not-compatible">Connect web application is only compatible with Chrome, Safari, Firefox or Edge.</span>` : ``}
         <div class="row">
         <div class="col-1">
         </div>
@@ -387,9 +381,7 @@ export const renderHomeExpectationsPage = () => {
 }
 export const renderHomePrivacyPage =  () => {
     const mainContent = document.getElementById('root');
-    const isCompatible = isBrowserCompatible();
     mainContent.innerHTML = `
-        ${!isCompatible ? `<span class="not-compatible">Connect web application is only compatible with Chrome, Safari, Firefox or Edge.</span>` : ``}
         <div class="row">
         <div class="col-1">
         </div>
