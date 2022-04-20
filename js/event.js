@@ -1170,11 +1170,13 @@ export const toggleCurrentPage = async (route) => {
     const IDs = ['userDashboard', 'Notifications', 'userAgreements', 'userSettings', 'connectSamples', 'connectSupport', 'connectPayment'];
     IDs.forEach(id => {
         const element = document.getElementById(id);
-        element.addEventListener('click', () => {
-            removeActiveClass('navbar-nav', 'current-page');
-            element.parentNode.parentNode.classList.add('current-page');
-            toggleNavbarMobileView();
-        });
+        if(element) {
+            element.addEventListener('click', () => {
+                removeActiveClass('navbar-nav', 'current-page');
+                element.parentNode.parentNode.classList.add('current-page');
+                toggleNavbarMobileView();
+            });
+        }
     });
     if(route === '#' && document.getElementById('home')) document.getElementById('home').click();
     if(route === '#dashboard') document.getElementById('userDashboard').click();

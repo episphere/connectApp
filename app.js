@@ -297,6 +297,9 @@ const toggleNavBar = (route) => {
     auth.onAuthStateChanged(async user => {
         if(user){
             showAnimation();
+
+            const userData = await getMyData();
+
             document.getElementById('navbarNavAltMarkup').innerHTML = userNavBar();
             document.getElementById('joinNow') ? document.getElementById('joinNow').innerHTML = joinNowBtn(false) : ``; 
             document.getElementById('signInWrapperDiv') ? document.getElementById('signInWrapperDiv').style.display = "none" :'';
