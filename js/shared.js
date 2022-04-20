@@ -877,7 +877,7 @@ export const questionnaireModules = () => {
             'Background and Overall Health': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/module1Stage.txt', moduleId:"Module1", enabled:true},
             'Medications, Reproductive Health, Exercise, and Sleep': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/module2Stage.txt', moduleId:"Module2", enabled:false},
             'Smoking, Alcohol, and Sun Exposure': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/module3Stage.txt', moduleId:"Module3", enabled:false},
-            'Where You Live and Work': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/Module4Dummy.txt', moduleId:"Module4", enabled:false},
+            'Where You Live and Work': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/module4Stage.txt', moduleId:"Module4", enabled:false},
             'Enter SSN': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/ssnModule.txt', moduleId:"ModuleSsn", enabled:false},
             'Biospecimen Survey': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/moduleBio.txt', moduleId:"Biospecimen", enabled:true}
         }
