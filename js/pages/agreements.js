@@ -265,15 +265,11 @@ export const renderAgreements = async () => {
     else{
         template += `<div class="row align-center">
         <span class="consentBodyFont1 w-100">
-            No agreement found!
+            You have no forms available to view.
         </span>
     </div>`;
     }
-    let siteDict = siteAcronyms();
-    let consentVersions = await fetch('./forms/Consent_versioning.json').then(res => res.json());
-
-    let participantSite = siteDict[myData.data['827220437']];
-    let pdfLocation = './forms/consent/' + myData.data[412000022] + '.pdf'
+    
     document.getElementById('root').innerHTML = template;
     addEventAgreementOptions(myData);
     hideAnimation();

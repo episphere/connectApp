@@ -309,7 +309,10 @@ const toggleNavBar = (route) => {
     auth.onAuthStateChanged(async user => {
         if(user){
             showAnimation();
-            document.getElementById('navbarNavAltMarkup').innerHTML = userNavBar();
+
+            const data = await getMyData();
+
+            document.getElementById('navbarNavAltMarkup').innerHTML = userNavBar(data);
             document.getElementById('joinNow') ? document.getElementById('joinNow').innerHTML = joinNowBtn(false) : ``; 
             document.getElementById('signInWrapperDiv') ? document.getElementById('signInWrapperDiv').style.display = "none" :'';
             document.getElementById('nextStepWarning') ? document.getElementById('nextStepWarning').innerHTML = await whereAmIInDashboard() : '';

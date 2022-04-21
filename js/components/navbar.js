@@ -1,7 +1,8 @@
 import { urls } from "../shared.js";
 
-export const userNavBar = () => {
-    return `
+export const userNavBar = (data) => {
+    let template = `
+        
         <div class="navbar-nav transparent-border">
             <li class="nav-item">
                 <a class="nav-link" href="#dashboard" id="userDashboard"> Dashboard</a>
@@ -37,24 +38,35 @@ export const userNavBar = () => {
                 <a class="nav-link" href="#payment" id="connectPayment"> My Payment</a>
             </li>
         </div>
+
+    `;
+
+    data.code === 200 && data.data['699625233'] === 353358909 && data.data['919254129'] === 353358909 ? 
+
+        template += `
+        
         <div class="navbar-nav transparent-border">
             <li class="nav-item">
                 <a class="nav-link" href="#samples" id="connectSamples"> My Samples</a>
             </li>
         </div>
-    
+
+    `: ``;
+        
+    template += `
         <div class="navbar-nav transparent-border">
             <li class="nav-item">
                 <a class="nav-link" href="#support" id="connectSupport"> Support</a>
             </li>
         </div>
-        
         <div class="navbar-nav transparent-border ml-auto">
             <li class="nav-item">
                 <a class="nav-link" href="#sign_out" id="signOut" title="Sign Out"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
             </li>
         </div>
     `;
+
+    return template;
 }
 
 export const homeNavBar = () => {
