@@ -160,10 +160,10 @@ const router = async () => {
         }
         if(['resetPassword', 'verifyEmail'].includes(parameters['mode'])) return;
     }
-
+    const data = await getMyData();
     let loggedIn = await userLoggedIn();
     const route =  window.location.hash || '#';
-    toggleNavBar(route);
+    toggleNavBar(route, data);
     let exceptions = ['#joining-connect','#after-you-join','#long-term-study-activities','#what-connect-will-do','#how-your-information-will-help-prevent-cancer','#why-connect-is-important','#what-to-expect-if-you-decide-to-join','#where-this-study-takes-place','#about-our-researchers','#a-resource-for-science']
     if(loggedIn === false){
         if(route === '#') homePage();
@@ -305,13 +305,10 @@ const signOut = () => {
     document.title = 'My Connect - Home';
 }
 
-const toggleNavBar = (route) => {
+const toggleNavBar = (route, data) => {
     auth.onAuthStateChanged(async user => {
         if(user){
             showAnimation();
-
-            const data = await getMyData();
-
             document.getElementById('navbarNavAltMarkup').innerHTML = userNavBar(data);
             document.getElementById('joinNow') ? document.getElementById('joinNow').innerHTML = joinNowBtn(false) : ``; 
             document.getElementById('signInWrapperDiv') ? document.getElementById('signInWrapperDiv').style.display = "none" :'';
