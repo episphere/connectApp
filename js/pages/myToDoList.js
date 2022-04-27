@@ -6,7 +6,7 @@ import { addEventsConsentSign, addEventHeardAboutStudy, addEventRequestPINForm, 
 import { heardAboutStudy, requestPINTemplate, healthCareProvider } from "./healthCareProvider.js";
 import fieldMapping from '../components/fieldToConceptIdMapping.js'; 
 
-export const myToDoList = (data, fromUserProfile) => {
+export const myToDoList = async (data, fromUserProfile) => {
     const mainContent = document.getElementById('root');
     if(!data['507120821']){
         let formData = {
@@ -224,12 +224,18 @@ export const myToDoList = (data, fromUserProfile) => {
                     <div class="col-lg-2">
                     </div>
                     </div>
-                    `
+                    `;
                     mainContent.innerHTML = template;
                     window.scrollTo(0,0)
                     hideAnimation();
                     return;
                     
+                }
+
+                const surveyMessage = await checkForNewSurveys(data);
+
+                if(surveyMessage) {
+                    templateContent = surveyMessage + templateContent;
                 }
                 
                 if(topMessage.trim() !== ""){
@@ -385,71 +391,8 @@ const renderMainBody = (data, tab) => {
         toDisplaySystem.unshift({'body':['Biospecimen Survey']});
     }
     
-    const modules = questionnaireModules();
-    console.log(JSON.stringify(modules['Background and Overall Health']))
-    /*
-    modules['Testing Survey'] = {};
-    modules['Testing Survey'].description = 'This is the Test Module';
-    modules['Testing Survey'].hasIcon = false;
-    modules['Testing Survey'].noButton = true;
-    modules['TestModule'].header = 'Testing Module'; 
-    modules['TestModule'].description = 'This is the testing module!';
-    modules['TestModule'].estimatedTime = '20 to 30 minutes';
-    */
-    modules['First Survey'] = {};
-    modules['First Survey'].description = 'This survey is split into four sections that ask about a wide range of topics, including information about your medical history, family, work, and health behaviors. You can answer all of the questions at one time, or pause and return to complete the survey later. If you pause, your answers will be saved so you can pick up where you left off. You can skip any questions that you do not want to answer.';
-    modules['First Survey'].hasIcon = false;
-    modules['First Survey'].noButton = true;
-    modules['Background and Overall Health'].header = 'Background and Overall Health'; 
-    modules['Background and Overall Health'].description = 'Questions about you, your medical history, and your family history.';
-    modules['Background and Overall Health'].estimatedTime = '20 to 30 minutes'
-    modules['Medications, Reproductive Health, Exercise, and Sleep'].header = 'Medications, Reproductive Health, Exercise, and Sleep'; 
-    modules['Medications, Reproductive Health, Exercise, and Sleep'].description = 'Questions about your current and past use of medications, your exercise and sleep habits, and your reproductive health.';
-    modules['Medications, Reproductive Health, Exercise, and Sleep'].estimatedTime = '20 to 30 minutes'
-    modules['Smoking, Alcohol, and Sun Exposure'].header = 'Smoking, Alcohol, and Sun Exposure'; 
-    modules['Smoking, Alcohol, and Sun Exposure'].description = 'Questions about your use of tobacco, nicotine, marijuana, and alcohol, as well as your sun exposure.';
-    modules['Smoking, Alcohol, and Sun Exposure'].estimatedTime = '20 to 30 minutes'
-    modules["Where You Live and Work"].header = 'Where You Live and Work';
-    modules["Where You Live and Work"].description  = 'Questions about places where you have lived and worked, and your commute to school or work.'
-    modules['Where You Live and Work'].estimatedTime = '20 to 30 minutes'
-    modules['Enter SSN'].header = 'Your Social Security Number (SSN)'
-    modules['Enter SSN'].description = 'We may use your Social Security number when we collect information from important data sources like health registries to match information from these sources to you. We protect your privacy every time we ask for information about you from other sources. Providing your Social Security number is optional.';
-    modules['Enter SSN'].hasIcon = false;
-    modules['Enter SSN'].noButton = false;
-    modules['Enter SSN'].estimatedTime = 'Less than 5 minutes'
-
-    modules['Biospecimen Survey'].header = 'Baseline Blood, Urine, and Mouthwash Sample Survey';
-    modules['Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples, and your history of COVID-19. ';
-    modules['Biospecimen Survey'].estimatedTime = '10 to 15 minutes';
-
-    //if module 1 exists and completed
-    //modules["Smoking, Alcohol, and Sun Exposure"].unreleased = true;
-    //modules["Where You Live and Work"].unreleased = true;
-    
-    if (data[fieldMapping.Module1.conceptId] && data[fieldMapping.Module1.conceptId].COMPLETED) { 
-        modules["Smoking, Alcohol, and Sun Exposure"].enabled = true;
-        modules["Where You Live and Work"].enabled = true;
-        modules['Medications, Reproductive Health, Exercise, and Sleep'].enabled = true;
-        modules['Background and Overall Health'].completed = true;
-    };
-    if (data[fieldMapping.Module2.conceptId] && data[fieldMapping.Module2.conceptId].COMPLETED) { 
-        modules['Medications, Reproductive Health, Exercise, and Sleep'].completed = true;
-    };
-    if (data[fieldMapping.Module3.conceptId] && data[fieldMapping.Module3.conceptId].COMPLETED) { 
-        modules['Smoking, Alcohol, and Sun Exposure'].completed = true;
-    };
-    if (data[fieldMapping.Module4.conceptId] && data[fieldMapping.Module4.conceptId].COMPLETED) { 
-        modules["Where You Live and Work"].completed  = true;
-    };
-    if ((data[fieldMapping.verification] && data[fieldMapping.verification] == fieldMapping.verified)) { 
-        modules['Enter SSN'].enabled = true;
-    };
-    if (data[fieldMapping.ModuleSsn.conceptId] && data[fieldMapping.ModuleSsn.conceptId].COMPLETED) { 
-        modules['Enter SSN'].completed = true;
-    };
-    if (data[fieldMapping.Biospecimen.conceptId] && data[fieldMapping.Biospecimen.conceptId].COMPLETED) { 
-        modules['Biospecimen Survey'].completed = true;
-    };
+    let modules = questionnaireModules();
+    modules = setModuleAttributes(data, modules);
 
 
     if(tab === 'todo'){
@@ -723,4 +666,111 @@ const checkIfComplete = (data) =>{
     };
     return false;
 
+}
+
+const checkForNewSurveys = async (data) => {
+
+    let template = ``;
+
+    let modules = questionnaireModules();
+    modules = setModuleAttributes(data, modules);
+
+    let availableSurveys = 0;
+    let newSurvey = false;
+    let knownSurveys;
+
+    
+
+    Object.keys(modules).forEach(mod => {
+        if(modules[mod].enabled && !modules[mod].completed) availableSurveys++;
+    });
+
+    if(data['566565527']) {
+        knownSurveys = data['566565527'];
+
+        if(knownSurveys < availableSurveys) {
+            newSurvey = true;
+        }
+    }
+    else {
+        newSurvey = true;
+    }
+
+    if(newSurvey) {
+        template += `
+            <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
+                You have a new survey to complete.
+            </div>
+        `;
+    }
+
+    let obj = {
+        566565527: availableSurveys
+    }
+
+    storeResponse(obj);
+
+    return template;
+}
+
+const setModuleAttributes = (data, modules) => {
+
+
+    modules['First Survey'] = {};
+    modules['First Survey'].description = 'This survey is split into four sections that ask about a wide range of topics, including information about your medical history, family, work, and health behaviors. You can answer all of the questions at one time, or pause and return to complete the survey later. If you pause, your answers will be saved so you can pick up where you left off. You can skip any questions that you do not want to answer.';
+    modules['First Survey'].hasIcon = false;
+    modules['First Survey'].noButton = true;
+    modules['Background and Overall Health'].header = 'Background and Overall Health'; 
+    modules['Background and Overall Health'].description = 'Questions about you, your medical history, and your family history.';
+    modules['Background and Overall Health'].estimatedTime = '20 to 30 minutes'
+    modules['Medications, Reproductive Health, Exercise, and Sleep'].header = 'Medications, Reproductive Health, Exercise, and Sleep'; 
+    modules['Medications, Reproductive Health, Exercise, and Sleep'].description = 'Questions about your current and past use of medications, your exercise and sleep habits, and your reproductive health.';
+    modules['Medications, Reproductive Health, Exercise, and Sleep'].estimatedTime = '20 to 30 minutes'
+    modules['Smoking, Alcohol, and Sun Exposure'].header = 'Smoking, Alcohol, and Sun Exposure'; 
+    modules['Smoking, Alcohol, and Sun Exposure'].description = 'Questions about your use of tobacco, nicotine, marijuana, and alcohol, as well as your sun exposure.';
+    modules['Smoking, Alcohol, and Sun Exposure'].estimatedTime = '20 to 30 minutes'
+    modules["Where You Live and Work"].header = 'Where You Live and Work';
+    modules["Where You Live and Work"].description  = 'Questions about places where you have lived and worked, and your commute to school or work.'
+    modules['Where You Live and Work'].estimatedTime = '20 to 30 minutes'
+    modules['Enter SSN'].header = 'Your Social Security Number (SSN)'
+    modules['Enter SSN'].description = 'We may use your Social Security number when we collect information from important data sources like health registries to match information from these sources to you. We protect your privacy every time we ask for information about you from other sources. Providing your Social Security number is optional.';
+    modules['Enter SSN'].hasIcon = false;
+    modules['Enter SSN'].noButton = false;
+    modules['Enter SSN'].estimatedTime = 'Less than 5 minutes'
+
+    modules['Biospecimen Survey'].header = 'Baseline Blood, Urine, and Mouthwash Sample Survey';
+    modules['Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples, and your history of COVID-19. ';
+    modules['Biospecimen Survey'].estimatedTime = '10 to 15 minutes';
+
+    //if module 1 exists and completed
+    //modules["Smoking, Alcohol, and Sun Exposure"].unreleased = true;
+    //modules["Where You Live and Work"].unreleased = true;
+    
+    if (data[fieldMapping.Module1.conceptId] && data[fieldMapping.Module1.conceptId].COMPLETED) { 
+        modules["Smoking, Alcohol, and Sun Exposure"].enabled = true;
+        modules["Where You Live and Work"].enabled = true;
+        modules['Medications, Reproductive Health, Exercise, and Sleep'].enabled = true;
+        modules['Background and Overall Health'].completed = true;
+    };
+    if (data[fieldMapping.Module2.conceptId] && data[fieldMapping.Module2.conceptId].COMPLETED) { 
+        modules['Medications, Reproductive Health, Exercise, and Sleep'].completed = true;
+    };
+    if (data[fieldMapping.Module3.conceptId] && data[fieldMapping.Module3.conceptId].COMPLETED) { 
+        modules['Smoking, Alcohol, and Sun Exposure'].completed = true;
+    };
+    if (data[fieldMapping.Module4.conceptId] && data[fieldMapping.Module4.conceptId].COMPLETED) { 
+        modules["Where You Live and Work"].completed  = true;
+    };
+    if ((data[fieldMapping.verification] && data[fieldMapping.verification] == fieldMapping.verified)) { 
+        modules['Enter SSN'].enabled = true;
+    };
+    if (data[fieldMapping.ModuleSsn.conceptId] && data[fieldMapping.ModuleSsn.conceptId].COMPLETED) { 
+        modules['Enter SSN'].completed = true;
+    };
+    if (data[fieldMapping.Biospecimen.conceptId] && data[fieldMapping.Biospecimen.conceptId].COMPLETED) { 
+        modules['Biospecimen Survey'].completed = true;
+    };
+
+
+    return modules;
 }
