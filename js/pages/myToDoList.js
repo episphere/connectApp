@@ -390,6 +390,10 @@ const renderMainBody = (data, tab) => {
     if(data['331584571'] && data['331584571']['266600170'] && data['331584571']['266600170']['840048338']) {
         toDisplaySystem.unshift({'body':['Biospecimen Survey']});
     }
+
+    if(data['D_299215535'] && data['D_299215535']['D_112151599'] && data['D_299215535']['D_112151599'] === 353358909) {
+        toDisplaySystem.unshift({'body':['Menstrual Cycle']})
+    }
     
     let modules = questionnaireModules();
     modules = setModuleAttributes(data, modules);
@@ -720,18 +724,23 @@ const setModuleAttributes = (data, modules) => {
     modules['First Survey'].description = 'This survey is split into four sections that ask about a wide range of topics, including information about your medical history, family, work, and health behaviors. You can answer all of the questions at one time, or pause and return to complete the survey later. If you pause, your answers will be saved so you can pick up where you left off. You can skip any questions that you do not want to answer.';
     modules['First Survey'].hasIcon = false;
     modules['First Survey'].noButton = true;
+    
     modules['Background and Overall Health'].header = 'Background and Overall Health'; 
     modules['Background and Overall Health'].description = 'Questions about you, your medical history, and your family history.';
     modules['Background and Overall Health'].estimatedTime = '20 to 30 minutes'
+    
     modules['Medications, Reproductive Health, Exercise, and Sleep'].header = 'Medications, Reproductive Health, Exercise, and Sleep'; 
     modules['Medications, Reproductive Health, Exercise, and Sleep'].description = 'Questions about your current and past use of medications, your exercise and sleep habits, and your reproductive health.';
     modules['Medications, Reproductive Health, Exercise, and Sleep'].estimatedTime = '20 to 30 minutes'
+    
     modules['Smoking, Alcohol, and Sun Exposure'].header = 'Smoking, Alcohol, and Sun Exposure'; 
     modules['Smoking, Alcohol, and Sun Exposure'].description = 'Questions about your use of tobacco, nicotine, marijuana, and alcohol, as well as your sun exposure.';
     modules['Smoking, Alcohol, and Sun Exposure'].estimatedTime = '20 to 30 minutes'
+    
     modules["Where You Live and Work"].header = 'Where You Live and Work';
     modules["Where You Live and Work"].description  = 'Questions about places where you have lived and worked, and your commute to school or work.'
     modules['Where You Live and Work'].estimatedTime = '20 to 30 minutes'
+    
     modules['Enter SSN'].header = 'Your Social Security Number (SSN)'
     modules['Enter SSN'].description = 'We may use your Social Security number when we collect information from important data sources like health registries to match information from these sources to you. We protect your privacy every time we ask for information about you from other sources. Providing your Social Security number is optional.';
     modules['Enter SSN'].hasIcon = false;
@@ -741,6 +750,10 @@ const setModuleAttributes = (data, modules) => {
     modules['Biospecimen Survey'].header = 'Baseline Blood, Urine, and Mouthwash Sample Survey';
     modules['Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples, and your history of COVID-19. ';
     modules['Biospecimen Survey'].estimatedTime = '10 to 15 minutes';
+
+    modules['Menstrual Cycle'].header = 'Menstrual Cycle';
+    modules['Menstrual Cycle'].description = 'Questions about menstrual cycle. ';
+    modules['Menstrual Cycle'].estimatedTime = '5 minutes';
 
     //if module 1 exists and completed
     //modules["Smoking, Alcohol, and Sun Exposure"].unreleased = true;
