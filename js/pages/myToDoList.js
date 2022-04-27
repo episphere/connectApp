@@ -235,7 +235,7 @@ export const myToDoList = async (data, fromUserProfile) => {
                 const surveyMessage = await checkForNewSurveys(data);
 
                 if(surveyMessage) {
-                    templateContent = surveyMessage + templateContent;
+                    template += surveyMessage;
                 }
                 
                 if(topMessage.trim() !== ""){
