@@ -1,4 +1,4 @@
-import { storeResponse, getMyData, urls,storeResponseQuest, showAnimation, hideAnimation } from "../shared.js";
+import { storeResponse, getMyData, urls,storeResponseQuest, showAnimation, hideAnimation, addEventReturnToDashboard, removeMenstrualCycleData } from "../shared.js";
 import fieldMapping from '../components/fieldToConceptIdMapping.js'; 
 //import { transform } from 'https://episphere.github.io/quest/replace2.js';
 //for local testing use URL like such http://localhost:5001/replace2.js and http://localhost:5001/questionnaire.js
@@ -191,6 +191,56 @@ function soccerFunction(){
             buildHTML(soccerResults, occ, responseElement);
         });
     }
+
+    let menstrualCycle = document.getElementById("MENS1");
+    if (menstrualCycle) {
+        menstrualCycle.addEventListener("submit", async (e) => {
+            if(e.target.value == 104430631) {
+                let rootElement = document.getElementById('root');
+                rootElement.innerHTML = `
+                
+                <div class="row" style="margin-top:50px">
+                    <div class = "col-md-1">
+                    </div>
+                    <div class = "col-md-10">
+                        <div class="progress">
+                            <div id="questProgBar" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <div class = "col-md-1">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class = "col-md-1">
+                    </div>
+                    <div class = "col-md-10" id="questionnaireRoot">
+                        Thank you. we will check back in with you soon.
+                        <br>
+                        <br>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-5 col-md-3 col-sm-3">
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                </div>
+                                <div class="col-lg-1 col-md-3 col-sm-3">
+                                    <button type="button" id="returnToDashboard" class="next">OK</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class = "col-md-1">
+                    </div>
+                </div>
+                
+                `;
+
+                await removeMenstrualCycleData();
+                addEventReturnToDashboard();
+            }         
+        });
+    }
+
     hideAnimation();
 }
 //BUILDING SOCCER

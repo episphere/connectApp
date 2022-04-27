@@ -130,6 +130,7 @@ export const storeResponse = async (formData) => {
 
     console.log("beginning of storeResponse()");
     formData = conceptIdMapping(formData);
+    formData = clientFilterData(formData);
     const idToken = await new Promise((resolve, reject) => {
         const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             unsubscribe();
@@ -879,8 +880,8 @@ export const questionnaireModules = () => {
             'Smoking, Alcohol, and Sun Exposure': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/module3Stage.txt', moduleId:"Module3", enabled:false},
             'Where You Live and Work': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/module4Stage.txt', moduleId:"Module4", enabled:false},
             'Enter SSN': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/ssnModule.txt', moduleId:"ModuleSsn", enabled:false},
-            'Biospecimen Survey': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/moduleBiospecimenStage.txt', moduleId:"Biospecimen", enabled:true},
-            'Menstrual Cycle': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/moduleMenstrualStage.txt', moduleId:"MenstrualCycle", enabled:true}
+            'Biospecimen Survey': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/moduleBiospecimenStage.txt', moduleId:"Biospecimen", enabled:false},
+            'Menstrual Cycle': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/moduleMenstrualStage.txt', moduleId:"MenstrualCycle", enabled:false}
         }
     }
 }
@@ -1097,4 +1098,27 @@ export const checkDerivedConcepts = async (data) => {
     if(Object.keys(updates).length > 0) {
         await storeResponse(updates);
     }
+}
+
+export const addEventReturnToDashboard = () => {
+    document.getElementById('returnToDashboard').addEventListener('click', () => {
+        location.reload();
+    });
+}
+
+export const removeMenstrualCycleData = async () => {
+
+    localforage.removeItem("D_912367929");
+    localforage.removeItem("D_912367929.treeJSON");
+
+    let formData = {};
+    formData["D_912367929"] = {};
+    storeResponse(formData);
+}
+
+const clientFilterData = (formData) => {
+
+    if(formData["D_912367929.MENS1"] && formData["D_912367929.MENS1"] == 104430631) delete formData["D_912367929.MENS1"];
+
+    return formData;
 }

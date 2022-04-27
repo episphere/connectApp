@@ -235,7 +235,7 @@ export const myToDoList = async (data, fromUserProfile) => {
                 const surveyMessage = await checkForNewSurveys(data);
 
                 if(surveyMessage) {
-                    templateContent = surveyMessage + templateContent;
+                    template += surveyMessage;
                 }
                 
                 if(topMessage.trim() !== ""){
@@ -381,23 +381,22 @@ const renderMainBody = (data, tab) => {
 
     let toDisplayKeys = ['First Survey', 'Background and Overall Health', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure', "Where You Live and Work",'Enter SSN']
     
+    let modules = questionnaireModules();
+    modules = setModuleAttributes(data, modules);
+    
     //let toDisplaySystem = [{'header':'Testing Survey', 'body':['TestModule']}, {'header':'First Survey', 'body': ['Background and Overall Health', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure', "Where You Live and Work"]}, {'body':['Enter SSN']}]
     let toDisplaySystem = [{'header':'First Survey', 'body': ['Background and Overall Health', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure', "Where You Live and Work"]}, {'body':['Enter SSN']}]
     if(data['821247024'] && data['821247024'] == 875007964){
         toDisplaySystem = [{'header':'First Survey', 'body': ['Background and Overall Health', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure', "Where You Live and Work"]}]
     }
 
-    if(data['331584571'] && data['331584571']['266600170'] && data['331584571']['266600170']['840048338']) {
+    if(modules['Biospecimen Survey'].enabled) {
         toDisplaySystem.unshift({'body':['Biospecimen Survey']});
     }
 
-    if(data['D_299215535'] && data['D_299215535']['D_112151599'] && data['D_299215535']['D_112151599'] === 353358909) {
+    if(modules['Menstrual Cycle'].enabled) {
         toDisplaySystem.unshift({'body':['Menstrual Cycle']})
     }
-    
-    let modules = questionnaireModules();
-    modules = setModuleAttributes(data, modules);
-
 
     if(tab === 'todo'){
         let hasModlesRemaining = false;
@@ -758,6 +757,14 @@ const setModuleAttributes = (data, modules) => {
     //if module 1 exists and completed
     //modules["Smoking, Alcohol, and Sun Exposure"].unreleased = true;
     //modules["Where You Live and Work"].unreleased = true;
+
+    if(data['331584571'] && data['331584571']['266600170'] && data['331584571']['266600170']['840048338']) {
+        modules['Biospecimen Survey'].enabled = true;
+    }
+
+    if(data['D_299215535'] && data['D_299215535']['D_112151599'] && data['D_299215535']['D_112151599'] == 353358909) {
+        modules['Menstrual Cycle'].enabled = true;
+    }
     
     if (data[fieldMapping.Module1.conceptId] && data[fieldMapping.Module1.conceptId].COMPLETED) { 
         modules["Smoking, Alcohol, and Sun Exposure"].enabled = true;
@@ -783,7 +790,9 @@ const setModuleAttributes = (data, modules) => {
     if (data[fieldMapping.Biospecimen.conceptId] && data[fieldMapping.Biospecimen.conceptId].COMPLETED) { 
         modules['Biospecimen Survey'].completed = true;
     };
-
+    if (data[fieldMapping.MenstrualCycle.conceptId] && data[fieldMapping.MenstrualCycle.conceptId].COMPLETED) { 
+        modules['Menstrual Cycle'].completed = true;
+    };
 
     return modules;
 }
