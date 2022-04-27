@@ -37,7 +37,8 @@ export default
     "Module4": {"conceptId":"D_716117817","startTs":"452942800", "completeTs": "264644252", "completeFlag":"663265240", "statusFlag":"663265240"},
     "TestModule": {"conceptId":"MockSurvey","startTs":"TESTSTARTTS", "completeTs": "TESTCOMPLETETS", "completeFlag":"TESTCOMPLETEFLAG", "statusFlag":"TESTSTATUSFLAG"},
     "ModuleSsn": {"conceptId":"D_166676176", "completeTs": "454067894", "completeFlag":"311580100"},
-    "Biospecimen": {"conceptId":"D_299215535","startTs":"822499427", "completeTs": "222161762", "completeFlag":"265193023", "statusFlag":"265193023"}
+    "Biospecimen": {"conceptId":"D_299215535","startTs":"822499427", "completeTs": "222161762", "completeFlag":"265193023", "statusFlag":"265193023"},
+    "MenstrualCycle": {"conceptId":"D_912367929","startTs":"844088537", "completeTs": "217640691", "completeFlag":"459098666", "statusFlag":"459098666"}
 }
 
 
