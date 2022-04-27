@@ -762,7 +762,7 @@ const setModuleAttributes = (data, modules) => {
         modules['Biospecimen Survey'].enabled = true;
     }
 
-    if(data['D_299215535'] && data['D_299215535']['D_112151599'] && data['D_299215535']['D_112151599'] == 353358909) {
+    if(data['D_299215535'] && data['D_299215535']['D_112151599'] && data['D_299215535']['D_112151599'] == 353358909 && data['265193023'] == 231311385) {
         modules['Menstrual Cycle'].enabled = true;
     }
     
