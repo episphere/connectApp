@@ -1,9 +1,10 @@
-import { storeResponse, getMyData, urls,storeResponseQuest, showAnimation, hideAnimation } from "../shared.js";
+import { storeResponse, getMyData, urls,storeResponseQuest, storeResponseTree, showAnimation, hideAnimation, addEventReturnToDashboard, removeMenstrualCycleData } from "../shared.js";
 import fieldMapping from '../components/fieldToConceptIdMapping.js'; 
 //import { transform } from 'https://episphere.github.io/quest/replace2.js';
 //for local testing use URL like such http://localhost:5001/replace2.js and http://localhost:5001/questionnaire.js
 import { transform } from 'https://episphere.github.io/quest/replace2.js';
 import { rbAndCbClick } from "https://episphere.github.io/quest/questionnaire.js";
+import { Tree } from "https://episphere.github.io/quest/tree.js"
 import { SOCcer as SOCcerProd } from "./../../prod/config.js";
 import { SOCcer as SOCcerStage } from "./../../stage/config.js";
 import { SOCcer as SOCcerDev } from "./../../dev/config.js";
@@ -35,7 +36,9 @@ export const   questionnaire = (url, moduleId) => {
     //add data into render previous answers
     //inputData = {"firstName":"Alaina","age":"55","SEX":["3"],"SEX2":["6"]};
 
-    getMyData().then(data => {
+    getMyData().then(async data => {
+        console.log('----This is my data--------')
+        console.log(data)
         showAnimation();
         let inputData = {};
         inputData["firstName"] = data.data[fieldMapping.fName];
@@ -64,9 +67,23 @@ export const   questionnaire = (url, moduleId) => {
             inputData["age"] = Math.abs(ageDate.getUTCFullYear() - 1970);
             inputData["AGE"] = Math.abs(ageDate.getUTCFullYear() - 1970);
         }
-        //console.log('--------------Input Data:-------------')
+
+        console.log('--------------Input Data:-------------')
+        
         //console.log(inputData);
-        //console.log(moduleId)
+        console.log(moduleId)
+        
+        let currModConcept = fieldMapping[moduleId]['conceptId']
+        console.log(currModConcept)
+        console.log(data.data[currModConcept])
+        console.log(data.data[currModConcept]['treeJSON'])
+        if(data.data[currModConcept] && data.data[currModConcept]['treeJSON']){
+            console.log(data.data[currModConcept]['treeJSON'])
+            //let questTree = Tree.fromJSON(data.data[currModConcept]['treeJSON'])
+            //await localforage.setItem(currModConcept + ".treeJSON", questTree)
+            console.log('finished adding treeJSON!')
+        }
+        console.log(data.data['D_745268907']['treeJSON'])
         let moduleConceptId = fieldMapping[`${moduleId}`].conceptId;
         let startTsConceptId = fieldMapping[`${moduleId}`].startTs;
         let statusConceptId = fieldMapping[`${moduleId}`].statusFlag;
@@ -77,13 +94,15 @@ export const   questionnaire = (url, moduleId) => {
             formData[`${statusConceptId}`] = 615768760;
             storeResponse(formData);
         }
-        
+        console.log('beginning load!')
         transform.render({
                 url: url,
                 activate: true,
                 store: storeResponse,
                 retrieve: getMyData,
-                soccer: soccerFunction
+                soccer: soccerFunction,
+                updateTree: storeResponseTree,
+                treeJSON: data.data[currModConcept]['treeJSON'],
             }, 'questionnaireRoot', inputData)
             .then(() => {
                 //Grid fix first
