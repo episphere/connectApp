@@ -1,6 +1,7 @@
 import { addEventHideNotification } from "./event.js";
 import fieldMapping from './components/fieldToConceptIdMapping.js'; 
 import { checkPaymentEligibility } from "https://episphere.github.io/dashboard/siteManagerDashboard/utils.js";
+import { Tree } from "https://episphere.github.io/quest/tree.js"
 
 export const urls = {
     'prod': 'myconnect.cancer.gov',
@@ -93,10 +94,44 @@ export const gridFiltering = (formData) => {
     }
 }
 
+//Store tree function being passed into quest
+export const storeResponseTree = async (questName, treeJSON) => {
+    
+    console.log("beginning of storeTree()");
+    let formData = {}
+    formData[questName + '.treeJSON'] = questionQueue.toJSON()
+    console.log(JSON.stringify(formData))
+
+    let ans = await storeResponse(formData)
+    console.log('ans')
+    console.log(ans)
+    console.log('ending storeTree')
+
+}
+
+//Attempting to store tree on push
 export const storeResponseQuest = async (formData) => {
 
+    console.log("beginning of storeResponse()");
     formData = conceptIdMapping(formData);
-    formData = gridFiltering(formData)
+    formData = clientFilterData(formData);
+    let currSet = new Set()
+    
+    for(const x in formData){
+        currSet.add(x.split('.')[0])
+    }
+    console.log(currSet)
+
+    for(let qName of currSet){
+        let tree = await localforage.getItem(qName + ".treeJSON")
+    
+        if (tree) {
+            let questionQueue = new Tree()
+            questionQueue.loadFromVanillaObject(tree)
+            formData[qName + '.treeJSON'] = questionQueue.toJSON()
+        }
+    }
+    console.log(JSON.stringify(formData))
     const idToken = await new Promise((resolve, reject) => {
         const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             unsubscribe();
@@ -124,13 +159,16 @@ export const storeResponseQuest = async (formData) => {
     else if(location.host === urls.stage) url = `https://api-myconnect-stage.cancer.gov/app?api=submit`
     else url = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app?api=submit'
     const response = await fetch(url, requestObj);
+    console.log("end of storeResponse()");
     return response.json();
 }
+
 export const storeResponse = async (formData) => {
 
     console.log("beginning of storeResponse()");
     formData = conceptIdMapping(formData);
     formData = clientFilterData(formData);
+    
     const idToken = await new Promise((resolve, reject) => {
         const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             unsubscribe();
@@ -969,7 +1007,7 @@ export const inactivityTime = (user) => {
 const signOut = () => {
 
     console.log("signing current user out!");
-
+    localforage.clear();
     firebase.auth().signOut();
     window.location.hash = '#';
     document.title = 'My Connect - Home';
