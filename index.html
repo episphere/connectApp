@@ -19,14 +19,6 @@
             gtag('config', measurementID);
         </script>
 
-        <script>
-            if(location.host !== 'myconnect.cancer.gov') {
-                const sentryScript = document.createElement('script');
-                sentryScript.src = 'https://browser.sentry-cdn.com/6.13.3/bundle.tracing.min.js';
-                document.head.appendChild(sentryScript);
-            }
-        </script>
-
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -40,7 +32,24 @@
         <link rel="stylesheet" href="./lib/bootstrap.min.css">
         <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
         <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Noto+Sans&display=swap" rel="stylesheet"> 
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Noto+Sans&display=swap" rel="stylesheet">
+        <script>
+            const userAgent = navigator.userAgent;
+            let browserName;
+            if(userAgent.match(/chrome|chromium|crios/i)){
+                browserName = "chrome";      
+            } else if (userAgent.match(/firefox/i)){
+                browserName = "firefox";
+            } else if(userAgent.match(/safari/i)){
+                browserName = "safari";
+            } else if(userAgent.match(/edg/i)){
+                browserName = "edge";
+            } else browserName = 'Not supported'
+            const isValidBrowser = /Chrome/i.test(browserName) || /Firefox/i.test(browserName) || /Safari/i.test(browserName) || /Edge/i.test(browserName);
+            if(!isValidBrowser){
+                alert('The MyConnect app is not supported on your browser. Please use Chrome, Edge, Safari or Firefox.');
+            }
+        </script> 
     </head>
     <body>
         <main>
@@ -114,19 +123,12 @@
         <script>
             if(location.host !== 'myconnect.cancer.gov') {
                 (function () {
-                    'use strict';
-                    Sentry.init({ dsn: 'https://04374c33d6d54911b0c28caea924a131@o1017362.ingest.sentry.io/6019591' });
-                    // function handleHelloClick() {
-                    //     try {
-                    //         throw new Error('Caught');
-                    //     } catch (err) {
-                    //         Sentry.captureException(err);
-                    //     }
-                    // }
-                    // function handleErrorClick() {
-                    //     throw new Error('Uncaught');
-                    // }
-                    // handleErrorClick()
+                    const sentryScript = document.createElement('script');
+                    sentryScript.src = 'https://browser.sentry-cdn.com/6.13.3/bundle.tracing.min.js';
+                    document.head.appendChild(sentryScript);
+                    sentryScript.addEventListener('load', () => {
+                        Sentry.init({ dsn: 'https://51d04e10ed614392b0558c49c072a42a@o1088108.ingest.sentry.io/6139074' });
+                    })
                 })();
             }
         </script>
