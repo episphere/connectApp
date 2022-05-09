@@ -95,6 +95,10 @@ export const   questionnaire = (url, moduleId) => {
             storeResponse(formData);
         }
         console.log('beginning load!')
+        let tJSON = undefined
+        if(data.data && data.data[currModConcept] && data.data[currModConcept]['treeJSON']){
+            tJSON = data.data[currModConcept]['treeJSON']
+        }
         transform.render({
                 url: url,
                 activate: true,
@@ -102,7 +106,7 @@ export const   questionnaire = (url, moduleId) => {
                 retrieve: getMyData,
                 soccer: soccerFunction,
                 updateTree: storeResponseTree,
-                treeJSON: data.data[currModConcept]['treeJSON'],
+                treeJSON: tJSON,
             }, 'questionnaireRoot', inputData)
             .then(() => {
                 //Grid fix first
