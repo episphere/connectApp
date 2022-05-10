@@ -47,7 +47,9 @@ window.onload = async () => {
     document.body.appendChild(script)
     auth = firebase.auth();
     auth.onAuthStateChanged(async user => {
+        //console.log('-------here it is----------')
         if(user){
+            localforage.clear()
             inactivityTime();
         }
     });

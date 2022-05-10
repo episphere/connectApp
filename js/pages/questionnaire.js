@@ -85,6 +85,9 @@ export const   questionnaire = (url, moduleId) => {
         if(data.data && data.data[currModConcept] && data.data[currModConcept]['treeJSON']){
             tJSON = data.data[currModConcept]['treeJSON']
         }
+        else{
+            localforage.clear()
+        }
         transform.render({
                 url: url,
                 activate: true,
