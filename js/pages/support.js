@@ -124,26 +124,6 @@ export const renderSupportPage = async () => {
                 <p>
                     You can also call ${phone} or email <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a>
                 </p>
-                <input type="time" style="size:20 !important"></input>
-                <br>
-                <input type="time"></input>
-                <br>
-                <input type="time" style="size:20px !important"></input>
-                <br>
-                <input type="time" style="size:100 !important"></input>
-                <br>
-                <input type="time" style="size:100px !important"></input>
-                <br>
-                <input type="time" style="height:30px !important; min-width: 150px;"></input>
-                <br>
-                <input type="time" style="height:30px !important"></input>
-                <br>
-                <input type="time" style="height:30px"></input>
-                <br>
-                <input type="time" style="min-height:30px"></input>
-
-
-
 
             </div>
             <!--
