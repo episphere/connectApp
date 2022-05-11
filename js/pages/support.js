@@ -124,6 +124,14 @@ export const renderSupportPage = async () => {
                 <p>
                     You can also call ${phone} or email <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a>
                 </p>
+                <input type="time" style="size:20 !important"></input>
+                <input type="time"></input>
+                <input type="time" style="size:20px !important"></input>
+                <input type="time" style="size:100 !important"></input>
+                <input type="time" style="size:100px !important"></input>
+
+
+
             </div>
             <!--
             <div class="col-md-12">
