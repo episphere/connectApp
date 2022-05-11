@@ -86,7 +86,7 @@ export const   questionnaire = (url, moduleId) => {
             tJSON = data.data[currModConcept]['treeJSON']
         }
         else{
-            localforage.clear()
+            await localforage.clear()
         }
         transform.render({
                 url: url,
