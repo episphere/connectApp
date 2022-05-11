@@ -1181,11 +1181,3 @@ h3 p{
 p{
     font-family: 'Noto Sans', sans-serif;
 }
-
-input[type="time"]:before {
-    content: 'My Placeholder';
-    color: #9d9d9d;
-    position: absolute;
-    background: #fff;
-    height: 18px;
-}
