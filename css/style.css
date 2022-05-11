@@ -1184,4 +1184,5 @@ p{
 
 input[type="time"] {
     min-height:30px;
+    min-width:60px;
 }
