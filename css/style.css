@@ -1181,3 +1181,7 @@ h3 p{
 p{
     font-family: 'Noto Sans', sans-serif;
 }
+
+input[type="time"] {
+    min-height:30px;
+}
