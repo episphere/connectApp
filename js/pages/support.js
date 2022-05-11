@@ -139,6 +139,8 @@ export const renderSupportPage = async () => {
                 <input type="time" style="height:30px !important"></input>
                 <br>
                 <input type="time" style="height:30px"></input>
+                <br>
+                <input type="time" style="min-height:30px"></input>
 
 
 
