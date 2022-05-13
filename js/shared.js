@@ -243,10 +243,11 @@ export const getMyCollections = async () => {
         });
     });
     let url = '';
-    //if(location.host === urls.prod) url = `https://api-myconnect.cancer.gov/app?api=getUserProfile`
-    //else if(location.host === urls.stage) url = `https://api-myconnect-stage.cancer.gov/app?api=getUserProfile`
-    //else 
-    url = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app?api=getUserCollections';
+
+    if(location.host === urls.prod) url = `https://api-myconnect.cancer.gov/app?api=getUserCollections`
+    else if(location.host === urls.stage) url = `https://api-myconnect-stage.cancer.gov/app?api=getUserCollections`
+    else url = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app?api=getUserCollections';
+
     const response = await fetch(url, {
         headers: {
             Authorization: "Bearer "+idToken
