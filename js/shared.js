@@ -166,11 +166,8 @@ export const storeResponseQuest = async (formData) => {
 export const storeResponse = async (formData) => {
 
     formData = conceptIdMapping(formData);
-<<<<<<< HEAD
-=======
     formData = clientFilterData(formData);
     
->>>>>>> a9e4675... adding the storeTree function to the questinnaire - fixing issue 19
     const idToken = await new Promise((resolve, reject) => {
         const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             unsubscribe();
@@ -972,12 +969,9 @@ export const inactivityTime = (user) => {
 };
 
 const signOut = () => {
-<<<<<<< HEAD
-=======
 
     console.log("signing current user out!");
     localforage.clear();
->>>>>>> a9e4675... adding the storeTree function to the questinnaire - fixing issue 19
     firebase.auth().signOut();
     window.location.hash = '#';
     document.title = 'My Connect - Home';
