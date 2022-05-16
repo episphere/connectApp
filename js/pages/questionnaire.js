@@ -70,13 +70,8 @@ export const   questionnaire = (url, moduleId) => {
 
         console.log('--------------Input Data:-------------')
         
-        //console.log(inputData);
-        console.log(moduleId)
-        
+        //console.log(inputData);        
         let currModConcept = fieldMapping[moduleId]['conceptId']
-        console.log(currModConcept)
-        console.log(data.data[currModConcept])
-        console.log(data.data[currModConcept]['treeJSON'])
         if(data.data[currModConcept] && data.data[currModConcept]['treeJSON']){
             console.log(data.data[currModConcept]['treeJSON'])
             //let questTree = Tree.fromJSON(data.data[currModConcept]['treeJSON'])
