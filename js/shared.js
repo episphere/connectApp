@@ -1058,3 +1058,10 @@ export const renderSyndicate = (url, element, page) => {
 
     });
 }
+
+const clientFilterData = (formData) => {
+
+    if(formData["D_912367929.MENS1"] && formData["D_912367929.MENS1"] == 104430631) delete formData["D_912367929.MENS1"];
+
+    return formData;
+}
