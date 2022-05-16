@@ -78,7 +78,6 @@ export const   questionnaire = (url, moduleId) => {
             //await localforage.setItem(currModConcept + ".treeJSON", questTree)
             console.log('finished adding treeJSON!')
         }
-        console.log(data.data['D_745268907']['treeJSON'])
         let moduleConceptId = fieldMapping[`${moduleId}`].conceptId;
         let startTsConceptId = fieldMapping[`${moduleId}`].startTs;
         let statusConceptId = fieldMapping[`${moduleId}`].statusFlag;
