@@ -70,7 +70,7 @@ export const   questionnaire = (url, moduleId) => {
 
         console.log('--------------Input Data:-------------')
         
-        //console.log(inputData);        
+        console.log(inputData);        
         let currModConcept = fieldMapping[moduleId]['conceptId']
         if(data.data[currModConcept] && data.data[currModConcept]['treeJSON']){
             console.log(data.data[currModConcept]['treeJSON'])
