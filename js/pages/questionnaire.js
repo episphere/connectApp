@@ -88,6 +88,11 @@ export const   questionnaire = (url, moduleId) => {
         else{
             await localforage.clear()
         }
+
+        console.log('----------------------Input Data-------------------------------')
+        console.log(inputData)
+
+
         transform.render({
                 url: url,
                 activate: true,
