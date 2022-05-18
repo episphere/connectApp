@@ -55,7 +55,12 @@ export const   questionnaire = (url, moduleId) => {
             inputData["D_750420077"] = data.data[fieldMapping['Module1'].conceptId]['D_750420077'];
         }
         if (data.data[fieldMapping['Module1'].conceptId] && data.data[fieldMapping['Module1'].conceptId]['D_289664241']){
-            inputData["D_289664241"] = data.data[fieldMapping['Module1'].conceptId]['D_289664241'];
+            if (data.data[fieldMapping['Module1'].conceptId]['D_289664241']['D_289664241']){
+                inputData["D_289664241"] = data.data[fieldMapping['Module1'].conceptId]['D_289664241']['D_289664241']
+            }
+            else{
+                inputData["D_289664241"] = data.data[fieldMapping['Module1'].conceptId]['D_289664241'];
+            }
         }
         let birthMonth =  data.data[fieldMapping.birthMonth];
         let birthDay =  data.data[fieldMapping.birthDay];
