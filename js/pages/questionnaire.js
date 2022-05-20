@@ -1,4 +1,4 @@
-import { storeResponse, getMyData, urls,storeResponseQuest, storeResponseTree, showAnimation, hideAnimation } from "../shared.js";
+import { storeResponse, getMyData, urls,storeResponseQuest, storeResponseTree, showAnimation, hideAnimation, addEventReturnToDashboard, removeMenstrualCycleData } from "../shared.js";
 import fieldMapping from '../components/fieldToConceptIdMapping.js'; 
 //import { transform } from 'https://episphere.github.io/quest/replace2.js';
 //for local testing use URL like such http://localhost:5001/replace2.js and http://localhost:5001/questionnaire.js
@@ -55,7 +55,12 @@ export const   questionnaire = (url, moduleId) => {
             inputData["D_750420077"] = data.data[fieldMapping['Module1'].conceptId]['D_750420077'];
         }
         if (data.data[fieldMapping['Module1'].conceptId] && data.data[fieldMapping['Module1'].conceptId]['D_289664241']){
-            inputData["D_289664241"] = data.data[fieldMapping['Module1'].conceptId]['D_289664241'];
+            if (data.data[fieldMapping['Module1'].conceptId]['D_289664241']['D_289664241']){
+                inputData["D_289664241"] = data.data[fieldMapping['Module1'].conceptId]['D_289664241']['D_289664241']
+            }
+            else{
+                inputData["D_289664241"] = data.data[fieldMapping['Module1'].conceptId]['D_289664241'];
+            }
         }
         let birthMonth =  data.data[fieldMapping.birthMonth];
         let birthDay =  data.data[fieldMapping.birthDay];
@@ -78,10 +83,11 @@ export const   questionnaire = (url, moduleId) => {
             //await localforage.setItem(currModConcept + ".treeJSON", questTree)
             console.log('finished adding treeJSON!')
         }
+
         let moduleConceptId = fieldMapping[`${moduleId}`].conceptId;
         let startTsConceptId = fieldMapping[`${moduleId}`].startTs;
         let statusConceptId = fieldMapping[`${moduleId}`].statusFlag;
-        //console.log(data.data[moduleConceptId])
+
         if (!data.data[moduleConceptId] || !data.data[moduleConceptId][startTsConceptId]){
             let formData = {};
             formData[`${startTsConceptId}`] = new Date().toISOString();
@@ -96,6 +102,7 @@ export const   questionnaire = (url, moduleId) => {
         else{
             await localforage.clear()
         }
+
         transform.render({
                 url: url,
                 activate: true,
@@ -211,6 +218,56 @@ function soccerFunction(){
             buildHTML(soccerResults, occ, responseElement);
         });
     }
+
+    let menstrualCycle = document.getElementById("MENS1");
+    if (menstrualCycle) {
+        menstrualCycle.addEventListener("submit", async (e) => {
+            if(e.target.value == 104430631) {
+                let rootElement = document.getElementById('root');
+                rootElement.innerHTML = `
+                
+                <div class="row" style="margin-top:50px">
+                    <div class = "col-md-1">
+                    </div>
+                    <div class = "col-md-10">
+                        <div class="progress">
+                            <div id="questProgBar" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <div class = "col-md-1">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class = "col-md-1">
+                    </div>
+                    <div class = "col-md-10" id="questionnaireRoot">
+                        Thank you. we will check back in with you soon.
+                        <br>
+                        <br>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-5 col-md-3 col-sm-3">
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                </div>
+                                <div class="col-lg-1 col-md-3 col-sm-3">
+                                    <button type="button" id="returnToDashboard" class="next">OK</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class = "col-md-1">
+                    </div>
+                </div>
+                
+                `;
+
+                await removeMenstrualCycleData();
+                addEventReturnToDashboard();
+            }         
+        });
+    }
+
     hideAnimation();
 }
 //BUILDING SOCCER
