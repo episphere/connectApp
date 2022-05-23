@@ -1039,12 +1039,12 @@ export const initializeCanvas = (file, customScale) => {
     if(window.innerWidth < 700) scale = 0.7;
     if(customScale) scale = customScale
     drawCanvas(file,scale);
-    window.addEventListener('resize', () => {
+    /*window.addEventListener('resize', () => {
         let scale = 1;
         if(window.innerWidth > 1000) scale = 1.3;
         if(window.innerWidth < 700) scale = 0.7
         drawCanvas(file, scale);
-    }, false);
+    }, false);*/
 }
 
 const drawCanvas = (file, scale) => {
