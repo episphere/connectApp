@@ -683,6 +683,9 @@ export const consentConsentPage = async () => {
     let siteDict = siteAcronyms();
     let versionJSON = await fetch('./forms/Consent_versioning.json').then(res => res.json());
     let participantSite = siteDict[myData.data['827220437']];
+    if(participantSite == 'NCI'){
+        participantSite = 'HP'
+    }
     template += `
         <div class="row">
             <div class="col-lg-2">
@@ -833,7 +836,7 @@ export const consentConsentPage = async () => {
             document.getElementById('CSConsentNameSignContainer').style.display="none"
         }
     });
-    
+
     let formNameConsent= './forms/consent/'  + participantSite + '_Consent_' + versionJSON[participantSite]['Consent'] + '.pdf';
     let formNameHIPAA = './forms/HIPAA/'  + participantSite + '_HIPAA_' + versionJSON[participantSite]['HIPAA'] + '.pdf';
     //let formName = './forms/consent/' + myData.data[454205108] + '.pdf'
