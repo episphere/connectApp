@@ -683,9 +683,9 @@ export const consentConsentPage = async () => {
     let siteDict = siteAcronyms();
     let versionJSON = await fetch('./forms/Consent_versioning.json').then(res => res.json());
     let participantSite = siteDict[myData.data['827220437']];
-    if(participantSite == 'NCI'){
+    /*if(participantSite == 'NCI'){
         participantSite = 'HP'
-    }
+    }*/
     template += `
         <div class="row">
             <div class="col-lg-2">
