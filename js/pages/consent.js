@@ -683,6 +683,9 @@ export const consentConsentPage = async () => {
     let siteDict = siteAcronyms();
     let versionJSON = await fetch('./forms/Consent_versioning.json').then(res => res.json());
     let participantSite = siteDict[myData.data['827220437']];
+    if(participantSite == 'NCI'){
+        //participantSite = 'HP'
+    }
     template += `
         <div class="row">
             <div class="col-lg-2">
@@ -833,7 +836,7 @@ export const consentConsentPage = async () => {
             document.getElementById('CSConsentNameSignContainer').style.display="none"
         }
     });
-    
+
     let formNameConsent= './forms/consent/'  + participantSite + '_Consent_' + versionJSON[participantSite]['Consent'] + '.pdf';
     let formNameHIPAA = './forms/HIPAA/'  + participantSite + '_HIPAA_' + versionJSON[participantSite]['HIPAA'] + '.pdf';
     //let formName = './forms/consent/' + myData.data[454205108] + '.pdf'
@@ -1039,12 +1042,12 @@ export const initializeCanvas = (file, customScale) => {
     if(window.innerWidth < 700) scale = 0.7;
     if(customScale) scale = customScale
     drawCanvas(file,scale);
-    window.addEventListener('resize', () => {
+    /*window.addEventListener('resize', () => {
         let scale = 1;
         if(window.innerWidth > 1000) scale = 1.3;
         if(window.innerWidth < 700) scale = 0.7
         drawCanvas(file, scale);
-    }, false);
+    }, false);*/
 }
 
 const drawCanvas = (file, scale) => {
@@ -1074,12 +1077,12 @@ export const initializeCanvas1 = (file, customScale) => {
     if(window.innerWidth < 700) scale = 0.7;
     if(customScale) scale = customScale
     drawCanvas1(file,scale);
-    window.addEventListener('resize', () => {
+    /*window.addEventListener('resize', () => {
         let scale = 1;
         if(window.innerWidth > 1000) scale = 1.3;
         if(window.innerWidth < 700) scale = 0.7
         drawCanvas1(file, scale);
-    }, false);
+    }, false);*/
 }
 
 const drawCanvas1 = (file, scale) => {
