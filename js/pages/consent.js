@@ -697,6 +697,12 @@ export const consentConsentPage = async () => {
             <div style="width:80%; margin:auto">
                 <h4 class="consentSubheader" style="margin-top:50px">Informed Consent Form</h4>
                 <p class="consentBodyFont2" style="text-indent:40px">This form explains in detail what it means to take part in Connect.</p>
+                <div>
+                    <button id="prev">Previous</button>
+                    <button id="next">Next</button>
+                    &nbsp; &nbsp;
+                    <span>Page: <span id="page_num"></span> / <span id="page_count"></span></span>
+                </div>
                 <div id="canvasContainer"></div>
                 <div class="row"style="margin:auto"><div style="margin:auto"><a href="${'./forms/consent/'  + participantSite + '_Consent_' + versionJSON[participantSite]['Consent'] + '.pdf'}" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf" class="consentBodyFont2"> Download an unsigned copy of the informed consent form&nbsp<i class="fas fa-file-download"></i></a></div></div>
                 
@@ -876,7 +882,6 @@ export const consentHealthRecordsPage = () => {
     const mainContent = document.getElementById('root');
     let template = renderProgress(10);
     template += ` 
-       
         <div class="row" id="canvasContainer"></div>
         <div class="row"><div style="margin:auto"><a href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf">Download consent form:&nbsp<i class="fas fa-file-download"></i></a></div></div>
         <form id="consentForm" method="POST">
@@ -1044,7 +1049,10 @@ export const initializeCanvas = (file, customScale) => {
     if(window.innerWidth > 1000) scale = 1.3;
     if(window.innerWidth < 700) scale = 0.7;
     if(customScale) scale = customScale
-    drawCanvas(file,scale);
+    drawCanvasPage(file,scale);
+    document.getElementById('prev').addEventListener('click', onPrevPage);
+    document.getElementById('next').addEventListener('click', onNextPage);
+
     /*window.addEventListener('resize', () => {
         let scale = 1;
         if(window.innerWidth > 1000) scale = 1.3;
@@ -1074,6 +1082,89 @@ const drawCanvas = (file, scale) => {
     });
 }
 
+var pdfDoc = null,
+    pageNum = 1,
+    pageRendering = false,
+    pageNumPending = null,
+    scale = 0.8,
+    canvas = document.getElementById('the-canvas')
+
+function renderPage(num) {
+    pageRendering = true;
+    // Using promise to fetch the page
+    pdfDoc.getPage(num).then(function(page) {
+      var viewport = page.getViewport(scale);
+      canvas.height = viewport.height;
+      canvas.width = viewport.width;
+  
+      // Render PDF page into canvas context
+      var renderContext = {
+        canvasContext: canvas.getContext('2d'),
+        viewport: viewport
+      };
+      var renderTask = page.render(renderContext);
+  
+      // Wait for rendering to finish
+      renderTask.promise.then(function() {
+        pageRendering = false;
+        if (pageNumPending !== null) {
+          // New page rendering is pending
+          renderPage(pageNumPending);
+          pageNumPending = null;
+        }
+      });
+    });
+  
+    // Update page counters
+    document.getElementById('page_num').textContent = num;
+  }
+
+function queueRenderPage(num) {
+    if (pageRendering) {
+      pageNumPending = num;
+    } else {
+      renderPage(num);
+    }
+  }
+  
+  /**
+   * Displays previous page.
+   */
+  function onPrevPage() {
+    if (pageNum <= 1) {
+      return;
+    }
+    pageNum--;
+    queueRenderPage(pageNum);
+  }
+  
+  /**
+   * Displays next page.
+   */
+  function onNextPage() {
+    if (pageNum >= pdfDoc.numPages) {
+      return;
+    }
+    pageNum++;
+    queueRenderPage(pageNum);
+  }
+  
+  /**
+   * Asynchronously downloads PDF.
+   */
+const drawCanvasPage = (file,scale) => {
+    pdfjsLib.getDocument(file).promise.then(function(pdfDoc_) {
+        pdfDoc = pdfDoc_;
+        let viewer = document.getElementById('canvasContainer');
+        if(!viewer) return;
+        document.getElementById('page_count').textContent = pdfDoc.numPages;
+        canvas = document.createElement("canvas");
+        canvas.className = 'pdf-page-canvas';         
+        viewer.appendChild(canvas);
+        // Initial/first page rendering
+        renderPage(pageNum);
+    });
+}
 export const initializeCanvas1 = (file, customScale) => {
     let scale = 1;
     if(window.innerWidth > 1000) scale = 1.3;
