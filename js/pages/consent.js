@@ -836,8 +836,11 @@ export const consentConsentPage = async () => {
             document.getElementById('CSConsentNameSignContainer').style.display="none"
         }
     });
-
+    
     let formNameConsent= './forms/consent/'  + participantSite + '_Consent_' + versionJSON[participantSite]['Consent'] + '.pdf';
+    if(participantSite == 'NCI'){
+        formNameConsent = './forms/consent/A17_FlightPlan.pdf'
+    }
     let formNameHIPAA = './forms/HIPAA/'  + participantSite + '_HIPAA_' + versionJSON[participantSite]['HIPAA'] + '.pdf';
     //let formName = './forms/consent/' + myData.data[454205108] + '.pdf'
     //initializeCanvas(formNameConsent, .8*1.7);
