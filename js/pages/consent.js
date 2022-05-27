@@ -1118,7 +1118,7 @@ function renderPage(num, pageIndicator, pdfDoc, viewer) {
       canvas.height = viewport.height;
       canvas.width = viewport.width;
       
-      viewer.style = `min-height:${viewport.height}px; max-height:${viewport.height + 50}px;`
+      viewer.style = `min-height:${Math.min(viewport.height, 500)}px;max-height:${Math.min(viewport.height + 50, 500)}px;`
       // Render PDF page into canvas context
       var renderContext = {
         canvasContext: canvas.getContext('2d'),
