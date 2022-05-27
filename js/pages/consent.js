@@ -1113,16 +1113,24 @@ function renderPage(num, pageIndicator, pdfDoc, viewer) {
       let canvas = document.createElement("canvas");
       canvas.className = 'pdf-page-canvas';         
       viewer.appendChild(canvas);
-      console.log('consoleWidth: ' + viewer.clientWidth + ', ' +page.getViewport(1.0))
-      var viewport = page.getViewport(viewer.clientWidth / page.getViewport(1.0).width);
+      //console.log('consoleWidth: ' + viewer.clientWidth + ', ' +viewer.clientWidth / page.getViewport(1.0).width)
+      var viewport = page.getViewport(Math.max(viewer.clientWidth / page.getViewport(1.0).width, 0.7));
+      var rect = canvas.getBoundingClientRect();
+      //canvas.width = Math.round (devicePixelRatio * rect.right)
+        //        - Math.round (devicePixelRatio * rect.left);
       canvas.height = viewport.height;
       canvas.width = viewport.width;
-      
+      //canvas.height = Math.round (devicePixelRatio * rect.bottom)
+      //          - Math.round (devicePixelRatio * rect.top);
       viewer.style = `min-height:${Math.min(viewport.height, 500)}px;max-height:${Math.min(viewport.height + 50, 500)}px;`
+      //console.log(canvas.height + ', ' + canvas.width)
+
+      
       // Render PDF page into canvas context
       var renderContext = {
         canvasContext: canvas.getContext('2d'),
-        viewport: viewport
+        viewport: viewport,
+        //transform: [2,0,0,2,0,0]
       };
       var renderTask = page.render(renderContext);
 
