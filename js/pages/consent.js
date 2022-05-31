@@ -1114,14 +1114,15 @@ function renderPage(num, pageIndicator, pdfDoc, viewer) {
       canvas.className = 'pdf-page-canvas';         
       viewer.appendChild(canvas);
       //console.log('consoleWidth: ' + viewer.clientWidth + ', ' +viewer.clientWidth / page.getViewport(1.0).width)
-      var viewport = page.getViewport(Math.max(viewer.clientWidth / page.getViewport(1.0).width, 0.7));
+      //var viewport = page.getViewport(Math.max(viewer.clientWidth / page.getViewport(1.0).width, 0.7));
+      var viewport = page.getViewport(viewer.clientWidth / page.getViewport(1.0).width);
       //canvas.width = Math.round (devicePixelRatio * rect.right)
         //        - Math.round (devicePixelRatio * rect.left);
       //canvas.style = `height:${viewport.height}px; width:${viewport.width}px;`
       canvas.style.height = viewport.height + 'px';
       canvas.style.width = viewport.width + 'px';
-      canvas.height = 2*viewport.height;
-      canvas.width = 2*viewport.width;
+      canvas.height = 3*viewport.height;
+      canvas.width = 3*viewport.width;
       
       //canvas.height = Math.round (devicePixelRatio * rect.bottom)
       //          - Math.round (devicePixelRatio * rect.top);
@@ -1133,7 +1134,7 @@ function renderPage(num, pageIndicator, pdfDoc, viewer) {
       var renderContext = {
         canvasContext: canvas.getContext('2d'),
         viewport: viewport,
-        transform: [2,0,0,2,0,0]
+        transform: [3,0,0,3,0,0]
       };
       var renderTask = page.render(renderContext);
 
