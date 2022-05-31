@@ -204,6 +204,7 @@ export const sites = () => {
             531629870: 'HealthPartners',
             548392715: 'Henry Ford Health System',
             303349821: 'Marshfield Clinic Health System',
+            809703864: 'University of Chicago Medicine',
             125001209: 'Kaiser Permanente Colorado',
             452412599: 'Kaiser Permanente Northwest',
             327912200: 'Kaiser Permanente Georgia',
