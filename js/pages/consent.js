@@ -1126,7 +1126,7 @@ function renderPage(num, pageIndicator, pdfDoc, viewer) {
       
       //canvas.height = Math.round (devicePixelRatio * rect.bottom)
       //          - Math.round (devicePixelRatio * rect.top);
-      viewer.style = `min-height:${Math.min(viewport.height, 500)}px;max-height:${Math.min(viewport.height + 50, 500)}px;`
+      viewer.style = `min-height:${Math.min(viewport.height, 500)}px;max-height:${Math.min(viewport.height+10, 500)}px;`
       //console.log(canvas.height + ', ' + canvas.width)
 
       
