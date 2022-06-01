@@ -1,7 +1,7 @@
 import { getParameters, validateToken, userLoggedIn, getMyData, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, verifyPaymentEligibility, checkDerivedConcepts } from "./js/shared.js";
 import { userNavBar, homeNavBar } from "./js/components/navbar.js";
 import { homePage, joinNowBtn, whereAmIInDashboard, renderHomeAboutPage, renderHomeExpectationsPage, renderHomePrivacyPage } from "./js/pages/homePage.js";
-import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser } from "./js/event.js";
+import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser, addEventToggleSubmit } from "./js/event.js";
 import { requestPINTemplate } from "./js/pages/healthCareProvider.js";
 import { myToDoList } from "./js/pages/myToDoList.js";
 import {renderNotificationsPage} from "./js/pages/notifications.js"
@@ -291,6 +291,7 @@ const userProfile = () => {
                 mainContent.innerHTML = requestPINTemplate();
                 addEventPinAutoUpperCase();
                 addEventRequestPINForm(user.metadata.a);
+                addEventToggleSubmit();
                 hideAnimation();
             }
         }
