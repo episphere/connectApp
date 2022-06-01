@@ -2,7 +2,7 @@ import { hideAnimation, questionnaireModules, storeResponse, sites } from "../sh
 import { blockParticipant, questionnaire } from "./questionnaire.js";
 import { renderUserProfile } from "../components/form.js";
 import { consentTemplate, initializeCanvas, addEventConsentSubmit } from "./consent.js";
-import { addEventsConsentSign, addEventHeardAboutStudy, addEventRequestPINForm, addEventHealthCareProviderSubmit, addEventPinAutoUpperCase, addEventHealthProviderModalSubmit } from "../event.js";
+import { addEventsConsentSign, addEventHeardAboutStudy, addEventRequestPINForm, addEventHealthCareProviderSubmit, addEventPinAutoUpperCase, addEventHealthProviderModalSubmit, addEventToggleSubmit } from "../event.js";
 import { heardAboutStudy, requestPINTemplate, healthCareProvider } from "./healthCareProvider.js";
 import fieldMapping from '../components/fieldToConceptIdMapping.js'; 
 
@@ -346,6 +346,7 @@ export const myToDoList = async (data, fromUserProfile) => {
         addEventPinAutoUpperCase();
         let user = firebase.auth().currentUser;
         addEventRequestPINForm(user.metadata.a);
+        addEventToggleSubmit();
         hideAnimation();
     }
     else{

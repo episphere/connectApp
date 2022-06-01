@@ -997,6 +997,15 @@ export const addEventPinAutoUpperCase = () => {
     })
 }
 
+export const addEventToggleSubmit = () => {
+    const pin = document.getElementById('participantPIN');
+    pin.addEventListener('input', () => {
+        const pinValue = pin.value;
+        const submitButton = document.getElementById('pinSubmit');
+        submitButton.disabled = (!pinValue || pinValue == "");
+    })
+}
+
 export const addEventRequestPINForm = (accountCreatedAt) => {
     const form = document.getElementById('requestPINForm');
     form.addEventListener('submit', async e => {
@@ -1031,6 +1040,7 @@ export const addEventRequestPINForm = (accountCreatedAt) => {
             await generateNewToken();
             let formData = {};
             formData["335767902"] = (new Date(parseInt(accountCreatedAt))).toISOString(); // Store account creation time
+            formData["828729648"] = 353358909;
             await storeResponse(formData);
             hideAnimation();
             mainContent.innerHTML = healthCareProvider();
