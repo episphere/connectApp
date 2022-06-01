@@ -18,7 +18,7 @@ export const requestPINTemplate = () => {
                 <div class="form-group row">
                 <button type="submit" class="btn btn-primary save-data" id="noPinSubmit">I do not have a PIN</button>&nbsp;&nbsp;
                     <div class="ml-auto">
-                        <button type="submit" class="btn btn-primary save-data consentNextButton" id="pinSubmit">Submit</button>
+                        <button type="submit" disabled class="btn btn-primary save-data consentNextButton" id="pinSubmit">Submit</button>
                     </div>
                 </div>
                 </br></br>
