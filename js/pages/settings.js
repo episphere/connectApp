@@ -488,7 +488,6 @@ const changeEmail = (newEmail) =>{
     // Update successful.
         document.getElementById('changEmailGroup').style.display = 'none';
         document.getElementById('emailSuccess').style.display = 'block';
-        document.getElementsByTagName('changeEmail').style.display = 'block';
 
     }).catch(function(error) {
     // An error happened.
