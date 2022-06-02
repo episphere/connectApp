@@ -253,44 +253,6 @@ export const renderSettingsPage = async () => {
 
                     <br>
 
-                            <div class="row userProfileLinePaddings" >
-                                <div class="col">
-                                    <span class="userProfileBodyFonts">
-                                        Change Password
-                                    </span>
-                                </div>
-                                <div class="col">
-                                    <button id="changePass" class="btn btn-primary save-data consentNextButton" style="float:right;">Change Password</button>
-                                </div>
-                                
-                            </div>
-                            <div class="row userProfileLinePaddings" id="changPassGroup" style="display:none;">
-                                <div class="col">
-                                    <input type="password" id="newPassField" placeholder="Enter new password"/>
-                                    <br>
-                                    <br>
-                                    <input type="password" id="newPassFieldCheck" placeholder="Re-enter new password"/>
-                                    <br>
-                                    <br>
-                                    <button id="changePassSubmit" class="btn btn-primary save-data consentNextButton">Change Password</button>
-                                </div>
-                            </div>
-                            <div class="row userProfileLinePaddings" id="passwordSuccess" style="display:none;">
-                                <div class="col">
-                                    <span class="userProfileBodyFonts">
-                                        Password Change Success!
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="row userProfileLinePaddings" id="passwordFail" style="display:none;">
-                                <div class="col">
-                                    <span id="passError" class="userProfileBodyFonts" style="color:red;">
-                                        Password Change Failed!
-                                    </span>
-                                </div>
-                            </div>
-                            
-
                         ` : ''}
                     </div>
                 </div>
@@ -415,21 +377,8 @@ export const renderSettingsPage = async () => {
         //addEventEditName(myData);
         addEventEditUP(myData.data);
 
-        document.getElementById('changePass').addEventListener('click', () => {
-            document.getElementById('changPassGroup').style.display = "block"
-        })
         document.getElementById('changeEmail').addEventListener('click', () => {
             document.getElementById('changEmailGroup').style.display = "block"
-        })
-        document.getElementById('changePassSubmit').addEventListener('click', () => {
-            //document.getElementById('changPassGroup').style.display = "block"
-            let pass = document.getElementById('newPassField').value
-            let passConfirm = document.getElementById('newPassFieldCheck').value
-            if(pass === passConfirm){
-                changePass(pass)
-            }
-            else{
-            }
         })
     
         document.getElementById('changeEmailSubmit').addEventListener('click', () => {
@@ -529,27 +478,6 @@ const addEventEditName = (myData) => {
         })
         hideAnimation();
     })
-}
-
-const changePass = (newPassword) =>{
-    var user = firebase.auth().currentUser;
-    //var newPassword = getASecureRandomPassword();
-
-    user.updatePassword(newPassword).then(function() {
-    // Update successful.
-        document.getElementById('changPassGroup').style.display = 'none';
-        document.getElementById('passwordSuccess').style.display = 'block';
-        document.getElementsByTagName('changePass').style.display = 'block';
-
-    }).catch(function(error) {
-    // An error happened.
-        //console.log(error.message)
-        //document.getElementById('changPassGroup').style.display = 'none';
-        document.getElementById('passwordFail').style.display = 'block'
-        document.getElementById('passError').innerHTML = error.message;
-
-    });
-
 }
 
 const changeEmail = (newEmail) =>{
