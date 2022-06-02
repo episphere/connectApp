@@ -489,7 +489,6 @@ const changeEmail = async (newEmail) =>{
     // Update successful.
         document.getElementById('changEmailGroup').style.display = 'none';
         document.getElementById('emailSuccess').style.display = 'block';
-        document.getElementsByTagName('changeEmail').style.display = 'block';
 
         const emailData = {
             '421823980': newEmail 
