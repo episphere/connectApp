@@ -873,9 +873,9 @@ export const consentConsentPage = async () => {
 
     showAnimation()
     initializeForm(formNameConsent, 'pdfContainer')
-    //let formConsentEncoded = encodeURIComponent(formNameConsent)
-    //console.log(formConsentEncoded)
-    document.getElementById('pdfIframeContainer').src = `${formNameConsent}`
+    let formConsentEncoded = encodeURIComponent('https://github.com/episphere/connectApp/raw/master/forms/consent/HP_Consent_V1.0.pdf')
+    console.log(formConsentEncoded)
+    document.getElementById('pdfIframeContainer').src = `https://docs.google.com/viewer?url=${'https://github.com/episphere/connectApp/raw/master/forms/consent/HP_Consent_V1.0.pdf'}&embedded=true`
     initializeForm(formNameHIPAA, 'pdfContainer1')
     //await initializeCanvas(formNameConsent, 1, 'canvasContainer','nextConsent', 'prevConsent' ,'page_num_Consent', 'page_count_Consent');
     //await initializeCanvas(formNameHIPAA, 1, 'canvasContainer1','nextHIPAA', 'prevHIPAA' ,'page_num_HIPAA', 'page_count_HIPAA');
