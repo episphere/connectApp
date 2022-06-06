@@ -62,6 +62,9 @@ export const   questionnaire = (url, moduleId) => {
                 inputData["D_289664241"] = data.data[fieldMapping['Module1'].conceptId]['D_289664241'];
             }
         }
+        if (data.data[fieldMapping['Module1'].conceptId] && data.data[fieldMapping['Module1'].conceptId]['D_784967158']){
+            inputData["D_784967158"] = data.data[fieldMapping['Module1'].conceptId]['D_784967158'];
+        }
         if (data.data[fieldMapping['Module1'].conceptId] && data.data[fieldMapping['Module1'].conceptId]['D_150344905']){
             inputData["D_150344905"] = data.data[fieldMapping['Module1'].conceptId]['D_150344905'];
         }
