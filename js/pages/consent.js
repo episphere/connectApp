@@ -4,8 +4,8 @@ import { removeAllErrors, addEventsConsentSign } from "../event.js";
 import { renderDownloadConsentCopy, renderDownloadHIPAA } from "./agreements.js";
 
 export const consentTemplate = () => {
-    consentWelcomePage();
-    //consentConsentPage();
+    //consentWelcomePage();
+    consentConsentPage();
     //consentFinishedPage();
 }
 
@@ -723,6 +723,8 @@ export const consentConsentPage = async () => {
                 </div>
                 -->
                 <!--<div id="canvasContainer1">-->
+                <iframe id="pdfIframeContainer" style="width:100%; height:700px;" frameborder="0"></iframe>
+
                     <object id="pdfContainer1" style="height:500px; width:100%"></object>
                 <!--</div>-->
                 <div class="row" style="margin:auto"><div style="margin:auto"><a href="${'./forms/HIPAA/'  + participantSite + '_HIPAA_' + versionJSON[participantSite]['HIPAA'] + '.pdf'}" title="Download health records release form" data-toggle="tooltip" download="connect_hipaa.pdf" class="consentBodyFont2">Download an unsigned copy of the release form&nbsp<i class="fas fa-file-download"></i></a></div></div>
@@ -871,6 +873,9 @@ export const consentConsentPage = async () => {
 
     showAnimation()
     initializeForm(formNameConsent, 'pdfContainer')
+    //let formConsentEncoded = encodeURIComponent(formNameConsent)
+    //console.log(formConsentEncoded)
+    document.getElementById('pdfIframeContainer').src = `${formNameConsent}`
     initializeForm(formNameHIPAA, 'pdfContainer1')
     //await initializeCanvas(formNameConsent, 1, 'canvasContainer','nextConsent', 'prevConsent' ,'page_num_Consent', 'page_count_Consent');
     //await initializeCanvas(formNameHIPAA, 1, 'canvasContainer1','nextHIPAA', 'prevHIPAA' ,'page_num_HIPAA', 'page_count_HIPAA');
