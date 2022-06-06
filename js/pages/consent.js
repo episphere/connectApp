@@ -1,4 +1,4 @@
-import { todaysDate, storeResponse, dataSavingBtn, dateTime, errorMessageConsent, siteAcronyms, getMyData } from "../shared.js";
+import { todaysDate, storeResponse, dataSavingBtn, dateTime, errorMessageConsent, siteAcronyms, getMyData, hideAnimation, showAnimation } from "../shared.js";
 import { renderUserProfile } from "../components/form.js";
 import { removeAllErrors, addEventsConsentSign } from "../event.js";
 import { renderDownloadConsentCopy, renderDownloadHIPAA } from "./agreements.js";
@@ -683,9 +683,11 @@ export const consentConsentPage = async () => {
     let siteDict = siteAcronyms();
     let versionJSON = await fetch('./forms/Consent_versioning.json').then(res => res.json());
     let participantSite = siteDict[myData.data['827220437']];
+    
     if(participantSite == 'NCI'){
         participantSite = 'HP'
     }
+    
     template += `
         <div class="row">
             <div class="col-lg-2">
@@ -703,7 +705,9 @@ export const consentConsentPage = async () => {
                     &nbsp; &nbsp;
                     <span>Page: <span id="page_num_Consent"></span> / <span id="page_count_Consent"></span></span>
                 </div>
-                <div id="canvasContainer"></div>
+                <!--<div id="canvasContainer">-->
+                    <object id="pdfContainer" style="height:500px; width:100%"></object>
+                <!--</div>-->
                 <div class="row"style="margin:auto"><div style="margin:auto"><a href="${'./forms/consent/'  + participantSite + '_Consent_' + versionJSON[participantSite]['Consent'] + '.pdf'}" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf" class="consentBodyFont2"> Download an unsigned copy of the informed consent form&nbsp<i class="fas fa-file-download"></i></a></div></div>
                 
                 <h4 class="consentSubheader" style="margin-top:50px">Electronic health records release (HIPAA Authorization) form</h4>
@@ -714,7 +718,9 @@ export const consentConsentPage = async () => {
                     &nbsp; &nbsp;
                     <span>Page: <span id="page_num_HIPAA"></span> / <span id="page_count_HIPAA"></span></span>
                 </div>
-                <div id="canvasContainer1"></div>
+                <!--<div id="canvasContainer1">-->
+                    <object id="pdfContainer1" style="height:500px; width:100%"></object>
+                <!--</div>-->
                 <div class="row" style="margin:auto"><div style="margin:auto"><a href="${'./forms/HIPAA/'  + participantSite + '_HIPAA_' + versionJSON[participantSite]['HIPAA'] + '.pdf'}" title="Download health records release form" data-toggle="tooltip" download="connect_hipaa.pdf" class="consentBodyFont2">Download an unsigned copy of the release form&nbsp<i class="fas fa-file-download"></i></a></div></div>
                 
                 
@@ -858,9 +864,13 @@ export const consentConsentPage = async () => {
     //let formName = './forms/consent/' + myData.data[454205108] + '.pdf'
     //initializeCanvas(formNameConsent, .8*1.7);
     //initializeCanvas1(formNameHIPAA, .8*1.7);
-    initializeCanvas(formNameConsent, 1, 'canvasContainer','nextConsent', 'prevConsent' ,'page_num_Consent', 'page_count_Consent');
-    initializeCanvas(formNameHIPAA, 1, 'canvasContainer1','nextHIPAA', 'prevHIPAA' ,'page_num_HIPAA', 'page_count_HIPAA');
 
+    showAnimation()
+    initializeForm(formNameConsent, 'pdfContainer')
+    initializeForm(formNameHIPAA, 'pdfContainer1')
+    //await initializeCanvas(formNameConsent, 1, 'canvasContainer','nextConsent', 'prevConsent' ,'page_num_Consent', 'page_count_Consent');
+    //await initializeCanvas(formNameHIPAA, 1, 'canvasContainer1','nextHIPAA', 'prevHIPAA' ,'page_num_HIPAA', 'page_count_HIPAA');
+    hideAnimation();
     //initializeCanvas1(formNameHIPAA);
     document.getElementById('backToConsent').addEventListener('click', () => {
         consentIndigenousPage();
@@ -884,7 +894,11 @@ export const consentConsentPage = async () => {
     */
 }
 
+const initializeForm = (formName, containerName) =>{
+    let ob = document.getElementById(containerName);
+    ob.data = formName
 
+}
 
 export const consentHealthRecordsPage = () => {
     window.scrollTo(0, 0);
@@ -1053,7 +1067,7 @@ export const consentToProfilePage = () => {
 
 }
 
-export const initializeCanvas = (file, customScale, canvasContainer,nextButton, prevButton,pageIndicator,pageMax) => {
+export const initializeCanvas = async (file, customScale, canvasContainer,nextButton, prevButton,pageIndicator,pageMax) => {
     let scale = 1;
     if(window.innerWidth > 1000) scale = 1.3;
     if(window.innerWidth < 700) scale = 0.7;
