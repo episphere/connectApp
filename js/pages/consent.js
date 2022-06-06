@@ -699,12 +699,14 @@ export const consentConsentPage = async () => {
             <div style="width:80%; margin:auto">
                 <h4 class="consentSubheader" style="margin-top:50px">Informed Consent Form</h4>
                 <p class="consentBodyFont2" style="text-indent:40px">This form explains in detail what it means to take part in Connect.</p>
+                <!--
                 <div style="margin-bottom:5px">
                     <button id="prevConsent" class="btn btn-primary">Previous</button>
                     <button id="nextConsent" class="btn btn-primary">Next</button>
                     &nbsp; &nbsp;
                     <span>Page: <span id="page_num_Consent"></span> / <span id="page_count_Consent"></span></span>
                 </div>
+                -->
                 <!--<div id="canvasContainer">-->
                     <object id="pdfContainer" style="height:500px; width:100%"></object>
                 <!--</div>-->
@@ -712,12 +714,14 @@ export const consentConsentPage = async () => {
                 
                 <h4 class="consentSubheader" style="margin-top:50px">Electronic health records release (HIPAA Authorization) form</h4>
                 <p class="consentBodyFont2" style="text-indent:40px">This allows Connect to access your electronic health records.</p>
+                <!--
                 <div style="margin-bottom:5px">
                     <button id="prevHIPAA" class="btn btn-primary">Previous</button>
                     <button id="nextHIPAA" class="btn btn-primary">Next</button>
                     &nbsp; &nbsp;
                     <span>Page: <span id="page_num_HIPAA"></span> / <span id="page_count_HIPAA"></span></span>
                 </div>
+                -->
                 <!--<div id="canvasContainer1">-->
                     <object id="pdfContainer1" style="height:500px; width:100%"></object>
                 <!--</div>-->
