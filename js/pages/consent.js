@@ -708,7 +708,8 @@ export const consentConsentPage = async () => {
                 </div>
                 -->
                 <!--<div id="canvasContainer">-->
-                    <object id="pdfContainer" style="height:500px; width:100%"></object>
+                <iframe id="pdfIframeContainer" src="https://docs.google.com/viewer?url=https://storage.googleapis.com/myconnect_app_stage/forms/consent/HP_Consent_V1.0.pdf&embedded=true" style="width:100%; height:500px;" frameborder="0"></iframe>
+                <!--<object id="pdfContainer" style="height:500px; width:100%"></object>-->
                 <!--</div>-->
                 <div class="row"style="margin:auto"><div style="margin:auto"><a href="${'./forms/consent/'  + participantSite + '_Consent_' + versionJSON[participantSite]['Consent'] + '.pdf'}" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf" class="consentBodyFont2"> Download an unsigned copy of the informed consent form&nbsp<i class="fas fa-file-download"></i></a></div></div>
                 
@@ -723,9 +724,8 @@ export const consentConsentPage = async () => {
                 </div>
                 -->
                 <!--<div id="canvasContainer1">-->
-                <iframe id="pdfIframeContainer" style="width:100%; height:700px;" frameborder="0"></iframe>
-
-                    <object id="pdfContainer1" style="height:500px; width:100%"></object>
+                <iframe id="pdfIframeContainer1" src="https://docs.google.com/viewer?url=https://storage.googleapis.com/myconnect_app_stage/forms/HIPAA/HP_HIPAA_V1.0.pdf&embedded=true" style="width:100%; height:500px;" frameborder="0"></iframe>
+                <!--<object id="pdfContainer1" style="height:500px; width:100%"></object>-->
                 <!--</div>-->
                 <div class="row" style="margin:auto"><div style="margin:auto"><a href="${'./forms/HIPAA/'  + participantSite + '_HIPAA_' + versionJSON[participantSite]['HIPAA'] + '.pdf'}" title="Download health records release form" data-toggle="tooltip" download="connect_hipaa.pdf" class="consentBodyFont2">Download an unsigned copy of the release form&nbsp<i class="fas fa-file-download"></i></a></div></div>
                 
@@ -872,11 +872,11 @@ export const consentConsentPage = async () => {
     //initializeCanvas1(formNameHIPAA, .8*1.7);
 
     showAnimation()
-    initializeForm(formNameConsent, 'pdfContainer')
-    let formConsentEncoded = encodeURIComponent('https://github.com/episphere/connectApp/raw/master/forms/consent/HP_Consent_V1.0.pdf')
-    console.log(formConsentEncoded)
-    document.getElementById('pdfIframeContainer').src = `https://docs.google.com/viewer?url=${'https://github.com/episphere/connectApp/raw/master/forms/consent/HP_Consent_V1.0.pdf'}&embedded=true`
-    initializeForm(formNameHIPAA, 'pdfContainer1')
+    //initializeForm(formNameConsent, 'pdfContainer')
+    //document.getElementById('pdfIframeContainer').src = `https://docs.google.com/viewer?url=${'https://storage.googleapis.com/myconnect_app_stage/forms/consent/HP_Consent_V1.0.pdf'}&embedded=true`
+    //document.getElementById('pdfIframeContainer').src = `https://docs.google.com/viewer?url=${'https://storage.googleapis.com/myconnect_app_stage/forms/HIPAA/HP_HIPAA_V1.0.pdf'}&embedded=true`
+
+    //initializeForm(formNameHIPAA, 'pdfContainer1')
     //await initializeCanvas(formNameConsent, 1, 'canvasContainer','nextConsent', 'prevConsent' ,'page_num_Consent', 'page_count_Consent');
     //await initializeCanvas(formNameHIPAA, 1, 'canvasContainer1','nextHIPAA', 'prevHIPAA' ,'page_num_HIPAA', 'page_count_HIPAA');
     hideAnimation();
