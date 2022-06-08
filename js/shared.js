@@ -1,5 +1,7 @@
 import { addEventHideNotification } from "./event.js";
 import fieldMapping from './components/fieldToConceptIdMapping.js'; 
+import { checkPaymentEligibility } from "https://episphere.github.io/dashboard/siteManagerDashboard/utils.js";
+import { Tree } from "https://episphere.github.io/quest/tree.js"
 
 export const urls = {
     'prod': 'myconnect.cancer.gov',
@@ -92,10 +94,44 @@ export const gridFiltering = (formData) => {
     }
 }
 
+//Store tree function being passed into quest
+export const storeResponseTree = async (questName, treeJSON) => {
+    
+    console.log("beginning of storeTree()");
+    let formData = {}
+    formData[questName + '.treeJSON'] = questionQueue.toJSON()
+    console.log(JSON.stringify(formData))
+
+    let ans = await storeResponse(formData)
+    console.log('ans')
+    console.log(ans)
+    console.log('ending storeTree')
+
+}
+
+//Attempting to store tree on push
 export const storeResponseQuest = async (formData) => {
 
+    console.log("beginning of storeResponse()");
     formData = conceptIdMapping(formData);
-    formData = gridFiltering(formData)
+    formData = clientFilterData(formData);
+    let currSet = new Set()
+    
+    for(const x in formData){
+        currSet.add(x.split('.')[0])
+    }
+    console.log(currSet)
+
+    for(let qName of currSet){
+        let tree = await localforage.getItem(qName + ".treeJSON")
+    
+        if (tree) {
+            let questionQueue = new Tree()
+            questionQueue.loadFromVanillaObject(tree)
+            formData[qName + '.treeJSON'] = questionQueue.toJSON()
+        }
+    }
+    console.log(JSON.stringify(formData))
     const idToken = await new Promise((resolve, reject) => {
         const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             unsubscribe();
@@ -123,11 +159,16 @@ export const storeResponseQuest = async (formData) => {
     else if(location.host === urls.stage) url = `https://api-myconnect-stage.cancer.gov/app?api=submit`
     else url = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app?api=submit'
     const response = await fetch(url, requestObj);
+    console.log("end of storeResponse()");
     return response.json();
 }
+
 export const storeResponse = async (formData) => {
 
+    console.log("beginning of storeResponse()");
     formData = conceptIdMapping(formData);
+    formData = clientFilterData(formData);
+    
     const idToken = await new Promise((resolve, reject) => {
         const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             unsubscribe();
@@ -155,6 +196,7 @@ export const storeResponse = async (formData) => {
     else if(location.host === urls.stage) url = `https://api-myconnect-stage.cancer.gov/app?api=submit`
     else url = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app?api=submit'
     const response = await fetch(url, requestObj);
+    console.log("end of storeResponse()");
     return response.json();
 }
 
@@ -177,6 +219,35 @@ export const getMyData = async () => {
     if(location.host === urls.prod) url = `https://api-myconnect.cancer.gov/app?api=getUserProfile`
     else if(location.host === urls.stage) url = `https://api-myconnect-stage.cancer.gov/app?api=getUserProfile`
     else url = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app?api=getUserProfile'
+    const response = await fetch(url, {
+        headers: {
+            Authorization: "Bearer "+idToken
+        }
+    })
+    return response.json();
+}
+
+export const getMyCollections = async () => {
+    const idToken = await new Promise((resolve, reject) => {
+        const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+            unsubscribe();
+            if (user) {
+                user.getIdToken().then((idToken) => {
+                    resolve(idToken);
+            }, (error) => {
+                resolve(null);
+            });
+            } else {
+            resolve(null);
+            }
+        });
+    });
+    let url = '';
+
+    if(location.host === urls.prod) url = `https://api-myconnect.cancer.gov/app?api=getUserCollections`
+    else if(location.host === urls.stage) url = `https://api-myconnect-stage.cancer.gov/app?api=getUserCollections`
+    else url = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app?api=getUserCollections';
+
     const response = await fetch(url, {
         headers: {
             Authorization: "Bearer "+idToken
@@ -845,10 +916,12 @@ export const questionnaireModules = () => {
     else{
         return {
             'Background and Overall Health': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/module1Stage.txt', moduleId:"Module1", enabled:true},
-            'Medications, Reproductive Health, Exercise, and Sleep': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/module2Dev.txt', moduleId:"Module2", enabled:false},
-            'Smoking, Alcohol, and Sun Exposure': {url: 'https://hzhao392.github.io/privatequest/test_module3.txt', moduleId:"Module3", enabled:false},
-            'Where You Live and Work': {url: 'https://hzhao392.github.io/privatequest/test_module4.txt', moduleId:"Module4", enabled:false},
-            'Enter SSN': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/ssnModule.txt', moduleId:"ModuleSsn", enabled:false}
+            'Medications, Reproductive Health, Exercise, and Sleep': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/module2Stage.txt', moduleId:"Module2", enabled:false},
+            'Smoking, Alcohol, and Sun Exposure': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/module3Stage.txt', moduleId:"Module3", enabled:false},
+            'Where You Live and Work': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/module4Stage.txt', moduleId:"Module4", enabled:false},
+            'Enter SSN': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/ssnModule.txt', moduleId:"ModuleSsn", enabled:false},
+            'Biospecimen Survey': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/moduleBiospecimenStage.txt', moduleId:"Biospecimen", enabled:false},
+            'Menstrual Cycle': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/moduleMenstrualStage.txt', moduleId:"MenstrualCycle", enabled:false}
         }
     }
 }
@@ -884,6 +957,9 @@ export const inactivityTime = (user) => {
                 Array.from(document.getElementsByClassName('extend-user-session')).forEach(e => {
                     e.click();
                 });
+
+                console.log("responseTimeout has been reached!");
+
                 signOut();
             }, 300000)
             // Show warning after 20 minutes of no activity.
@@ -904,6 +980,9 @@ export const inactivityTime = (user) => {
                                 <button type="button" title="Continue" class="btn btn-primary extend-user-session" data-dismiss="modal">Continue</button>
                             </div>`
             document.body.removeChild(button);
+
+            console.log("initial timeout has been reached!");
+
             Array.from(document.getElementsByClassName('log-out-user')).forEach(e => {
                 e.addEventListener('click', () => {
                     clearTimeout(time)
@@ -928,6 +1007,9 @@ export const inactivityTime = (user) => {
 };
 
 const signOut = () => {
+
+    console.log("signing current user out!");
+    localforage.clear();
     firebase.auth().signOut();
     window.location.hash = '#';
     document.title = 'My Connect - Home';
@@ -1013,4 +1095,70 @@ export const renderSyndicate = (url, element, page) => {
     hideAnimation();
 
     });
+}
+
+export const verifyPaymentEligibility = async (formData) => {
+
+    if(formData && formData['130371375'] && formData['130371375']['266600170']['731498909'] === 104430631) {
+
+        const responseCollections = await getMyCollections();
+        const responseCollectionsData = responseCollections.data;
+
+        if(!responseCollectionsData) return;
+
+        const baselineCollections = responseCollectionsData.filter(collection => collection['331584571'] === 266600170);
+
+        if(baselineCollections.length === 0) return;
+
+        const incentiveEligible = await checkPaymentEligibility(formData, baselineCollections);
+
+        if(incentiveEligible) {
+            const incentiveData = {
+                '130371375.266600170.731498909': 353358909,
+                '130371375.266600170.222373868': formData['827220437'] === 809703864 ? 104430631 : 353358909,
+                '130371375.266600170.787567527': new Date().toISOString(),
+            };
+
+            await storeResponse(incentiveData);
+        } 
+    }
+}
+
+export const checkDerivedConcepts = async (data) => {
+
+    let updates = {};
+
+    // all baseline surveys completed
+    if(!data['100767870']) {
+        if (data['949302066'] === 231311385 && data['536735468'] === 231311385 && data['976570371'] === 231311385 && data['663265240'] === 231311385) {
+            updates['100767870'] = 353358909;
+        }
+    }
+
+    if(Object.keys(updates).length > 0) {
+        await storeResponse(updates);
+    }
+}
+
+export const addEventReturnToDashboard = () => {
+    document.getElementById('returnToDashboard').addEventListener('click', () => {
+        location.reload();
+    });
+}
+
+export const removeMenstrualCycleData = async () => {
+
+    localforage.removeItem("D_912367929");
+    localforage.removeItem("D_912367929.treeJSON");
+
+    let formData = {};
+    formData["D_912367929"] = {};
+    storeResponse(formData);
+}
+
+const clientFilterData = (formData) => {
+
+    if(formData["D_912367929.MENS1"] && formData["D_912367929.MENS1"] == 104430631) delete formData["D_912367929.MENS1"];
+
+    return formData;
 }

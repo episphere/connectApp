@@ -1150,6 +1150,16 @@ input:checked + .slider:before {
     }  
 }
 
+@media (min-width: 500000px){
+    .d-xxl-block{
+        display: block!important;
+    }
+
+    .d-xxl-none{
+        display: none!important;
+    }
+}
+
 h1{
     font-family: 'Montserrat', sans-serif;
 }
@@ -1170,4 +1180,9 @@ h3 p{
 }
 p{
     font-family: 'Noto Sans', sans-serif;
+}
+
+input[type="time"] {
+    min-height:30px;
+    min-width:60px;
 }

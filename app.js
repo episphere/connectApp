@@ -1,4 +1,4 @@
-import { getParameters, validateToken, userLoggedIn, getMyData, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls } from "./js/shared.js";
+import { getParameters, validateToken, userLoggedIn, getMyData, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, verifyPaymentEligibility, checkDerivedConcepts } from "./js/shared.js";
 import { userNavBar, homeNavBar } from "./js/components/navbar.js";
 import { homePage, joinNowBtn, whereAmIInDashboard, renderHomeAboutPage, renderHomeExpectationsPage, renderHomePrivacyPage } from "./js/pages/homePage.js";
 import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser } from "./js/event.js";
@@ -17,6 +17,7 @@ import { firebaseConfig as devFirebaseConfig } from "./dev/config.js";
 import { firebaseConfig as stageFirebaseConfig } from "./stage/config.js";
 import { firebaseConfig as prodFirebaseConfig } from "./prod/config.js";
 import { consentToProfilePage } from "./js/pages/consent.js";
+import { checkDefaultFlags } from "https://episphere.github.io/dashboard/siteManagerDashboard/utils.js";
 
 let auth = '';
 
@@ -46,7 +47,9 @@ window.onload = async () => {
     document.body.appendChild(script)
     auth = firebase.auth();
     auth.onAuthStateChanged(async user => {
+        //console.log('-------here it is----------')
         if(user){
+            localforage.clear()
             inactivityTime();
         }
     });
@@ -159,10 +162,10 @@ const router = async () => {
         }
         if(['resetPassword', 'verifyEmail'].includes(parameters['mode'])) return;
     }
-
+    const data = await getMyData();
     let loggedIn = await userLoggedIn();
     const route =  window.location.hash || '#';
-    toggleNavBar(route);
+    toggleNavBar(route, data);
     let exceptions = ['#joining-connect','#after-you-join','#long-term-study-activities','#what-connect-will-do','#how-your-information-will-help-prevent-cancer','#why-connect-is-important','#what-to-expect-if-you-decide-to-join','#where-this-study-takes-place','#about-our-researchers','#a-resource-for-science']
     if(loggedIn === false){
         if(route === '#') homePage();
@@ -225,7 +228,17 @@ const userProfile = () => {
                     tmp['utm_id'] = parameters.utm_id;
                     await storeResponse(tmp);
                 }
+
+                await checkDerivedConcepts(userData.data);
             }
+
+            let defaultConcepts = checkDefaultFlags(userData.data);
+            if(Object.entries(defaultConcepts).length != 0) await storeResponse(defaultConcepts);
+
+            if(userData.code === 200 && userData.data['827220437']) {
+                await verifyPaymentEligibility(userData.data);
+            }
+
             window.history.replaceState({},'Dashboard', './#dashboard');
             if(user.email && !user.emailVerified){
                 const mainContent = document.getElementById('root');
@@ -294,11 +307,11 @@ const signOut = () => {
     document.title = 'My Connect - Home';
 }
 
-const toggleNavBar = (route) => {
+const toggleNavBar = (route, data) => {
     auth.onAuthStateChanged(async user => {
         if(user){
             showAnimation();
-            document.getElementById('navbarNavAltMarkup').innerHTML = userNavBar();
+            document.getElementById('navbarNavAltMarkup').innerHTML = userNavBar(data);
             document.getElementById('joinNow') ? document.getElementById('joinNow').innerHTML = joinNowBtn(false) : ``; 
             document.getElementById('signInWrapperDiv') ? document.getElementById('signInWrapperDiv').style.display = "none" :'';
             document.getElementById('nextStepWarning') ? document.getElementById('nextStepWarning').innerHTML = await whereAmIInDashboard() : '';
