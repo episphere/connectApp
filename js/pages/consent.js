@@ -4,8 +4,8 @@ import { removeAllErrors, addEventsConsentSign } from "../event.js";
 import { renderDownloadConsentCopy, renderDownloadHIPAA } from "./agreements.js";
 
 export const consentTemplate = () => {
-    //consentWelcomePage();
-    consentConsentPage();
+    consentWelcomePage();
+    //consentConsentPage();
     //consentFinishedPage();
 }
 
