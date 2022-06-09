@@ -708,8 +708,8 @@ export const consentConsentPage = async () => {
                 </div>
                 -->
                 <!--<div id="canvasContainer">-->
-                <iframe id="pdfIframeContainer" src="https://storage.googleapis.com/myconnect_app_stage/forms/consent/HP_Consent_V1.0.pdf" style="width:100%; height:500px;" frameborder="0"><span class="loader">Please wait...</span></iframe>
-                <object id="pdfContainer" data="https://storage.googleapis.com/myconnect_app_stage/forms/consent/HP_Consent_V1.0.pdf" style="height:500px; width:100%"></object>
+                <iframe id="pdfIframeContainer" src="${'./forms/consent/'  + participantSite + '_Consent_' + versionJSON[participantSite]['Consent'] + '.html'}" style="width:100%; height:500px;" frameborder="1px"><span class="loader">Please wait...</span></iframe>
+                <!--<object id="pdfContainer" data="https://storage.googleapis.com/myconnect_app_stage/forms/consent/HP_Consent_V1.0.pdf" style="height:500px; width:100%"></object>-->
                 <!--</div>-->
                 <div class="row"style="margin:auto"><div style="margin:auto"><a href="${'./forms/consent/'  + participantSite + '_Consent_' + versionJSON[participantSite]['Consent'] + '.pdf'}" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf" class="consentBodyFont2"> Download an unsigned copy of the informed consent form&nbsp<i class="fas fa-file-download"></i></a></div></div>
                 
@@ -724,7 +724,7 @@ export const consentConsentPage = async () => {
                 </div>
                 -->
                 <!--<div id="canvasContainer1">-->
-                <iframe id="pdfIframeContainer1" src="https://docs.google.com/viewer?url=https://storage.googleapis.com/myconnect_app_stage/forms/HIPAA/HP_HIPAA_V1.0.pdf&embedded=true" style="width:100%; height:500px;" frameborder="0"><span class="loader">Please wait...</span></iframe>
+                <iframe id="pdfIframeContainer1" src="${'./forms/HIPAA/'  + participantSite + '_HIPAA_' + versionJSON[participantSite]['HIPAA'] + '.html'}" style="width:100%; height:500px;" frameborder="1px"><span class="loader">Please wait...</span></iframe>
                 <!--<object id="pdfContainer1" style="height:500px; width:100%"></object>-->
                 <!--</div>-->
                 <div class="row" style="margin:auto"><div style="margin:auto"><a href="${'./forms/HIPAA/'  + participantSite + '_HIPAA_' + versionJSON[participantSite]['HIPAA'] + '.pdf'}" title="Download health records release form" data-toggle="tooltip" download="connect_hipaa.pdf" class="consentBodyFont2">Download an unsigned copy of the release form&nbsp<i class="fas fa-file-download"></i></a></div></div>
@@ -861,12 +861,29 @@ export const consentConsentPage = async () => {
             document.getElementById('CSConsentNameSignContainer').style.display="none"
         }
     });
+    
     let frame1 = document.getElementById("pdfIframeContainer")
     frame1.onload = function(){
+        frame1.contentWindow.document.body.style.padding = '10px'
+        frame1.contentWindow.document.body.querySelectorAll('p').forEach( pItem => {
+            console.log(pItem)
+            if(pItem.style && pItem.style['text-align'] == 'justify'){
+                console.log('HERE!')
+                pItem.style['text-align'] = 'left'
+            }
+        })
         console.log("iframe content loaded");
     };
     let frame2 = document.getElementById('pdfIframeContainer1')
     frame2.onload = function(){
+        frame2.contentWindow.document.body.style.padding = '10px'
+        frame2.contentWindow.document.body.querySelectorAll('p').forEach( pItem => {
+            console.log(pItem)
+            if(pItem.style && pItem.style['text-align'] == 'justify'){
+                console.log('HERE!')
+                pItem.style['text-align'] = 'left'
+            }
+        })
         console.log("iframe content loaded");
     };
     let formNameConsent= './forms/consent/'  + participantSite + '_Consent_' + versionJSON[participantSite]['Consent'] + '.pdf';
