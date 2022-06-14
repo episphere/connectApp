@@ -483,7 +483,8 @@ const addEventEditName = (myData) => {
 
 const changeEmail = async (newEmail) =>{
     var user = firebase.auth().currentUser;
-    //var newPassword = getASecureRandomPassword();
+    document.getElementById('emailFail').style.display = 'none';
+    document.getElementById('emailSuccess').style.display = 'none';
 
     await user.updateEmail(newEmail).then(function() {
     // Update successful.
@@ -501,8 +502,6 @@ const changeEmail = async (newEmail) =>{
 
     }).catch(function(error) {
     // An error happened.
-        //console.log(error.message)
-        //document.getElementById('changPassGroup').style.display = 'none';
         document.getElementById('emailFail').style.display = 'block'
         document.getElementById('emailError').innerHTML = error.message;
 
