@@ -216,8 +216,9 @@ export const renderSettingsPage = async () => {
                                 Email Address
                                 <br>
                                 <b>
-                                    ${userData['421823980']}</br>
+                                   <div id="profileEmailAddress">${userData['421823980']}</div>
                                 </b>
+                                </br>
                             </span>
                         </div>
                         <div class="col">
@@ -480,20 +481,27 @@ const addEventEditName = (myData) => {
     })
 }
 
-const changeEmail = (newEmail) =>{
+const changeEmail = async (newEmail) =>{
     var user = firebase.auth().currentUser;
-    //var newPassword = getASecureRandomPassword();
+    document.getElementById('emailFail').style.display = 'none';
+    document.getElementById('emailSuccess').style.display = 'none';
 
-    user.updateEmail(newEmail).then(function() {
+    await user.updateEmail(newEmail).then(function() {
     // Update successful.
         document.getElementById('changEmailGroup').style.display = 'none';
         document.getElementById('emailSuccess').style.display = 'block';
-        document.getElementsByTagName('changeEmail').style.display = 'block';
+
+        const emailData = {
+            '421823980': newEmail 
+        };
+
+        storeResponse(emailData).then(function(){
+            document.getElementById('profileEmailAddress').textContent = newEmail;
+        });
+
 
     }).catch(function(error) {
     // An error happened.
-        //console.log(error.message)
-        //document.getElementById('changPassGroup').style.display = 'none';
         document.getElementById('emailFail').style.display = 'block'
         document.getElementById('emailError').innerHTML = error.message;
 
