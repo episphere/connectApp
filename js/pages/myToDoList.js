@@ -737,7 +737,7 @@ const setModuleAttributes = (data, modules) => {
     modules['Smoking, Alcohol, and Sun Exposure'].description = 'Questions about your use of tobacco, nicotine, marijuana, and alcohol, as well as your sun exposure.';
     modules['Smoking, Alcohol, and Sun Exposure'].estimatedTime = '20 to 30 minutes'
     
-    modules['Where You Live and Work'].unreleased = true;
+    //modules['Where You Live and Work'].unreleased = true;
     modules["Where You Live and Work"].header = 'Where You Live and Work';
     modules["Where You Live and Work"].description  = 'Questions about places where you have lived and worked, and your commute to school or work.'
     modules['Where You Live and Work'].estimatedTime = '20 to 30 minutes'
@@ -752,7 +752,7 @@ const setModuleAttributes = (data, modules) => {
     modules['Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples, and your history of COVID-19. ';
     modules['Biospecimen Survey'].estimatedTime = '10 to 15 minutes';
 
-    modules['Menstrual Cycle'].unreleased = true;
+    //modules['Menstrual Cycle'].unreleased = true;
     modules['Menstrual Cycle'].header = 'Menstrual Cycle';
     modules['Menstrual Cycle'].description = 'Questions about menstrual cycle. ';
     modules['Menstrual Cycle'].estimatedTime = '5 minutes';
