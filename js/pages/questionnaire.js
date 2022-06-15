@@ -118,8 +118,8 @@ export const   questionnaire = (url, moduleId) => {
             await localforage.clear()
         }
         
-        const transform = await import(replace2Url);
-        transform.render({
+        let questJS = await import(replace2Url);
+        questJS.transform.render({
                 url: url,
                 activate: true,
                 store: storeResponse,
@@ -302,14 +302,14 @@ function buildHTML(soccerResults, question, responseElement) {
     }
     let questionText = document.createTextNode("Please identify the occupation category that best describes this job.");
     responseElement.append(questionText);
-    import(questionnaireJSUrl).then((rbAndCbClick) =>{
+    import(questionnaireJSUrl).then((questionnaireJS) =>{
         soccerResults.forEach((soc, indx) => {
         let resp = document.createElement("input");
         resp.type = "radio";
         resp.id = `${question.id}_${indx}`;
         resp.value = soc.code;
         resp.name = "SOCcerResults";
-        resp.onclick = rbAndCbClick;
+        resp.onclick = questionnaireJS.rbAndCbClick;
         let label = document.createElement("label");
         label.setAttribute("for", `${question.id}_${indx}`);
         label.innerText = soc.label;
@@ -321,7 +321,7 @@ function buildHTML(soccerResults, question, responseElement) {
         resp.id = `${question.id}_NOTA`;
         resp.value = "NONE_OF_THE_ABOVE";
         resp.name = "SOCcerResults";
-        resp.onclick = rbAndCbClick;
+        resp.onclick = questionnaireJS.rbAndCbClick;
         let label = document.createElement("label");
         label.setAttribute("for", `${question.id}_NOTA`);
         label.innerText = "NONE OF THE ABOVE";
