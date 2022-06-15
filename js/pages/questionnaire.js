@@ -9,14 +9,14 @@ import { SOCcer as SOCcerProd } from "./../../prod/config.js";
 import { SOCcer as SOCcerStage } from "./../../stage/config.js";
 import { SOCcer as SOCcerDev } from "./../../dev/config.js";
 
-let version = location.host !== urls.prod ? 'latest' : '1.0.0'
-
-let replace2Url = `https://cdn.jsdelivr.net/gh/episphere/quest@${version}/replace2.js`
-let questionnaireJSUrl = `https://cdn.jsdelivr.net/gh/episphere/quest@${version}/questionnaire.js`
 
 
 
 export const   questionnaire = (url, moduleId) => {
+    let version = location.host !== urls.prod ? 'latest' : '1.0.0'
+    let replace2Url = `https://cdn.jsdelivr.net/gh/episphere/quest@${version}/replace2.js`
+    let questionnaireJSUrl = `https://cdn.jsdelivr.net/gh/episphere/quest@${version}/questionnaire.js`
+
     let rootElement = document.getElementById('root');
     rootElement.innerHTML = `
     
@@ -288,6 +288,9 @@ function soccerFunction(){
 }
 //BUILDING SOCCER
 function buildHTML(soccerResults, question, responseElement) {
+    let version = location.host !== urls.prod ? 'latest' : '1.0.0'
+    let replace2Url = `https://cdn.jsdelivr.net/gh/episphere/quest@${version}/replace2.js`
+    let questionnaireJSUrl = `https://cdn.jsdelivr.net/gh/episphere/quest@${version}/questionnaire.js`
     if (responseElement) {
       let tmp = responseElement.cloneNode(false);
       question.replaceChild(tmp, responseElement);
