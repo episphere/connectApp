@@ -2,21 +2,13 @@ import { storeResponse, getMyData, urls,storeResponseQuest, storeResponseTree, s
 import fieldMapping from '../components/fieldToConceptIdMapping.js'; 
 //import { transform } from 'https://episphere.github.io/quest/replace2.js';
 //for local testing use URL like such http://localhost:5001/replace2.js and http://localhost:5001/questionnaire.js
-//import { transform } from 'https://episphere.github.io/quest/replace2.js';
-//import { rbAndCbClick } from "https://episphere.github.io/quest/questionnaire.js";
-//import { Tree } from "https://episphere.github.io/quest/tree.js"
+import { transform } from 'https://episphere.github.io/quest/replace2.js';
+import { rbAndCbClick } from "https://episphere.github.io/quest/questionnaire.js";
+import { Tree } from "https://episphere.github.io/quest/tree.js"
 import { SOCcer as SOCcerProd } from "./../../prod/config.js";
 import { SOCcer as SOCcerStage } from "./../../stage/config.js";
 import { SOCcer as SOCcerDev } from "./../../dev/config.js";
-
-
-
-
 export const   questionnaire = (url, moduleId) => {
-    let version = location.host !== urls.prod ? 'latest' : '1.0.0'
-    let replace2Url = `https://cdn.jsdelivr.net/gh/episphere/quest@${version}/replace2.js`
-    let questionnaireJSUrl = `https://cdn.jsdelivr.net/gh/episphere/quest@${version}/questionnaire.js`
-
     let rootElement = document.getElementById('root');
     rootElement.innerHTML = `
     
@@ -117,9 +109,8 @@ export const   questionnaire = (url, moduleId) => {
         else{
             await localforage.clear()
         }
-        
-        let questJS = await import(replace2Url);
-        questJS.transform.render({
+
+        transform.render({
                 url: url,
                 activate: true,
                 store: storeResponse,
@@ -288,9 +279,6 @@ function soccerFunction(){
 }
 //BUILDING SOCCER
 function buildHTML(soccerResults, question, responseElement) {
-    let version = location.host !== urls.prod ? 'latest' : '1.0.0'
-    let replace2Url = `https://cdn.jsdelivr.net/gh/episphere/quest@${version}/replace2.js`
-    let questionnaireJSUrl = `https://cdn.jsdelivr.net/gh/episphere/quest@${version}/questionnaire.js`
     if (responseElement) {
       let tmp = responseElement.cloneNode(false);
       question.replaceChild(tmp, responseElement);
@@ -302,32 +290,30 @@ function buildHTML(soccerResults, question, responseElement) {
     }
     let questionText = document.createTextNode("Please identify the occupation category that best describes this job.");
     responseElement.append(questionText);
-    import(questionnaireJSUrl).then((questionnaireJS) =>{
-        soccerResults.forEach((soc, indx) => {
-        let resp = document.createElement("input");
-        resp.type = "radio";
-        resp.id = `${question.id}_${indx}`;
-        resp.value = soc.code;
-        resp.name = "SOCcerResults";
-        resp.onclick = questionnaireJS.rbAndCbClick;
-        let label = document.createElement("label");
-        label.setAttribute("for", `${question.id}_${indx}`);
-        label.innerText = soc.label;
-        responseElement.append(resp, label);
-        });
-
-        let resp = document.createElement("input");
-        resp.type = "radio";
-        resp.id = `${question.id}_NOTA`;
-        resp.value = "NONE_OF_THE_ABOVE";
-        resp.name = "SOCcerResults";
-        resp.onclick = questionnaireJS.rbAndCbClick;
-        let label = document.createElement("label");
-        label.setAttribute("for", `${question.id}_NOTA`);
-        label.innerText = "NONE OF THE ABOVE";
-    
-        responseElement.append(resp, label);
-    })
+  
+    soccerResults.forEach((soc, indx) => {
+      let resp = document.createElement("input");
+      resp.type = "radio";
+      resp.id = `${question.id}_${indx}`;
+      resp.value = soc.code;
+      resp.name = "SOCcerResults";
+      resp.onclick = rbAndCbClick;
+      let label = document.createElement("label");
+      label.setAttribute("for", `${question.id}_${indx}`);
+      label.innerText = soc.label;
+      responseElement.append(resp, label);
+    });
+    let resp = document.createElement("input");
+    resp.type = "radio";
+    resp.id = `${question.id}_NOTA`;
+    resp.value = "NONE_OF_THE_ABOVE";
+    resp.name = "SOCcerResults";
+    resp.onclick = rbAndCbClick;
+    let label = document.createElement("label");
+    label.setAttribute("for", `${question.id}_NOTA`);
+    label.innerText = "NONE OF THE ABOVE";
+  
+    responseElement.append(resp, label);
   }
 
 export const blockParticipant = () => {
