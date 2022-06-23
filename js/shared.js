@@ -115,52 +115,31 @@ export const storeResponseQuest = async (formData) => {
     console.log("beginning of storeResponse()");
     formData = conceptIdMapping(formData);
     formData = clientFilterData(formData);
-    let currSet = new Set()
-    
-    for(const x in formData){
-        currSet.add(x.split('.')[0])
-    }
-    console.log(currSet)
-
-    for(let qName of currSet){
-        let tree = await localforage.getItem(qName + ".treeJSON")
-    
-        if (tree) {
-            let questionQueue = new Tree()
-            questionQueue.loadFromVanillaObject(tree)
-            formData[qName + '.treeJSON'] = questionQueue.toJSON()
+    let keys = Object.keys(formData)
+    let undefinedFound = false;
+    for(let k in keys){
+        if (formData[k] === undefined){
+            undefinedFound = true;
         }
     }
-    console.log(JSON.stringify(formData))
-    const idToken = await new Promise((resolve, reject) => {
-        const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
-            unsubscribe();
-            if (user) {
-                user.getIdToken().then((idToken) => {
-                    resolve(idToken);
-            }, (error) => {
-                resolve(null);
-            });
-            } else {
-            resolve(null);
+    if (undefinedFound === true) {
+        const response = await getMyData();
+        let retrievedData = {};
+        //take the response and store the deleted version in the backend
+        if(response){
+            let questName = keys[0].split('.')[0]
+            retrievedData[questName] = response.data[questName]
+            for(let k in keys){
+                if (formData[k] === undefined){
+                    delete retrievedData[questName][keys[k].split('.')[1]];
+
+                }
             }
-        });
-    });
-    let requestObj = {
-        method: "POST",
-        headers:{
-            Authorization:"Bearer "+idToken,
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(formData)
+            await storeResponse(retrievedData);
+            
+        }
     }
-    let url = '';
-    if(location.host === urls.prod) url = `https://api-myconnect.cancer.gov/app?api=submit`
-    else if(location.host === urls.stage) url = `https://api-myconnect-stage.cancer.gov/app?api=submit`
-    else url = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app?api=submit'
-    const response = await fetch(url, requestObj);
-    console.log("end of storeResponse()");
-    return response.json();
+    await storeResponse(formData)
 }
 
 export const storeResponse = async (formData) => {
