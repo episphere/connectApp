@@ -113,7 +113,7 @@ export const   questionnaire = (url, moduleId) => {
         transform.render({
                 url: url,
                 activate: true,
-                store: storeResponse,
+                store: storeResponseQuest,
                 retrieve: getMyData,
                 soccer: soccerFunction,
                 updateTree: storeResponseTree,
