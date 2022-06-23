@@ -111,14 +111,14 @@ export const storeResponseTree = async (questName, treeJSON) => {
 
 //Attempting to store tree on push
 export const storeResponseQuest = async (formData) => {
-
+    
     console.log("beginning of storeResponse()");
     formData = conceptIdMapping(formData);
     formData = clientFilterData(formData);
     let keys = Object.keys(formData)
     let undefinedFound = false;
     for(let k in keys){
-        if (formData[k] === undefined){
+        if (formData[keys[k]] === undefined){
             undefinedFound = true;
         }
     }
@@ -127,19 +127,29 @@ export const storeResponseQuest = async (formData) => {
         let retrievedData = {};
         //take the response and store the deleted version in the backend
         if(response){
+            console.log('slbdvsoivbeoibslkdbvslk')
             let questName = keys[0].split('.')[0]
+            
+            console.log(formData)
             retrievedData[questName] = response.data[questName]
             for(let k in keys){
-                if (formData[k] === undefined){
+                if (formData[keys[k]] === undefined){
+                    console.log(keys[k])
                     delete retrievedData[questName][keys[k].split('.')[1]];
 
                 }
+                else{
+                    retrievedData[questName][keys[k].split('.')[1]] = formData[keys[k]]
+                }
             }
-            await storeResponse(retrievedData);
+            console.log(retrievedData)
+            storeResponse(retrievedData);
             
         }
     }
-    await storeResponse(formData)
+    else{
+        storeResponse(formData)
+    }
 }
 
 export const storeResponse = async (formData) => {
