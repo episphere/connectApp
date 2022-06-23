@@ -133,13 +133,15 @@ export const storeResponseQuest = async (formData) => {
             console.log(formData)
             retrievedData[questName] = response.data[questName]
             for(let k in keys){
-                if (formData[keys[k]] === undefined){
-                    console.log(keys[k])
-                    delete retrievedData[questName][keys[k].split('.')[1]];
+                if(keys[k].split('.').length > 1){
+                    if (formData[keys[k]] === undefined){
+                        console.log(keys[k])
+                        delete retrievedData[questName][keys[k].split('.')[1]];
 
-                }
-                else{
-                    retrievedData[questName][keys[k].split('.')[1]] = formData[keys[k]]
+                    }
+                    else{
+                        retrievedData[questName][keys[k].split('.')[1]] = formData[keys[k]]
+                    }
                 }
             }
             console.log(retrievedData)
