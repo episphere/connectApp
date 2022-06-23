@@ -1147,7 +1147,7 @@ export const removeMenstrualCycleData = async () => {
 
 const clientFilterData = (formData) => {
 
-    if(formData["D_912367929.MENS1"] && formData["D_912367929.MENS1"] == 104430631) delete formData["D_912367929.MENS1"];
+    if(formData["D_912367929.D_951357171"] && formData["D_912367929.D_951357171"] == 104430631) delete formData["D_912367929.D_951357171"];
 
     return formData;
 }
