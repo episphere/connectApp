@@ -113,8 +113,6 @@ export const storeResponseTree = async (questName, treeJSON) => {
 export const storeResponseQuest = async (formData) => {
     
     console.log("beginning of storeResponse()");
-    formData = conceptIdMapping(formData);
-    formData = clientFilterData(formData);
     let keys = Object.keys(formData)
     let undefinedFound = false;
     for(let k in keys){
@@ -145,12 +143,12 @@ export const storeResponseQuest = async (formData) => {
                 }
             }
             console.log(retrievedData)
-            storeResponse(retrievedData);
+            await storeResponse(retrievedData);
             
         }
     }
     else{
-        storeResponse(formData)
+        await storeResponse(formData)
     }
 }
 
