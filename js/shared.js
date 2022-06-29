@@ -111,45 +111,15 @@ export const storeResponseTree = async (questName, treeJSON) => {
 
 //Attempting to store tree on push
 export const storeResponseQuest = async (formData) => {
-    
-    console.log("beginning of storeResponse()");
+    console.log('FORMDATA!!')
+    console.log(formData)
     let keys = Object.keys(formData)
-    let undefinedFound = false;
-    for(let k in keys){
-        if (formData[keys[k]] === undefined){
-            undefinedFound = true;
+    for (let k in keys){
+        if(formData[keys[k]] == undefined){
+            formData[keys[k]] = null;
         }
     }
-    if (undefinedFound === true) {
-        const response = await getMyData();
-        let retrievedData = {};
-        //take the response and store the deleted version in the backend
-        if(response){
-            console.log('slbdvsoivbeoibslkdbvslk')
-            let questName = keys[0].split('.')[0]
-            
-            console.log(formData)
-            retrievedData[questName] = response.data[questName]
-            for(let k in keys){
-                if(keys[k].split('.').length > 1){
-                    if (formData[keys[k]] === undefined){
-                        console.log(keys[k])
-                        delete retrievedData[questName][keys[k].split('.')[1]];
-
-                    }
-                    else{
-                        retrievedData[questName][keys[k].split('.')[1]] = formData[keys[k]]
-                    }
-                }
-            }
-            console.log(retrievedData)
-            await storeResponse(retrievedData);
-            
-        }
-    }
-    else{
-        await storeResponse(formData)
-    }
+    await storeResponse(formData)
 }
 
 export const storeResponse = async (formData) => {
