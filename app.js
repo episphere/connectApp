@@ -17,7 +17,6 @@ import { firebaseConfig as devFirebaseConfig } from "./dev/config.js";
 import { firebaseConfig as stageFirebaseConfig } from "./stage/config.js";
 import { firebaseConfig as prodFirebaseConfig } from "./prod/config.js";
 import { consentToProfilePage } from "./js/pages/consent.js";
-import { checkDefaultFlags } from "https://episphere.github.io/dashboard/siteManagerDashboard/utils.js";
 
 let auth = '';
 
@@ -231,9 +230,6 @@ const userProfile = () => {
 
                 await checkDerivedConcepts(userData.data);
             }
-
-            let defaultConcepts = checkDefaultFlags(userData.data);
-            if(Object.entries(defaultConcepts).length != 0) await storeResponse(defaultConcepts);
 
             if(userData.code === 200 && userData.data['827220437']) {
                 await verifyPaymentEligibility(userData.data);
