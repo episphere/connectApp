@@ -737,7 +737,7 @@ const setModuleAttributes = (data, modules) => {
     modules['Smoking, Alcohol, and Sun Exposure'].description = 'Questions about your use of tobacco, nicotine, marijuana, and alcohol, as well as your sun exposure.';
     modules['Smoking, Alcohol, and Sun Exposure'].estimatedTime = '20 to 30 minutes'
     
-    modules['Where You Live and Work'].unreleased = true;
+    //modules['Where You Live and Work'].unreleased = true;
     modules["Where You Live and Work"].header = 'Where You Live and Work';
     modules["Where You Live and Work"].description  = 'Questions about places where you have lived and worked, and your commute to school or work.'
     modules['Where You Live and Work'].estimatedTime = '20 to 30 minutes'
