@@ -1,7 +1,6 @@
 import { addEventHideNotification } from "./event.js";
 import fieldMapping from './components/fieldToConceptIdMapping.js'; 
-import { checkPaymentEligibility } from "https://episphere.github.io/dashboard/siteManagerDashboard/utils.js";
-import { Tree } from "https://episphere.github.io/quest/tree.js"
+import { workflows } from "https://cdn.jsdelivr.net/gh/episphere/biospecimen@master/src/tubeValidation.js";
 
 export const urls = {
     'prod': 'myconnect.cancer.gov',
@@ -1082,6 +1081,37 @@ export const verifyPaymentEligibility = async (formData) => {
         } 
     }
 }
+
+const checkPaymentEligibility = async (data, baselineCollections) => {
+  
+    if(baselineCollections.length === 0) return false;
+  
+    const module1 = (data['949302066'] && data['949302066'] === 231311385);
+    const module2 = (data['536735468'] && data['536735468'] === 231311385);
+    const module3 = (data['976570371'] && data['976570371'] === 231311385);
+    const module4 = (data['663265240'] && data['663265240'] === 231311385);
+    const bloodCollected = (data['878865966'] && data['878865966'] === 353358909);
+    const tubes = baselineCollections[0]['650516960'] === 534621077 ? workflows.research.filter(tube => tube.tubeType === 'Blood tube') : workflows.clinical.filter(tube => tube.tubeType === 'Blood tube');
+  
+    let eligible = false;
+  
+    if(module1 && module2 && module3 && module4) {
+      if(bloodCollected) {
+        eligible = true;
+      }    
+      else {
+        baselineCollections.forEach(collection => {
+          tubes.forEach(tube => {
+            if(collection[tube.concept] && collection[tube.concept]['883732523'] && collection[tube.concept]['883732523'] != 681745422) {
+              eligible = true;
+            }
+          });
+        });
+      }
+    }
+  
+    return eligible;
+  }
 
 export const checkDerivedConcepts = async (data) => {
 
