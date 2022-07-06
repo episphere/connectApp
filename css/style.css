@@ -1186,3 +1186,8 @@ input[type="time"] {
     min-height:30px;
     min-width:60px;
 }
+
+.popover-dismiss.btn{
+    padding:0;
+    vertical-align:inherit
+}
