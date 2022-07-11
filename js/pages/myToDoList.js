@@ -751,14 +751,10 @@ const setModuleAttributes = (data, modules) => {
     modules['Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples, and your history of COVID-19. ';
     modules['Biospecimen Survey'].estimatedTime = '10 to 15 minutes';
 
-    //modules['Menstrual Cycle'].unreleased = true;
+    modules['Menstrual Cycle'].unreleased = true;
     modules['Menstrual Cycle'].header = 'Menstrual Cycle';
     modules['Menstrual Cycle'].description = 'Questions about menstrual cycle. ';
     modules['Menstrual Cycle'].estimatedTime = '5 minutes';
-
-    //if module 1 exists and completed
-    //modules["Smoking, Alcohol, and Sun Exposure"].unreleased = true;
-    //modules["Where You Live and Work"].unreleased = true;
 
     if(data['331584571'] && data['331584571']['266600170'] && data['331584571']['266600170']['840048338']) {
         modules['Biospecimen Survey'].enabled = true;
