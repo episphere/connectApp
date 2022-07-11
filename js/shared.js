@@ -864,11 +864,13 @@ export const getConceptVariableName = async (conceptId) => {
 export const questionnaireModules = () => {
     if(location.host == urls.prod){
         return {
-            'Background and Overall Health': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/module1Prod.txt', moduleId:"Module1", enabled:true},
-            'Medications, Reproductive Health, Exercise, and Sleep': {url: 'https://raw.githubusercontent.com/jonasalmeida/privatequest/master/module2_concept_id.txt?token=AGOJYPCSF2MSVW75IPMQLHDBT5RDA', moduleId:"Module2", enabled:false},
-            'Smoking, Alcohol, and Sun Exposure': {url: 'https://hzhao392.github.io/privatequest/test_module3.txt', moduleId:"Module3", enabled:false},
-            'Where You Live and Work': {url: 'https://hzhao392.github.io/privatequest/test_module4.txt', moduleId:"Module4", enabled:false},
-            'Enter SSN': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/ssnModule.txt', moduleId:"ModuleSsn", enabled:false}
+            'Background and Overall Health': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/prod/module1.txt', moduleId:"Module1", enabled:true},
+            'Medications, Reproductive Health, Exercise, and Sleep': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/prod/module2.txt', moduleId:"Module2", enabled:false},
+            'Smoking, Alcohol, and Sun Exposure': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/prod/module3.txt', moduleId:"Module3", enabled:false},
+            'Where You Live and Work': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/prod/module4.txt', moduleId:"Module4", enabled:false},
+            'Enter SSN': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/prod/ssnModule.txt', moduleId:"ModuleSsn", enabled:false},
+            'Biospecimen Survey': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/prod/moduleBiospecimen.txt', moduleId:"Biospecimen", enabled:false},
+            'Menstrual Cycle': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/prod/moduleMenstrual.txt', moduleId:"MenstrualCycle", enabled:false}
         }
     }
     else{
