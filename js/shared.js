@@ -1,7 +1,6 @@
 import { addEventHideNotification } from "./event.js";
 import fieldMapping from './components/fieldToConceptIdMapping.js'; 
-import { checkPaymentEligibility } from "https://episphere.github.io/dashboard/siteManagerDashboard/utils.js";
-import { Tree } from "https://episphere.github.io/quest/tree.js"
+import { workflows } from "https://cdn.jsdelivr.net/gh/episphere/biospecimen@master/src/tubeValidation.js";
 
 export const urls = {
     'prod': 'myconnect.cancer.gov',
@@ -111,56 +110,15 @@ export const storeResponseTree = async (questName, treeJSON) => {
 
 //Attempting to store tree on push
 export const storeResponseQuest = async (formData) => {
-
-    console.log("beginning of storeResponse()");
-    formData = conceptIdMapping(formData);
-    formData = clientFilterData(formData);
-    let currSet = new Set()
-    
-    for(const x in formData){
-        currSet.add(x.split('.')[0])
-    }
-    console.log(currSet)
-
-    for(let qName of currSet){
-        let tree = await localforage.getItem(qName + ".treeJSON")
-    
-        if (tree) {
-            let questionQueue = new Tree()
-            questionQueue.loadFromVanillaObject(tree)
-            formData[qName + '.treeJSON'] = questionQueue.toJSON()
+    console.log('FORMDATA!!')
+    console.log(formData)
+    let keys = Object.keys(formData)
+    for (let k in keys){
+        if(formData[keys[k]] == undefined){
+            formData[keys[k]] = null;
         }
     }
-    console.log(JSON.stringify(formData))
-    const idToken = await new Promise((resolve, reject) => {
-        const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
-            unsubscribe();
-            if (user) {
-                user.getIdToken().then((idToken) => {
-                    resolve(idToken);
-            }, (error) => {
-                resolve(null);
-            });
-            } else {
-            resolve(null);
-            }
-        });
-    });
-    let requestObj = {
-        method: "POST",
-        headers:{
-            Authorization:"Bearer "+idToken,
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(formData)
-    }
-    let url = '';
-    if(location.host === urls.prod) url = `https://api-myconnect.cancer.gov/app?api=submit`
-    else if(location.host === urls.stage) url = `https://api-myconnect-stage.cancer.gov/app?api=submit`
-    else url = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app?api=submit'
-    const response = await fetch(url, requestObj);
-    console.log("end of storeResponse()");
-    return response.json();
+    await storeResponse(formData)
 }
 
 export const storeResponse = async (formData) => {
@@ -1126,6 +1084,37 @@ export const verifyPaymentEligibility = async (formData) => {
     }
 }
 
+const checkPaymentEligibility = async (data, baselineCollections) => {
+  
+    if(baselineCollections.length === 0) return false;
+  
+    const module1 = (data['949302066'] && data['949302066'] === 231311385);
+    const module2 = (data['536735468'] && data['536735468'] === 231311385);
+    const module3 = (data['976570371'] && data['976570371'] === 231311385);
+    const module4 = (data['663265240'] && data['663265240'] === 231311385);
+    const bloodCollected = (data['878865966'] && data['878865966'] === 353358909);
+    const tubes = baselineCollections[0]['650516960'] === 534621077 ? workflows.research.filter(tube => tube.tubeType === 'Blood tube') : workflows.clinical.filter(tube => tube.tubeType === 'Blood tube');
+  
+    let eligible = false;
+  
+    if(module1 && module2 && module3 && module4) {
+      if(bloodCollected) {
+        eligible = true;
+      }    
+      else {
+        baselineCollections.forEach(collection => {
+          tubes.forEach(tube => {
+            if(collection[tube.concept] && collection[tube.concept]['883732523'] && collection[tube.concept]['883732523'] != 681745422) {
+              eligible = true;
+            }
+          });
+        });
+      }
+    }
+  
+    return eligible;
+  }
+
 export const checkDerivedConcepts = async (data) => {
 
     let updates = {};
@@ -1160,7 +1149,7 @@ export const removeMenstrualCycleData = async () => {
 
 const clientFilterData = (formData) => {
 
-    if(formData["D_912367929.MENS1"] && formData["D_912367929.MENS1"] == 104430631) delete formData["D_912367929.MENS1"];
+    if(formData["D_912367929.D_951357171"] && formData["D_912367929.D_951357171"] == 104430631) delete formData["D_912367929.D_951357171"];
 
     return formData;
 }

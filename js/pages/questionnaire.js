@@ -113,7 +113,7 @@ export const   questionnaire = (url, moduleId) => {
         transform.render({
                 url: url,
                 activate: true,
-                store: storeResponse,
+                store: storeResponseQuest,
                 retrieve: getMyData,
                 soccer: soccerFunction,
                 updateTree: storeResponseTree,
@@ -226,7 +226,7 @@ function soccerFunction(){
         });
     }
 
-    let menstrualCycle = document.getElementById("MENS1");
+    let menstrualCycle = document.getElementById("D_951357171");
     if (menstrualCycle) {
         menstrualCycle.addEventListener("submit", async (e) => {
             if(e.target.value == 104430631) {
@@ -248,7 +248,7 @@ function soccerFunction(){
                     <div class = "col-md-1">
                     </div>
                     <div class = "col-md-10" id="questionnaireRoot">
-                        Thank you. we will check back in with you soon.
+                        Thank you. We will check back in with you soon.
                         <br>
                         <br>
                         <div class="container">

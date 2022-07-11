@@ -751,7 +751,7 @@ const setModuleAttributes = (data, modules) => {
     modules['Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples, and your history of COVID-19. ';
     modules['Biospecimen Survey'].estimatedTime = '10 to 15 minutes';
 
-    modules['Menstrual Cycle'].unreleased = true;
+    //modules['Menstrual Cycle'].unreleased = true;
     modules['Menstrual Cycle'].header = 'Menstrual Cycle';
     modules['Menstrual Cycle'].description = 'Questions about menstrual cycle. ';
     modules['Menstrual Cycle'].estimatedTime = '5 minutes';
