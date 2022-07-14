@@ -1,4 +1,5 @@
-import { getMyData, renderSyndicate} from "../shared.js";
+import { getMyData, renderSyndicate, urls } from "../shared.js";
+import { environmentWarningModal } from "../event.js";
 
 export const homePage = async () => {
     const mainContent = document.getElementById('root');
@@ -289,8 +290,8 @@ export const homePage = async () => {
         -->
         
     `;
-
     
+    if(location.host !== urls.prod) environmentWarningModal();
 }
 
 export const joinNowBtn = (bool) => {

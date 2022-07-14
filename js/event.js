@@ -695,6 +695,26 @@ const openModal = () => {
     document.body.removeChild(tmpBtn);
 }
 
+export const environmentWarningModal = () => {
+    document.getElementById('connectModalHeader').style.display = 'block'; 
+    document.getElementById('connectModalHeader').innerHTML = `
+    <h4 style="text-align:center; color:red">WARNING</h4>
+    `;
+
+    document.getElementById('connectModalBody').innerHTML = `
+    <div style="text-align:center; color:red">
+        This is a testing environment where no Personal Identifiable Information (PII) or other sensitive personal information should be used.
+    </div>
+    </br>
+    </br>
+    <div style="text-align:center; color:red">
+        I acknowledge that this is a testing environment and will not use personal information.
+    </div>
+    `;
+
+    openModal();
+}
+
 export const removeAllErrors = () => {
     const elements = document.getElementsByClassName('form-error');
     Array.from(elements).forEach(element => {
