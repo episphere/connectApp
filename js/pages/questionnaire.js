@@ -42,12 +42,24 @@ export const   questionnaire = (url, moduleId) => {
         if (data.data[fieldMapping['Module1'].conceptId] && data.data[fieldMapping['Module1'].conceptId]['D_407056417']){
             inputData["D_407056417"] = data.data[fieldMapping['Module1'].conceptId]['D_407056417'];
         }
+        else if(data.data[fieldMapping['Module1_OLD'].conceptId] && data.data[fieldMapping['Module1_OLD'].conceptId]['D_407056417']) {
+            inputData["D_407056417"] = data.data[fieldMapping['Module1_OLD'].conceptId]['D_407056417'];
+        }
+
         if (data.data[fieldMapping['Module1'].conceptId] && data.data[fieldMapping['Module1'].conceptId]['D_613744428']){
             inputData["D_613744428"] = data.data[fieldMapping['Module1'].conceptId]['D_613744428'];
         }
+        else if (data.data[fieldMapping['Module1_OLD'].conceptId] && data.data[fieldMapping['Module1_OLD'].conceptId]['D_613744428']){
+            inputData["D_613744428"] = data.data[fieldMapping['Module1_OLD'].conceptId]['D_613744428'];
+        }
+
         if (data.data[fieldMapping['Module1'].conceptId] && data.data[fieldMapping['Module1'].conceptId]['D_750420077']){
             inputData["D_750420077"] = data.data[fieldMapping['Module1'].conceptId]['D_750420077'];
         }
+        else if (data.data[fieldMapping['Module1_OLD'].conceptId] && data.data[fieldMapping['Module1_OLD'].conceptId]['D_750420077']){
+            inputData["D_750420077"] = data.data[fieldMapping['Module1_OLD'].conceptId]['D_750420077'];
+        }
+
         if (data.data[fieldMapping['Module1'].conceptId] && data.data[fieldMapping['Module1'].conceptId]['D_289664241']){
             if (data.data[fieldMapping['Module1'].conceptId]['D_289664241']['D_289664241']){
                 inputData["D_289664241"] = data.data[fieldMapping['Module1'].conceptId]['D_289664241']['D_289664241']
@@ -56,12 +68,29 @@ export const   questionnaire = (url, moduleId) => {
                 inputData["D_289664241"] = data.data[fieldMapping['Module1'].conceptId]['D_289664241'];
             }
         }
+        else if (data.data[fieldMapping['Module1_OLD'].conceptId] && data.data[fieldMapping['Module1_OLD'].conceptId]['D_289664241']){
+            if (data.data[fieldMapping['Module1_OLD'].conceptId]['D_289664241']['D_289664241']){
+                inputData["D_289664241"] = data.data[fieldMapping['Module1_OLD'].conceptId]['D_289664241']['D_289664241']
+            }
+            else{
+                inputData["D_289664241"] = data.data[fieldMapping['Module1_OLD'].conceptId]['D_289664241'];
+            }
+        }
+
         if (data.data[fieldMapping['Module1'].conceptId] && data.data[fieldMapping['Module1'].conceptId]['D_784967158']){
             inputData["D_784967158"] = data.data[fieldMapping['Module1'].conceptId]['D_784967158'];
         }
+        else if (data.data[fieldMapping['Module1_OLD'].conceptId] && data.data[fieldMapping['Module1_OLD'].conceptId]['D_784967158']){
+            inputData["D_784967158"] = data.data[fieldMapping['Module1_OLD'].conceptId]['D_784967158'];
+        }
+
         if (data.data[fieldMapping['Module1'].conceptId] && data.data[fieldMapping['Module1'].conceptId]['D_150344905']){
             inputData["D_150344905"] = data.data[fieldMapping['Module1'].conceptId]['D_150344905'];
         }
+        else if (data.data[fieldMapping['Module1_OLD'].conceptId] && data.data[fieldMapping['Module1_OLD'].conceptId]['D_150344905']){
+            inputData["D_150344905"] = data.data[fieldMapping['Module1_OLD'].conceptId]['D_150344905'];
+        }
+
         if (data.data[fieldMapping['Biospecimen'].conceptId] && data.data[fieldMapping['Biospecimen'].conceptId]['D_644459734']){
             inputData["D_644459734"] = data.data[fieldMapping['Biospecimen'].conceptId]['D_644459734'];
         }
