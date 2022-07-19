@@ -1,7 +1,5 @@
 import { storeResponse, getMyData, urls,storeResponseQuest, storeResponseTree, showAnimation, hideAnimation, addEventReturnToDashboard, removeMenstrualCycleData } from "../shared.js";
 import fieldMapping from '../components/fieldToConceptIdMapping.js'; 
-//import { transform } from 'https://episphere.github.io/quest/replace2.js';
-//for local testing use URL like such http://localhost:5001/replace2.js and http://localhost:5001/questionnaire.js
 import { transform } from 'https://episphere.github.io/quest/replace2.js';
 import { rbAndCbClick } from "https://episphere.github.io/quest/questionnaire.js";
 import { Tree } from "https://episphere.github.io/quest/tree.js"
@@ -33,8 +31,6 @@ export const   questionnaire = (url, moduleId) => {
     </div>
     
     `
-    //add data into render previous answers
-    //inputData = {"firstName":"Alaina","age":"55","SEX":["3"],"SEX2":["6"]};
 
     getMyData().then(async data => {
         console.log('----This is my data--------')
@@ -42,9 +38,7 @@ export const   questionnaire = (url, moduleId) => {
         showAnimation();
         let inputData = {};
         inputData["firstName"] = data.data[fieldMapping.fName];
-        //console.log('Module 1 data: ;dasklsad;lkf')
-        //console.log('debugging log')
-        //console.log(data.data[fieldMapping['Module1'].conceptId]['D_407056417']);
+
         if (data.data[fieldMapping['Module1'].conceptId] && data.data[fieldMapping['Module1'].conceptId]['D_407056417']){
             inputData["D_407056417"] = data.data[fieldMapping['Module1'].conceptId]['D_407056417'];
         }
@@ -89,8 +83,6 @@ export const   questionnaire = (url, moduleId) => {
         let currModConcept = fieldMapping[moduleId]['conceptId']
         if(data.data[currModConcept] && data.data[currModConcept]['treeJSON']){
             console.log(data.data[currModConcept]['treeJSON'])
-            //let questTree = Tree.fromJSON(data.data[currModConcept]['treeJSON'])
-            //await localforage.setItem(currModConcept + ".treeJSON", questTree)
             console.log('finished adding treeJSON!')
         }
 
@@ -159,9 +151,6 @@ export const   questionnaire = (url, moduleId) => {
                     
                     mutations.forEach(function(mutation) {
                         if(mutation.attributeName == "class"){
-                            //let currentClassState = mutation.target.classList.contains('active')
-                            //console.log(currentClassState)
-                            //console.log(mutation)
                             if(mutation.target.classList.contains('active')){
                                 let found = 0;
                                 for(let i = 0; i < forms.length; i++){
