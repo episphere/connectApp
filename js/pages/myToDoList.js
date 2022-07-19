@@ -590,16 +590,13 @@ const renderMainBody = (data, tab) => {
 }
 
 const checkIfComplete = (data) =>{
-    const modules = questionnaireModules();
-    if (data[fieldMapping.Module1.conceptId] && data[fieldMapping.Module1.conceptId].COMPLETED
-        && data[fieldMapping.Module2.conceptId] && data[fieldMapping.Module2.conceptId].COMPLETED
-        && data[fieldMapping.Module3.conceptId] && data[fieldMapping.Module3.conceptId].COMPLETED
-        && data[fieldMapping.Module4.conceptId] && data[fieldMapping.Module4.conceptId].COMPLETED) { 
+    
+    let module1Complete = (data[fieldMapping.Module1.conceptId] && data[fieldMapping.Module1.conceptId].COMPLETED) || (data[fieldMapping.Module1_OLD.conceptId] && data[fieldMapping.Module1_OLD.conceptId].COMPLETED);
+    let module2Complete = data[fieldMapping.Module2.conceptId] && data[fieldMapping.Module2.conceptId].COMPLETED;
+    let module3Complete = data[fieldMapping.Module3.conceptId] && data[fieldMapping.Module3.conceptId].COMPLETED;
+    let module4Complete = data[fieldMapping.Module4.conceptId] && data[fieldMapping.Module4.conceptId].COMPLETED;
 
-            return true;
-    };
-    return false;
-
+    return module1Complete && module2Complete && module3Complete && module4Complete;
 }
 
 const checkForNewSurveys = async (data) => {
@@ -649,7 +646,6 @@ const checkForNewSurveys = async (data) => {
 
 const setModuleAttributes = (data, modules) => {
 
-
     modules['First Survey'] = {};
     modules['First Survey'].description = 'This survey is split into four sections that ask about a wide range of topics, including information about your medical history, family, work, and health behaviors. You can answer all of the questions at one time, or pause and return to complete the survey later. If you pause, your answers will be saved so you can pick up where you left off. You can skip any questions that you do not want to answer.';
     modules['First Survey'].hasIcon = false;
@@ -696,7 +692,7 @@ const setModuleAttributes = (data, modules) => {
         modules['Menstrual Cycle'].enabled = true;
     }
     
-    if (data[fieldMapping.Module1.conceptId] && data[fieldMapping.Module1.conceptId].COMPLETED) { 
+    if ((data[fieldMapping.Module1.conceptId] && data[fieldMapping.Module1.conceptId].COMPLETED) || (data[fieldMapping.Module1_OLD.conceptId] && data[fieldMapping.Module1_OLD.conceptId].COMPLETED)) { 
         modules["Smoking, Alcohol, and Sun Exposure"].enabled = true;
         modules["Where You Live and Work"].enabled = true;
         modules['Medications, Reproductive Health, Exercise, and Sleep'].enabled = true;
