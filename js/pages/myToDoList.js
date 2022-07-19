@@ -756,10 +756,6 @@ const setModuleAttributes = (data, modules) => {
     modules['Menstrual Cycle'].description = 'Questions about menstrual cycle. ';
     modules['Menstrual Cycle'].estimatedTime = '5 minutes';
 
-    //if module 1 exists and completed
-    //modules["Smoking, Alcohol, and Sun Exposure"].unreleased = true;
-    //modules["Where You Live and Work"].unreleased = true;
-
     if(data['331584571'] && data['331584571']['266600170'] && data['331584571']['266600170']['840048338']) {
         modules['Biospecimen Survey'].enabled = true;
     }
