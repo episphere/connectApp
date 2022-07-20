@@ -16,13 +16,6 @@ export const userNavBar = (data) => {
                 </a>
             </li>
         </div>
-        <!--
-        <div class="navbar-nav transparent-border">
-            <li class="nav-item">
-                <a class="nav-link" href="#my_data" id="userData"> My Data</a>
-            </li>
-        </div>
-        -->
         <div class="navbar-nav transparent-border">
             <li class="nav-item">
                 <a class="nav-link" href="#forms" id="userAgreements">Forms</a>
