@@ -1,4 +1,4 @@
-import { hideAnimation, questionnaireModules, storeResponse, sites } from "../shared.js";
+import { hideAnimation, questionnaireModules, storeResponse, sites, urls } from "../shared.js";
 import { blockParticipant, questionnaire } from "./questionnaire.js";
 import { renderUserProfile } from "../components/form.js";
 import { consentTemplate, initializeCanvas, addEventConsentSubmit } from "./consent.js";
@@ -27,28 +27,7 @@ export const myToDoList = async (data, fromUserProfile) => {
             }
             
             let topMessage = "";
-            /*${(myData.data.hasOwnProperty('831041022') && myData.data['831041022'] == 353358909 && !myData.data['153713899']) ?`
-                                <div class="row">
-                                    <div class="col consentBodyFont2">
-                                        Sign Data Destruction Form
-                                    </div>
-                                    <div class="col">
-                                        <button class="btn btn-agreement consentNextButton" style="float:right; margin-right:120px;" id="signDataDestroy">Sign Form</button>
-                                    </div>
-                                </div>
-                                <br>
-                            `:''}
-                            ${(myData.data.hasOwnProperty('773707518') && myData.data['773707518'] == 353358909 && !myData.data['359404406']) ?`
-                                <div class="row">
-                                    <div class="col consentBodyFont2">
-                                        Sign HIPAA Revocation Form
-                                    </div>
-                                    <div class="col">
-                                        <button class="btn btn-agreement consentNextButton" style="float:right; margin-right:120px;" id="signHIPAARevoke">Sign Form</button>
-                                    </div>
-                                </div>
-                            `:''}
-                            */
+            
             if(data['699625233'] && data['699625233'] === 353358909){
                 let template = `
                     <div class="row">
@@ -94,30 +73,10 @@ export const myToDoList = async (data, fromUserProfile) => {
 
                 if(!data['821247024'] || data['821247024'] == 875007964){
                     if(data['unverifiedSeen'] && data['unverifiedSeen'] === true){
-                        
-                        /*topMessage += `
-                            ${checkIfComplete(data) ? 'Thank you for completing your first Connect survey! We will be in touch with next steps.':'Please complete your first Connect survey.<br>Thank you for being a part of Connect.'}
-                        `*/
                         topMessage += '';
                     }
                     else{
-                        //first seen
-                        //update verifiedSeen to be false
-                        /*
-                        topMessage += `
-                            Great news! We have confirmed that you are eligible for the Connect for Cancer Prevention Study. You are now an official Connect participant.
-                            <br>
-                            ${checkIfComplete(data) ? 'Thank you for completing your first Connect survey! We will be in touch with next steps.':'The next step is to complete your first Connect survey'}
-                            <br>
-                            Thank you for being a part of Connect and for your commitment to help us learn more about how to prevent cancer.
-                            <br>
-                        `
-                        */
                         topMessage = '';
-                        
-                        /*let formData = {};
-                        formData['unverifiedSeen'] = true;
-                        storeResponse(formData);*/
                     }
                     topMessage += `
                         ${fromUserProfile ? 
@@ -130,10 +89,6 @@ export const myToDoList = async (data, fromUserProfile) => {
                 }
                 else if(data['821247024'] && data['821247024'] == 197316935) {
                     if(data['verifiedSeen'] && data['verifiedSeen'] === true){
-                        /*
-                        topMessage += `
-                            ${checkIfComplete(data) ? 'Thank you for completing your first Connect survey! We will be in touch with next steps.':'Please complete your first Connect survey.<br>Thank you for being a part of Connect.'}
-                        `*/
                         topMessage += `
                             ${checkIfComplete(data) ? 'Thank you for completing your first Connect survey! We will be in touch with next steps.':''}
                         `
@@ -258,15 +213,7 @@ export const myToDoList = async (data, fromUserProfile) => {
                 <div style="border: 1px solid #dee2e6; padding: 20px; border-radius:0px 10px 10px 10px;" id="surveyMainBody">
                 `;
                 const modules = questionnaireModules();
-                // if (data.Module1 && data.Module1.COMPLETED) { modules["Enter SSN"].enabled = true};
-                // if (data.ModuleSsn && data.ModuleSsn.COMPLETED) { modules["Medications, Reproductive Health, Exercise, and Sleep"].enabled = true};
-                // if (data.Module2 && data.Module2.COMPLETED) { modules["Smoking, Alcohol, and Sun Exposure"].enabled = true};
-                // if (data.Module3 && data.Module3.COMPLETED) { modules["Where You Live and Work"].enabled = true};
-                // for(let key in modules){
-                //     template += `<li class="list-item">
-                //                     <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" module_id="${modules[key].moduleId}" data-module-url="${modules[key].url ? modules[key].url : ''}">${key}</button>
-                //                 </li>`;
-                // }
+                
                 template += renderMainBody(data, 'todo')
                 template += `</ul>`
                 template += `
@@ -276,23 +223,7 @@ export const myToDoList = async (data, fromUserProfile) => {
                     </div>
                 </div>
                 `
-                // template += `
-                //     <span>You have self assessment questionnaires ready to take</span>
-                //     <ul class="questionnaire-module-list">
-                //         <li class="list-item">
-                //             <button class="btn list-item-active btn-agreement" title="Module 1" id="module1">Module 1</button>
-                //         </li>
-                //         <li class="list-item">
-                //             <button class="btn list-item-active  btn-agreement" title="Module 2" id="module2">Module 2</button>
-                //         </li>
-                //         <li class="list-item">
-                //             <button class="btn list-item-active btn-disbaled btn-agreement" title="Module 3" id="module3">Module 3</button>
-                //         </li>
-                //         <li class="list-item">
-                //             <button class="btn list-item-active btn-disbaled btn-agreement" title="Module 4" id="module4">Module 4</button>
-                //         </li>
-                //     </ul>
-                // `;
+                
                 mainContent.innerHTML = template;
                 document.getElementById('surveysToDoTab').addEventListener('click', () => {
                     document.getElementById('surveyMainBody').innerHTML = renderMainBody(data, 'todo') 
@@ -385,7 +316,6 @@ const renderMainBody = (data, tab) => {
     let modules = questionnaireModules();
     modules = setModuleAttributes(data, modules);
     
-    //let toDisplaySystem = [{'header':'Testing Survey', 'body':['TestModule']}, {'header':'First Survey', 'body': ['Background and Overall Health', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure', "Where You Live and Work"]}, {'body':['Enter SSN']}]
     let toDisplaySystem = [{'header':'First Survey', 'body': ['Background and Overall Health', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure', "Where You Live and Work"]}, {'body':['Enter SSN']}]
     if(data['821247024'] && data['821247024'] == 875007964){
         toDisplaySystem = [{'header':'First Survey', 'body': ['Background and Overall Health', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure', "Where You Live and Work"]}]
@@ -660,16 +590,13 @@ const renderMainBody = (data, tab) => {
 }
 
 const checkIfComplete = (data) =>{
-    const modules = questionnaireModules();
-    if (data[fieldMapping.Module1.conceptId] && data[fieldMapping.Module1.conceptId].COMPLETED
-        && data[fieldMapping.Module2.conceptId] && data[fieldMapping.Module2.conceptId].COMPLETED
-        && data[fieldMapping.Module3.conceptId] && data[fieldMapping.Module3.conceptId].COMPLETED
-        && data[fieldMapping.Module4.conceptId] && data[fieldMapping.Module4.conceptId].COMPLETED) { 
+    
+    let module1Complete = (data[fieldMapping.Module1.conceptId] && data[fieldMapping.Module1.conceptId].COMPLETED) || (data[fieldMapping.Module1_OLD.conceptId] && data[fieldMapping.Module1_OLD.conceptId].COMPLETED);
+    let module2Complete = data[fieldMapping.Module2.conceptId] && data[fieldMapping.Module2.conceptId].COMPLETED;
+    let module3Complete = data[fieldMapping.Module3.conceptId] && data[fieldMapping.Module3.conceptId].COMPLETED;
+    let module4Complete = data[fieldMapping.Module4.conceptId] && data[fieldMapping.Module4.conceptId].COMPLETED;
 
-            return true;
-    };
-    return false;
-
+    return module1Complete && module2Complete && module3Complete && module4Complete;
 }
 
 const checkForNewSurveys = async (data) => {
@@ -719,7 +646,6 @@ const checkForNewSurveys = async (data) => {
 
 const setModuleAttributes = (data, modules) => {
 
-
     modules['First Survey'] = {};
     modules['First Survey'].description = 'This survey is split into four sections that ask about a wide range of topics, including information about your medical history, family, work, and health behaviors. You can answer all of the questions at one time, or pause and return to complete the survey later. If you pause, your answers will be saved so you can pick up where you left off. You can skip any questions that you do not want to answer.';
     modules['First Survey'].hasIcon = false;
@@ -751,14 +677,12 @@ const setModuleAttributes = (data, modules) => {
     modules['Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples, and your history of COVID-19. ';
     modules['Biospecimen Survey'].estimatedTime = '10 to 15 minutes';
 
-    //modules['Menstrual Cycle'].unreleased = true;
+    if(location.host === urls.prod){
+        modules['Menstrual Cycle'].unreleased = true;
+    }
     modules['Menstrual Cycle'].header = 'Menstrual Cycle';
     modules['Menstrual Cycle'].description = 'Questions about menstrual cycle. ';
     modules['Menstrual Cycle'].estimatedTime = '5 minutes';
-
-    //if module 1 exists and completed
-    //modules["Smoking, Alcohol, and Sun Exposure"].unreleased = true;
-    //modules["Where You Live and Work"].unreleased = true;
 
     if(data['331584571'] && data['331584571']['266600170'] && data['331584571']['266600170']['840048338']) {
         modules['Biospecimen Survey'].enabled = true;
@@ -768,7 +692,7 @@ const setModuleAttributes = (data, modules) => {
         modules['Menstrual Cycle'].enabled = true;
     }
     
-    if (data[fieldMapping.Module1.conceptId] && data[fieldMapping.Module1.conceptId].COMPLETED) { 
+    if ((data[fieldMapping.Module1.conceptId] && data[fieldMapping.Module1.conceptId].COMPLETED) || (data[fieldMapping.Module1_OLD.conceptId] && data[fieldMapping.Module1_OLD.conceptId].COMPLETED)) { 
         modules["Smoking, Alcohol, and Sun Exposure"].enabled = true;
         modules["Where You Live and Work"].enabled = true;
         modules['Medications, Reproductive Health, Exercise, and Sleep'].enabled = true;
