@@ -1094,7 +1094,7 @@ export const consentToProfilePage = () => {
     `
     
     mainContent.innerHTML =  template;
-    document.getElementById('toLeaving').addEventListener('click', () => {
+    document.getElementById('toLeaving').addEventListener('click', () => { // Notes: After completed consent
         renderUserProfile();
     })
 

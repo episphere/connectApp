@@ -48,9 +48,11 @@ export const generateNewToken = async () => {
 
 //adding conceptID mappings for completded and TS
 export const conceptIdMapping = (formData) => {
+  console.log("conceptIdMapping",formData)
     try {
 
         let moduleId = Object.keys(formData)[0].split(".")[0];
+        console.log("moduleId", moduleId)
         let moduleIdCompleted = moduleId + ".COMPLETED";
         let moduleIdCompletedTS = moduleId + ".COMPLETED_TS";
         

@@ -314,7 +314,7 @@ const addAnotherEmailField = () => {
     document.getElementById('additionalEmailBtn').innerHTML = '';
 }
 
-export const addEventUPSubmit = () => {
+export const addEventUPSubmit = () => { // Notes: submit button for user profile form below
     const userProfileForm = document.getElementById('userProfileForm');
     userProfileForm.addEventListener('submit', async e => {
         e.preventDefault();
@@ -728,7 +728,7 @@ export const removeAllErrors = () => {
     })
 }
 
-const verifyUserDetails = (formData) => {
+const verifyUserDetails = (formData) => { // Notes: confirm verified information from user profile form
     if(!document.getElementById('connectMainModal').classList.contains('show')) openModal();
     document.getElementById('connectModalHeader').innerHTML = `
     <h4>Review your profile details</h4>
@@ -937,16 +937,19 @@ const verifyUserDetails = (formData) => {
     //make sure this is not hidden
 
 
-    document.getElementById('confirmReview').addEventListener('click', async () => {
+    document.getElementById('confirmReview').addEventListener('click', async () => { // Confirm Review
         dataSavingBtn('save-data');
         formData['699625233'] = 353358909;
         formData['430551721'] = new Date().toISOString();
         showAnimation();
         const response = await storeResponse(formData);
+        console.log("response", response)
         if(response.code === 200) {
             const myData = await getMyData();
+            console.log("response.code === 200",myData)
             hideAnimation();
             if(myData.code === 200){
+                console.log("myData.code === 200",myData)
                 myToDoList(myData.data, true);
             }
         }
