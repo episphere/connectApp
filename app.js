@@ -10,7 +10,6 @@ import { renderSettingsPage } from "./js/pages/settings.js";
 import { renderSupportPage } from "./js/pages/support.js";
 import { renderPaymentPage } from "./js/pages/payment.js";
 import { renderSamplesPage } from "./js/pages/samples.js";
-import { renderMyDataPage } from "./js/pages/myData.js";
 import { footerTemplate } from "./js/pages/footer.js";
 import { renderVerifiedPage } from "./js/pages/verifiedPage.js";
 import { firebaseConfig as devFirebaseConfig } from "./dev/config.js";
@@ -193,7 +192,6 @@ const router = async () => {
         else if (route === '#support') renderSupportPage();
         else if (route === '#samples') renderSamplesPage();
         else if (route === '#payment') renderPaymentPage();
-        else if (route === '#my_data') renderMyDataPage();
         else if (route === '#verified') renderVerifiedPage();
         else window.location.hash = '#';
     }

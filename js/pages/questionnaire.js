@@ -1,10 +1,7 @@
 import { storeResponse, getMyData, urls,storeResponseQuest, storeResponseTree, showAnimation, hideAnimation, addEventReturnToDashboard, removeMenstrualCycleData } from "../shared.js";
 import fieldMapping from '../components/fieldToConceptIdMapping.js'; 
-//import { transform } from 'https://episphere.github.io/quest/replace2.js';
-//for local testing use URL like such http://localhost:5001/replace2.js and http://localhost:5001/questionnaire.js
 import { transform } from 'https://episphere.github.io/quest/replace2.js';
-import { rbAndCbClick } from "https://episphere.github.io/quest/questionnaire.js";
-import { Tree } from "https://episphere.github.io/quest/tree.js"
+import { rbAndCbClick } from 'https://episphere.github.io/quest/questionnaire.js';
 import { SOCcer as SOCcerProd } from "./../../prod/config.js";
 import { SOCcer as SOCcerStage } from "./../../stage/config.js";
 import { SOCcer as SOCcerDev } from "./../../dev/config.js";
@@ -33,8 +30,6 @@ export const   questionnaire = (url, moduleId) => {
     </div>
     
     `
-    //add data into render previous answers
-    //inputData = {"firstName":"Alaina","age":"55","SEX":["3"],"SEX2":["6"]};
 
     getMyData().then(async data => {
         console.log('----This is my data--------')
@@ -42,18 +37,28 @@ export const   questionnaire = (url, moduleId) => {
         showAnimation();
         let inputData = {};
         inputData["firstName"] = data.data[fieldMapping.fName];
-        //console.log('Module 1 data: ;dasklsad;lkf')
-        //console.log('debugging log')
-        //console.log(data.data[fieldMapping['Module1'].conceptId]['D_407056417']);
+
         if (data.data[fieldMapping['Module1'].conceptId] && data.data[fieldMapping['Module1'].conceptId]['D_407056417']){
             inputData["D_407056417"] = data.data[fieldMapping['Module1'].conceptId]['D_407056417'];
         }
+        else if(data.data[fieldMapping['Module1_OLD'].conceptId] && data.data[fieldMapping['Module1_OLD'].conceptId]['D_407056417']) {
+            inputData["D_407056417"] = data.data[fieldMapping['Module1_OLD'].conceptId]['D_407056417'];
+        }
+
         if (data.data[fieldMapping['Module1'].conceptId] && data.data[fieldMapping['Module1'].conceptId]['D_613744428']){
             inputData["D_613744428"] = data.data[fieldMapping['Module1'].conceptId]['D_613744428'];
         }
+        else if (data.data[fieldMapping['Module1_OLD'].conceptId] && data.data[fieldMapping['Module1_OLD'].conceptId]['D_613744428']){
+            inputData["D_613744428"] = data.data[fieldMapping['Module1_OLD'].conceptId]['D_613744428'];
+        }
+
         if (data.data[fieldMapping['Module1'].conceptId] && data.data[fieldMapping['Module1'].conceptId]['D_750420077']){
             inputData["D_750420077"] = data.data[fieldMapping['Module1'].conceptId]['D_750420077'];
         }
+        else if (data.data[fieldMapping['Module1_OLD'].conceptId] && data.data[fieldMapping['Module1_OLD'].conceptId]['D_750420077']){
+            inputData["D_750420077"] = data.data[fieldMapping['Module1_OLD'].conceptId]['D_750420077'];
+        }
+
         if (data.data[fieldMapping['Module1'].conceptId] && data.data[fieldMapping['Module1'].conceptId]['D_289664241']){
             if (data.data[fieldMapping['Module1'].conceptId]['D_289664241']['D_289664241']){
                 inputData["D_289664241"] = data.data[fieldMapping['Module1'].conceptId]['D_289664241']['D_289664241']
@@ -62,12 +67,29 @@ export const   questionnaire = (url, moduleId) => {
                 inputData["D_289664241"] = data.data[fieldMapping['Module1'].conceptId]['D_289664241'];
             }
         }
+        else if (data.data[fieldMapping['Module1_OLD'].conceptId] && data.data[fieldMapping['Module1_OLD'].conceptId]['D_289664241']){
+            if (data.data[fieldMapping['Module1_OLD'].conceptId]['D_289664241']['D_289664241']){
+                inputData["D_289664241"] = data.data[fieldMapping['Module1_OLD'].conceptId]['D_289664241']['D_289664241']
+            }
+            else{
+                inputData["D_289664241"] = data.data[fieldMapping['Module1_OLD'].conceptId]['D_289664241'];
+            }
+        }
+
         if (data.data[fieldMapping['Module1'].conceptId] && data.data[fieldMapping['Module1'].conceptId]['D_784967158']){
             inputData["D_784967158"] = data.data[fieldMapping['Module1'].conceptId]['D_784967158'];
         }
+        else if (data.data[fieldMapping['Module1_OLD'].conceptId] && data.data[fieldMapping['Module1_OLD'].conceptId]['D_784967158']){
+            inputData["D_784967158"] = data.data[fieldMapping['Module1_OLD'].conceptId]['D_784967158'];
+        }
+
         if (data.data[fieldMapping['Module1'].conceptId] && data.data[fieldMapping['Module1'].conceptId]['D_150344905']){
             inputData["D_150344905"] = data.data[fieldMapping['Module1'].conceptId]['D_150344905'];
         }
+        else if (data.data[fieldMapping['Module1_OLD'].conceptId] && data.data[fieldMapping['Module1_OLD'].conceptId]['D_150344905']){
+            inputData["D_150344905"] = data.data[fieldMapping['Module1_OLD'].conceptId]['D_150344905'];
+        }
+
         if (data.data[fieldMapping['Biospecimen'].conceptId] && data.data[fieldMapping['Biospecimen'].conceptId]['D_644459734']){
             inputData["D_644459734"] = data.data[fieldMapping['Biospecimen'].conceptId]['D_644459734'];
         }
@@ -89,8 +111,6 @@ export const   questionnaire = (url, moduleId) => {
         let currModConcept = fieldMapping[moduleId]['conceptId']
         if(data.data[currModConcept] && data.data[currModConcept]['treeJSON']){
             console.log(data.data[currModConcept]['treeJSON'])
-            //let questTree = Tree.fromJSON(data.data[currModConcept]['treeJSON'])
-            //await localforage.setItem(currModConcept + ".treeJSON", questTree)
             console.log('finished adding treeJSON!')
         }
 
@@ -159,9 +179,6 @@ export const   questionnaire = (url, moduleId) => {
                     
                     mutations.forEach(function(mutation) {
                         if(mutation.attributeName == "class"){
-                            //let currentClassState = mutation.target.classList.contains('active')
-                            //console.log(currentClassState)
-                            //console.log(mutation)
                             if(mutation.target.classList.contains('active')){
                                 let found = 0;
                                 for(let i = 0; i < forms.length; i++){
