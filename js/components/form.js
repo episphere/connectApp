@@ -21,9 +21,8 @@ export const renderUserProfileActual = async () => {
     
 };
 
-export const renderUserProfile = async () => { // Notes: Set up user profile using form
+export const renderUserProfile = async () => {
     const myData = await getMyData();
-    console.log("renderUserProfile myData",myData)
     const siteId = myData.data ? myData.data['827220437'] : undefined;
     const mainContent = document.getElementById('root');
     let suffixList = {612166858: 0,255907182: 1,226924545: 2,270793412: 3,959021713: 4,643664527: 5,537892528: 6};

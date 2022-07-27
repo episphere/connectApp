@@ -943,13 +943,10 @@ const verifyUserDetails = (formData) => { // Notes: confirm verified information
         formData['430551721'] = new Date().toISOString();
         showAnimation();
         const response = await storeResponse(formData);
-        console.log("response", response)
         if(response.code === 200) {
             const myData = await getMyData();
-            console.log("response.code === 200",myData)
             hideAnimation();
             if(myData.code === 200){
-                console.log("myData.code === 200",myData)
                 myToDoList(myData.data, true);
             }
         }
