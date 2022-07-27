@@ -570,6 +570,7 @@ const renderMainBody = (data, tab) => {
                                             </li>`;*/
                             }
                         }
+                        console.log("test!",data[fieldMapping[modules[key]?.moduleId]?.conceptId])
                         template += /*html*/ `<div style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
                             <div class="row">
                                 <div class="col-md-1">
@@ -588,7 +589,7 @@ const renderMainBody = (data, tab) => {
                                 </div>
                             
                                 <div class="col-md-3">
-                                Completed Time: ${new Date(data[fieldMapping[modules[key].moduleId].conceptId].COMPLETED_TS).toLocaleString()}
+                                Completed Time: ${new Date(data[fieldMapping[modules[key]?.moduleId]?.conceptId]?.COMPLETED_TS).toLocaleString()}
                                 <!--
                                 <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="margin-top:0px;border-radius:30px; height:60px;background-color:#5c2d93 !important;color:white; width:100%"><b>Review</b></button>
                                 -->
@@ -636,7 +637,7 @@ const checkForNewSurveys = async (data) => {
 
     if(data['566565527']) {
         knownSurveys = data['566565527'];
-        console.log("knownSurveys < availableSurveys", knownSurveys , availableSurveys)
+        console.log(knownSurveys < enabledSurveys)
         if(knownSurveys < enabledSurveys) {
             newSurvey = true;
         }
