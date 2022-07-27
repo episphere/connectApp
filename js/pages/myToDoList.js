@@ -88,20 +88,17 @@ export const myToDoList = async (data, fromUserProfile) => {
                 }
                 else if(data['821247024'] && data['821247024'] == 197316935) {
                     if(data['verifiedSeen'] && data['verifiedSeen'] === true){
-                        if(checkIfComplete(data) && !data['firstSurveyCompleteSeen']) {
-                          topMessage += 'Thank you for completing your first Connect survey! We will be in touch with next steps.' 
-                          let formData = {}
-                          formData['firstSurveyCompleteSeen'] = true
-                          storeResponse(formData);
-                        }
-                        else if(checkIfComplete(data) && data['firstSurveyCompleteSeen']) {
-                          topMessage += ''
-                        }
-                        else {
-                          topMessage += `
-                            ${checkIfComplete(data) ? 'Thank you for completing your first Connect survey! We will be in touch with next steps.':''}
-                        `
-                        }
+                        if(checkIfComplete(data)) {
+                            if(!data['firstSurveyCompletedSeen']) {
+                                topMessage += 'Thank you for completing your first Connect survey! We will be in touch with next steps.' 
+                                let formData = {};
+                                formData['firstSurveyCompletedSeen'] = true;
+                                storeResponse(formData);
+                            }
+                            else {
+                                topMessage += '';
+                            }
+                          }
                     }
                     else{
                         //first seen
