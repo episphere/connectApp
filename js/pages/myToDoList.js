@@ -571,7 +571,7 @@ const renderMainBody = (data, tab) => {
                                 </div>
                             
                                 <div class="col-md-3">
-                                Completed Time: ${new Date(data[fieldMapping[modules[key].moduleId].conceptId].COMPLETED_TS).toLocaleString()}
+                                Completed Time: ${data[fieldMapping[modules[key].moduleId].conceptId] ? new Date(data[fieldMapping[modules[key].moduleId].conceptId].COMPLETED_TS).toLocaleString() : ''}
                                 <!--
                                 <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="margin-top:0px;border-radius:30px; height:60px;background-color:#5c2d93 !important;color:white; width:100%"><b>Review</b></button>
                                 -->
