@@ -1,10 +1,7 @@
 import { storeResponse, getMyData, urls,storeResponseQuest, storeResponseTree, showAnimation, hideAnimation, addEventReturnToDashboard, removeMenstrualCycleData } from "../shared.js";
 import fieldMapping from '../components/fieldToConceptIdMapping.js'; 
-//import { transform } from 'https://episphere.github.io/quest/replace2.js';
-//for local testing use URL like such http://localhost:5001/replace2.js and http://localhost:5001/questionnaire.js
-import { transform } from 'https://cdn.jsdelivr.net/gh/episphere/quest@latest/replace2.js';
-import { rbAndCbClick } from "https://cdn.jsdelivr.net/gh/episphere/quest@latest/questionnaire.js";
-import { Tree } from "https://cdn.jsdelivr.net/gh/episphere/quest@latest/tree.js"
+import { transform } from 'https://episphere.github.io/quest/replace2.js';
+import { rbAndCbClick } from 'https://episphere.github.io/quest/questionnaire.js';
 import { SOCcer as SOCcerProd } from "./../../prod/config.js";
 import { SOCcer as SOCcerStage } from "./../../stage/config.js";
 import { SOCcer as SOCcerDev } from "./../../dev/config.js";

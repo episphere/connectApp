@@ -70,7 +70,6 @@ export const myToDoList = async (data, fromUserProfile) => {
                 else if (((data.hasOwnProperty('773707518') && data['773707518'] == 353358909)) && (!data['153713899'] || data['153713899'] == 104430631)){
                     topMessage += "You have a new <a href='#forms'>form</a> to sign.<br>"
                 }
-
                 if(!data['821247024'] || data['821247024'] == 875007964){
                     if(data['unverifiedSeen'] && data['unverifiedSeen'] === true){
                         topMessage += '';
@@ -89,9 +88,17 @@ export const myToDoList = async (data, fromUserProfile) => {
                 }
                 else if(data['821247024'] && data['821247024'] == 197316935) {
                     if(data['verifiedSeen'] && data['verifiedSeen'] === true){
-                        topMessage += `
-                            ${checkIfComplete(data) ? 'Thank you for completing your first Connect survey! We will be in touch with next steps.':''}
-                        `
+                        if(checkIfComplete(data)) {
+                            if(!data['firstSurveyCompletedSeen']) {
+                                topMessage += 'Thank you for completing your first Connect survey! We will be in touch with next steps.' 
+                                let formData = {};
+                                formData['firstSurveyCompletedSeen'] = true;
+                                storeResponse(formData);
+                            }
+                            else {
+                                topMessage += '';
+                            }
+                          }
                     }
                     else{
                         //first seen
@@ -600,26 +607,24 @@ const checkIfComplete = (data) =>{
 }
 
 const checkForNewSurveys = async (data) => {
-
     let template = ``;
 
     let modules = questionnaireModules();
     modules = setModuleAttributes(data, modules);
 
-    let availableSurveys = 0;
+    let enabledSurveys = 0;
     let newSurvey = false;
     let knownSurveys;
 
     
 
     Object.keys(modules).forEach(mod => {
-        if(modules[mod].enabled && !modules[mod].completed) availableSurveys++;
+        if(modules[mod].enabled && !modules[mod].unreleased) enabledSurveys++;
     });
 
     if(data['566565527']) {
         knownSurveys = data['566565527'];
-
-        if(knownSurveys < availableSurveys) {
+        if(knownSurveys < enabledSurveys) {
             newSurvey = true;
         }
     }
@@ -636,7 +641,7 @@ const checkForNewSurveys = async (data) => {
     }
 
     let obj = {
-        566565527: availableSurveys
+        566565527: enabledSurveys
     }
 
     storeResponse(obj);

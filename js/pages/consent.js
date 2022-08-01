@@ -1,4 +1,4 @@
-import { todaysDate, storeResponse, dataSavingBtn, dateTime, errorMessageConsent, siteAcronyms, getMyData } from "../shared.js";
+import { todaysDate, storeResponse, dataSavingBtn, dateTime, errorMessageConsent, siteAcronyms, getMyData, hideAnimation, showAnimation } from "../shared.js";
 import { renderUserProfile } from "../components/form.js";
 import { removeAllErrors, addEventsConsentSign } from "../event.js";
 import { renderDownloadConsentCopy, renderDownloadHIPAA } from "./agreements.js";
@@ -683,9 +683,11 @@ export const consentConsentPage = async () => {
     let siteDict = siteAcronyms();
     let versionJSON = await fetch('./forms/Consent_versioning.json').then(res => res.json());
     let participantSite = siteDict[myData.data['827220437']];
+    
     if(participantSite == 'NCI'){
-        //participantSite = 'HP'
+        participantSite = 'HP'
     }
+    
     template += `
         <div class="row">
             <div class="col-lg-2">
@@ -697,13 +699,36 @@ export const consentConsentPage = async () => {
             <div style="width:80%; margin:auto">
                 <h4 class="consentSubheader" style="margin-top:50px">Informed Consent Form</h4>
                 <p class="consentBodyFont2" style="text-indent:40px">This form explains in detail what it means to take part in Connect.</p>
-                <div id="canvasContainer"></div>
+                <!--
+                <div style="margin-bottom:5px">
+                    <button id="prevConsent" class="btn btn-primary">Previous</button>
+                    <button id="nextConsent" class="btn btn-primary">Next</button>
+                    &nbsp; &nbsp;
+                    <span>Page: <span id="page_num_Consent"></span> / <span id="page_count_Consent"></span></span>
+                </div>
+                -->
+                <!--<div id="canvasContainer">-->
+                <iframe id="pdfIframeContainer" src="${'./forms/consent/'  + participantSite + '_Consent_' + versionJSON[participantSite]['Consent'] + '.html'}" style="width:100%; height:500px; overflow:scroll;" frameborder="1px"><span class="loader">Please wait...</span></iframe>
+                <!--<object id="pdfContainer" data="https://storage.googleapis.com/myconnect_app_stage/forms/consent/HP_Consent_V1.0.pdf" style="height:500px; width:100%"></object>-->
+                <!--</div>-->
                 <div class="row"style="margin:auto"><div style="margin:auto"><a href="${'./forms/consent/'  + participantSite + '_Consent_' + versionJSON[participantSite]['Consent'] + '.pdf'}" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf" class="consentBodyFont2"> Download an unsigned copy of the informed consent form&nbsp<i class="fas fa-file-download"></i></a></div></div>
                 
                 <h4 class="consentSubheader" style="margin-top:50px">Electronic health records release (HIPAA Authorization) form</h4>
                 <p class="consentBodyFont2" style="text-indent:40px">This allows Connect to access your electronic health records.</p>
-                <div id="canvasContainer1"></div>
+                <!--
+                <div style="margin-bottom:5px">
+                    <button id="prevHIPAA" class="btn btn-primary">Previous</button>
+                    <button id="nextHIPAA" class="btn btn-primary">Next</button>
+                    &nbsp; &nbsp;
+                    <span>Page: <span id="page_num_HIPAA"></span> / <span id="page_count_HIPAA"></span></span>
+                </div>
+                -->
+                <!--<div id="canvasContainer1">-->
+                <iframe id="pdfIframeContainer1" src="${'./forms/HIPAA/'  + participantSite + '_HIPAA_' + versionJSON[participantSite]['HIPAA'] + '.html'}" style="width:100%; height:500px; overflow:scroll;" frameborder="1px"><span class="loader">Please wait...</span></iframe>
+                <!--<object id="pdfContainer1" style="height:500px; width:100%"></object>-->
+                <!--</div>-->
                 <div class="row" style="margin:auto"><div style="margin:auto"><a href="${'./forms/HIPAA/'  + participantSite + '_HIPAA_' + versionJSON[participantSite]['HIPAA'] + '.pdf'}" title="Download health records release form" data-toggle="tooltip" download="connect_hipaa.pdf" class="consentBodyFont2">Download an unsigned copy of the release form&nbsp<i class="fas fa-file-download"></i></a></div></div>
+                
                 
                 <p class="consentBodyFont2" style="margin-top:50px">By clicking “Yes, I agree to join Connect” and typing your name, you confirm the following:</p>
                 <ol class="consentBodyFont2">
@@ -836,14 +861,50 @@ export const consentConsentPage = async () => {
             document.getElementById('CSConsentNameSignContainer').style.display="none"
         }
     });
-
+    
+    let frame1 = document.getElementById("pdfIframeContainer")
+    frame1.onload = function(){
+        frame1.contentWindow.document.body.style.padding = '10px'
+        frame1.contentWindow.document.body.querySelectorAll('p').forEach( pItem => {
+            console.log(pItem)
+            if(pItem.style && pItem.style['text-align'] == 'justify'){
+                console.log('HERE!')
+                pItem.style['text-align'] = 'left'
+            }
+        })
+        console.log("iframe content loaded");
+    };
+    let frame2 = document.getElementById('pdfIframeContainer1')
+    frame2.onload = function(){
+        frame2.contentWindow.document.body.style.padding = '10px'
+        frame2.contentWindow.document.body.querySelectorAll('p').forEach( pItem => {
+            console.log(pItem)
+            if(pItem.style && pItem.style['text-align'] == 'justify'){
+                console.log('HERE!')
+                pItem.style['text-align'] = 'left'
+            }
+        })
+        console.log("iframe content loaded");
+    };
     let formNameConsent= './forms/consent/'  + participantSite + '_Consent_' + versionJSON[participantSite]['Consent'] + '.pdf';
+    /*if(participantSite == 'NCI'){
+        formNameConsent = './forms/consent/A17_FlightPlan.pdf'
+    }*/
     let formNameHIPAA = './forms/HIPAA/'  + participantSite + '_HIPAA_' + versionJSON[participantSite]['HIPAA'] + '.pdf';
     //let formName = './forms/consent/' + myData.data[454205108] + '.pdf'
     //initializeCanvas(formNameConsent, .8*1.7);
     //initializeCanvas1(formNameHIPAA, .8*1.7);
-    initializeCanvas(formNameConsent);
-    initializeCanvas1(formNameHIPAA);
+
+    showAnimation()
+    //initializeForm(formNameConsent, 'pdfContainer')
+    //document.getElementById('pdfIframeContainer').src = `https://docs.google.com/viewer?url=${'https://storage.googleapis.com/myconnect_app_stage/forms/consent/HP_Consent_V1.0.pdf'}&embedded=true`
+    //document.getElementById('pdfIframeContainer').src = `https://docs.google.com/viewer?url=${'https://storage.googleapis.com/myconnect_app_stage/forms/HIPAA/HP_HIPAA_V1.0.pdf'}&embedded=true`
+
+    //initializeForm(formNameHIPAA, 'pdfContainer1')
+    //await initializeCanvas(formNameConsent, 1, 'canvasContainer','nextConsent', 'prevConsent' ,'page_num_Consent', 'page_count_Consent');
+    //await initializeCanvas(formNameHIPAA, 1, 'canvasContainer1','nextHIPAA', 'prevHIPAA' ,'page_num_HIPAA', 'page_count_HIPAA');
+    hideAnimation();
+    //initializeCanvas1(formNameHIPAA);
     document.getElementById('backToConsent').addEventListener('click', () => {
         consentIndigenousPage();
     })
@@ -866,14 +927,17 @@ export const consentConsentPage = async () => {
     */
 }
 
+const initializeForm = (formName, containerName) =>{
+    let ob = document.getElementById(containerName);
+    ob.data = formName
 
+}
 
 export const consentHealthRecordsPage = () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(10);
     template += ` 
-       
         <div class="row" id="canvasContainer"></div>
         <div class="row"><div style="margin:auto"><a href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf">Download consent form:&nbsp<i class="fas fa-file-download"></i></a></div></div>
         <form id="consentForm" method="POST">
@@ -1036,12 +1100,16 @@ export const consentToProfilePage = () => {
 
 }
 
-export const initializeCanvas = (file, customScale) => {
+export const initializeCanvas = async (file, customScale, canvasContainer,nextButton, prevButton,pageIndicator,pageMax) => {
     let scale = 1;
     if(window.innerWidth > 1000) scale = 1.3;
     if(window.innerWidth < 700) scale = 0.7;
     if(customScale) scale = customScale
-    drawCanvas(file,scale);
+    drawCanvasPage(file,scale,canvasContainer,nextButton, prevButton,pageIndicator, pageMax);
+    document.getElementById(nextButton).addEventListener('click', onPrevPage(pageIndicator));
+    document.getElementById(prevButton).addEventListener('click', onNextPage(pageIndicator));
+
+
     /*window.addEventListener('resize', () => {
         let scale = 1;
         if(window.innerWidth > 1000) scale = 1.3;
@@ -1050,11 +1118,11 @@ export const initializeCanvas = (file, customScale) => {
     }, false);*/
 }
 
-const drawCanvas = (file, scale) => {
+const drawCanvas = (file, scale, canvasContainer) => {
     let thePdf = null;
     pdfjsLib.getDocument(file).promise.then(function(pdf) {
         thePdf = pdf;
-        let viewer = document.getElementById('canvasContainer');
+        let viewer = document.getElementById(canvasContainer);
         if(!viewer) return;
         viewer.innerHTML = '';
         for(let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
@@ -1071,6 +1139,118 @@ const drawCanvas = (file, scale) => {
     });
 }
 
+var pageRendering = false,    
+    pageNumPending = null
+
+/*
+var pdfDoc = null,
+    pageNum = 1,
+    pageRendering = false,
+    pageNumPending = null,
+    scale = 0.8,
+    canvas = document.getElementById('the-canvas')
+*/
+function renderPage(num, pageIndicator, pdfDoc, viewer) {
+    let pageRendering = true;
+    // Using promise to fetch the page
+    pdfDoc.getPage(num).then(function(page) {
+        while (viewer.firstChild) {
+            viewer.removeChild(viewer.firstChild);
+        }
+      let canvas = document.createElement("canvas");
+      canvas.className = 'pdf-page-canvas';         
+      viewer.appendChild(canvas);
+      //console.log('consoleWidth: ' + viewer.clientWidth + ', ' +viewer.clientWidth / page.getViewport(1.0).width)
+      //var viewport = page.getViewport(Math.max(viewer.clientWidth / page.getViewport(1.0).width, 0.7));
+      var viewport = page.getViewport(viewer.clientWidth / page.getViewport(1.0).width);
+      //canvas.width = Math.round (devicePixelRatio * rect.right)
+        //        - Math.round (devicePixelRatio * rect.left);
+      //canvas.style = `height:${viewport.height}px; width:${viewport.width}px;`
+      canvas.style.height = viewport.height + 'px';
+      canvas.style.width = viewport.width + 'px';
+      canvas.height = 3*viewport.height;
+      canvas.width = 3*viewport.width;
+      
+      //canvas.height = Math.round (devicePixelRatio * rect.bottom)
+      //          - Math.round (devicePixelRatio * rect.top);
+      viewer.style = `min-height:${Math.min(viewport.height, 500)}px;max-height:${Math.min(viewport.height+10, 500)}px;`
+      //console.log(canvas.height + ', ' + canvas.width)
+
+      
+      // Render PDF page into canvas context
+      var renderContext = {
+        canvasContext: canvas.getContext('2d'),
+        viewport: viewport,
+        transform: [3,0,0,3,0,0]
+      };
+      var renderTask = page.render(renderContext);
+
+    });
+  
+    // Update page counters
+    document.getElementById(pageIndicator).textContent = num;
+  }
+
+function queueRenderPage(num, pageIndicator, pdfDoc, canvas) {
+      renderPage(num, pageIndicator, pdfDoc, canvas);
+  }
+  
+/**
+ * Displays previous page.
+ */
+function onPrevPage(pageIndicator, pdfDoc, canvas) {
+    if(document.getElementById(pageIndicator)){
+        let pageNum = parseInt(document.getElementById(pageIndicator).textContent);
+        if(isNaN(pageNum)){
+            return;
+        }
+        if (pageNum <= 1) {
+            return;
+        }
+        pageNum--;
+        queueRenderPage(pageNum, pageIndicator, pdfDoc, canvas);
+
+    }
+}
+  
+  /**
+   * Displays next page.
+   */
+function onNextPage(pageIndicator, pdfDoc, canvas) {
+    if(document.getElementById(pageIndicator)){
+        let pageNum = parseInt(document.getElementById(pageIndicator).textContent);
+        if(isNaN(pageNum)){
+            return;
+        }
+        if (pageNum >= pdfDoc.numPages) {
+        return;
+        }
+        
+        pageNum++;
+        queueRenderPage(pageNum, pageIndicator, pdfDoc, canvas);
+    }
+}
+
+  /**
+   * Asynchronously downloads PDF.
+   */
+const drawCanvasPage = (file, scale, canvasContainer, nextButton, prevButton, pageIndicator, pageMax) => {
+    pdfjsLib.getDocument(file).promise.then(function(pdfDoc) {
+        let viewer = document.getElementById(canvasContainer);
+        if(!viewer) return;
+        document.getElementById(pageMax).textContent = pdfDoc.numPages;
+        
+        // Initial/first page rendering
+        let pageNum = 1
+        if (document.getElementById(pageIndicator) && !isNaN(document.getElementById(pageIndicator))){
+            pageNum = parseInt(document.getElementById(pageIndicator).textContent)
+        }
+            renderPage(pageNum, pageIndicator, pdfDoc, viewer);
+        document.getElementById(prevButton).addEventListener('click', () => {onPrevPage(pageIndicator, pdfDoc, viewer)} );
+        document.getElementById(nextButton).addEventListener('click', () => {onNextPage(pageIndicator, pdfDoc, viewer)});
+    });
+    
+}
 export const initializeCanvas1 = (file, customScale) => {
     let scale = 1;
     if(window.innerWidth > 1000) scale = 1.3;
