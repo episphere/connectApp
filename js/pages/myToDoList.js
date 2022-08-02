@@ -299,6 +299,7 @@ const addEventToDoList = () => {
                 const url = module.dataset.moduleUrl;
                 const moduleId = module.getAttribute("module_id");
                 if(url) questionnaire(url, moduleId);
+                else DHQPOC();
             }
 
         })
@@ -328,6 +329,8 @@ const renderMainBody = (data, tab) => {
     if(modules['Menstrual Cycle'].enabled) {
         toDisplaySystem.unshift({'body':['Menstrual Cycle']})
     }
+
+    toDisplaySystem.unshift({'body':['DHQ']})
 
     if(tab === 'todo'){
         let hasModlesRemaining = false;
@@ -721,4 +724,32 @@ const setModuleAttributes = (data, modules) => {
     };
 
     return modules;
+}
+
+const DHQPOC = () => {
+    let rootElement = document.getElementById('root');
+    rootElement.innerHTML = `
+    
+    <div class="row" style="margin-top:50px">
+        <div class = "col-md-1">
+        </div>
+        <div class = "col-md-10">
+            <div class="progress">
+                <div id="questProgBar" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </div>
+        <div class = "col-md-1">
+        </div>
+    </div>
+    <div class="row">
+        <div class = "col-md-1">
+        </div>
+        <div class = "col-md-10" id="questionnaireRoot">
+        <iframe src="http://dhq3.org/respondent-login/?uuid=cf07e2bb-10a0-47ae-aa41-7ca9d60e06d1" width="1280" height="720"></iframe>
+        </div>
+        <div class = "col-md-1">
+        </div>
+    </div>
+    
+    `
 }
