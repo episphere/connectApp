@@ -745,7 +745,7 @@ const DHQPOC = () => {
         <div class = "col-md-1">
         </div>
         <div class = "col-md-10" id="questionnaireRoot">
-        <iframe src="http://dhq3.org/respondent-login/?uuid=cf07e2bb-10a0-47ae-aa41-7ca9d60e06d1" width="1280" height="720"></iframe>
+            <iframe src="https://www.dhq3.org/respondent-login/?uuid=cf07e2bb-10a0-47ae-aa41-7ca9d60e06d1" style="width:100%; height:720px; -moz-transform-scale(0.5);"></iframe>
         </div>
         <div class = "col-md-1">
         </div>
