@@ -680,6 +680,10 @@ const setModuleAttributes = (data, modules) => {
     modules['Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples, and your history of COVID-19. ';
     modules['Biospecimen Survey'].estimatedTime = '10 to 15 minutes';
 
+    modules['DHQ'].header = 'Diet History Questionnaire III (DHQ III)';
+    modules['DHQ'].description = 'Questions about the foods and beverages you ate and drank in the past 12 months. ';
+    modules['DHQ'].estimatedTime = '1 hour';
+
     if(location.host === urls.prod){
         modules['Menstrual Cycle'].unreleased = true;
     }
