@@ -5,6 +5,7 @@ import { consentTemplate, initializeCanvas, addEventConsentSubmit } from "./cons
 import { addEventsConsentSign, addEventHeardAboutStudy, addEventRequestPINForm, addEventHealthCareProviderSubmit, addEventPinAutoUpperCase, addEventHealthProviderModalSubmit, addEventToggleSubmit } from "../event.js";
 import { heardAboutStudy, requestPINTemplate, healthCareProvider } from "./healthCareProvider.js";
 import fieldMapping from '../components/fieldToConceptIdMapping.js'; 
+import fieldToConceptIdMapping from "../components/fieldToConceptIdMapping.js";
 
 export const myToDoList = async (data, fromUserProfile) => {
     const mainContent = document.getElementById('root');
@@ -610,19 +611,34 @@ const checkForNewSurveys = async (data) => {
     let template = ``;
 
     let modules = questionnaireModules();
+    // console.log("checkForNewSurveys modules", modules)
     modules = setModuleAttributes(data, modules);
-
+    // console.log("checkForNewSurveys modules setModuleAttributes()", modules)
     let enabledSurveys = 0;
     let newSurvey = false;
     let knownSurveys;
 
+    let currentStandaloneSurveys = 0;
+    let completedStandaloneSurvey = false;
+    let previousStandaloneSurveys;
+
     
 
-    Object.keys(modules).forEach(mod => {
+    Object.keys(modules).forEach((mod,index) => { // update enabled surveys
         if(modules[mod].enabled && !modules[mod].unreleased) enabledSurveys++;
+        // console.log(modules[mod], modules[mod].standaloneSurvey)
+        if(modules[mod].enabled && !modules[mod].unreleased && modules[mod].standaloneSurvey && modules[mod].completed) { //check for completed surveys and standaloneSurvey true
+            console.log(modules[mod], modules[mod].standaloneSurvey, index)
+            currentStandaloneSurveys++ // increment current
+        }
+
+        // counts standalones not completed another if statement
     });
 
-    if(data['566565527']) {
+    // console.log("currentStandaloneSurveys", currentStan /daloneSurveys)
+    // console.log(data)
+
+    if(data['566565527']) { 
         knownSurveys = data['566565527'];
         if(knownSurveys < enabledSurveys) {
             newSurvey = true;
@@ -639,18 +655,42 @@ const checkForNewSurveys = async (data) => {
             </div>
         `;
     }
+    
+    if(data['previousStandaloneSurveys']) { // check firestore for previous
+        // compare previous and currentStandalone
+        previousStandaloneSurveys = data["previousStandaloneSurveys"]
+        console.log("currentStandaloneSurveys",currentStandaloneSurveys)
+        console.log("previousStandaloneSurveys",previousStandaloneSurveys)
+        if(currentStandaloneSurveys < previousStandaloneSurveys) { // change has occured
+        completedStandaloneSurvey = true
+        // currentStandaloneSurveys = previousStandaloneSurveys
+        console.log("currentStandaloneSurveys ", previousStandaloneSurveys)
+        }
+    }
+    else { // assign currentStandalone to previous if not found in firestore
+        previousStandaloneSurveys = currentStandaloneSurveys 
+    }
 
+    if(completedStandaloneSurvey) {
+      template += `
+            <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
+              Thank you for submitting your survey!
+            </div>
+        `;
+    }
+
+    console.log("currentStandaloneSurveys pass to obj", previousStandaloneSurveys, currentStandaloneSurveys)
     let obj = {
-        566565527: enabledSurveys
+        566565527: enabledSurveys,
+        "previousStandaloneSurveys": currentStandaloneSurveys
     }
 
     storeResponse(obj);
-
     return template;
 }
 
 const setModuleAttributes = (data, modules) => {
-
+  console.log("modules", modules)
     modules['First Survey'] = {};
     modules['First Survey'].description = 'This survey is split into four sections that ask about a wide range of topics, including information about your medical history, family, work, and health behaviors. You can answer all of the questions at one time, or pause and return to complete the survey later. If you pause, your answers will be saved so you can pick up where you left off. You can skip any questions that you do not want to answer.';
     modules['First Survey'].hasIcon = false;
@@ -659,24 +699,29 @@ const setModuleAttributes = (data, modules) => {
     modules['Background and Overall Health'].header = 'Background and Overall Health'; 
     modules['Background and Overall Health'].description = 'Questions about you, your medical history, and your family history.';
     modules['Background and Overall Health'].estimatedTime = '20 to 30 minutes'
+    modules['Background and Overall Health'].standaloneSurvey = false
     
     modules['Medications, Reproductive Health, Exercise, and Sleep'].header = 'Medications, Reproductive Health, Exercise, and Sleep'; 
     modules['Medications, Reproductive Health, Exercise, and Sleep'].description = 'Questions about your current and past use of medications, your exercise and sleep habits, and your reproductive health.';
     modules['Medications, Reproductive Health, Exercise, and Sleep'].estimatedTime = '20 to 30 minutes'
+    modules['Medications, Reproductive Health, Exercise, and Sleep'].standaloneSurvey = false;
     
     modules['Smoking, Alcohol, and Sun Exposure'].header = 'Smoking, Alcohol, and Sun Exposure'; 
     modules['Smoking, Alcohol, and Sun Exposure'].description = 'Questions about your use of tobacco, nicotine, marijuana, and alcohol, as well as your sun exposure.';
     modules['Smoking, Alcohol, and Sun Exposure'].estimatedTime = '20 to 30 minutes'
+    modules['Smoking, Alcohol, and Sun Exposure'].standaloneSurvey = false;
     
     modules["Where You Live and Work"].header = 'Where You Live and Work';
     modules["Where You Live and Work"].description  = 'Questions about places where you have lived and worked, and your commute to school or work.'
     modules['Where You Live and Work'].estimatedTime = '20 to 30 minutes'
+    modules["Where You Live and Work"].standaloneSurvey = false;
     
     modules['Enter SSN'].header = 'Your Social Security Number (SSN)'
     modules['Enter SSN'].description = 'We may use your Social Security number when we collect information from important data sources like health registries to match information from these sources to you. We protect your privacy every time we ask for information about you from other sources. Providing your Social Security number is optional.';
     modules['Enter SSN'].hasIcon = false;
     modules['Enter SSN'].noButton = false;
     modules['Enter SSN'].estimatedTime = 'Less than 5 minutes'
+    modules['Enter SSN'].standaloneSurvey = true;
 
     modules['Biospecimen Survey'].header = 'Baseline Blood, Urine, and Mouthwash Sample Survey';
     modules['Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples, and your history of COVID-19. ';
@@ -691,10 +736,12 @@ const setModuleAttributes = (data, modules) => {
 
     if(data['331584571'] && data['331584571']['266600170'] && data['331584571']['266600170']['840048338']) {
         modules['Biospecimen Survey'].enabled = true;
+        modules['Biospecimen Survey'].standaloneSurvey = true;
     }
 
     if(data['D_299215535'] && data['D_299215535']['D_112151599'] && data['D_299215535']['D_112151599'] == 353358909 && data['265193023'] == 231311385) {
         modules['Menstrual Cycle'].enabled = true;
+        modules['Menstrual Cycle'].standaloneSurvey = true;
     }
     
     if ((data[fieldMapping.Module1.conceptId] && data[fieldMapping.Module1.conceptId].COMPLETED) || (data[fieldMapping.Module1_OLD.conceptId] && data[fieldMapping.Module1_OLD.conceptId].COMPLETED)) { 
