@@ -4,8 +4,7 @@ import { renderUserProfile } from "../components/form.js";
 import { consentTemplate, initializeCanvas, addEventConsentSubmit } from "./consent.js";
 import { addEventsConsentSign, addEventHeardAboutStudy, addEventRequestPINForm, addEventHealthCareProviderSubmit, addEventPinAutoUpperCase, addEventHealthProviderModalSubmit, addEventToggleSubmit } from "../event.js";
 import { heardAboutStudy, requestPINTemplate, healthCareProvider } from "./healthCareProvider.js";
-import fieldMapping from '../components/fieldToConceptIdMapping.js'; 
-import fieldToConceptIdMapping from "../components/fieldToConceptIdMapping.js";
+import fieldMapping from '../components/fieldToConceptIdMapping.js';
 
 export const myToDoList = async (data, fromUserProfile) => {
     const mainContent = document.getElementById('root');
@@ -625,7 +624,7 @@ const checkForNewSurveys = async (data) => {
         if(modules[mod].enabled && !modules[mod].unreleased && modules[mod]?.standaloneSurvey) completedStandaloneSurveys++;
     });
 
-    if(data['566565527']) { 
+    if(data['566565527']) {
         knownSurveys = data['566565527'];
         if(knownSurveys < enabledSurveys) {
             newSurvey = true;
@@ -659,7 +658,7 @@ const checkForNewSurveys = async (data) => {
             </div>
         `;
     }
-    
+
     let obj = {
         566565527: enabledSurveys,
         "knownCompletedStandaloneSurveys": completedStandaloneSurveys
@@ -670,7 +669,6 @@ const checkForNewSurveys = async (data) => {
 }
 
 const setModuleAttributes = (data, modules) => {
-  console.log("modules", modules)
     modules['First Survey'] = {};
     modules['First Survey'].description = 'This survey is split into four sections that ask about a wide range of topics, including information about your medical history, family, work, and health behaviors. You can answer all of the questions at one time, or pause and return to complete the survey later. If you pause, your answers will be saved so you can pick up where you left off. You can skip any questions that you do not want to answer.';
     modules['First Survey'].hasIcon = false;
@@ -709,11 +707,7 @@ const setModuleAttributes = (data, modules) => {
     modules['Menstrual Cycle'].description = 'Questions about menstrual cycle. ';
     modules['Menstrual Cycle'].estimatedTime = '5 minutes';
 
-    // if(data['331584571'] && data['331584571']['266600170'] && data['331584571']['266600170']['840048338']) {
-    //     modules['Biospecimen Survey'].enabled = true;
-    // }
-
-    if(true) {
+    if(data['331584571'] && data['331584571']['266600170'] && data['331584571']['266600170']['840048338']) {
         modules['Biospecimen Survey'].enabled = true;
     }
 
