@@ -608,21 +608,21 @@ export const addEventUPSubmit = () => {
         // Email
         const allEmails = [];
         if(document.getElementById('UPEmail').value) {
-            formData['869588347'] = document.getElementById('UPEmail').value;
-            allEmails.push(document.getElementById('UPEmail').value.toLowerCase())
+            formData['869588347'] = document.getElementById('UPEmail').value.trim();
+            allEmails.push(document.getElementById('UPEmail').value.toLowerCase().trim());
         }
 
         if(document.getElementById('UPEmail2').value) {
-            formData['849786503'] = document.getElementById('UPEmail2').value;
-            allEmails.push(document.getElementById('UPEmail2').value.toLowerCase())
+            formData['849786503'] = document.getElementById('UPEmail2').value.trim();
+            allEmails.push(document.getElementById('UPEmail2').value.toLowerCase().trim());
         }
         if(document.getElementById('UPAdditionalEmail2') && document.getElementById('UPAdditionalEmail2').value) {
-            formData['635101039'] = document.getElementById('UPAdditionalEmail2').value;
-            allEmails.push(document.getElementById('UPAdditionalEmail2').value.toLowerCase())
+            formData['635101039'] = document.getElementById('UPAdditionalEmail2').value.trim();
+            allEmails.push(document.getElementById('UPAdditionalEmail2').value.toLowerCase().trim());
         }
         if(document.getElementById('UPAdditionalEmail3') && document.getElementById('UPAdditionalEmail3').value) {
-            formData['714419972'] = document.getElementById('UPAdditionalEmail3').value;
-            allEmails.push(document.getElementById('UPAdditionalEmail3').value.toLowerCase())
+            formData['714419972'] = document.getElementById('UPAdditionalEmail3').value.trim();
+            allEmails.push(document.getElementById('UPAdditionalEmail3').value.toLowerCase().trim());
         }
         if(allEmails.length > 0) formData['query.allEmails'] = allEmails;
 
