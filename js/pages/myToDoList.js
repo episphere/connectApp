@@ -611,9 +611,7 @@ const checkForNewSurveys = async (data) => {
     let template = ``;
 
     let modules = questionnaireModules();
-    // console.log("checkForNewSurveys modules", modules)
     modules = setModuleAttributes(data, modules);
-    // console.log("checkForNewSurveys modules setModuleAttributes()", modules)
     let enabledSurveys = 0;
     let newSurvey = false;
     let knownSurveys;
@@ -622,19 +620,10 @@ const checkForNewSurveys = async (data) => {
     let completedStandaloneSurvey = false;
     let knownCompletedStandaloneSurveys;
 
-    Object.keys(modules).forEach((mod,index) => { // update enabled surveys
+    Object.keys(modules).forEach((mod) => {
         if(modules[mod].enabled && !modules[mod].unreleased) enabledSurveys++;
-        // console.log(modules[mod], modules[mod].standaloneSurvey)
-        if(modules[mod].enabled && !modules[mod].unreleased && modules[mod]?.standaloneSurvey) { //check for completed surveys and standaloneSurvey true
-            console.log(modules[mod], modules[mod].standaloneSurvey, index)
-            completedStandaloneSurveys++ // increment current
-        }
-
-        // counts standalones not completed another if statement
+        if(modules[mod].enabled && !modules[mod].unreleased && modules[mod]?.standaloneSurvey) completedStandaloneSurveys++;
     });
-
-    // console.log("completedStandaloneSurveys", currentStan /standaloneSurveys)
-    // console.log(data)
 
     if(data['566565527']) { 
         knownSurveys = data['566565527'];
@@ -653,40 +642,30 @@ const checkForNewSurveys = async (data) => {
             </div>
         `;
     }
-    console.log("data before check", data)
-    if(data['knownCompletedStandaloneSurveys'] || data['knownCompletedStandaloneSurveys'] === 0) { // check firestore for previous
-        // compare previous and currentStandalone
-        knownCompletedStandaloneSurveys = data["knownCompletedStandaloneSurveys"] // 0
-        console.log("completedStandaloneSurveys",completedStandaloneSurveys)
-        console.log("knownCompletedStandaloneSurveys",knownCompletedStandaloneSurveys)
-        if(knownCompletedStandaloneSurveys < completedStandaloneSurveys ) { // change has occured 0 < 1
-        completedStandaloneSurvey = true
-        console.log("completedStandaloneSurvey" , completedStandaloneSurvey)
-        // completedStandaloneSurveys = knownCompletedStandaloneSurveys
-        console.log("completedStandaloneSurveys ", knownCompletedStandaloneSurveys)
+
+    if(data['knownCompletedStandaloneSurveys'] || data['knownCompletedStandaloneSurveys'] === 0) {
+        knownCompletedStandaloneSurveys = data["knownCompletedStandaloneSurveys"];
+        if(knownCompletedStandaloneSurveys < completedStandaloneSurveys) {
+            completedStandaloneSurvey = true
         }
     }
-    else { // assign currentStandalone to previous if not found in firestore
-        knownCompletedStandaloneSurveys = 0 
+        else {
+            knownCompletedStandaloneSurveys = 0 
     }
-    // debugger;
     if(completedStandaloneSurvey) {
-        console.log("TEST!!!" , completedStandaloneSurvey)
       template += `
             <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
               Thank you for submitting your survey!
             </div>
         `;
     }
-
-    console.log("completedStandaloneSurveys pass to obj", knownCompletedStandaloneSurveys, completedStandaloneSurveys)
+    
     let obj = {
         566565527: enabledSurveys,
         "knownCompletedStandaloneSurveys": completedStandaloneSurveys
     }
 
     storeResponse(obj);
-    // debugger;
     return template;
 }
 
@@ -730,9 +709,10 @@ const setModuleAttributes = (data, modules) => {
     modules['Menstrual Cycle'].description = 'Questions about menstrual cycle. ';
     modules['Menstrual Cycle'].estimatedTime = '5 minutes';
 
-    if(data['331584571'] && data['331584571']['266600170'] && data['331584571']['266600170']['840048338']) {
-        modules['Biospecimen Survey'].enabled = true;
-    }
+    // if(data['331584571'] && data['331584571']['266600170'] && data['331584571']['266600170']['840048338']) {
+    //     modules['Biospecimen Survey'].enabled = true;
+    // }
+
     if(true) {
         modules['Biospecimen Survey'].enabled = true;
     }
