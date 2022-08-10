@@ -7,7 +7,7 @@ export const urls = {
     'stage': 'myconnect-stage.cancer.gov'
 }
 
-let api = ''; //test
+let api = '';
 
 if(location.host === urls.prod) api = 'https://api-myconnect.cancer.gov/app';
 else if(location.host === urls.stage) api = 'https://api-myconnect-stage.cancer.gov/app';
