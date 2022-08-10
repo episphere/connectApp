@@ -619,7 +619,7 @@ const checkForNewSurveys = async (data) => {
     let completedStandaloneSurvey = false;
     let knownCompletedStandaloneSurveys;
 
-    Object.keys(modules).forEach((mod) => {
+    Object.keys(modules).forEach( mod => {
         if(modules[mod].enabled && !modules[mod].unreleased) enabledSurveys++;
         if(modules[mod].enabled && !modules[mod].unreleased && modules[mod]?.standaloneSurvey) completedStandaloneSurveys++;
     });
