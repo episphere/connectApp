@@ -614,14 +614,18 @@ const checkForNewSurveys = async (data) => {
     let enabledSurveys = 0;
     let newSurvey = false;
     let knownSurveys;
-
     let completedStandaloneSurveys = 0;
-    let completedStandaloneSurvey = false;
     let knownCompletedStandaloneSurveys;
 
-    Object.keys(modules).forEach( mod => {
+    Object.keys(modules).forEach( (mod,index) => {
         if(modules[mod].enabled && !modules[mod].unreleased) enabledSurveys++;
-        if(modules[mod].enabled && !modules[mod].unreleased && modules[mod]?.standaloneSurvey) completedStandaloneSurveys++;
+        console.log('completed ts',index, data[fieldMapping[modules[mod]?.moduleId]?.conceptId]?.COMPLETED_TS)
+        console.log('completed ts',index, data[fieldMapping[modules[mod]?.moduleId]?.conceptId]?.COMPLETED)
+        if(data[fieldMapping[modules[mod]?.moduleId]?.conceptId]?.COMPLETED && data[fieldMapping[modules[mod]?.moduleId]?.conceptId]?.COMPLETED_TS && modules[mod]?.standaloneSurvey){
+            console.log("pass",index,mod,modules[mod]?.standaloneSurvey)
+            completedStandaloneSurveys++;
+        } 
+        debugger;
     });
 
     if(data['566565527']) {
@@ -641,24 +645,20 @@ const checkForNewSurveys = async (data) => {
             </div>
         `;
     }
-
+    // Notes: 'Replace knownCompletedStandaloneSurveys' when Data Dictionary has variable and concept ID
     if(data['knownCompletedStandaloneSurveys'] || data['knownCompletedStandaloneSurveys'] === 0) {
         knownCompletedStandaloneSurveys = data["knownCompletedStandaloneSurveys"];
         if(knownCompletedStandaloneSurveys < completedStandaloneSurveys) {
-            completedStandaloneSurvey = true
-        }
-    }
-        else {
-            knownCompletedStandaloneSurveys = 0 
-    }
-    if(completedStandaloneSurvey) {
-      template += `
+            template += `
             <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
               Thank you for submitting your survey!
             </div>
         `;
+        }
     }
-
+    else {
+        completedStandaloneSurveys = 0 
+    }
     let obj = {
         566565527: enabledSurveys,
         "knownCompletedStandaloneSurveys": completedStandaloneSurveys
@@ -720,34 +720,27 @@ const setModuleAttributes = (data, modules) => {
         modules["Where You Live and Work"].enabled = true;
         modules['Medications, Reproductive Health, Exercise, and Sleep'].enabled = true;
         modules['Background and Overall Health'].completed = true;
-        modules['Background and Overall Health'].standaloneSurvey = false
     };
     if (data[fieldMapping.Module2.conceptId] && data[fieldMapping.Module2.conceptId].COMPLETED) { 
         modules['Medications, Reproductive Health, Exercise, and Sleep'].completed = true;
-        modules['Medications, Reproductive Health, Exercise, and Sleep'].standaloneSurvey = false;
     };
     if (data[fieldMapping.Module3.conceptId] && data[fieldMapping.Module3.conceptId].COMPLETED) { 
         modules['Smoking, Alcohol, and Sun Exposure'].completed = true;
-        modules['Smoking, Alcohol, and Sun Exposure'].standaloneSurvey = false;
     };
     if (data[fieldMapping.Module4.conceptId] && data[fieldMapping.Module4.conceptId].COMPLETED) { 
         modules["Where You Live and Work"].completed  = true;
-        modules["Where You Live and Work"].standaloneSurvey = false;
     };
     if ((data[fieldMapping.verification] && data[fieldMapping.verification] == fieldMapping.verified)) { 
         modules['Enter SSN'].enabled = true;
     };
     if (data[fieldMapping.ModuleSsn.conceptId] && data[fieldMapping.ModuleSsn.conceptId].COMPLETED) { 
         modules['Enter SSN'].completed = true;
-        modules['Enter SSN'].standaloneSurvey = true;
     };
     if (data[fieldMapping.Biospecimen.conceptId] && data[fieldMapping.Biospecimen.conceptId].COMPLETED) { 
         modules['Biospecimen Survey'].completed = true;
-        modules['Biospecimen Survey'].standaloneSurvey = true;
     };
     if (data[fieldMapping.MenstrualCycle.conceptId] && data[fieldMapping.MenstrualCycle.conceptId].COMPLETED) { 
         modules['Menstrual Cycle'].completed = true;
-        modules['Menstrual Cycle'].standaloneSurvey = true;
     };
 
     return modules;
