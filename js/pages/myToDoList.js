@@ -619,13 +619,9 @@ const checkForNewSurveys = async (data) => {
 
     Object.keys(modules).forEach( (mod,index) => {
         if(modules[mod].enabled && !modules[mod].unreleased) enabledSurveys++;
-        console.log('completed ts',index, data[fieldMapping[modules[mod]?.moduleId]?.conceptId]?.COMPLETED_TS)
-        console.log('completed ts',index, data[fieldMapping[modules[mod]?.moduleId]?.conceptId]?.COMPLETED)
         if(data[fieldMapping[modules[mod]?.moduleId]?.conceptId]?.COMPLETED && data[fieldMapping[modules[mod]?.moduleId]?.conceptId]?.COMPLETED_TS && modules[mod]?.standaloneSurvey){
-            console.log("pass",index,mod,modules[mod]?.standaloneSurvey)
             completedStandaloneSurveys++;
         } 
-        debugger;
     });
 
     if(data['566565527']) {
