@@ -641,7 +641,7 @@ const checkForNewSurveys = async (data) => {
             </div>
         `;
     }
-    // Notes: 'Replace knownCompletedStandaloneSurveys' when Data Dictionary has variable and concept ID - 677381583
+    
     if(data[677381583] || data[677381583] === 0) {
         knownCompletedStandaloneSurveys = data[677381583];
         if(knownCompletedStandaloneSurveys < completedStandaloneSurveys) {
