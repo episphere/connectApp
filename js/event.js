@@ -608,21 +608,21 @@ export const addEventUPSubmit = () => {
         // Email
         const allEmails = [];
         if(document.getElementById('UPEmail').value) {
-            formData['869588347'] = document.getElementById('UPEmail').value;
-            allEmails.push(document.getElementById('UPEmail').value.toLowerCase())
+            formData['869588347'] = document.getElementById('UPEmail').value.trim();
+            allEmails.push(document.getElementById('UPEmail').value.toLowerCase().trim());
         }
 
         if(document.getElementById('UPEmail2').value) {
-            formData['849786503'] = document.getElementById('UPEmail2').value;
-            allEmails.push(document.getElementById('UPEmail2').value.toLowerCase())
+            formData['849786503'] = document.getElementById('UPEmail2').value.trim();
+            allEmails.push(document.getElementById('UPEmail2').value.toLowerCase().trim());
         }
         if(document.getElementById('UPAdditionalEmail2') && document.getElementById('UPAdditionalEmail2').value) {
-            formData['635101039'] = document.getElementById('UPAdditionalEmail2').value;
-            allEmails.push(document.getElementById('UPAdditionalEmail2').value.toLowerCase())
+            formData['635101039'] = document.getElementById('UPAdditionalEmail2').value.trim();
+            allEmails.push(document.getElementById('UPAdditionalEmail2').value.toLowerCase().trim());
         }
         if(document.getElementById('UPAdditionalEmail3') && document.getElementById('UPAdditionalEmail3').value) {
-            formData['714419972'] = document.getElementById('UPAdditionalEmail3').value;
-            allEmails.push(document.getElementById('UPAdditionalEmail3').value.toLowerCase())
+            formData['714419972'] = document.getElementById('UPAdditionalEmail3').value.trim();
+            allEmails.push(document.getElementById('UPAdditionalEmail3').value.toLowerCase().trim());
         }
         if(allEmails.length > 0) formData['query.allEmails'] = allEmails;
 
@@ -696,23 +696,54 @@ const openModal = () => {
 }
 
 export const environmentWarningModal = () => {
-    document.getElementById('connectModalHeader').style.display = 'block'; 
-    document.getElementById('connectModalHeader').innerHTML = `
-    <h4 style="text-align:center; color:red">WARNING</h4>
+    document.getElementById('connectWarningModalHeader').style.display = 'block'; 
+    document.getElementById('connectWarningModalHeader').innerHTML = `
+        <h4 style="text-align:center; color:red">WARNING</h4>
     `;
 
-    document.getElementById('connectModalBody').innerHTML = `
-    <div style="text-align:center; color:red">
-        This is a testing environment where no Personal Identifiable Information (PII) or other sensitive personal information should be used.
-    </div>
-    </br>
-    </br>
-    <div style="text-align:center; color:red">
-        I acknowledge that this is a testing environment and will not use personal information.
-    </div>
+    document.getElementById('connectWarningModalBody').innerHTML = `
+        <div style="text-align:center; color:red">
+            This is a <b>testing environment</b> where no Personal Identifiable Information (PII) or other sensitive personal information should be used.
+        </div>
+
+        </br>
+        </br>
+
+        <div style="text-align:center; color:red">
+        If you are a Connect Participant, or would like to join the Connect study, please go to this site to sign up: <a href="https://myconnect.cancer.gov">https://myconnect.cancer.gov</a>
+        </div>
+
+        </br>
+        </br>
+
+        <div style="text-align:center; color:red">
+            For Study Staff: I acknowledge that this is a <b>testing environment</b> and will not use personal information.
+        </div>
+
+        </br>
+
+        <div class="col-md-4" style="width:100%; margin:0 auto; text-align:center;">
+            <label style="text-align:center;">Enter staff access code</label>
+            <input type="text" style="text-align:center; margin:0 auto;" class="form-control input-validation row" id="testingAccessCode" name="testingAccessCode">
+        </div>
     `;
 
-    openModal();
+    const tmpBtn = document.createElement('button');
+    tmpBtn.dataset.target = "#connectWarningModal";
+    tmpBtn.dataset.toggle = "modal";
+    tmpBtn.hidden = true;
+    document.body.appendChild(tmpBtn);
+    tmpBtn.click();
+    document.body.removeChild(tmpBtn);
+
+    const testingAccessCode = document.getElementById('testingAccessCode');
+    const warningCloseBtn = document.getElementById('warningCloseBtn');
+
+    if(testingAccessCode) {
+        testingAccessCode.addEventListener('keyup', () => {
+            if(warningCloseBtn) warningCloseBtn.disabled = !(testingAccessCode.value == 'agree')
+        })
+    }
 }
 
 export const removeAllErrors = () => {

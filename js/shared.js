@@ -859,24 +859,24 @@ export const getConceptVariableName = async (conceptId) => {
 export const questionnaireModules = () => {
     if(location.host == urls.prod){
         return {
-            'Background and Overall Health': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/prod/module1.txt', moduleId:"Module1", enabled:true},
-            'Medications, Reproductive Health, Exercise, and Sleep': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/prod/module2.txt', moduleId:"Module2", enabled:false},
-            'Smoking, Alcohol, and Sun Exposure': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/prod/module3.txt', moduleId:"Module3", enabled:false},
-            'Where You Live and Work': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/prod/module4.txt', moduleId:"Module4", enabled:false},
-            'Enter SSN': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/prod/ssnModule.txt', moduleId:"ModuleSsn", enabled:false},
-            'Biospecimen Survey': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/prod/moduleBiospecimen.txt', moduleId:"Biospecimen", enabled:false},
-            'Menstrual Cycle': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/prod/moduleMenstrual.txt', moduleId:"MenstrualCycle", enabled:false}
+            'Background and Overall Health': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/prod/module1.txt', moduleId:"Module1", enabled:true, standaloneSurvey:false},
+            'Medications, Reproductive Health, Exercise, and Sleep': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/prod/module2.txt', moduleId:"Module2", enabled:false, standaloneSurvey:false},
+            'Smoking, Alcohol, and Sun Exposure': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/prod/module3.txt', moduleId:"Module3", enabled:false, standaloneSurvey:false},
+            'Where You Live and Work': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/prod/module4.txt', moduleId:"Module4", enabled:false, standaloneSurvey:false},
+            'Enter SSN': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/prod/ssnModule.txt', moduleId:"ModuleSsn", enabled:false, standaloneSurvey:true},
+            'Biospecimen Survey': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/prod/moduleBiospecimen.txt', moduleId:"Biospecimen", enabled:false, standaloneSurvey:true},
+            'Menstrual Cycle': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/prod/moduleMenstrual.txt', moduleId:"MenstrualCycle", enabled:false, standaloneSurvey:true}
         }
     }
     else{
         return {
-            'Background and Overall Health': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/module1Stage.txt', moduleId:"Module1", enabled:true},
-            'Medications, Reproductive Health, Exercise, and Sleep': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/module2Stage.txt', moduleId:"Module2", enabled:false},
-            'Smoking, Alcohol, and Sun Exposure': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/module3Stage.txt', moduleId:"Module3", enabled:false},
-            'Where You Live and Work': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/module4Stage.txt', moduleId:"Module4", enabled:false},
-            'Enter SSN': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/ssnModule.txt', moduleId:"ModuleSsn", enabled:false},
-            'Biospecimen Survey': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/moduleBiospecimenStage.txt', moduleId:"Biospecimen", enabled:false},
-            'Menstrual Cycle': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/moduleMenstrualStage.txt', moduleId:"MenstrualCycle", enabled:false}
+            'Background and Overall Health': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/module1Stage.txt', moduleId:"Module1", enabled:true, standaloneSurvey:false},
+            'Medications, Reproductive Health, Exercise, and Sleep': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/module2Stage.txt', moduleId:"Module2", enabled:false, standaloneSurvey:false},
+            'Smoking, Alcohol, and Sun Exposure': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/module3Stage.txt', moduleId:"Module3", enabled:false, standaloneSurvey:false},
+            'Where You Live and Work': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/module4Stage.txt', moduleId:"Module4", enabled:false, standaloneSurvey:false},
+            'Enter SSN': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/ssnModule.txt', moduleId:"ModuleSsn", enabled:false, standaloneSurvey:true},
+            'Biospecimen Survey': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/moduleBiospecimenStage.txt', moduleId:"Biospecimen", enabled:false, standaloneSurvey:true},
+            'Menstrual Cycle': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/moduleMenstrualStage.txt', moduleId:"MenstrualCycle", enabled:false, standaloneSurvey:true}
         }
     }
 }
