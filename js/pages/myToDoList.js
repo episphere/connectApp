@@ -4,7 +4,7 @@ import { renderUserProfile } from "../components/form.js";
 import { consentTemplate, initializeCanvas, addEventConsentSubmit } from "./consent.js";
 import { addEventsConsentSign, addEventHeardAboutStudy, addEventRequestPINForm, addEventHealthCareProviderSubmit, addEventPinAutoUpperCase, addEventHealthProviderModalSubmit, addEventToggleSubmit } from "../event.js";
 import { heardAboutStudy, requestPINTemplate, healthCareProvider } from "./healthCareProvider.js";
-import fieldMapping from '../components/fieldToConceptIdMapping.js'; 
+import fieldMapping from '../components/fieldToConceptIdMapping.js';
 
 export const myToDoList = async (data, fromUserProfile) => {
     const mainContent = document.getElementById('root');
@@ -611,15 +611,17 @@ const checkForNewSurveys = async (data) => {
 
     let modules = questionnaireModules();
     modules = setModuleAttributes(data, modules);
-
     let enabledSurveys = 0;
     let newSurvey = false;
     let knownSurveys;
+    let completedStandaloneSurveys = 0;
+    let knownCompletedStandaloneSurveys;
 
-    
-
-    Object.keys(modules).forEach(mod => {
+    Object.keys(modules).forEach( (mod,index) => {
         if(modules[mod].enabled && !modules[mod].unreleased) enabledSurveys++;
+        if(data[fieldMapping[modules[mod]?.moduleId]?.conceptId]?.COMPLETED && data[fieldMapping[modules[mod]?.moduleId]?.conceptId]?.COMPLETED_TS && modules[mod]?.standaloneSurvey){
+            completedStandaloneSurveys++;
+        } 
     });
 
     if(data['566565527']) {
@@ -639,18 +641,30 @@ const checkForNewSurveys = async (data) => {
             </div>
         `;
     }
-
+    
+    if(data[677381583] || data[677381583] === 0) {
+        knownCompletedStandaloneSurveys = data[677381583];
+        if(knownCompletedStandaloneSurveys < completedStandaloneSurveys) {
+            template += `
+            <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
+              Thank you for submitting your survey!
+            </div>
+        `;
+        }
+    }
+    else {
+        completedStandaloneSurveys = 0 
+    }
     let obj = {
-        566565527: enabledSurveys
+        566565527: enabledSurveys,
+        677381583: completedStandaloneSurveys
     }
 
     storeResponse(obj);
-
     return template;
 }
 
 const setModuleAttributes = (data, modules) => {
-
     modules['First Survey'] = {};
     modules['First Survey'].description = 'This survey is split into four sections that ask about a wide range of topics, including information about your medical history, family, work, and health behaviors. You can answer all of the questions at one time, or pause and return to complete the survey later. If you pause, your answers will be saved so you can pick up where you left off. You can skip any questions that you do not want to answer.';
     modules['First Survey'].hasIcon = false;
