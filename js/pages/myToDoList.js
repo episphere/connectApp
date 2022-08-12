@@ -641,9 +641,9 @@ const checkForNewSurveys = async (data) => {
             </div>
         `;
     }
-    // Notes: 'Replace knownCompletedStandaloneSurveys' when Data Dictionary has variable and concept ID
-    if(data['knownCompletedStandaloneSurveys'] || data['knownCompletedStandaloneSurveys'] === 0) {
-        knownCompletedStandaloneSurveys = data["knownCompletedStandaloneSurveys"];
+    // Notes: 'Replace knownCompletedStandaloneSurveys' when Data Dictionary has variable and concept ID - 677381583
+    if(data[677381583] || data[677381583] === 0) {
+        knownCompletedStandaloneSurveys = data[677381583];
         if(knownCompletedStandaloneSurveys < completedStandaloneSurveys) {
             template += `
             <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
@@ -657,7 +657,7 @@ const checkForNewSurveys = async (data) => {
     }
     let obj = {
         566565527: enabledSurveys,
-        "knownCompletedStandaloneSurveys": completedStandaloneSurveys
+        677381583: completedStandaloneSurveys
     }
 
     storeResponse(obj);
