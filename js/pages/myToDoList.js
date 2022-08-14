@@ -88,7 +88,6 @@ export const myToDoList = async (data, fromUserProfile) => {
                 }
                 else if(data['821247024'] && data['821247024'] == 197316935) {
                     if(data['verifiedSeen'] && data['verifiedSeen'] === true){
-                        console.log("verifiedSeen data['821247024']", data['821247024'] )
                         if(checkIfComplete(data)) {
                             if(!data['firstSurveyCompletedSeen']) {
                                 topMessage += 'Thank you for completing your first Connect survey! We will be in touch with next steps.' 
@@ -193,7 +192,7 @@ export const myToDoList = async (data, fromUserProfile) => {
                     window.scrollTo(0,0)
                     hideAnimation();
                     return;
-                    
+
                 }
                 
                 const surveyMessage = await checkForNewSurveys(data);
@@ -627,7 +626,7 @@ const checkForNewSurveys = async (data) => {
             && data[fieldMapping[modules[mod]?.moduleId]?.conceptId]?.COMPLETED_TS 
             && fieldMapping[modules[mod]?.moduleId]?.standaloneSurvey) {
             completedStandaloneSurveys++;
-            }
+        }
     });
 
     if(data['566565527']) {
