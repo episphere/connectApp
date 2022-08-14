@@ -610,7 +610,7 @@ const checkIfComplete = (data) =>{
 const checkForNewSurveys = async (data) => {
     console.log("data",data)
     let template = ``;
-    
+
     let modules = questionnaireModules();
     console.log("modules",modules)
     modules = setModuleAttributes(data, modules);
@@ -619,7 +619,7 @@ const checkForNewSurveys = async (data) => {
     let knownSurveys;
     let completedStandaloneSurveys = 0;
     let knownCompletedStandaloneSurveys;
-    
+
     Object.keys(modules).forEach(mod => {
         if(modules[mod].enabled && !modules[mod].unreleased) enabledSurveys++;
         if(data[fieldMapping[modules[mod]?.moduleId]?.conceptId]?.COMPLETED 
