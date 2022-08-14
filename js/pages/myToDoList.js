@@ -86,7 +86,7 @@ export const myToDoList = async (data, fromUserProfile) => {
                             ${checkIfComplete(data) ? 'Thank you for completing your first Connect survey! We will be in touch with next steps.': 'In the meantime, please begin by completing your first Connect survey.'}`}
                     `
                 }
-                else if(data['821247024'] && data['821247024'] == 197316935) { // Add function inside this block
+                else if(data['821247024'] && data['821247024'] == 197316935) {
                     if(data['verifiedSeen'] && data['verifiedSeen'] === true){
                         console.log("verifiedSeen data['821247024']", data['821247024'] )
                         if(checkIfComplete(data)) {
@@ -95,39 +95,9 @@ export const myToDoList = async (data, fromUserProfile) => {
                                 let formData = {};
                                 formData['firstSurveyCompletedSeen'] = true;
                                 storeResponse(formData);
-                                // TEST HERE
                             }
                             else {
-                                /*
-                                Note this use case is only for users who previously submitted a standalone survey
-                                We can check here for completion of forms 
-                                Check for completed standalone surveys and initialize value from the start 
-
-                                check if concept Id exists
-                                if not add and count the numbers of completed surveys
-                                */ 
-                                console.log("if(data[677381583])",data[677381583])
-                                // CREATE NEW FUNCTION 
-                                if(data[677381583]) {
-                                    let modules = questionnaireModules()
-                                    let completedStandaloneSurveys
-                                    Object.keys(modules).forEach((mod,index) => {
-                                        console.log(index,mod, fieldMapping[modules[mod]?.moduleId]?.standaloneSurvey)
-                                        // console.log("data[fieldMapping[modules[mod]?.moduleId]?.conceptId]?.COMPLETED", data[fieldMapping[modules[mod]?.moduleId]?.conceptId]?.COMPLETED)
-                                        // console.log("data[fieldMapping[modules[mod]?.moduleId]?.conceptId]?.COMPLETED_TS", data[fieldMapping[modules[mod]?.moduleId]?.conceptId]?.COMPLETED_TS)
-                                        if(data[fieldMapping[modules[mod]?.moduleId]?.conceptId]?.COMPLETED && data[fieldMapping[modules[mod]?.moduleId]?.conceptId]?.COMPLETED_TS && fieldMapping[modules[mod]?.standaloneSurvey]){
-                                            completedStandaloneSurveys++;
-                                        }
-                                    })
-                                    let formData = {
-                                        677381583: completedStandaloneSurveys
-                                    };
-                                    
-                                    storeResponse(formData)
-                                    // if(data[fieldMapping[modules[mod]?.moduleId]?.conceptId]?.COMPLETED && data[fieldMapping[modules[mod]?.moduleId]?.conceptId]?.COMPLETED_TS && modules[mod]?.standaloneSurvey){
-                                    //     completedStandaloneSurveys++;
-                                    // }   
-                                }
+                                storeCompletedStandaloneSurveys(data)
                                 topMessage += '';
                             }
                           }
@@ -225,8 +195,8 @@ export const myToDoList = async (data, fromUserProfile) => {
                     return;
                     
                 }
-                // WRITE FUNCTION BEFORE HERE
-                const surveyMessage = await checkForNewSurveys(data); // 
+                
+                const surveyMessage = await checkForNewSurveys(data);
 
                 if(surveyMessage) {
                     template += surveyMessage;
@@ -638,8 +608,6 @@ const checkIfComplete = (data) =>{
     return module1Complete && module2Complete && module3Complete && module4Complete;
 }
 
-// const setCompletedStandaloneSurveys = ();
-
 const checkForNewSurveys = async (data) => {
     console.log("data",data)
     let template = ``;
@@ -655,17 +623,13 @@ const checkForNewSurveys = async (data) => {
     let completedStandaloneSurveys = 0;
     let knownCompletedStandaloneSurveys;
     
-
-    
-
     Object.keys(modules).forEach(mod => {
         if(modules[mod].enabled && !modules[mod].unreleased) enabledSurveys++;
-        //
-        //modules[mod]?.standaloneSurvey
-        console.log("modules[mod]?.standaloneSurvey",modules[mod])
-        if(data[fieldMapping[modules[mod]?.moduleId]?.conceptId]?.COMPLETED && data[fieldMapping[modules[mod]?.moduleId]?.conceptId]?.COMPLETED_TS && fieldMapping[modules[mod]?.standaloneSurvey]){
-                                    completedStandaloneSurveys++;
-                                }
+        if(data[fieldMapping[modules[mod]?.moduleId]?.conceptId]?.COMPLETED 
+            && data[fieldMapping[modules[mod]?.moduleId]?.conceptId]?.COMPLETED_TS 
+            && fieldMapping[modules[mod]?.moduleId]?.standaloneSurvey) {
+            completedStandaloneSurveys++;
+            }
     });
 
     if(data['566565527']) {
@@ -686,7 +650,6 @@ const checkForNewSurveys = async (data) => {
         `;
     }
 
-    // check for differences 
     if(data[677381583]) {
         knownCompletedStandaloneSurveys = data[677381583];
         if(knownCompletedStandaloneSurveys < completedStandaloneSurveys) {
@@ -706,6 +669,24 @@ const checkForNewSurveys = async (data) => {
     storeResponse(obj);
 
     return template;
+}
+
+const storeCompletedStandaloneSurveys = (data) => {
+    if(data[677381583] === undefined) {
+        let modules = questionnaireModules()
+        let completedStandaloneSurveys = 0;
+        Object.keys(modules).forEach( mod => {
+            if(data[fieldMapping[modules[mod]?.moduleId]?.conceptId]?.COMPLETED 
+                && data[fieldMapping[modules[mod]?.moduleId]?.conceptId]?.COMPLETED_TS 
+                && fieldMapping[modules[mod]?.moduleId]?.standaloneSurvey){
+                completedStandaloneSurveys++;
+            }
+        })
+        let formData = {
+            677381583: completedStandaloneSurveys
+        };
+        storeResponse(formData)
+    }
 }
 
 const setModuleAttributes = (data, modules) => {
