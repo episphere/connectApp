@@ -4,7 +4,7 @@ import { renderUserProfile } from "../components/form.js";
 import { consentTemplate, initializeCanvas, addEventConsentSubmit } from "./consent.js";
 import { addEventsConsentSign, addEventHeardAboutStudy, addEventRequestPINForm, addEventHealthCareProviderSubmit, addEventPinAutoUpperCase, addEventHealthProviderModalSubmit, addEventToggleSubmit } from "../event.js";
 import { heardAboutStudy, requestPINTemplate, healthCareProvider } from "./healthCareProvider.js";
-import fieldMapping from '../components/fieldToConceptIdMapping.js'; 
+import fieldMapping from '../components/fieldToConceptIdMapping.js';
 
 export const myToDoList = async (data, fromUserProfile) => {
     const mainContent = document.getElementById('root');
@@ -615,11 +615,9 @@ const checkForNewSurveys = async (data) => {
     let modules = questionnaireModules();
     console.log("modules",modules)
     modules = setModuleAttributes(data, modules);
-
     let enabledSurveys = 0;
     let newSurvey = false;
     let knownSurveys;
-
     let completedStandaloneSurveys = 0;
     let knownCompletedStandaloneSurveys;
     
@@ -660,14 +658,12 @@ const checkForNewSurveys = async (data) => {
         `;
         }
     }
-
     let obj = {
         566565527: enabledSurveys,
         677381583: completedStandaloneSurveys
     }
 
     storeResponse(obj);
-
     return template;
 }
 
@@ -690,7 +686,6 @@ const storeCompletedStandaloneSurveys = (data) => {
 }
 
 const setModuleAttributes = (data, modules) => {
-
     modules['First Survey'] = {};
     modules['First Survey'].description = 'This survey is split into four sections that ask about a wide range of topics, including information about your medical history, family, work, and health behaviors. You can answer all of the questions at one time, or pause and return to complete the survey later. If you pause, your answers will be saved so you can pick up where you left off. You can skip any questions that you do not want to answer.';
     modules['First Survey'].hasIcon = false;
