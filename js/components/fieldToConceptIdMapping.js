@@ -34,14 +34,14 @@ export default
     "D_299215535" : "Biospecimen",
     "D_912367929" : "MenstrualCycle",
 
-    "Module1_OLD": {"conceptId":"D_726699695","startTs":"205553981", "completeTs": "517311251", "completeFlag":"949302066", "statusFlag":"949302066"},
-    "Module1": {"conceptId":"D_726699695_V2","startTs":"205553981", "completeTs": "517311251", "completeFlag":"949302066", "statusFlag":"949302066"},
-    "Module2": {"conceptId":"D_745268907","startTs":"541836531", "completeTs": "832139544", "completeFlag":"536735468", "statusFlag":"536735468"},
-    "Module3": {"conceptId":"D_965707586","startTs":"386488297", "completeTs": "770257102", "completeFlag":"976570371", "statusFlag":"976570371"},
-    "Module4": {"conceptId":"D_716117817","startTs":"452942800", "completeTs": "264644252", "completeFlag":"663265240", "statusFlag":"663265240"},
-    "ModuleSsn": {"conceptId":"D_166676176", "startTs":"943232079", "completeTs": "315032037", "completeFlag":"126331570", "statusFlag":"126331570"},
-    "Biospecimen": {"conceptId":"D_299215535","startTs":"822499427", "completeTs": "222161762", "completeFlag":"265193023", "statusFlag":"265193023"},
-    "MenstrualCycle": {"conceptId":"D_912367929","startTs":"844088537", "completeTs": "217640691", "completeFlag":"459098666", "statusFlag":"459098666"}
+    "Module1_OLD": {"conceptId":"D_726699695","startTs":"205553981", "completeTs": "517311251", "completeFlag":"949302066", "statusFlag":"949302066", "standaloneSurvey": false},
+    "Module1": {"conceptId":"D_726699695_V2","startTs":"205553981", "completeTs": "517311251", "completeFlag":"949302066", "statusFlag":"949302066", "standaloneSurvey": false},
+    "Module2": {"conceptId":"D_745268907","startTs":"541836531", "completeTs": "832139544", "completeFlag":"536735468", "statusFlag":"536735468", "standaloneSurvey": false},
+    "Module3": {"conceptId":"D_965707586","startTs":"386488297", "completeTs": "770257102", "completeFlag":"976570371", "statusFlag":"976570371", "standaloneSurvey": false},
+    "Module4": {"conceptId":"D_716117817","startTs":"452942800", "completeTs": "264644252", "completeFlag":"663265240", "statusFlag":"663265240", "standaloneSurvey": false},
+    "ModuleSsn": {"conceptId":"D_166676176", "startTs":"943232079", "completeTs": "315032037", "completeFlag":"126331570", "statusFlag":"126331570", "standaloneSurvey": true  },
+    "Biospecimen": {"conceptId":"D_299215535","startTs":"822499427", "completeTs": "222161762", "completeFlag":"265193023", "statusFlag":"265193023", "standaloneSurvey": true },
+    "MenstrualCycle": {"conceptId":"D_912367929","startTs":"844088537", "completeTs": "217640691", "completeFlag":"459098666", "statusFlag":"459098666", "standaloneSurvey": true }
 }
 
 
