@@ -191,7 +191,6 @@ export const myToDoList = async (data, fromUserProfile) => {
                     window.scrollTo(0,0)
                     hideAnimation();
                     return;
-
                 }
                 
                 const surveyMessage = await checkForNewSurveys(data);
@@ -640,7 +639,6 @@ const checkForNewSurveys = async (data) => {
     }
 
     if(data[677381583] || data[677381583] === 0) {
-        console.log("Concept Id exists value", data[677381583])
         knownCompletedStandaloneSurveys = data[677381583];
         if(knownCompletedStandaloneSurveys < completedStandaloneSurveys) {
             template += `
@@ -651,7 +649,7 @@ const checkForNewSurveys = async (data) => {
         }
     }
     else if (data[677381583] === undefined) {
-        
+
     }
     else {
         completedStandaloneSurveys = 0
