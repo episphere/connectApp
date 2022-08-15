@@ -608,11 +608,8 @@ const checkIfComplete = (data) =>{
 }
 
 const checkForNewSurveys = async (data) => {
-    console.log("data",data)
     let template = ``;
-
     let modules = questionnaireModules();
-    console.log("modules",modules)
     modules = setModuleAttributes(data, modules);
     let enabledSurveys = 0;
     let newSurvey = false;
