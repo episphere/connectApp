@@ -191,9 +191,8 @@ export const myToDoList = async (data, fromUserProfile) => {
                     window.scrollTo(0,0)
                     hideAnimation();
                     return;
-                    
                 }
-
+                
                 const surveyMessage = await checkForNewSurveys(data);
 
                 if(surveyMessage) {
@@ -608,7 +607,6 @@ const checkIfComplete = (data) =>{
 
 const checkForNewSurveys = async (data) => {
     let template = ``;
-
     let modules = questionnaireModules();
     modules = setModuleAttributes(data, modules);
     let enabledSurveys = 0;
@@ -617,11 +615,9 @@ const checkForNewSurveys = async (data) => {
     let completedStandaloneSurveys = 0;
     let knownCompletedStandaloneSurveys;
 
-    Object.keys(modules).forEach( (mod,index) => {
+    Object.keys(modules).forEach(mod => {
         if(modules[mod].enabled && !modules[mod].unreleased) enabledSurveys++;
-        if(data[fieldMapping[modules[mod]?.moduleId]?.conceptId]?.COMPLETED && data[fieldMapping[modules[mod]?.moduleId]?.conceptId]?.COMPLETED_TS && modules[mod]?.standaloneSurvey){
-            completedStandaloneSurveys++;
-        } 
+        if(data[fieldMapping[modules[mod]?.moduleId]?.conceptId]?.COMPLETED_TS && fieldMapping[modules[mod]?.moduleId]?.standaloneSurvey) completedStandaloneSurveys++;
     });
 
     if(data['566565527']) {
@@ -641,7 +637,7 @@ const checkForNewSurveys = async (data) => {
             </div>
         `;
     }
-    
+
     if(data[677381583] || data[677381583] === 0) {
         knownCompletedStandaloneSurveys = data[677381583];
         if(knownCompletedStandaloneSurveys < completedStandaloneSurveys) {
@@ -652,9 +648,13 @@ const checkForNewSurveys = async (data) => {
         `;
         }
     }
-    else {
-        completedStandaloneSurveys = 0 
+    else if (data[677381583] === undefined) {
+
     }
+    else {
+        completedStandaloneSurveys = 0
+    }
+
     let obj = {
         566565527: enabledSurveys,
         677381583: completedStandaloneSurveys
