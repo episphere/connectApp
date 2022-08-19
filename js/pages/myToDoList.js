@@ -643,7 +643,7 @@ const checkForNewSurveys = async (data) => {
         if(knownCompletedStandaloneSurveys < completedStandaloneSurveys) {
             template += `
             <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
-              Thank you for submitting your survey!
+                Thank you for submitting your survey. If you are using a shared device, please remember to sign out of the MyConnect app and any email accounts you used to sign into the MyConnect app.
             </div>
         `;
         }
