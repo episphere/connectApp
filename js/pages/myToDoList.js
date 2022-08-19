@@ -699,8 +699,8 @@ const setModuleAttributes = (data, modules) => {
     if(location.host === urls.prod){
         modules['Menstrual Cycle'].unreleased = true;
     }
-    modules['Menstrual Cycle'].header = 'Menstrual Cycle';
-    modules['Menstrual Cycle'].description = 'Questions about menstrual cycle. ';
+    modules['Menstrual Cycle'].header = 'Menstrual Cycle Survey';
+    modules['Menstrual Cycle'].description = 'Questions about the date of your first menstrual period after you donated samples for Connect. ';
     modules['Menstrual Cycle'].estimatedTime = '5 minutes';
 
     if(data['331584571'] && data['331584571']['266600170'] && data['331584571']['266600170']['840048338']) {
