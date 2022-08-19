@@ -643,7 +643,7 @@ const checkForNewSurveys = async (data) => {
         if(knownCompletedStandaloneSurveys < completedStandaloneSurveys) {
             template += `
             <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
-              Thank you for submitting your survey!
+                Thank you for submitting your survey. If you are using a shared device, please remember to sign out of the MyConnect app and any email accounts you used to sign into the MyConnect app.
             </div>
         `;
         }
@@ -699,8 +699,8 @@ const setModuleAttributes = (data, modules) => {
     if(location.host === urls.prod){
         modules['Menstrual Cycle'].unreleased = true;
     }
-    modules['Menstrual Cycle'].header = 'Menstrual Cycle';
-    modules['Menstrual Cycle'].description = 'Questions about menstrual cycle. ';
+    modules['Menstrual Cycle'].header = 'Menstrual Cycle Survey';
+    modules['Menstrual Cycle'].description = 'Questions about the date of your first menstrual period after you donated samples for Connect. ';
     modules['Menstrual Cycle'].estimatedTime = '5 minutes';
 
     if(data['331584571'] && data['331584571']['266600170'] && data['331584571']['266600170']['840048338']) {
