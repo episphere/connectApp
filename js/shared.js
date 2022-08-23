@@ -856,11 +856,6 @@ export const getConceptVariableName = async (conceptId) => {
     return res['Variable Name'];
 }
 
-//for local testing use URL like such http://localhost:5001/questionnaires/submodules/module1_config.txt
-//for condensed testing of questionnaires use this set of urls https://hzhao392.github.io/privatequest/test_module1.txt
-//for submodules use https://raw.githubusercontent.com/jonasalmeida/privatequest/master/submodules/module1_config.txt?token=ANWUEPNBOGO6ATOXSNG5DWDAWZ6XC
-//'Background and Overall Health': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/module1.txt', moduleId:"Module1", enabled:true},
-//    'TestModule': {"url":"https://raw.githubusercontent.com/jonasalmeida/privatequest/master/mockModule.txt?token=AGOJYPBPWBE2ONWJ3FCT7VDBJLP4E","moduleId":"TestModule","enabled":true},
 export const questionnaireModules = () => {
     if(location.host == urls.prod){
         return {
@@ -1120,7 +1115,7 @@ export const checkDerivedConcepts = async (data) => {
     let updates = {};
 
     // all baseline surveys completed
-    if(!data['100767870']) {
+    if(data['100767870'] === 104430631) {
         if (data['949302066'] === 231311385 && data['536735468'] === 231311385 && data['976570371'] === 231311385 && data['663265240'] === 231311385) {
             updates['100767870'] = 353358909;
         }
