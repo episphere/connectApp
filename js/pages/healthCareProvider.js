@@ -75,6 +75,7 @@ export const healthCareProvider = (siteId) => {
                 </label>
             </div>
             <div class="row">
+            <span class="required">*Required</span>
                 <div class="ml-auto">
                 <button style="display:none;" id="openModal" class="btn btn-primary save-data consentNextButton" data-toggle="modal" data-target="#HealthProviderModal">Submit</button>
                     <button type="submit" class="btn btn-primary save-data consentNextButton">Submit</button>
