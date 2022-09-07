@@ -413,7 +413,7 @@ export const getAge = (dateString) => {
     if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
         age--;
     }
-    return age;
+    return Math.max(age, 0);  // returns 0 if age is negative
 }
 
 export const allStates = {
