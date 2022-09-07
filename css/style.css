@@ -1019,6 +1019,27 @@ input:checked + .slider:before {
     /*margin-bottom:180px;*/
 }
 
+.hovertext::before {
+    content: attr(data-hover-text);
+    visibility: hidden;
+    opacity: 0;
+    width: max-content;
+    background-color: white;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 400;
+    padding-inline: 1rem;
+    transition: opacity ease-in-out;
+    position: absolute;
+    left: 3%;
+    top: 16%;
+  }
+  
+  .hovertext:hover::before {
+    opacity: 1;
+    visibility: visible;
+  }
+
 
 @media (max-width:520px){
     .connectBody{
