@@ -268,7 +268,7 @@ function soccerFunction(){
                     <div class = "col-md-1">
                     </div>
                     <div class = "col-md-10" id="questionnaireRoot">
-                        Thank you. We will check back in with you soon.
+                        Thank you. When your next menstrual period starts, please return to complete this survey.
                         <br>
                         <br>
                         <div class="container">

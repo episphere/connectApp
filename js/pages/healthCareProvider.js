@@ -61,7 +61,7 @@ export const healthCareProvider = (siteId) => {
     <div class="col eligibility-form">
         <form method="POST" id="eligibilityForm">
             <div class="form-group">
-                <label for="827220437"><strong>Who is your healthcare provider?<span class="required"> *</span></strong>
+                <label for="827220437"><strong>Who is your healthcare provider?<span class="required hovertext" data-hover-text="Healthcare provider is required"> *</span></strong>
                     <select ${siteId ? `disabled` : ``} class="form-control" style="margin-left:0px;" id="827220437" required>
                         <option value="">-- Select healthcare provider --</option>
     `;
@@ -75,6 +75,7 @@ export const healthCareProvider = (siteId) => {
                 </label>
             </div>
             <div class="row">
+            <span class="required">*Required</span>
                 <div class="ml-auto">
                 <button style="display:none;" id="openModal" class="btn btn-primary save-data consentNextButton" data-toggle="modal" data-target="#HealthProviderModal">Submit</button>
                     <button type="submit" class="btn btn-primary save-data consentNextButton">Submit</button>
