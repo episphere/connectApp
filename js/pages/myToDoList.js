@@ -1,4 +1,4 @@
-import { hideAnimation, questionnaireModules, storeResponse, sites, urls } from "../shared.js";
+import { hideAnimation, questionnaireModules, storeResponse, sites, getMyCollections } from "../shared.js";
 import { blockParticipant, questionnaire } from "./questionnaire.js";
 import { renderUserProfile } from "../components/form.js";
 import { consentTemplate, initializeCanvas, addEventConsentSubmit } from "./consent.js";
@@ -6,7 +6,7 @@ import { addEventsConsentSign, addEventHeardAboutStudy, addEventRequestPINForm, 
 import { heardAboutStudy, requestPINTemplate, healthCareProvider } from "./healthCareProvider.js";
 import fieldMapping from '../components/fieldToConceptIdMapping.js';
 
-export const myToDoList = async (data, fromUserProfile) => {
+export const myToDoList = async (data, fromUserProfile, collections) => {
     const mainContent = document.getElementById('root');
     if(!data['507120821']){
         let formData = {
@@ -220,7 +220,7 @@ export const myToDoList = async (data, fromUserProfile) => {
                 `;
                 const modules = questionnaireModules();
                 
-                template += renderMainBody(data, 'todo')
+                template += renderMainBody(data, collections, 'todo')
                 template += `</ul>`
                 template += `
                     </div>
@@ -232,7 +232,7 @@ export const myToDoList = async (data, fromUserProfile) => {
                 
                 mainContent.innerHTML = template;
                 document.getElementById('surveysToDoTab').addEventListener('click', () => {
-                    document.getElementById('surveyMainBody').innerHTML = renderMainBody(data, 'todo') 
+                    document.getElementById('surveyMainBody').innerHTML = renderMainBody(data, collections, 'todo') 
                     if(!document.getElementById('surveysToDoTab').classList.contains('survey-Active-Nav')){
                         let toActive = document.getElementById('surveysToDoTab');   
                         let toInactive = document.getElementById('surveysCompleted');
@@ -252,7 +252,7 @@ export const myToDoList = async (data, fromUserProfile) => {
                         toInactive.classList.add('survey-Inactive-Nav')
                         toInactive.classList.remove('survey-Active-Nav')
                     }
-                    document.getElementById('surveyMainBody').innerHTML = renderMainBody(data, 'completed') 
+                    document.getElementById('surveyMainBody').innerHTML = renderMainBody(data, collections, 'completed') 
                     addEventToDoList();
                 })
                 addEventToDoList();
@@ -312,15 +312,13 @@ const addEventToDoList = () => {
 }
 
 
-const renderMainBody = (data, tab) => {
+const renderMainBody = (data, collections, tab) => {
     let template = ''
     template += `
             <ul class="questionnaire-module-list">`;
-
-    let toDisplayKeys = ['First Survey', 'Background and Overall Health', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure', "Where You Live and Work",'Enter SSN']
     
     let modules = questionnaireModules();
-    modules = setModuleAttributes(data, modules);
+    modules = setModuleAttributes(data, modules, collections);
     
     let toDisplaySystem = [{'header':'First Survey', 'body': ['Background and Overall Health', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure', "Where You Live and Work"]}, {'body':['Enter SSN']}]
     if(data['821247024'] && data['821247024'] == 875007964){
@@ -329,6 +327,10 @@ const renderMainBody = (data, tab) => {
 
     if(modules['Biospecimen Survey'].enabled) {
         toDisplaySystem.unshift({'body':['Biospecimen Survey']});
+    }
+
+    if(modules['Clinical Biospecimen Survey'].enabled) {
+        toDisplaySystem.unshift({'body':['Clinical Biospecimen Survey']});
     }
 
     if(modules['Menstrual Cycle'].enabled) {
@@ -664,7 +666,7 @@ const checkForNewSurveys = async (data) => {
     return template;
 }
 
-const setModuleAttributes = (data, modules) => {
+const setModuleAttributes = (data, modules, collections) => {
     modules['First Survey'] = {};
     modules['First Survey'].description = 'This survey is split into four sections that ask about a wide range of topics, including information about your medical history, family, work, and health behaviors. You can answer all of the questions at one time, or pause and return to complete the survey later. If you pause, your answers will be saved so you can pick up where you left off. You can skip any questions that you do not want to answer.';
     modules['First Survey'].hasIcon = false;
@@ -695,6 +697,10 @@ const setModuleAttributes = (data, modules) => {
     modules['Biospecimen Survey'].header = 'Baseline Blood, Urine, and Mouthwash Sample Survey';
     modules['Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples, and your history of COVID-19. ';
     modules['Biospecimen Survey'].estimatedTime = '10 to 15 minutes';
+    
+    modules['Clinical Biospecimen Survey'].header = 'Baseline Blood and Urine Sample Survey';
+    modules['Clinical Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples, and your history of COVID-19. ';
+    modules['Clinical Biospecimen Survey'].estimatedTime = '10 to 15 minutes';
 
     modules['Menstrual Cycle'].header = 'Menstrual Cycle Survey';
     modules['Menstrual Cycle'].description = 'Questions about the date of your first menstrual period after you donated samples for Connect. ';
@@ -702,6 +708,10 @@ const setModuleAttributes = (data, modules) => {
 
     if(data['331584571'] && data['331584571']['266600170'] && data['331584571']['266600170']['840048338']) {
         modules['Biospecimen Survey'].enabled = true;
+    }
+
+    if(collections && collections.filter(collection => collection['650516960'] === 664882224).length > 0) {
+        modules['Clinical Biospecimen Survey'].enabled = true;
     }
 
     if(data['D_299215535'] && data['D_299215535']['D_112151599'] && data['D_299215535']['D_112151599'] == 353358909 && data['265193023'] == 231311385) {

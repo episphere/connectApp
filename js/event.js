@@ -1,4 +1,4 @@
-import { allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, errorMessageNumbers, BirthMonths, getAge, getMyData, retrieveNotifications, removeActiveClass, toggleNavbarMobileView } from "./shared.js";
+import { allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, errorMessageNumbers, BirthMonths, getAge, getMyData, retrieveNotifications, removeActiveClass, toggleNavbarMobileView, getMyCollections } from "./shared.js";
 import { initializeCanvas, addEventConsentSubmit, consentTemplate } from "./pages/consent.js";
 import { heardAboutStudy, healthCareProvider } from "./pages/healthCareProvider.js";
 import { myToDoList } from "./pages/myToDoList.js";
