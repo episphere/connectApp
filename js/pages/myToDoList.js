@@ -1,4 +1,4 @@
-import { hideAnimation, questionnaireModules, storeResponse, sites, getMyCollections } from "../shared.js";
+import { hideAnimation, questionnaireModules, storeResponse, sites } from "../shared.js";
 import { blockParticipant, questionnaire } from "./questionnaire.js";
 import { renderUserProfile } from "../components/form.js";
 import { consentTemplate, initializeCanvas, addEventConsentSubmit } from "./consent.js";
