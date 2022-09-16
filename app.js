@@ -277,8 +277,8 @@ const userProfile = () => {
             }
             
             const myData = await getMyData();
-            const myCollections = await getMyCollections();
             if(myData.code === 200) {
+                const myCollections = await getMyCollections();
                 myToDoList(myData.data, false, myCollections.data);
             }
             else {
