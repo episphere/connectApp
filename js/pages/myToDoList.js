@@ -600,7 +600,7 @@ const renderMainBody = (data, collections, tab) => {
 const checkIfComplete = (data) =>{
     
     let module1Complete = (data[fieldMapping.Module1.conceptId] && data[fieldMapping.Module1.conceptId].COMPLETED) || (data[fieldMapping.Module1_OLD.conceptId] && data[fieldMapping.Module1_OLD.conceptId].COMPLETED);
-    let module2Complete = data[fieldMapping.Module2.conceptId] && data[fieldMapping.Module2.conceptId].COMPLETED;
+    let module2Complete = (data[fieldMapping.Module2.conceptId] && data[fieldMapping.Module2.conceptId].COMPLETED) || (data[fieldMapping.Module2_OLD.conceptId] && data[fieldMapping.Module2_OLD.conceptId].COMPLETED);
     let module3Complete = data[fieldMapping.Module3.conceptId] && data[fieldMapping.Module3.conceptId].COMPLETED;
     let module4Complete = data[fieldMapping.Module4.conceptId] && data[fieldMapping.Module4.conceptId].COMPLETED;
 
@@ -724,7 +724,7 @@ const setModuleAttributes = (data, modules, collections) => {
         modules['Medications, Reproductive Health, Exercise, and Sleep'].enabled = true;
         modules['Background and Overall Health'].completed = true;
     };
-    if (data[fieldMapping.Module2.conceptId] && data[fieldMapping.Module2.conceptId].COMPLETED) { 
+    if ((data[fieldMapping.Module2.conceptId] && data[fieldMapping.Module2.conceptId].COMPLETED) || (data[fieldMapping.Module2_OLD.conceptId] && data[fieldMapping.Module2_OLD.conceptId].COMPLETED)) { 
         modules['Medications, Reproductive Health, Exercise, and Sleep'].completed = true;
     };
     if (data[fieldMapping.Module3.conceptId] && data[fieldMapping.Module3.conceptId].COMPLETED) { 
