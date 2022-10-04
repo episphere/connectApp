@@ -55,7 +55,7 @@ export const conceptIdMapping = (formData) => {
         let moduleIdCompletedTS = moduleId + ".COMPLETED_TS";
         
         if (moduleIdCompleted in formData) {
-            let connectModuleIdCompleted = fieldMapping[fieldMapping[`${moduleId}`]].completeFlag;
+            let connectModuleIdCompleted = fieldMapping[fieldMapping[`${moduleId}`]].statusFlag;
             formData[connectModuleIdCompleted] = 231311385;
         }
         if (moduleIdCompletedTS in formData) {
@@ -79,7 +79,7 @@ export const gridFiltering = (formData) => {
         let moduleIdCompletedTS = moduleId + ".COMPLETED_TS";
         
         if (moduleIdCompleted in formData) {
-            let connectModuleIdCompleted = fieldMapping[fieldMapping[`${moduleId}`]].completeFlag;
+            let connectModuleIdCompleted = fieldMapping[fieldMapping[`${moduleId}`]].statusFlag;
             formData[connectModuleIdCompleted] = 231311385;
         }
         if (moduleIdCompletedTS in formData) {
