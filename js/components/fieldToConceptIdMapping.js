@@ -27,7 +27,8 @@ export default
 
     "D_726699695" : "Module1_OLD",
     "D_726699695_V2" : "Module1",
-    "D_745268907" : "Module2",
+    "D_745268907" : "Module2_OLD",
+    "D_745268907_V2" : "Module2",
     "D_965707586" : "Module3",
     "D_716117817" : "Module4",
     "D_166676176" : "ModuleSsn",
@@ -51,8 +52,16 @@ export default
         "standaloneSurvey": false
     },
 
-    "Module2": {
+    "Module2_OLD": {
         "conceptId":"D_745268907",
+        "startTs":"541836531", 
+        "completeTs": "832139544",  
+        "statusFlag":"536735468", 
+        "standaloneSurvey": false
+    },
+
+    "Module2": {
+        "conceptId":"D_745268907_V2",
         "startTs":"541836531", 
         "completeTs": "832139544",  
         "statusFlag":"536735468", 
