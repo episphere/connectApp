@@ -7,6 +7,20 @@ export const urls = {
     'stage': 'myconnect-stage.cancer.gov'
 }
 
+function createStore(initialState = {}) {
+    let state = initialState;
+
+    const setState = (update) => {
+        state = { ...state, ...update };
+    }; 
+    
+    const getState = () => state;
+  
+    return { setState, getState };
+  }
+
+export const appState = createStore();
+
 let api = '';
 
 if(location.host === urls.prod) api = 'https://api-myconnect.cancer.gov/app';
