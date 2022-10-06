@@ -1,9 +1,8 @@
-import { getMyData, renderSyndicate, urls } from "../shared.js";
+import { getMyData, renderSyndicate, urls, html, removeChildren } from "../shared.js";
 import { environmentWarningModal } from "../event.js";
 
 export const homePage = async () => {
-    const mainContent = document.getElementById('root');
-    mainContent.innerHTML = `
+    let template = html`
         <div class="row connectBody1">
             <div class="col-lg-2 o">
             </div>
@@ -290,6 +289,10 @@ export const homePage = async () => {
         -->
         
     `;
+
+    const rootDiv = document.getElementById('root');
+    removeChildren(rootDiv);
+    rootDiv.appendChild(template);
     
     if(location.host !== urls.prod) environmentWarningModal();
 }

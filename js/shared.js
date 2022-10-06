@@ -13,7 +13,7 @@ function createStore(initialState = {}) {
     const setState = (update) => {
         state = { ...state, ...update };
     }; 
-    
+
     const getState = () => state;
   
     return { setState, getState };
@@ -1163,3 +1163,72 @@ const clientFilterData = (formData) => {
 
     return formData;
 }
+
+export function html(strings, ...values) {
+  const N = values.length;
+  let transformedStringList = [];
+  let elementAndDocumentFragmentList = [];
+
+  for (let i = 0; i < N; i++) {
+    if (
+      values[i] instanceof HTMLElement ||
+      values[i] instanceof DocumentFragment
+    ) {
+      transformedStringList.push(strings[i], `<div id="placeholder"></div>`);
+      elementAndDocumentFragmentList.push(values[i]);
+    } else {
+      transformedStringList.push(strings[i], values[i]);
+    }
+  }
+
+  transformedStringList.push(strings[N]);
+  let fragment = stringToHTML(transformedStringList.join(''));
+
+  if (elementAndDocumentFragmentList.length > 0) {
+    const phEleList = fragment.querySelectorAll('#placeholder');
+    for (let i = 0; i < phEleList.length; i++) {
+      replaceElement(phEleList[i], elementAndDocumentFragmentList[i]);
+    }
+  }
+
+  return fragment;
+}
+
+export function stringToHTML(str) {
+  const doc = new DOMParser().parseFromString(str, 'text/html');
+  const fragment = new DocumentFragment();
+  fragment.append(...doc.body.children);
+
+  return fragment;
+}
+
+export function replaceElement(ele, ...nodes) {
+  const divEle = wrapToDiv(nodes);
+  ele.replaceWith(...divEle.children);
+  
+  return ele;
+}
+
+export function removeChildren(ele) {
+  while (ele.firstChild) {
+    ele.firstChild.remove();
+  }
+  
+  return ele;
+}
+
+function wrapToDiv(nodes) {
+  let divEle = document.createElement('div');
+
+  for (let node of nodes) {
+    if (node instanceof DocumentFragment) {
+      divEle.appendChild(node);
+    } else {
+      divEle.append(node);
+    }
+  }
+
+  return divEle;
+}
+
+
