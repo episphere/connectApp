@@ -320,9 +320,9 @@ const renderMainBody = (data, collections, tab) => {
     let modules = questionnaireModules();
     modules = setModuleAttributes(data, modules, collections);
     
-    let toDisplaySystem = [{'header':'First Survey', 'body': ['Background and Overall Health', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure', "Where You Live and Work"]}, {'body':['Enter SSN']}]
+    let toDisplaySystem = [{'header':'First Survey', 'body': ['Background and Overall Health', 'Where You Live and Work', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure']}, {'body':['Enter SSN']}]
     if(data['821247024'] && data['821247024'] == 875007964){
-        toDisplaySystem = [{'header':'First Survey', 'body': ['Background and Overall Health', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure', "Where You Live and Work"]}]
+        toDisplaySystem = [{'header':'First Survey', 'body': ['Background and Overall Health', 'Where You Live and Work', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure']}]
     }
 
     if(modules['Biospecimen Survey'].enabled) {
