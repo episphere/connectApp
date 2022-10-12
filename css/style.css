@@ -945,7 +945,7 @@ input:checked + .slider:before {
 
 
 .signInWrapper{
-    max-width:360px;
+    max-width:500px;
     background-color:white;
     margin:auto;
     padding-top:30px;   

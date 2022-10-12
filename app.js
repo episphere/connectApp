@@ -1,4 +1,4 @@
-import { getParameters, validateToken, userLoggedIn, getMyData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, verifyPaymentEligibility, checkDerivedConcepts } from "./js/shared.js";
+import { getParameters, validateToken, userLoggedIn, getMyData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, verifyPaymentEligibility, checkDerivedConcepts, fragment, removeChildren, checkAccount, validEmailFormat, validPhoneNumberFormat } from "./js/shared.js";
 import { userNavBar, homeNavBar } from "./js/components/navbar.js";
 import { homePage, joinNowBtn, whereAmIInDashboard, renderHomeAboutPage, renderHomeExpectationsPage, renderHomePrivacyPage } from "./js/pages/homePage.js";
 import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser, addEventToggleSubmit } from "./js/event.js";
@@ -45,13 +45,13 @@ window.onload = async () => {
     document.body.appendChild(script)
     auth = firebase.auth();
     auth.onAuthStateChanged(async user => {
-        //console.log('-------here it is----------')
         if(user){
             localforage.clear()
             inactivityTime();
         }
     });
-    if('serviceWorker' in navigator){
+
+    if ('serviceWorker' in navigator) {
         try {
             navigator.serviceWorker.register('./serviceWorker.js')
             .then((registration) => {
@@ -326,9 +326,8 @@ const toggleNavBar = (route, data) => {
             toggleCurrentPageNoUser(route);
             const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
             if(route == "#"){
-                if(location.host === urls.prod) ui.start('#signInDiv', signInConfig());
-                else if(location.host === urls.stage) ui.start('#signInDiv', signInConfig());
-                else ui.start('#signInDiv', signInConfigDev());
+
+                signInSignUpView({ui});
             }
             hideAnimation();
         }
@@ -363,3 +362,168 @@ const signInConfigDev = () => {
         credentialHelper: 'none'
     }
 }
+
+const signInSignUpView = ({ ui }) => {
+  const singInSignUpWrapperDiv = document.getElementById('signInWrapperDiv');
+
+//   const signInSignUpEntryView = () => {
+
+    
+//   };
+
+
+  const signInSignUpTemplate = fragment`
+  <form style="width:90%; transform: translate(5%);">
+    <label for="inputAccount" class="form-label">
+    Sign in with Email or Phone<br />
+
+    </label>
+    <input type="text" id="inputAccount" class="form-control" />
+    <div class="d-flex justify-content-end mt-1">
+      <button type="submit" class="btn btn-primary" id="signInBtn">
+        Continue
+      </button>
+    </div>
+    <p>
+      Don't have an account?
+      <a href="#" id="createAccountLink">Create one here</a>
+    </p>
+  </form>
+`;
+
+const usGov = `<div style="font-size:8px;padding-left:24px; padding-right:24px;margin:auto;">
+    You are accessing a U.S. Government web site which may contain information that must be protected under the U.S. Privacy Act or other sensitive information and is intended for Government authorized use only. Unauthorized attempts to upload information, change information, or use of this web site may result in disciplinary action, civil, and/or criminal penalties. Unauthorized users of this web site should have no expectation of privacy regarding any communications or data processed by this web site. Anyone accessing this web site expressly consents to monitoring of their actions and all communication or data transitioning or stored on or related to this web site and is advised that if such monitoring reveals possible evidence of criminal activity, NIH may provide that evidence to law enforcement officials.
+</div>`;
+
+  const signInTemplate = fragment`<p class="loginTitleFont" style="text-align:center;">Sign In</p>
+<div id="signInDiv"></div>
+${usGov}`;
+
+  const signUpTemplate = fragment`<p class="loginTitleFont" style="text-align:center;">Join the Study</p>
+<div id="signUpDiv"></div>
+<p>
+    <div style="font-size:12px;padding-left:24px; padding-right:24px;margin:auto;.">
+    If you have an account, please <a href="#" id="signIn">sign in </a> with the email or phone number you used to create your account.
+    </div>
+</p>
+${usGov}`;
+
+
+
+  const signInBtn = signInSignUpTemplate.querySelector('#signInBtn');
+  const inputEle = signInSignUpTemplate.querySelector('#inputAccount');
+  const signUpLinkEle = signInSignUpTemplate.querySelector('#createAccountLink');
+
+  const signInLinkEle_signUp = signUpTemplate.querySelector('#signIn');
+  signInLinkEle_signUp.addEventListener('click', (e) => {
+
+    signInSignUpView({ ui });
+  });
+  const route = window.location.hash || '#';
+
+  // event listerner for siggnInBtn
+  signInBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const inputStr = inputEle.value.trim();
+    console.log('inputStr', inputStr, typeof inputStr);
+    const isEmail = !!inputStr.match(validEmailFormat);
+    const isPhone = !!inputStr.match(validPhoneNumberFormat);
+    // const isPhone = inputStr.includes('-');
+    if (isEmail) {
+      const emailStr = inputStr;
+      const response = await checkAccount({ email: emailStr });
+      console.log('response', response);
+      if (response.data.accountExists) {
+        console.log('email account exists');
+
+        if (route == '#') {
+          removeChildren(singInSignUpWrapperDiv);
+          singInSignUpWrapperDiv.appendChild(signInTemplate);
+
+          if (location.host === urls.prod) {
+            ui.start('#signInDiv', signInConfig());
+          } else if (location.host === urls.stage) {
+            ui.start('#signInDiv', signInConfig());
+          } else {
+            ui.start('#signInDiv', signInConfigDev());
+          }
+
+          const emailSignInBtn = document.querySelector(
+            'button[data-provider-id="password"]'
+          );
+          emailSignInBtn.click();
+          const emailInputEle = document.querySelector(
+            'input[class~="firebaseui-id-email"]'
+          );
+          // console.log('emailInput', emailInputEle);
+          document.querySelector('label[class~="firebaseui-label"]').remove();
+          emailInputEle.value = emailStr;
+          document
+            .querySelector('button[class~="firebaseui-id-secondary-link')
+            .addEventListener('click', (e) => {
+              signInSignUpView({ ui });
+            });
+        }
+        hideAnimation();
+      } else {
+        console.log('email account does not exist');
+      }
+    } else if (isPhone) {
+      const phoneNumberStr = inputStr.match(/\d+/g).join('').slice(-10);
+      const response = await checkAccount({ phoneNumber: phoneNumberStr });
+
+      if (response.data.accountExists) {
+        if (route == '#') {
+          removeChildren(singInSignUpWrapperDiv);
+          singInSignUpWrapperDiv.appendChild(signInTemplate);
+
+          if (location.host === urls.prod) {
+            ui.start('#signInDiv', signInConfig());
+          } else if (location.host === urls.stage) {
+            ui.start('#signInDiv', signInConfig());
+          } else {
+            ui.start('#signInDiv', signInConfigDev());
+          }
+
+          document.querySelector('button[data-provider-id="phone"]').click();
+          const phoneNumberInputEle = document.querySelector(
+            'input[class~="firebaseui-id-phone-number"]'
+          );
+          phoneNumberInputEle.value = phoneNumberStr;
+          document.querySelector('label[class~="firebaseui-label"]').remove();
+          document
+            .querySelector('button[class~="firebaseui-id-secondary-link')
+            .addEventListener('click', (e) => {
+              signInSignUpView({ ui });
+            });
+        }
+        hideAnimation();
+      } else {
+        console.log('phone account does not exist');
+      }
+    } else {
+      alert('Please enter a valid email or phone number');
+    }
+  });
+
+  signUpLinkEle.addEventListener('click', () => {
+    removeChildren(singInSignUpWrapperDiv);
+    singInSignUpWrapperDiv.appendChild(signUpTemplate);
+
+    if (location.host === urls.prod) {
+      ui.start('#signInDiv', signInConfig());
+    } else if (location.host === urls.stage) {
+      ui.start('#signInDiv', signInConfig());
+    } else {
+      ui.start('#signInDiv', signInConfigDev());
+    }
+
+    const spanEleList= document.querySelectorAll('span[class~="firebaseui-idp-text-long"]');
+    for (const span of spanEleList) {
+        span.innerText = span.innerText.replace('Sign in', 'Sign up');
+    }
+  });
+
+  removeChildren(singInSignUpWrapperDiv);
+  singInSignUpWrapperDiv.appendChild(signInSignUpTemplate);
+};

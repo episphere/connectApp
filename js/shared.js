@@ -8,16 +8,20 @@ export const urls = {
 }
 
 function createStore(initialState = {}) {
-    let state = initialState;
+  let state = JSON.parse(JSON.stringify(initialState));
 
-    const setState = (update) => {
-        state = { ...state, ...update };
-    }; 
+  const setState = (update) => {
+    const currSlice = typeof update === 'function' ? update(state) : update;
 
-    const getState = () => state;
-  
-    return { setState, getState };
-  }
+    if (currSlice !== state) {
+      state = { ...state, ...currSlice };
+    }
+  };
+
+  const getState = () => state;
+
+  return { setState, getState };
+}
 
 export const appState = createStore();
 
@@ -775,6 +779,24 @@ export const retrieveNotifications = async () => {
     return await response.json();
 }
 
+/**
+ * Check if account exists
+ * @param {{phoneNumber:string} | {email:string} } data 
+ * @returns {Promise<{data:{accountExists:boolean}, code:number}>}
+ */
+export const checkAccount = async (data) => {
+    // const response = await fetch(`${api}?api=checkAccount`, {
+    // // const response = await fetch(`http://localhost:5001?api=checkAccount`, {
+    //     method: "POST",
+    //     headers: {
+    //         Authorization:"Bearer accountCheck",
+    //     },
+    //     body: JSON.stringify(data)
+    // });
+    // const jsonResponse = await response.json();
+    return {data:{accountExists:true}, code:200};
+}
+
 export const connectPushNotification = () => {
     try {
         const messaging = firebase.messaging();
@@ -1164,7 +1186,7 @@ const clientFilterData = (formData) => {
     return formData;
 }
 
-export function html(strings, ...values) {
+export function fragment(strings, ...values) {
   const N = values.length;
   let transformedStringList = [];
   let elementAndDocumentFragmentList = [];
@@ -1182,7 +1204,7 @@ export function html(strings, ...values) {
   }
 
   transformedStringList.push(strings[N]);
-  let fragment = stringToHTML(transformedStringList.join(''));
+  let fragment = stringToFragment(transformedStringList.join(''));
 
   if (elementAndDocumentFragmentList.length > 0) {
     const phEleList = fragment.querySelectorAll('#placeholder');
@@ -1194,7 +1216,7 @@ export function html(strings, ...values) {
   return fragment;
 }
 
-export function stringToHTML(str) {
+export function stringToFragment(str) {
   const doc = new DOMParser().parseFromString(str, 'text/html');
   const fragment = new DocumentFragment();
   fragment.append(...doc.body.children);
@@ -1210,25 +1232,28 @@ export function replaceElement(ele, ...nodes) {
 }
 
 export function removeChildren(ele) {
-  while (ele.firstChild) {
-    ele.firstChild.remove();
-  }
+    const divEle = document.createElement('div');
+    divEle.append(...ele.children);
   
-  return ele;
+    return Array.from(divEle.children);
 }
 
 function wrapToDiv(nodes) {
   let divEle = document.createElement('div');
 
-  for (let node of nodes) {
-    if (node instanceof DocumentFragment) {
-      divEle.appendChild(node);
-    } else {
-      divEle.append(node);
-    }
+  for (const node of nodes) {
+    divEle.appendChild(node);
   }
 
   return divEle;
 }
 
+export const delay = async (ms) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
 
+export const validEmailFormat =
+  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+// valid phone number examples: +1 123-456-789, 1-123-456-7890, 123-456-7890, 1234567890, 123.456 7890, (123)456-7890, (123) 456-7890, 123 456.7890, 123 456-7890, 123-456.7890, etc.
+export const validPhoneNumberFormat =
+  /^[\+]?(?:1|1-|1\.|1\s+)?[(]?[0-9]{3}[)]?(?:-|\s+|\.)?[0-9]{3}(?:-|\s+|\.)?[0-9]{4}$/;
