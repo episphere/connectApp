@@ -1208,6 +1208,14 @@ input[type="time"] {
     min-width:60px;
 }
 
+input[type=text] {
+    width: 100%;
+    padding: 10px 10px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
 .popover-dismiss.btn{
     padding:0;
     vertical-align:inherit

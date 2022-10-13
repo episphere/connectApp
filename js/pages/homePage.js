@@ -1,8 +1,10 @@
-import { getMyData, renderSyndicate, urls, fragment, removeChildren } from "../shared.js";
+import { getMyData, renderSyndicate, urls, fragment, removeChildren, checkAccount, validEmailFormat, validPhoneNumberFormat } from "../shared.js";
+import { signInConfig, signInConfigDev } from "./signIn.js";
 import { environmentWarningModal } from "../event.js";
 
 export const homePage = async () => {
-    let template = fragment`
+    const mainContent = document.getElementById('root');
+    mainContent.innerHTML = `
         <div class="row connectBody1">
             <div class="col-lg-2 o">
             </div>
@@ -289,10 +291,6 @@ export const homePage = async () => {
         -->
         
     `;
-
-    const rootDiv = document.getElementById('root');
-    removeChildren(rootDiv);
-    rootDiv.appendChild(template);
     
     // if(location.host !== urls.prod) environmentWarningModal();
 }
@@ -399,3 +397,238 @@ export const renderHomePrivacyPage =  () => {
     window.scrollTo(0, 0);
 
 }
+
+export function signInSignUpEntryView ({ ui }) {
+    const template = fragment`
+    <form style="width:90%; transform: translate(5%);">
+        <label for="accountInput" class="form-label">
+        Sign in with Email or Phone<br />
+        <span style="font-size: 0.8rem; color:gray">(Phone: 123-456-7890)</span>
+        </label>
+        <input type="text" id="accountInput" />
+        <div class="alert alert-warning mt-1"
+        id="invalidInputAlert" role="alert" style="display:none">
+            Please input a valid email or phone number
+        </div>
+        <div class="d-flex justify-content-end mt-1">
+        <button type="submit" class="btn btn-outline-primary" id="signInBtn">
+            Continue
+        </button>
+        </div>
+        <p>
+        Don't have an account?
+        <a href="#" id="signUpAnchor">Create one here</a>
+        </p>
+    </form>
+    `;
+    const singInSignUpWrapperDiv = document.getElementById('signInWrapperDiv');
+    const signInBtn = template.querySelector('#signInBtn');
+    const accountInput = template.querySelector('#accountInput');
+    const signUpAnchor = template.querySelector('#signUpAnchor');
+    const invalidInputAlertDiv = template.querySelector('#invalidInputAlert');
+    let inputIsInvalid = false;
+
+    removeChildren(singInSignUpWrapperDiv);
+    singInSignUpWrapperDiv.appendChild(template);
+
+    // event listerner for siggnInBtn
+    signInBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
+
+      const inputStr = accountInput.value.trim();
+      const isEmail = !!inputStr.match(validEmailFormat);
+      const isPhone = !!inputStr.match(validPhoneNumberFormat);
+
+      if (isEmail) {
+        const emailStr = inputStr;
+        // todo: implement backend API to check if email exists
+        // const response = await checkAccount({ email: emailStr });
+        const response = { data: { accountExists: false }, code: 200 };
+        // console.log('response', response);
+
+        if (response.data.accountExists) {
+          //   console.log('email account exists');
+          const account = { type: 'email', value: emailStr };
+          signInView({ ui, account });
+        } else {
+          const account = { type: 'email', value: emailStr };
+          accountNotFoundView({ ui, account });
+        }
+      } else if (isPhone) {
+        const phoneNumberStr = inputStr.match(/\d+/g).join('').slice(-10);
+
+        //todo: implement backend API to check if phone number exists
+        // const response = await checkAccount({ phoneNumber: phoneNumberStr });
+        const response = { data: { accountExists: false }, code: 200 };
+
+        if (response.data.accountExists) {
+          const account = { type: 'phone', value: phoneNumberStr };
+          signInView({ ui, account });
+        } else {
+          const account = { type: 'phone number', value: inputStr };
+          accountNotFoundView({ ui, account });
+        }
+      } else {
+        setWarningUI();
+      }
+    });
+
+    signUpAnchor.addEventListener('click', () => {
+    signUpView({ ui });
+    });
+
+    accountInput.addEventListener('change', () => {
+      if (inputIsInvalid) {
+        resetUI();
+      }
+    });
+
+    invalidInputAlertDiv.addEventListener('click', () => {
+      resetUI();
+    });
+
+    function resetUI() {
+      invalidInputAlertDiv.style.display = 'none';
+      accountInput.style['border'] = '1px solid #ccc';
+      inputIsInvalid = false;
+    }
+
+    function setWarningUI() {
+      invalidInputAlertDiv.style.display = 'block';
+      accountInput.style['border'] = '2px solid red';
+      inputIsInvalid = true;
+    }
+
+  };
+
+  const usGov = `<div style="font-size:8px;padding-left:24px; padding-right:24px;margin:auto;">
+    You are accessing a U.S. Government web site which may contain information that must be protected under the U.S. Privacy Act or other sensitive information and is intended for Government authorized use only. Unauthorized attempts to upload information, change information, or use of this web site may result in disciplinary action, civil, and/or criminal penalties. Unauthorized users of this web site should have no expectation of privacy regarding any communications or data processed by this web site. Anyone accessing this web site expressly consents to monitoring of their actions and all communication or data transitioning or stored on or related to this web site and is advised that if such monitoring reveals possible evidence of criminal activity, NIH may provide that evidence to law enforcement officials.
+</div>`;
+
+  function signInView({ ui, account }) {
+    const template = fragment`<p class="loginTitleFont" style="text-align:center;">Sign In</p>
+        <div id="signInDiv"></div>
+        ${usGov}`;
+    const singInSignUpWrapperDiv = document.getElementById('signInWrapperDiv');
+
+    removeChildren(singInSignUpWrapperDiv);
+    singInSignUpWrapperDiv.appendChild(template);
+
+    if (location.host === urls.prod) {
+      ui.start('#signInDiv', signInConfig());
+    } else if (location.host === urls.stage) {
+      ui.start('#signInDiv', signInConfig());
+    } else {
+      ui.start('#signInDiv', signInConfigDev());
+    }
+
+    if (account.type === 'email') {
+      document.querySelector('button[data-provider-id="password"]').click();
+      document.querySelector('input[class~="firebaseui-id-email"]').value = account.value;
+      document.querySelector('label[class~="firebaseui-label"]').remove();
+      document
+        .querySelector('button[class~="firebaseui-id-secondary-link')
+        .addEventListener('click', (e) => {
+          signInSignUpEntryView({ ui });
+        });
+    } else if (account.type === 'phone') {
+      document.querySelector('button[data-provider-id="phone"]').click();
+      document.querySelector('input[class~="firebaseui-id-phone-number"]').value = account.value;
+      document.querySelector('label[class~="firebaseui-label"]').remove();
+      document
+        .querySelector('button[class~="firebaseui-id-secondary-link')
+        .addEventListener('click', (e) => {
+          signInSignUpEntryView({ ui });
+        });
+    }
+  }
+
+  function signUpView({ ui }) {
+    const template = fragment`<p class="loginTitleFont" style="text-align:center;">Join the Study</p>
+    <div id="signUpDiv"></div>
+    <p>
+        <div style="font-size:12px;padding-left:24px; padding-right:24px;margin:auto;.">
+        If you have an account, please <a href="#" id="signIn">sign in </a> with the email or phone number you used to create your account.
+        </div>
+    </p>
+    ${usGov}`;
+    const signInAnchor = template.querySelector('#signIn');
+    const singInSignUpWrapperDiv = document.getElementById('signInWrapperDiv');
+    removeChildren(singInSignUpWrapperDiv);
+    singInSignUpWrapperDiv.appendChild(template);
+
+    if (location.host === urls.prod) {
+      ui.start('#signUpDiv', signInConfig());
+    } else if (location.host === urls.stage) {
+      ui.start('#signUpDiv', signInConfig());
+    } else {
+      ui.start('#signUpDiv', signInConfigDev());
+    }
+
+    const spanEleList = document.querySelectorAll(
+      'span[class~="firebaseui-idp-text-long"]'
+    );
+
+    for (const span of spanEleList) {
+      span.innerText = span.innerText.replace('Sign in', 'Sign up');
+    }
+
+    document
+      .querySelector('button[class~="firebaseui-idp-password"]')
+      .addEventListener('click', (e) => {
+        document.querySelector('h1[class~="firebaseui-title"]').innerText =
+          'Create an account with email';
+
+        document
+          .querySelector('button[class~="firebaseui-id-secondary-link"]')
+          .addEventListener('click', (e) => {
+            signUpView({ ui });
+          });
+      });
+
+    document
+      .querySelector('button[class~="firebaseui-idp-phone"]')
+      .addEventListener('click', (e) => {
+        document
+          .querySelector('button[class~="firebaseui-id-secondary-link"]')
+          .addEventListener('click', (e) => {
+            signUpView({ ui });
+          });
+      });
+
+    signInAnchor.addEventListener('click', (e) => {
+      signInSignUpEntryView({ ui });
+    });
+  }
+
+
+
+  function accountNotFoundView({ui, account}) {
+    const template = fragment`
+    <div class="d-flex flex-column justify-content-center align-items-center">
+    <h5>Not Found</h5>
+    <p>Your ${account.type} (${account.value}) cannot be found</p>
+    <div class="mt-3 mb-1">
+        <button class="btn btn-outline-primary" id="useAnotherAccount">Use another account</button>
+        <button class="btn btn-outline-primary" id="createNewAccount">Create a new account</button>
+    </div>
+    </div>
+    `;
+
+    const useAnotherAccountBtn = template.querySelector('#useAnotherAccount');
+    const createNewAccountBtn = template.querySelector('#createNewAccount');
+    const singInSignUpWrapperDiv = document.getElementById('signInWrapperDiv');
+
+    removeChildren(singInSignUpWrapperDiv);
+    singInSignUpWrapperDiv.appendChild(template);
+
+    useAnotherAccountBtn.addEventListener('click', (e) => {
+        signInSignUpEntryView({ ui });
+    });
+
+    createNewAccountBtn.addEventListener('click', (e) => {
+        console.log('create new account');
+        signUpView({ ui });
+    });
+
+  }

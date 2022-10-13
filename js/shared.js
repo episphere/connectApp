@@ -785,16 +785,16 @@ export const retrieveNotifications = async () => {
  * @returns {Promise<{data:{accountExists:boolean}, code:number}>}
  */
 export const checkAccount = async (data) => {
-    // const response = await fetch(`${api}?api=checkAccount`, {
-    // // const response = await fetch(`http://localhost:5001?api=checkAccount`, {
-    //     method: "POST",
-    //     headers: {
-    //         Authorization:"Bearer accountCheck",
-    //     },
-    //     body: JSON.stringify(data)
-    // });
-    // const jsonResponse = await response.json();
-    return {data:{accountExists:true}, code:200};
+    const response = await fetch(`${api}?api=checkAccount`, {
+        method: "POST",
+        headers: {
+            Authorization:"Bearer accountCheck",
+        },
+        body: JSON.stringify(data)
+    });
+
+    const jsonResponse = await response.json();
+    return jsonResponse;
 }
 
 export const connectPushNotification = () => {
@@ -1252,7 +1252,7 @@ export const delay = async (ms) =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
 export const validEmailFormat =
-  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  /^[a-zA-Z0-9-.!#$%&'*+/=?^_`{|}~]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 // valid phone number examples: +1 123-456-789, 1-123-456-7890, 123-456-7890, 1234567890, 123.456 7890, (123)456-7890, (123) 456-7890, 123 456.7890, 123 456-7890, 123-456.7890, etc.
 export const validPhoneNumberFormat =
