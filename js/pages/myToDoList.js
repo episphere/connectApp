@@ -329,11 +329,9 @@ const renderMainBody = (data, collections, tab) => {
         toDisplaySystem.unshift({'body':['Biospecimen Survey']});
     }
 
-    /*
     if(modules['Clinical Biospecimen Survey'].enabled) {
         toDisplaySystem.unshift({'body':['Clinical Biospecimen Survey']});
     }
-    */
 
     if(modules['Menstrual Cycle'].enabled) {
         toDisplaySystem.unshift({'body':['Menstrual Cycle']})
@@ -700,11 +698,9 @@ const setModuleAttributes = (data, modules, collections) => {
     modules['Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples, and your history of COVID-19. ';
     modules['Biospecimen Survey'].estimatedTime = '10 to 15 minutes';
     
-    /*
     modules['Clinical Biospecimen Survey'].header = 'Baseline Blood and Urine Sample Survey';
     modules['Clinical Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples, and your history of COVID-19. ';
     modules['Clinical Biospecimen Survey'].estimatedTime = '10 to 15 minutes';
-    */
 
     modules['Menstrual Cycle'].header = 'Menstrual Cycle Survey';
     modules['Menstrual Cycle'].description = 'Questions about the date of your first menstrual period after you donated samples for Connect. ';
@@ -714,11 +710,9 @@ const setModuleAttributes = (data, modules, collections) => {
         modules['Biospecimen Survey'].enabled = true;
     }
 
-    /*
     if(collections && collections.filter(collection => collection['650516960'] === 664882224).length > 0) {
         modules['Clinical Biospecimen Survey'].enabled = true;
     }
-    */
 
     if(data['D_299215535'] && data['D_299215535']['D_112151599'] && data['D_299215535']['D_112151599'] == 353358909 && data['265193023'] == 231311385) {
         modules['Menstrual Cycle'].enabled = true;

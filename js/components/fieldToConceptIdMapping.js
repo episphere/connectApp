@@ -34,7 +34,7 @@ export default
     "D_166676176" : "ModuleSsn",
     "D_299215535" : "Biospecimen",
     "D_912367929" : "MenstrualCycle",
-    //D_SOMETHING: "ClinicalBiospecimen"
+    "D_826163434" : "ClinicalBiospecimen",
 
     "Module1_OLD": {
         "conceptId":"D_726699695",
@@ -106,9 +106,15 @@ export default
         "completeTs": "217640691",  
         "statusFlag":"459098666", 
         "standaloneSurvey": true
-    }
+    },
 
-    //"ClinicalBiospecimen": {"conceptId":"","startTs":"", "completeTs": "", "statusFlag":"", "standaloneSurvey": true }
+    "ClinicalBiospecimen": {
+        "conceptId":"D_826163434",
+        "startTs":"534669573", 
+        "completeTs": "764863765", 
+        "statusFlag":"253883960", 
+        "standaloneSurvey": true 
+    }
 }
 
 
