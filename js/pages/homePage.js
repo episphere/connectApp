@@ -1,4 +1,4 @@
-import { getMyData, renderSyndicate, urls, fragment, removeChildren, checkAccount, validEmailFormat, validPhoneNumberFormat } from "../shared.js";
+import { getMyData, renderSyndicate, urls, fragment, checkAccount, validEmailFormat, validPhoneNumberFormat } from "../shared.js";
 import { signInConfig, signInConfigDev } from "./signIn.js";
 import { environmentWarningModal } from "../event.js";
 
@@ -398,8 +398,8 @@ export const renderHomePrivacyPage =  () => {
 
 }
 
-export function signInSignUpEntryView ({ ui }) {
-    const template = fragment`
+export function signInSignUpRender ({ ui }) {
+    const df = fragment`
     <form style="width:90%; transform: translate(5%);">
         <label for="accountInput" class="form-label">
         Sign in with Email or Phone<br />
@@ -421,17 +421,15 @@ export function signInSignUpEntryView ({ ui }) {
         </p>
     </form>
     `;
-    const singInSignUpWrapperDiv = document.getElementById('signInWrapperDiv');
-    const signInBtn = template.querySelector('#signInBtn');
-    const accountInput = template.querySelector('#accountInput');
-    const signUpAnchor = template.querySelector('#signUpAnchor');
-    const invalidInputAlertDiv = template.querySelector('#invalidInputAlert');
+   
+    const signInBtn = df.querySelector('#signInBtn');
+    const accountInput = df.querySelector('#accountInput');
+    const signUpAnchor = df.querySelector('#signUpAnchor');
+    const invalidInputAlertDiv = df.querySelector('#invalidInputAlert');
     let inputIsInvalid = false;
 
-    removeChildren(singInSignUpWrapperDiv);
-    singInSignUpWrapperDiv.appendChild(template);
+    document.getElementById('signInWrapperDiv').replaceChildren(df);
 
-    // event listerner for siggnInBtn
     signInBtn.addEventListener('click', async (e) => {
       e.preventDefault();
 
@@ -444,15 +442,13 @@ export function signInSignUpEntryView ({ ui }) {
         // todo: implement backend API to check if email exists
         // const response = await checkAccount({ email: emailStr });
         const response = { data: { accountExists: false }, code: 200 };
-        // console.log('response', response);
 
         if (response.data.accountExists) {
-          //   console.log('email account exists');
           const account = { type: 'email', value: emailStr };
-          signInView({ ui, account });
+          signInRender({ ui, account });
         } else {
           const account = { type: 'email', value: emailStr };
-          accountNotFoundView({ ui, account });
+          accountNotFoundRender({ ui, account });
         }
       } else if (isPhone) {
         const phoneNumberStr = inputStr.match(/\d+/g).join('').slice(-10);
@@ -463,37 +459,37 @@ export function signInSignUpEntryView ({ ui }) {
 
         if (response.data.accountExists) {
           const account = { type: 'phone', value: phoneNumberStr };
-          signInView({ ui, account });
+          signInRender({ ui, account });
         } else {
           const account = { type: 'phone number', value: inputStr };
-          accountNotFoundView({ ui, account });
+          accountNotFoundRender({ ui, account });
         }
       } else {
-        setWarningUI();
+        addWarning();
       }
     });
 
     signUpAnchor.addEventListener('click', () => {
-    signUpView({ ui });
+    signUpRender({ ui });
     });
 
     accountInput.addEventListener('change', () => {
       if (inputIsInvalid) {
-        resetUI();
+        removeWarning();
       }
     });
 
     invalidInputAlertDiv.addEventListener('click', () => {
-      resetUI();
+      removeWarning();
     });
 
-    function resetUI() {
+    function removeWarning() {
       invalidInputAlertDiv.style.display = 'none';
       accountInput.style['border'] = '1px solid #ccc';
       inputIsInvalid = false;
     }
 
-    function setWarningUI() {
+    function addWarning() {
       invalidInputAlertDiv.style.display = 'block';
       accountInput.style['border'] = '2px solid red';
       inputIsInvalid = true;
@@ -505,14 +501,12 @@ export function signInSignUpEntryView ({ ui }) {
     You are accessing a U.S. Government web site which may contain information that must be protected under the U.S. Privacy Act or other sensitive information and is intended for Government authorized use only. Unauthorized attempts to upload information, change information, or use of this web site may result in disciplinary action, civil, and/or criminal penalties. Unauthorized users of this web site should have no expectation of privacy regarding any communications or data processed by this web site. Anyone accessing this web site expressly consents to monitoring of their actions and all communication or data transitioning or stored on or related to this web site and is advised that if such monitoring reveals possible evidence of criminal activity, NIH may provide that evidence to law enforcement officials.
 </div>`;
 
-  function signInView({ ui, account }) {
-    const template = fragment`<p class="loginTitleFont" style="text-align:center;">Sign In</p>
+  function signInRender({ ui, account }) {
+    const df = fragment`<p class="loginTitleFont" style="text-align:center;">Sign In</p>
         <div id="signInDiv"></div>
         ${usGov}`;
-    const singInSignUpWrapperDiv = document.getElementById('signInWrapperDiv');
 
-    removeChildren(singInSignUpWrapperDiv);
-    singInSignUpWrapperDiv.appendChild(template);
+   document.getElementById('signInWrapperDiv').replaceChildren(df);
 
     if (location.host === urls.prod) {
       ui.start('#signInDiv', signInConfig());
@@ -529,7 +523,7 @@ export function signInSignUpEntryView ({ ui }) {
       document
         .querySelector('button[class~="firebaseui-id-secondary-link')
         .addEventListener('click', (e) => {
-          signInSignUpEntryView({ ui });
+          signInSignUpRender({ ui });
         });
     } else if (account.type === 'phone') {
       document.querySelector('button[data-provider-id="phone"]').click();
@@ -538,13 +532,13 @@ export function signInSignUpEntryView ({ ui }) {
       document
         .querySelector('button[class~="firebaseui-id-secondary-link')
         .addEventListener('click', (e) => {
-          signInSignUpEntryView({ ui });
+          signInSignUpRender({ ui });
         });
     }
   }
 
-  function signUpView({ ui }) {
-    const template = fragment`<p class="loginTitleFont" style="text-align:center;">Join the Study</p>
+  function signUpRender({ ui }) {
+    const df = fragment`<p class="loginTitleFont" style="text-align:center;">Join the Study</p>
     <div id="signUpDiv"></div>
     <p>
         <div style="font-size:12px;padding-left:24px; padding-right:24px;margin:auto;.">
@@ -552,10 +546,9 @@ export function signInSignUpEntryView ({ ui }) {
         </div>
     </p>
     ${usGov}`;
-    const signInAnchor = template.querySelector('#signIn');
-    const singInSignUpWrapperDiv = document.getElementById('signInWrapperDiv');
-    removeChildren(singInSignUpWrapperDiv);
-    singInSignUpWrapperDiv.appendChild(template);
+    const signInAnchor = df.querySelector('#signIn');
+
+    document.getElementById('signInWrapperDiv').replaceChildren(df);
 
     if (location.host === urls.prod) {
       ui.start('#signUpDiv', signInConfig());
@@ -582,7 +575,7 @@ export function signInSignUpEntryView ({ ui }) {
         document
           .querySelector('button[class~="firebaseui-id-secondary-link"]')
           .addEventListener('click', (e) => {
-            signUpView({ ui });
+            signUpRender({ ui });
           });
       });
 
@@ -592,19 +585,19 @@ export function signInSignUpEntryView ({ ui }) {
         document
           .querySelector('button[class~="firebaseui-id-secondary-link"]')
           .addEventListener('click', (e) => {
-            signUpView({ ui });
+            signUpRender({ ui });
           });
       });
 
     signInAnchor.addEventListener('click', (e) => {
-      signInSignUpEntryView({ ui });
+      signInSignUpRender({ ui });
     });
   }
 
 
 
-  function accountNotFoundView({ui, account}) {
-    const template = fragment`
+  function accountNotFoundRender({ui, account}) {
+    const df = fragment`
     <div class="d-flex flex-column justify-content-center align-items-center">
     <h5>Not Found</h5>
     <p>Your ${account.type} (${account.value}) cannot be found</p>
@@ -615,20 +608,17 @@ export function signInSignUpEntryView ({ ui }) {
     </div>
     `;
 
-    const useAnotherAccountBtn = template.querySelector('#useAnotherAccount');
-    const createNewAccountBtn = template.querySelector('#createNewAccount');
-    const singInSignUpWrapperDiv = document.getElementById('signInWrapperDiv');
+    const useAnotherAccountBtn = df.querySelector('#useAnotherAccount');
+    const createNewAccountBtn = df.querySelector('#createNewAccount');
 
-    removeChildren(singInSignUpWrapperDiv);
-    singInSignUpWrapperDiv.appendChild(template);
+    document.getElementById('signInWrapperDiv').replaceChildren(df);
 
     useAnotherAccountBtn.addEventListener('click', (e) => {
-        signInSignUpEntryView({ ui });
+      signInSignUpRender({ ui });
     });
 
     createNewAccountBtn.addEventListener('click', (e) => {
-        console.log('create new account');
-        signUpView({ ui });
+      signUpRender({ ui });
     });
 
   }

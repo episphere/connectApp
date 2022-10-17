@@ -1188,8 +1188,8 @@ const clientFilterData = (formData) => {
 
 export function fragment(strings, ...values) {
   const N = values.length;
-  let transformedStringList = [];
-  let elementAndDocumentFragmentList = [];
+  const transformedStringList = [];
+  const elementAndDocumentFragmentList = [];
 
   for (let i = 0; i < N; i++) {
     if (
@@ -1204,16 +1204,16 @@ export function fragment(strings, ...values) {
   }
 
   transformedStringList.push(strings[N]);
-  let fragment = stringToFragment(transformedStringList.join(''));
+  const documentFragment = stringToFragment(transformedStringList.join(''));
 
   if (elementAndDocumentFragmentList.length > 0) {
-    const phEleList = fragment.querySelectorAll('#placeholder');
+    const phEleList = documentFragment.querySelectorAll('#placeholder');
     for (let i = 0; i < phEleList.length; i++) {
       replaceElement(phEleList[i], elementAndDocumentFragmentList[i]);
     }
   }
 
-  return fragment;
+  return documentFragment;
 }
 
 export function stringToFragment(str) {
