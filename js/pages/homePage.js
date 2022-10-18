@@ -398,12 +398,42 @@ export const renderHomePrivacyPage =  () => {
 
 }
 
-export function signInSignUpRender ({ ui }) {
+const usGov = `<div style="font-size:8px" class="mt-3">
+You are accessing a U.S. Government web site which may contain information that must be protected under the U.S. Privacy Act or other sensitive information and is intended for Government authorized use only. Unauthorized attempts to upload information, change information, or use of this web site may result in disciplinary action, civil, and/or criminal penalties. Unauthorized users of this web site should have no expectation of privacy regarding any communications or data processed by this web site. Anyone accessing this web site expressly consents to monitoring of their actions and all communication or data transitioning or stored on or related to this web site and is advised that if such monitoring reveals possible evidence of criminal activity, NIH may provide that evidence to law enforcement officials.
+</div>`;
+
+export function signInSignUpEntryRender({ ui }) {
     const df = fragment`
-    <form style="width:90%; transform: translate(5%);">
+    <div class="mx-4">
+    <p class="loginTitleFont" style="text-align:center;">Existing Participants:</p>
+    <button type="button" class="btn btn-outline-primary btn-block" id="signInBtn">Sign In</button>
+    <hr/>
+    <p class="loginTitleFont" style="text-align:center;">Join Connect Today:</p>
+    <button type="button" class="btn btn-outline-primary btn-block" id="signUpBtn">Create Account</button>
+    ${usGov}
+    </div>`;
+
+    const signInBtn = df.querySelector('#signInBtn');
+    const signUpBtn = df.querySelector('#signUpBtn');
+
+    document.getElementById('signInWrapperDiv').replaceChildren(df);
+
+    signInBtn.addEventListener('click', () => {
+        signInRender({ ui });
+    });
+
+    signUpBtn.addEventListener('click', () => {
+        signUpRender({ ui });
+    });
+  }
+
+export function signInRender ({ ui }) {
+    const df = fragment`
+    <div class="mx-4">
+    <form ">
         <label for="accountInput" class="form-label">
-        Sign in with Email or Phone<br />
-        <span style="font-size: 0.8rem; color:gray">(Phone: 123-456-7890)</span>
+        Email or Phone<br />
+        <span style="font-size: 0.8rem; color:gray">Phone Format: 123-456-7890</span>
         </label>
         <input type="text" id="accountInput" />
         <div class="alert alert-warning mt-1"
@@ -411,7 +441,7 @@ export function signInSignUpRender ({ ui }) {
             Please input a valid email or phone number
         </div>
         <div class="d-flex justify-content-end mt-1">
-        <button type="submit" class="btn btn-outline-primary" id="signInBtn">
+        <button type="submit" class="btn btn-outline-primary mb-2" id="signInBtn">
             Continue
         </button>
         </div>
@@ -420,7 +450,8 @@ export function signInSignUpRender ({ ui }) {
         <a href="#" id="signUpAnchor">Create one here</a>
         </p>
     </form>
-    `;
+    ${usGov}
+    </div>`;
    
     const signInBtn = df.querySelector('#signInBtn');
     const accountInput = df.querySelector('#accountInput');
@@ -432,7 +463,6 @@ export function signInSignUpRender ({ ui }) {
 
     signInBtn.addEventListener('click', async (e) => {
       e.preventDefault();
-
       const inputStr = accountInput.value.trim();
       const isEmail = !!inputStr.match(validEmailFormat);
       const isPhone = !!inputStr.match(validPhoneNumberFormat);
@@ -445,7 +475,7 @@ export function signInSignUpRender ({ ui }) {
 
         if (response.data.accountExists) {
           const account = { type: 'email', value: emailStr };
-          signInRender({ ui, account });
+          accoutCheckRender({ ui, account });
         } else {
           const account = { type: 'email', value: emailStr };
           accountNotFoundRender({ ui, account });
@@ -459,7 +489,7 @@ export function signInSignUpRender ({ ui }) {
 
         if (response.data.accountExists) {
           const account = { type: 'phone', value: phoneNumberStr };
-          signInRender({ ui, account });
+          accoutCheckRender({ ui, account });
         } else {
           const account = { type: 'phone number', value: inputStr };
           accountNotFoundRender({ ui, account });
@@ -497,14 +527,15 @@ export function signInSignUpRender ({ ui }) {
 
   };
 
-  const usGov = `<div style="font-size:8px;padding-left:24px; padding-right:24px;margin:auto;">
-    You are accessing a U.S. Government web site which may contain information that must be protected under the U.S. Privacy Act or other sensitive information and is intended for Government authorized use only. Unauthorized attempts to upload information, change information, or use of this web site may result in disciplinary action, civil, and/or criminal penalties. Unauthorized users of this web site should have no expectation of privacy regarding any communications or data processed by this web site. Anyone accessing this web site expressly consents to monitoring of their actions and all communication or data transitioning or stored on or related to this web site and is advised that if such monitoring reveals possible evidence of criminal activity, NIH may provide that evidence to law enforcement officials.
-</div>`;
 
-  function signInRender({ ui, account }) {
-    const df = fragment`<p class="loginTitleFont" style="text-align:center;">Sign In</p>
+
+  function accoutCheckRender({ ui, account }) {
+    const df = fragment`
+    <div class="mx-4">
+    <p class="loginTitleFont" style="text-align:center;">Sign In</p>
         <div id="signInDiv"></div>
-        ${usGov}`;
+        ${usGov}
+    </div>`;
 
    document.getElementById('signInWrapperDiv').replaceChildren(df);
 
@@ -523,7 +554,7 @@ export function signInSignUpRender ({ ui }) {
       document
         .querySelector('button[class~="firebaseui-id-secondary-link')
         .addEventListener('click', (e) => {
-          signInSignUpRender({ ui });
+          signInRender({ ui });
         });
     } else if (account.type === 'phone') {
       document.querySelector('button[data-provider-id="phone"]').click();
@@ -532,22 +563,25 @@ export function signInSignUpRender ({ ui }) {
       document
         .querySelector('button[class~="firebaseui-id-secondary-link')
         .addEventListener('click', (e) => {
-          signInSignUpRender({ ui });
+          signInRender({ ui });
         });
     }
   }
 
   function signUpRender({ ui }) {
-    const df = fragment`<p class="loginTitleFont" style="text-align:center;">Join the Study</p>
+    const df = fragment`
+    <div class="mx-4">
+    <p class="loginTitleFont" style="text-align:center;">Join the Study</p>
     <div id="signUpDiv"></div>
     <p>
-        <div style="font-size:12px;padding-left:24px; padding-right:24px;margin:auto;.">
+        <div style="font-size:12px">
         If you have an account, please <a href="#" id="signIn">sign in </a> with the email or phone number you used to create your account.
         </div>
     </p>
-    ${usGov}`;
-    const signInAnchor = df.querySelector('#signIn');
+    ${usGov}
+    </div>`;
 
+    const signInAnchor = df.querySelector('#signIn');
     document.getElementById('signInWrapperDiv').replaceChildren(df);
 
     if (location.host === urls.prod) {
@@ -590,7 +624,7 @@ export function signInSignUpRender ({ ui }) {
       });
 
     signInAnchor.addEventListener('click', (e) => {
-      signInSignUpRender({ ui });
+      signInRender({ ui });
     });
   }
 
@@ -598,23 +632,26 @@ export function signInSignUpRender ({ ui }) {
 
   function accountNotFoundRender({ui, account}) {
     const df = fragment`
-    <div class="d-flex flex-column justify-content-center align-items-center">
+    <div class="mx-4 d-flex flex-column justify-content-center align-items-center">
     <h5>Not Found</h5>
-    <p>Your ${account.type} (${account.value}) cannot be found</p>
-    <div class="mt-3 mb-1">
-        <button class="btn btn-outline-primary" id="useAnotherAccount">Use another account</button>
-        <button class="btn btn-outline-primary" id="createNewAccount">Create a new account</button>
-    </div>
+    <div class="d-flex flex-column justify-content-left ">
+    <p>Your ${account.type} (${account.value}) cannot be found.</p>
+    <p>Use another account? <a href="#" id="useAnotherAccount">Click here</a> </p>
+    <p>Don't have an account? <a href="#" id="createNewAccount">Create one here</a> </p>
+ <div>
     </div>
     `;
-
+    // <div class="mt-3 mb-1">
+    //     <button class="btn btn-outline-primary" id="useAnotherAccount">Use another account</button>
+    //     <button class="btn btn-outline-primary" id="createNewAccount">Create a new account</button>
+    // </div>
     const useAnotherAccountBtn = df.querySelector('#useAnotherAccount');
     const createNewAccountBtn = df.querySelector('#createNewAccount');
 
     document.getElementById('signInWrapperDiv').replaceChildren(df);
 
     useAnotherAccountBtn.addEventListener('click', (e) => {
-      signInSignUpRender({ ui });
+      signInRender({ ui });
     });
 
     createNewAccountBtn.addEventListener('click', (e) => {
