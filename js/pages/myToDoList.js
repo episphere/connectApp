@@ -745,6 +745,9 @@ const setModuleAttributes = (data, modules, collections) => {
     if (data[fieldMapping.MenstrualCycle.conceptId] && data[fieldMapping.MenstrualCycle.conceptId].COMPLETED) { 
         modules['Menstrual Cycle'].completed = true;
     };
+    if (data[fieldMapping.ClinicalBiospecimen.conceptId] && data[fieldMapping.ClinicalBiospecimen.conceptId].COMPLETED) { 
+        modules['Clinical Biospecimen Survey'].completed = true;
+    };
 
     return modules;
 }
