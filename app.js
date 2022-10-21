@@ -1,4 +1,4 @@
-import { getParameters, validateToken, userLoggedIn, getMyData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, verifyPaymentEligibility, checkDerivedConcepts } from "./js/shared.js";
+import { getParameters, validateToken, userLoggedIn, getMyData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, verifyPaymentEligibility, checkDerivedConcepts, appState } from "./js/shared.js";
 import { userNavBar, homeNavBar } from "./js/components/navbar.js";
 import { homePage, joinNowBtn, whereAmIInDashboard, renderHomeAboutPage, renderHomeExpectationsPage, renderHomePrivacyPage, signInSignUpEntryRender } from "./js/pages/homePage.js";
 import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser, addEventToggleSubmit } from "./js/event.js";
@@ -44,8 +44,17 @@ window.onload = async () => {
     
     document.body.appendChild(script)
     auth = firebase.auth();
+
     auth.onAuthStateChanged(async user => {
-        if(user){
+        if (user === null) {
+            appState.setState({idToken:''})
+        } else if (user && user.isAnonymous) {
+            const idToken = await user.getIdToken();
+            console.log('idToken after auth change', idToken);
+            appState.setState({idToken})
+        }
+
+        if (user && !user.isAnonymous) {
             localforage.clear()
             inactivityTime();
         }
@@ -201,7 +210,7 @@ const router = async () => {
 
 const userProfile = () => {
     auth.onAuthStateChanged(async user => {
-        if(user){
+        if (user && !user.isAnonymous){
             document.title = 'My Connect - Dashboard';
             const mainContent = document.getElementById('root');
             let href = location.href;
@@ -306,7 +315,7 @@ const signOut = () => {
 
 const toggleNavBar = (route, data) => {
     auth.onAuthStateChanged(async user => {
-        if(user){
+        if (user && !user.isAnonymous){
             showAnimation();
             document.getElementById('navbarNavAltMarkup').innerHTML = userNavBar(data);
             document.getElementById('joinNow') ? document.getElementById('joinNow').innerHTML = joinNowBtn(false) : ``; 

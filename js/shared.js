@@ -148,7 +148,7 @@ export const storeResponse = async (formData) => {
     const idToken = await new Promise((resolve, reject) => {
         const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             unsubscribe();
-            if (user) {
+            if (user && !user.isAnonymous) {
                 user.getIdToken().then((idToken) => {
                     resolve(idToken);
             }, (error) => {
@@ -180,7 +180,7 @@ export const getMyData = async () => {
     const idToken = await new Promise((resolve, reject) => {
         const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             unsubscribe();
-            if (user) {
+            if (user && !user.isAnonymous) {
                 user.getIdToken().then((idToken) => {
                     resolve(idToken);
             }, (error) => {
@@ -207,7 +207,7 @@ export const getMyCollections = async () => {
     const idToken = await new Promise((resolve, reject) => {
         const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             unsubscribe();
-            if (user) {
+            if (user && !user.isAnonymous) {
                 user.getIdToken().then((idToken) => {
                     resolve(idToken);
             }, (error) => {
@@ -316,7 +316,8 @@ export const getIdToken = () => {
     return new Promise((resolve, reject) => {
         const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             unsubscribe();
-            if (user) {
+            if (user && !user.isAnonymous) {
+                console.log('user info in getIdToken()', user);
                 user.getIdToken().then((idToken) => {
                     resolve(idToken);
             }, (error) => {
@@ -333,7 +334,7 @@ export const userLoggedIn = () => {
     return new Promise((resolve, reject) => {
         const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             unsubscribe();
-            if (user) {
+            if (user && !user.isAnonymous) {
                 resolve(true);
             } else {
                 resolve(false);
@@ -781,16 +782,17 @@ export const retrieveNotifications = async () => {
 
 /**
  * Check if account exists
- * @param {{phoneNumber:string} | {email:string} } data 
+ * @param {{accountType:'email' | 'phone', accountValue: string}} data 
  * @returns {Promise<{data:{accountExists:boolean}, code:number}>}
  */
 export const checkAccount = async (data) => {
-    const response = await fetch(`${api}?api=checkAccount`, {
-        method: "POST",
+    const idToken = appState.getState().idToken;
+    // console.log('checkAccount():\ndata:', data);
+    const response = await fetch(`${api}?api=validateEmailOrPhone&${data.accountType}=${data.accountValue}`, {
+        method: "GET",
         headers: {
-            Authorization:"Bearer accountCheck",
+            Authorization:"Bearer " + idToken
         },
-        body: JSON.stringify(data)
     });
 
     const jsonResponse = await response.json();

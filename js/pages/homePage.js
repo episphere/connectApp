@@ -418,8 +418,8 @@ export function signInSignUpEntryRender({ ui }) {
 
     document.getElementById('signInWrapperDiv').replaceChildren(df);
 
-    signInBtn.addEventListener('click', () => {
-        signInRender({ ui });
+    signInBtn.addEventListener('click', async () => {
+        await signInCheckRender({ ui });
     });
 
     signUpBtn.addEventListener('click', () => {
@@ -427,7 +427,7 @@ export function signInSignUpEntryRender({ ui }) {
     });
   }
 
-export function signInRender ({ ui }) {
+export async function signInCheckRender ({ ui }) {
     const df = fragment`
     <div class="mx-4">
     <form ">
@@ -440,7 +440,7 @@ export function signInRender ({ ui }) {
         id="invalidInputAlert" role="alert" style="display:none">
             Please input a valid email or phone number
         </div>
-        <div class="d-flex justify-content-end mt-1">
+        <div class="d-flex justify-content-center mt-1">
         <button type="submit" class="btn btn-outline-primary mb-2" id="signInBtn">
             Continue
         </button>
@@ -468,28 +468,27 @@ export function signInRender ({ ui }) {
       const isPhone = !!inputStr.match(validPhoneNumberFormat);
 
       if (isEmail) {
+        await anonymousSignIn();
         const emailStr = inputStr;
-        // todo: implement backend API to check if email exists
-        // const response = await checkAccount({ email: emailStr });
-        const response = { data: { accountExists: false }, code: 200 };
+        const response = await checkAccount({ accountType: 'email', accountValue: emailStr });
 
         if (response.data.accountExists) {
           const account = { type: 'email', value: emailStr };
-          accoutCheckRender({ ui, account });
+          firebaseSignInRender({ ui, account });
         } else {
           const account = { type: 'email', value: emailStr };
           accountNotFoundRender({ ui, account });
         }
       } else if (isPhone) {
+        await anonymousSignIn();
         const phoneNumberStr = inputStr.match(/\d+/g).join('').slice(-10);
-
-        //todo: implement backend API to check if phone number exists
-        // const response = await checkAccount({ phoneNumber: phoneNumberStr });
-        const response = { data: { accountExists: false }, code: 200 };
+        console.log(phoneNumberStr);
+        const response = await checkAccount({ accountType: 'phone', accountValue: phoneNumberStr });
+        // const response = { data: { accountExists: false }, code: 200 };
 
         if (response.data.accountExists) {
           const account = { type: 'phone', value: phoneNumberStr };
-          accoutCheckRender({ ui, account });
+          firebaseSignInRender({ ui, account });
         } else {
           const account = { type: 'phone number', value: inputStr };
           accountNotFoundRender({ ui, account });
@@ -515,13 +514,13 @@ export function signInRender ({ ui }) {
 
     function removeWarning() {
       invalidInputAlertDiv.style.display = 'none';
-      accountInput.style['border'] = '1px solid #ccc';
+      accountInput.style.border = '1px solid #ccc';
       inputIsInvalid = false;
     }
 
     function addWarning() {
       invalidInputAlertDiv.style.display = 'block';
-      accountInput.style['border'] = '2px solid red';
+      accountInput.style.border = '2px solid red';
       inputIsInvalid = true;
     }
 
@@ -529,7 +528,7 @@ export function signInRender ({ ui }) {
 
 
 
-  function accoutCheckRender({ ui, account }) {
+  function firebaseSignInRender({ ui, account }) {
     const df = fragment`
     <div class="mx-4">
     <p class="loginTitleFont" style="text-align:center;">Sign In</p>
@@ -554,7 +553,7 @@ export function signInRender ({ ui }) {
       document
         .querySelector('button[class~="firebaseui-id-secondary-link')
         .addEventListener('click', (e) => {
-          signInRender({ ui });
+          signInCheckRender({ ui });
         });
     } else if (account.type === 'phone') {
       document.querySelector('button[data-provider-id="phone"]').click();
@@ -563,7 +562,7 @@ export function signInRender ({ ui }) {
       document
         .querySelector('button[class~="firebaseui-id-secondary-link')
         .addEventListener('click', (e) => {
-          signInRender({ ui });
+          signInCheckRender({ ui });
         });
     }
   }
@@ -624,13 +623,13 @@ export function signInRender ({ ui }) {
       });
 
     signInAnchor.addEventListener('click', (e) => {
-      signInRender({ ui });
+      signInCheckRender({ ui });
     });
   }
 
 
 
-  function accountNotFoundRender({ui, account}) {
+  function accountNotFoundRender({ ui, account }) {
     const df = fragment`
     <div class="mx-4 d-flex flex-column justify-content-center align-items-center">
     <h5>Not Found</h5>
@@ -651,11 +650,25 @@ export function signInRender ({ ui }) {
     document.getElementById('signInWrapperDiv').replaceChildren(df);
 
     useAnotherAccountBtn.addEventListener('click', (e) => {
-      signInRender({ ui });
+      signInCheckRender({ ui });
     });
 
     createNewAccountBtn.addEventListener('click', (e) => {
       signUpRender({ ui });
     });
-
   }
+
+async function anonymousSignIn() {
+    let user = null;
+
+  try {
+    user = await firebase.auth().signInAnonymously();
+    if (user) {
+      console.log('Signed anonymously. user: ', user);
+    }
+  } catch (error) {
+    consonel.log('error in anonymous sign in', error);
+  }
+
+  return user;
+}
