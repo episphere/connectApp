@@ -1078,6 +1078,7 @@ const checkPaymentEligibility = async (data, collections) => {
     const module3 = (data['976570371'] && data['976570371'] === 231311385);
     const module4 = (data['663265240'] && data['663265240'] === 231311385);
     const bloodCollected = (data['878865966'] === 353358909) || (data['173836415']?.['266600170']?.['693370086'] === 353358909);
+    const tubes = baselineCollections[0]['650516960'] === 534621077 ? workflows.research.filter(tube => tube.tubeType === 'Blood tube') : workflows.clinical.filter(tube => tube.tubeType === 'Blood tube');
   
     let eligible = false;
   
