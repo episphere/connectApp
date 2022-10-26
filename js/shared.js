@@ -123,7 +123,6 @@ export const storeResponseQuest = async (formData) => {
 
 export const storeResponse = async (formData) => {
 
-    console.log("beginning of storeResponse()");
     formData = conceptIdMapping(formData);
     formData = clientFilterData(formData);
     
@@ -154,7 +153,7 @@ export const storeResponse = async (formData) => {
     else if(location.host === urls.stage) url = `https://api-myconnect-stage.cancer.gov/app?api=submit`
     else url = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app?api=submit'
     const response = await fetch(url, requestObj);
-    console.log("end of storeResponse()");
+
     return response.json();
 }
 
@@ -1055,18 +1054,10 @@ export const renderSyndicate = (url, element, page) => {
 
 export const verifyPaymentEligibility = async (formData) => {
 
-    if(formData && formData['130371375'] && formData['130371375']['266600170']['731498909'] === 104430631) {
+    if(formData['130371375']?.['266600170']?.['731498909'] === 104430631) {
 
-        const responseCollections = await getMyCollections();
-        const responseCollectionsData = responseCollections.data;
-
-        if(!responseCollectionsData) return;
-
-        const baselineCollections = responseCollectionsData.filter(collection => collection['331584571'] === 266600170);
-
-        if(baselineCollections.length === 0) return;
-
-        const incentiveEligible = await checkPaymentEligibility(formData, baselineCollections);
+        const collections = await getMyCollections();
+        const incentiveEligible = await checkPaymentEligibility(formData, collections);
 
         if(incentiveEligible) {
             const incentiveData = {
@@ -1080,32 +1071,37 @@ export const verifyPaymentEligibility = async (formData) => {
     }
 }
 
-const checkPaymentEligibility = async (data, baselineCollections) => {
-  
-    if(baselineCollections.length === 0) return false;
+const checkPaymentEligibility = async (data, collections) => {
   
     const module1 = (data['949302066'] && data['949302066'] === 231311385);
     const module2 = (data['536735468'] && data['536735468'] === 231311385);
     const module3 = (data['976570371'] && data['976570371'] === 231311385);
     const module4 = (data['663265240'] && data['663265240'] === 231311385);
     const bloodCollected = (data['878865966'] === 353358909) || (data['173836415']?.['266600170']?.['693370086'] === 353358909);
-    const tubes = baselineCollections[0]['650516960'] === 534621077 ? workflows.research.filter(tube => tube.tubeType === 'Blood tube') : workflows.clinical.filter(tube => tube.tubeType === 'Blood tube');
   
     let eligible = false;
   
     if(module1 && module2 && module3 && module4) {
-      if(bloodCollected) {
-        eligible = true;
-      }    
-      else {
-        baselineCollections.forEach(collection => {
-          tubes.forEach(tube => {
-            if(collection[tube.concept] && collection[tube.concept]['883732523'] && collection[tube.concept]['883732523'] != 681745422) {
-              eligible = true;
+        if(bloodCollected) {
+            eligible = true;
+        }    
+        else {
+            if(collections && collections.data) {
+                const baselineResearchCollections = collections.data.filter(collection => collection['331584571'] === 266600170 && collection['650516960'] === 534621077);
+        
+                if(baselineResearchCollections.length != 0) {
+                    const tubes = workflows.research.filter(tube => tube.tubeType === 'Blood tube');
+
+                    baselineResearchCollections.forEach(collection => {
+                        tubes.forEach(tube => {
+                            if(collection[tube.concept] && collection[tube.concept]['883732523'] && collection[tube.concept]['883732523'] != 681745422) {
+                                eligible = true;
+                            }
+                        });
+                    });
+                }
             }
-          });
-        });
-      }
+        }
     }
   
     return eligible;
