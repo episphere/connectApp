@@ -55,7 +55,7 @@ export const conceptIdMapping = (formData) => {
         let moduleIdCompletedTS = moduleId + ".COMPLETED_TS";
         
         if (moduleIdCompleted in formData) {
-            let connectModuleIdCompleted = fieldMapping[fieldMapping[`${moduleId}`]].completeFlag;
+            let connectModuleIdCompleted = fieldMapping[fieldMapping[`${moduleId}`]].statusFlag;
             formData[connectModuleIdCompleted] = 231311385;
         }
         if (moduleIdCompletedTS in formData) {
@@ -79,7 +79,7 @@ export const gridFiltering = (formData) => {
         let moduleIdCompletedTS = moduleId + ".COMPLETED_TS";
         
         if (moduleIdCompleted in formData) {
-            let connectModuleIdCompleted = fieldMapping[fieldMapping[`${moduleId}`]].completeFlag;
+            let connectModuleIdCompleted = fieldMapping[fieldMapping[`${moduleId}`]].statusFlag;
             formData[connectModuleIdCompleted] = 231311385;
         }
         if (moduleIdCompletedTS in formData) {
@@ -876,6 +876,7 @@ export const questionnaireModules = () => {
             'Where You Live and Work': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/module4Stage.txt', moduleId:"Module4", enabled:false},
             'Enter SSN': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/ssnModule.txt', moduleId:"ModuleSsn", enabled:false},
             'Biospecimen Survey': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/moduleBiospecimenStage.txt', moduleId:"Biospecimen", enabled:false},
+            //'Clinical Biospecimen Survey': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/moduleBiospecimenStage.txt', moduleId:"ClinicalBiospecimen", enabled:false},
             'Menstrual Cycle': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/moduleMenstrualStage.txt', moduleId:"MenstrualCycle", enabled:false}
         }
     }

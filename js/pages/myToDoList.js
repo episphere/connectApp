@@ -1,4 +1,4 @@
-import { hideAnimation, questionnaireModules, storeResponse, sites, urls } from "../shared.js";
+import { hideAnimation, questionnaireModules, storeResponse, sites } from "../shared.js";
 import { blockParticipant, questionnaire } from "./questionnaire.js";
 import { renderUserProfile } from "../components/form.js";
 import { consentTemplate, initializeCanvas, addEventConsentSubmit } from "./consent.js";
@@ -6,7 +6,7 @@ import { addEventsConsentSign, addEventHeardAboutStudy, addEventRequestPINForm, 
 import { heardAboutStudy, requestPINTemplate, healthCareProvider } from "./healthCareProvider.js";
 import fieldMapping from '../components/fieldToConceptIdMapping.js';
 
-export const myToDoList = async (data, fromUserProfile) => {
+export const myToDoList = async (data, fromUserProfile, collections) => {
     const mainContent = document.getElementById('root');
     if(!data['507120821']){
         let formData = {
@@ -135,7 +135,7 @@ export const myToDoList = async (data, fromUserProfile) => {
                 else if(data['821247024'] && data['821247024'] == 922622075) {
                     template += `
                     <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
-                        Our records show that there is another account linked to your sign in information. Please sign out of this account and sign in again using a different email address or phone number. If you cannot remember the information you used to create your account, please contact the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling 1-877-505-0253.
+                        Our records show that there is another account linked to your sign in information. Please contact the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling <span style="white-space:nowrap;overflow:hidden">1-877-505-0253</span> so we can help you access the correct account.
                     </div>
                     </div>
                     <div class="col-lg-2">
@@ -220,7 +220,7 @@ export const myToDoList = async (data, fromUserProfile) => {
                 `;
                 const modules = questionnaireModules();
                 
-                template += renderMainBody(data, 'todo')
+                template += renderMainBody(data, collections, 'todo')
                 template += `</ul>`
                 template += `
                     </div>
@@ -232,7 +232,7 @@ export const myToDoList = async (data, fromUserProfile) => {
                 
                 mainContent.innerHTML = template;
                 document.getElementById('surveysToDoTab').addEventListener('click', () => {
-                    document.getElementById('surveyMainBody').innerHTML = renderMainBody(data, 'todo') 
+                    document.getElementById('surveyMainBody').innerHTML = renderMainBody(data, collections, 'todo') 
                     if(!document.getElementById('surveysToDoTab').classList.contains('survey-Active-Nav')){
                         let toActive = document.getElementById('surveysToDoTab');   
                         let toInactive = document.getElementById('surveysCompleted');
@@ -252,7 +252,7 @@ export const myToDoList = async (data, fromUserProfile) => {
                         toInactive.classList.add('survey-Inactive-Nav')
                         toInactive.classList.remove('survey-Active-Nav')
                     }
-                    document.getElementById('surveyMainBody').innerHTML = renderMainBody(data, 'completed') 
+                    document.getElementById('surveyMainBody').innerHTML = renderMainBody(data, collections, 'completed') 
                     addEventToDoList();
                 })
                 addEventToDoList();
@@ -312,24 +312,28 @@ const addEventToDoList = () => {
 }
 
 
-const renderMainBody = (data, tab) => {
+const renderMainBody = (data, collections, tab) => {
     let template = ''
     template += `
             <ul class="questionnaire-module-list">`;
-
-    let toDisplayKeys = ['First Survey', 'Background and Overall Health', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure', "Where You Live and Work",'Enter SSN']
     
     let modules = questionnaireModules();
-    modules = setModuleAttributes(data, modules);
+    modules = setModuleAttributes(data, modules, collections);
     
-    let toDisplaySystem = [{'header':'First Survey', 'body': ['Background and Overall Health', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure', "Where You Live and Work"]}, {'body':['Enter SSN']}]
+    let toDisplaySystem = [{'header':'First Survey', 'body': ['Background and Overall Health', 'Where You Live and Work', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure']}, {'body':['Enter SSN']}]
     if(data['821247024'] && data['821247024'] == 875007964){
-        toDisplaySystem = [{'header':'First Survey', 'body': ['Background and Overall Health', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure', "Where You Live and Work"]}]
+        toDisplaySystem = [{'header':'First Survey', 'body': ['Background and Overall Health', 'Where You Live and Work', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure']}]
     }
 
     if(modules['Biospecimen Survey'].enabled) {
         toDisplaySystem.unshift({'body':['Biospecimen Survey']});
     }
+
+    /*
+    if(modules['Clinical Biospecimen Survey'].enabled) {
+        toDisplaySystem.unshift({'body':['Clinical Biospecimen Survey']});
+    }
+    */
 
     if(modules['Menstrual Cycle'].enabled) {
         toDisplaySystem.unshift({'body':['Menstrual Cycle']})
@@ -598,7 +602,7 @@ const renderMainBody = (data, tab) => {
 const checkIfComplete = (data) =>{
     
     let module1Complete = (data[fieldMapping.Module1.conceptId] && data[fieldMapping.Module1.conceptId].COMPLETED) || (data[fieldMapping.Module1_OLD.conceptId] && data[fieldMapping.Module1_OLD.conceptId].COMPLETED);
-    let module2Complete = data[fieldMapping.Module2.conceptId] && data[fieldMapping.Module2.conceptId].COMPLETED;
+    let module2Complete = (data[fieldMapping.Module2.conceptId] && data[fieldMapping.Module2.conceptId].COMPLETED) || (data[fieldMapping.Module2_OLD.conceptId] && data[fieldMapping.Module2_OLD.conceptId].COMPLETED);
     let module3Complete = data[fieldMapping.Module3.conceptId] && data[fieldMapping.Module3.conceptId].COMPLETED;
     let module4Complete = data[fieldMapping.Module4.conceptId] && data[fieldMapping.Module4.conceptId].COMPLETED;
 
@@ -664,7 +668,7 @@ const checkForNewSurveys = async (data) => {
     return template;
 }
 
-const setModuleAttributes = (data, modules) => {
+const setModuleAttributes = (data, modules, collections) => {
     modules['First Survey'] = {};
     modules['First Survey'].description = 'This survey is split into four sections that ask about a wide range of topics, including information about your medical history, family, work, and health behaviors. You can answer all of the questions at one time, or pause and return to complete the survey later. If you pause, your answers will be saved so you can pick up where you left off. You can skip any questions that you do not want to answer.';
     modules['First Survey'].hasIcon = false;
@@ -695,6 +699,12 @@ const setModuleAttributes = (data, modules) => {
     modules['Biospecimen Survey'].header = 'Baseline Blood, Urine, and Mouthwash Sample Survey';
     modules['Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples, and your history of COVID-19. ';
     modules['Biospecimen Survey'].estimatedTime = '10 to 15 minutes';
+    
+    /*
+    modules['Clinical Biospecimen Survey'].header = 'Baseline Blood and Urine Sample Survey';
+    modules['Clinical Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples, and your history of COVID-19. ';
+    modules['Clinical Biospecimen Survey'].estimatedTime = '10 to 15 minutes';
+    */
 
     modules['Menstrual Cycle'].header = 'Menstrual Cycle Survey';
     modules['Menstrual Cycle'].description = 'Questions about the date of your first menstrual period after you donated samples for Connect. ';
@@ -703,6 +713,12 @@ const setModuleAttributes = (data, modules) => {
     if(data['331584571'] && data['331584571']['266600170'] && data['331584571']['266600170']['840048338']) {
         modules['Biospecimen Survey'].enabled = true;
     }
+
+    /*
+    if(collections && collections.filter(collection => collection['650516960'] === 664882224).length > 0) {
+        modules['Clinical Biospecimen Survey'].enabled = true;
+    }
+    */
 
     if(data['D_299215535'] && data['D_299215535']['D_112151599'] && data['D_299215535']['D_112151599'] == 353358909 && data['265193023'] == 231311385) {
         modules['Menstrual Cycle'].enabled = true;
@@ -714,7 +730,7 @@ const setModuleAttributes = (data, modules) => {
         modules['Medications, Reproductive Health, Exercise, and Sleep'].enabled = true;
         modules['Background and Overall Health'].completed = true;
     };
-    if (data[fieldMapping.Module2.conceptId] && data[fieldMapping.Module2.conceptId].COMPLETED) { 
+    if ((data[fieldMapping.Module2.conceptId] && data[fieldMapping.Module2.conceptId].COMPLETED) || (data[fieldMapping.Module2_OLD.conceptId] && data[fieldMapping.Module2_OLD.conceptId].COMPLETED)) { 
         modules['Medications, Reproductive Health, Exercise, and Sleep'].completed = true;
     };
     if (data[fieldMapping.Module3.conceptId] && data[fieldMapping.Module3.conceptId].COMPLETED) { 
