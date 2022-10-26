@@ -787,7 +787,6 @@ export const retrieveNotifications = async () => {
  */
 export const checkAccount = async (data) => {
     const idToken = appState.getState().idToken;
-    // console.log('checkAccount():\ndata:', data);
     const response = await fetch(`${api}?api=validateEmailOrPhone&${data.accountType}=${data.accountValue}`, {
         method: "GET",
         headers: {
@@ -1242,10 +1241,7 @@ export function removeChildren(ele) {
 
 function wrapToDiv(nodes) {
   let divEle = document.createElement('div');
-
-  for (const node of nodes) {
-    divEle.appendChild(node);
-  }
+  divEle.replaceChildren(...nodes);
 
   return divEle;
 }

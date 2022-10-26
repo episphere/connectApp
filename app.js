@@ -20,6 +20,10 @@ import { consentToProfilePage } from "./js/pages/consent.js";
 let auth = '';
 
 window.onload = async () => {
+    if (location.hash === "") {
+        location.href = "#";
+    }
+
     const isCompatible = isBrowserCompatible();
     if(!isCompatible) {
         const mainContent = document.getElementById('root');
@@ -45,19 +49,21 @@ window.onload = async () => {
     document.body.appendChild(script)
     auth = firebase.auth();
 
-    auth.onAuthStateChanged(async user => {
-        if (user === null) {
-            appState.setState({idToken:''})
-        } else if (user && user.isAnonymous) {
-            const idToken = await user.getIdToken();
-            console.log('idToken after auth change', idToken);
-            appState.setState({idToken})
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        const idToken = await user.getIdToken();
+        appState.setState({ idToken });
+        
+        if (user.isAnonymous) {
+          appState.setState({ isAnonymous: true });
+        } else {
+          appState.setState({ isAnonymous: false });
+          localforage.clear();
+          inactivityTime();
         }
-
-        if (user && !user.isAnonymous) {
-            localforage.clear()
-            inactivityTime();
-        }
+      } else {
+        appState.setState({ idToken: '', isAnonymous: false });
+      }
     });
 
     if ('serviceWorker' in navigator) {

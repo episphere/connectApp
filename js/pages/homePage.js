@@ -1,4 +1,4 @@
-import { getMyData, renderSyndicate, urls, fragment, checkAccount, validEmailFormat, validPhoneNumberFormat } from "../shared.js";
+import { getMyData, renderSyndicate, urls, fragment, checkAccount, validEmailFormat, validPhoneNumberFormat, appState } from "../shared.js";
 import { signInConfig, signInConfigDev } from "./signIn.js";
 import { environmentWarningModal } from "../event.js";
 
@@ -88,7 +88,7 @@ export const homePage = async () => {
         </div>
     `;
     
-    // if(location.host !== urls.prod) environmentWarningModal();
+    // if (location.host !== urls.prod) environmentWarningModal();
 }
 
 export const joinNowBtn = (bool) => {
@@ -262,14 +262,13 @@ export async function signInCheckRender ({ ui }) {
 
       if (isEmail) {
         await anonymousSignIn();
-        const emailStr = inputStr;
-        const response = await checkAccount({ accountType: 'email', accountValue: emailStr });
+        const response = await checkAccount({ accountType: 'email', accountValue: inputStr });
 
         if (response?.data?.accountExists) {
-          const account = { type: 'email', value: emailStr };
+          const account = { type: 'email', value: inputStr };
           firebaseSignInRender({ ui, account });
         } else {
-          const account = { type: 'email', value: emailStr };
+          const account = { type: 'email', value: inputStr };
           accountNotFoundRender({ ui, account });
         }
       } else if (isPhone) {
@@ -449,9 +448,6 @@ async function anonymousSignIn() {
 
   try {
     user = await firebase.auth().signInAnonymously();
-    if (user) {
-      console.log('Signed anonymously. user: ', user);
-    }
   } catch (error) {
     consonel.log('error in anonymous sign in', error);
   }
