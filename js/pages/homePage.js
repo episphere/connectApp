@@ -34,19 +34,8 @@ export const homePage = async () => {
                     
                 </p>
             </div>
-            <div class="col-md-6 col-lg-4">
+            <div class="col-md-8 col-lg-4">
                 <div class="signInWrapper" id="signInWrapperDiv">
-                    <p class="loginTitleFont" style="text-align:center;">Sign In | Join the Study</p>
-                    <div id="signInDiv">
-                    </div>
-                    <p>
-                        <div style="font-size:12px;padding-left:24px; padding-right:24px;margin:auto;.">
-                            If you have an account, please sign in with the email or phone number you used to create your account.
-                        </div>
-                    </p>
-                    <div style="font-size:8px;padding-left:24px; padding-right:24px;margin:auto;.">
-                        You are accessing a U.S. Government web site which may contain information that must be protected under the U.S. Privacy Act or other sensitive information and is intended for Government authorized use only. Unauthorized attempts to upload information, change information, or use of this web site may result in disciplinary action, civil, and/or criminal penalties. Unauthorized users of this web site should have no expectation of privacy regarding any communications or data processed by this web site. Anyone accessing this web site expressly consents to monitoring of their actions and all communication or data transitioning or stored on or related to this web site and is advised that if such monitoring reveals possible evidence of criminal activity, NIH may provide that evidence to law enforcement officials.
-                    </div>
                 </div>
             </div>
             <div class="col-lg-2 order-4">
@@ -201,10 +190,10 @@ You are accessing a U.S. Government web site which may contain information that 
 export function signInSignUpEntryRender({ ui }) {
     const df = fragment`
     <div class="mx-4">
-    <p class="loginTitleFont" style="text-align:center;">Existing Participants:</p>
+    <p class="loginTitleFont" style="text-align:center;">Sign Into Your Account</p>
     <button type="button" class="connect connect-primary" style="width:100%" id="signInBtn">Sign In</button>
     <hr/>
-    <p class="loginTitleFont" style="text-align:center;">Join Connect Today:</p>
+    <p class="loginTitleFont" style="text-align:center;">Sign Up</p>
     <button type="button" class = "connect connect-secondary" style="width:100%" id="signUpBtn">Create Account</button>
     ${usGov}
     </div>`;
@@ -234,7 +223,7 @@ export async function signInCheckRender ({ ui }) {
         <input type="text" id="accountInput" />
         <div class="alert alert-warning mt-1"
         id="invalidInputAlert" role="alert" style="display:none">
-            Please input a valid email or phone number
+            Please enter a valid email or phone number
         </div>
         <button type="submit" class="connect connect-primary my-3" style="width:100%" id="signInBtn">
             Continue
@@ -244,6 +233,7 @@ export async function signInCheckRender ({ ui }) {
         <a href="#" id="signUpAnchor">Create one here</a>
         </p>
     </form>
+    ${usGov}
     </div>`;
    
     const signInBtn = df.querySelector('#signInBtn');
@@ -334,6 +324,7 @@ export async function signInCheckRender ({ ui }) {
     if (account.type === 'email') {
       document.querySelector('button[data-provider-id="password"]').click();
       document.querySelector('input[class~="firebaseui-id-email"]').value = account.value;
+
       document.querySelector('label[class~="firebaseui-label"]').remove();
       document
         .querySelector('button[class~="firebaseui-id-secondary-link')
@@ -342,6 +333,7 @@ export async function signInCheckRender ({ ui }) {
         });
     } else if (account.type === 'phone') {
       document.querySelector('button[data-provider-id="phone"]').click();
+      document.querySelector('h1[class~="firebaseui-title"]').innerText = "Sign in with phone number";
       document.querySelector('input[class~="firebaseui-id-phone-number"]').value = account.value;
       document.querySelector('label[class~="firebaseui-label"]').remove();
       document
@@ -355,7 +347,7 @@ export async function signInCheckRender ({ ui }) {
   function signUpRender({ ui }) {
     const df = fragment`
     <div class="mx-4">
-    <p class="loginTitleFont" style="text-align:center;">Join the Study</p>
+    <p class="loginTitleFont" style="text-align:center;">Create an Account</p>
     <div id="signUpDiv"></div>
     <p>
         <div style="font-size:12px">
@@ -388,7 +380,7 @@ export async function signInCheckRender ({ ui }) {
       .querySelector('button[class~="firebaseui-idp-password"]')
       .addEventListener('click', (e) => {
         document.querySelector('h1[class~="firebaseui-title"]').innerText =
-          'Create an account with email';
+          'Create an account with your email';
 
         document
           .querySelector('button[class~="firebaseui-id-secondary-link"]')
@@ -400,6 +392,9 @@ export async function signInCheckRender ({ ui }) {
     document
       .querySelector('button[class~="firebaseui-idp-phone"]')
       .addEventListener('click', (e) => {
+        document.querySelector('h1[class~="firebaseui-title"]').innerText =
+        'Create an account with your phone number';
+
         document
           .querySelector('button[class~="firebaseui-id-secondary-link"]')
           .addEventListener('click', (e) => {
