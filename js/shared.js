@@ -7,6 +7,24 @@ export const urls = {
     'stage': 'myconnect-stage.cancer.gov'
 }
 
+function createStore(initialState = {}) {
+  let state = JSON.parse(JSON.stringify(initialState));
+
+  const setState = (update) => {
+    const currSlice = typeof update === 'function' ? update(state) : update;
+
+    if (currSlice !== state) {
+      state = { ...state, ...currSlice };
+    }
+  };
+
+  const getState = () => state;
+
+  return { setState, getState };
+}
+
+export const appState = createStore();
+
 let api = '';
 
 if(location.host === urls.prod) api = 'https://api-myconnect.cancer.gov/app';
@@ -129,7 +147,7 @@ export const storeResponse = async (formData) => {
     const idToken = await new Promise((resolve, reject) => {
         const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             unsubscribe();
-            if (user) {
+            if (user && !user.isAnonymous) {
                 user.getIdToken().then((idToken) => {
                     resolve(idToken);
             }, (error) => {
@@ -161,7 +179,7 @@ export const getMyData = async () => {
     const idToken = await new Promise((resolve, reject) => {
         const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             unsubscribe();
-            if (user) {
+            if (user && !user.isAnonymous) {
                 user.getIdToken().then((idToken) => {
                     resolve(idToken);
             }, (error) => {
@@ -188,7 +206,7 @@ export const getMyCollections = async () => {
     const idToken = await new Promise((resolve, reject) => {
         const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             unsubscribe();
-            if (user) {
+            if (user && !user.isAnonymous) {
                 user.getIdToken().then((idToken) => {
                     resolve(idToken);
             }, (error) => {
@@ -297,7 +315,7 @@ export const getIdToken = () => {
     return new Promise((resolve, reject) => {
         const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             unsubscribe();
-            if (user) {
+            if (user && !user.isAnonymous) {
                 user.getIdToken().then((idToken) => {
                     resolve(idToken);
             }, (error) => {
@@ -314,7 +332,7 @@ export const userLoggedIn = () => {
     return new Promise((resolve, reject) => {
         const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             unsubscribe();
-            if (user) {
+            if (user && !user.isAnonymous) {
                 resolve(true);
             } else {
                 resolve(false);
@@ -760,6 +778,24 @@ export const retrieveNotifications = async () => {
     return await response.json();
 }
 
+/**
+ * Check if account exists
+ * @param {{accountType:'email' | 'phone', accountValue: string}} data 
+ * @returns {Promise<{data:{accountExists:boolean}, code:number}>}
+ */
+export const checkAccount = async (data) => {
+    const idToken = appState.getState().idToken;
+    const response = await fetch(`${api}?api=validateEmailOrPhone&${data.accountType}=${data.accountValue}`, {
+        method: "GET",
+        headers: {
+            Authorization:"Bearer " + idToken
+        },
+    });
+
+    const jsonResponse = await response.json();
+    return jsonResponse;
+}
+
 export const connectPushNotification = () => {
     try {
         const messaging = firebase.messaging();
@@ -1145,3 +1181,72 @@ const clientFilterData = (formData) => {
 
     return formData;
 }
+
+export function fragment(strings, ...values) {
+  const N = values.length;
+  const transformedStringList = [];
+  const elementAndDocumentFragmentList = [];
+
+  for (let i = 0; i < N; i++) {
+    if (
+      values[i] instanceof HTMLElement ||
+      values[i] instanceof DocumentFragment
+    ) {
+      transformedStringList.push(strings[i], `<div id="placeholder"></div>`);
+      elementAndDocumentFragmentList.push(values[i]);
+    } else {
+      transformedStringList.push(strings[i], values[i]);
+    }
+  }
+
+  transformedStringList.push(strings[N]);
+  const documentFragment = stringToFragment(transformedStringList.join(''));
+
+  if (elementAndDocumentFragmentList.length > 0) {
+    const phEleList = documentFragment.querySelectorAll('#placeholder');
+    for (let i = 0; i < phEleList.length; i++) {
+      replaceElement(phEleList[i], elementAndDocumentFragmentList[i]);
+    }
+  }
+
+  return documentFragment;
+}
+
+export function stringToFragment(str) {
+  const doc = new DOMParser().parseFromString(str, 'text/html');
+  const fragment = new DocumentFragment();
+  fragment.append(...doc.body.children);
+
+  return fragment;
+}
+
+export function replaceElement(ele, ...nodes) {
+  const divEle = wrapToDiv(nodes);
+  ele.replaceWith(...divEle.children);
+  
+  return ele;
+}
+
+export function removeChildren(ele) {
+    const divEle = document.createElement('div');
+    divEle.append(...ele.children);
+  
+    return Array.from(divEle.children);
+}
+
+function wrapToDiv(nodes) {
+  let divEle = document.createElement('div');
+  divEle.replaceChildren(...nodes);
+
+  return divEle;
+}
+
+export const delay = async (ms) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
+
+export const validEmailFormat =
+  /^[a-zA-Z0-9-.!#$%&'*+/=?^_`{|}~]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+// valid phone number examples: +1 123-456-789, 1-123-456-7890, 123-456-7890, 1234567890, 123.456 7890, (123)456-7890, (123) 456-7890, 123 456.7890, 123 456-7890, 123-456.7890, etc.
+export const validPhoneNumberFormat =
+  /^[\+]?(?:1|1-|1\.|1\s+)?[(]?[0-9]{3}[)]?(?:-|\s+|\.)?[0-9]{3}(?:-|\s+|\.)?[0-9]{4}$/;

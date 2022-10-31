@@ -945,7 +945,7 @@ input:checked + .slider:before {
 
 
 .signInWrapper{
-    max-width:360px;
+    max-width:400px;
     background-color:white;
     margin:auto;
     padding-top:30px;   
@@ -1208,7 +1208,35 @@ input[type="time"] {
     min-width:60px;
 }
 
+input[type=text] {
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    border: 1px solid #333;
+  }
+
 .popover-dismiss.btn{
     padding:0;
     vertical-align:inherit
+}
+
+button.connect {
+    border-radius: 0.2rem;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: 500;
+    padding: 0.375rem 0.75rem;
+    background-color: transparent;
+    border: 2px solid transparent;
+}
+
+button.connect-primary {
+    background-color: #ffbf17;
+    border-color: #ffbf17;
+    color: #1a5077;
+}
+
+button.connect-secondary {
+    background-color: white;
+    border-color: #2a72a5;
+    color: #2a72a5;
 }
