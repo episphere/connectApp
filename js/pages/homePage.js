@@ -1,4 +1,4 @@
-import { getMyData, renderSyndicate, urls, fragment, checkAccount, validEmailFormat, validPhoneNumberFormat, appState } from "../shared.js";
+import { getMyData, renderSyndicate, urls, fragment, checkAccount, validEmailFormat, validPhoneNumberFormat } from "../shared.js";
 import { signInConfig, signInConfigDev } from "./signIn.js";
 import { environmentWarningModal } from "../event.js";
 
@@ -36,6 +36,17 @@ export const homePage = async () => {
             </div>
             <div class="col-md-8 col-lg-4">
                 <div class="signInWrapper" id="signInWrapperDiv">
+                  <p class="loginTitleFont" style="text-align:center;">Sign In</p>
+                  <div id="signInDiv">
+                  </div>
+                  <p>
+                      <div style="font-size:12px;padding-left:24px; padding-right:24px;margin:auto;.">
+                          If you have an account, please sign in with the email or phone number you used to create your account.
+                      </div>
+                  </p>
+                  <div style="font-size:8px;padding-left:24px; padding-right:24px;margin:auto;.">
+                      You are accessing a U.S. Government web site which may contain information that must be protected under the U.S. Privacy Act or other sensitive information and is intended for Government authorized use only. Unauthorized attempts to upload information, change information, or use of this web site may result in disciplinary action, civil, and/or criminal penalties. Unauthorized users of this web site should have no expectation of privacy regarding any communications or data processed by this web site. Anyone accessing this web site expressly consents to monitoring of their actions and all communication or data transitioning or stored on or related to this web site and is advised that if such monitoring reveals possible evidence of criminal activity, NIH may provide that evidence to law enforcement officials.
+                  </div>
                 </div>
             </div>
             <div class="col-lg-2 order-4">
@@ -77,7 +88,7 @@ export const homePage = async () => {
         </div>
     `;
     
-    // if (location.host !== urls.prod) environmentWarningModal();
+    if (location.host !== urls.prod) environmentWarningModal();
 }
 
 export const joinNowBtn = (bool) => {
@@ -240,7 +251,6 @@ export async function signInCheckRender ({ ui }) {
     const accountInput = df.querySelector('#accountInput');
     const signUpAnchor = df.querySelector('#signUpAnchor');
     const invalidInputAlertDiv = df.querySelector('#invalidInputAlert');
-    let inputIsInvalid = false;
 
     document.getElementById('signInWrapperDiv').replaceChildren(df);
 
@@ -251,7 +261,7 @@ export async function signInCheckRender ({ ui }) {
       const isPhone = !!inputStr.match(validPhoneNumberFormat);
 
       if (isEmail) {
-        await anonymousSignIn();
+        await signInAnonymously();
         const response = await checkAccount({ accountType: 'email', accountValue: inputStr });
 
         if (response?.data?.accountExists) {
@@ -262,7 +272,7 @@ export async function signInCheckRender ({ ui }) {
           accountNotFoundRender({ ui, account });
         }
       } else if (isPhone) {
-        await anonymousSignIn();
+        await signInAnonymously();
         const phoneNumberStr = inputStr.match(/\d+/g).join('').slice(-10);
         console.log(phoneNumberStr);
         const response = await checkAccount({ accountType: 'phone', accountValue: phoneNumberStr });
@@ -290,13 +300,11 @@ export async function signInCheckRender ({ ui }) {
     function removeWarning() {
       invalidInputAlertDiv.style.display = 'none';
       accountInput.style.border = '1px solid #ccc';
-      inputIsInvalid = false;
     }
 
     function addWarning() {
       invalidInputAlertDiv.style.display = 'block';
       accountInput.style.border = '2px solid red';
-      inputIsInvalid = true;
     }
 
   };
@@ -420,10 +428,7 @@ export async function signInCheckRender ({ ui }) {
  <div>
     </div>
     `;
-    // <div class="mt-3 mb-1">
-    //     <button class="btn btn-outline-primary" id="useAnotherAccount">Use another account</button>
-    //     <button class="btn btn-outline-primary" id="createNewAccount">Create a new account</button>
-    // </div>
+
     const useAnotherAccountBtn = df.querySelector('#useAnotherAccount');
     const createNewAccountBtn = df.querySelector('#createNewAccount');
 
@@ -438,14 +443,9 @@ export async function signInCheckRender ({ ui }) {
     });
   }
 
-async function anonymousSignIn() {
+async function signInAnonymously() {
   let user = null;
-
-  try {
-    user = await firebase.auth().signInAnonymously();
-  } catch (error) {
-    consonel.log('error in anonymous sign in', error);
-  }
-
+  user = await firebase.auth().signInAnonymously();
+  
   return user;
 }
