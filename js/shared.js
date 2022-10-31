@@ -317,7 +317,6 @@ export const getIdToken = () => {
         const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             unsubscribe();
             if (user && !user.isAnonymous) {
-                console.log('user info in getIdToken()', user);
                 user.getIdToken().then((idToken) => {
                     resolve(idToken);
             }, (error) => {

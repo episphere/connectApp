@@ -274,7 +274,6 @@ export async function signInCheckRender ({ ui }) {
       } else if (isPhone) {
         await signInAnonymously();
         const phoneNumberStr = inputStr.match(/\d+/g).join('').slice(-10);
-        console.log(phoneNumberStr);
         const response = await checkAccount({ accountType: 'phone', accountValue: phoneNumberStr });
 
         if (response?.data?.accountExists) {
