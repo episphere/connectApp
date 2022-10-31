@@ -1,5 +1,4 @@
 import { getMyData } from "../shared.js";
-import { consentToProfilePage } from "./consent.js";
 
 export const renderSamplesPage = async () => {
     document.title = 'My Connect - Samples';
