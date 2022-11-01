@@ -1,6 +1,6 @@
 import { getParameters, validateToken, userLoggedIn, getMyData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, verifyPaymentEligibility, checkDerivedConcepts, appState } from "./js/shared.js";
 import { userNavBar, homeNavBar } from "./js/components/navbar.js";
-import { homePage, joinNowBtn, whereAmIInDashboard, renderHomeAboutPage, renderHomeExpectationsPage, renderHomePrivacyPage, signInSignUpEntryRender } from "./js/pages/homePage.js";
+import { homePage, joinNowBtn, whereAmIInDashboard, renderHomeAboutPage, renderHomeExpectationsPage, renderHomePrivacyPage, signInSignUpEntryRender, firebaseSignInRender } from "./js/pages/homePage.js";
 import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser, addEventToggleSubmit } from "./js/event.js";
 import { requestPINTemplate } from "./js/pages/healthCareProvider.js";
 import { myToDoList } from "./js/pages/myToDoList.js";
@@ -340,8 +340,13 @@ const toggleNavBar = (route, data) => {
             document.getElementById('nextStepWarning') ? document.getElementById('nextStepWarning').style.display="none": '';
             toggleCurrentPageNoUser(route);
             const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
-            if(route == "#"){
-                signInSignUpEntryRender({ui});
+            if (route == "#") {
+                if (window.location.search === '') {
+                    signInSignUpEntryRender({ui});
+                } else {
+                    // handle magic link redirect
+                    firebaseSignInRender({ui});
+                }
             }
             hideAnimation();
         }

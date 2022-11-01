@@ -88,7 +88,7 @@ export const homePage = async () => {
         </div>
     `;
     
-    if (location.host !== urls.prod) environmentWarningModal();
+    if (location.host !== urls.prod && window.location.search === '') environmentWarningModal();
 }
 
 export const joinNowBtn = (bool) => {
@@ -310,7 +310,7 @@ export async function signInCheckRender ({ ui }) {
 
 
 
-  function firebaseSignInRender({ ui, account }) {
+  export function firebaseSignInRender({ ui, account = '' }) {
     const df = fragment`
     <div class="mx-4">
     <p class="loginTitleFont" style="text-align:center;">Sign In</p>
