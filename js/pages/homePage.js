@@ -88,7 +88,7 @@ export const homePage = async () => {
         </div>
     `;
     
-    if (location.host !== urls.prod) environmentWarningModal();
+    if (location.host !== urls.prod && window.location.search === '') environmentWarningModal();
 }
 
 export const joinNowBtn = (bool) => {
@@ -310,7 +310,7 @@ export async function signInCheckRender ({ ui }) {
 
 
 
-  function firebaseSignInRender({ ui, account }) {
+  export function firebaseSignInRender({ ui, account = '' }) {
     const df = fragment`
     <div class="mx-4">
     <p class="loginTitleFont" style="text-align:center;">Sign In</p>
@@ -419,12 +419,12 @@ export async function signInCheckRender ({ ui }) {
   function accountNotFoundRender({ ui, account }) {
     const df = fragment`
     <div class="mx-4 d-flex flex-column justify-content-center align-items-center">
-    <h5>Not Found</h5>
-    <div class="d-flex flex-column justify-content-left ">
-    <p>Your ${account.type} (${account.value}) cannot be found.</p>
-    <p>Use another account? <a href="#" id="useAnotherAccount">Click here</a> </p>
-    <p>Don't have an account? <a href="#" id="createNewAccount">Create one here</a> </p>
- <div>
+      <h5>Not Found</h5>
+      <div class="d-flex flex-column justify-content-left ">
+        <p>Your ${account.type} (${account.value}) cannot be found.</p>
+        <p>Use another account? <a href="#" id="useAnotherAccount">Click here</a> </p>
+        <p>Don't have an account? <a href="#" id="createNewAccount">Create one here</a> </p>
+      <div>
     </div>
     `;
 
