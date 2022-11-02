@@ -394,6 +394,15 @@ export async function signInCheckRender ({ ui }) {
           .addEventListener('click', (e) => {
             signUpRender({ ui });
           });
+
+          document
+            .querySelector('button[class~="firebaseui-id-submit"]')
+            .addEventListener('click', (e) => {
+              const pEle = document.querySelector('p[class~="firebaseui-text-input-error"]');
+              if (pEle?.innerText !== '') {
+                pEle.innerText = 'Enter a valid email address';
+              }
+            });
       });
 
     document
