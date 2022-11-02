@@ -266,7 +266,7 @@ const henry_ford = {
             'Henry Ford Medical Center - Livonia',
             '29200 Schoolcraft Road<br>Livonia, MI 48150',
             'TBD',
-            'Easy, free self-parking is available in the surface lotin from the building. From the service road, please turn right at the light and head towards the Aldi.'
+            'Easy, free self-parking is available in the surface lot in from the building. From the service road, please turn right at the light and head towards the Aldi.'
         ]
     ]
 };
