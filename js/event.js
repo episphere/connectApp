@@ -167,20 +167,6 @@ export const addEventHealthCareProviderSubmit = () => {
         let modalButton = document.getElementById('openModal');
         modalBody.innerHTML = `Are you sure ${sites()[value]} is your healthcare provider?`
         modalButton.click();
-        
-        /*let r = false;
-        if(r){
-            dataSavingBtn('save-data');
-            let formData = {};
-            formData["827220437"] = value;
-            localStorage.eligibilityQuestionnaire = JSON.stringify(formData);
-            const response = await storeResponse(formData);
-            if(response.code === 200) {
-                const mainContent = document.getElementById('root');
-                mainContent.innerHTML = heardAboutStudy();
-                addEventHeardAboutStudy();
-            }
-        }*/
     });
 }
 
@@ -234,13 +220,7 @@ export const addEventHeardAboutStudy = () => {
         const response = await storeResponse(formData);
         if(response.code === 200) {
             const mainContent = document.getElementById('root');
-            //mainContent.innerHTML = consentTemplate();
             consentTemplate();
-            //initializeCanvas();
-            // addEventSaveConsentBtn()
-            //addEventsConsentSign();
-
-            //addEventConsentSubmit();
         }
     });
 }
@@ -249,7 +229,6 @@ export const addEventSaveConsentBtn = () => {
     const btn = document.getElementById('saveConsentBtn');
     btn.addEventListener('click', () => {
         html2canvas(document.getElementById('canvasContainer')).then(function(canvas) {
-            // document.body.appendChild(canvas);
             document.getElementById("consentImg").src= canvas.toDataURL();
         });
     })
