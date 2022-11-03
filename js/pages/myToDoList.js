@@ -469,18 +469,8 @@ const renderMainBody = (data, collections, tab) => {
                                                     
                                                 </p>
                                                 </div>
-                                            
-                                                ${/*modules[key].hasOwnProperty('noButton') && modules[key]['noButton'] == true? '' : `
-                                                <div class="col-md-3">
-                                                    <button class="btn survey-list-active btn-agreement questionnaire-module ${(modules[key].enabled && !modules[key].unreleased) ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${key}" module_id="${modules[key].moduleId}" data-module-url="${modules[key].url ? modules[key].url : ''}" style=""><b>${modules[key].unreleased  ?  'Coming soon' : 'Start'}</b></button>    
-                                                </div>
-                        `*/''}
                                             </div>
-                                            
                                         </div>`
-                                            /*
-                                            <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="width:90%; margin-bottom:20px;">${key}</button>
-                                        </li>`;*/
                         }
                     }
                 }
@@ -492,15 +482,6 @@ const renderMainBody = (data, collections, tab) => {
 
             
         }
-        /*
-        if (!hasModlesRemaining){
-            template += `
-                            <div class="row">
-                                Thank you for completing your first Connect survey! We will be in touch with next steps for the study
-                            </div>
-                            `
-            
-        }*/
     }
     else{
         for(let obj of toDisplaySystem){
@@ -580,9 +561,6 @@ const renderMainBody = (data, collections, tab) => {
                             
                                 <div class="col-md-3">
                                 Completed Time: ${new Date(data[fieldMapping[modules[key].moduleId].completeTs]).toLocaleString()}
-                                <!--
-                                <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="margin-top:0px;border-radius:30px; height:60px;background-color:#5c2d93 !important;color:white; width:100%"><b>Review</b></button>
-                                -->
                                 </div>
                             </div>
                         </div>`
