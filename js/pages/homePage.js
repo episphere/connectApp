@@ -1,4 +1,4 @@
-import { getMyData, renderSyndicate, urls, fragment, checkAccount, validEmailFormat, validPhoneNumberFormat } from "../shared.js";
+import { getMyData, renderSyndicate, urls, fragment, checkAccount, validEmailFormat, validPhoneNumberFormat, appState } from "../shared.js";
 import { signInConfig, signInConfigDev } from "./signIn.js";
 import { environmentWarningModal } from "../event.js";
 
@@ -452,8 +452,12 @@ export async function signInCheckRender ({ ui }) {
   }
 
 async function signInAnonymously() {
-  let user = null;
-  user = await firebase.auth().signInAnonymously();
-  
+  const { user } = await firebase.auth().signInAnonymously();
+
+  if (user) {
+    const idToken = await user.getIdToken();
+    appState.setState({ idToken, isAnonymous: true });
+  }
+
   return user;
 }
