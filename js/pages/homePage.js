@@ -262,7 +262,17 @@ export async function signInCheckRender ({ ui }) {
 
       if (isEmail) {
         await signInAnonymously();
-        const response = await checkAccount({ accountType: 'email', accountValue: inputStr });
+        const emailForQuery = inputStr
+          .replaceAll('%', '%25')
+          .replaceAll('#', '%23')
+          .replaceAll('&', '%26')
+          .replaceAll(`'`, '%27')
+          .replaceAll('+', '%2B');
+
+        const response = await checkAccount({
+          accountType: 'email',
+          accountValue: emailForQuery,
+        });
 
         if (response?.data?.accountExists) {
           const account = { type: 'email', value: inputStr };
