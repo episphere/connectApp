@@ -1,11 +1,13 @@
-import { storeResponse, getMyData, urls,storeResponseQuest, storeResponseTree, showAnimation, hideAnimation, addEventReturnToDashboard, removeMenstrualCycleData } from "../shared.js";
+import { storeResponse, getMyData, getMySurveys, urls, questionnaireModules, storeResponseQuest, storeResponseTree, showAnimation, hideAnimation, addEventReturnToDashboard } from "../shared.js";
 import fieldMapping from '../components/fieldToConceptIdMapping.js'; 
 import { transform } from 'https://episphere.github.io/quest/replace2.js';
 import { rbAndCbClick } from 'https://episphere.github.io/quest/questionnaire.js';
 import { SOCcer as SOCcerProd } from "./../../prod/config.js";
 import { SOCcer as SOCcerStage } from "./../../stage/config.js";
 import { SOCcer as SOCcerDev } from "./../../dev/config.js";
-export const   questionnaire = (url, moduleId) => {
+
+export const questionnaire = async (moduleId) => {
+    
     let rootElement = document.getElementById('root');
     rootElement.innerHTML = `
     
@@ -31,182 +33,122 @@ export const   questionnaire = (url, moduleId) => {
     
     `
 
-    getMyData().then(async data => {
-        console.log('----This is my data--------')
-        console.log(data)
-        showAnimation();
-        let inputData = {};
-        inputData["firstName"] = data.data[fieldMapping.fName];
+    showAnimation();
 
-        if (data.data[fieldMapping['Module1'].conceptId] && data.data[fieldMapping['Module1'].conceptId]['D_407056417']){
-            inputData["D_407056417"] = data.data[fieldMapping['Module1'].conceptId]['D_407056417'];
-        }
-        else if(data.data[fieldMapping['Module1_OLD'].conceptId] && data.data[fieldMapping['Module1_OLD'].conceptId]['D_407056417']) {
-            inputData["D_407056417"] = data.data[fieldMapping['Module1_OLD'].conceptId]['D_407056417'];
-        }
+    let data;
+    let modules;
 
-        if (data.data[fieldMapping['Module1'].conceptId] && data.data[fieldMapping['Module1'].conceptId]['D_613744428']){
-            inputData["D_613744428"] = data.data[fieldMapping['Module1'].conceptId]['D_613744428'];
-        }
-        else if (data.data[fieldMapping['Module1_OLD'].conceptId] && data.data[fieldMapping['Module1_OLD'].conceptId]['D_613744428']){
-            inputData["D_613744428"] = data.data[fieldMapping['Module1_OLD'].conceptId]['D_613744428'];
-        }
+    let responseData = await getMyData();
+    if(responseData.code === 200) {
+        data = responseData.data;
 
-        if (data.data[fieldMapping['Module1'].conceptId] && data.data[fieldMapping['Module1'].conceptId]['D_750420077']){
-            inputData["D_750420077"] = data.data[fieldMapping['Module1'].conceptId]['D_750420077'];
-        }
-        else if (data.data[fieldMapping['Module1_OLD'].conceptId] && data.data[fieldMapping['Module1_OLD'].conceptId]['D_750420077']){
-            inputData["D_750420077"] = data.data[fieldMapping['Module1_OLD'].conceptId]['D_750420077'];
-        }
+        let responseModules = await getMySurveys([...new Set([fieldMapping.Module1.conceptId, fieldMapping.Module1_OLD.conceptId, fieldMapping.Biospecimen.conceptId, fieldMapping[moduleId].conceptId])]);
+        if(responseModules.code === 200) {
+            modules = responseModules.data;
 
-        if (data.data[fieldMapping['Module1'].conceptId] && data.data[fieldMapping['Module1'].conceptId]['D_289664241']){
-            if (data.data[fieldMapping['Module1'].conceptId]['D_289664241']['D_289664241']){
-                inputData["D_289664241"] = data.data[fieldMapping['Module1'].conceptId]['D_289664241']['D_289664241']
-            }
-            else{
-                inputData["D_289664241"] = data.data[fieldMapping['Module1'].conceptId]['D_289664241'];
-            }
+            await startModule(data, modules, moduleId);
         }
-        else if (data.data[fieldMapping['Module1_OLD'].conceptId] && data.data[fieldMapping['Module1_OLD'].conceptId]['D_289664241']){
-            if (data.data[fieldMapping['Module1_OLD'].conceptId]['D_289664241']['D_289664241']){
-                inputData["D_289664241"] = data.data[fieldMapping['Module1_OLD'].conceptId]['D_289664241']['D_289664241']
-            }
-            else{
-                inputData["D_289664241"] = data.data[fieldMapping['Module1_OLD'].conceptId]['D_289664241'];
-            }
-        }
-
-        if (data.data[fieldMapping['Module1'].conceptId] && data.data[fieldMapping['Module1'].conceptId]['D_784967158']){
-            inputData["D_784967158"] = data.data[fieldMapping['Module1'].conceptId]['D_784967158'];
-        }
-        else if (data.data[fieldMapping['Module1_OLD'].conceptId] && data.data[fieldMapping['Module1_OLD'].conceptId]['D_784967158']){
-            inputData["D_784967158"] = data.data[fieldMapping['Module1_OLD'].conceptId]['D_784967158'];
-        }
-
-        if (data.data[fieldMapping['Module1'].conceptId] && data.data[fieldMapping['Module1'].conceptId]['D_150344905']){
-            inputData["D_150344905"] = data.data[fieldMapping['Module1'].conceptId]['D_150344905'];
-        }
-        else if (data.data[fieldMapping['Module1_OLD'].conceptId] && data.data[fieldMapping['Module1_OLD'].conceptId]['D_150344905']){
-            inputData["D_150344905"] = data.data[fieldMapping['Module1_OLD'].conceptId]['D_150344905'];
-        }
-
-        if (data.data[fieldMapping['Biospecimen'].conceptId] && data.data[fieldMapping['Biospecimen'].conceptId]['D_644459734']){
-            inputData["D_644459734"] = data.data[fieldMapping['Biospecimen'].conceptId]['D_644459734'];
-        }
-        
-        let birthMonth =  data.data[fieldMapping.birthMonth];
-        let birthDay =  data.data[fieldMapping.birthDay];
-        let birthYear =  data.data[fieldMapping.birthYear];
-        if (birthMonth && birthDay && birthYear){
-            let birthDate = new Date(birthYear, birthMonth, birthDay);
-            var ageDifMs = Date.now() - birthDate.getTime();
-            var ageDate = new Date(ageDifMs); // miliseconds from epoch
-            inputData["age"] = Math.abs(ageDate.getUTCFullYear() - 1970);
-            inputData["AGE"] = Math.abs(ageDate.getUTCFullYear() - 1970);
-        }
-
-        console.log('--------------Input Data:-------------')
-        
-        console.log(inputData);        
-        let currModConcept = fieldMapping[moduleId]['conceptId']
-        if(data.data[currModConcept] && data.data[currModConcept]['treeJSON']){
-            console.log(data.data[currModConcept]['treeJSON'])
-            console.log('finished adding treeJSON!')
-        }
-
-        let moduleConceptId = fieldMapping[`${moduleId}`].conceptId;
-        let startTsConceptId = fieldMapping[`${moduleId}`].startTs;
-        let statusConceptId = fieldMapping[`${moduleId}`].statusFlag;
-
-        if (!data.data[moduleConceptId] || !data.data[moduleConceptId][startTsConceptId]){
-            let formData = {};
-            formData[`${startTsConceptId}`] = new Date().toISOString();
-            formData[`${statusConceptId}`] = 615768760;
-            storeResponse(formData);
-        }
-        console.log('beginning load!')
-        let tJSON = undefined
-        if(data.data && data.data[currModConcept] && data.data[currModConcept]['treeJSON']){
-            tJSON = data.data[currModConcept]['treeJSON']
-        }
-        else{
-            await localforage.clear()
-        }
-
-        transform.render({
-                url: url,
-                activate: true,
-                store: storeResponseQuest,
-                retrieve: getMyData,
-                soccer: soccerFunction,
-                updateTree: storeResponseTree,
-                treeJSON: tJSON,
-            }, 'questionnaireRoot', inputData)
-            .then(() => {
-                //Grid fix first
-                let grids = document.getElementsByClassName('d-lg-block');
-                let max = grids.length;
-                for(let i = 0; i < max; i++){
-                    let curr = grids[0]
-                    curr.classList.add('d-xxl-block')
-                    curr.classList.remove('d-lg-block')
-                }
-                let ungrid = document.getElementsByClassName('d-lg-none');
-                max = ungrid.length
-                for(let i = 0; i < max; i++){
-                    ungrid[0].classList.add('d-xxl-none')
-                    ungrid[0].classList.remove('d-lg-none')
-
-                }
-
-                //Add progress bar
-                let formsFound = document.getElementsByTagName('form')
-                let totalForms = formsFound.length;
-                let currFound = 0
-                for(let i = 0; i < formsFound.length; i++){
-                    let currForm = formsFound[i]
-                    if(currForm.classList.contains('active')){
-                        currFound = i;
-                        i = formsFound.length;
-                    }
-                }
-                let pBar = document.getElementById('questProgBar')
-                pBar.style.width = (parseInt(currFound/(totalForms-1) * 100)).toString() + '%'
-
-                let observer = new MutationObserver( mutations =>{
-                    let forms = document.getElementsByTagName('form')
-                    let numForms = forms.length;
-                    
-                    mutations.forEach(function(mutation) {
-                        if(mutation.attributeName == "class"){
-                            if(mutation.target.classList.contains('active')){
-                                let found = 0;
-                                for(let i = 0; i < forms.length; i++){
-                                    if(forms[i].id == mutation.target.id){
-                                        found = i
-                                    }
-                                }
-                                let progBar = document.getElementById('questProgBar')
-                                progBar.style.width = (parseInt(found/(numForms-1) * 100)).toString() + '%'
-                            }
-                            
-                        }
-                    });
-                    
-                });
-                let elemId = document.getElementById('questionnaireRoot');
-                console.log(elemId)
-                observer.observe(elemId, {
-                    childList: true, // observe direct children
-                    subtree: true, // lower descendants too
-                    //characterDataOldValue: true, // pass old data to callback
-                    attributes:true,
-                  });
-            })
-        
-    })
-
+    }
 }
+
+async function startModule(data, modules, moduleId) {
+
+    let inputData = setInputData(data, modules); 
+
+    if (data[fieldMapping[moduleId].statusFlag] === fieldMapping.moduleStatus.notStarted){
+        let formData = {};
+        formData[fieldMapping[moduleId].startTs] = new Date().toISOString();
+        formData[fieldMapping[moduleId].statusFlag] = fieldMapping.moduleStatus.started;
+
+        storeResponse(formData);
+    }
+
+
+    let tJSON = undefined;
+
+    if (modules[fieldMapping[moduleId].conceptId]?.['treeJSON']) {
+        tJSON = modules[fieldMapping[moduleId].conceptId]['treeJSON'];
+    }
+    else {
+        await localforage.clear();
+    }
+
+
+    let moduleConfig = questionnaireModules();
+    let url = moduleConfig[Object.keys(moduleConfig).find(key => moduleConfig[key].moduleId === moduleId)].url;
+
+    transform.render({
+            url: url,
+            activate: true,
+            store: storeResponseQuest,
+            retrieve: function(){return getMySurveys([fieldMapping[moduleId].conceptId])},
+            soccer: soccerFunction,
+            updateTree: storeResponseTree,
+            treeJSON: tJSON,
+        }, 'questionnaireRoot', inputData)
+        .then(() => {
+            //Grid fix first
+            let grids = document.getElementsByClassName('d-lg-block');
+            let max = grids.length;
+            for(let i = 0; i < max; i++){
+                let curr = grids[0]
+                curr.classList.add('d-xxl-block')
+                curr.classList.remove('d-lg-block')
+            }
+            let ungrid = document.getElementsByClassName('d-lg-none');
+            max = ungrid.length
+            for(let i = 0; i < max; i++){
+                ungrid[0].classList.add('d-xxl-none')
+                ungrid[0].classList.remove('d-lg-none')
+
+            }
+
+            //Add progress bar
+            let formsFound = document.getElementsByTagName('form')
+            let totalForms = formsFound.length;
+            let currFound = 0
+            for(let i = 0; i < formsFound.length; i++){
+                let currForm = formsFound[i]
+                if(currForm.classList.contains('active')){
+                    currFound = i;
+                    i = formsFound.length;
+                }
+            }
+            let pBar = document.getElementById('questProgBar')
+            pBar.style.width = (parseInt(currFound/(totalForms-1) * 100)).toString() + '%'
+
+            let observer = new MutationObserver( mutations =>{
+                let forms = document.getElementsByTagName('form')
+                let numForms = forms.length;
+                
+                mutations.forEach(function(mutation) {
+                    if(mutation.attributeName == "class"){
+                        if(mutation.target.classList.contains('active')){
+                            let found = 0;
+                            for(let i = 0; i < forms.length; i++){
+                                if(forms[i].id == mutation.target.id){
+                                    found = i
+                                }
+                            }
+                            let progBar = document.getElementById('questProgBar')
+                            progBar.style.width = (parseInt(found/(numForms-1) * 100)).toString() + '%'
+                        }
+                        
+                    }
+                });
+                
+            });
+            let elemId = document.getElementById('questionnaireRoot');
+            console.log(elemId)
+            observer.observe(elemId, {
+                childList: true, // observe direct children
+                subtree: true, // lower descendants too
+                //characterDataOldValue: true, // pass old data to callback
+                attributes:true,
+                });
+        })
+}
+
 function soccerFunction(){
     let soccerURL = '';
     if(location.host === urls.prod) soccerURL = SOCcerProd;
@@ -289,7 +231,6 @@ function soccerFunction(){
                 
                 `;
 
-                await removeMenstrualCycleData();
                 addEventReturnToDashboard();
             }         
         });
@@ -352,4 +293,58 @@ export const blockParticipant = () => {
     `
     window.scrollTo(0, 0);
 
+}
+
+const setInputData = (data, modules) => {
+
+    let inputData = {};
+
+    inputData["firstName"] = data[fieldMapping.fName];
+
+    let module1_v1 = modules[fieldMapping.Module1.conceptId];
+    let module1_v2 = modules[fieldMapping.Module1_OLD.conceptId];
+    let moduleBiospecimen = modules[fieldMapping.Biospecimen.conceptId];
+
+    if (module1_v1) {
+        if (module1_v1["D_407056417"]) inputData["D_407056417"] = module1_v1["D_407056417"];
+        if (module1_v1["D_613744428"]) inputData["D_613744428"] = module1_v1["D_613744428"];
+        if (module1_v1["D_750420077"]) inputData["D_750420077"] = module1_v1["D_750420077"];
+        if (module1_v1["D_784967158"]) inputData["D_784967158"] = module1_v1["D_784967158"];
+        if (module1_v1["D_150344905"]) inputData["D_150344905"] = module1_v1["D_150344905"];
+
+        if (module1_v1["D_289664241"]) {
+            if (module1_v1["D_289664241"]["D_289664241"]) inputData["D_289664241"] = module1_v1["D_289664241"]["D_289664241"];
+            else inputData["D_289664241"] = module1_v1["D_289664241"];
+        }
+    }
+    else if (module1_v2) {
+        if (module1_v2["D_407056417"]) inputData["D_407056417"] = module1_v2["D_407056417"];
+        if (module1_v2["D_613744428"]) inputData["D_613744428"] = module1_v2["D_613744428"];
+        if (module1_v2["D_750420077"]) inputData["D_750420077"] = module1_v2["D_750420077"];
+        if (module1_v2["D_784967158"]) inputData["D_784967158"] = module1_v2["D_784967158"];
+        if (module1_v2["D_150344905"]) inputData["D_150344905"] = module1_v2["D_150344905"];
+        
+        if (module1_v2["D_289664241"]) {
+            if (module1_v2["D_289664241"]["D_289664241"]) inputData["D_289664241"] = module1_v2["D_289664241"]["D_289664241"];
+            else inputData["D_289664241"] = module1_v2["D_289664241"];
+        }
+    }
+
+    if (moduleBiospecimen) {
+        if (moduleBiospecimen["D_644459734"]) inputData["D_644459734"] = moduleBiospecimen["D_644459734"];
+    }
+    
+    let birthMonth =  data[fieldMapping.birthMonth];
+    let birthDay =  data[fieldMapping.birthDay];
+    let birthYear =  data[fieldMapping.birthYear];
+
+    if (birthMonth && birthDay && birthYear){
+        let birthDate = new Date(birthYear, birthMonth, birthDay);
+        var ageDifMs = Date.now() - birthDate.getTime();
+        var ageDate = new Date(ageDifMs); // miliseconds from epoch
+        inputData["age"] = Math.abs(ageDate.getUTCFullYear() - 1970);
+        inputData["AGE"] = Math.abs(ageDate.getUTCFullYear() - 1970);
+    }
+
+    return inputData;
 }

@@ -1,4 +1,4 @@
-import { getParameters, validateToken, userLoggedIn, getMyData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, verifyPaymentEligibility, checkDerivedConcepts, appState } from "./js/shared.js";
+import { getParameters, validateToken, userLoggedIn, getMyData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, verifyPaymentEligibility, checkDerivedConcepts, appState, getMySurveys } from "./js/shared.js";
 import { userNavBar, homeNavBar } from "./js/components/navbar.js";
 import { homePage, joinNowBtn, whereAmIInDashboard, renderHomeAboutPage, renderHomeExpectationsPage, renderHomePrivacyPage, signInSignUpEntryRender, firebaseSignInRender } from "./js/pages/homePage.js";
 import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser, addEventToggleSubmit } from "./js/event.js";
@@ -15,7 +15,6 @@ import { renderVerifiedPage } from "./js/pages/verifiedPage.js";
 import { firebaseConfig as devFirebaseConfig } from "./dev/config.js";
 import { firebaseConfig as stageFirebaseConfig } from "./stage/config.js";
 import { firebaseConfig as prodFirebaseConfig } from "./prod/config.js";
-import { consentToProfilePage } from "./js/pages/consent.js";
 
 let auth = '';
 
@@ -242,12 +241,6 @@ const userProfile = () => {
                     tmp['utm_id'] = parameters.utm_id;
                     await storeResponse(tmp);
                 }
-
-                await checkDerivedConcepts(userData.data);
-            }
-
-            if(userData.code === 200 && userData.data['827220437']) {
-                await verifyPaymentEligibility(userData.data);
             }
 
             window.history.replaceState({},'Dashboard', './#dashboard');
@@ -293,10 +286,18 @@ const userProfile = () => {
                 return;
             }
             
-            const myData = await getMyData();
-            if(myData.code === 200) {
+            if (userData.code === 200) {
+
+                const myData = userData.data;
                 const myCollections = await getMyCollections();
-                myToDoList(myData.data, false, myCollections.data);
+
+                await checkDerivedConcepts(myData);
+
+                if (userData.data['827220437']) {
+                    await verifyPaymentEligibility(myData, myCollections);
+                }
+
+                myToDoList(myData, false, myCollections.data);
             }
             else {
                 mainContent.innerHTML = requestPINTemplate();
