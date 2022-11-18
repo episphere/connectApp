@@ -1,5 +1,5 @@
 import { storeResponse, getMyData, getMySurveys, urls, questionnaireModules, storeResponseQuest, storeResponseTree, showAnimation, hideAnimation, addEventReturnToDashboard } from "../shared.js";
-import fieldMapping from '../components/fieldToConceptIdMapping.js'; 
+import fieldMapping from '../fieldToConceptIdMapping.js'; 
 import { transform } from 'https://episphere.github.io/quest/replace2.js';
 import { rbAndCbClick } from 'https://episphere.github.io/quest/questionnaire.js';
 import { SOCcer as SOCcerProd } from "./../../prod/config.js";

@@ -4,7 +4,7 @@ import { renderUserProfile } from "../components/form.js";
 import { consentTemplate } from "./consent.js";
 import { addEventHeardAboutStudy, addEventRequestPINForm, addEventHealthCareProviderSubmit, addEventPinAutoUpperCase, addEventHealthProviderModalSubmit, addEventToggleSubmit } from "../event.js";
 import { heardAboutStudy, requestPINTemplate, healthCareProvider } from "./healthCareProvider.js";
-import fieldMapping from '../components/fieldToConceptIdMapping.js';
+import fieldMapping from '../fieldToConceptIdMapping.js';
 
 export const myToDoList = async (data, fromUserProfile, collections) => {
     const mainContent = document.getElementById('root');

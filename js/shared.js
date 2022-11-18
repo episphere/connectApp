@@ -1,5 +1,5 @@
 import { addEventHideNotification } from "./event.js";
-import fieldMapping from './components/fieldToConceptIdMapping.js'; 
+import fieldMapping from './fieldToConceptIdMapping.js'; 
 import { workflows } from "https://cdn.jsdelivr.net/gh/episphere/biospecimen@master/src/tubeValidation.js";
 
 export const urls = {
