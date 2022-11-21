@@ -1,5 +1,5 @@
 import { addEventHideNotification } from "./event.js";
-import fieldMapping from './components/fieldToConceptIdMapping.js'; 
+import fieldMapping from './fieldToConceptIdMapping.js'; 
 import { workflows } from "https://cdn.jsdelivr.net/gh/episphere/biospecimen@master/src/tubeValidation.js";
 
 export const urls = {
@@ -64,170 +64,110 @@ export const generateNewToken = async () => {
     return data;
 }
 
-//adding conceptID mappings for completded and TS
-export const conceptIdMapping = (formData) => {
-    try {
-
-        let moduleId = Object.keys(formData)[0].split(".")[0];
-        let moduleIdCompleted = moduleId + ".COMPLETED";
-        let moduleIdCompletedTS = moduleId + ".COMPLETED_TS";
-        
-        if (moduleIdCompleted in formData) {
-            let connectModuleIdCompleted = fieldMapping[fieldMapping[`${moduleId}`]].statusFlag;
-            formData[connectModuleIdCompleted] = 231311385;
-        }
-        if (moduleIdCompletedTS in formData) {
-            let connectModuleIdCompletedTS = fieldMapping[fieldMapping[`${moduleId}`]].completeTs;
-            formData[connectModuleIdCompletedTS] = formData[moduleIdCompletedTS];
-        }
-
-
-    } catch (error) {
-        console.log("conceptIdMapping error",error);
-    }
-
-    return formData;
-}
-
-export const gridFiltering = (formData) => {
-    try {
-
-        let moduleId = Object.keys(formData)[0].split(".")[0];
-        let moduleIdCompleted = moduleId + ".COMPLETED";
-        let moduleIdCompletedTS = moduleId + ".COMPLETED_TS";
-        
-        if (moduleIdCompleted in formData) {
-            let connectModuleIdCompleted = fieldMapping[fieldMapping[`${moduleId}`]].statusFlag;
-            formData[connectModuleIdCompleted] = 231311385;
-        }
-        if (moduleIdCompletedTS in formData) {
-            let connectModuleIdCompletedTS = fieldMapping[fieldMapping[`${moduleId}`]].completeTs;
-            formData[connectModuleIdCompletedTS] = formData[moduleIdCompletedTS];
-        }
-
-
-    } catch (error) {
-        console.log("questMapping error",error);
-    }
-}
-
 //Store tree function being passed into quest
-export const storeResponseTree = async (questName, treeJSON) => {
+export const storeResponseTree = async (questName) => {
     
-    console.log("beginning of storeTree()");
-    let formData = {}
-    formData[questName + '.treeJSON'] = questionQueue.toJSON()
-    console.log(JSON.stringify(formData))
+    let formData = {[questName]: {treeJSON: questionQueue.toJSON()}};
 
-    let ans = await storeResponse(formData)
-    console.log('ans')
-    console.log(ans)
-    console.log('ending storeTree')
-
+    await storeResponse(formData);
 }
 
 //Attempting to store tree on push
 export const storeResponseQuest = async (formData) => {
-    console.log('FORMDATA!!')
-    console.log(formData)
-    let keys = Object.keys(formData)
-    for (let k in keys){
-        if(formData[keys[k]] == undefined){
-            formData[keys[k]] = null;
+    
+    let keys = Object.keys(formData);
+    let first = keys[0];
+    let moduleId = first.slice(0, first.indexOf("."));
+
+    let transformedData = {[moduleId]: {}};
+    let completedData = {};
+
+    keys.forEach(key => {
+        let id = key.slice(first.indexOf(".") + 1);
+        if (formData[key] === undefined) {
+            transformedData[moduleId][id] = null;
         }
+        else if (["COMPLETED", "COMPLETED_TS"].includes(id)) {
+            completedData[id] = formData[key];
+        }
+        else {
+            transformedData[moduleId][id] = formData[key]
+        }
+    });
+
+    if (Object.keys(completedData).length > 0) {
+        await completeSurvey(completedData, moduleId);
     }
-    await storeResponse(formData)
+
+    transformedData = await clientFilterData(transformedData);
+
+    if(Object.keys(transformedData[moduleId]).length > 0) {
+        await storeResponse(transformedData);
+    }
+}
+
+const completeSurvey = async (data, moduleId) => {
+
+    let formData = {};
+    let moduleName = fieldMapping.conceptToModule[moduleId];
+
+    if(data["COMPLETED"]) formData[fieldMapping[moduleName].statusFlag] = 231311385;
+    if(data["COMPLETED_TS"]) formData[fieldMapping[moduleName].completeTs] = data["COMPLETED_TS"];
+
+    await storeResponse(formData);
 }
 
 export const storeResponse = async (formData) => {
-
-    formData = conceptIdMapping(formData);
-    formData = clientFilterData(formData);
     
-    const idToken = await new Promise((resolve, reject) => {
-        const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
-            unsubscribe();
-            if (user && !user.isAnonymous) {
-                user.getIdToken().then((idToken) => {
-                    resolve(idToken);
-            }, (error) => {
-                resolve(null);
-            });
-            } else {
-            resolve(null);
-            }
-        });
-    });
-    let requestObj = {
+    const idToken = await getIdToken();
+    const response = await fetch(`${api}?api=submit`, {
         method: "POST",
         headers:{
-            Authorization:"Bearer "+idToken,
+            Authorization: "Bearer " + idToken,
             "Content-Type": "application/json"
         },
         body: JSON.stringify(formData)
-    }
-    let url = '';
-    if(location.host === urls.prod) url = `https://api-myconnect.cancer.gov/app?api=submit`
-    else if(location.host === urls.stage) url = `https://api-myconnect-stage.cancer.gov/app?api=submit`
-    else url = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app?api=submit'
-    const response = await fetch(url, requestObj);
+    });
 
     return response.json();
 }
 
 export const getMyData = async () => {
-    const idToken = await new Promise((resolve, reject) => {
-        const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
-            unsubscribe();
-            if (user && !user.isAnonymous) {
-                user.getIdToken().then((idToken) => {
-                    resolve(idToken);
-            }, (error) => {
-                resolve(null);
-            });
-            } else {
-            resolve(null);
-            }
-        });
-    });
-    let url = '';
-    if(location.host === urls.prod) url = `https://api-myconnect.cancer.gov/app?api=getUserProfile`
-    else if(location.host === urls.stage) url = `https://api-myconnect-stage.cancer.gov/app?api=getUserProfile`
-    else url = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app?api=getUserProfile'
-    const response = await fetch(url, {
+
+    const idToken = await getIdToken();
+    const response = await fetch(`${api}?api=getUserProfile`, {
         headers: {
-            Authorization: "Bearer "+idToken
+            Authorization: "Bearer " + idToken
         }
     })
+
+    return response.json();
+}
+
+export const getMySurveys = async (data) => {
+    
+    const idToken = await getIdToken();
+    const response = await fetch(`${api}?api=getUserSurveys`, {
+        method: "POST",
+        headers: {
+            Authorization: "Bearer " + idToken,
+            "Content-Type": "application/json"
+        },
+        body:  JSON.stringify(data)
+    })
+
     return response.json();
 }
 
 export const getMyCollections = async () => {
-    const idToken = await new Promise((resolve, reject) => {
-        const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
-            unsubscribe();
-            if (user && !user.isAnonymous) {
-                user.getIdToken().then((idToken) => {
-                    resolve(idToken);
-            }, (error) => {
-                resolve(null);
-            });
-            } else {
-            resolve(null);
-            }
-        });
-    });
-    let url = '';
 
-    if(location.host === urls.prod) url = `https://api-myconnect.cancer.gov/app?api=getUserCollections`
-    else if(location.host === urls.stage) url = `https://api-myconnect-stage.cancer.gov/app?api=getUserCollections`
-    else url = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app?api=getUserCollections';
-
-    const response = await fetch(url, {
+    const idToken = await getIdToken();
+    const response = await fetch(`${api}?api=getUserCollections`, {
         headers: {
-            Authorization: "Bearer "+idToken
+            Authorization: "Bearer " + idToken
         }
     })
+
     return response.json();
 }
 
@@ -1088,11 +1028,10 @@ export const renderSyndicate = (url, element, page) => {
     });
 }
 
-export const verifyPaymentEligibility = async (formData) => {
+export const verifyPaymentEligibility = async (formData, collections) => {
 
     if(formData['130371375']?.['266600170']?.['731498909'] === 104430631) {
 
-        const collections = await getMyCollections();
         const incentiveEligible = await checkPaymentEligibility(formData, collections);
 
         if(incentiveEligible) {
@@ -1165,20 +1104,38 @@ export const addEventReturnToDashboard = () => {
     });
 }
 
-export const removeMenstrualCycleData = async () => {
+const resetMenstrualCycleSurvey = async () => {
+
+    let formData = {
+        "459098666":    972455046,
+        "844088537":    null
+    }
+
+    await storeResponse(formData);
+}
+
+const removeMenstrualCycleData = (formData) => {
 
     localforage.removeItem("D_912367929");
     localforage.removeItem("D_912367929.treeJSON");
 
-    let formData = {};
-    formData["D_912367929"] = {};
-    storeResponse(formData);
+    let clearedData = {"D_912367929": {
+        "treeJSON":     null,
+        "D_951357171":  null,
+        "D_593467240":  null
+    }};
+    
+    return clearedData;
 }
 
-const clientFilterData = (formData) => {
+const clientFilterData = async (formData) => {
 
-    if(formData["D_912367929.D_951357171"] && formData["D_912367929.D_951357171"] == 104430631) delete formData["D_912367929.D_951357171"];
+    if(formData["D_912367929"]?.["D_951357171"] == 104430631) {
+        formData = removeMenstrualCycleData(formData);
 
+        await resetMenstrualCycleSurvey();
+    }
+    
     return formData;
 }
 
