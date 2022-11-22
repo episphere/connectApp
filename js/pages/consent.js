@@ -787,105 +787,16 @@ const consentConsentPage = async () => {
         console.log("iframe content loaded");
     };
 
-    let formNameConsent= './forms/consent/'  + participantSite + '_Consent_' + versionJSON[participantSite]['Consent'] + '.pdf';
-    let formNameHIPAA = './forms/HIPAA/'  + participantSite + '_HIPAA_' + versionJSON[participantSite]['HIPAA'] + '.pdf';
-
     document.getElementById('backToConsent').addEventListener('click', () => {
         consentIndigenousPage();
     })
-    //initializeCanvas(formName);
-    //addEventsConsentSign();
+    
     addEventConsentSubmit();
 }
 
 const initializeForm = (formName, containerName) =>{
     let ob = document.getElementById(containerName);
     ob.data = formName
-
-}
-
-export const consentHealthRecordsPage = () => {
-    window.scrollTo(0, 0);
-    const mainContent = document.getElementById('root');
-    let template = renderProgress(10);
-    template += ` 
-        <div class="row" id="canvasContainer"></div>
-        <div class="row"><div style="margin:auto"><a href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf">Download consent form:&nbsp<i class="fas fa-file-download"></i></a></div></div>
-        <form id="consentForm" method="POST">
-            <div class="row">
-                <div class="col-md form-group consent-form">
-                    <label class="consent-form-label">
-                        First name<span class="required">*</span>
-                    </label>
-                    <input style="margin-left:0" required type="text" autocomplete="off" id="CSFirstName" class="form-control col-md-5" placeholder="Enter first name">
-                </div>
-                <div class="col-md form-group consent-form">
-                    <label class="consent-form-label">
-                        Last name<span class="required">*</span>
-                    </label>
-                    <input required type="text" autocomplete="off" id="CSLastName" class="form-control col-md-5" placeholder="Enter last name">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col form-group consent-form">
-                    <label class="consent-form-label">
-                        Digital signature<span class="required">*</span>
-                        <input disabled required type="text" id="CSSign" class="form-control consentSign">
-                    </label>
-                </div>
-                <div class="col form-group consent-form">
-                    <label class="consent-form-label">
-                        Today's date: 
-                    </label>
-                    <span id="CSDate">${todaysDate()}</span>
-                </div>
-            </div>
-            ${localStorage.eligibilityQuestionnaire ? JSON.parse(localStorage.eligibilityQuestionnaire)['827220437'] === 809703864 ? `
-                <div class="row">
-                    <div class="col form-group consent-form">
-                        <label class="consent-form-label">
-                            Witness first name<span class="required">*</span>
-                            <input required type="text" autocomplete="off" id="CSWFirstName" class="form-control" placeholder="Enter first name">
-                        </label>
-                    </div>
-                    <div class="col form-group consent-form">
-                        <label class="consent-form-label">
-                            Witness last name<span class="required">*</span>
-                            <input required type="text" autocomplete="off" id="CSWLastName" class="form-control" placeholder="Enter last name">
-                        </label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col form-group consent-form">
-                        <label class="consent-form-label">
-                            Witness digital signature<span class="required">*</span>
-                            <input disabled required type="text" id="CSWSign" class="form-control consentSign">
-                        </label>
-                    </div>
-                    <div class="col form-group consent-form">
-                        <label class="consent-form-label">
-                            Today's date: 
-                        </label>
-                        <span id="CSWDate">${todaysDate()}</span>
-                    </div>
-                </div>
-            ` : '' : ''}
-            <div class="row">
-                <button class="btn btn-primary consentPrevButton" type="button" id="backToConsent" style="float:left;">Previous</button>
-                <div class="ml-auto">
-                    <button type="submit" class="btn btn-primary save-data consentNextButton">Submit</button>
-                </div>
-            </div>
-        </form>
-    `
-    
-    mainContent.innerHTML = template;
-    document.getElementById('backToConsent').addEventListener('click', () => {
-        consentConsentPage();
-    })
-    initializeCanvas('./consent_draft.pdf');
-    //addEventsConsentSign();
-    addEventConsentSubmit();
 
 }
 
@@ -1010,17 +921,6 @@ const drawCanvas = (file, scale, canvasContainer) => {
     });
 }
 
-var pageRendering = false,    
-    pageNumPending = null
-
-/*
-var pdfDoc = null,
-    pageNum = 1,
-    pageRendering = false,
-    pageNumPending = null,
-    scale = 0.8,
-    canvas = document.getElementById('the-canvas')
-*/
 function renderPage(num, pageIndicator, pdfDoc, viewer) {
     let pageRendering = true;
     // Using promise to fetch the page
@@ -1121,40 +1021,6 @@ const drawCanvasPage = (file, scale, canvasContainer, nextButton, prevButton, pa
         document.getElementById(nextButton).addEventListener('click', () => {onNextPage(pageIndicator, pdfDoc, viewer)});
     });
     
-}
-export const initializeCanvas1 = (file, customScale) => {
-    let scale = 1;
-    if(window.innerWidth > 1000) scale = 1.3;
-    if(window.innerWidth < 700) scale = 0.7;
-    if(customScale) scale = customScale
-    drawCanvas1(file,scale);
-    /*window.addEventListener('resize', () => {
-        let scale = 1;
-        if(window.innerWidth > 1000) scale = 1.3;
-        if(window.innerWidth < 700) scale = 0.7
-        drawCanvas1(file, scale);
-    }, false);*/
-}
-
-const drawCanvas1 = (file, scale) => {
-    let thePdf = null;
-    pdfjsLib.getDocument(file).promise.then(function(pdf) {
-        thePdf = pdf;
-        let viewer = document.getElementById('canvasContainer1');
-        if(!viewer) return;
-        viewer.innerHTML = '';
-        for(let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
-            const canvas = document.createElement("canvas");    
-            canvas.className = 'pdf-page-canvas';         
-            viewer.appendChild(canvas);
-            thePdf.getPage(pageNumber).then(function(page) {
-                let viewport = page.getViewport(scale);
-                canvas.width = viewport.width;
-                canvas.height = viewport.height;
-                page.render({canvasContext: canvas.getContext('2d'), viewport: viewport});
-            });
-        }
-    });
 }
 
 export const addEventConsentSubmit = () => {
