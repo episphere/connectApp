@@ -329,11 +329,9 @@ const renderMainBody = (data, collections, tab) => {
         toDisplaySystem.unshift({'body':['Biospecimen Survey']});
     }
 
-    /*
     if(modules['Clinical Biospecimen Survey'].enabled) {
         toDisplaySystem.unshift({'body':['Clinical Biospecimen Survey']});
     }
-    */
 
     if(modules['Menstrual Cycle'].enabled) {
         toDisplaySystem.unshift({'body':['Menstrual Cycle']})
@@ -471,18 +469,8 @@ const renderMainBody = (data, collections, tab) => {
                                                     
                                                 </p>
                                                 </div>
-                                            
-                                                ${/*modules[key].hasOwnProperty('noButton') && modules[key]['noButton'] == true? '' : `
-                                                <div class="col-md-3">
-                                                    <button class="btn survey-list-active btn-agreement questionnaire-module ${(modules[key].enabled && !modules[key].unreleased) ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${key}" module_id="${modules[key].moduleId}" data-module-url="${modules[key].url ? modules[key].url : ''}" style=""><b>${modules[key].unreleased  ?  'Coming soon' : 'Start'}</b></button>    
-                                                </div>
-                        `*/''}
                                             </div>
-                                            
                                         </div>`
-                                            /*
-                                            <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="width:90%; margin-bottom:20px;">${key}</button>
-                                        </li>`;*/
                         }
                     }
                 }
@@ -494,15 +482,6 @@ const renderMainBody = (data, collections, tab) => {
 
             
         }
-        /*
-        if (!hasModlesRemaining){
-            template += `
-                            <div class="row">
-                                Thank you for completing your first Connect survey! We will be in touch with next steps for the study
-                            </div>
-                            `
-            
-        }*/
     }
     else{
         for(let obj of toDisplaySystem){
@@ -582,9 +561,6 @@ const renderMainBody = (data, collections, tab) => {
                             
                                 <div class="col-md-3">
                                 Completed Time: ${new Date(data[fieldMapping[modules[key].moduleId].completeTs]).toLocaleString()}
-                                <!--
-                                <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="margin-top:0px;border-radius:30px; height:60px;background-color:#5c2d93 !important;color:white; width:100%"><b>Review</b></button>
-                                -->
                                 </div>
                             </div>
                         </div>`
@@ -700,11 +676,9 @@ const setModuleAttributes = (data, modules, collections) => {
     modules['Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples, and your history of COVID-19. ';
     modules['Biospecimen Survey'].estimatedTime = '10 to 15 minutes';
     
-    /*
     modules['Clinical Biospecimen Survey'].header = 'Baseline Blood and Urine Sample Survey';
     modules['Clinical Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples, and your history of COVID-19. ';
     modules['Clinical Biospecimen Survey'].estimatedTime = '10 to 15 minutes';
-    */
 
     modules['Menstrual Cycle'].header = 'Menstrual Cycle Survey';
     modules['Menstrual Cycle'].description = 'Questions about the date of your first menstrual period after you donated samples for Connect. ';
@@ -714,11 +688,9 @@ const setModuleAttributes = (data, modules, collections) => {
         modules['Biospecimen Survey'].enabled = true;
     }
 
-    /*
     if(collections && collections.filter(collection => collection['650516960'] === 664882224).length > 0) {
         modules['Clinical Biospecimen Survey'].enabled = true;
     }
-    */
 
     if(data['D_299215535'] && data['D_299215535']['D_112151599'] && data['D_299215535']['D_112151599'] == 353358909 && data['265193023'] == 231311385) {
         modules['Menstrual Cycle'].enabled = true;
@@ -750,6 +722,9 @@ const setModuleAttributes = (data, modules, collections) => {
     };
     if (data[fieldMapping.MenstrualCycle.conceptId] && data[fieldMapping.MenstrualCycle.conceptId].COMPLETED) { 
         modules['Menstrual Cycle'].completed = true;
+    };
+    if (data[fieldMapping.ClinicalBiospecimen.conceptId] && data[fieldMapping.ClinicalBiospecimen.conceptId].COMPLETED) { 
+        modules['Clinical Biospecimen Survey'].completed = true;
     };
 
     return modules;
