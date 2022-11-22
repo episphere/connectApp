@@ -409,7 +409,7 @@ const renderSignDataDestroy = async () =>{
     </div>
     `;
     
-    initializeCanvas(`./forms/Data_Destruction_${consentVersions['DataDestruction']}.pdf`, 1);
+    initializeCanvas(`./forms/Data_Destruction_${consentVersions['DataDestruction']}.pdf`, 1, 'canvasContainer');
     document.getElementById('backToAgreements').addEventListener('click', async () =>{
         showAnimation();
         await renderAgreements();
@@ -422,15 +422,13 @@ const renderSignDataDestroy = async () =>{
         let formData = {};
         formData['359404406'] = 353358909;
         formData['119449326'] = dateTime();      
-        formData['883668444'] = 274399168;
+        formData['883668444'] = 704529432;
         formData['304438543'] = `Data_Destruction_${consentVersions['DataDestruction']}`;  
         formData['104278817'] = document.getElementById('CSFirstName').value;
         formData['268665918'] = document.getElementById('CSMiddleName').value;
         formData['744604255'] = document.getElementById('CSLastName').value;
         formData['592227431'] = document.getElementById('CSNameSuffix').value;
 
-
-        
         const response = await storeResponse(formData);
         if(response.code === 200) {
             await renderAgreements();
@@ -458,7 +456,7 @@ const renderSignHIPAARevoke = async () =>{
     </div>
     `;
     
-    initializeCanvas('./forms/HIPAA_Revocation_V1.0.pdf', 1);
+    initializeCanvas('./forms/HIPAA_Revocation_V1.0.pdf', 1, 'canvasContainer');
     document.getElementById('backToAgreements').addEventListener('click', async () =>{
         showAnimation();
         await renderAgreements();
@@ -471,19 +469,15 @@ const renderSignHIPAARevoke = async () =>{
         let formData = {};
         formData['153713899'] = 353358909;
         formData['613641698'] = dateTime();
-        formData['577794331'] = 451449689;
+        formData['577794331'] = 121454001;
         formData['407743866'] = `HIPAA_Revocation_${consentVersions['Revocation']}`;  
         formData['765336427'] = document.getElementById('CSFirstName').value;
         formData['826240317'] = document.getElementById('CSMiddleName').value;
         formData['479278368'] = document.getElementById('CSLastName').value;
         formData['693626233'] = document.getElementById('CSNameSuffix').value;
 
-
-
-        console.log(formData);
         const response = await storeResponse(formData);
         if(response.code === 200) {
-            console.log(response);
             await renderAgreements();
         }
         hideAnimation();
