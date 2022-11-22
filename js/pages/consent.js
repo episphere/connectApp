@@ -5,11 +5,9 @@ import { renderDownloadConsentCopy, renderDownloadHIPAA } from "./agreements.js"
 
 export const consentTemplate = () => {
     consentWelcomePage();
-    //consentConsentPage();
-    //consentFinishedPage();
 }
 
-export const renderProgress = (progress) => {
+const renderProgress = (progress) => {
     let progressBar = [];
     let textColor = [];
     let lineColor = [];
@@ -98,7 +96,7 @@ export const renderProgress = (progress) => {
     return toReturn;
 }
 
-export const consentWelcomePage = () => {
+const consentWelcomePage = () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(1);
@@ -130,7 +128,7 @@ export const consentWelcomePage = () => {
     })
 }
 
-export const consentAboutPage = () => {
+const consentAboutPage = () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(2);
@@ -167,7 +165,7 @@ export const consentAboutPage = () => {
     })
 }
 
-export const consentActivitiesPage = () => {
+const consentActivitiesPage = () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(3);
@@ -233,7 +231,7 @@ export const consentActivitiesPage = () => {
     })
 }
 
-export const consentPrivacyPage = () => {
+const consentPrivacyPage = () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(4);
@@ -279,7 +277,7 @@ export const consentPrivacyPage = () => {
     })
 }
 
-export const consentBenefitsPage = () => {
+const consentBenefitsPage = () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(5);
@@ -317,7 +315,7 @@ export const consentBenefitsPage = () => {
     })
 }
 
-export const consentResultsPage = () => {
+const consentResultsPage = () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(6);
@@ -357,7 +355,7 @@ export const consentResultsPage = () => {
     })
 }
 
-export const consentLeavingPage = () => {
+const consentLeavingPage = () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(7);
@@ -396,7 +394,7 @@ export const consentLeavingPage = () => {
     })
 }
 
-export const consentIndigenousPage = () => {
+const consentIndigenousPage = () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(8);
@@ -445,8 +443,9 @@ export const consentIndigenousPage = () => {
         }
     })
 }
-export const consentIndigenousAffectPage = () => {
-        window.scrollTo(0, 0);
+
+const consentIndigenousAffectPage = () => {
+    window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(8);
     template += `
@@ -485,7 +484,7 @@ export const consentIndigenousAffectPage = () => {
     })
 }
 
-export const consentIndigenousProtectPage = () => {
+const consentIndigenousProtectPage = () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(8);
@@ -529,7 +528,7 @@ export const consentIndigenousProtectPage = () => {
     })
 }
 
-export const consentIndigenousOtherPage = () => {
+const consentIndigenousOtherPage = () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(8);
@@ -575,110 +574,11 @@ export const consentIndigenousOtherPage = () => {
     })
 }
 
-export const consentConsentPage = async () => {
+const consentConsentPage = async () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(9);
-    /*template += `
-        <div>
-            <h2>Informed Consent</h2>
-            <p style="font-size:24px">In order to join Connect, we need you to give your informed consent by reviewing the full consent form and electronic health records release form, and signing your name.</p>
-            
-            <form id="consentCheckboxForm" method="POST">
-                <div class="form-group row" id="idAgreement">
-                    <div class="col-md-1">    
-                        <input type="checkbox" class="form-control required-field" data-error-required='Please check off all checkboxes' style="margin-top:3px; margin:auto; width:25px;height:25px;" required>
-                    </div>
-                    <label class="col-md-11 col-form-label" style="padding-top:0px;"> 
-                         I understand that I will be asked for personal information, and that Connect takes steps to protect my identity. I understand that Connect replaces my 
-                        personal details with a unique number (a code) to protect my privacy.
-                    <span class="required">*</span></label>
-                </div>
-                <div class="form-group row" id="idAgreement">
-                    <div class="col-md-1">    
-                        <input type="checkbox" class="form-control required-field" data-error-required='Please check off all checkboxes' style="margin-top:3px; margin:auto; width:25px;height:25px;" required>
-                    </div>
-                    <label class="col-md-11 col-form-label" style="padding-top:0px;">  
-                        I understand that I will be asked to share my electronic health record. 
-                        I understand that this record has information about my health, medicines I take, test results, and sensitive topics like mental health.
-                    <span class="required">*</span></label>
-                </div>
-                <div class="form-group row" id="idAgreement">
-                    <div class="col-md-1">    
-                        <input type="checkbox" class="form-control required-field" data-error-required='Please check off all checkboxes' style="margin-top:3px; margin:auto; width:25px;height:25px;" required>
-                    </div>
-                        <label class="col-md-11 col-form-label" style="padding-top:0px;"> 
-                         I understand that I will be asked to answer online surveys, and I can choose to skip any survey questions that I do not want to answer.
-                    <span class="required">*</span></label>
-                </div>
-                <div class="form-group row" id="idAgreement">
-                    <div class="col-md-1">    
-                        <input type="checkbox" class="form-control required-field" data-error-required='Please check off all checkboxes' style="margin-top:3px; margin:auto; width:25px;height:25px;" required>
-                    </div>
-                    <label class="col-md-11 col-form-label" style="padding-top:0px;"> 
-                        I understand that I will be asked to donate blood, urine, saliva, and other samples, and that Connect may collect samples from my health care visits. 
-                        I understand that the samples I donate will be stored safely. Researchers will use the samples I donate to study my genes.
-                    <span class="required">*</span></label>
-                </div>
-                <div class="form-group row" id="idAgreement">
-                    <div class="col-md-1">    
-                        <input type="checkbox" class="form-control required-field" data-error-required='Please check off all checkboxes' style="margin-top:3px; margin:auto; width:25px;height:25px;" required>
-                    </div>
-                    <label class="col-md-11 col-form-label" style="padding-top:0px;"> 
-                         I understand that Connect will use my personal information to collect information from other sources, and that using my personal details help researchers match information to me.
-                    <span class="required">*</span></label>
-                </div>
-                <div class="form-group row" id="idAgreement">
-                    <div class="col-md-1">    
-                        <input type="checkbox" class="form-control required-field" data-error-required='Please check off all checkboxes' style="margin-top:3px; margin:auto; width:25px;height:25px;" required>
-                    </div>
-                    <label class="col-md-11 col-form-label" style="padding-top:0px;"> 
-                         I understand that Connet may invite me to participate in other study activities. I can say yes or no to other activities and still be in Connect.
-                    <span class="required">*</span></label>
-                </div>
-                <div class="form-group row" id="idAgreement">
-                    <div class="col-md-1">    
-                        <input type="checkbox" class="form-control required-field" data-error-required='Please check off all checkboxes' style="margin-top:3px; margin:auto; width:25px;height:25px;" required>
-                    </div>
-                    <label class="col-md-11 col-form-label" style="padding-top:0px;"> 
-                        I understand that I will receive $25 in cash or as a gift card after I complete the first set of study activities (answer four surveys and donate a blood sample).
-                    <span class="required">*</span></label>
-                </div>
-                <div class="form-group row" id="idAgreement">
-                    <div class="col-md-1">    
-                        <input type="checkbox" class="form-control required-field" data-error-required='Please check off all checkboxes' style="margin-top:3px; margin:auto; width:25px;height:25px;" required>
-                    </div>
-                    <label class="col-md-11 col-form-label" style="padding-top:0px;"> 
-                        I understand that the main risk of joining Connect is to my privacy, and that this risk is low. I understand that Connect follows privacy rules to protect my personal information.
-                    <span class="required">*</span></label>
-                </div>
-                <div class="form-group row" id="idAgreement">
-                    <div class="col-md-1">    
-                        <input type="checkbox" class="form-control required-field" data-error-required='Please check off all checkboxes' style="margin-top:3px; margin:auto; width:25px;height:25px;" required>
-                    </div>
-                    <label class="col-md-11 col-form-label" style="padding-top:0px;"> 
-                        I understand that joining Connect is my choice, and that if I join, I can stop at any time. I understand that joining Connect or deciding to leave later will not change my health care or health benefits. If I choose to leave the study and have already shared information or samples, Connect will use these for research.
-                    <span class="required">*</span></label>
-                </div>
-                <div class="row">Download consent form:&nbsp<a href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf"><i class="fas fa-file-download"></i></a></div>
-                <div class="row" id="canvasContainer"></div>
-                <div class="form-group row" id="idAgreement" style = "margin-top:50px;">
-                    <div class="col-md-1">    
-                        <input type="checkbox" class="form-control required-field" data-error-required='Please check off all checkboxes' style="margin-top:3px; margin:auto; width:25px;height:25px;" required>
-                    </div>
-                    <label class="col-md-11 col-form-label" style="padding-top:0px;font-weight:bold;font-size:20px;"> 
-                        I have read and understand the full consent form.
-                    <span class="required">*</span></label>
-                </div>
-
-                <div>
-                    <button class="btn btn-primary" type="button" id="backToLeaving" style="float:left;margin-top:40px;">Previous</button>
-                    <button type="submit" class="btn btn-primary save-data" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
-                </div>
-            </form>
-            
-        </div>
-    `*/
+    
     const myData = await getMyData();
     let siteDict = siteAcronyms();
     let versionJSON = await fetch('./forms/Consent_versioning.json').then(res => res.json());
@@ -886,45 +786,16 @@ export const consentConsentPage = async () => {
         })
         console.log("iframe content loaded");
     };
+
     let formNameConsent= './forms/consent/'  + participantSite + '_Consent_' + versionJSON[participantSite]['Consent'] + '.pdf';
-    /*if(participantSite == 'NCI'){
-        formNameConsent = './forms/consent/A17_FlightPlan.pdf'
-    }*/
     let formNameHIPAA = './forms/HIPAA/'  + participantSite + '_HIPAA_' + versionJSON[participantSite]['HIPAA'] + '.pdf';
-    //let formName = './forms/consent/' + myData.data[454205108] + '.pdf'
-    //initializeCanvas(formNameConsent, .8*1.7);
-    //initializeCanvas1(formNameHIPAA, .8*1.7);
 
-    showAnimation()
-    //initializeForm(formNameConsent, 'pdfContainer')
-    //document.getElementById('pdfIframeContainer').src = `https://docs.google.com/viewer?url=${'https://storage.googleapis.com/myconnect_app_stage/forms/consent/HP_Consent_V1.0.pdf'}&embedded=true`
-    //document.getElementById('pdfIframeContainer').src = `https://docs.google.com/viewer?url=${'https://storage.googleapis.com/myconnect_app_stage/forms/HIPAA/HP_HIPAA_V1.0.pdf'}&embedded=true`
-
-    //initializeForm(formNameHIPAA, 'pdfContainer1')
-    //await initializeCanvas(formNameConsent, 1, 'canvasContainer','nextConsent', 'prevConsent' ,'page_num_Consent', 'page_count_Consent');
-    //await initializeCanvas(formNameHIPAA, 1, 'canvasContainer1','nextHIPAA', 'prevHIPAA' ,'page_num_HIPAA', 'page_count_HIPAA');
-    hideAnimation();
-    //initializeCanvas1(formNameHIPAA);
     document.getElementById('backToConsent').addEventListener('click', () => {
         consentIndigenousPage();
     })
     //initializeCanvas(formName);
     //addEventsConsentSign();
     addEventConsentSubmit();
-    /*
-    const userProfileForm = document.getElementById('consentCheckboxForm');
-    initializeCanvas('./consent_draft.pdf');
-    document.getElementById('backToLeaving').addEventListener('click', () => {
-        consentLeavingPage();
-    })
-    userProfileForm.addEventListener('submit', async e => {
-        e.preventDefault();
-        const requiredFields = document.getElementsByClassName('required-field');
-        let hasError = false;
-        consentHealthRecordsPage();
-        
-    });
-    */
 }
 
 const initializeForm = (formName, containerName) =>{
