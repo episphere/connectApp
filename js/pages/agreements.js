@@ -390,75 +390,24 @@ const renderDownloadDestroy = async (data) => {
     renderDownload(participantSignature, currentTime, pdfLocation, {x:150,y:420},{x1:150,y1:400},{x:155,y:380},20,15,20);
 }
 
-const renderSignDataDestroy = async (data) =>{
+const renderSignDataDestroy = async () =>{
     let consentVersions = await fetch('./forms/Consent_versioning.json').then(res => res.json());
 
     document.getElementById('root').innerHTML = `
     <div class="row">
-    <div class="col-lg-2">
-    </div>
-    <div class="col-lg-8">
-    <div style="width:80%; margin:auto">
-        <h4 class="consentSubheader" style="margin-top:50px">Data destruction request form</h4>
-        <div id="canvasContainer"></div>
-        <div class="row" style="margin:auto"><div style="margin:auto"><a href="./forms/Data_Destruction_${consentVersions['DataDestruction']}.pdf" title="Download Data destruction request form" data-toggle="tooltip" download="DataDestruction_${consentVersions['DataDestruction']}.pdf" class="consentBodyFont2"> Download an unsigned copy of the Data destruction request form&nbsp<i class="fas fa-file-download"></i></a></div></div>
-    </div>
-    
-    <form id="consentForm" style="margin-top:20px; margin-bottom:50px;" method="POST">
-        <div id="CSConsentNameSignContainer" style="">
-            <div class="row" style="width:80%; margin:auto; padding-left:0px; padding-right:0px">
-                <div class="col-md-4 form-group consent-form">
-                    <label class="consent-form-label">
-                        First name<span class="required">*</span>
-                    </label>
-                    <input required type="text" autocomplete="off" id="CSFirstName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
-                    <br>
-                </div>
-                <div class="col-md-2 form-group consent-form">
-                    <label class="consent-form-label">
-                        Middle name<span></span>
-                    </label>
-                    <input type="text" autocomplete="off" id="CSMiddleName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
-                    <br>
-                </div>
-                <div class="col-md-4 form-group consent-form">
-                    <label class="consent-form-label">
-                        Last name<span class="required">*</span>
-                    </label>
-                    <input required type="text" autocomplete="off" id="CSLastName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
-                    <br>
-                </div>
-                <div class="col-md-2 form-group consent-form">
-                    <label class="consent-form-label">
-                        Suffix<span></span>
-                    </label>
-                    <select name="NameSuffix" class="form-control col-md-10" id="CSNameSuffix" style="margin-left:0px;">
-                        <option value="">-Select-</option>
-                        <option value="612166858">Jr.</option>
-                        <option value="255907182">Sr.</option>
-                        <option value="226924545">I</option>
-                        <option value="270793412">II</option>
-                        <option value="959021713">III</option>
-                        <option value="643664527">2nd</option>
-                        <option value="537892528">3rd</option>
-
-                    </select>
-                    <br>
-                </div>
-            </div>
-            <div class="row" style="width:80%; margin:auto; padding-left:0px; padding-right:0px">
-                <button class="btn btn-primary consentPrevButton" type="button" id="backToAgreements" style="float:left;">Back</button>
-                <div class="ml-auto">
-                    <button type="submit" class="btn btn-primary save-data consentNextButton">Sign and Submit</button>
-                </div>
-            </div>
+        <div class="col-lg-2">
         </div>
-    </form>
+        <div class="col-lg-8">
+            <div style="width:80%; margin:auto">
+            <h4 class="consentSubheader" style="margin-top:50px">Data destruction request form</h4>
+            <div id="canvasContainer"></div>
+            <div class="row" style="margin:auto"><div style="margin:auto"><a href="./forms/Data_Destruction_${consentVersions['DataDestruction']}.pdf" title="Download Data destruction request form" data-toggle="tooltip" download="DataDestruction_${consentVersions['DataDestruction']}.pdf" class="consentBodyFont2"> Download an unsigned copy of the Data destruction request form&nbsp<i class="fas fa-file-download"></i></a></div></div>
+            </div>` + consentSignTemplate() + 
+        `</div>
+        <div class="col-lg-2">
+        </div>
     </div>
-    <div class="col-lg-2">
-    </div>
-    </div>
-        `;
+    `;
     
     initializeCanvas(`./forms/Data_Destruction_${consentVersions['DataDestruction']}.pdf`, 1);
     document.getElementById('backToAgreements').addEventListener('click', async () =>{
@@ -490,75 +439,24 @@ const renderSignDataDestroy = async (data) =>{
     })
 }
 
-const renderSignHIPAARevoke = async (data) =>{
+const renderSignHIPAARevoke = async () =>{
     let consentVersions = await fetch('./forms/Consent_versioning.json').then(res => res.json());
 
     document.getElementById('root').innerHTML = `
     <div class="row">
-    <div class="col-lg-2">
-    </div>
-    <div class="col-lg-8">
-    <div style="width:80%; margin:auto">
-        <h4 class="consentSubheader" style="margin-top:50px">HIPAA Revocation Form</h4>
-        <div id="canvasContainer"></div>
-        <div class="row" style="margin:auto"><div style="margin:auto"><a href="./forms/HIPAA_Revocation_${consentVersions['Revocation']}.pdf" title="Download HIPAA Revocation form" data-toggle="tooltip" download="Revocation_${consentVersions['Revocation']}.pdf" class="consentBodyFont2"> Download an unsigned copy of the HIPAA Revocation form&nbsp<i class="fas fa-file-download"></i></a></div></div>
-    </div>
-    
-    <form id="consentForm" style="margin-top:20px; margin-bottom:50px;" method="POST">
-        <div id="CSConsentNameSignContainer" style="">
-            <div class="row" style="width:80%; margin:auto; padding-left:0px; padding-right:0px">
-                <div class="col-md-4 form-group consent-form">
-                    <label class="consent-form-label">
-                        First name<span class="required">*</span>
-                    </label>
-                    <input required type="text" autocomplete="off" id="CSFirstName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
-                    <br>
-                </div>
-                <div class="col-md-2 form-group consent-form">
-                    <label class="consent-form-label">
-                        Middle name<span></span>
-                    </label>
-                    <input type="text" autocomplete="off" id="CSMiddleName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
-                    <br>
-                </div>
-                <div class="col-md-4 form-group consent-form">
-                    <label class="consent-form-label">
-                        Last name<span class="required">*</span>
-                    </label>
-                    <input required type="text" autocomplete="off" id="CSLastName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
-                    <br>
-                </div>
-                <div class="col-md-2 form-group consent-form">
-                    <label class="consent-form-label">
-                        Suffix<span></span>
-                    </label>
-                    <select name="NameSuffix" class="form-control col-md-10" id="CSNameSuffix" style="margin-left:0px;">
-                        <option value="">-Select-</option>
-                        <option value="612166858">Jr.</option>
-                        <option value="255907182">Sr.</option>
-                        <option value="226924545">I</option>
-                        <option value="270793412">II</option>
-                        <option value="959021713">III</option>
-                        <option value="643664527">2nd</option>
-                        <option value="537892528">3rd</option>
-
-                    </select>
-                    <br>
-                </div>
-            </div>
-            <div class="row" style="width:80%; margin:auto; padding-left:0px; padding-right:0px">
-                <button class="btn btn-primary consentPrevButton" type="button" id="backToAgreements" style="float:left;">Back</button>
-                <div class="ml-auto">
-                    <button type="submit" class="btn btn-primary save-data consentNextButton">Sign and Submit</button>
-                </div>
-            </div>
+        <div class="col-lg-2">
         </div>
-    </form>
+        <div class="col-lg-8">
+            <div style="width:80%; margin:auto">
+            <h4 class="consentSubheader" style="margin-top:50px">HIPAA Revocation Form</h4>
+            <div id="canvasContainer"></div>
+            <div class="row" style="margin:auto"><div style="margin:auto"><a href="./forms/HIPAA_Revocation_${consentVersions['Revocation']}.pdf" title="Download HIPAA Revocation form" data-toggle="tooltip" download="Revocation_${consentVersions['Revocation']}.pdf" class="consentBodyFont2"> Download an unsigned copy of the HIPAA Revocation form&nbsp<i class="fas fa-file-download"></i></a></div></div>
+            </div>` + consentSignTemplate() + 
+        `</div>
+        <div class="col-lg-2">
+        </div>
     </div>
-    <div class="col-lg-2">
-    </div>
-    </div>
-        `;
+    `;
     
     initializeCanvas('./forms/HIPAA_Revocation_V1.0.pdf', 1);
     document.getElementById('backToAgreements').addEventListener('click', async () =>{
@@ -630,4 +528,59 @@ const renderDownload = async (participant, timeStamp, fileLocation, nameCoordina
 
     // Trigger the browser to download the PDF document
     download(pdfBytes, fileLocationDownload, "application/pdf");
+}
+
+const consentSignTemplate = () => {
+    return `
+    <form id="consentForm" style="margin-top:20px; margin-bottom:50px;" method="POST">
+        <div id="CSConsentNameSignContainer" style="">
+            <div class="row" style="width:80%; margin:auto; padding-left:0px; padding-right:0px">
+                <div class="col-md-4 form-group consent-form">
+                    <label class="consent-form-label">
+                        First name<span class="required">*</span>
+                    </label>
+                    <input required type="text" autocomplete="off" id="CSFirstName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
+                    <br>
+                </div>
+                <div class="col-md-2 form-group consent-form">
+                    <label class="consent-form-label">
+                        Middle name<span></span>
+                    </label>
+                    <input type="text" autocomplete="off" id="CSMiddleName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
+                    <br>
+                </div>
+                <div class="col-md-4 form-group consent-form">
+                    <label class="consent-form-label">
+                        Last name<span class="required">*</span>
+                    </label>
+                    <input required type="text" autocomplete="off" id="CSLastName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
+                    <br>
+                </div>
+                <div class="col-md-2 form-group consent-form">
+                    <label class="consent-form-label">
+                        Suffix<span></span>
+                    </label>
+                    <select name="NameSuffix" class="form-control col-md-10" id="CSNameSuffix" style="margin-left:0px;">
+                        <option value="">-Select-</option>
+                        <option value="612166858">Jr.</option>
+                        <option value="255907182">Sr.</option>
+                        <option value="226924545">I</option>
+                        <option value="270793412">II</option>
+                        <option value="959021713">III</option>
+                        <option value="643664527">2nd</option>
+                        <option value="537892528">3rd</option>
+
+                    </select>
+                    <br>
+                </div>
+            </div>
+            <div class="row" style="width:80%; margin:auto; padding-left:0px; padding-right:0px">
+                <button class="btn btn-primary consentPrevButton" type="button" id="backToAgreements" style="float:left;">Back</button>
+                <div class="ml-auto">
+                    <button type="submit" class="btn btn-primary save-data consentNextButton">Sign and Submit</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    `;
 }
