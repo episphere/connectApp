@@ -882,22 +882,13 @@ export const consentToProfilePage = () => {
 
 }
 
-export const initializeCanvas = async (file, customScale, canvasContainer,nextButton, prevButton,pageIndicator,pageMax) => {
+export const initializeCanvas = async (file, customScale, canvasContainer) => {
     let scale = 1;
     if(window.innerWidth > 1000) scale = 1.3;
     if(window.innerWidth < 700) scale = 0.7;
     if(customScale) scale = customScale
-    drawCanvasPage(file,scale,canvasContainer,nextButton, prevButton,pageIndicator, pageMax);
-    document.getElementById(nextButton).addEventListener('click', onPrevPage(pageIndicator));
-    document.getElementById(prevButton).addEventListener('click', onNextPage(pageIndicator));
 
-
-    /*window.addEventListener('resize', () => {
-        let scale = 1;
-        if(window.innerWidth > 1000) scale = 1.3;
-        if(window.innerWidth < 700) scale = 0.7
-        drawCanvas(file, scale);
-    }, false);*/
+    drawCanvas(file, scale, canvasContainer);
 }
 
 const drawCanvas = (file, scale, canvasContainer) => {
@@ -922,39 +913,32 @@ const drawCanvas = (file, scale, canvasContainer) => {
 }
 
 function renderPage(num, pageIndicator, pdfDoc, viewer) {
-    let pageRendering = true;
+    
     // Using promise to fetch the page
     pdfDoc.getPage(num).then(function(page) {
         while (viewer.firstChild) {
             viewer.removeChild(viewer.firstChild);
         }
-      let canvas = document.createElement("canvas");
-      canvas.className = 'pdf-page-canvas';         
-      viewer.appendChild(canvas);
-      //console.log('consoleWidth: ' + viewer.clientWidth + ', ' +viewer.clientWidth / page.getViewport(1.0).width)
-      //var viewport = page.getViewport(Math.max(viewer.clientWidth / page.getViewport(1.0).width, 0.7));
-      var viewport = page.getViewport(viewer.clientWidth / page.getViewport(1.0).width);
-      //canvas.width = Math.round (devicePixelRatio * rect.right)
-        //        - Math.round (devicePixelRatio * rect.left);
-      //canvas.style = `height:${viewport.height}px; width:${viewport.width}px;`
-      canvas.style.height = viewport.height + 'px';
-      canvas.style.width = viewport.width + 'px';
-      canvas.height = 3*viewport.height;
-      canvas.width = 3*viewport.width;
-      
-      //canvas.height = Math.round (devicePixelRatio * rect.bottom)
-      //          - Math.round (devicePixelRatio * rect.top);
-      viewer.style = `min-height:${Math.min(viewport.height, 500)}px;max-height:${Math.min(viewport.height+10, 500)}px;`
-      //console.log(canvas.height + ', ' + canvas.width)
+        let canvas = document.createElement("canvas");
+        canvas.className = 'pdf-page-canvas';         
+        viewer.appendChild(canvas);
 
-      
-      // Render PDF page into canvas context
-      var renderContext = {
-        canvasContext: canvas.getContext('2d'),
-        viewport: viewport,
-        transform: [3,0,0,3,0,0]
-      };
-      var renderTask = page.render(renderContext);
+        var viewport = page.getViewport(viewer.clientWidth / page.getViewport(1.0).width);
+
+        canvas.style.height = viewport.height + 'px';
+        canvas.style.width = viewport.width + 'px';
+        canvas.height = 3*viewport.height;
+        canvas.width = 3*viewport.width;
+
+        viewer.style = `min-height:${Math.min(viewport.height, 500)}px;max-height:${Math.min(viewport.height+10, 500)}px;`
+
+        // Render PDF page into canvas context
+        var renderContext = {
+            canvasContext: canvas.getContext('2d'),
+            viewport: viewport,
+            transform: [3,0,0,3,0,0]
+        };
+        var renderTask = page.render(renderContext);
 
     });
   
