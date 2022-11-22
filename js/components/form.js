@@ -178,8 +178,6 @@ export const renderUserProfile = async () => {
                 </div>
             </div>
 
-            <!--<div id="preferredEmailPhone"></div>-->
-
             <div class="form-group row">
                 <div class="col">
                     <label class="col-form-label">
@@ -269,17 +267,15 @@ export const renderUserProfile = async () => {
         </div>
         </div>
     `;
-    //addYearsOptions();
+    
     addEventNameConsistency(myData.data['471168198'], myData.data['736251808']);
     addEventChangeFocus();
     addEventCancerFollowUp();
     addEventMonthSelection();
-    //addEventPreferredContactType();
     addEventAdditionalEmail();
     addEventAddressAutoComplete(1);
     addEventCheckCanText();
     addEventDisableCopyPaste();
-    //addEventCheckCantText();
     addEventUPSubmit();
 };
 
