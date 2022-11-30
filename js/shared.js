@@ -1028,6 +1028,7 @@ export const renderSyndicate = (url, element, page) => {
     });
 }
 
+
 export const verifyPaymentEligibility = async (formData, collections) => {
 
     if(formData['130371375']?.['266600170']?.['731498909'] === 104430631) {
