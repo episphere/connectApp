@@ -1,11 +1,29 @@
 import { addEventHideNotification } from "./event.js";
-import fieldMapping from './components/fieldToConceptIdMapping.js'; 
+import fieldMapping from './fieldToConceptIdMapping.js'; 
 import { workflows } from "https://cdn.jsdelivr.net/gh/episphere/biospecimen@master/src/tubeValidation.js";
 
 export const urls = {
     'prod': 'myconnect.cancer.gov',
     'stage': 'myconnect-stage.cancer.gov'
 }
+
+function createStore(initialState = {}) {
+  let state = JSON.parse(JSON.stringify(initialState));
+
+  const setState = (update) => {
+    const currSlice = typeof update === 'function' ? update(state) : update;
+
+    if (currSlice !== state) {
+      state = { ...state, ...currSlice };
+    }
+  };
+
+  const getState = () => state;
+
+  return { setState, getState };
+}
+
+export const appState = createStore();
 
 let api = '';
 
@@ -46,170 +64,110 @@ export const generateNewToken = async () => {
     return data;
 }
 
-//adding conceptID mappings for completded and TS
-export const conceptIdMapping = (formData) => {
-    try {
-
-        let moduleId = Object.keys(formData)[0].split(".")[0];
-        let moduleIdCompleted = moduleId + ".COMPLETED";
-        let moduleIdCompletedTS = moduleId + ".COMPLETED_TS";
-        
-        if (moduleIdCompleted in formData) {
-            let connectModuleIdCompleted = fieldMapping[fieldMapping[`${moduleId}`]].statusFlag;
-            formData[connectModuleIdCompleted] = 231311385;
-        }
-        if (moduleIdCompletedTS in formData) {
-            let connectModuleIdCompletedTS = fieldMapping[fieldMapping[`${moduleId}`]].completeTs;
-            formData[connectModuleIdCompletedTS] = formData[moduleIdCompletedTS];
-        }
-
-
-    } catch (error) {
-        console.log("conceptIdMapping error",error);
-    }
-
-    return formData;
-}
-
-export const gridFiltering = (formData) => {
-    try {
-
-        let moduleId = Object.keys(formData)[0].split(".")[0];
-        let moduleIdCompleted = moduleId + ".COMPLETED";
-        let moduleIdCompletedTS = moduleId + ".COMPLETED_TS";
-        
-        if (moduleIdCompleted in formData) {
-            let connectModuleIdCompleted = fieldMapping[fieldMapping[`${moduleId}`]].statusFlag;
-            formData[connectModuleIdCompleted] = 231311385;
-        }
-        if (moduleIdCompletedTS in formData) {
-            let connectModuleIdCompletedTS = fieldMapping[fieldMapping[`${moduleId}`]].completeTs;
-            formData[connectModuleIdCompletedTS] = formData[moduleIdCompletedTS];
-        }
-
-
-    } catch (error) {
-        console.log("questMapping error",error);
-    }
-}
-
 //Store tree function being passed into quest
-export const storeResponseTree = async (questName, treeJSON) => {
+export const storeResponseTree = async (questName) => {
     
-    console.log("beginning of storeTree()");
-    let formData = {}
-    formData[questName + '.treeJSON'] = questionQueue.toJSON()
-    console.log(JSON.stringify(formData))
+    let formData = {[questName]: {treeJSON: questionQueue.toJSON()}};
 
-    let ans = await storeResponse(formData)
-    console.log('ans')
-    console.log(ans)
-    console.log('ending storeTree')
-
+    await storeResponse(formData);
 }
 
 //Attempting to store tree on push
 export const storeResponseQuest = async (formData) => {
-    console.log('FORMDATA!!')
-    console.log(formData)
-    let keys = Object.keys(formData)
-    for (let k in keys){
-        if(formData[keys[k]] == undefined){
-            formData[keys[k]] = null;
+    
+    let keys = Object.keys(formData);
+    let first = keys[0];
+    let moduleId = first.slice(0, first.indexOf("."));
+
+    let transformedData = {[moduleId]: {}};
+    let completedData = {};
+
+    keys.forEach(key => {
+        let id = key.slice(first.indexOf(".") + 1);
+        if (formData[key] === undefined) {
+            transformedData[moduleId][id] = null;
         }
+        else if (["COMPLETED", "COMPLETED_TS"].includes(id)) {
+            completedData[id] = formData[key];
+        }
+        else {
+            transformedData[moduleId][id] = formData[key]
+        }
+    });
+
+    if (Object.keys(completedData).length > 0) {
+        await completeSurvey(completedData, moduleId);
     }
-    await storeResponse(formData)
+
+    transformedData = await clientFilterData(transformedData);
+
+    if(Object.keys(transformedData[moduleId]).length > 0) {
+        await storeResponse(transformedData);
+    }
+}
+
+const completeSurvey = async (data, moduleId) => {
+
+    let formData = {};
+    let moduleName = fieldMapping.conceptToModule[moduleId];
+
+    if(data["COMPLETED"]) formData[fieldMapping[moduleName].statusFlag] = 231311385;
+    if(data["COMPLETED_TS"]) formData[fieldMapping[moduleName].completeTs] = data["COMPLETED_TS"];
+
+    await storeResponse(formData);
 }
 
 export const storeResponse = async (formData) => {
-
-    formData = conceptIdMapping(formData);
-    formData = clientFilterData(formData);
     
-    const idToken = await new Promise((resolve, reject) => {
-        const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
-            unsubscribe();
-            if (user) {
-                user.getIdToken().then((idToken) => {
-                    resolve(idToken);
-            }, (error) => {
-                resolve(null);
-            });
-            } else {
-            resolve(null);
-            }
-        });
-    });
-    let requestObj = {
+    const idToken = await getIdToken();
+    const response = await fetch(`${api}?api=submit`, {
         method: "POST",
         headers:{
-            Authorization:"Bearer "+idToken,
+            Authorization: "Bearer " + idToken,
             "Content-Type": "application/json"
         },
         body: JSON.stringify(formData)
-    }
-    let url = '';
-    if(location.host === urls.prod) url = `https://api-myconnect.cancer.gov/app?api=submit`
-    else if(location.host === urls.stage) url = `https://api-myconnect-stage.cancer.gov/app?api=submit`
-    else url = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app?api=submit'
-    const response = await fetch(url, requestObj);
+    });
 
     return response.json();
 }
 
 export const getMyData = async () => {
-    const idToken = await new Promise((resolve, reject) => {
-        const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
-            unsubscribe();
-            if (user) {
-                user.getIdToken().then((idToken) => {
-                    resolve(idToken);
-            }, (error) => {
-                resolve(null);
-            });
-            } else {
-            resolve(null);
-            }
-        });
-    });
-    let url = '';
-    if(location.host === urls.prod) url = `https://api-myconnect.cancer.gov/app?api=getUserProfile`
-    else if(location.host === urls.stage) url = `https://api-myconnect-stage.cancer.gov/app?api=getUserProfile`
-    else url = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app?api=getUserProfile'
-    const response = await fetch(url, {
+
+    const idToken = await getIdToken();
+    const response = await fetch(`${api}?api=getUserProfile`, {
         headers: {
-            Authorization: "Bearer "+idToken
+            Authorization: "Bearer " + idToken
         }
     })
+
+    return response.json();
+}
+
+export const getMySurveys = async (data) => {
+    
+    const idToken = await getIdToken();
+    const response = await fetch(`${api}?api=getUserSurveys`, {
+        method: "POST",
+        headers: {
+            Authorization: "Bearer " + idToken,
+            "Content-Type": "application/json"
+        },
+        body:  JSON.stringify(data)
+    })
+
     return response.json();
 }
 
 export const getMyCollections = async () => {
-    const idToken = await new Promise((resolve, reject) => {
-        const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
-            unsubscribe();
-            if (user) {
-                user.getIdToken().then((idToken) => {
-                    resolve(idToken);
-            }, (error) => {
-                resolve(null);
-            });
-            } else {
-            resolve(null);
-            }
-        });
-    });
-    let url = '';
 
-    if(location.host === urls.prod) url = `https://api-myconnect.cancer.gov/app?api=getUserCollections`
-    else if(location.host === urls.stage) url = `https://api-myconnect-stage.cancer.gov/app?api=getUserCollections`
-    else url = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app?api=getUserCollections';
-
-    const response = await fetch(url, {
+    const idToken = await getIdToken();
+    const response = await fetch(`${api}?api=getUserCollections`, {
         headers: {
-            Authorization: "Bearer "+idToken
+            Authorization: "Bearer " + idToken
         }
     })
+
     return response.json();
 }
 
@@ -297,7 +255,7 @@ export const getIdToken = () => {
     return new Promise((resolve, reject) => {
         const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             unsubscribe();
-            if (user) {
+            if (user && !user.isAnonymous) {
                 user.getIdToken().then((idToken) => {
                     resolve(idToken);
             }, (error) => {
@@ -314,7 +272,7 @@ export const userLoggedIn = () => {
     return new Promise((resolve, reject) => {
         const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             unsubscribe();
-            if (user) {
+            if (user && !user.isAnonymous) {
                 resolve(true);
             } else {
                 resolve(false);
@@ -760,6 +718,24 @@ export const retrieveNotifications = async () => {
     return await response.json();
 }
 
+/**
+ * Check if account exists
+ * @param {{accountType:'email' | 'phone', accountValue: string}} data 
+ * @returns {Promise<{data:{accountExists:boolean}, code:number}>}
+ */
+export const checkAccount = async (data) => {
+    const idToken = appState.getState().idToken;
+    const response = await fetch(`${api}?api=validateEmailOrPhone&${data.accountType}=${data.accountValue}`, {
+        method: "GET",
+        headers: {
+            Authorization:"Bearer " + idToken
+        },
+    });
+
+    const jsonResponse = await response.json();
+    return jsonResponse;
+}
+
 export const connectPushNotification = () => {
     try {
         const messaging = firebase.messaging();
@@ -1052,11 +1028,11 @@ export const renderSyndicate = (url, element, page) => {
     });
 }
 
-export const verifyPaymentEligibility = async (formData) => {
+
+export const verifyPaymentEligibility = async (formData, collections) => {
 
     if(formData['130371375']?.['266600170']?.['731498909'] === 104430631) {
 
-        const collections = await getMyCollections();
         const incentiveEligible = await checkPaymentEligibility(formData, collections);
 
         if(incentiveEligible) {
@@ -1129,19 +1105,106 @@ export const addEventReturnToDashboard = () => {
     });
 }
 
-export const removeMenstrualCycleData = async () => {
+const resetMenstrualCycleSurvey = async () => {
+
+    let formData = {
+        "459098666":    972455046,
+        "844088537":    null
+    }
+
+    await storeResponse(formData);
+}
+
+const removeMenstrualCycleData = (formData) => {
 
     localforage.removeItem("D_912367929");
     localforage.removeItem("D_912367929.treeJSON");
 
-    let formData = {};
-    formData["D_912367929"] = {};
-    storeResponse(formData);
+    let clearedData = {"D_912367929": {
+        "treeJSON":     null,
+        "D_951357171":  null,
+        "D_593467240":  null
+    }};
+    
+    return clearedData;
 }
 
-const clientFilterData = (formData) => {
+const clientFilterData = async (formData) => {
 
-    if(formData["D_912367929.D_951357171"] && formData["D_912367929.D_951357171"] == 104430631) delete formData["D_912367929.D_951357171"];
+    if(formData["D_912367929"]?.["D_951357171"] == 104430631) {
+        formData = removeMenstrualCycleData(formData);
 
+        await resetMenstrualCycleSurvey();
+    }
+    
     return formData;
 }
+
+export function fragment(strings, ...values) {
+  const N = values.length;
+  const transformedStringList = [];
+  const elementAndDocumentFragmentList = [];
+
+  for (let i = 0; i < N; i++) {
+    if (
+      values[i] instanceof HTMLElement ||
+      values[i] instanceof DocumentFragment
+    ) {
+      transformedStringList.push(strings[i], `<div id="placeholder"></div>`);
+      elementAndDocumentFragmentList.push(values[i]);
+    } else {
+      transformedStringList.push(strings[i], values[i]);
+    }
+  }
+
+  transformedStringList.push(strings[N]);
+  const documentFragment = stringToFragment(transformedStringList.join(''));
+
+  if (elementAndDocumentFragmentList.length > 0) {
+    const phEleList = documentFragment.querySelectorAll('#placeholder');
+    for (let i = 0; i < phEleList.length; i++) {
+      replaceElement(phEleList[i], elementAndDocumentFragmentList[i]);
+    }
+  }
+
+  return documentFragment;
+}
+
+export function stringToFragment(str) {
+  const doc = new DOMParser().parseFromString(str, 'text/html');
+  const fragment = new DocumentFragment();
+  fragment.append(...doc.body.children);
+
+  return fragment;
+}
+
+export function replaceElement(ele, ...nodes) {
+  const divEle = wrapToDiv(nodes);
+  ele.replaceWith(...divEle.children);
+  
+  return ele;
+}
+
+export function removeChildren(ele) {
+    const divEle = document.createElement('div');
+    divEle.append(...ele.children);
+  
+    return Array.from(divEle.children);
+}
+
+function wrapToDiv(nodes) {
+  let divEle = document.createElement('div');
+  divEle.replaceChildren(...nodes);
+
+  return divEle;
+}
+
+export const delay = async (ms) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
+
+export const validEmailFormat =
+  /^[a-zA-Z0-9-.!#$%&'*+/=?^_`{|}~]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+// valid phone number examples: +1 123-456-789, 1-123-456-7890, 123-456-7890, 1234567890, 123.456 7890, (123)456-7890, (123) 456-7890, 123 456.7890, 123 456-7890, 123-456.7890, etc.
+export const validPhoneNumberFormat =
+  /^[\+]?(?:1|1-|1\.|1\s+)?[(]?[0-9]{3}[)]?(?:-|\s+|\.)?[0-9]{3}(?:-|\s+|\.)?[0-9]{4}$/;

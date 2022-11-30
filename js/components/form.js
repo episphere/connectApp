@@ -1,25 +1,5 @@
-import { sites, allStates, allCountries, getMyData } from "../shared.js";
-import { addEventMonthSelection, addEventUPSubmit, addEventCancerFollowUp, addYearsOptions, addEventChangeFocus, addEventPreferredContactType, addEventAddressAutoComplete, addEventAdditionalEmail, addEventCheckCanText, addEventDisableCopyPaste } from "../event.js";
-export const renderUserProfileActual = async () => {
-    const mainContent = document.getElementById('root');
-    mainContent.innerHTML = `
-    <div class = "e-consent-body">
-        <h2>Please fill out the sme personal information.</h2>
-    </div>
-    <div style="width:80%; margin:auto">
-        <h4 style="margin-top:50px; text-align:center;">Download Informed Consent Form</h4>
-        <div class="row"style="margin:auto"><div style="margin:auto"><a href="./consent_draft.pdf" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf">Download signed consent form:&nbsp<i class="fas fa-file-download"></i></a></div></div>
-        
-        <h4 style="margin-top:50px; text-align:center;">Download Electronic health records release form</h4>
-        <div class="row" style="margin:auto"><div style="margin:auto"><a href="./consent_draft.pdf" title="Download health records release form" data-toggle="tooltip" download="connect_consent.pdf">Download signed health records release form:&nbsp<i class="fas fa-file-download"></i></a></div></div>
-    </div>
-
-    <div>
-        <button class="btn btn-primary" type="button" id="toLeaving" style="float:right;margin-top:40px;margin-bottom:40px">Continue to Profile</button>
-    </div>
-    `;
-    
-};
+import { allStates, allCountries, getMyData } from "../shared.js";
+import { addEventMonthSelection, addEventUPSubmit, addEventCancerFollowUp, addEventChangeFocus, addEventAddressAutoComplete, addEventAdditionalEmail, addEventCheckCanText, addEventDisableCopyPaste } from "../event.js";
 
 export const renderUserProfile = async () => {
     const myData = await getMyData();
@@ -198,8 +178,6 @@ export const renderUserProfile = async () => {
                 </div>
             </div>
 
-            <!--<div id="preferredEmailPhone"></div>-->
-
             <div class="form-group row">
                 <div class="col">
                     <label class="col-form-label">
@@ -289,23 +267,17 @@ export const renderUserProfile = async () => {
         </div>
         </div>
     `;
-    //addYearsOptions();
+    
     addEventNameConsistency(myData.data['471168198'], myData.data['736251808']);
     addEventChangeFocus();
     addEventCancerFollowUp();
     addEventMonthSelection();
-    //addEventPreferredContactType();
     addEventAdditionalEmail();
     addEventAddressAutoComplete(1);
     addEventCheckCanText();
     addEventDisableCopyPaste();
-    //addEventCheckCantText();
     addEventUPSubmit();
 };
-
-export const renderUserProfileAfter = async () => {
-    
-}
 
 const addEventNameConsistency = (cfn, cln) => {
     const input1 = document.getElementById('UPFirstName');
@@ -427,28 +399,6 @@ export const renderMailingAddress = (type, id, required, showCountry) => {
         `:``}
     `
 };
-
-export const renderPhoneNumber = (number) => {
-    return `
-    <div class="form-group row">
-        <label class="col-md-4 col-form-label">
-            Phone number ${number}
-        </label>
-        <input type="text" class="form-control col-md-4" id="UPPhoneNumber${number}" data-val-pattern="[1-9]{1}[0-9]{9}" size="10" maxlength="10" Placeholder="Enter phone number ${number}">
-    </div>
-    <div class="form-group row">
-        <label class="col-md-4 col-form-label">
-            Phone number ${number} type
-        </label>
-        <div class="btn-group btn-group-toggle col-md-4" data-toggle="buttons">
-            <label class="btn btn-light"><input type="radio" name="phoneNumberType${number}" id="UPPhoneType${number}1" value="1">Mobile</label>
-            <label class="btn btn-light"><input type="radio" name="phoneNumberType${number}" id="UPPhoneType${number}2" value="2">Home</label>
-            <label class="btn btn-light"><input type="radio" name="phoneNumberType${number}" id="UPPhoneType${number}3" value="3">Work</label>
-            <label class="btn btn-light"><input type="radio" name="phoneNumberType${number}" id="UPPhoneType${number}4" value="4">Other</label>
-        </div>
-    </div>
-    `;
-}
 
 const renderStates = () => {
     let options = '';
