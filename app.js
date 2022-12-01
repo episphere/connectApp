@@ -1,4 +1,4 @@
-import { getParameters, validateToken, userLoggedIn, getMyData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, verifyPaymentEligibility, checkDerivedConcepts, appState, getMySurveys } from "./js/shared.js";
+import { getParameters, validateToken, userLoggedIn, getMyData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, appState } from "./js/shared.js";
 import { userNavBar, homeNavBar } from "./js/components/navbar.js";
 import { homePage, joinNowBtn, whereAmIInDashboard, renderHomeAboutPage, renderHomeExpectationsPage, renderHomePrivacyPage, signInSignUpEntryRender, firebaseSignInRender } from "./js/pages/homePage.js";
 import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser, addEventToggleSubmit } from "./js/event.js";
@@ -290,12 +290,6 @@ const userProfile = () => {
 
                 const myData = userData.data;
                 const myCollections = await getMyCollections();
-
-                await checkDerivedConcepts(myData);
-
-                if (userData.data['827220437']) {
-                    await verifyPaymentEligibility(myData, myCollections);
-                }
 
                 myToDoList(myData, false, myCollections.data);
             }
