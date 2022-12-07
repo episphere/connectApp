@@ -671,10 +671,8 @@ const setModuleAttributes = (data, modules, collections) => {
         modules['Clinical Biospecimen Survey'].enabled = true;
     }
 
-    if(data[fieldMapping.Biospecimen.statusFlag] === fieldMapping.moduleStatus.submitted) {
-        if(data['289750687'] === 353358909) {
-            modules['Menstrual Cycle'].enabled = true;
-        }
+    if(data['289750687'] === 353358909) {
+        modules['Menstrual Cycle'].enabled = true;
     }
     
     if (data[fieldMapping.Module1.statusFlag] === fieldMapping.moduleStatus.submitted) { 
@@ -711,9 +709,6 @@ const setModuleAttributes = (data, modules, collections) => {
 
     if (data[fieldMapping.MenstrualCycle.statusFlag] === fieldMapping.moduleStatus.submitted) { 
         modules['Menstrual Cycle'].completed = true;
-    };
-    if (data[fieldMapping.ClinicalBiospecimen.conceptId] && data[fieldMapping.ClinicalBiospecimen.conceptId].COMPLETED) { 
-        modules['Clinical Biospecimen Survey'].completed = true;
     };
 
     if (data[fieldMapping.ClinicalBiospecimen.statusFlag] === fieldMapping.moduleStatus.submitted) { 
