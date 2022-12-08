@@ -840,6 +840,7 @@ export const questionnaireModules = () => {
             'Where You Live and Work': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/prod/module4.txt', moduleId:"Module4", enabled:false},
             'Enter SSN': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/prod/ssnModule.txt', moduleId:"ModuleSsn", enabled:false},
             'Biospecimen Survey': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/prod/moduleBiospecimen.txt', moduleId:"Biospecimen", enabled:false},
+            'Clinical Biospecimen Survey': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/prod/moduleClinicalBloodUrine.txt', moduleId:"ClinicalBiospecimen", enabled:false},
             'Menstrual Cycle': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/prod/moduleMenstrual.txt', moduleId:"MenstrualCycle", enabled:false}
         }
     }
