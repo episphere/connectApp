@@ -1,4 +1,5 @@
 import { getMyData, renderSyndicate, urls, fragment, checkAccount, validEmailFormat, validPhoneNumberFormat, appState } from "../shared.js";
+import { signInConfig, signInConfigDev } from "./signIn.js";
 import { environmentWarningModal, downtimeWarning } from "../event.js";
 
 export const homePage = async () => {
