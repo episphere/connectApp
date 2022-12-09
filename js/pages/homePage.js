@@ -1,4 +1,4 @@
-import { getMyData, renderSyndicate, urls } from "../shared.js";
+import { getMyData, renderSyndicate, urls, fragment, checkAccount, validEmailFormat, validPhoneNumberFormat, appState } from "../shared.js";
 import { environmentWarningModal, downtimeWarning } from "../event.js";
 
 export const homePage = async () => {
