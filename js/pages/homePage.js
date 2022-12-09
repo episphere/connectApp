@@ -4,7 +4,7 @@ import { environmentWarningModal, downtimeWarning } from "../event.js";
 
 export const homePage = async () => {
 
-  let downtime = true;
+  let downtime = false;
 
     const mainContent = document.getElementById('root');
     mainContent.innerHTML = `
