@@ -1,8 +1,10 @@
-import { getMyData, renderSyndicate, urls, fragment, checkAccount, validEmailFormat, validPhoneNumberFormat, appState } from "../shared.js";
-import { signInConfig, signInConfigDev } from "./signIn.js";
-import { environmentWarningModal } from "../event.js";
+import { getMyData, renderSyndicate, urls } from "../shared.js";
+import { environmentWarningModal, downtimeWarning } from "../event.js";
 
 export const homePage = async () => {
+
+  let downtime = true;
+
     const mainContent = document.getElementById('root');
     mainContent.innerHTML = `
         <div class="row connectBody1">
@@ -88,7 +90,9 @@ export const homePage = async () => {
         </div>
     `;
     
-    if (location.host !== urls.prod && window.location.search === '') environmentWarningModal();
+    if(location.host !== urls.prod) environmentWarningModal();
+
+    if (downtime) downtimeWarning();
 }
 
 export const joinNowBtn = (bool) => {
