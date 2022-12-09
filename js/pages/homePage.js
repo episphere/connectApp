@@ -1,7 +1,10 @@
 import { getMyData, renderSyndicate, urls } from "../shared.js";
-import { environmentWarningModal } from "../event.js";
+import { environmentWarningModal, downtimeWarning } from "../event.js";
 
 export const homePage = async () => {
+
+  let downtime = true;
+
     const mainContent = document.getElementById('root');
     mainContent.innerHTML = `
         <div class="row connectBody1">
@@ -292,6 +295,8 @@ export const homePage = async () => {
     `;
     
     if(location.host !== urls.prod) environmentWarningModal();
+
+    if (downtime) downtimeWarning();
 }
 
 export const joinNowBtn = (bool) => {
