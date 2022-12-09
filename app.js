@@ -1,6 +1,6 @@
-import { getParameters, validateToken, userLoggedIn, getMyData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, verifyPaymentEligibility, checkDerivedConcepts } from "./js/shared.js";
+import { getParameters, validateToken, userLoggedIn, getMyData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, verifyPaymentEligibility, checkDerivedConcepts, appState, getMySurveys } from "./js/shared.js";
 import { userNavBar, homeNavBar } from "./js/components/navbar.js";
-import { homePage, joinNowBtn, whereAmIInDashboard, renderHomeAboutPage, renderHomeExpectationsPage, renderHomePrivacyPage } from "./js/pages/homePage.js";
+import { homePage, joinNowBtn, whereAmIInDashboard, renderHomeAboutPage, renderHomeExpectationsPage, renderHomePrivacyPage, signInSignUpEntryRender, firebaseSignInRender } from "./js/pages/homePage.js";
 import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser, addEventToggleSubmit } from "./js/event.js";
 import { requestPINTemplate } from "./js/pages/healthCareProvider.js";
 import { myToDoList } from "./js/pages/myToDoList.js";
@@ -15,11 +15,14 @@ import { renderVerifiedPage } from "./js/pages/verifiedPage.js";
 import { firebaseConfig as devFirebaseConfig } from "./dev/config.js";
 import { firebaseConfig as stageFirebaseConfig } from "./stage/config.js";
 import { firebaseConfig as prodFirebaseConfig } from "./prod/config.js";
-import { consentToProfilePage } from "./js/pages/consent.js";
 
 let auth = '';
 
 window.onload = async () => {
+    if (location.hash === "") {
+        location.href = "#";
+    }
+
     const isCompatible = isBrowserCompatible();
     if(!isCompatible) {
         const mainContent = document.getElementById('root');
@@ -44,14 +47,25 @@ window.onload = async () => {
     
     document.body.appendChild(script)
     auth = firebase.auth();
-    auth.onAuthStateChanged(async user => {
-        //console.log('-------here it is----------')
-        if(user){
-            localforage.clear()
-            inactivityTime();
+
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        const idToken = await user.getIdToken();
+        appState.setState({ idToken });
+        
+        if (user.isAnonymous) {
+          appState.setState({ isAnonymous: true });
+        } else {
+          appState.setState({ isAnonymous: false });
+          localforage.clear();
+          inactivityTime();
         }
+      } else {
+        appState.setState({ idToken: '', isAnonymous: false });
+      }
     });
-    if('serviceWorker' in navigator){
+
+    if ('serviceWorker' in navigator) {
         try {
             navigator.serviceWorker.register('./serviceWorker.js')
             .then((registration) => {
@@ -165,25 +179,27 @@ const router = async () => {
     const route =  window.location.hash || '#';
     toggleNavBar(route, data);
     let exceptions = ['#joining-connect','#after-you-join','#long-term-study-activities','#what-connect-will-do','#how-your-information-will-help-prevent-cancer','#why-connect-is-important','#what-to-expect-if-you-decide-to-join','#where-this-study-takes-place','#about-our-researchers','#a-resource-for-science']
-    if(loggedIn === false){
-        if(route === '#') homePage();
-        else if(route === '#about') renderHomeAboutPage();
-        else if(route === '#expectations') {
+    if (loggedIn === false) {
+        if (route === '#') {
+            homePage();
+        } else if (route === '#about') {
+            renderHomeAboutPage();
+        } else if (route === '#expectations') {
             renderHomeExpectationsPage();
-        }
-        else if(route === '#privacy') renderHomePrivacyPage();
-        else if(route === '#support'){
-            location.href = "https://norcfedramp.servicenowservices.com/participant"
-        }
-        else if (exceptions.includes(route)){
+        } else if(route === '#privacy') {
+            renderHomePrivacyPage();
+        } else if(route === '#support'){
+            location.href = "https://norcfedramp.servicenowservices.com/participant";
+        } else if (exceptions.includes(route)){
             if(!document.getElementById(route.substring(1))){
                 window.location.hash = '#'
             }
+        } else {
+            window.location.hash = '#';
         }
-        else window.location.hash = '#';
     }
     else{
-        if(route === '#') userProfile();
+        if (route === '#') userProfile();
         else if (route === '#dashboard') userProfile();
         else if (route === '#messages') renderNotificationsPage();
         else if (route === '#sign_out') signOut();
@@ -199,7 +215,7 @@ const router = async () => {
 
 const userProfile = () => {
     auth.onAuthStateChanged(async user => {
-        if(user){
+        if (user && !user.isAnonymous){
             document.title = 'My Connect - Dashboard';
             const mainContent = document.getElementById('root');
             let href = location.href;
@@ -225,12 +241,6 @@ const userProfile = () => {
                     tmp['utm_id'] = parameters.utm_id;
                     await storeResponse(tmp);
                 }
-
-                await checkDerivedConcepts(userData.data);
-            }
-
-            if(userData.code === 200 && userData.data['827220437']) {
-                await verifyPaymentEligibility(userData.data);
             }
 
             window.history.replaceState({},'Dashboard', './#dashboard');
@@ -276,10 +286,18 @@ const userProfile = () => {
                 return;
             }
             
-            const myData = await getMyData();
-            if(myData.code === 200) {
+            if (userData.code === 200) {
+
+                const myData = userData.data;
                 const myCollections = await getMyCollections();
-                myToDoList(myData.data, false, myCollections.data);
+
+                await checkDerivedConcepts(myData);
+
+                if (userData.data['827220437']) {
+                    await verifyPaymentEligibility(myData, myCollections);
+                }
+
+                myToDoList(myData, false, myCollections.data);
             }
             else {
                 mainContent.innerHTML = requestPINTemplate();
@@ -304,7 +322,7 @@ const signOut = () => {
 
 const toggleNavBar = (route, data) => {
     auth.onAuthStateChanged(async user => {
-        if(user){
+        if (user && !user.isAnonymous){
             showAnimation();
             document.getElementById('navbarNavAltMarkup').innerHTML = userNavBar(data);
             document.getElementById('joinNow') ? document.getElementById('joinNow').innerHTML = joinNowBtn(false) : ``; 
@@ -323,41 +341,15 @@ const toggleNavBar = (route, data) => {
             document.getElementById('nextStepWarning') ? document.getElementById('nextStepWarning').style.display="none": '';
             toggleCurrentPageNoUser(route);
             const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
-            if(route == "#"){
-                if(location.host === urls.prod) ui.start('#signInDiv', signInConfig());
-                else if(location.host === urls.stage) ui.start('#signInDiv', signInConfig());
-                else ui.start('#signInDiv', signInConfigDev());
+            if (route == "#") {
+                if (window.location.search === '') {
+                    signInSignUpEntryRender({ui});
+                } else {
+                    // handle magic link redirect
+                    firebaseSignInRender({ui});
+                }
             }
             hideAnimation();
         }
     });
-}
-
-const signInConfig = () => {
-    return {
-        signInSuccessUrl: '#dashboard',
-        signInOptions: [
-            {
-                provider:firebase.auth.EmailAuthProvider.PROVIDER_ID,
-                signInMethod: firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD
-            },
-            firebase.auth.PhoneAuthProvider.PROVIDER_ID
-        ],
-        credentialHelper: 'none'
-    }
-}
-
-const signInConfigDev = () => {
-    return {
-        signInSuccessUrl: '#dashboard',
-        signInOptions: [
-            firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-            {
-                provider:firebase.auth.EmailAuthProvider.PROVIDER_ID,
-                signInMethod: firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD
-            },
-            firebase.auth.PhoneAuthProvider.PROVIDER_ID
-        ],
-        credentialHelper: 'none'
-    }
 }

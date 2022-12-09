@@ -1,10 +1,10 @@
 import { hideAnimation, questionnaireModules, storeResponse, sites } from "../shared.js";
 import { blockParticipant, questionnaire } from "./questionnaire.js";
 import { renderUserProfile } from "../components/form.js";
-import { consentTemplate, initializeCanvas, addEventConsentSubmit } from "./consent.js";
-import { addEventsConsentSign, addEventHeardAboutStudy, addEventRequestPINForm, addEventHealthCareProviderSubmit, addEventPinAutoUpperCase, addEventHealthProviderModalSubmit, addEventToggleSubmit } from "../event.js";
+import { consentTemplate } from "./consent.js";
+import { addEventHeardAboutStudy, addEventRequestPINForm, addEventHealthCareProviderSubmit, addEventPinAutoUpperCase, addEventHealthProviderModalSubmit, addEventToggleSubmit } from "../event.js";
 import { heardAboutStudy, requestPINTemplate, healthCareProvider } from "./healthCareProvider.js";
-import fieldMapping from '../components/fieldToConceptIdMapping.js';
+import fieldMapping from '../fieldToConceptIdMapping.js';
 
 export const myToDoList = async (data, fromUserProfile, collections) => {
     const mainContent = document.getElementById('root');
@@ -193,7 +193,7 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                     return;
                 }
                 
-                const surveyMessage = await checkForNewSurveys(data);
+                const surveyMessage = await checkForNewSurveys(data, collections);
 
                 if(surveyMessage) {
                     template += surveyMessage;
@@ -218,7 +218,6 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                 template += `
                 <div style="border: 1px solid #dee2e6; padding: 20px; border-radius:0px 10px 10px 10px;" id="surveyMainBody">
                 `;
-                const modules = questionnaireModules();
                 
                 template += renderMainBody(data, collections, 'todo')
                 template += `</ul>`
@@ -263,13 +262,8 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
             hideAnimation();
             return;
         }
-        //mainContent.innerHTML = consentTemplate();
-        consentTemplate();
-        
-        //initializeCanvas();
-        //addEventsConsentSign();
 
-        //addEventConsentSubmit();
+        consentTemplate();
         hideAnimation();
         return;
     }
@@ -297,16 +291,13 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
 const addEventToDoList = () => {
     const modules = document.getElementsByClassName('questionnaire-module');
     
-    
     Array.from(modules).forEach(module => {
         module.addEventListener('click',() => {
             
             if (!module.classList.contains("btn-disbaled")){
-                const url = module.dataset.moduleUrl;
                 const moduleId = module.getAttribute("module_id");
-                if(url) questionnaire(url, moduleId);
+                questionnaire(moduleId);
             }
-
         })
     })
 }
@@ -339,7 +330,7 @@ const renderMainBody = (data, collections, tab) => {
 
     if(tab === 'todo'){
         let hasModlesRemaining = false;
-        //for(let key of toDisplayKeys){
+
         for(let obj of toDisplaySystem){
             let started = false;
             if(obj.hasOwnProperty('body')){
@@ -352,11 +343,7 @@ const renderMainBody = (data, collections, tab) => {
                 }
                 
                 for(let key of obj['body']){
-
-
-                    //if(!modules[key].completed){
                     if(anyFound){
-
                         if(!started){
                             if(obj.hasOwnProperty('header')){
                                 let thisKey = obj['header'];
@@ -389,16 +376,13 @@ const renderMainBody = (data, collections, tab) => {
                                                 
                                                     ${modules[thisKey].hasOwnProperty('noButton') && modules[thisKey]['noButton'] == true? '' : `
                                                     <div class="col-md-3">
-                                                        <button class="btn survey-list-active btn-agreement questionnaire-module ${(modules[thisKey].enabled && modules[thisKey].unreleased) ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${thisKey}" module_id="${modules[thisKey].moduleId}" data-module-url="${modules[thisKey].url ? modules[thisKey].url : ''}" style=""><b>${modules[thisKey].unreleased  ? 'Coming soon' : 'Start'}</b></button>    
+                                                        <button class="btn survey-list-active btn-agreement questionnaire-module ${(modules[thisKey].enabled && modules[thisKey].unreleased) ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${thisKey}" module_id="${modules[thisKey].moduleId}"><b>${modules[thisKey].unreleased  ? 'Coming soon' : data[fieldMapping[modules[key].moduleId].statusFlag] === fieldMapping.moduleStatus.started ? 'Continue' : 'Start'}</b></button>    
                                                     </div>
                                                     `}
                                                 </div>
                                                 
                                               
                                             `
-                                                /*
-                                                <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="width:90%; margin-bottom:20px;">${key}</button>
-                                            </li>`;*/
                             }
                         }
                         if(!modules[key].completed){
@@ -431,15 +415,12 @@ const renderMainBody = (data, collections, tab) => {
                                             
                                                 ${modules[key].hasOwnProperty('noButton') && modules[key]['noButton'] == true? '' : `
                                                 <div class="col-md-3">
-                                                    <button class="btn survey-list-active btn-agreement questionnaire-module ${(modules[key].enabled && !modules[key].unreleased) ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${key}" module_id="${modules[key].moduleId}" data-module-url="${modules[key].url ? modules[key].url : ''}" style=""><b>${modules[key].unreleased  ?  'Coming soon' : 'Start'}</b></button>    
+                                                    <button class="btn survey-list-active btn-agreement questionnaire-module ${(modules[key].enabled && !modules[key].unreleased) ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${key}" module_id="${modules[key].moduleId}"><b>${modules[key].unreleased  ?  'Coming soon' : data[fieldMapping[modules[key].moduleId].statusFlag] === fieldMapping.moduleStatus.started ? 'Continue' : 'Start'}</b></button>    
                                                 </div>
                                                 `}
                                             </div>
                                             
                                         </div>`
-                                            /*
-                                            <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="width:90%; margin-bottom:20px;">${key}</button>
-                                        </li>`;*/
                         }
                         else{
                             hasModlesRemaining = true
@@ -497,7 +478,6 @@ const renderMainBody = (data, collections, tab) => {
                     }
 
                     if(!anyFound){
-                    //if(modules[key].completed){
                         if(!started){
                             if(obj.hasOwnProperty('header')){
                                 let thisKey = obj['header'];
@@ -530,19 +510,16 @@ const renderMainBody = (data, collections, tab) => {
                                                 
                                                     ${modules[thisKey].hasOwnProperty('noButton') && modules[thisKey]['noButton'] == true? '' : `
                                                     <div class="col-md-3">
-                                                        <button class="btn survey-list-active btn-agreement questionnaire-module ${modules[thisKey].enabled ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${thisKey}" module_id="${modules[thisKey].moduleId}" data-module-url="${modules[thisKey].url ? modules[thisKey].url : ''}" style=""><b>Start</b></button>    
+                                                        <button class="btn survey-list-active btn-agreement questionnaire-module ${modules[thisKey].enabled ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${thisKey}" module_id="${modules[thisKey].moduleId}"><b>Start</b></button>    
                                                     </div>
                                                     `}
                                                 </div>
                                                 </li>
                                                 
                                             `
-                                                /*
-                                                <button class="btn list-item-active btn-agreement questionnaire-module ${modules[key].enabled ? '' : 'btn-disbaled'}" title="${key}" data-module-url="${modules[key].url ? modules[key].url : ''}" style="width:90%; margin-bottom:20px;">${key}</button>
-                                            </li>`;*/
                             }
                         }
-                        template += /*html*/ `<div style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
+                        template += `<div style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
                             <div class="row">
                                 <div class="col-md-1">
                                 <i class="fas fa-clipboard-list d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
@@ -577,18 +554,18 @@ const renderMainBody = (data, collections, tab) => {
 
 const checkIfComplete = (data) =>{
     
-    let module1Complete = (data[fieldMapping.Module1.conceptId] && data[fieldMapping.Module1.conceptId].COMPLETED) || (data[fieldMapping.Module1_OLD.conceptId] && data[fieldMapping.Module1_OLD.conceptId].COMPLETED);
-    let module2Complete = (data[fieldMapping.Module2.conceptId] && data[fieldMapping.Module2.conceptId].COMPLETED) || (data[fieldMapping.Module2_OLD.conceptId] && data[fieldMapping.Module2_OLD.conceptId].COMPLETED);
-    let module3Complete = data[fieldMapping.Module3.conceptId] && data[fieldMapping.Module3.conceptId].COMPLETED;
-    let module4Complete = data[fieldMapping.Module4.conceptId] && data[fieldMapping.Module4.conceptId].COMPLETED;
+    let module1Complete = data[fieldMapping.Module1.statusFlag] === fieldMapping.moduleStatus.submitted;
+    let module2Complete = data[fieldMapping.Module2.statusFlag] === fieldMapping.moduleStatus.submitted;
+    let module3Complete = data[fieldMapping.Module3.statusFlag] === fieldMapping.moduleStatus.submitted;
+    let module4Complete = data[fieldMapping.Module4.statusFlag] === fieldMapping.moduleStatus.submitted;
 
     return module1Complete && module2Complete && module3Complete && module4Complete;
 }
 
-const checkForNewSurveys = async (data) => {
+const checkForNewSurveys = async (data, collections) => {
     let template = ``;
     let modules = questionnaireModules();
-    modules = setModuleAttributes(data, modules);
+    modules = setModuleAttributes(data, modules, collections);
     let enabledSurveys = 0;
     let newSurvey = false;
     let knownSurveys;
@@ -596,8 +573,10 @@ const checkForNewSurveys = async (data) => {
     let knownCompletedStandaloneSurveys;
 
     Object.keys(modules).forEach(mod => {
-        if(modules[mod].enabled && !modules[mod].unreleased) enabledSurveys++;
-        if(data[fieldMapping[modules[mod]?.moduleId]?.conceptId]?.COMPLETED_TS && fieldMapping[modules[mod]?.moduleId]?.standaloneSurvey) completedStandaloneSurveys++;
+        if(modules[mod].moduleId) {
+            if(modules[mod].enabled && !modules[mod].unreleased) enabledSurveys++;
+            if(data[fieldMapping[modules[mod].moduleId].completeTs] && fieldMapping[modules[mod].moduleId].standaloneSurvey) completedStandaloneSurveys++;
+        }
     });
 
     if(data['566565527']) {
@@ -684,7 +663,7 @@ const setModuleAttributes = (data, modules, collections) => {
     modules['Menstrual Cycle'].description = 'Questions about the date of your first menstrual period after you donated samples for Connect. ';
     modules['Menstrual Cycle'].estimatedTime = '5 minutes';
 
-    if(data['331584571'] && data['331584571']['266600170'] && data['331584571']['266600170']['840048338']) {
+    if(data['331584571']?.['266600170']?.['840048338']) {
         modules['Biospecimen Survey'].enabled = true;
     }
 
@@ -692,38 +671,52 @@ const setModuleAttributes = (data, modules, collections) => {
         modules['Clinical Biospecimen Survey'].enabled = true;
     }
 
-    if(data['D_299215535'] && data['D_299215535']['D_112151599'] && data['D_299215535']['D_112151599'] == 353358909 && data['265193023'] == 231311385) {
-        modules['Menstrual Cycle'].enabled = true;
+    if(data[fieldMapping.Biospecimen.statusFlag] === fieldMapping.moduleStatus.submitted) {
+        if(data['289750687'] === 353358909) {
+            modules['Menstrual Cycle'].enabled = true;
+        }
     }
     
-    if ((data[fieldMapping.Module1.conceptId] && data[fieldMapping.Module1.conceptId].COMPLETED) || (data[fieldMapping.Module1_OLD.conceptId] && data[fieldMapping.Module1_OLD.conceptId].COMPLETED)) { 
+    if (data[fieldMapping.Module1.statusFlag] === fieldMapping.moduleStatus.submitted) { 
+        modules['Background and Overall Health'].completed = true;
+        
         modules["Smoking, Alcohol, and Sun Exposure"].enabled = true;
         modules["Where You Live and Work"].enabled = true;
         modules['Medications, Reproductive Health, Exercise, and Sleep'].enabled = true;
-        modules['Background and Overall Health'].completed = true;
     };
-    if ((data[fieldMapping.Module2.conceptId] && data[fieldMapping.Module2.conceptId].COMPLETED) || (data[fieldMapping.Module2_OLD.conceptId] && data[fieldMapping.Module2_OLD.conceptId].COMPLETED)) { 
+
+    if (data[fieldMapping.Module2.statusFlag] === fieldMapping.moduleStatus.submitted) { 
         modules['Medications, Reproductive Health, Exercise, and Sleep'].completed = true;
     };
-    if (data[fieldMapping.Module3.conceptId] && data[fieldMapping.Module3.conceptId].COMPLETED) { 
+
+    if (data[fieldMapping.Module3.statusFlag] === fieldMapping.moduleStatus.submitted) { 
         modules['Smoking, Alcohol, and Sun Exposure'].completed = true;
     };
-    if (data[fieldMapping.Module4.conceptId] && data[fieldMapping.Module4.conceptId].COMPLETED) { 
+
+    if (data[fieldMapping.Module4.statusFlag] === fieldMapping.moduleStatus.submitted) { 
         modules["Where You Live and Work"].completed  = true;
     };
+
     if ((data[fieldMapping.verification] && data[fieldMapping.verification] == fieldMapping.verified)) { 
         modules['Enter SSN'].enabled = true;
     };
-    if (data[fieldMapping.ModuleSsn.conceptId] && data[fieldMapping.ModuleSsn.conceptId].COMPLETED) { 
+
+    if (data[fieldMapping.ModuleSsn.statusFlag] === fieldMapping.moduleStatus.submitted) { 
         modules['Enter SSN'].completed = true;
     };
-    if (data[fieldMapping.Biospecimen.conceptId] && data[fieldMapping.Biospecimen.conceptId].COMPLETED) { 
+
+    if (data[fieldMapping.Biospecimen.statusFlag] === fieldMapping.moduleStatus.submitted) { 
         modules['Biospecimen Survey'].completed = true;
     };
-    if (data[fieldMapping.MenstrualCycle.conceptId] && data[fieldMapping.MenstrualCycle.conceptId].COMPLETED) { 
+
+    if (data[fieldMapping.MenstrualCycle.statusFlag] === fieldMapping.moduleStatus.submitted) { 
         modules['Menstrual Cycle'].completed = true;
     };
     if (data[fieldMapping.ClinicalBiospecimen.conceptId] && data[fieldMapping.ClinicalBiospecimen.conceptId].COMPLETED) { 
+        modules['Clinical Biospecimen Survey'].completed = true;
+    };
+
+    if (data[fieldMapping.ClinicalBiospecimen.statusFlag] === fieldMapping.moduleStatus.submitted) { 
         modules['Clinical Biospecimen Survey'].completed = true;
     };
 
