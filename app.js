@@ -346,7 +346,7 @@ const toggleNavBar = (route, data) => {
                     signInSignUpEntryRender({ui});
                 } else {
                     // handle magic link redirect
-                    firebaseSignInRender({ui});
+                    firebaseSignInRender({ui, account:{type:'magicLink', value:''}});
                 }
             }
             hideAnimation();
