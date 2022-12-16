@@ -338,7 +338,7 @@ export async function signInCheckRender ({ ui }) {
       ui.start('#signInDiv', signInConfigDev());
     }
 
-    const {signInEmail, signInTime} = JSON.parse(window.localStorage.getItem('connectSignIn'));
+    const {signInEmail, signInTime} = JSON.parse(window.localStorage.getItem('connectSignIn') || '{}');
     const timeLimit = 1000 * 60 * 60 ; // 1 hour time limit
 
     if (account.type === 'magicLink' && signInEmail  && Date.now() - signInTime < timeLimit) {
