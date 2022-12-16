@@ -19,6 +19,7 @@ import { firebaseConfig as prodFirebaseConfig } from "./prod/config.js";
 let auth = '';
 
 window.onload = async () => {
+    // Unify home page url as "/#"
     if (location.pathname === "/" && location.hash === "" && location.search === "") {
         location.href = "/#";
     }
