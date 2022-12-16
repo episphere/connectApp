@@ -19,8 +19,8 @@ import { firebaseConfig as prodFirebaseConfig } from "./prod/config.js";
 let auth = '';
 
 window.onload = async () => {
-    if (location.hash === "") {
-        location.href = "#";
+    if (location.pathname === "/" && location.hash === "" && location.search === "") {
+        location.href = "/#";
     }
 
     const isCompatible = isBrowserCompatible();
@@ -174,12 +174,13 @@ const router = async () => {
         }
         if(['resetPassword', 'verifyEmail'].includes(parameters['mode'])) return;
     }
-    const data = await getMyData();
+
     let loggedIn = await userLoggedIn();
     const route =  window.location.hash || '#';
-    toggleNavBar(route, data);
     let exceptions = ['#joining-connect','#after-you-join','#long-term-study-activities','#what-connect-will-do','#how-your-information-will-help-prevent-cancer','#why-connect-is-important','#what-to-expect-if-you-decide-to-join','#where-this-study-takes-place','#about-our-researchers','#a-resource-for-science']
     if (loggedIn === false) {
+        toggleNavBar(route, null); // If not logged in, pass no data to toggleNavBar
+
         if (route === '#') {
             homePage();
         } else if (route === '#about') {
@@ -199,6 +200,9 @@ const router = async () => {
         }
     }
     else{
+        const data = await getMyData();
+        toggleNavBar(route, data);  // If logged in, pass data to toggleNavBar
+
         if (route === '#') userProfile();
         else if (route === '#dashboard') userProfile();
         else if (route === '#messages') renderNotificationsPage();
