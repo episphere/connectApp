@@ -180,7 +180,7 @@ const router = async () => {
     const route =  window.location.hash || '#';
     let exceptions = ['#joining-connect','#after-you-join','#long-term-study-activities','#what-connect-will-do','#how-your-information-will-help-prevent-cancer','#why-connect-is-important','#what-to-expect-if-you-decide-to-join','#where-this-study-takes-place','#about-our-researchers','#a-resource-for-science']
     if (loggedIn === false) {
-        toggleNavBar(route, null); // If not logged in, pass no data to toggleNavBar
+        toggleNavBar(route, {}); // If not logged in, pass no data to toggleNavBar
 
         if (route === '#') {
             homePage();
