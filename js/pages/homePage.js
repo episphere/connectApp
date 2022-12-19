@@ -1,4 +1,4 @@
-import { getMyData, renderSyndicate, urls, fragment, checkAccount, validEmailFormat, validPhoneNumberFormat, appState } from "../shared.js";
+import { getMyData, renderSyndicate, urls, fragment, checkAccount, validEmailFormat, validPhoneNumberFormat, appState, delay } from "../shared.js";
 import { signInConfig, signInConfigDev } from "./signIn.js";
 import { environmentWarningModal } from "../event.js";
 
@@ -320,7 +320,7 @@ export async function signInCheckRender ({ ui }) {
 
 
 
-  export function firebaseSignInRender({ ui, account = '' }) {
+  export async function firebaseSignInRender({ ui, account = {} }) {
     const df = fragment`
     <div class="mx-4">
     <p class="loginTitleFont" style="text-align:center;">Sign In</p>
@@ -338,21 +338,43 @@ export async function signInCheckRender ({ ui }) {
       ui.start('#signInDiv', signInConfigDev());
     }
 
+    const {signInEmail, signInTime} = JSON.parse(window.localStorage.getItem('connectSignIn') || '{}');
+    const timeLimit = 1000 * 60 * 60 ; // 1 hour time limit
+
+    if (account.type === 'magicLink' && signInEmail  && Date.now() - signInTime < timeLimit) {
+      await delay(200); // wait for firebase UI to load
+      document.querySelector('input[class~="firebaseui-id-email"]').value = signInEmail;
+      document.querySelector('button[class~="firebaseui-id-submit"]').click();
+      window.localStorage.removeItem('connectSignIn');
+      return;
+    }
+
     if (account.type === 'email') {
       document.querySelector('button[data-provider-id="password"]').click();
       document.querySelector('input[class~="firebaseui-id-email"]').value = account.value;
-
       document.querySelector('label[class~="firebaseui-label"]').remove();
+
+      // Handle 'Cancel' button click
       document
-        .querySelector('button[class~="firebaseui-id-secondary-link')
+        .querySelector('button[class~="firebaseui-id-secondary-link"]')
         .addEventListener('click', (e) => {
           signInCheckRender({ ui });
+        });
+
+      // Handle 'Next' button click
+      document
+        .querySelector('button[class~="firebaseui-id-submit"]')
+        .addEventListener('click', (e) => {
+          const signInData={signInEmail:account.value, signInTime: Date.now()}
+          window.localStorage.setItem('connectSignIn', JSON.stringify(signInData) );
         });
     } else if (account.type === 'phone') {
       document.querySelector('button[data-provider-id="phone"]').click();
       document.querySelector('h1[class~="firebaseui-title"]').innerText = "Sign in with phone number";
       document.querySelector('input[class~="firebaseui-id-phone-number"]').value = account.value;
       document.querySelector('label[class~="firebaseui-label"]').remove();
+      
+      // Handle 'Cancel' button click
       document
         .querySelector('button[class~="firebaseui-id-secondary-link')
         .addEventListener('click', (e) => {
