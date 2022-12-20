@@ -488,7 +488,7 @@ async function signInAnonymously() {
 
   if (user) {
     const idToken = await user.getIdToken();
-    appState.setState({ idToken, isAnonymous: true });
+    appState.setState({ idToken });
   }
 
   return user;

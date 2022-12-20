@@ -19,11 +19,6 @@ import { firebaseConfig as prodFirebaseConfig } from "./prod/config.js";
 let auth = '';
 
 window.onload = async () => {
-    // Unify home page url as "/#"
-    if (location.pathname === "/" && location.hash === "" && location.search === "") {
-        location.href = "/#";
-    }
-
     const isCompatible = isBrowserCompatible();
     if(!isCompatible) {
         const mainContent = document.getElementById('root');
@@ -53,16 +48,14 @@ window.onload = async () => {
       if (user) {
         const idToken = await user.getIdToken();
         appState.setState({ idToken });
-        
-        if (user.isAnonymous) {
-          appState.setState({ isAnonymous: true });
-        } else {
-          appState.setState({ isAnonymous: false });
+
+        if (!user.isAnonymous) {
           localforage.clear();
           inactivityTime();
         }
+
       } else {
-        appState.setState({ idToken: '', isAnonymous: false });
+        appState.setState({ idToken: '' });
       }
     });
 
@@ -341,8 +334,10 @@ const toggleNavBar = (route, data) => {
             toggleCurrentPageNoUser(route);
             const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
             if (route == "#") {
-                if (window.location.search === '' && !user) {
+                const isAnonymousSignIn = appState.getState().isAnonymousSignIn;
+                if (window.location.search === '' && (!user || user.isAnonymous && !isAnonymousSignIn )) {
                     signInSignUpEntryRender({ui});
+                    appState.setState({ isAnonymousSignIn: true });
                 } else {
                     // handle magic link redirect
                     firebaseSignInRender({ui, account:{type:'magicLink', value:''}});
