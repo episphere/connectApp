@@ -362,28 +362,22 @@ const henry_ford = {
     howToDonate: 'The email we send you will contain a link to schedule an appointment. Simply click the link to schedule a time that is convenient for you to donate your samples. You can also call Henry Ford Health\'s Connect line at 855-574-7540 to schedule an appointment, or a Connect team member will call you to schedule an appointment to donate your samples at a time that is convenient for you.',
     scheduling: 'For questions and scheduling please call 855-574-7540 or email <a href="mailto: ConnectStudy@hfhs.org">ConnectStudy@hfhs.org</a>.<br><br><em>All patients and visitors are required to wear a mask. If you enter the building without a mask, we will give one to you. If you are unable to wear a mask for the duration of the visit, we ask that you do not schedule your visit at this time.</em>',
     howLong: 'Please expect to spend about one hour at your appointment to donate your samples and complete a short survey.',
-    prepareInstructions: 'On the day of your appointment, please drink plenty of water, but <span style="font-weight:900; text-decoration:underline">stop drinking water one hour before your appointment.</span><br><br><span style="font-weight:900; text-decoration:underline">One hour before your appointment:</span> Please <span style="font-weight:900; text-decoration:underline">do not</span> eat, drink, chew gum, smoke, vape, or chew any products (including tobacco), rinse your mouth, or brush your teeth.<br><br><span style="font-weight:900; text-decoration:underline">Things to bring and remember:</span><br><br><ul><li>We will ask you to complete a short survey when you donate your samples. You will need your login information for the MyConnect app to complete the survey. It may also be helpful to have this information:<ul><li>The last time you ate or drank before your appointment, and the times you went to sleep the night before your appointment and woke up on the day of your appointment.</li><li>If you are menstruating, the start date of your most recent menstrual period in the last 12 months.</li><li>Information and dates regarding COVID-19 testing, symptoms, recovery information (including any hospital stay and treatment), and vaccination status.</li></ul></li></ul>',
+    prepareInstructions: 'On the day of your appointment, you do not need to fast. We request you drink plenty of water to keep hydrated but, <span style="font-weight:900; text-decoration:underline">stop drinking water one hour before your appointment.</span><br><br><span style="font-weight:900; text-decoration:underline">One hour before your appointment:</span> Please <span style="font-weight:900; text-decoration:underline">do not</span> eat, drink, chew gum, smoke, vape, or chew any products (including tobacco), rinse your mouth, or brush your teeth.<br><br><span style="font-weight:900; text-decoration:underline">Things to bring and remember:</span><br><br><ul><li>We will ask you to complete a short survey when you donate your samples. You will need your login information for the MyConnect app to complete the survey. It may also be helpful to have this information:<ul><li>The last time you ate or drank before your appointment, and the times you went to sleep the night before your appointment and woke up on the day of your appointment.</li><li>If you are menstruating, the start date of your most recent menstrual period in the last 12 months.</li><li>Information and dates regarding COVID-19 testing, symptoms, recovery information (including any hospital stay and treatment), and vaccination status.</li></ul></li></ul>',
     whatHappens: 'The Connect team will check you in for your appointment and then collect your samples. At the end of your visit, the Connect team will check you out of your appointment.<br><br>We will draw a blood sample, collect a urine sample, and collect a saliva sample by asking you to swish with mouthwash.<br><br>We will also ask you to complete a short survey on the MyConnect app using your mobile phone. You will need your MyConnect app login information to complete the survey. If you do not have a mobile phone, we will provide you with a tablet to complete your survey. We strongly encourage you to complete your survey at your appointment. If you choose to complete it after you leave your appointment, it is important to do so as soon as possible.<br><br>At your appointment, we will ask you to complete your first Connect survey if you haven\'t already done so. If you are able to complete this survey before your appointment, it will save you time. You will receive your $25 gift card after you donate a blood sample and complete your first survey.',
     support: 'Call 1-877-505-0253 (9:00 a.m.-11:00 p.m. ET on weekdays and 10:00 a.m.-7:00 p.m. ET on weekends)',
-    locationNotes: 'Henry Ford Health currently offers two locations in Detroit: Henry Ford Cancer Institute and Henry Ford Hospital',
+    locationNotes: 'Henry Ford Health currently offers two locations in the Detroit area:<br></br><p>Henry Ford Hospital - Detroit</p><p>Henry Ford Medical Center - Livonia</p>',
     locations: [
         [
-            'Henry Ford Cancer Institute - Detroit',
-            '2800 W Grand Blvd, 2nd Floor, Radiology<br>Detroit, MI 48202<br>(888) 777-4167<br><br>We are located on the second floor within the mammography clinic.',
-            'Monday and Wednesday: 10:00 a.m. - 2:00 p.m.',
-            'Easy, free self-parking is available in the parking deck attached to the pavilion.'
-        ],
-        [
-            'Henry Ford Hospital K13 Research Clinic',
-            '2799 W Grand Blvd, K Building Floor 13<br>Detroit, MI 48202<br>(888) 777-4167',
-            'Tuesday and Thursday 1:00 p.m. – 5:00 p.m.',
+            'Henry Ford Hospital - Detroit, K13 Research Clinic',
+            '2799 W Grand Blvd<br>K Building, Floor 13<br>Detroit, MI 48202<br>(888) 777-4167',
+            'Tuesday and Thursday 9:00 a.m. – 5:00 p.m.',
             'Free self-parking available to visitors. Lots located near each hospital entrance (Main, West, East) or use the parking garage on the Lodge service drive, near Bethune.'
         ],
         [
-            'Henry Ford Medical Center - Livonia',
-            '29200 Schoolcraft Road<br>Livonia, MI 48150',
-            'TBD',
-            'Easy, free self-parking is available in the surface lot in front of the building. From the service road, please turn right at the light and head towards the Aldi.'
+            'Henry Ford Medical Center - Livonia (Opening early 2023)',
+            '29200 Schoolcraft Road<br>Women\'s Health Clinic, Floor 2<br>Livonia, MI 48150<br>(734) 523-1050',
+            'Wednesday 9:00 a.m. – 4:00 p.m.',
+            'Easy, free self-parking is available in the surface lot in front of the building. From the service drive turn into the lot near the Aldi and head towards the back of the plaza. The medical center, and parking lot, are located behind Aldi.'
         ]
     ]
 };
@@ -511,19 +505,32 @@ const renderLocations = (site) => {
                     <div class="messagesHeaderFont">
                         ${location[0]}
                     </div>
-                </div>
-    
+                </div>`
+            if (site === henry_ford) {
+                template += `
                 <div class="row" style="width:100%">
                     <div style="width:100%">
                         <div class="messagesHeaderFont">
-                            Address and Directions
+                            Address
                         </div>
                         <div class="messagesBodyFont">
                             ${location[1]}
                         </div>
                     </div>
+                </div>`
+            } else {
+                template += `<div class="row" style="width:100%">
+                <div style="width:100%">
+                    <div class="messagesHeaderFont">
+                        Address and Directions
+                    </div>
+                    <div class="messagesBodyFont">
+                        ${location[1]}
+                    </div>
                 </div>
-    
+            </div>`
+            }
+            template+=`    
                 <div class="row" style="width:100%">
                     <div style="width:100%">
                         <div class="messagesHeaderFont">
