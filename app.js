@@ -341,7 +341,7 @@ const toggleNavBar = (route, data) => {
             toggleCurrentPageNoUser(route);
             const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
             if (route == "#") {
-                if (window.location.search === '') {
+                if (window.location.search === '' && !user) {
                     signInSignUpEntryRender({ui});
                 } else {
                     // handle magic link redirect
