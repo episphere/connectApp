@@ -425,7 +425,7 @@ const nci = {
 };
 
 const kpga = {
-    concept: '7677759349',
+    concept: '327912200',
     name: 'KP Georgia',
     donatingSamples: 'As part of Connect, we ask you to donate blood, urine, and saliva samples and complete two short surveys.',
     whenToDonate: 'We will send you an email when it is time to donate your samples. After you receive the email, it is important to donate your samples as soon as you can.',
@@ -439,7 +439,7 @@ const kpga = {
 };
 
 const kphi = {
-    concept: '5313139567',
+    concept: '300267574',
     name: 'KP Hawaii',
     donatingSamples: 'As part of Connect, we ask you to donate blood, urine, and saliva samples and complete two short surveys.',
     whenToDonate: 'We will send you an email when it is time to donate your samples. After you receive the email, it is important to donate your samples as soon as you can.',
@@ -453,7 +453,7 @@ const kphi = {
 };
 
 const kpco = {
-    concept: '7632731126',
+    concept: '125001209',
     name: 'KP Colorado',
     donatingSamples: 'As part of Connect, we ask you to donate blood, urine, and saliva samples and complete two short surveys.',
     whenToDonate: 'We will send you an email when it is time to donate your samples. After you receive the email, it is important to donate your samples as soon as you can.',
@@ -467,7 +467,7 @@ const kpco = {
 };
 
 const kpnw = {
-    concept: '7156328758',
+    concept: '452412599',
     name: 'KP Northwest',
     donatingSamples: 'As part of Connect, we ask you to donate blood, urine, and saliva samples and complete two short surveys.',
     whenToDonate: 'We will send you an email when it is time to donate your samples. After you receive the email, it is important to donate your samples as soon as you can.',
