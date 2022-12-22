@@ -52,6 +52,7 @@ window.onload = async () => {
         if (!user.isAnonymous) {
           localforage.clear();
           inactivityTime();
+          appState.setState({isAnonymousSignIn: false});
         }
 
       } else {

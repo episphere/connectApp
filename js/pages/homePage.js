@@ -484,12 +484,5 @@ export async function signInCheckRender ({ ui }) {
   }
 
 async function signInAnonymously() {
-  const { user } = await firebase.auth().signInAnonymously();
-
-  if (user) {
-    const idToken = await user.getIdToken();
-    appState.setState({ idToken });
-  }
-
-  return user;
+  await firebase.auth().signInAnonymously();
 }
