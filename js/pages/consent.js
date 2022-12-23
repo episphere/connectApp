@@ -594,7 +594,7 @@ const consentConsentPage = async () => {
             </div>
             <div class="col-lg-8">
                 <p class="consentHeadersFont">Informed Consent</p>
-                <p class="consentBodyFont1">To join Connect, we need you to review the full informed consent form and electronic health records release (HIPAA Authorization) form below. If you have any questions, contact the Connect Support Center at <a target="_blank" href="https://norcfedramp.servicenowservices.com/recruit">Cancer.gov/connectstudy/support</a> or call 1-866-462-6621. Once you are comfortable with the study and decide to join, please sign the forms electronically by typing your name into the fields below and click "Next" to view your completed forms. These completed forms on the next screen will contain your name filled into the signature sections.</p>
+                <p class="consentBodyFont1">To join Connect, we need you to review the full informed consent form and electronic health records release (HIPAA Authorization) form below. If you have any questions, contact the Connect Support Center at <a target="_blank" href="https://norcfedramp.servicenowservices.com/recruit">Cancer.gov/connectstudy/support</a> or call 1-866-462-6621. Once you are comfortable with the study and decide to join, please sign the forms electronically by scrolling all the way to the bottom of this screen and clicking, “Yes, I agree to join Connect.” Then, please type your name into the fields that appear and click “Next” to view your signed forms.</p>
             
             <div style="width:80%; margin:auto">
                 <h4 class="consentSubheader" style="margin-top:50px">Informed Consent Form</h4>
