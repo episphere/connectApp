@@ -3,9 +3,9 @@ import { getMyData } from "../shared.js";
 export const renderSamplesPage = async () => {
     document.title = 'My Connect - Samples';
 
-    if(site && site !== kpga && site !==  kphi && site !==  kpco && site !==  kpnw) {
+    getMyData().then(res => {
         const site = locations.filter(location => location.concept == res.data['827220437'])[0];
-
+        
         let template; 
 
         if(site && site !== kpga && site !==  kphi && site !==  kpco && site !==  kpnw) {
