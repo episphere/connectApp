@@ -4,7 +4,7 @@ export const renderSamplesPage = async () => {
     document.title = 'My Connect - Samples';
 
     getMyData().then(res => {
-        const site = locations.filter(location => location.concept == '548392715')[0];
+        const site = locations.filter(location => location.concept == res.data['827220437'])[0];
         
         let template; 
 
