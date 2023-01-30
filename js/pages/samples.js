@@ -5,17 +5,17 @@ export const renderSamplesPage = async () => {
 
     getMyData().then(res => {
         const site = locations.filter(location => location.concept == res.data['827220437'])[0];
-
+        
         let template; 
 
-        if(site) {
+        if(site && site !== kpga && site !==  kphi && site !==  kpco && site !==  kpnw) {
             const locationTemplate = renderLocations(site);
 
             template = `
             <br>
             
             <div class="row">
-                <div class="col-md-2">
+            <div class="col-md-2">
                 </div>
                 <div class="col-md-8">
                     <div class="row" style="width:100%">
@@ -62,7 +62,7 @@ export const renderSamplesPage = async () => {
                         </div>
 
                         ${site.locationNotes ? `
-                        <div class="row" style="width:100%">
+                        <div class="row" style="width:100%;">
                             <div class="messagesHeaderFont">
                                 ${site.locationNotes}
                             </div>
@@ -71,6 +71,7 @@ export const renderSamplesPage = async () => {
 
                         ${locationTemplate}
 
+                        ${site.name !== "UChicago Medicine" ? `
                         <div class="row" style="width:100%">
                             <div style="width:100%">
                                 <div class="messagesHeaderFont">
@@ -80,7 +81,8 @@ export const renderSamplesPage = async () => {
                                     ${site.scheduling}
                                 </div>
                             </div>
-                        </div>
+                        </div>` : ''
+                        }
                     </div>
                     <div class="row" style="width:100%">
                         <div class="consentHeadersFont" style="color:#606060;width:100%">
@@ -140,6 +142,123 @@ export const renderSamplesPage = async () => {
                 <div class="col-md-2">
                 </div>
             </div>    
+            `;
+        }
+        else if (site && (site === kpga || site ===  kphi || site ===  kpco || site ===  kpnw)) {
+            const locationTemplate = renderLocations(site);
+            template = `
+            <br>
+            
+            <div class="row">
+            <div class="col-md-2">
+                </div>
+                <div class="col-md-8">
+                    <div class="row" style="width:100%">
+                        <div class="consentHeadersFont" style="color:#606060;width:100%">
+                            <div>
+                                Donating Your Samples at ${site.name}
+                            </div>
+                        </div>
+                        <div class="messagesBodyFont" style="width:100%">
+                            <div>
+                                ${site.donatingSamples}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="width:100%">
+                        <div class="consentHeadersFont" style="color:#606060;width:100%">
+                            <div>
+                                When Should I Donate My Samples?
+                            </div>
+                        </div>
+                        <div class="messagesBodyFont" style="width:100%">
+                            <div>
+                                ${site.whenToDonate}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="width:100%">
+                        <div class="consentHeadersFont" style="color:#606060;width:100%">
+                            <div>
+                                How Do I Donate My Blood and Urine Samples?
+                            </div>
+                        </div>
+                        <div class="messagesBodyFont" style="width:100%">
+                            <div>
+                                ${site.howToDonateBloodAndUrine}
+                            </div>
+                        </div>          
+                    </div>
+                    <div class="row" style="width:100%">
+                        <div class="consentHeadersFont" style="color:#606060;width:100%">
+                            <div>
+                            ${site.prepInstructionsHeader}
+                            </div>
+                        </div>
+                        <div class="messagesBodyFont" style="width:100%">
+                            <div>
+                                ${site.prepInstructionsText}
+                            </div>
+                        </div>          
+                    </div>          
+                    <div class="row" style="width:100%">
+                        <div class="consentHeadersFont" style="color:#606060;width:100%">
+                            <div>
+                                What Will Happen During My Visit?
+                            </div>
+                        </div>
+                        <div class="messagesBodyFont" style="width:100%">
+                            <div>
+                                ${site.whatHappensDuring}
+                            </div>
+                        </div>          
+                    </div>  
+                    <div class="row" style="width:100%">
+                        <div class="consentHeadersFont" style="color:#606060;width:100%">
+                            <div>
+                                What Will Happen After My Visit?
+                            </div>
+                        </div>
+                        <div class="messagesBodyFont" style="width:100%">
+                            <div>
+                                ${site.whatHappensAfter}
+                            </div>
+                        </div>          
+                    </div>
+                    <div class="row" style="width:100%">
+                        <div class="consentHeadersFont" style="color:#606060;width:100%">
+                            <div>
+                                How Do I Donate My Saliva Sample?
+                            </div>
+                        </div>
+                        <div class="messagesBodyFont" style="width:100%">
+                            <div>
+                                ${site.howToDonateSaliva}
+                            </div>
+                        </div>          
+                    </div>
+                    <div class="row" style="width:100%">
+                        <div class="consentHeadersFont" style="color:#606060;width:100%">
+                            <div>
+                                Questions? Contact the Connect Support Center
+                            </div>
+                        </div>
+                        <div class="messagesBodyFont" style="width:100%">
+                            <div>
+                                <a href="https://myconnect.cancer.gov/support">MyConnect.cancer.gov/support</a>
+                                <br>
+                                <br>
+                                <a href="mailto: ConnectSupport@norc.org">ConnectSupport@norc.org</a>
+                                <br>
+                                <br>
+                                ${site.support}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                </div>
+            </div>     
             `;
         }
         else {
@@ -245,28 +364,22 @@ const henry_ford = {
     howToDonate: 'The email we send you will contain a link to schedule an appointment. Simply click the link to schedule a time that is convenient for you to donate your samples. You can also call Henry Ford Health\'s Connect line at 855-574-7540 to schedule an appointment, or a Connect team member will call you to schedule an appointment to donate your samples at a time that is convenient for you.',
     scheduling: 'For questions and scheduling please call 855-574-7540 or email <a href="mailto: ConnectStudy@hfhs.org">ConnectStudy@hfhs.org</a>.<br><br><em>All patients and visitors are required to wear a mask. If you enter the building without a mask, we will give one to you. If you are unable to wear a mask for the duration of the visit, we ask that you do not schedule your visit at this time.</em>',
     howLong: 'Please expect to spend about one hour at your appointment to donate your samples and complete a short survey.',
-    prepareInstructions: 'On the day of your appointment, please drink plenty of water, but <span style="font-weight:900; text-decoration:underline">stop drinking water one hour before your appointment.</span><br><br><span style="font-weight:900; text-decoration:underline">One hour before your appointment:</span> Please <span style="font-weight:900; text-decoration:underline">do not</span> eat, drink, chew gum, smoke, vape, or chew any products (including tobacco), rinse your mouth, or brush your teeth.<br><br><span style="font-weight:900; text-decoration:underline">Things to bring and remember:</span><br><br><ul><li>We will ask you to complete a short survey when you donate your samples. You will need your login information for the MyConnect app to complete the survey. It may also be helpful to have this information:<ul><li>The last time you ate or drank before your appointment, and the times you went to sleep the night before your appointment and woke up on the day of your appointment.</li><li>If you are menstruating, the start date of your most recent menstrual period in the last 12 months.</li><li>Information and dates regarding COVID-19 testing, symptoms, recovery information (including any hospital stay and treatment), and vaccination status.</li></ul></li></ul>',
+    prepareInstructions: 'On the day of your appointment, please drink plenty of water to keep hydrated but, <span style="font-weight:900; text-decoration:underline">stop drinking water one hour before your appointment.</span><br><br><span style="font-weight:900; text-decoration:underline">One hour before your appointment:</span> Please <span style="font-weight:900; text-decoration:underline">do not</span> eat, drink, chew gum, smoke, vape, or chew any products (including tobacco), rinse your mouth, or brush your teeth.<br><br><span style="font-weight:900; text-decoration:underline">Things to bring and remember:</span><br><br><ul><li>We will ask you to complete a short survey when you donate your samples. You will need your login information for the MyConnect app to complete the survey. It may also be helpful to have this information:<ul><li>The last time you ate or drank before your appointment, and the times you went to sleep the night before your appointment and woke up on the day of your appointment.</li><li>If you are menstruating, the start date of your most recent menstrual period in the last 12 months.</li><li>Information and dates regarding COVID-19 testing, symptoms, recovery information (including any hospital stay and treatment), and vaccination status.</li></ul></li></ul>',
     whatHappens: 'The Connect team will check you in for your appointment and then collect your samples. At the end of your visit, the Connect team will check you out of your appointment.<br><br>We will draw a blood sample, collect a urine sample, and collect a saliva sample by asking you to swish with mouthwash.<br><br>We will also ask you to complete a short survey on the MyConnect app using your mobile phone. You will need your MyConnect app login information to complete the survey. If you do not have a mobile phone, we will provide you with a tablet to complete your survey. We strongly encourage you to complete your survey at your appointment. If you choose to complete it after you leave your appointment, it is important to do so as soon as possible.<br><br>At your appointment, we will ask you to complete your first Connect survey if you haven\'t already done so. If you are able to complete this survey before your appointment, it will save you time. You will receive your $25 gift card after you donate a blood sample and complete your first survey.',
     support: 'Call 1-877-505-0253 (9:00 a.m.-11:00 p.m. ET on weekdays and 10:00 a.m.-7:00 p.m. ET on weekends)',
-    locationNotes: 'Henry Ford Health currently offers two locations in Detroit: Henry Ford Cancer Institute and Henry Ford Hospital',
+    locationNotes: 'Henry Ford Health plans to open new collection locations and expand appointment times this year. If you don\'t see a location or time below that is convenient for you, please check back soon. <br><br>Henry Ford Health currently offers two locations in the Detroit area:<br></br><p>Henry Ford Hospital - Detroit</p><p>Henry Ford Medical Center - Livonia</p>',
     locations: [
         [
-            'Henry Ford Cancer Institute - Detroit',
-            '2800 W Grand Blvd, 2nd Floor, Radiology<br>Detroit, MI 48202<br>(888) 777-4167<br><br>We are located on the second floor within the mammography clinic.',
-            'Monday and Wednesday: 10:00 a.m. - 2:00 p.m.',
-            'Easy, free self-parking is available in the parking deck attached to the pavilion.'
-        ],
-        [
-            'Henry Ford Hospital K13 Research Clinic',
-            '2799 W Grand Blvd, K Building Floor 13<br>Detroit, MI 48202<br>(888) 777-4167',
-            'Tuesday and Thursday 1:00 p.m. – 5:00 p.m.',
+            'Henry Ford Hospital - Detroit, K13 Research Clinic',
+            '2799 W Grand Blvd<br>K Building, Floor 13<br>Detroit, MI 48202<br>(888) 777-4167',
+            'Tuesday and Thursday 9:00 a.m. – 5:00 p.m.',
             'Free self-parking available to visitors. Lots located near each hospital entrance (Main, West, East) or use the parking garage on the Lodge service drive, near Bethune.'
         ],
         [
             'Henry Ford Medical Center - Livonia',
-            '29200 Schoolcraft Road<br>Livonia, MI 48150',
-            'TBD',
-            'Easy, free self-parking is available in the surface lot in front of the building. From the service road, please turn right at the light and head towards the Aldi.'
+            '29200 Schoolcraft Road<br>Women\'s Health Clinic, Floor 2<br>Livonia, MI 48150<br>(734) 523-1050',
+            'Mondays 1:00 p.m. to 5:00 p.m.',
+            'Easy, free self-parking is available in the surface lot in front of the building. From the service drive, turn into the lot near the Aldi and head towards the back of the plaza. The medical center, and parking lot, are located behind Aldi.'
         ]
     ]
 };
@@ -274,20 +387,19 @@ const henry_ford = {
 const u_chicago = {
     concept: '809703864',
     name: 'UChicago Medicine',
-    donatingSamples: 'As part of participating in Connect, we ask you to donate blood, urine, and saliva samples and complete a short survey.',
+    donatingSamples: 'As part of  Connect, we ask you to donate blood, urine, and saliva samples and complete a short survey.',
     whenToDonate: 'The Connect team will send you an email when it is time to donate your samples. Be sure to check your spam or junk folder. After you receive the email, it is important to donate your samples as soon as you can. It is easy to donate all of your samples in one visit.<br><br><span style="font-weight:900; text-decoration:underline">Note:</span> If you have recently had a blood transfusion or donated blood, please wait at least <span style="font-weight:900; text-decoration:underline">eight weeks</span> from your donation or transfusion before donating your samples for Connect. If you have recently donated plasma, please wait at least <span style="font-weight:900; text-decoration:underline">two days</span> from your plasma donation before donating samples for Connect. If you have an upcoming colonoscopy, please be sure that you <span style="font-weight:900; text-decoration:underline">do not</span> donate samples for Connect on the <span style="font-weight:900; text-decoration:underline">same day</span> as your colonoscopy.',
-    howToDonate: 'The email we send you will contain a link to schedule an appointment. Simply click the link to schedule a time that is convenient for you to donate your samples. You can also call UChicago at (773) 834-9992 or walk into the clinic location below without scheduling an appointment. Please note that the wait time for a walk-in sample donation may be longer than for a scheduled appointment.',
-    scheduling: 'For questions and scheduling please call <span style="font-weight:900; text-decoration:underline">773-795-4767</span> or email <a href="mailto: connect@bsd.uchicago.edu">connect@bsd.uchicago.edu</a>.',
-    howLong: 'Please expect to spend about 45 minutes at your appointment to donate your samples and complete a short survey.',
-    prepareInstructions: '<em>All patients and visitors are required to wear a mask per UChicago Medicine mask policy. If you enter the building without a mask, we will give one to you. If you are unable to wear a mask for the duration of the visit, we ask that you do not schedule your visit at this time.</em><br><br>Hand sanitizer will be available for your use, and staff will check your temperature when you arrive. All patients and visitors are required to practice social distancing while in our clinics and hospitals.<br><br>On the day of your appointment, please drink plenty of water, but <span style="font-weight:900; text-decoration:underline">stop drinking water one hour before your appointment.</span><br><br><span style="font-weight:900; text-decoration:underline">One hour before your appointment:</span> Please <span style="font-weight:900; text-decoration:underline">do not</span> eat, drink any liquids (including water), chew gum, smoke, vape, or chew any products (including tobacco), rinse your mouth, or brush your teeth.<br><br><span style="font-weight:900; text-decoration:underline">Things to bring and remember:</span><br><br><ul><li>Please remember to bring a valid photo ID that is not expired (driver\'s license, passport, Chicago CityKey, school photo ID, or other photo ID)</li><li>Make sure you know your login information for the MyConnect app</li><li>We will ask you to complete a short survey when you donate your samples. It may be helpful to have this information on hand:<ul><li>The last time you ate or drank before your appointment, and the times you went to sleep the night before your appointment and woke up on the day of your appointment.</li><li>If you are menstruating, the start date of your most recent menstrual period in the last 12 months.</li><li>Information and dates regarding COVID-19 testing, symptoms, recovery information (including any hospital stay and treatment), and vaccination status.</li></ul></li></ul>',
-    whatHappens: 'The research team will check you in for your appointment and then collect your samples. At the end of your visit, the research team will check you out of your appointment.<br><br>We will draw a blood sample, collect a urine sample, and collect a saliva sample by asking you to swish with mouthwash.<br><br>We will also ask you to complete a short survey on the MyConnect app using your mobile phone. You will need your MyConnect app login information to complete the survey. If you do not have a mobile phone, we will provide you with a tablet to complete your survey. We strongly encourage you to complete your survey at your appointment. If you choose to complete it after you leave your appointment, it is important to do so as soon as possible.<br><br>To save time at your appointment, please also complete your first Connect survey on the MyConnect app before donating samples. If you are not able to complete the survey before your appointment, we will ask you to complete the survey during your appointment.',
+    howToDonate: 'The email we send you will contain a link to schedule an appointment. Simply click the link to schedule a time that is convenient for you to donate your samples. You can also call UChicago at (773) 834-5804  or walk into a clinic location below without scheduling an appointment. Please note that the wait time for a walk-in sample donation may be longer than for a scheduled appointment.',
+    howLong: 'If you complete your first Connect survey before your appointment, please expect to spend about 45 minutes at your appointment to donate your samples and complete a short survey',
+    prepareInstructions: '<em>All patients and visitors are required to wear a mask per UChicago Medicine mask policy. If you enter the building without a mask, we will give one to you. If you are unable to wear a mask for the duration of the visit, we ask that you do not schedule your visit at this time.</em><br><br>Hand sanitizer will be available for your use, and staff will check your temperature when you arrive. All patients and visitors are required to practice social distancing while in our clinics and hospitals.<br><br>On the day of your appointment, you do not need to fast. We request you to drink plenty of water to keep hydrated, but <span style="font-weight:900; text-decoration:underline">stop drinking water one hour before your appointment.</span><br><br><span style="font-weight:900; text-decoration:underline">One hour before your appointment:</span> Please <span style="font-weight:900; text-decoration:underline">do not</span> eat, drink any liquids (including water), chew gum, smoke, vape, or chew any products (including tobacco), rinse your mouth, or brush your teeth.<br><br><span style="font-weight:900; text-decoration:underline">Things to bring and remember:</span><br><br><ul><li>Please remember to bring a valid photo ID that is not expired (driver\'s license, passport, Chicago CityKey, school photo ID, or other photo ID)</li><li>Make sure you know your login information for the MyConnect app</li><li>We will ask you to complete a short survey when you donate your samples. It may be helpful to have this information on hand:<ul><li>The last time you ate or drank before your appointment, and the times you went to sleep the night before your appointment and woke up on the day of your appointment.</li><li>If you are menstruating, the start date of your most recent menstrual period in the last 12 months.</li><li>Information and dates regarding COVID-19 testing, symptoms, recovery information (including any hospital stay and treatment), and vaccination status.</li></ul></li></ul>',
+    whatHappens: 'The research team will check you in for your appointment and then collect your samples. At the end of your visit, the research team will check you out of your appointment.<br><br>We will draw a blood sample, collect a urine sample, and collect a saliva sample by asking you to swish with mouthwash.<br><br>We will also ask you to complete a short survey on the MyConnect app using your mobile phone. You will need your MyConnect app login information to complete the survey. If you do not have a mobile phone, we will provide you with a tablet to complete your survey. We strongly encourage you to complete your survey at your appointment. If you choose to complete it after you leave your appointment, it is important to do so as soon as possible.<br><br><span style="text-decoration: underline;">To save time at your appointment, please also complete your first Connect survey on the MyConnect app before donating samples.</span> If you are not able to complete the survey before your appointment, we will ask you to complete the survey during your appointment.',
     support: 'Call 1-877-505-0253 (8:00 a.m.-10:00 p.m. CT on weekdays and 9:00 a.m.-6:00 p.m. CT on weekends)',
     locations: [
         [
-            'University of Chicago, Duchossois Center for Advanced Medicine (DCAM) in Hyde Park',
-            '#2101 5758 S. Maryland Avenue<br>Chicago, IL 60637<br><br>After entering the DCAM building from the main enterance, look for us at the top of the stairs on the 2nd floor.',
-            'Monday - Friday: 8:00 a.m.-3:00 p.m.',
-            'The University of Chicago Medicine offers valet and self-parking. Patients and visitors will have parking passes validated. Please show your self-parking ticket to research staff.'
+            '<p><span style="text-decoration: underline;">UChicago currently offers four locations in Chicagoland. For questions and scheduling please call 773-834-5804 or email connect@bsd.uchicago.edu.</span></p>',
+            '<span style="text-decoration: underline;">University of Chicago, Duchossois Center for Advanced Medicine (DCAM) in Hyde Park Address and Directions</span><p>University of Chicago Medicine <br>Duchossois Center for Advanced Medicine (DCAM) #2101 </br>5758 S. Maryland Avenue <br>Chicago, IL 60637</br><br>After entering the DCAM building from the main entrance, look for us at the top of the stairs on the 2nd floor.</br></p>',
+            'Monday - Friday 8:00 a.m.-3:00 p.m.<br><br>',
+            'The University of Chicago Medicine offers valet and self-parking. We will validate your parking pass. Please show your self-parking ticket to research staff.<p><span style="text-decoration: underline;"><b>UChicago Ingalls Memorial Hospital in Harvey, IL Address</b> <br>Ingalls Outpatient Center, Suite #212</br>71 W. 156th St.<br>Harvey, IL 60426</br> <br><b>Hours</b> </br>Monday - Friday 8:00 a.m.-3:00 p.m.<br><br><b>Parking Instructions</b><br>Ingalls Memorial Hospital offers free valet and self-parking. <br><b>UChicago Medicine – South Loop, in Downtown Chicago Address</b></br> Southgate Market P1 <br>1101 S Canal St </br> Chicago, IL 60607 <br><br><b>Hours</b> </br>Tuesday – Wednesday 8:00 a.m.- 3:00 p.m. <br><br><b>Parking Instructions</b> </br>The clinic is located on the P1 level next to the DSW. Entrances are located off of Canal St right beside the Panera Bread and on the P1 level of the parking garage. We will validate your parking pass from the parking garage. Please show your self-parking ticket to research staff. We are unable to validate street parking. <br><br><b>UChicago Medicine – River East, in Downtown Chicago Address </b></br>Located in Lucky Strike Downtown Chicago<br> 355 E. Grand Ave </br>Chicago, IL 60611 <br><br><b>Hours</b></br> Mondays 8:00 a.m.-3:00 p.m. <br><br><b>Parking Instructions</b></br> From Lake Shore Drive: Exit at Grand Ave. and proceed west towards McClurg Ct.  An entrance to the parking garage is located past that intersection on your left at 321 E. Grand. From the West: Take Illinois St. east towards Columbus Dr. An entrance to the parking garage is located past that intersection on your left at 300 E. Illinois. <br><br>Once inside the parking garage, follow the signs to LL3 (Fall) for designated UChicago Medicine patient parking.  We will validate your parking pass from the parking garage. Please show your self-parking ticket to research staff. We are unable to validate street parking.</span> </p>',
         ]
     ]
 };
@@ -313,13 +425,73 @@ const nci = {
     ]
 };
 
+const kpga = {
+    concept: '327912200',
+    name: 'KP Georgia',
+    donatingSamples: 'As part of Connect, we ask you to donate blood, urine, and saliva samples and complete two short surveys.',
+    whenToDonate: 'We will send you an email when it is time to donate your samples. After you receive the email, it is important to donate your samples as soon as you can.',
+    howToDonateBloodAndUrine: 'Please visit the lab at any Kaiser Permanente location that is convenient for you.<br></br><span style="font-weight:900;">You do not need an appointment</span> and there is no co-pay involved. You may eat and drink before your visit.<br></br>When you arrive at the Kaiser Permanente lab, please use the lab kiosk to check in according to the steps below:<br></br><ol><li> Touch the screen to get started.</li><li> Enter your Medical Record Number (MRN).</li><li> Enter your Date of Birth.</li><li> Choose “Walk-in.”</li><li> Select “Other Lab Services.”</li><li> Answer COVID-19 symptoms questions if displayed.</li><li> Select “No” to answer questions regarding additional coverage, payment, or text messaging.</li><li> You will see a message on the kiosk screen that reads, “You are checked-in" when you have finished the check-in process.</li><li> Have a seat and lab staff will call you back when they are ready.</li><li> When called back, please communicate with the lab staff you are there for a “Research draw for Connect” and the KP lab staff will take it from there.</li></ol>If possible, please go to the lab <span style="font-weight:900;">Monday - Thursday before 2:00 p.m.</span><br></br>For locations, hours and directions, please visit <a style="text-decoration:underline" href="https://healthy.kaiserpermanente.org/georgia/doctors-locations?kp_shortcut_referrer=kp.org/locations#/search-form">kp.org/locations</a> or call 1-888-413-0601.<br></br><span style="font-weight:900;">Note:</span> If you have recently had a blood transfusion or donated blood, please wait at least <span style="font-weight:900;">eight weeks</span> from your donation or transfusion before donating your samples for Connect. If you have recently donated plasma, please wait at least <span style="font-weight:900;">two days</span> from your plasma donation before donating samples for Connect. If you have an upcoming colonoscopy, please be sure that you <span style="font-weight:900;">do not</span> donate samples for Connect on the <span style="font-weight:900;">same day</span> as your colonoscopy.',
+    prepInstructionsHeader: 'How Should I Prepare On the Day of My Visit?',
+    prepInstructionsText: '<span style="font-style:italic;">All patients are required to wear a mask when visiting any Kaiser Permanente facility. If you enter the building without a mask, one will be provided to you. If you are unable to wear a mask for the duration of the visit, we ask that you do not plan to visit at this time.</span><br></br>A visitor may accompany you in the lab waiting area but they will not be permitted back to the lab area with you. Hand sanitizer will be available for your use. Please follow any physical distancing guidelines provided in the facility.<br></br><span style="font-weight:900;">Things to bring and remember:</span><br></br><ul><li>Please bring your Kaiser Permanente ID card and a picture ID.</li><ul>',
+    whatHappensDuring: 'Donating your research blood and urine samples is just like providing samples requested by your health care provider. When you arrive at the facility, you may go directly to the lab to check in according to the steps above.<br></br>When it is your turn, the lab will call you back, confirm your ID, and collect your samples.',
+    whatHappensAfter: 'Within a day of your blood and urine donation, we will send you an email asking you to complete a short survey on the MyConnect app. The survey will ask about recent actions, such as:<br></br><ul style="list-style-type:circle;"><li>The last time you ate or drank before your visit, and the times you went to sleep the night before your visit and woke up on the day of your visit.</li><li> If you are menstruating, the start date of your most recent menstrual period in the last 12 months.</li><li> Information and dates regarding COVID-19 testing, symptoms, recovery information (including any hospital stay and treatment), and vaccination status.</li></ul><span style="font-style:italic; font-weight:900;">When you receive our email, it is important that you complete the survey as soon as possible.</span>',
+    howToDonateSaliva: 'You can do this in the comfort of your own home. When it is time to donate your saliva sample, we will mail you a mouthwash home collection kit. This kit will include instructions and all of the items needed to collect your sample, including a return shipping box with a pre-paid shipping label to return your sample to us.<br></br>When you collect your saliva sample, we will ask you to complete a short survey on the MyConnect app.<p style="font-weight:900; font-style:italic;"> It is important to complete this survey on the same day that you collect your saliva sample.</p>',
+    support: 'Call 1-877-505-0253 (9:00 a.m-11:00 p.m. ET on weekdays and 10:00 a.m.-7:00 p.m. ET on weekends)'
+};
+
+const kphi = {
+    concept: '300267574',
+    name: 'KP Hawaii',
+    donatingSamples: 'As part of Connect, we ask you to donate blood, urine, and saliva samples and complete two short surveys.',
+    whenToDonate: 'We will send you an email when it is time to donate your samples. After you receive the email, it is important to donate your samples as soon as you can.',
+    howToDonateBloodAndUrine: 'Please visit the lab at any Kaiser Permanente location convenient for you.<br></br><span style="font-weight:900;">You do not need an appointment</span> and there is no co-pay involved. You may eat and drink before your visit.<br></br>If possible, please go to the lab <span style="font-weight:900;">Monday - Thursday before 2:00 p.m.</span><br></br>For locations, hours, and directions, please go to <a style="text-decoration:underline" href="https://healthy.kaiserpermanente.org/hawaii/doctors-locations?kp_shortcut_referrer=kp.org/locations#/search-form">kp.org/locations</a> or call <span style="font-weight:900;">toll-free 833-417-0846.</span><br></br><span style="font-weight:900;">Note:</span> If you have recently had a blood transfusion or donated blood, please wait at least <span style="font-weight:900;">eight weeks</span> from your donation or transfusion before donating your samples for Connect. If you have recently donated plasma, please wait at least <span style="font-weight:900;">two days</span> from your plasma donation before donating samples for Connect. If you have an upcoming colonoscopy, please be sure that you <span style="font-weight:900;">do not</span> donate samples for Connect on the <span style="font-weight:900;">same day</span> as your colonoscopy.',
+    prepInstructionsHeader: 'What Should I Bring to the Visit?',
+    prepInstructionsText: '<ul><li>Please bring your Kaiser Permanente member ID card and a picture ID.</li><li>All patients and visitors are required to wear a mask and practice physical distancing within the KP facility.</li></ul><span style="font-style:italic;">Note: Hand sanitizer will be available for your use.</span>',
+    whatHappensDuring: 'Donating your research blood and urine samples is just like providing samples requested by your health care provider. When you arrive at the clinic, you may go directly to the lab. When it is your turn, the lab will call you back, check your ID, and collect your samples.',
+    whatHappensAfter: 'Within a day of your blood and urine donation, we will send you an email asking you to complete a short survey on the MyConnect app. The survey will ask about recent actions, such as:<ul style="list-style-type:circle;"><li>The last time you ate or drank before your visit, and the times you went to sleep the night before your visit and woke up on the day of your visit.</li><li>If you are menstruating, the start date of your most recent menstrual period in the last 12 months.</li><li>Information and dates regarding COVID-19 testing, symptoms, recovery information (including any hospital stay and treatment), and vaccination status.</li></ul><span style="font-style:italic; font-weight:900;">When you receive our email, it is important that you complete the survey as soon as possible.</span>',
+    howToDonateSaliva: 'You can do this in the comfort of your own home. When it is time to donate your saliva sample, we will mail you a mouthwash home collection kit. This kit will include instructions and all of the items needed to collect your sample, including a return shipping box with a pre-paid shipping label to return your sample to us.<br></br>When you collect your saliva sample, we will ask you to complete a short survey on the MyConnect app.<p style="font-style:italic; font-weight:900;">It is important to complete this survey on the same day that you collect your saliva sample.</p>',
+    support: 'Call 1-877-505-0253 (3:00 a.m-5:00 p.m. HT on weekdays and 4:00 a.m.-1:00 p.m. HT on weekends)'
+};
+
+const kpco = {
+    concept: '125001209',
+    name: 'KP Colorado',
+    donatingSamples: 'As part of Connect, we ask you to donate blood, urine, and saliva samples and complete two short surveys.',
+    whenToDonate: 'We will send you an email when it is time to donate your samples. After you receive the email, it is important to donate your samples as soon as you can.',
+    howToDonateBloodAndUrine: 'Please visit the lab at any Kaiser Permanente location that is convenient for you.<br></br><span style="font-weight:900;">You do not need an appointment</span> and there is no co-pay involved. You may eat and drink before your visit.<br></br>If possible, please go to the lab <span style="font-weight:900;">Monday - Thursday before 2:00 p.m.</span><br></br>For locations, hours and directions, please visit <a style="text-decoration:underline" href="https://healthy.kaiserpermanente.org/colorado/doctors-locations?kp_shortcut_referrer=kp.org/locations#/search-form">kp.org/locations</a> or call 303-338-3800.<br></br><span style="font-weight:900;">Note:</span> If you have recently had a blood transfusion or donated blood, please wait at least <span style="font-weight:900;">eight weeks</span> from your donation or transfusion before donating your samples for Connect. If you have recently donated plasma, please wait at least <span style="font-weight:900;">two days</span> from your plasma donation before donating samples for Connect. If you have an upcoming colonoscopy, please be sure that you <span style="font-weight:900;">do not</span> donate samples for Connect on the <span style="font-weight:900;">same day</span> as your colonoscopy.',
+    prepInstructionsHeader: 'How Should I Prepare on the Day of My Visit?',
+    prepInstructionsText: '<span style="font-style:italic;">All patients and visitors are required to wear a mask when you visit any Kaiser Permanente building. If you enter the building without a mask, one will be provided to you. Hand sanitizer will be available for your use. Please follow any physical distancing guidelines provided in the clinic.</span><br></br><span style="font-weight:900;">Things to bring and remember:<br></br></span><ul><li>Please bring your Kaiser Permanente member ID card and a picture ID.</li></ul>',
+    whatHappensDuring: 'Donating your research blood and urine samples is just like providing samples requested by your health care provider. When you arrive at the clinic, you may go directly to the lab. When it is your turn, the lab will call you back, check your ID, and collect your samples.',
+    whatHappensAfter: 'Within a day of your blood and urine donation, we will send you an email asking you to complete a short survey on the MyConnect app. The survey will ask about recent actions, such as:<br></br><ul style="list-style-type:circle;"><li>The last time you ate or drank before your visit, and the times you went to sleep the night before your visit and woke up on the day of your visit.</li><li>If you are menstruating, the start date of your most recent menstrual period in the last 12 months.</li><li>Information and dates regarding COVID-19 testing, symptoms, recovery information (including any hospital stay and treatment), and vaccination status.</li></ul><span style="font-style:italic; font-weight:900;">When you receive our email, it is important that you complete the survey as soon as possible.</span>',
+    howToDonateSaliva: 'You can do this in the comfort of your own home. When it is time to donate your saliva sample, we will mail you a mouthwash home collection kit. This kit will include instructions and all of the items you need to collect your sample, including a return shipping box with a pre-paid shipping label to return your sample to us.<br></br>When you collect your saliva sample, we will ask you to complete a short survey on the MyConnect app.<p style="font-style:italic; font-weight:900;">It is important to complete this survey on the same day that you collect your saliva sample.</p>',
+    support: 'Call 1-877-505-0253 (6:00 a.m-8:00 p.m. MT on weekdays and 7:00 a.m.-4:00 p.m. MT on weekends)'
+};
+
+const kpnw = {
+    concept: '452412599',
+    name: 'KP Northwest',
+    donatingSamples: 'As part of Connect, we ask you to donate blood, urine, and saliva samples and complete two short surveys.',
+    whenToDonate: 'We will send you an email when it is time to donate your samples. After you receive the email, it is important to donate your samples as soon as you can.',
+    howToDonateBloodAndUrine: 'Please visit the lab at any Kaiser Permanente location that is convenient for you.<br></br><span style="font-weight:900;">You do not need an appointment</span> and there is no co-pay involved. You may eat and drink before your visit.<br></br>If possible, please go to the lab <span style="font-weight:900;">Monday - Thursday before 2:00 p.m.</span><br></br>For locations, hours and directions, please visit <a style="text-decoration:underline" href="https://healthy.kaiserpermanente.org/oregon-washington/community-providers/laboratory">kp.org/locations.</a><br></br><span style="font-weight:900;">Note:</span> If you have recently had a blood transfusion or donated blood, please wait at least <span style="font-weight:900;">eight weeks</span> from your donation or transfusion before donating your samples for Connect. If you have recently donated plasma, please wait at least <span style="font-weight:900;">two days</span> from your plasma donation before donating samples for Connect. If you have an upcoming colonoscopy, please be sure that you <span style="font-weight:900;">do not</span> donate samples for Connect on the <span style="font-weight:900;">same day</span> as your colonoscopy.',
+    prepInstructionsHeader: 'What Should I Bring to the Visit?',
+    prepInstructionsText: '<ul><li>Please bring your Kaiser Permanente member ID card and a picture ID.</li><li>All patients and visitors are required to wear a mask and practice physical distancing within the KP facility.</li></ul><span style="font-style:italic;">Note: Hand sanitizer will be available for your use.</span>',
+    whatHappensDuring: 'Donating your research blood and urine samples is just like providing a clinical sample requested by your health care provider. When you arrive at the clinic, you may go directly to the lab, get a ticket with a number, and follow the instructions. When it is your turn, the lab staff will call your number and explain how your sample donation will work.',
+    whatHappensAfter: 'Within a day of your blood and urine donation, we will send you an email asking you to complete a short survey on the MyConnect app. The survey will ask about recent actions, such as:<br></br><ul  style="list-style-type:circle;"><li>The last time you ate or drank before your visit, and the times you went to sleep the night before your visit and woke up on the day of your visit.</li><li>If you are menstruating, the start date of your most recent menstrual period in the last 12 months.</li><li>Information and dates regarding COVID-19 testing, symptoms, recovery information (including any hospital stay and treatment), and vaccination status.</li></ul><span style="font-weight:900; font-style:italic;">When you receive our email, it is important that you complete the survey as soon as possible.</span>',
+    howToDonateSaliva: 'You can do this in the comfort of your own home. When it is time to donate your saliva sample, we will mail you a mouthwash home collection kit. This kit will include instructions and all of the items needed to collect your sample, including a return shipping box with a pre-paid shipping label to return your sample to us.<br></br>When you collect your saliva sample, we will ask you to complete a short survey on the MyConnect app.<p style="font-weight:900;">It is important to complete this survey on the same day that you collect your saliva sample.</p>',
+    support: 'Call 1-877-505-0253 (6:00 a.m-8:00 p.m. PT on weekdays and 7:00 a.m.-4:00 p.m. PT on weekends)'
+};
+
 const locations = [
     health_partners,
     sanford,
     marshfield,
     henry_ford,
     u_chicago,
-    nci
+    nci,
+    kpga,
+    kphi,
+    kpco,
+    kpnw
 ];
 
 
@@ -327,16 +499,28 @@ const renderLocations = (site) => {
     let template = '';
 
     console.log(site.locations);
-
-    site.locations.forEach(location => {
-        template += `
-            <div class="row" style="width:100%">
-                <div class="messagesHeaderFont">
-                    ${location[0]}
-                </div>
-            </div>
-
-            <div class="row" style="width:100%">
+    if(site.locations){
+        site.locations.forEach(location => {
+            template += `
+                <div class="row" style="width:100%">
+                    <div class="messagesHeaderFont">
+                        ${location[0]}
+                    </div>
+                </div>`
+            if (site === henry_ford) {
+                template += `
+                <div class="row" style="width:100%">
+                    <div style="width:100%">
+                        <div class="messagesHeaderFont">
+                            Address
+                        </div>
+                        <div class="messagesBodyFont">
+                            ${location[1]}
+                        </div>
+                    </div>
+                </div>`
+            } else {
+                template += `<div class="row" style="width:100%">
                 <div style="width:100%">
                     <div class="messagesHeaderFont">
                         Address and Directions
@@ -345,35 +529,37 @@ const renderLocations = (site) => {
                         ${location[1]}
                     </div>
                 </div>
-            </div>
-
-            <div class="row" style="width:100%">
-                <div style="width:100%">
-                    <div class="messagesHeaderFont">
-                        Hours
-                    </div>
-                    <div class="messagesBodyFont">
-                        ${location[2]}
-                    </div>
-                </div>
-            </div>
-
-            <div class="row" style="width:100%">
-                <div style="width:100%">
-                    <div class="messagesHeaderFont">
-                        Parking Instructions
-                    </div>
-                    <div class="messagesBodyFont">
-                        ${location[3]}
+            </div>`
+            }
+            template+=`    
+                <div class="row" style="width:100%;padding:5px 15px;">
+                    <div style="width:100%">
+                        <div class="messagesHeaderFont">
+                            Hours
+                        </div>
+                        <div class="messagesBodyFont">
+                            ${location[2]}
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="row" style="width:100%"></div>
-            <br>
-            <br>
-        `;
-    });
+    
+                <div class="row" style="width:100%">
+                    <div style="width:100%">
+                        <div class="messagesHeaderFont">
+                            Parking Instructions
+                        </div>
+                        <div class="messagesBodyFont">
+                            ${location[3]}
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="row" style="width:100%"></div>
+                <br>
+                <br>
+            `;
+        });
+    }
 
 
     return template;
