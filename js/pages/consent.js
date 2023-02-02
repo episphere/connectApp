@@ -1100,7 +1100,6 @@ const consentSubmit = async e => {
         formData['430184574'] = CSWDate.split('/')[2] + CSWDate.split('/')[1] + CSWDate.split('/')[0]
     }
     formData['507120821'] = 596523216;
-    formData['335767902'] = new Date().toISOString();
     
     const response = await storeResponse(formData);
     if(response.code === 200) consentFinishedPage ();
