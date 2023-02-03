@@ -8,7 +8,7 @@ export const urls = {
 }
 
 function createStore(initialState = {}) {
-  let state = JSON.parse(JSON.stringify(initialState));
+  let state = initialState;
 
   const setState = (update) => {
     const currSlice = typeof update === 'function' ? update(state) : update;

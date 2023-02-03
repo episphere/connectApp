@@ -1044,13 +1044,14 @@ export const addEventRequestPINForm = (accountCreatedAt) => {
         showAnimation();
         const pin = document.getElementById('participantPIN').value;
         const mainContent = document.getElementById('root');
+        let formData = {};
+        formData["335767902"] = (new Date(parseInt(accountCreatedAt))).toISOString(); // Store account creation time
+
         if(pin && pin !== ""){
             const response = await validatePin(pin);
             if(response.code !== 200){
                 await generateNewToken();
-                let formData = {};
                 formData["379080287"] = pin;
-                formData["335767902"] = (new Date(parseInt(accountCreatedAt))).toISOString(); // Store account creation time
                 await storeResponse(formData);
                 hideAnimation();
                 mainContent.innerHTML = healthCareProvider();
@@ -1058,9 +1059,7 @@ export const addEventRequestPINForm = (accountCreatedAt) => {
                 addEventHealthProviderModalSubmit();
             }
             if(response.code === 200){
-                let formData = {};
                 formData["379080287"] = pin;
-                formData["335767902"] = (new Date(parseInt(accountCreatedAt))).toISOString(); // Store account creation time
                 await storeResponse(formData);
                 hideAnimation();
                 mainContent.innerHTML =  heardAboutStudy();
@@ -1069,8 +1068,6 @@ export const addEventRequestPINForm = (accountCreatedAt) => {
             
         }else{
             await generateNewToken();
-            let formData = {};
-            formData["335767902"] = (new Date(parseInt(accountCreatedAt))).toISOString(); // Store account creation time
             formData["828729648"] = 353358909;
             await storeResponse(formData);
             hideAnimation();
