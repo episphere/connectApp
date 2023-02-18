@@ -482,7 +482,18 @@ export async function signInCheckRender ({ ui }) {
       signUpRender({ ui });
     });
   }
-
+  
+/**
+ * Get an ID token for backend authentication
+ * @returns {Promise<firebase.User>}
+ */
 async function signInAnonymously() {
-  await firebase.auth().signInAnonymously();
+  const { user } = await firebase.auth().signInAnonymously();
+
+  if (user) {
+    const idToken = await user.getIdToken();
+    appState.setState({ idToken});
+  }
+
+  return user;
 }

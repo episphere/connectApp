@@ -52,11 +52,9 @@ window.onload = async () => {
         if (!user.isAnonymous) {
           localforage.clear();
           inactivityTime();
-          appState.setState({isAnonymousSignIn: false});
-        }
-
+        } 
       } else {
-        appState.setState({ idToken: '' });
+        appState.setState({ idToken: '', needAnonymousSignIn:true });
       }
     });
 
@@ -315,6 +313,10 @@ const signOut = () => {
 
 const toggleNavBar = (route, data) => {
     auth.onAuthStateChanged(async user => {
+
+        // prevent homepage rendering triggered by anonymous sign-in
+        if (user?.isAnonymous && appState.getState().needAnonymousSignIn)  return;
+
         if (user && !user.isAnonymous){
             showAnimation();
             document.getElementById('navbarNavAltMarkup').innerHTML = userNavBar(data);
@@ -334,11 +336,10 @@ const toggleNavBar = (route, data) => {
             document.getElementById('nextStepWarning') ? document.getElementById('nextStepWarning').style.display="none": '';
             toggleCurrentPageNoUser(route);
             const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
+            
             if (route == "#") {
-                const isAnonymousSignIn = appState.getState().isAnonymousSignIn;
-                if (window.location.search === '' && (!user || user.isAnonymous && !isAnonymousSignIn )) {
+                if (window.location.search === '') {
                     signInSignUpEntryRender({ui});
-                    appState.setState({ isAnonymousSignIn: true });
                 } else {
                     // handle magic link redirect
                     firebaseSignInRender({ui, account:{type:'magicLink', value:''}});
