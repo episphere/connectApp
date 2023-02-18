@@ -314,8 +314,11 @@ const signOut = () => {
 const toggleNavBar = (route, data) => {
     auth.onAuthStateChanged(async user => {
 
-        // prevent homepage rendering triggered by anonymous sign-in
-        if (user?.isAnonymous && appState.getState().needAnonymousSignIn)  return;
+        // Prevent homepage re-rendering triggered by anonymous sign-in
+        if (user?.isAnonymous && appState.getState().needAnonymousSignIn) {
+            appState.setState({needAnonymousSignIn: false});
+            return;
+        }
 
         if (user && !user.isAnonymous){
             showAnimation();
