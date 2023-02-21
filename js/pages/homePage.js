@@ -484,7 +484,7 @@ export async function signInCheckRender ({ ui }) {
   }
   
 /**
- * Get an ID token for backend authentication
+ *  Sign in anonymously, and set idToken in appState
  * @returns {Promise<firebase.User>}
  */
 async function signInAnonymously() {
