@@ -482,13 +482,17 @@ export async function signInCheckRender ({ ui }) {
       signUpRender({ ui });
     });
   }
-
+  
+/**
+ *  Sign in anonymously, and set idToken in appState
+ * @returns {Promise<firebase.User>}
+ */
 async function signInAnonymously() {
   const { user } = await firebase.auth().signInAnonymously();
 
   if (user) {
     const idToken = await user.getIdToken();
-    appState.setState({ idToken, isAnonymous: true });
+    appState.setState({ idToken});
   }
 
   return user;

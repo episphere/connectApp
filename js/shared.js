@@ -23,7 +23,12 @@ function createStore(initialState = {}) {
   return { setState, getState };
 }
 
-export const appState = createStore();
+const initialAppState = {
+    needAnonymousSignIn: false,
+    idToken: '',
+};
+
+export const appState = createStore(initialAppState);
 
 let api = '';
 

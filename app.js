@@ -19,11 +19,6 @@ import { firebaseConfig as prodFirebaseConfig } from "./prod/config.js";
 let auth = '';
 
 window.onload = async () => {
-    // Unify home page url as "/#"
-    if (location.pathname === "/" && location.hash === "" && location.search === "") {
-        location.href = "/#";
-    }
-
     const isCompatible = isBrowserCompatible();
     if(!isCompatible) {
         const mainContent = document.getElementById('root');
@@ -53,16 +48,13 @@ window.onload = async () => {
       if (user) {
         const idToken = await user.getIdToken();
         appState.setState({ idToken });
-        
-        if (user.isAnonymous) {
-          appState.setState({ isAnonymous: true });
-        } else {
-          appState.setState({ isAnonymous: false });
+
+        if (!user.isAnonymous) {
           localforage.clear();
           inactivityTime();
-        }
+        } 
       } else {
-        appState.setState({ idToken: '', isAnonymous: false });
+        appState.setState({ idToken: '', needAnonymousSignIn:true });
       }
     });
 
@@ -321,6 +313,13 @@ const signOut = () => {
 
 const toggleNavBar = (route, data) => {
     auth.onAuthStateChanged(async user => {
+
+        // Prevent homepage re-rendering triggered by anonymous sign-in
+        if (user?.isAnonymous && appState.getState().needAnonymousSignIn) {
+            appState.setState({needAnonymousSignIn: false});
+            return;
+        }
+
         if (user && !user.isAnonymous){
             showAnimation();
             document.getElementById('navbarNavAltMarkup').innerHTML = userNavBar(data);
@@ -340,6 +339,7 @@ const toggleNavBar = (route, data) => {
             document.getElementById('nextStepWarning') ? document.getElementById('nextStepWarning').style.display="none": '';
             toggleCurrentPageNoUser(route);
             const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
+            
             if (route == "#") {
                 if (window.location.search === '') {
                     signInSignUpEntryRender({ui});
