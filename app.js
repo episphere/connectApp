@@ -18,6 +18,19 @@ import { firebaseConfig as prodFirebaseConfig } from "./prod/config.js";
 
 let auth = '';
 
+const datadogConfig = {
+    clientToken: 'pubcb2a7770dcbc09aaf1da459c45ecff65',
+    applicationId: '02ee9ee2-2197-4d6d-aff1-045d46fafa2c',
+    site: 'ddog-gov.com',
+    service: 'pwa',
+    sessionSampleRate: 100,
+    sessionReplaySampleRate: 20,
+    trackUserInteractions: true,
+    trackResources: true,
+    trackLongTasks: true,
+    defaultPrivacyLevel: 'mask-user-input'
+}
+
 window.onload = async () => {
     // Unify home page url as "/#"
     if (location.pathname === "/" && location.hash === "" && location.search === "") {
@@ -32,19 +45,6 @@ window.onload = async () => {
     }
 
     const script = document.createElement('script');
-
-    const datadogConfig = {
-        clientToken: 'pubcb2a7770dcbc09aaf1da459c45ecff65',
-        applicationId: '02ee9ee2-2197-4d6d-aff1-045d46fafa2c',
-        site: 'ddog-gov.com',
-        service: 'pwa',
-        sessionSampleRate: 100,
-        sessionReplaySampleRate: 20,
-        trackUserInteractions: true,
-        trackResources: true,
-        trackLongTasks: true,
-        defaultPrivacyLevel: 'mask-user-input'
-    }
     
     if(location.host === urls.prod) {
         script.src = `https://maps.googleapis.com/maps/api/js?key=${prodFirebaseConfig.apiKey}&libraries=places`
