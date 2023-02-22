@@ -18,6 +18,19 @@ import { firebaseConfig as prodFirebaseConfig } from "./prod/config.js";
 
 let auth = '';
 
+const datadogConfig = {
+    clientToken: 'pubcb2a7770dcbc09aaf1da459c45ecff65',
+    applicationId: '02ee9ee2-2197-4d6d-aff1-045d46fafa2c',
+    site: 'ddog-gov.com',
+    service: 'pwa',
+    sessionSampleRate: 100,
+    sessionReplaySampleRate: 20,
+    trackUserInteractions: true,
+    trackResources: true,
+    trackLongTasks: true,
+    defaultPrivacyLevel: 'mask-user-input'
+}
+
 window.onload = async () => {
     const isCompatible = isBrowserCompatible();
     if(!isCompatible) {
@@ -31,15 +44,23 @@ window.onload = async () => {
     if(location.host === urls.prod) {
         script.src = `https://maps.googleapis.com/maps/api/js?key=${prodFirebaseConfig.apiKey}&libraries=places`
         !firebase.apps.length ? firebase.initializeApp(prodFirebaseConfig) : firebase.app();
+
+        window.DD_RUM && window.DD_RUM.init({ ...datadogConfig, env: 'prod' });
     }
     else if(location.host === urls.stage) {
         script.src = `https://maps.googleapis.com/maps/api/js?key=${stageFirebaseConfig.apiKey}&libraries=places`
         !firebase.apps.length ? firebase.initializeApp(stageFirebaseConfig) : firebase.app();
+
+        window.DD_RUM && window.DD_RUM.init({ ...datadogConfig, env: 'stage' });
     }
     else {
         script.src = `https://maps.googleapis.com/maps/api/js?key=${devFirebaseConfig.apiKey}&libraries=places`
         !firebase.apps.length ? firebase.initializeApp(devFirebaseConfig) : firebase.app();
+
+        window.DD_RUM && window.DD_RUM.init({ ...datadogConfig, env: 'dev' });
     }
+
+    window.DD_RUM && window.DD_RUM.startSessionReplayRecording();
     
     document.body.appendChild(script)
     auth = firebase.auth();
