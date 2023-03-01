@@ -31,6 +31,8 @@ const datadogConfig = {
     defaultPrivacyLevel: 'mask-user-input'
 }
 
+const isLocalDev = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+
 window.onload = async () => {
     const isCompatible = isBrowserCompatible();
     if(!isCompatible) {
@@ -57,10 +59,10 @@ window.onload = async () => {
         script.src = `https://maps.googleapis.com/maps/api/js?key=${devFirebaseConfig.apiKey}&libraries=places&callback=Function.prototype`
         !firebase.apps.length ? firebase.initializeApp(devFirebaseConfig) : firebase.app();
 
-        window.DD_RUM && window.DD_RUM.init({ ...datadogConfig, env: 'dev' });
+        !isLocalDev && window.DD_RUM && window.DD_RUM.init({ ...datadogConfig, env: 'dev' });
     }
 
-    window.DD_RUM && window.DD_RUM.startSessionReplayRecording();
+    !isLocalDev && window.DD_RUM && window.DD_RUM.startSessionReplayRecording();
     
     document.body.appendChild(script)
     auth = firebase.auth();
