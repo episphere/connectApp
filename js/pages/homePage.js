@@ -2,6 +2,10 @@ import { getMyData, renderSyndicate, urls, fragment, checkAccount, validEmailFor
 import { signInConfig, signInConfigDev } from "./signIn.js";
 import { environmentWarningModal } from "../event.js";
 
+const usGov = `
+You are accessing a U.S. Government web site which may contain information that must be protected under the U.S. Privacy Act or other sensitive information and is intended for Government authorized use only. Unauthorized attempts to upload information, change information, or use of this web site may result in disciplinary action, civil, and/or criminal penalties. Unauthorized users of this web site should have no expectation of privacy regarding any communications or data processed by this web site. Anyone accessing this web site expressly consents to monitoring of their actions and all communication or data transitioning or stored on or related to this web site and is advised that if such monitoring reveals possible evidence of criminal activity, NIH may provide that evidence to law enforcement officials.
+`;
+
 /**
  * Renders homepage for sign-in/sign-up 
  */
@@ -48,7 +52,7 @@ export const homePage = async () => {
                       </div>
                   </p>
                   <div style="font-size:8px;padding-left:24px; padding-right:24px;margin:auto;.">
-                      You are accessing a U.S. Government web site which may contain information that must be protected under the U.S. Privacy Act or other sensitive information and is intended for Government authorized use only. Unauthorized attempts to upload information, change information, or use of this web site may result in disciplinary action, civil, and/or criminal penalties. Unauthorized users of this web site should have no expectation of privacy regarding any communications or data processed by this web site. Anyone accessing this web site expressly consents to monitoring of their actions and all communication or data transitioning or stored on or related to this web site and is advised that if such monitoring reveals possible evidence of criminal activity, NIH may provide that evidence to law enforcement officials.
+                      ${usGov}
                   </div>
                 </div>
             </div>
@@ -162,7 +166,6 @@ export const whereAmIInDashboard = async () => {
 }
 
 export const renderHomeAboutPage =  () => {
-    
     const mainContent = document.getElementById('root');
     mainContent.innerHTML = `
         <div class="row">
@@ -177,8 +180,8 @@ export const renderHomeAboutPage =  () => {
     renderSyndicate("https://api.digitalmedia.hhs.gov/api/v2/resources/media/19351/syndicate.json?stripStyles=false&stripScripts=false&stripBreaks=false&stripImages=false&stripClasses=false&stripIds=false&displayMethod=undefined&autoplay=false","connectBody", 'about')
     window.scrollTo(0, 0);
 }
+
 export const renderHomeExpectationsPage = () => {
-    
     const mainContent = document.getElementById('root');
     mainContent.innerHTML = `
         <div class="row">
@@ -193,11 +196,10 @@ export const renderHomeExpectationsPage = () => {
     renderSyndicate("https://api.digitalmedia.hhs.gov/api/v2/resources/media/19350/syndicate.json?stripStyles=false&stripScripts=false&stripBreaks=false&stripImages=false&stripClasses=false&stripIds=false&displayMethod=undefined&autoplay=false","connectBody", 'expectations')
     window.scrollTo(0, 0);
     let sections = document.getElementsByTagName('h2')
-    //console.log(sections)
-    
-    
+
     console.log(sections[0]);
 }
+
 export const renderHomePrivacyPage =  () => {
     const mainContent = document.getElementById('root');
     mainContent.innerHTML = `
@@ -215,19 +217,17 @@ export const renderHomePrivacyPage =  () => {
 
 }
 
-const usGov = `<div style="font-size:8px" class="mt-3">
-You are accessing a U.S. Government web site which may contain information that must be protected under the U.S. Privacy Act or other sensitive information and is intended for Government authorized use only. Unauthorized attempts to upload information, change information, or use of this web site may result in disciplinary action, civil, and/or criminal penalties. Unauthorized users of this web site should have no expectation of privacy regarding any communications or data processed by this web site. Anyone accessing this web site expressly consents to monitoring of their actions and all communication or data transitioning or stored on or related to this web site and is advised that if such monitoring reveals possible evidence of criminal activity, NIH may provide that evidence to law enforcement officials.
-</div>`;
-
 export function signInSignUpEntryRender({ ui }) {
     const df = fragment`
     <div class="mx-4">
-    <p class="loginTitleFont" style="text-align:center;">Sign Into Your Account</p>
-    <button type="button" class="connect connect-primary" style="width:100%" id="signInBtn">Sign In</button>
-    <hr/>
-    <p class="loginTitleFont" style="text-align:center;">Sign Up</p>
-    <button type="button" class = "connect connect-secondary" style="width:100%" id="signUpBtn">Create Account</button>
-    ${usGov}
+      <p class="loginTitleFont" style="text-align:center;">Sign Into Your Account</p>
+      <button type="button" class="connect connect-primary" style="width:100%" id="signInBtn">Sign In</button>
+      <hr/>
+      <p class="loginTitleFont" style="text-align:center;">Sign Up</p>
+      <button type="button" class = "connect connect-secondary" style="width:100%" id="signUpBtn">Create Account</button>
+      <div style="font-size:8px" class="mt-3">
+      ${usGov}
+      </div>
     </div>`;
 
     const signInBtn = df.querySelector('#signInBtn');
@@ -247,25 +247,27 @@ export function signInSignUpEntryRender({ ui }) {
 export async function signInCheckRender ({ ui }) {
     const df = fragment`
     <div class="mx-4">
-    <form ">
-        <label for="accountInput" class="form-label">
-        Email or Phone<br />
-        <span style="font-size: 0.8rem; color:gray">Phone Format: 123-456-7890</span>
-        </label>
-        <input type="text" id="accountInput" />
-        <div class="alert alert-warning mt-1"
-        id="invalidInputAlert" role="alert" style="display:none">
+      <form ">
+          <label for="accountInput" class="form-label">
+            Email or Phone<br />
+            <span style="font-size: 0.8rem; color:gray">Phone Format: 123-456-7890</span>
+          </label>
+          <input type="text" id="accountInput" />
+          <div class="alert alert-warning mt-1"
+            id="invalidInputAlert" role="alert" style="display:none">
             Please enter a valid email or phone number
-        </div>
-        <button type="submit" class="connect connect-primary my-3" style="width:100%" id="signInBtn">
+          </div>
+          <button type="submit" class="connect connect-primary my-3" style="width:100%" id="signInBtn">
             Continue
-        </button>
-        <p>
-        Don't have an account?
-        <a href="#" id="signUpAnchor">Create one here</a>
-        </p>
-    </form>
-    ${usGov}
+          </button>
+          <p>
+            Don't have an account?
+            <a href="#" id="signUpAnchor">Create one here</a>
+          </p>
+      </form>
+      <div style="font-size:8px" class="mt-3">
+      ${usGov}
+      </div>
     </div>`;
    
     const signInBtn = df.querySelector('#signInBtn');
@@ -344,9 +346,11 @@ export async function signInCheckRender ({ ui }) {
   export async function firebaseSignInRender({ ui, account = {} }) {
     const df = fragment`
     <div class="mx-4">
-    <p class="loginTitleFont" style="text-align:center;">Sign In</p>
-        <div id="signInDiv"></div>
-        ${usGov}
+      <p class="loginTitleFont" style="text-align:center;">Sign In</p>
+      <div id="signInDiv"></div>
+      <div style="font-size:8px" class="mt-3">
+      ${usGov}
+      </div>
     </div>`;
 
    document.getElementById('signInWrapperDiv').replaceChildren(df);
@@ -405,14 +409,16 @@ export async function signInCheckRender ({ ui }) {
   function signUpRender({ ui }) {
     const df = fragment`
     <div class="mx-4">
-    <p class="loginTitleFont" style="text-align:center;">Create an Account</p>
-    <div id="signUpDiv"></div>
-    <p>
-        <div style="font-size:12px">
-        If you have an account, please <a href="#" id="signIn">sign in </a> with the email or phone number you used to create your account.
-        </div>
-    </p>
-    ${usGov}
+      <p class="loginTitleFont" style="text-align:center;">Create an Account</p>
+      <div id="signUpDiv"></div>
+      <p>
+          <div style="font-size:12px">
+          If you have an account, please <a href="#" id="signIn">sign in </a> with the email or phone number you used to create your account.
+          </div>
+      </p>
+      <div style="font-size:8px" class="mt-3">
+      ${usGov}
+      </div>
     </div>`;
 
     const signInAnchor = df.querySelector('#signIn');
