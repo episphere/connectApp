@@ -24,7 +24,6 @@ function createStore(initialState = {}) {
 }
 
 const initialAppState = {
-    needAnonymousSignIn: false,
     idToken: '',
 };
 

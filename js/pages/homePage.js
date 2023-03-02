@@ -2,6 +2,9 @@ import { getMyData, renderSyndicate, urls, fragment, checkAccount, validEmailFor
 import { signInConfig, signInConfigDev } from "./signIn.js";
 import { environmentWarningModal } from "../event.js";
 
+/**
+ * Renders homepage for sign-in/sign-up 
+ */
 export const homePage = async () => {
     const mainContent = document.getElementById('root');
     mainContent.innerHTML = `
@@ -87,6 +90,24 @@ export const homePage = async () => {
             </div>
         </div>
     `;
+    
+    const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
+    const cleanedSearchStr = window.location.search
+      .replaceAll('%25', '%')
+      .replaceAll('%26', '&')
+      .replaceAll('&amp;', '&')
+      .replaceAll('%3D', '=');
+    const params = new URLSearchParams(cleanedSearchStr);
+
+        if (params.get('apiKey') !== null && params.get('mode') === 'signIn') {
+            // handle magic link redirect
+            firebaseSignInRender({ui, account:{type:'magicLink', value:''}});
+        } else {
+            // todo: handle participant tokens
+            signInSignUpEntryRender({ui});
+        }
+
+        console.log('rendering home page');
     
     if (location.host !== urls.prod && window.location.search === '') environmentWarningModal();
 }
@@ -330,9 +351,7 @@ export async function signInCheckRender ({ ui }) {
 
    document.getElementById('signInWrapperDiv').replaceChildren(df);
 
-    if (location.host === urls.prod) {
-      ui.start('#signInDiv', signInConfig());
-    } else if (location.host === urls.stage) {
+    if (location.host === urls.prod || location.host === urls.stage) {
       ui.start('#signInDiv', signInConfig());
     } else {
       ui.start('#signInDiv', signInConfigDev());
