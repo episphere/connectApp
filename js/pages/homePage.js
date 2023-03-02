@@ -96,24 +96,18 @@ export const homePage = async () => {
     `;
     
     const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
-    const cleanedSearchStr = window.location.search
-      .replaceAll('%25', '%')
-      .replaceAll('%26', '&')
-      .replaceAll('&amp;', '&')
-      .replaceAll('%3D', '=');
-    const params = new URLSearchParams(cleanedSearchStr);
+    const params = new URLSearchParams(window.location.search);
+    const isMagicLinkSignIn = params.get('apiKey') !== null && params.get('mode') === 'signIn';
 
-        if (params.get('apiKey') !== null && params.get('mode') === 'signIn') {
-            // handle magic link redirect
-            firebaseSignInRender({ui, account:{type:'magicLink', value:''}});
-        } else {
-            // todo: handle participant tokens
-            signInSignUpEntryRender({ui});
-        }
-
-        console.log('rendering home page');
+    if (isMagicLinkSignIn) {
+        // handle magic link redirect
+        firebaseSignInRender({ui, account:{type:'magicLink', value:''}});
+    } else {
+        // todo: handle participant tokens
+        signInSignUpEntryRender({ui});
+    }
     
-    if (location.host !== urls.prod && window.location.search === '') environmentWarningModal();
+    if (location.host !== urls.prod && !isMagicLinkSignIn) environmentWarningModal();
 }
 
 export const joinNowBtn = (bool) => {
