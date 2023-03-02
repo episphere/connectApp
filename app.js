@@ -332,6 +332,11 @@ const signOut = () => {
     document.title = 'My Connect - Home';
 }
 
+/**
+ * Render navbar based on user login status
+ * @param {string} route The route to be rendered
+ * @param {*} data User data
+ */
 const toggleNavBar = (route, data) => {
     auth.onAuthStateChanged(async user => {
 
@@ -359,14 +364,22 @@ const toggleNavBar = (route, data) => {
             document.getElementById('joinNow') ? document.getElementById('joinNow').innerHTML = joinNowBtn(true) : ``;
             document.getElementById('nextStepWarning') ? document.getElementById('nextStepWarning').style.display="none": '';
             toggleCurrentPageNoUser(route);
+
             const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
-            
+            const cleanedSearchStr = window.location.search
+              .replaceAll('%25', '%')
+              .replaceAll('%26', '&')
+              .replaceAll('&amp;', '&')
+              .replaceAll('%3D', '=');
+            const params = new URLSearchParams(cleanedSearchStr);
+
             if (route == "#") {
-                if (window.location.search === '') {
-                    signInSignUpEntryRender({ui});
-                } else {
+                if (params.get('apiKey') !== null && params.get('mode') === 'signIn') {
                     // handle magic link redirect
                     firebaseSignInRender({ui, account:{type:'magicLink', value:''}});
+                } else {
+                    // todo: handle participant tokens
+                    signInSignUpEntryRender({ui});
                 }
             }
             hideAnimation();
