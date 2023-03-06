@@ -47,7 +47,7 @@ window.onload = async () => {
         script.src = `https://maps.googleapis.com/maps/api/js?key=${prodFirebaseConfig.apiKey}&libraries=places&callback=Function.prototype`
         !firebase.apps.length ? firebase.initializeApp(prodFirebaseConfig) : firebase.app();
 
-        window.DD_RUM && window.DD_RUM.init({ ...datadogConfig, env: 'prod' });
+        //window.DD_RUM && window.DD_RUM.init({ ...datadogConfig, env: 'prod' });
     }
     else if(location.host === urls.stage) {
         script.src = `https://maps.googleapis.com/maps/api/js?key=${stageFirebaseConfig.apiKey}&libraries=places&callback=Function.prototype`
@@ -62,7 +62,7 @@ window.onload = async () => {
         !isLocalDev && window.DD_RUM && window.DD_RUM.init({ ...datadogConfig, env: 'dev' });
     }
 
-    !isLocalDev && window.DD_RUM && window.DD_RUM.startSessionReplayRecording();
+    !isLocalDev && location.host !== urls.prod && window.DD_RUM && window.DD_RUM.startSessionReplayRecording();
     
     document.body.appendChild(script)
     auth = firebase.auth();
