@@ -24,7 +24,6 @@ function createStore(initialState = {}) {
 }
 
 const initialAppState = {
-    needAnonymousSignIn: false,
     idToken: '',
 };
 
@@ -1142,3 +1141,16 @@ export const validEmailFormat =
 // valid phone number examples: +1 123-456-789, 1-123-456-7890, 123-456-7890, 1234567890, 123.456 7890, (123)456-7890, (123) 456-7890, 123 456.7890, 123 456-7890, 123-456.7890, etc.
 export const validPhoneNumberFormat =
   /^[\+]?(?:1|1-|1\.|1\s+)?[(]?[0-9]{3}[)]?(?:-|\s+|\.)?[0-9]{3}(?:-|\s+|\.)?[0-9]{4}$/;
+
+  /**
+   * Recover special characters in search string of URL
+   * @param {string} urlSearchStr 
+   * @returns {string}
+   */
+  export function getCleanSearchString(urlSearchStr) {
+    return urlSearchStr
+    .replaceAll('%25', '%')
+    .replaceAll('%26', '&')
+    .replaceAll('&amp;', '&')
+    .replaceAll('%3D', '=');
+  }

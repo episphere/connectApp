@@ -1,6 +1,6 @@
 import { getParameters, validateToken, userLoggedIn, getMyData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, appState } from "./js/shared.js";
 import { userNavBar, homeNavBar } from "./js/components/navbar.js";
-import { homePage, joinNowBtn, whereAmIInDashboard, renderHomeAboutPage, renderHomeExpectationsPage, renderHomePrivacyPage, signInSignUpEntryRender, firebaseSignInRender } from "./js/pages/homePage.js";
+import { homePage, joinNowBtn, whereAmIInDashboard, renderHomeAboutPage, renderHomeExpectationsPage, renderHomePrivacyPage } from "./js/pages/homePage.js";
 import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser, addEventToggleSubmit } from "./js/event.js";
 import { requestPINTemplate } from "./js/pages/healthCareProvider.js";
 import { myToDoList } from "./js/pages/myToDoList.js";
@@ -77,7 +77,7 @@ window.onload = async () => {
           inactivityTime();
         } 
       } else {
-        appState.setState({ idToken: '', needAnonymousSignIn:true });
+        appState.setState({ idToken: '' });
       }
     });
 
@@ -334,15 +334,13 @@ const signOut = () => {
     document.title = 'My Connect - Home';
 }
 
+/**
+ * Render navbar based on user login status
+ * @param {string} route The route to be rendered
+ * @param {*} data User data
+ */
 const toggleNavBar = (route, data) => {
     auth.onAuthStateChanged(async user => {
-
-        // Prevent homepage re-rendering triggered by anonymous sign-in
-        if (user?.isAnonymous && appState.getState().needAnonymousSignIn) {
-            appState.setState({needAnonymousSignIn: false});
-            return;
-        }
-
         if (user && !user.isAnonymous){
             showAnimation();
             document.getElementById('navbarNavAltMarkup').innerHTML = userNavBar(data);
@@ -361,16 +359,6 @@ const toggleNavBar = (route, data) => {
             document.getElementById('joinNow') ? document.getElementById('joinNow').innerHTML = joinNowBtn(true) : ``;
             document.getElementById('nextStepWarning') ? document.getElementById('nextStepWarning').style.display="none": '';
             toggleCurrentPageNoUser(route);
-            const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
-            
-            if (route == "#") {
-                if (window.location.search === '') {
-                    signInSignUpEntryRender({ui});
-                } else {
-                    // handle magic link redirect
-                    firebaseSignInRender({ui, account:{type:'magicLink', value:''}});
-                }
-            }
             hideAnimation();
         }
     });
