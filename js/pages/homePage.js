@@ -1,4 +1,4 @@
-import { getMyData, renderSyndicate, urls, fragment, checkAccount, validEmailFormat, validPhoneNumberFormat, appState, delay } from "../shared.js";
+import { getMyData, renderSyndicate, urls, fragment, checkAccount, validEmailFormat, validPhoneNumberFormat, appState, delay, getCleanSearchString } from "../shared.js";
 import { signInConfig, signInConfigDev } from "./signIn.js";
 import { environmentWarningModal } from "../event.js";
 
@@ -96,18 +96,22 @@ export const homePage = async () => {
     `;
     
     const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
-    const params = new URLSearchParams(window.location.search);
+    const cleanSearchStr = getCleanSearchString(location.search);
+    const params = new URLSearchParams(cleanSearchStr);
     const isMagicLinkSignIn = params.get('apiKey') !== null && params.get('mode') === 'signIn';
 
     if (isMagicLinkSignIn) {
-        // handle magic link redirect
+      if ( location.search !== cleanSearchStr ) {
+        location.search = cleanSearchStr; // Page reload with clean url
+      }
+      
         firebaseSignInRender({ui, account:{type:'magicLink', value:''}});
     } else {
         // todo: handle participant tokens
         signInSignUpEntryRender({ui});
     }
     
-    if (location.host !== urls.prod && !isMagicLinkSignIn) environmentWarningModal();
+    location.host !== urls.prod && !isMagicLinkSignIn && environmentWarningModal();
 }
 
 export const joinNowBtn = (bool) => {
