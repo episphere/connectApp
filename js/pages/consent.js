@@ -766,25 +766,20 @@ const consentConsentPage = async () => {
     frame1.onload = function(){
         frame1.contentWindow.document.body.style.padding = '10px'
         frame1.contentWindow.document.body.querySelectorAll('p').forEach( pItem => {
-            console.log(pItem)
             if(pItem.style && pItem.style['text-align'] == 'justify'){
-                console.log('HERE!')
                 pItem.style['text-align'] = 'left'
             }
         })
-        console.log("iframe content loaded");
     };
+    
     let frame2 = document.getElementById('pdfIframeContainer1')
     frame2.onload = function(){
         frame2.contentWindow.document.body.style.padding = '10px'
         frame2.contentWindow.document.body.querySelectorAll('p').forEach( pItem => {
-            console.log(pItem)
             if(pItem.style && pItem.style['text-align'] == 'justify'){
-                console.log('HERE!')
                 pItem.style['text-align'] = 'left'
             }
         })
-        console.log("iframe content loaded");
     };
 
     document.getElementById('backToConsent').addEventListener('click', () => {
