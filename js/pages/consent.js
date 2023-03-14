@@ -797,12 +797,12 @@ const consentConsentPage = async () => {
     } 
 
     if (isMobile) {
-        const linkArray = document.querySelectorAll('a[data-file="consent-form"]');
-        for (const link of linkArray) {
-          link.addEventListener(
+        const anchorArray = document.querySelectorAll('a[data-file="consent-form"]');
+        for (const anchor of anchorArray) {
+          anchor.addEventListener(
             "click",
             (e) => {
-              openNewTab(link.href);
+              openNewTab(anchor.href);
               e.preventDefault();
             }
           );
