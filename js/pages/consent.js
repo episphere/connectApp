@@ -1,4 +1,4 @@
-import { todaysDate, storeResponse, dataSavingBtn, dateTime, errorMessageConsent, siteAcronyms, getMyData, hideAnimation, showAnimation } from "../shared.js";
+import { todaysDate, storeResponse, dataSavingBtn, dateTime, errorMessageConsent, siteAcronyms, getMyData, hideAnimation, showAnimation, isMobile } from "../shared.js";
 import { renderUserProfile } from "../components/form.js";
 import { removeAllErrors, addEventsConsentSign } from "../event.js";
 import { renderDownloadConsentCopy, renderDownloadHIPAA } from "./agreements.js";
@@ -611,7 +611,7 @@ const consentConsentPage = async () => {
                 <iframe id="pdfIframeContainer" src="${'./forms/consent/'  + participantSite + '_Consent_' + versionJSON[participantSite]['Consent'] + '.html'}" style="width:100%; height:500px; overflow:scroll;" frameborder="1px"><span class="loader">Please wait...</span></iframe>
                 <!--<object id="pdfContainer" data="https://storage.googleapis.com/myconnect_app_stage/forms/consent/HP_Consent_V1.0.pdf" style="height:500px; width:100%"></object>-->
                 <!--</div>-->
-                <div class="row"style="margin:auto"><div style="margin:auto"><a href="${'./forms/consent/'  + participantSite + '_Consent_' + versionJSON[participantSite]['Consent'] + '.pdf'}" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf" class="consentBodyFont2"> Download an unsigned copy of the informed consent form&nbsp<i class="fas fa-file-download"></i></a></div></div>
+                <div class="row"style="margin:auto"><div style="margin:auto"><a href="${'./forms/consent/'  + participantSite + '_Consent_' + versionJSON[participantSite]['Consent'] + '.pdf'}" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf" class="consentBodyFont2" data-file="consent-form"> Download an unsigned copy of the informed consent form&nbsp<i class="fas fa-file-download"></i></a></div></div>
                 
                 <h4 class="consentSubheader" style="margin-top:50px">Electronic health records release (HIPAA Authorization) form</h4>
                 <p class="consentBodyFont2" style="text-indent:40px">This allows Connect to access your electronic health records.</p>
@@ -627,7 +627,7 @@ const consentConsentPage = async () => {
                 <iframe id="pdfIframeContainer1" src="${'./forms/HIPAA/'  + participantSite + '_HIPAA_' + versionJSON[participantSite]['HIPAA'] + '.html'}" style="width:100%; height:500px; overflow:scroll;" frameborder="1px"><span class="loader">Please wait...</span></iframe>
                 <!--<object id="pdfContainer1" style="height:500px; width:100%"></object>-->
                 <!--</div>-->
-                <div class="row" style="margin:auto"><div style="margin:auto"><a href="${'./forms/HIPAA/'  + participantSite + '_HIPAA_' + versionJSON[participantSite]['HIPAA'] + '.pdf'}" title="Download health records release form" data-toggle="tooltip" download="connect_hipaa.pdf" class="consentBodyFont2">Download an unsigned copy of the release form&nbsp<i class="fas fa-file-download"></i></a></div></div>
+                <div class="row" style="margin:auto"><div style="margin:auto"><a href="${'./forms/HIPAA/'  + participantSite + '_HIPAA_' + versionJSON[participantSite]['HIPAA'] + '.pdf'}" title="Download health records release form" data-toggle="tooltip" download="connect_hipaa.pdf" class="consentBodyFont2" data-file="consent-form">Download an unsigned copy of the release form&nbsp<i class="fas fa-file-download"></i></a></div></div>
                 
                 
                 <p class="consentBodyFont2" style="margin-top:50px">By clicking “Yes, I agree to join Connect” and typing your name, you confirm the following:</p>
@@ -790,7 +790,30 @@ const consentConsentPage = async () => {
     document.getElementById('backToConsent').addEventListener('click', () => {
         consentIndigenousPage();
     })
-    
+
+    let newTab = null;
+
+    function openNewTab(url) {
+      if (newTab === null || newTab.closed) {
+        newTab = window.open(url);
+      } else {
+        newTab.focus();
+      }
+    } 
+
+    if (isMobile) {
+        const linkArray = document.querySelectorAll('a[data-file="consent-form"]');
+        for (const link of linkArray) {
+          link.addEventListener(
+            "click",
+            (e) => {
+              openNewTab(link.href);
+              e.preventDefault();
+            }
+          );
+        }
+      }
+
     addEventConsentSubmit();
 }
 

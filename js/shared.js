@@ -1154,3 +1154,9 @@ export const validPhoneNumberFormat =
     .replaceAll('&amp;', '&')
     .replaceAll('%3D', '=');
   }
+
+/**
+ * Detect if current device is mobile
+ * @returns {boolean}
+ */
+  export const isMobile = /Mobi/.test(navigator.userAgent);
