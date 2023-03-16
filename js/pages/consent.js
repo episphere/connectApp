@@ -786,13 +786,13 @@ const consentConsentPage = async () => {
         consentIndigenousPage();
     })
 
-    let newTab = null;
+    let urlToNewTabMap = {};
 
     function openNewTab(url) {
-      if (newTab === null || newTab.closed) {
-        newTab = window.open(url);
+      if (!urlToNewTabMap[url] || urlToNewTabMap[url].closed) {
+        urlToNewTabMap[url] = window.open(url);
       } else {
-        newTab.focus();
+        urlToNewTabMap[url].focus();
       }
     } 
 
