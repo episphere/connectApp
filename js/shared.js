@@ -1184,3 +1184,19 @@ function checkDeviceMobile() {
 
 export const isMobile = checkDeviceMobile();
 
+/**
+ * Wait for an element to be loaded, with a default timeout.
+ * @param {string} selector
+ * @param {number} timeout
+ * @returns {Promise<HTMLElement | null>} 
+ */
+export async function elementIsLoaded(selector, timeout = 1000) {
+  const startTime = Date.now();
+
+  while (document.querySelector(selector) === null) {
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+    if (Date.now() - startTime > timeout) break;
+  }
+
+  return document.querySelector(selector);
+}

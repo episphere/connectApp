@@ -1,4 +1,4 @@
-import { getMyData, renderSyndicate, urls, fragment, checkAccount, validEmailFormat, validPhoneNumberFormat, appState, delay, getCleanSearchString } from "../shared.js";
+import { getMyData, renderSyndicate, urls, fragment, checkAccount, validEmailFormat, validPhoneNumberFormat, appState, delay, getCleanSearchString, elementIsLoaded } from "../shared.js";
 import { signInConfig, signInConfigDev } from "./signIn.js";
 import { environmentWarningModal } from "../event.js";
 
@@ -363,10 +363,15 @@ export async function signInCheckRender ({ ui }) {
     const timeLimit = 1000 * 60 * 60 ; // 1 hour time limit
 
     if (account.type === 'magicLink' && signInEmail  && Date.now() - signInTime < timeLimit) {
-      await delay(200); // wait for firebase UI to load
-      document.querySelector('input[class~="firebaseui-id-email"]').value = signInEmail;
-      document.querySelector('button[class~="firebaseui-id-submit"]').click();
-      window.localStorage.removeItem('connectSignIn');
+      await elementIsLoaded('div[class~="firebaseui-id-page-email-link-sign-in-confirmation"]', 1500);
+      const emailInput =  document.querySelector('input[class~="firebaseui-id-email"]');
+
+      if (emailInput !== null) {
+        emailInput.value = signInEmail;
+        document.querySelector('button[class~="firebaseui-id-submit"]').click();
+        window.localStorage.removeItem('connectSignIn');
+      } 
+
       return;
     }
 
