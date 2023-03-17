@@ -1,6 +1,6 @@
 import { getParameters, validateToken, userLoggedIn, getMyData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, appState } from "./js/shared.js";
 import { userNavBar, homeNavBar } from "./js/components/navbar.js";
-import { homePage, joinNowBtn, whereAmIInDashboard, renderHomeAboutPage, renderHomeExpectationsPage, renderHomePrivacyPage, signInSignUpEntryRender, firebaseSignInRender } from "./js/pages/homePage.js";
+import { homePage, joinNowBtn, whereAmIInDashboard, renderHomeAboutPage, renderHomeExpectationsPage, renderHomePrivacyPage } from "./js/pages/homePage.js";
 import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser, addEventToggleSubmit } from "./js/event.js";
 import { requestPINTemplate } from "./js/pages/healthCareProvider.js";
 import { myToDoList } from "./js/pages/myToDoList.js";
@@ -18,12 +18,22 @@ import { firebaseConfig as prodFirebaseConfig } from "./prod/config.js";
 
 let auth = '';
 
-window.onload = async () => {
-    // Unify home page url as "/#"
-    if (location.pathname === "/" && location.hash === "" && location.search === "") {
-        location.href = "/#";
-    }
+const datadogConfig = {
+    clientToken: 'pubcb2a7770dcbc09aaf1da459c45ecff65',
+    applicationId: '02ee9ee2-2197-4d6d-aff1-045d46fafa2c',
+    site: 'ddog-gov.com',
+    service: 'pwa',
+    sessionSampleRate: 100,
+    sessionReplaySampleRate: 20,
+    trackUserInteractions: true,
+    trackResources: true,
+    trackLongTasks: true,
+    defaultPrivacyLevel: 'mask-user-input'
+}
 
+const isLocalDev = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+
+window.onload = async () => {
     const isCompatible = isBrowserCompatible();
     if(!isCompatible) {
         const mainContent = document.getElementById('root');
@@ -34,17 +44,25 @@ window.onload = async () => {
     const script = document.createElement('script');
     
     if(location.host === urls.prod) {
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${prodFirebaseConfig.apiKey}&libraries=places`
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${prodFirebaseConfig.apiKey}&libraries=places&callback=Function.prototype`
         !firebase.apps.length ? firebase.initializeApp(prodFirebaseConfig) : firebase.app();
+
+        //window.DD_RUM && window.DD_RUM.init({ ...datadogConfig, env: 'prod' });
     }
     else if(location.host === urls.stage) {
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${stageFirebaseConfig.apiKey}&libraries=places`
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${stageFirebaseConfig.apiKey}&libraries=places&callback=Function.prototype`
         !firebase.apps.length ? firebase.initializeApp(stageFirebaseConfig) : firebase.app();
+
+        window.DD_RUM && window.DD_RUM.init({ ...datadogConfig, env: 'stage' });
     }
     else {
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${devFirebaseConfig.apiKey}&libraries=places`
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${devFirebaseConfig.apiKey}&libraries=places&callback=Function.prototype`
         !firebase.apps.length ? firebase.initializeApp(devFirebaseConfig) : firebase.app();
+
+        !isLocalDev && window.DD_RUM && window.DD_RUM.init({ ...datadogConfig, env: 'dev' });
     }
+
+    !isLocalDev && location.host !== urls.prod && window.DD_RUM && window.DD_RUM.startSessionReplayRecording();
     
     document.body.appendChild(script)
     auth = firebase.auth();
@@ -53,16 +71,13 @@ window.onload = async () => {
       if (user) {
         const idToken = await user.getIdToken();
         appState.setState({ idToken });
-        
-        if (user.isAnonymous) {
-          appState.setState({ isAnonymous: true });
-        } else {
-          appState.setState({ isAnonymous: false });
+
+        if (!user.isAnonymous) {
           localforage.clear();
           inactivityTime();
-        }
+        } 
       } else {
-        appState.setState({ idToken: '', isAnonymous: false });
+        appState.setState({ idToken: '' });
       }
     });
 
@@ -319,6 +334,11 @@ const signOut = () => {
     document.title = 'My Connect - Home';
 }
 
+/**
+ * Render navbar based on user login status
+ * @param {string} route The route to be rendered
+ * @param {*} data User data
+ */
 const toggleNavBar = (route, data) => {
     auth.onAuthStateChanged(async user => {
         if (user && !user.isAnonymous){
@@ -339,15 +359,6 @@ const toggleNavBar = (route, data) => {
             document.getElementById('joinNow') ? document.getElementById('joinNow').innerHTML = joinNowBtn(true) : ``;
             document.getElementById('nextStepWarning') ? document.getElementById('nextStepWarning').style.display="none": '';
             toggleCurrentPageNoUser(route);
-            const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
-            if (route == "#") {
-                if (window.location.search === '') {
-                    signInSignUpEntryRender({ui});
-                } else {
-                    // handle magic link redirect
-                    firebaseSignInRender({ui, account:{type:'magicLink', value:''}});
-                }
-            }
             hideAnimation();
         }
     });
