@@ -1142,18 +1142,18 @@ export const validEmailFormat =
 export const validPhoneNumberFormat =
   /^[\+]?(?:1|1-|1\.|1\s+)?[(]?[0-9]{3}[)]?(?:-|\s+|\.)?[0-9]{3}(?:-|\s+|\.)?[0-9]{4}$/;
 
-  /**
-   * Recover special characters in search string of URL
-   * @param {string} urlSearchStr 
-   * @returns {string}
-   */
-  export function getCleanSearchString(urlSearchStr) {
-    return urlSearchStr
-    .replaceAll('%25', '%')
-    .replaceAll('%26', '&')
-    .replaceAll('&amp;', '&')
-    .replaceAll('%3D', '=');
-  }
+/**
+ * Recover special characters in search string of URL
+ * @param {string} urlSearchStr 
+ * @returns {string}
+ */
+export function getCleanSearchString(urlSearchStr) {
+return urlSearchStr
+.replaceAll('%25', '%')
+.replaceAll('%26', '&')
+.replaceAll('&amp;', '&')
+.replaceAll('%3D', '=');
+}
 
 /**
  * Check if current device is a mobile device (smartphone, tablet, or others with touch screen)
@@ -1184,3 +1184,19 @@ function checkDeviceMobile() {
 
 export const isMobile = checkDeviceMobile();
 
+/**
+ * Wait for an element to be loaded, with a default timeout.
+ * @param {string} selector
+ * @param {number} timeout
+ * @returns {Promise<HTMLElement | null>} 
+ */
+export async function elementIsLoaded(selector, timeout = 1000) {
+  const startTime = Date.now();
+
+  while (document.querySelector(selector) === null) {
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+    if (Date.now() - startTime > timeout) break;
+  }
+
+  return document.querySelector(selector);
+}
