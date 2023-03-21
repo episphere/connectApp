@@ -1200,3 +1200,28 @@ export async function elementIsLoaded(selector, timeout = 1000) {
 
   return document.querySelector(selector);
 }
+
+let urlToNewTabMap = {};
+
+/**
+ * Open file in new tab
+ * @param {string} url 
+ */
+export function openNewTab(url) {
+  if (!urlToNewTabMap[url] || urlToNewTabMap[url].closed) {
+    urlToNewTabMap[url] = window.open(url);
+  } else {
+    urlToNewTabMap[url].focus();
+  }
+} 
+
+/**
+ * Render PDF bytes to a PDF file in new tab
+ * @param {Uint8Array} pdfBytes
+ */
+export function renderPdfBytesInNewTab(pdfBytes) {
+  const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+  const pdfUrl = URL.createObjectURL(blob);
+
+  openNewTab(pdfUrl);
+}

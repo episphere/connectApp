@@ -1,4 +1,4 @@
-import { getMyData, hideAnimation, showAnimation, siteAcronyms, dateTime, storeResponse } from "../shared.js";
+import { getMyData, hideAnimation, showAnimation, siteAcronyms, dateTime, storeResponse, renderPdfBytesInNewTab, isMobile } from "../shared.js";
 import { initializeCanvas } from './consent.js'
 const { PDFDocument, StandardFonts } = PDFLib;
 
@@ -519,6 +519,11 @@ const renderDownload = async (participant, timeStamp, fileLocation, nameCoordina
     
     // Serialize the PDFDocument to bytes (a Uint8Array)
     const pdfBytes = await pdfDoc.save();
+
+    if (isMobile) {
+      renderPdfBytesInNewTab(pdfBytes);
+      return;
+    }
 
     // Trigger the browser to download the PDF document
     download(pdfBytes, fileLocationDownload, "application/pdf");

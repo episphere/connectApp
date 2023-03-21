@@ -1,4 +1,4 @@
-import { todaysDate, storeResponse, dataSavingBtn, dateTime, errorMessageConsent, siteAcronyms, getMyData, hideAnimation, showAnimation, isMobile } from "../shared.js";
+import { todaysDate, storeResponse, dataSavingBtn, dateTime, errorMessageConsent, siteAcronyms, getMyData, hideAnimation, showAnimation, isMobile, openNewTab } from "../shared.js";
 import { renderUserProfile } from "../components/form.js";
 import { removeAllErrors, addEventsConsentSign } from "../event.js";
 import { renderDownloadConsentCopy, renderDownloadHIPAA } from "./agreements.js";
@@ -786,16 +786,6 @@ const consentConsentPage = async () => {
         consentIndigenousPage();
     })
 
-    let urlToNewTabMap = {};
-
-    function openNewTab(url) {
-      if (!urlToNewTabMap[url] || urlToNewTabMap[url].closed) {
-        urlToNewTabMap[url] = window.open(url);
-      } else {
-        urlToNewTabMap[url].focus();
-      }
-    } 
-
     if (isMobile) {
         const anchorArray = document.querySelectorAll('a[data-file="consent-form"]');
         for (const anchor of anchorArray) {
@@ -854,11 +844,13 @@ export const consentFinishedPage = async () => {
     document.getElementById('toLeaving').addEventListener('click', () => {
         consentToProfilePage();
     })
-    document.getElementById('consentDownload').addEventListener('click', () => {
+    document.getElementById('consentDownload').addEventListener('click', (e) => {
         renderDownloadConsentCopy(data);
+        isMobile && e.preventDefault();
     });
-    document.getElementById('healthRecordsDownload').addEventListener('click', () => {
+    document.getElementById('healthRecordsDownload').addEventListener('click', (e) => {
         renderDownloadHIPAA(data);
+        isMobile && e.preventDefault();
     });
     
 
