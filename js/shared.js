@@ -1156,35 +1156,6 @@ return urlSearchStr
 }
 
 /**
- * Check if current device is a mobile device (smartphone, tablet, or others with touch screen)
- * @returns {boolean}
- */
-function checkDeviceMobile() {
-  let isMobile = false;
-
-  if ('maxTouchPoints' in navigator) {
-    isMobile = navigator.maxTouchPoints > 0;
-  } else if ('msMaxTouchPoints' in navigator) {
-    isMobile = navigator.msMaxTouchPoints > 0;
-  } else {
-    const mediaQuery = matchMedia?.('(pointer:coarse)');
-    if (mediaQuery?.media === '(pointer:coarse)') {
-      isMobile = !!mediaQuery.matches;
-    } else if ('orientation' in window) {
-      isMobile = true;
-    } else {
-      isMobile = /Mobi|Android|Tablet|iPad|iPhone|iPod|webOS/i.test(
-        navigator.userAgent
-      );
-    }
-  }
-
-  return isMobile;
-}
-
-export const isMobile = checkDeviceMobile();
-
-/**
  * Wait for an element to be loaded, with a default timeout.
  * @param {string} selector
  * @param {number} timeout
@@ -1200,6 +1171,35 @@ export async function elementIsLoaded(selector, timeout = 1000) {
 
   return document.querySelector(selector);
 }
+
+/**
+ * Check if current device is a mobile device (smartphone, tablet, or others with touch screen)
+ * @returns {boolean}
+ */
+function checkDeviceMobile() {
+    let isMobile = false;
+  
+    if ('maxTouchPoints' in navigator) {
+      isMobile = navigator.maxTouchPoints > 0;
+    } else if ('msMaxTouchPoints' in navigator) {
+      isMobile = navigator.msMaxTouchPoints > 0;
+    } else {
+      const mediaQuery = matchMedia?.('(pointer:coarse)');
+      if (mediaQuery?.media === '(pointer:coarse)') {
+        isMobile = !!mediaQuery.matches;
+      } else if ('orientation' in window) {
+        isMobile = true;
+      } else {
+        isMobile = /Mobi|Android|Tablet|iPad|iPhone|iPod|webOS/i.test(
+          navigator.userAgent
+        );
+      }
+    }
+  
+    return isMobile;
+  }
+  
+export const isMobile = checkDeviceMobile();
 
 let urlToNewTabMap = {};
 
