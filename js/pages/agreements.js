@@ -1,4 +1,4 @@
-import { getMyData, hideAnimation, showAnimation, siteAcronyms, dateTime, storeResponse, renderPdfBytesInNewTab, isMobile } from "../shared.js";
+import { getMyData, hideAnimation, showAnimation, siteAcronyms, dateTime, storeResponse,isMobile, openNewTab} from "../shared.js";
 import { initializeCanvas } from './consent.js'
 const { PDFDocument, StandardFonts } = PDFLib;
 
@@ -299,63 +299,47 @@ const addEventAgreementOptions = (myData) => {
 
 
 export const renderDownloadConsentCopy = async (data) => {
-
-    let pdfLocation = './forms/consent/' + data[454205108] + '.pdf'
-    //let pdfLocation = './forms/consent/' + 'UChicago_Consent_V1.0' + '.pdf'
-    let pdfName = data[454205108] + '.pdf';
-    const participantSignature = data[471168198] + ' ' + data[736251808]
-    let seekLastPage;
-    //const pdfLocation = './consent_draft.pdf';
-    const existingPdfBytes = await fetch(pdfLocation).then(res => res.arrayBuffer());
-    const pdfConsentDoc = await PDFDocument.load(existingPdfBytes);
-    const helveticaFont = await pdfConsentDoc.embedFont(StandardFonts.TimesRomanItalic);
-    const pages = pdfConsentDoc.getPages();
-    for (let i = 0; i <= pages.length; i++) {seekLastPage = i}
-    const editPage = pages[seekLastPage-1];
+    const pdfLocation = './forms/consent/' + data[454205108] + '.pdf';
+    const participantSignature = data[471168198] + ' ' + data[736251808];
     const currentTime = new Date(data[454445267]).toLocaleDateString();
-    let siteDict = siteAcronyms();
-    let participantSite = siteDict[data['827220437']];
-    //let participantSite = "UChicago"
-    let coords = signaturePosConsentJSON[participantSite]
-    //renderDownload(participantSignature, currentTime, pdfLocation, {x:110,y:400},{x1:110,y1:330});
-    if(!coords){
-        coords = {nameX:110,nameY:400,signatureX:110,signatureY:330,dateX:110,dateY:370}
+    const siteDict = siteAcronyms();
+    const participantSite = siteDict[data['827220437']]; // eg. 'UChicago'
+    let coords = signaturePosConsentJSON[participantSite];
+
+    if (!coords) {
+      coords = {
+        nameX: 110,
+        nameY: 400,
+        signatureX: 110,
+        signatureY: 330,
+        dateX: 110,
+        dateY: 370,
+      };
     }
+
     renderDownload(participantSignature, currentTime, pdfLocation, {x:coords.nameX,y:coords.nameY},{x1:coords.signatureX,y1:coords.signatureY},{x:coords.dateX,y:coords.dateY},24,24,20);
 
 }
 
 export const renderDownloadHIPAA = async (data) => {
-    //let pdfLocation = './forms/HIPAA/UChicago_HIPAA_V1.0.pdf'
-    let pdfLocation = './forms/HIPAA/' + data[412000022] + '.pdf'
-    let siteDict = siteAcronyms();
-    let participantSite = siteDict[data['827220437']];
-    //let participantSite = "UChicago"
-
+    const pdfLocation = './forms/HIPAA/' + data[412000022] + '.pdf';
+    const participantSignature = data[471168198] + ' ' + data[736251808];
+    const currentTime = new Date(data[262613359]).toLocaleDateString();
+    const siteDict = siteAcronyms();
+    const participantSite = siteDict[data['827220437']];
     let coords = signaturePosJSON[participantSite];
     
-    if(!coords){
-        coords = {
-            nameX:200,
-            nameY:275,
-            signatureX:200,
-            signatureY:225,
-            dateX:200,
-            dateY:325
-        }
+    if (!coords) {
+      coords = {
+        nameX: 200,
+        nameY: 275,
+        signatureX: 200,
+        signatureY: 225,
+        dateX: 200,
+        dateY: 325,
+      };
     }
 
-    let pdfName = data[412000022] + '.pdf';
-    const participantSignature = data[471168198] + ' ' + data[736251808]
-    let seekLastPage;
-    //const pdfLocation = './consent_draft.pdf';
-    const existingPdfBytes = await fetch(pdfLocation).then(res => res.arrayBuffer());
-    const pdfConsentDoc = await PDFDocument.load(existingPdfBytes);
-    const helveticaFont = await pdfConsentDoc.embedFont(StandardFonts.TimesRomanItalic);
-    const pages = pdfConsentDoc.getPages();
-    for (let i = 0; i <= pages.length; i++) {seekLastPage = i}
-    const editPage = pages[seekLastPage-1];
-    const currentTime = new Date(data[262613359]).toLocaleDateString();
     renderDownload(participantSignature, currentTime, pdfLocation, {x:coords.nameX,y:coords.nameY},{x1:coords.signatureX,y1:coords.signatureY},{x:coords.dateX,y:coords.dateY},24,24,20);
     
 }
@@ -363,30 +347,18 @@ export const renderDownloadHIPAA = async (data) => {
 
 const renderDownloadRevoke = async (data) => {
     const participantSignature = data[471168198] + ' ' + data[736251808]
-    let seekLastPage;
     const pdfLocation = './forms/HIPAA_Revocation_V1.0.pdf';
-    const existingPdfBytes = await fetch(pdfLocation).then(res => res.arrayBuffer());
-    const pdfConsentDoc = await PDFDocument.load(existingPdfBytes);
-    const helveticaFont = await pdfConsentDoc.embedFont(StandardFonts.TimesRomanItalic);
-    const pages = pdfConsentDoc.getPages();
-    for (let i = 0; i <= pages.length; i++) {seekLastPage = i}
-    const editPage = pages[seekLastPage-1];
     const currentTime = new Date(data[613641698]).toLocaleDateString();
+
     renderDownload(participantSignature, currentTime, pdfLocation, {x:150,y:420},{x1:150,y1:400},{x:155,y:380},20,15,20);
 }
 
 
 const renderDownloadDestroy = async (data) => {
     const participantSignature = data[471168198] + ' ' + data[736251808]
-    let seekLastPage;
     const pdfLocation = './forms/Data_Destruction_V1.0.pdf';
-    const existingPdfBytes = await fetch(pdfLocation).then(res => res.arrayBuffer());
-    const pdfConsentDoc = await PDFDocument.load(existingPdfBytes);
-    const helveticaFont = await pdfConsentDoc.embedFont(StandardFonts.TimesRomanItalic);
-    const pages = pdfConsentDoc.getPages();
-    for (let i = 0; i <= pages.length; i++) {seekLastPage = i}
-    const editPage = pages[seekLastPage-1];
     const currentTime = new Date(data[119449326]).toLocaleDateString();
+
     renderDownload(participantSignature, currentTime, pdfLocation, {x:150,y:420},{x1:150,y1:400},{x:155,y:380},20,15,20);
 }
 
@@ -520,11 +492,6 @@ const renderDownload = async (participant, timeStamp, fileLocation, nameCoordina
     // Serialize the PDFDocument to bytes (a Uint8Array)
     const pdfBytes = await pdfDoc.save();
 
-    if (isMobile) {
-      renderPdfBytesInNewTab(pdfBytes);
-      return;
-    }
-
     // Trigger the browser to download the PDF document
     download(pdfBytes, fileLocationDownload, "application/pdf");
 }
@@ -582,4 +549,106 @@ const consentSignTemplate = () => {
         </div>
     </form>
     `;
+}
+
+/**
+ * Generates a signed PDF file, and returns the URL of the file
+ * @param {object} data
+ * @param {'consent'| 'HIPAA'} fileType
+ * @returns Promise<string>
+ */
+async function generateSignedPdf(data, fileType) {
+  let sourcePdfLocation;
+  let coords;
+  let timeStamp;
+  const siteDict = siteAcronyms();
+  const participantSite = siteDict[data['827220437']];
+  const participantFullName = data[471168198] + ' ' + data[736251808];
+  const fontSize = {
+    nameSize: 24,
+    timeSize: 24,
+    signatureSize: 20,
+  };
+
+  if (fileType === 'consent') {
+    sourcePdfLocation = './forms/consent/' + data[454205108] + '.pdf';
+    timeStamp = new Date(data[454445267]).toLocaleDateString();
+    coords = signaturePosConsentJSON[participantSite];
+    if (!coords) {
+      coords = {
+        nameX: 110,
+        nameY: 400,
+        signatureX: 110,
+        signatureY: 330,
+        dateX: 110,
+        dateY: 370,
+      };
+    }
+  } else if (fileType === 'HIPAA') {
+    sourcePdfLocation = './forms/HIPAA/' + data[412000022] + '.pdf';
+    timeStamp = new Date(data[262613359]).toLocaleDateString();
+    coords = signaturePosJSON[participantSite];
+    if (!coords) {
+      coords = {
+        nameX: 200,
+        nameY: 275,
+        signatureX: 200,
+        signatureY: 225,
+        dateX: 200,
+        dateY: 325,
+      };
+    }
+  }
+
+  const sourcePdfBytes = await fetch(sourcePdfLocation).then((res) =>
+    res.arrayBuffer()
+  );
+  const pdfDoc = await PDFDocument.load(sourcePdfBytes);
+  const helveticaFont = await pdfDoc.embedFont(StandardFonts.TimesRomanItalic);
+  const pageArray = pdfDoc.getPages();
+  const pageToEdit = pageArray[pageArray.length - 1];
+
+  pageToEdit.drawText(participantFullName, {
+    x: coords.nameX,
+    y: coords.nameY,
+    size: fontSize.nameSize,
+  });
+  pageToEdit.drawText(timeStamp, {
+    x: coords.dateX,
+    y: coords.dateY,
+    size: fontSize.timeSize,
+  });
+  pageToEdit.drawText(participantFullName, {
+    x: coords.signatureX,
+    y: coords.signatureY,
+    size: fontSize.signatureSize,
+    font: helveticaFont,
+  });
+
+  const pdfBytes = await pdfDoc.save();
+  const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+  const pdfUrl = URL.createObjectURL(blob);
+
+  return pdfUrl;
+}
+  
+/**
+ * 
+ * @param {object} data 
+ * @param {MouseEvent} evt mouse click event
+ * @returns 
+ */
+export async function handleSignedPdfDownload(data, evt) {
+  if (!evt.target.href) {
+    evt.preventDefault();
+    evt.target.href = await generateSignedPdf(data, evt.target.dataset.file);
+    evt.target.click();
+    return;
+  }
+
+  if (isMobile && evt.target.href) {
+    evt.preventDefault();
+    openNewTab(evt.target.href);
+    return;
+  }
 }

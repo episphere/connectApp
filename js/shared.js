@@ -1215,13 +1215,4 @@ export function openNewTab(url) {
   }
 } 
 
-/**
- * Render PDF bytes to a PDF file in new tab
- * @param {Uint8Array} pdfBytes
- */
-export function renderPdfBytesInNewTab(pdfBytes) {
-  const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-  const pdfUrl = URL.createObjectURL(blob);
 
-  openNewTab(pdfUrl);
-}
