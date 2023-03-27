@@ -554,10 +554,10 @@ const consentSignTemplate = () => {
 /**
  * Generates a signed PDF file, and returns the URL of the file
  * @param {object} data
- * @param {'consent'| 'HIPAA'} fileType
+ * @param {'signed-consent'| 'signed-HIPAA'} file
  * @returns Promise<string>
  */
-async function generateSignedPdf(data, fileType) {
+async function generateSignedPdf(data, file) {
   let sourcePdfLocation;
   let coords;
   let timeStamp;
@@ -570,7 +570,7 @@ async function generateSignedPdf(data, fileType) {
     signatureSize: 20,
   };
 
-  if (fileType === 'consent') {
+  if (file === 'signed-consent') {
     sourcePdfLocation = './forms/consent/' + data[454205108] + '.pdf';
     timeStamp = new Date(data[454445267]).toLocaleDateString();
     coords = signaturePosConsentJSON[participantSite];
@@ -584,7 +584,7 @@ async function generateSignedPdf(data, fileType) {
         dateY: 370,
       };
     }
-  } else if (fileType === 'HIPAA') {
+  } else if (file === 'signed-HIPAA') {
     sourcePdfLocation = './forms/HIPAA/' + data[412000022] + '.pdf';
     timeStamp = new Date(data[262613359]).toLocaleDateString();
     coords = signaturePosJSON[participantSite];
@@ -638,7 +638,7 @@ async function generateSignedPdf(data, fileType) {
  * @param {MouseEvent} evt mouse click event
  * @returns 
  */
-export async function handleSignedPdfDownload(data, evt) {
+export async function downloadSignedPdf(data, evt) {
   if (!evt.target.href) {
     evt.preventDefault();
     evt.target.href = await generateSignedPdf(data, evt.target.dataset.file);
