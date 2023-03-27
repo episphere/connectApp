@@ -1214,5 +1214,3 @@ export function openNewTab(url) {
     urlToNewTabMap[url].focus();
   }
 } 
-
-
