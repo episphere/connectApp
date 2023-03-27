@@ -1177,27 +1177,27 @@ export async function elementIsLoaded(selector, timeout = 1000) {
  * @returns {boolean}
  */
 function checkDeviceMobile() {
-    let isMobile = false;
-  
-    if ('maxTouchPoints' in navigator) {
-      isMobile = navigator.maxTouchPoints > 0;
-    } else if ('msMaxTouchPoints' in navigator) {
-      isMobile = navigator.msMaxTouchPoints > 0;
+  let isMobile = false;
+
+  if ('maxTouchPoints' in navigator) {
+    isMobile = navigator.maxTouchPoints > 0;
+  } else if ('msMaxTouchPoints' in navigator) {
+    isMobile = navigator.msMaxTouchPoints > 0;
+  } else {
+    const mediaQuery = matchMedia?.('(pointer:coarse)');
+    if (mediaQuery?.media === '(pointer:coarse)') {
+      isMobile = !!mediaQuery.matches;
+    } else if ('orientation' in window) {
+      isMobile = true;
     } else {
-      const mediaQuery = matchMedia?.('(pointer:coarse)');
-      if (mediaQuery?.media === '(pointer:coarse)') {
-        isMobile = !!mediaQuery.matches;
-      } else if ('orientation' in window) {
-        isMobile = true;
-      } else {
-        isMobile = /Mobi|Android|Tablet|iPad|iPhone|iPod|webOS/i.test(
-          navigator.userAgent
-        );
-      }
+      isMobile = /Mobi|Android|Tablet|iPad|iPhone|iPod|webOS/i.test(
+        navigator.userAgent
+      );
     }
-  
-    return isMobile;
   }
+
+  return isMobile;
+}
   
 export const isMobile = checkDeviceMobile();
 

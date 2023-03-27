@@ -1,5 +1,6 @@
-import { getMyData, hideAnimation, showAnimation, siteAcronyms, dateTime, storeResponse,isMobile, openNewTab} from "../shared.js";
+import { getMyData, hideAnimation, showAnimation, siteAcronyms, dateTime, storeResponse, isMobile, openNewTab } from "../shared.js";
 import { initializeCanvas } from './consent.js'
+
 const { PDFDocument, StandardFonts } = PDFLib;
 
 let signaturePosJSON = {
@@ -14,6 +15,7 @@ let signaturePosJSON = {
     "KPNW": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370}
 
 }
+
 let signaturePosConsentJSON = {
     "HP":{nameX:90,nameY:415,signatureX:110,signatureY:340,dateX:90,dateY:380},
     "Sanford":{nameX:120,nameY:410,signatureX:120,signatureY:450,dateX:120,dateY:370},
@@ -26,6 +28,7 @@ let signaturePosConsentJSON = {
     "KPNW": {nameX:110,nameY:390,signatureX:110,signatureY:310,dateX:110,dateY:345}
 
 }
+
 export const renderAgreements = async () => {
     document.title = 'My Connect - Forms';
     showAnimation();
@@ -294,9 +297,6 @@ const addEventAgreementOptions = (myData) => {
         })
     }
 }
-
-
-
 
 export const renderDownloadConsentCopy = async (data) => {
     const pdfLocation = './forms/consent/' + data[454205108] + '.pdf';
@@ -568,35 +568,25 @@ async function generateSignedPdf(data, file) {
   if (file === 'signed-consent') {
     sourcePdfLocation = './forms/consent/' + data[454205108] + '.pdf';
     timeStamp = new Date(data[454445267]).toLocaleDateString();
-    coords = signaturePosConsentJSON[participantSite];
-
-    if (!coords) {
-      coords = {
-        nameX: 110,
-        nameY: 400,
-        signatureX: 110,
-        signatureY: 330,
-        dateX: 110,
-        dateY: 370,
-      };
-    }
-
+    coords = signaturePosConsentJSON[participantSite] ?? {
+      nameX: 110,
+      nameY: 400,
+      signatureX: 110,
+      signatureY: 330,
+      dateX: 110,
+      dateY: 370,
+    };
   } else if (file === 'signed-HIPAA') {
     sourcePdfLocation = './forms/HIPAA/' + data[412000022] + '.pdf';
     timeStamp = new Date(data[262613359]).toLocaleDateString();
-    coords = signaturePosJSON[participantSite];
-
-    if (!coords) {
-      coords = {
-        nameX: 200,
-        nameY: 275,
-        signatureX: 200,
-        signatureY: 225,
-        dateX: 200,
-        dateY: 325,
-      };
-    }
-
+    coords = signaturePosJSON[participantSite] ?? {
+      nameX: 200,
+      nameY: 275,
+      signatureX: 200,
+      signatureY: 225,
+      dateX: 200,
+      dateY: 325,
+    };
   }
 
   const sourcePdfBytes = await fetch(sourcePdfLocation).then((res) =>
