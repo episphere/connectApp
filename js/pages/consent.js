@@ -802,21 +802,13 @@ const consentConsentPage = async () => {
     addEventConsentSubmit();
 }
 
-const initializeForm = (formName, containerName) =>{
-    let ob = document.getElementById(containerName);
-    ob.data = formName
-
-}
-
 export const consentFinishedPage = async () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(10);
     const myData = await getMyData();
     let data = myData.data;
-    let siteDict = siteAcronyms();
-    let versionJSON = await fetch('./forms/Consent_versioning.json').then(res => res.json());
-    let participantSite = siteDict[myData.data['827220437']];
+
     template += `
     <div class="row">
         <div class="col-lg-2">
@@ -826,8 +818,8 @@ export const consentFinishedPage = async () => {
                 <h2>You have completed the consent process</h2>
             </div>
             <div style="margin-left:20px">
-                <div class="row"><div style="margin-left:20px"><i class="fas fa-file-download"></i> <a style="margin-left:10px" title="Download consent form" data-toggle="tooltip" id="consentDownload" download="signed_consent_form.pdf" data-file="signed-consent" >Download a copy of your signed consent form&nbsp</a></div></div>
-                <div class="row"><div style="margin-left:20px"><i class="fas fa-file-download"></i> <a style="margin-left:10px" title="Download health records release form" data-toggle="tooltip" id="healthRecordsDownload" download="signed_health_records_release_form.pdf" data-file="signed-HIPAA" >Download a copy of your signed health records release form&nbsp</a></div></div>
+                <div class="row"><div style="margin-left:20px"><i class="fas fa-file-download"></i> <a style="margin-left:10px" title="Download consent form" data-toggle="tooltip" id="consentDownload" download="signed_consent.pdf" data-file="signed-consent" >Download a copy of your signed consent form&nbsp</a></div></div>
+                <div class="row"><div style="margin-left:20px"><i class="fas fa-file-download"></i> <a style="margin-left:10px" title="Download health records release form" data-toggle="tooltip" id="healthRecordsDownload" download="signed_hipaa.pdf" data-file="signed-HIPAA" >Download a copy of your signed health records release form&nbsp</a></div></div>
             </div>
             
             <div>
@@ -845,17 +837,12 @@ export const consentFinishedPage = async () => {
         consentToProfilePage();
     })
 
-    document
-      .getElementById('consentDownload')
-      .addEventListener('click', async (e) => {
+    const anchorIdArray= ['consentDownload', 'healthRecordsDownload'];
+    for (const anchorId of anchorIdArray) {
+      document.getElementById(anchorId).addEventListener('click', async (e) => {
         await downloadSignedPdf(data, e);
       });
-
-    document
-      .getElementById('healthRecordsDownload')
-      .addEventListener('click', async (e) => {
-        await downloadSignedPdf(data, e);
-      });
+    }
 }
 
 export const consentToProfilePage = () => {

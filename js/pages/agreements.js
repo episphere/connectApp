@@ -318,7 +318,6 @@ export const renderDownloadConsentCopy = async (data) => {
     }
 
     renderDownload(participantSignature, currentTime, pdfLocation, {x:coords.nameX,y:coords.nameY},{x1:coords.signatureX,y1:coords.signatureY},{x:coords.dateX,y:coords.dateY},24,24,20);
-
 }
 
 export const renderDownloadHIPAA = async (data) => {
@@ -341,7 +340,6 @@ export const renderDownloadHIPAA = async (data) => {
     }
 
     renderDownload(participantSignature, currentTime, pdfLocation, {x:coords.nameX,y:coords.nameY},{x1:coords.signatureX,y1:coords.signatureY},{x:coords.dateX,y:coords.dateY},24,24,20);
-    
 }
 
 
@@ -460,14 +458,11 @@ const renderDownload = async (participant, timeStamp, fileLocation, nameCoordina
     let fileLocationDownload = fileLocation.slice(2)
     const participantPrintName = participant
     const participantSignature = participant
-    let seekLastPage;
     const pdfLocation = fileLocation;
     const existingPdfBytes = await fetch(pdfLocation).then(res => res.arrayBuffer());
     const pdfDoc = await PDFDocument.load(existingPdfBytes);
     const helveticaFont = await pdfDoc.embedFont(StandardFonts.TimesRomanItalic);
-    const pages = pdfDoc.getPages();
-    for (let i = 0; i <= pages.length; i++) {seekLastPage = i}
-    const editPage = pages[seekLastPage-1];
+    const editPage = pdfDoc.getPages().at(-1);
 
     editPage.drawText(`
     ${participantPrintName}`, {
@@ -574,6 +569,7 @@ async function generateSignedPdf(data, file) {
     sourcePdfLocation = './forms/consent/' + data[454205108] + '.pdf';
     timeStamp = new Date(data[454445267]).toLocaleDateString();
     coords = signaturePosConsentJSON[participantSite];
+
     if (!coords) {
       coords = {
         nameX: 110,
@@ -584,10 +580,12 @@ async function generateSignedPdf(data, file) {
         dateY: 370,
       };
     }
+
   } else if (file === 'signed-HIPAA') {
     sourcePdfLocation = './forms/HIPAA/' + data[412000022] + '.pdf';
     timeStamp = new Date(data[262613359]).toLocaleDateString();
     coords = signaturePosJSON[participantSite];
+
     if (!coords) {
       coords = {
         nameX: 200,
@@ -598,6 +596,7 @@ async function generateSignedPdf(data, file) {
         dateY: 325,
       };
     }
+
   }
 
   const sourcePdfBytes = await fetch(sourcePdfLocation).then((res) =>
@@ -605,8 +604,7 @@ async function generateSignedPdf(data, file) {
   );
   const pdfDoc = await PDFDocument.load(sourcePdfBytes);
   const helveticaFont = await pdfDoc.embedFont(StandardFonts.TimesRomanItalic);
-  const pageArray = pdfDoc.getPages();
-  const pageToEdit = pageArray[pageArray.length - 1];
+  const pageToEdit = pdfDoc.getPages().at(-1);
 
   pageToEdit.drawText(participantFullName, {
     x: coords.nameX,
