@@ -1156,6 +1156,23 @@ return urlSearchStr
 }
 
 /**
+ * Wait for an element to be loaded, with a default timeout.
+ * @param {string} selector
+ * @param {number} timeout
+ * @returns {Promise<HTMLElement | null>} 
+ */
+export async function elementIsLoaded(selector, timeout = 1000) {
+  const startTime = Date.now();
+
+  while (document.querySelector(selector) === null) {
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+    if (Date.now() - startTime > timeout) break;
+  }
+
+  return document.querySelector(selector);
+}
+
+/**
  * Check if current device is a mobile device (smartphone, tablet, or others with touch screen)
  * @returns {boolean}
  */
@@ -1181,22 +1198,19 @@ function checkDeviceMobile() {
 
   return isMobile;
 }
-
+  
 export const isMobile = checkDeviceMobile();
 
+let urlToNewTabMap = {};
+
 /**
- * Wait for an element to be loaded, with a default timeout.
- * @param {string} selector
- * @param {number} timeout
- * @returns {Promise<HTMLElement | null>} 
+ * Open file in new tab
+ * @param {string} url 
  */
-export async function elementIsLoaded(selector, timeout = 1000) {
-  const startTime = Date.now();
-
-  while (document.querySelector(selector) === null) {
-    await new Promise((resolve) => requestAnimationFrame(resolve));
-    if (Date.now() - startTime > timeout) break;
+export function openNewTab(url) {
+  if (!urlToNewTabMap[url] || urlToNewTabMap[url].closed) {
+    urlToNewTabMap[url] = window.open(url);
+  } else {
+    urlToNewTabMap[url].focus();
   }
-
-  return document.querySelector(selector);
-}
+} 
