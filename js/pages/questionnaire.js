@@ -5,6 +5,7 @@ import { rbAndCbClick } from 'https://episphere.github.io/quest/questionnaire.js
 import { SOCcer as SOCcerProd } from "./../../prod/config.js";
 import { SOCcer as SOCcerStage } from "./../../stage/config.js";
 import { SOCcer as SOCcerDev } from "./../../dev/config.js";
+import { Octokit } from "https://cdn.skypack.dev/octokit";
 
 export const questionnaire = async (moduleId) => {
     
@@ -54,17 +55,11 @@ export const questionnaire = async (moduleId) => {
 async function startModule(data, modules, moduleId) {
 
     let inputData = setInputData(data, modules); 
-
-    if (data[fieldMapping[moduleId].statusFlag] === fieldMapping.moduleStatus.notStarted){
-        let formData = {};
-        formData[fieldMapping[moduleId].startTs] = new Date().toISOString();
-        formData[fieldMapping[moduleId].statusFlag] = fieldMapping.moduleStatus.started;
-
-        storeResponse(formData);
-    }
-
+    let moduleConfig = questionnaireModules();
 
     let tJSON = undefined;
+    let url = "https://raw.githubusercontent.com/episphere/questionnaire/";
+    let path = moduleConfig[Object.keys(moduleConfig).find(key => moduleConfig[key].moduleId === moduleId)].path;
 
     if (modules[fieldMapping[moduleId].conceptId]?.['treeJSON']) {
         tJSON = modules[fieldMapping[moduleId].conceptId]['treeJSON'];
@@ -74,8 +69,38 @@ async function startModule(data, modules, moduleId) {
     }
 
 
-    let moduleConfig = questionnaireModules();
-    let url = moduleConfig[Object.keys(moduleConfig).find(key => moduleConfig[key].moduleId === moduleId)].url;
+    if (data[fieldMapping[moduleId].statusFlag] === fieldMapping.moduleStatus.notStarted){
+        let formData = {};
+        formData[fieldMapping[moduleId].startTs] = new Date().toISOString();
+        formData[fieldMapping[moduleId].statusFlag] = fieldMapping.moduleStatus.started;
+
+        storeResponse(formData);
+
+
+        const octokit = new Octokit({ });
+        let response = await octokit.request("GET https://api.github.com/repos/episphere/questionnaire/commits?path=" + path + "&sha=main&per_page=1");
+
+        if(response.status === 200 && response.data) {
+            let sha = response.data[0].sha;
+            
+            //get file contents
+            //parse our version number  
+            //await post sha and version number
+
+            url += sha;
+            if(location.host === urls.prod) url += "/prod";
+            url += "/" + path;
+        }
+        else {
+            //error handle
+        }
+    }
+    else {
+
+
+        //grab sha from module data
+        //set url
+    }
 
     transform.render({
             url: url,
