@@ -3,7 +3,7 @@ import { initializeCanvas } from './consent.js'
 
 const { PDFDocument, StandardFonts } = PDFLib;
 
-let signaturePosJSON = {
+const siteToHipaaSignPosMap = {
     "Sanford":{nameX:100,nameY:410,signatureX:100,signatureY:450,dateX:100,dateY:370},
     "HP":{nameX:100,nameY:415,signatureX:100,signatureY:465,dateX:100,dateY:365},
     "Marshfield":{nameX:100,nameY:425,signatureX:100,signatureY:465,dateX:100,dateY:385},
@@ -12,22 +12,42 @@ let signaturePosJSON = {
     "KPCO": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
     "KPGA": {nameX:110,nameY:345,signatureX:110,signatureY:385,dateX:110,dateY:305},
     "KPHI": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
-    "KPNW": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370}
-
+    "KPNW": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
+    "default": { nameX: 200, nameY: 275, signatureX: 200, signatureY: 225, dateX: 200, dateY: 325}
 }
 
-let signaturePosConsentJSON = {
-    "HP":{nameX:90,nameY:415,signatureX:110,signatureY:340,dateX:90,dateY:380},
+const siteToConsentSignPosMap = {
     "Sanford":{nameX:120,nameY:410,signatureX:120,signatureY:450,dateX:120,dateY:370},
+    "HP":{nameX:90,nameY:415,signatureX:110,signatureY:340,dateX:90,dateY:380},
     "Marshfield":{nameX:110,nameY:415,signatureX:115,signatureY:340,dateX:110,dateY:380},
     "HFHS":{nameX:110,nameY:380,signatureX:115,signatureY:300,dateX:110,dateY:340},
     "UChicago":{nameX:110,nameY:380,signatureX:115,signatureY:300,dateX:110,dateY:340},
     "KPCO": {nameX:110,nameY:395,signatureX:110,signatureY:315,dateX:110,dateY:355},
     "KPGA": {nameX:110,nameY:395,signatureX:110,signatureY:315,dateX:110,dateY:355},
     "KPHI": {nameX:110,nameY:365,signatureX:110,signatureY:285,dateX:110,dateY:325},
-    "KPNW": {nameX:110,nameY:390,signatureX:110,signatureY:310,dateX:110,dateY:345}
-
+    "KPNW": {nameX:110,nameY:390,signatureX:110,signatureY:310,dateX:110,dateY:345},
+    "default": {nameX: 110, nameY: 400, signatureX: 110, signatureY: 330, dateX: 110, dateY: 370}
 }
+
+const defaultNameDateSignatureSize = {
+  nameSize: 24,
+  dateSize: 24,
+  signatureSize: 20,
+};
+
+// Later, we may need to adjust font sizes based on each site
+const siteToSignFontSizeMap = {
+  Sanford: defaultNameDateSignatureSize,
+  HP: defaultNameDateSignatureSize,
+  Marshfield: defaultNameDateSignatureSize,
+  HFHS: defaultNameDateSignatureSize,
+  UChicago: defaultNameDateSignatureSize,
+  KPCO: defaultNameDateSignatureSize,
+  KPGA: defaultNameDateSignatureSize,
+  KPHI: defaultNameDateSignatureSize,
+  KPNW: defaultNameDateSignatureSize,
+  default: defaultNameDateSignatureSize,
+};
 
 export const renderAgreements = async () => {
     document.title = 'My Connect - Forms';
@@ -304,18 +324,7 @@ export const renderDownloadConsentCopy = async (data) => {
     const currentTime = new Date(data[454445267]).toLocaleDateString();
     const siteDict = siteAcronyms();
     const participantSite = siteDict[data['827220437']]; // eg. 'UChicago'
-    let coords = signaturePosConsentJSON[participantSite];
-
-    if (!coords) {
-      coords = {
-        nameX: 110,
-        nameY: 400,
-        signatureX: 110,
-        signatureY: 330,
-        dateX: 110,
-        dateY: 370,
-      };
-    }
+    let coords = siteToConsentSignPosMap[participantSite] ?? siteToConsentSignPosMap['default'];
 
     renderDownload(participantSignature, currentTime, pdfLocation, {x:coords.nameX,y:coords.nameY},{x1:coords.signatureX,y1:coords.signatureY},{x:coords.dateX,y:coords.dateY},24,24,20);
 }
@@ -326,18 +335,7 @@ export const renderDownloadHIPAA = async (data) => {
     const currentTime = new Date(data[262613359]).toLocaleDateString();
     const siteDict = siteAcronyms();
     const participantSite = siteDict[data['827220437']];
-    let coords = signaturePosJSON[participantSite];
-    
-    if (!coords) {
-      coords = {
-        nameX: 200,
-        nameY: 275,
-        signatureX: 200,
-        signatureY: 225,
-        dateX: 200,
-        dateY: 325,
-      };
-    }
+    let coords = siteToHipaaSignPosMap[participantSite] ?? siteToHipaaSignPosMap['default'];
 
     renderDownload(participantSignature, currentTime, pdfLocation, {x:coords.nameX,y:coords.nameY},{x1:coords.signatureX,y1:coords.signatureY},{x:coords.dateX,y:coords.dateY},24,24,20);
 }
@@ -555,38 +553,20 @@ const consentSignTemplate = () => {
 async function generateSignedPdf(data, file) {
   let sourcePdfLocation;
   let coords;
-  let timeStamp;
+  let dateStr;
   const siteDict = siteAcronyms();
   const participantSite = siteDict[data['827220437']];
   const participantFullName = data[471168198] + ' ' + data[736251808];
-  const fontSize = {
-    nameSize: 24,
-    timeSize: 24,
-    signatureSize: 20,
-  };
+  const fontSize = siteToSignFontSizeMap[participantSite] ?? siteToSignFontSizeMap['default'];
 
   if (file === 'signed-consent') {
     sourcePdfLocation = './forms/consent/' + data[454205108] + '.pdf';
-    timeStamp = new Date(data[454445267]).toLocaleDateString();
-    coords = signaturePosConsentJSON[participantSite] ?? {
-      nameX: 110,
-      nameY: 400,
-      signatureX: 110,
-      signatureY: 330,
-      dateX: 110,
-      dateY: 370,
-    };
+    dateStr = new Date(data[454445267]).toLocaleDateString();
+    coords = siteToConsentSignPosMap[participantSite] ?? siteToConsentSignPosMap['default'];
   } else if (file === 'signed-HIPAA') {
     sourcePdfLocation = './forms/HIPAA/' + data[412000022] + '.pdf';
-    timeStamp = new Date(data[262613359]).toLocaleDateString();
-    coords = signaturePosJSON[participantSite] ?? {
-      nameX: 200,
-      nameY: 275,
-      signatureX: 200,
-      signatureY: 225,
-      dateX: 200,
-      dateY: 325,
-    };
+    dateStr = new Date(data[262613359]).toLocaleDateString();
+    coords = siteToHipaaSignPosMap[participantSite] ?? siteToHipaaSignPosMap['default'];
   }
 
   const sourcePdfBytes = await fetch(sourcePdfLocation).then((res) =>
@@ -601,10 +581,10 @@ async function generateSignedPdf(data, file) {
     y: coords.nameY,
     size: fontSize.nameSize,
   });
-  pageToEdit.drawText(timeStamp, {
+  pageToEdit.drawText(dateStr, {
     x: coords.dateX,
     y: coords.dateY,
-    size: fontSize.timeSize,
+    size: fontSize.dateSize,
   });
   pageToEdit.drawText(participantFullName, {
     x: coords.signatureX,
