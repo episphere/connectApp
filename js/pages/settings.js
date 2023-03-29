@@ -256,13 +256,10 @@ const changeEmail = async (newEmail) =>{
 
 
 const displayFirebaseInfo = (userData) => {
-    let signInInfornmationContent = ``
-    // write conditions for email, phone or empty
-    
-    //// if firebase authentication email number exists
-    console.log("userData", userData)
+    let signInInformationContent = ``
+
     if(userData['421823980']) {
-        signInInfornmationContent = 
+        signInInformationContent = 
         `
         <div class="row userProfileLinePaddings">
         <div class="col">
@@ -308,9 +305,9 @@ const displayFirebaseInfo = (userData) => {
 
     <br>`
     }
-    // if firebase authentication phone number exists
+   
     else if (userData['348474836']) {
-        signInInfornmationContent =
+        signInInformationContent =
         ` <div class="row userProfileLinePaddings" >
             <div class="col">
                 <span class="userProfileBodyFonts">
@@ -326,5 +323,5 @@ const displayFirebaseInfo = (userData) => {
     <br>`
     }
     
-    return signInInfornmationContent
+    return signInInformationContent
 }
