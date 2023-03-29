@@ -215,7 +215,7 @@ export const renderAgreements = async () => {
                                                 </span>
                                                 <br>
                                                 <br>
-                                                <button class="btn btn-agreement consentNextButton" style="" id="downloadConsent"><i class="fas fa-file-download" ></i> Download Signed Form</button>
+                                                <a class="btn btn-agreement consentNextButton" id="downloadConsent" download="signed_consent.pdf" data-file="signed-consent"><i class="fas fa-file-download" ></i> Download Signed Form</a>
                                             </div>
                                         </div>
                                     </div>
@@ -242,7 +242,7 @@ export const renderAgreements = async () => {
                                                 </span>
                                                 <br>
                                                 <br>
-                                                <button class="btn btn-agreement consentNextButton" style="" id="downloadHIPAA"><i class="fas fa-file-download" ></i> Download Signed Form</button>
+                                                <a class="btn btn-agreement consentNextButton" id="downloadHIPAA" download="signed_hipaa.pdf" data-file="signed-HIPAA"><i class="fas fa-file-download" ></i> Download Signed Form</a>
                                             </div>
                                         </div>
                                     </div>
@@ -275,15 +275,15 @@ const addEventAgreementOptions = (myData) => {
     
     const downloadConsent = document.getElementById('downloadConsent');
     if(downloadConsent){
-        downloadConsent.addEventListener('click', () => {
-            renderDownloadConsentCopy(myData.data)
+        downloadConsent.addEventListener('click', async (e) => {
+            await downloadSignedPdf(myData.data, e);
         })
     }
 
     const downloadHIPAA = document.getElementById('downloadHIPAA');
     if(downloadHIPAA){
-        downloadHIPAA.addEventListener('click', () => {
-            renderDownloadHIPAA(myData.data)
+        downloadHIPAA.addEventListener('click', async (e) => {
+            await downloadSignedPdf(myData.data, e);
         })
     }
 
@@ -317,29 +317,6 @@ const addEventAgreementOptions = (myData) => {
         })
     }
 }
-
-export const renderDownloadConsentCopy = async (data) => {
-    const pdfLocation = './forms/consent/' + data[454205108] + '.pdf';
-    const participantSignature = data[471168198] + ' ' + data[736251808];
-    const currentTime = new Date(data[454445267]).toLocaleDateString();
-    const siteDict = siteAcronyms();
-    const participantSite = siteDict[data['827220437']]; // eg. 'UChicago'
-    let coords = siteToConsentSignPosMap[participantSite] ?? siteToConsentSignPosMap['default'];
-
-    renderDownload(participantSignature, currentTime, pdfLocation, {x:coords.nameX,y:coords.nameY},{x1:coords.signatureX,y1:coords.signatureY},{x:coords.dateX,y:coords.dateY},24,24,20);
-}
-
-export const renderDownloadHIPAA = async (data) => {
-    const pdfLocation = './forms/HIPAA/' + data[412000022] + '.pdf';
-    const participantSignature = data[471168198] + ' ' + data[736251808];
-    const currentTime = new Date(data[262613359]).toLocaleDateString();
-    const siteDict = siteAcronyms();
-    const participantSite = siteDict[data['827220437']];
-    let coords = siteToHipaaSignPosMap[participantSite] ?? siteToHipaaSignPosMap['default'];
-
-    renderDownload(participantSignature, currentTime, pdfLocation, {x:coords.nameX,y:coords.nameY},{x1:coords.signatureX,y1:coords.signatureY},{x:coords.dateX,y:coords.dateY},24,24,20);
-}
-
 
 const renderDownloadRevoke = async (data) => {
     const participantSignature = data[471168198] + ' ' + data[736251808]
@@ -568,6 +545,16 @@ async function generateSignedPdf(data, file) {
     dateStr = new Date(data[262613359]).toLocaleDateString();
     coords = siteToHipaaSignPosMap[participantSite] ?? siteToHipaaSignPosMap['default'];
   }
+
+  // adjust existing position data becaused of position shift
+  coords = {
+    nameX: coords.nameX + 25,
+    nameY: coords.nameY - 25,
+    signatureX: coords.signatureX + 25,
+    signatureY: coords.signatureY - 25,
+    dateX: coords.dateX + 25,
+    dateY: coords.dateY - 25,
+  };
 
   const sourcePdfBytes = await fetch(sourcePdfLocation).then((res) =>
     res.arrayBuffer()
