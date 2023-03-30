@@ -8,7 +8,9 @@ import { SOCcer as SOCcerDev } from "./../../dev/config.js";
 import { Octokit } from "https://cdn.skypack.dev/octokit";
 
 export const questionnaire = async (moduleId) => {
-    
+ 
+    showAnimation();
+
     let rootElement = document.getElementById('root');
     rootElement.innerHTML = `
     
@@ -34,8 +36,6 @@ export const questionnaire = async (moduleId) => {
     
     `
 
-    showAnimation();
-
     let data;
     let modules;
 
@@ -48,6 +48,8 @@ export const questionnaire = async (moduleId) => {
             modules = responseModules.data;
 
             await startModule(data, modules, moduleId);
+
+            hideAnimation();
         }
     }
 }
@@ -60,6 +62,7 @@ async function startModule(data, modules, moduleId) {
     let tJSON = undefined;
     let url = "https://raw.githubusercontent.com/episphere/questionnaire/";
     let path = moduleConfig[Object.keys(moduleConfig).find(key => moduleConfig[key].moduleId === moduleId)].path;
+    let sha;
 
     if (modules[fieldMapping[moduleId].conceptId]?.['treeJSON']) {
         tJSON = modules[fieldMapping[moduleId].conceptId]['treeJSON'];
@@ -81,25 +84,43 @@ async function startModule(data, modules, moduleId) {
         let response = await octokit.request("GET https://api.github.com/repos/episphere/questionnaire/commits?path=" + path + "&sha=main&per_page=1");
 
         if(response.status === 200 && response.data) {
-            let sha = response.data[0].sha;
+            sha = response.data[0].sha;
+
+            url += sha;
+            if(location.host === urls.prod) url += "/prod";
+            url += "/" + path;
             
-            //get file contents
-            //parse our version number  
-            //await post sha and version number
+            let moduleText = await (await fetch(url)).text();
+            let match = moduleText.match("{\"version\": \"([0-9\.]+)\"}");
+
+            if(match) {
+                let version = match[1];
+
+                //await post sha and version number
+
+                //await storeQuestResponse(data);
+            }
+            else {
+                //error handle
+            }
+        }
+        else {
+            //error handle
+        }
+
+        
+    }
+    else {
+        if (modules[fieldMapping[moduleId].conceptId]['sha']) {
+            sha = modules[fieldMapping[moduleId].conceptId]['sha'];
 
             url += sha;
             if(location.host === urls.prod) url += "/prod";
             url += "/" + path;
         }
         else {
-            //error handle
+            // error handle
         }
-    }
-    else {
-
-
-        //grab sha from module data
-        //set url
     }
 
     transform.render({
@@ -260,8 +281,6 @@ function soccerFunction(){
             }         
         });
     }
-
-    hideAnimation();
 }
 //BUILDING SOCCER
 function buildHTML(soccerResults, question, responseElement) {
