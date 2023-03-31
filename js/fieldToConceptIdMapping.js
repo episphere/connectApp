@@ -8,7 +8,6 @@ export default
     "birthDay":795827569,
     "birthYear":544150384,
     "consentDate":454445267,
-    "status":"NEED TO BE DEFINED",
     "suffix":506826178,
     "homePhone":438643922,
     "prefEmail":869588347,
