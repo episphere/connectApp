@@ -57,7 +57,8 @@ export default
         "startTs":          "205553981", 
         "completeTs":       "517311251",  
         "statusFlag":       "949302066", 
-        "standaloneSurvey": false
+        "standaloneSurvey": false,
+        "version":          ""
     },
 
     "Module2_OLD": {
@@ -65,7 +66,7 @@ export default
         "startTs":          "541836531", 
         "completeTs":       "832139544",  
         "statusFlag":       "536735468", 
-        "standaloneSurvey": false
+        "standaloneSurvey": false,
     },
 
     "Module2": {
@@ -73,7 +74,8 @@ export default
         "startTs":          "541836531", 
         "completeTs":       "832139544",  
         "statusFlag":       "536735468", 
-        "standaloneSurvey": false
+        "standaloneSurvey": false,
+        "version":          ""
     },
 
     "Module3": {
@@ -81,7 +83,8 @@ export default
         "startTs":          "386488297", 
         "completeTs":       "770257102",  
         "statusFlag":       "976570371", 
-        "standaloneSurvey": false
+        "standaloneSurvey": false,
+        "version":          ""
     },
 
     "Module4": {
@@ -89,7 +92,8 @@ export default
         "startTs":          "452942800", 
         "completeTs":       "264644252",  
         "statusFlag":       "663265240", 
-        "standaloneSurvey": false
+        "standaloneSurvey": false,
+        "version":          ""
     },
 
     "ModuleSsn": {
@@ -97,7 +101,8 @@ export default
         "startTs":          "943232079", 
         "completeTs":       "315032037",  
         "statusFlag":       "126331570", 
-        "standaloneSurvey": true
+        "standaloneSurvey": true,
+        "version":          ""
     },
 
     "Biospecimen": {
@@ -105,7 +110,8 @@ export default
         "startTs":          "822499427", 
         "completeTs":       "222161762",  
         "statusFlag":       "265193023", 
-        "standaloneSurvey": true
+        "standaloneSurvey": true,
+        "version":          ""
     },
 
     "MenstrualCycle": {
@@ -113,7 +119,8 @@ export default
         "startTs":          "844088537", 
         "completeTs":       "217640691",  
         "statusFlag":       "459098666", 
-        "standaloneSurvey": true
+        "standaloneSurvey": true,
+        "version":          ""
     },
 
     "ClinicalBiospecimen": {
@@ -121,7 +128,8 @@ export default
         "startTs":          "534669573", 
         "completeTs":       "764863765", 
         "statusFlag":       "253883960", 
-        "standaloneSurvey": true 
+        "standaloneSurvey": true,
+        "version":          ""
     }
 }
 

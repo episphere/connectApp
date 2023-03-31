@@ -11,30 +11,9 @@ export const questionnaire = async (moduleId) => {
  
     showAnimation();
 
-    let rootElement = document.getElementById('root');
-    rootElement.innerHTML = `
-    
-    <div class="row" style="margin-top:50px">
-        <div class = "col-md-1">
-        </div>
-        <div class = "col-md-10">
-            <div class="progress">
-                <div id="questProgBar" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-        </div>
-        <div class = "col-md-1">
-        </div>
-    </div>
-    <div class="row">
-        <div class = "col-md-1">
-        </div>
-        <div class = "col-md-10" id="questionnaireRoot">
-        </div>
-        <div class = "col-md-1">
-        </div>
-    </div>
-    
-    `
+    const questDiv = "questionnaireRoot";
+
+    displayQuest(questDiv);
 
     let data;
     let modules;
@@ -47,14 +26,12 @@ export const questionnaire = async (moduleId) => {
         if(responseModules.code === 200) {
             modules = responseModules.data;
 
-            await startModule(data, modules, moduleId);
-
-            hideAnimation();
+            await startModule(data, modules, moduleId, questDiv);
         }
     }
 }
 
-async function startModule(data, modules, moduleId) {
+async function startModule(data, modules, moduleId, questDiv) {
 
     let inputData = setInputData(data, modules); 
     let moduleConfig = questionnaireModules();
@@ -95,17 +72,20 @@ async function startModule(data, modules, moduleId) {
 
             if(match) {
                 let version = match[1];
+                let questData = {};
 
-                //await post sha and version number
+                questData[fieldMapping[moduleId].conceptId + ".sha"] = sha;
+                questData[fieldMapping[moduleId].conceptId + "." + fieldMapping[moduleId].version] = version;
 
-                //await storeQuestResponse(data);
+                await storeResponseQuest(questData)
+
             }
             else {
-                //error handle
+                displayError("No version number found in module data");
             }
         }
         else {
-            //error handle
+            displayError("Error loading module data");
         }
 
         
@@ -119,80 +99,83 @@ async function startModule(data, modules, moduleId) {
             url += "/" + path;
         }
         else {
-            // error handle
+            displayError("No SHA key found in module data");
         }
     }
 
-    transform.render({
-            url: url,
-            activate: true,
-            store: storeResponseQuest,
-            retrieve: function(){return getMySurveys([fieldMapping[moduleId].conceptId])},
-            soccer: soccerFunction,
-            updateTree: storeResponseTree,
-            treeJSON: tJSON,
-        }, 'questionnaireRoot', inputData)
-        .then(() => {
-            //Grid fix first
-            let grids = document.getElementsByClassName('d-lg-block');
-            let max = grids.length;
-            for(let i = 0; i < max; i++){
-                let curr = grids[0]
-                curr.classList.add('d-xxl-block')
-                curr.classList.remove('d-lg-block')
-            }
-            let ungrid = document.getElementsByClassName('d-lg-none');
-            max = ungrid.length
-            for(let i = 0; i < max; i++){
-                ungrid[0].classList.add('d-xxl-none')
-                ungrid[0].classList.remove('d-lg-none')
+    const questParameters = {
+        url: url,
+        activate: true,
+        store: storeResponseQuest,
+        retrieve: function(){return getMySurveys([fieldMapping[moduleId].conceptId])},
+        soccer: soccerFunction,
+        updateTree: storeResponseTree,
+        treeJSON: tJSON
+    }
 
-            }
+    transform.render(questParameters, questDiv, inputData).then(() => {
+        
+        //Grid fix first
+        let grids = document.getElementsByClassName('d-lg-block');
+        let max = grids.length;
+        for(let i = 0; i < max; i++){
+            let curr = grids[0]
+            curr.classList.add('d-xxl-block')
+            curr.classList.remove('d-lg-block')
+        }
+        let ungrid = document.getElementsByClassName('d-lg-none');
+        max = ungrid.length
+        for(let i = 0; i < max; i++){
+            ungrid[0].classList.add('d-xxl-none')
+            ungrid[0].classList.remove('d-lg-none')
 
-            //Add progress bar
-            let formsFound = document.getElementsByTagName('form')
-            let totalForms = formsFound.length;
-            let currFound = 0
-            for(let i = 0; i < formsFound.length; i++){
-                let currForm = formsFound[i]
-                if(currForm.classList.contains('active')){
-                    currFound = i;
-                    i = formsFound.length;
-                }
-            }
-            let pBar = document.getElementById('questProgBar')
-            pBar.style.width = (parseInt(currFound/(totalForms-1) * 100)).toString() + '%'
+        }
 
-            let observer = new MutationObserver( mutations =>{
-                let forms = document.getElementsByTagName('form')
-                let numForms = forms.length;
-                
-                mutations.forEach(function(mutation) {
-                    if(mutation.attributeName == "class"){
-                        if(mutation.target.classList.contains('active')){
-                            let found = 0;
-                            for(let i = 0; i < forms.length; i++){
-                                if(forms[i].id == mutation.target.id){
-                                    found = i
-                                }
+        //Add progress bar
+        let formsFound = document.getElementsByTagName('form')
+        let totalForms = formsFound.length;
+        let currFound = 0
+        for(let i = 0; i < formsFound.length; i++){
+            let currForm = formsFound[i]
+            if(currForm.classList.contains('active')){
+                currFound = i;
+                i = formsFound.length;
+            }
+        }
+        let pBar = document.getElementById('questProgBar')
+        pBar.style.width = (parseInt(currFound/(totalForms-1) * 100)).toString() + '%'
+
+        let observer = new MutationObserver( mutations =>{
+            let forms = document.getElementsByTagName('form')
+            let numForms = forms.length;
+            
+            mutations.forEach(function(mutation) {
+                if(mutation.attributeName == "class"){
+                    if(mutation.target.classList.contains('active')){
+                        let found = 0;
+                        for(let i = 0; i < forms.length; i++){
+                            if(forms[i].id == mutation.target.id){
+                                found = i
                             }
-                            let progBar = document.getElementById('questProgBar')
-                            progBar.style.width = (parseInt(found/(numForms-1) * 100)).toString() + '%'
                         }
-                        
+                        let progBar = document.getElementById('questProgBar')
+                        progBar.style.width = (parseInt(found/(numForms-1) * 100)).toString() + '%'
                     }
-                });
-                
+                    
+                }
             });
-            let elemId = document.getElementById('questionnaireRoot');
-            console.log(elemId)
-            observer.observe(elemId, {
-                childList: true, // observe direct children
-                subtree: true, // lower descendants too
-                //characterDataOldValue: true, // pass old data to callback
-                attributes:true,
-                });
-        })
+            
+        });
+        let elemId = document.getElementById('questionnaireRoot');
+        console.log(elemId)
+        observer.observe(elemId, {
+            childList: true, // observe direct children
+            subtree: true, // lower descendants too
+            //characterDataOldValue: true, // pass old data to callback
+            attributes:true,
+            });
+    })
+    .then(hideAnimation());
 }
 
 function soccerFunction(){
@@ -391,4 +374,52 @@ const setInputData = (data, modules) => {
     }
 
     return inputData;
+}
+
+const displayQuest = (id) => {
+    
+    let rootElement = document.getElementById('root');
+    rootElement.innerHTML = `
+    
+        <div class="row" style="margin-top:50px">
+            <div class = "col-md-1">
+            </div>
+            <div class = "col-md-10">
+                <div class="progress">
+                    <div id="questProgBar" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+            <div class = "col-md-1">
+            </div>
+        </div>
+        <div class="row">
+            <div class = "col-md-1">
+            </div>
+            <div class = "col-md-10" id="${id}">
+            </div>
+            <div class = "col-md-1">
+            </div>
+        </div>
+    
+    `;
+}
+
+const displayError = (message) => {
+    
+    let rootElement = document.getElementById('root');
+    rootElement.innerHTML = `
+
+        <div class="row">
+            <div class = "col-md-1">
+            </div>
+            <div class = "col-md-10">
+                ${message}
+            </div>
+            <div class = "col-md-1">
+            </div>
+        </div>
+    
+    `;
+
+    hideAnimation();
 }
