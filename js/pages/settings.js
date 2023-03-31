@@ -183,55 +183,10 @@ export const renderSettingsPage = async () => {
                                    Sign In Information
                                 </span>
                             </div>
-                        </div>
-                        ${userData['421823980'] ? `
-
-                        <div class="row userProfileLinePaddings" >
-                        <div class="col">
-                            <span class="userProfileBodyFonts">
-                                Email Address
-                                <br>
-                                <b>
-                                   <div id="profileEmailAddress">${userData['421823980']}</div>
-                                </b>
-                                </br>
-                            </span>
-                        </div>
-                        <div class="col">
-                            <button id="changeEmail" class="btn btn-primary save-data consentNextButton" style="float:right;">Change Login Email</button>
-                        </div>
-                        
-                    </div>
-                    <div class="row userProfileLinePaddings" id="changEmailGroup" style="display:none;">
-                        <div class="col">
-                            <input id="newEmailField" placeholder="Enter new Email address"/>
-                            <br>
-                            <br>
-                            <input id="newEmailFieldCheck" placeholder="Re-enter new Email address"/>
-                            <br>
-                            <br>
-                            <button id="changeEmailSubmit" class="btn btn-primary save-data consentNextButton">Change Login Email</button>
-                        </div>
-                    </div>
-                    <div class="row userProfileLinePaddings" id="emailSuccess" style="display:none;">
-                        <div class="col">
-                            <span class="userProfileBodyFonts">
-                                Email Change Success!
-                            </span>
-                        </div>
-                    </div>
-                    <div class="row userProfileLinePaddings" id="emailFail" style="display:none;">
-                        <div class="col">
-                            <span id="emailError" class="userProfileBodyFonts" style="color:red;">
-                                Email Change Failed!
-                            </span>
-                        </div>
+                         </div>
+                         ${displayFirebaseInfo(userData)}
                     </div>
 
-                    <br>
-
-                        ` : ''}
-                    </div>
                 </div>
                 <div class="col-lg-3">
                 </div>
@@ -270,6 +225,7 @@ export const renderSettingsPage = async () => {
     }
 }
 
+
 const changeEmail = async (newEmail) =>{
     var user = firebase.auth().currentUser;
     document.getElementById('emailFail').style.display = 'none';
@@ -296,4 +252,76 @@ const changeEmail = async (newEmail) =>{
 
     });
 
+}
+
+
+const displayFirebaseInfo = (userData) => {
+    let signInInformationContent = ``
+
+    if(userData['421823980']) {
+        signInInformationContent = 
+        `
+        <div class="row userProfileLinePaddings">
+        <div class="col">
+            <span class="userProfileBodyFonts">
+                Email Address
+                <br>
+                <b>
+                    <div id="profileEmailAddress">${userData['421823980']}</div>
+                </b>
+                </br>
+            </span>
+        </div>
+        <div class="col">
+            <button id="changeEmail" class="btn btn-primary save-data consentNextButton" style="float:right;">Change Login Email</button>
+        </div>
+        
+    </div>
+    <div class="row userProfileLinePaddings" id="changEmailGroup" style="display:none;">
+        <div class="col">
+            <input id="newEmailField" placeholder="Enter new Email address"/>
+            <br>
+            <br>
+            <input id="newEmailFieldCheck" placeholder="Re-enter new Email address"/>
+            <br>
+            <br>
+            <button id="changeEmailSubmit" class="btn btn-primary save-data consentNextButton">Change Login Email</button>
+        </div>
+    </div>
+    <div class="row userProfileLinePaddings" id="emailSuccess" style="display:none;">
+        <div class="col">
+            <span class="userProfileBodyFonts">
+                Email Change Success!
+            </span>
+        </div>
+    </div>
+    <div class="row userProfileLinePaddings" id="emailFail" style="display:none;">
+        <div class="col">
+            <span id="emailError" class="userProfileBodyFonts" style="color:red;">
+                Email Change Failed!
+            </span>
+        </div>
+    </div>
+
+    <br>`
+    }
+   
+    else if (userData['348474836']) {
+        signInInformationContent =
+        ` <div class="row userProfileLinePaddings" >
+            <div class="col">
+                <span class="userProfileBodyFonts">
+                    Phone Number
+                    <br>
+                    <b>
+                        <div id="profilePhoneNumber">${userData['348474836']}</div>
+                    </b>
+                    </br>
+                </span>
+            </div>
+        </div>
+    <br>`
+    }
+    
+    return signInInformationContent
 }
