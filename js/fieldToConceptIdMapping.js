@@ -58,7 +58,7 @@ export default
         "completeTs":       "517311251",  
         "statusFlag":       "949302066", 
         "standaloneSurvey": false,
-        "version":          ""
+        "version":          "794613585"
     },
 
     "Module2_OLD": {
@@ -75,7 +75,7 @@ export default
         "completeTs":       "832139544",  
         "statusFlag":       "536735468", 
         "standaloneSurvey": false,
-        "version":          ""
+        "version":          "932127832"
     },
 
     "Module3": {
@@ -84,7 +84,7 @@ export default
         "completeTs":       "770257102",  
         "statusFlag":       "976570371", 
         "standaloneSurvey": false,
-        "version":          ""
+        "version":          "951528844"
     },
 
     "Module4": {
@@ -93,7 +93,7 @@ export default
         "completeTs":       "264644252",  
         "statusFlag":       "663265240", 
         "standaloneSurvey": false,
-        "version":          ""
+        "version":          "180097038"
     },
 
     "ModuleSsn": {
@@ -102,7 +102,7 @@ export default
         "completeTs":       "315032037",  
         "statusFlag":       "126331570", 
         "standaloneSurvey": true,
-        "version":          ""
+        "version":          "628939958"
     },
 
     "Biospecimen": {
@@ -111,7 +111,7 @@ export default
         "completeTs":       "222161762",  
         "statusFlag":       "265193023", 
         "standaloneSurvey": true,
-        "version":          ""
+        "version":          "227848247"
     },
 
     "MenstrualCycle": {
@@ -120,7 +120,7 @@ export default
         "completeTs":       "217640691",  
         "statusFlag":       "459098666", 
         "standaloneSurvey": true,
-        "version":          ""
+        "version":          "901199566"
     },
 
     "ClinicalBiospecimen": {
@@ -129,7 +129,7 @@ export default
         "completeTs":       "764863765", 
         "statusFlag":       "253883960", 
         "standaloneSurvey": true,
-        "version":          ""
+        "version":          "220355297"
     }
 }
 
