@@ -65,7 +65,7 @@ export default
         "startTs":          "541836531", 
         "completeTs":       "832139544",  
         "statusFlag":       "536735468", 
-        "standaloneSurvey": false,
+        "standaloneSurvey": false
     },
 
     "Module2": {
