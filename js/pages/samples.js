@@ -377,8 +377,8 @@ const henry_ford = {
         ],
         [
             'Henry Ford Medical Center - Livonia',
-            '29200 Schoolcraft Road<br>Women\'s Health Clinic, Floor 2<br>Livonia, MI 48150<br>(734) 523-1050',
-            'Mondays 1:00 p.m. to 5:00 p.m.',
+            '29200 Schoolcraft Road<br>Radiology, Floor 1<br>Livonia, MI 48150<br>(734) 523-1050',
+            'Mondays 9:00 a.m. to 4:00 p.m.',
             'Easy, free self-parking is available in the surface lot in front of the building. From the service drive, turn into the lot near the Aldi and head towards the back of the plaza. The medical center, and parking lot, are located behind Aldi.'
         ]
     ]
