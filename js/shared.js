@@ -1,6 +1,5 @@
 import { addEventHideNotification } from "./event.js";
 import fieldMapping from './fieldToConceptIdMapping.js'; 
-import { workflows } from "https://cdn.jsdelivr.net/gh/episphere/biospecimen@master/src/tubeValidation.js";
 
 export const urls = {
     'prod': 'myconnect.cancer.gov',
@@ -160,7 +159,29 @@ export const getMySurveys = async (data) => {
         body:  JSON.stringify(data)
     })
 
-    return response.json();
+    let surveyData = await response.json();
+
+    if(surveyData.code === 200) {
+        
+        let versionNumbers = [];
+
+        Object.keys(fieldMapping.conceptToModule).forEach(module => {
+            
+            let version = fieldMapping[fieldMapping.conceptToModule[module]].version;
+
+            if(version) versionNumbers.push(version);
+        });
+
+        Object.keys(surveyData.data).forEach(survey => {
+            versionNumbers.forEach(versionNumber => {
+                if(surveyData.data[survey][versionNumber]) {
+                    delete surveyData.data[survey][versionNumber];
+                }
+            })
+        })
+    }
+
+    return surveyData;
 }
 
 export const getMyCollections = async () => {
