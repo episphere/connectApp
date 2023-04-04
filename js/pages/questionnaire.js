@@ -81,11 +81,13 @@ async function startModule(data, modules, moduleId, questDiv) {
 
             }
             else {
-                displayError("No version number found in module data");
+                displayError();
+                return;
             }
         }
         else {
-            displayError("Error loading module data");
+            displayError();
+            return;
         }
 
         
@@ -99,7 +101,8 @@ async function startModule(data, modules, moduleId, questDiv) {
             url += "/" + path;
         }
         else {
-            displayError("No SHA key found in module data");
+            displayError();
+            return;
         }
     }
 
@@ -404,22 +407,21 @@ const displayQuest = (id) => {
     `;
 }
 
-const displayError = (message) => {
+const displayError = () => {
     
-    let rootElement = document.getElementById('root');
-    rootElement.innerHTML = `
-
-        <div class="row">
-            <div class = "col-md-1">
-            </div>
-            <div class = "col-md-10">
-                ${message}
-            </div>
-            <div class = "col-md-1">
-            </div>
+    const mainContent = document.getElementById('root');
+    mainContent.innerHTML = `
+        <div class = "row" style="margin-top:25px">
+        <div class = "col-lg-2">
         </div>
-    
+        <div class = "col">
+            HOLDER FOR ERROR MESSAGE
+        </div>
+        <div class="col-lg-2">
+        </div>
     `;
+
+    window.scrollTo(0, 0);
 
     hideAnimation();
 }
