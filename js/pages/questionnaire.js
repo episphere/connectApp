@@ -38,8 +38,18 @@ async function startModule(data, modules, moduleId, questDiv) {
 
     let tJSON = undefined;
     let url = "https://raw.githubusercontent.com/episphere/questionnaire/";
-    let path = moduleConfig[Object.keys(moduleConfig).find(key => moduleConfig[key].moduleId === moduleId)].path;
+    let path;
     let sha;
+
+    let key = Object.keys(moduleConfig).find(key => moduleConfig[key].moduleId === moduleId);
+    
+    if(key) {
+        path = moduleConfig[key].path;
+    }
+    else {
+        displayError();
+        return;
+    }
 
     if (modules[fieldMapping[moduleId].conceptId]?.['treeJSON']) {
         tJSON = modules[fieldMapping[moduleId].conceptId]['treeJSON'];
@@ -415,7 +425,7 @@ const displayError = () => {
         <div class = "col-lg-2">
         </div>
         <div class = "col">
-            HOLDER FOR ERROR MESSAGE
+            Something went wrong. Please try again. Contact the <a href= "https://norcfedramp.servicenowservices.com/participant" target="_blank">Connect Support Center.</a> if you continue to experience this problem.
         </div>
         <div class="col-lg-2">
         </div>
