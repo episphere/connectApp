@@ -1,3 +1,5 @@
 .vscode
 temp
 .DS_Store
+.eslintrc.json
+.hintrc
