@@ -452,7 +452,7 @@ export async function signInCheckRender ({ ui }) {
 
           const firebaseUiCardContentWrapper = document.querySelector('div[class~="firebaseui-relative-wrapper"]')
           const pElement = document.createElement("p")
-          pElement.innerText = "Connect is a long-term study. Please use an email that you will be able to access in the future. Avoid using a work email if possible"
+          pElement.innerText = "Connect is a long-term study. Please use an email that you will be able to access in the future. Avoid using a work email if possible."
           firebaseUiCardContentWrapper.appendChild(pElement)
 
           document
