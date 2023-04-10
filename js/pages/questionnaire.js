@@ -78,7 +78,7 @@ async function startModule(data, modules, moduleId, questDiv) {
             url += "/" + path;
             
             let moduleText = await (await fetch(url)).text();
-            let match = moduleText.match("{\"version\": \"([0-9\.]+)\"}");
+            let match = moduleText.match("{\"version\":\"([0-9\.]+)\"}");
 
             if(match) {
                 let version = match[1];
