@@ -1,5 +1,4 @@
 import { getMyData } from "../shared.js";
-import { Octokit } from "https://cdn.skypack.dev/octokit";
 
 export const renderSamplesPage = async () => {
     document.title = 'My Connect - Samples';
@@ -13,10 +12,6 @@ export const renderSamplesPage = async () => {
             const locationTemplate = renderLocations(site);
 
             template = `
-
-
-            <button id="oneButton" class="btn btn-primary" style="font-weight:bold;">One</button>
-            <button id="twoButton" class="btn btn-primary" style="font-weight:bold;">Two</button>
             <br>
             
             <div class="row">
@@ -283,42 +278,6 @@ export const renderSamplesPage = async () => {
         }
         
         document.getElementById('root').innerHTML = template;
-
-        document.getElementById('oneButton').addEventListener('click', async () => {
-            const octokit = new Octokit({ });
-
-            let octoResponse = await octokit.request('GET /rate_limit');
-
-            if(octoResponse.status === 200 && octoResponse?.data?.rate?.limit) {
-
-                console.log("LIMIT: " + octoResponse.data.rate.limit);
-                console.log("REMAINING: " + octoResponse.data.rate.remaining);
-                console.log("USED: " + octoResponse.data.rate.used);
-
-                if(octoResponse.data.rate.remaining > 0) {
-                    let response = await octokit.request("GET https://api.github.com/repos/episphere/questionnaire/commits?path=module3Stage.txt&sha=main&per_page=1");
-                    console.log();
-                }
-            }
-        });
-
-        document.getElementById('twoButton').addEventListener('click', async () => {
-            const octokit = new Octokit({ });
-
-            let octoResponse = await octokit.request('GET /rate_limit');
-
-            if(octoResponse.status === 200 && octoResponse?.data?.rate?.limit) {
-
-                console.log("LIMIT: " + octoResponse.data.rate.limit);
-                console.log("REMAINING: " + octoResponse.data.rate.remaining);
-                console.log("USED: " + octoResponse.data.rate.used);
-
-                if(octoResponse.data.rate.remaining > 0) {
-                    let response = await octokit.request("GET https://api.github.com/repos/episphere/questionnaire/commits?path=module4Stage.txt&sha=main&per_page=1");
-                    console.log();
-                }
-            }
-        });
     });
 }
 
@@ -539,7 +498,7 @@ const locations = [
 const renderLocations = (site) => {
     let template = '';
 
-    
+    console.log(site.locations);
     if(site.locations){
         site.locations.forEach(location => {
             template += `
