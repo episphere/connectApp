@@ -67,6 +67,8 @@ async function startModule(data, modules, moduleId, questDiv) {
         storeResponse(formData);
 
 
+        //check limits
+        
         const octokit = new Octokit({ });
         let response = await octokit.request("GET https://api.github.com/repos/episphere/questionnaire/commits?path=" + path + "&sha=main&per_page=1");
 
