@@ -8,7 +8,6 @@ export default
     "birthDay":795827569,
     "birthYear":544150384,
     "consentDate":454445267,
-    "status":"NEED TO BE DEFINED",
     "suffix":506826178,
     "homePhone":438643922,
     "prefEmail":869588347,
@@ -57,7 +56,8 @@ export default
         "startTs":          "205553981", 
         "completeTs":       "517311251",  
         "statusFlag":       "949302066", 
-        "standaloneSurvey": false
+        "standaloneSurvey": false,
+        "version":          "794613585"
     },
 
     "Module2_OLD": {
@@ -73,7 +73,8 @@ export default
         "startTs":          "541836531", 
         "completeTs":       "832139544",  
         "statusFlag":       "536735468", 
-        "standaloneSurvey": false
+        "standaloneSurvey": false,
+        "version":          "932127832"
     },
 
     "Module3": {
@@ -81,7 +82,8 @@ export default
         "startTs":          "386488297", 
         "completeTs":       "770257102",  
         "statusFlag":       "976570371", 
-        "standaloneSurvey": false
+        "standaloneSurvey": false,
+        "version":          "951528844"
     },
 
     "Module4": {
@@ -89,7 +91,8 @@ export default
         "startTs":          "452942800", 
         "completeTs":       "264644252",  
         "statusFlag":       "663265240", 
-        "standaloneSurvey": false
+        "standaloneSurvey": false,
+        "version":          "180097038"
     },
 
     "ModuleSsn": {
@@ -97,7 +100,8 @@ export default
         "startTs":          "943232079", 
         "completeTs":       "315032037",  
         "statusFlag":       "126331570", 
-        "standaloneSurvey": true
+        "standaloneSurvey": true,
+        "version":          "628939958"
     },
 
     "Biospecimen": {
@@ -105,7 +109,8 @@ export default
         "startTs":          "822499427", 
         "completeTs":       "222161762",  
         "statusFlag":       "265193023", 
-        "standaloneSurvey": true
+        "standaloneSurvey": true,
+        "version":          "227848247"
     },
 
     "MenstrualCycle": {
@@ -113,7 +118,8 @@ export default
         "startTs":          "844088537", 
         "completeTs":       "217640691",  
         "statusFlag":       "459098666", 
-        "standaloneSurvey": true
+        "standaloneSurvey": true,
+        "version":          "901199566"
     },
 
     "ClinicalBiospecimen": {
@@ -121,7 +127,8 @@ export default
         "startTs":          "534669573", 
         "completeTs":       "764863765", 
         "statusFlag":       "253883960", 
-        "standaloneSurvey": true 
+        "standaloneSurvey": true,
+        "version":          "220355297"
     }
 }
 
