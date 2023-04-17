@@ -36,8 +36,8 @@
         "HIPAA":"V1.0"
     },
     "NCI":{
-        "Consent":"V1.0",
-        "HIPAA":"V1.0"
+        "Consent":"V0.02",
+        "HIPAA":"V0.02"
     },
     "Revocation":"V1.0",
     "DataDestruction":"V1.0"
