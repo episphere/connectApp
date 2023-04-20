@@ -1073,7 +1073,6 @@ const consentSubmit = async e => {
     formData['558435199'] = 353358909;
     //consent and hipaa forms
     let versionJSON = await fetch('./forms/Consent_versioning.json').then(res => res.json());
-    console.log
     let siteDict = siteAcronyms();
     const myData = await getMyData()
     let participantSite = siteDict[myData.data['827220437']];
