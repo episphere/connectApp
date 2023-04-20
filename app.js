@@ -243,25 +243,15 @@ const userProfile = () => {
             if(href.includes(specialParameter)) href = href.substr(href.indexOf(specialParameter) + specialParameter.length, href.length);
             const parameters = getParameters(href);
             showAnimation();
+            
             if(parameters && parameters.token){
-                const response = await validateToken(parameters.token);
-                if(response.code === 200) {
-                    let obj = {
-                        335767902: (new Date(parseInt(user.metadata.a))).toISOString()
-                    }
+                await validateToken(parameters.token);
+                await storeResponse({
+                  335767902: new Date(parseInt(user.metadata.a)).toISOString(),
+                });
+            }
 
-                    await storeResponse(obj);
-                }
-            }
             const userData = await getMyData();
-            if(userData.code === 200) {
-                let tmp = {};
-                if(parameters && parameters.utm_source && parameters.utm_id) {
-                    tmp['utm_source'] = parameters.utm_source;
-                    tmp['utm_id'] = parameters.utm_id;
-                    await storeResponse(tmp);
-                }
-            }
 
             window.history.replaceState({},'Dashboard', './#dashboard');
             if(user.email && !user.emailVerified){

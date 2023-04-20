@@ -1,6 +1,5 @@
 import { addEventHideNotification } from "./event.js";
 import fieldMapping from './fieldToConceptIdMapping.js'; 
-import { workflows } from "https://cdn.jsdelivr.net/gh/episphere/biospecimen@master/src/tubeValidation.js";
 
 export const urls = {
     'prod': 'myconnect.cancer.gov',
@@ -160,7 +159,29 @@ export const getMySurveys = async (data) => {
         body:  JSON.stringify(data)
     })
 
-    return response.json();
+    let surveyData = await response.json();
+
+    if(surveyData.code === 200) {
+        
+        let versionNumbers = [];
+
+        Object.keys(fieldMapping.conceptToModule).forEach(module => {
+            
+            let version = fieldMapping[fieldMapping.conceptToModule[module]].version;
+
+            if(version) versionNumbers.push(version);
+        });
+
+        Object.keys(surveyData.data).forEach(survey => {
+            versionNumbers.forEach(versionNumber => {
+                if(surveyData.data[survey][versionNumber]) {
+                    delete surveyData.data[survey][versionNumber];
+                }
+            })
+        })
+    }
+
+    return surveyData;
 }
 
 export const getMyCollections = async () => {
@@ -836,29 +857,15 @@ export const getConceptVariableName = async (conceptId) => {
 }
 
 export const questionnaireModules = () => {
-    if(location.host == urls.prod){
-        return {
-            'Background and Overall Health': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/prod/module1.txt', moduleId:"Module1", enabled:true},
-            'Medications, Reproductive Health, Exercise, and Sleep': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/prod/module2.txt', moduleId:"Module2", enabled:false},
-            'Smoking, Alcohol, and Sun Exposure': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/prod/module3.txt', moduleId:"Module3", enabled:false},
-            'Where You Live and Work': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/prod/module4.txt', moduleId:"Module4", enabled:false},
-            'Enter SSN': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/prod/ssnModule.txt', moduleId:"ModuleSsn", enabled:false},
-            'Biospecimen Survey': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/prod/moduleBiospecimen.txt', moduleId:"Biospecimen", enabled:false},
-            'Clinical Biospecimen Survey': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/prod/moduleClinicalBloodUrine.txt', moduleId:"ClinicalBiospecimen", enabled:false},
-            'Menstrual Cycle': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/prod/moduleMenstrual.txt', moduleId:"MenstrualCycle", enabled:false}
-        }
-    }
-    else{
-        return {
-            'Background and Overall Health': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/module1Stage.txt', moduleId:"Module1", enabled:true},
-            'Medications, Reproductive Health, Exercise, and Sleep': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/module2Stage.txt', moduleId:"Module2", enabled:false},
-            'Smoking, Alcohol, and Sun Exposure': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/module3Stage.txt', moduleId:"Module3", enabled:false},
-            'Where You Live and Work': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/module4Stage.txt', moduleId:"Module4", enabled:false},
-            'Enter SSN': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/ssnModule.txt', moduleId:"ModuleSsn", enabled:false},
-            'Biospecimen Survey': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/moduleBiospecimenStage.txt', moduleId:"Biospecimen", enabled:false},
-            'Clinical Biospecimen Survey': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/moduleClinicalBloodUrineStage.txt', moduleId:"ClinicalBiospecimen", enabled:false},
-            'Menstrual Cycle': {url: 'https://raw.githubusercontent.com/episphere/questionnaire/main/moduleMenstrualStage.txt', moduleId:"MenstrualCycle", enabled:false}
-        }
+    return {
+        'Background and Overall Health': {path: 'module1Stage.txt', moduleId:"Module1", enabled:true},
+        'Medications, Reproductive Health, Exercise, and Sleep': {path: 'module2Stage.txt', moduleId:"Module2", enabled:false},
+        'Smoking, Alcohol, and Sun Exposure': {path: 'module3Stage.txt', moduleId:"Module3", enabled:false},
+        'Where You Live and Work': {path: 'module4Stage.txt', moduleId:"Module4", enabled:false},
+        'Enter SSN': {path: 'ssnModule.txt', moduleId:"ModuleSsn", enabled:false},
+        'Biospecimen Survey': {path: 'moduleBiospecimenStage.txt', moduleId:"Biospecimen", enabled:false},
+        'Clinical Biospecimen Survey': {path: 'moduleClinicalBloodUrineStage.txt', moduleId:"ClinicalBiospecimen", enabled:false},
+        'Menstrual Cycle': {path: 'moduleMenstrualStage.txt', moduleId:"MenstrualCycle", enabled:false}
     }
 }
 export const isBrowserCompatible = () => {
@@ -1157,6 +1164,23 @@ return urlSearchStr
 }
 
 /**
+ * Wait for an element to be loaded, with a default timeout.
+ * @param {string} selector
+ * @param {number} timeout
+ * @returns {Promise<HTMLElement | null>} 
+ */
+export async function elementIsLoaded(selector, timeout = 1000) {
+  const startTime = Date.now();
+
+  while (document.querySelector(selector) === null) {
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+    if (Date.now() - startTime > timeout) break;
+  }
+
+  return document.querySelector(selector);
+}
+
+/**
  * Check if current device is a mobile device (smartphone, tablet, or others with touch screen)
  * @returns {boolean}
  */
@@ -1182,22 +1206,19 @@ function checkDeviceMobile() {
 
   return isMobile;
 }
-
+  
 export const isMobile = checkDeviceMobile();
 
+let urlToNewTabMap = {};
+
 /**
- * Wait for an element to be loaded, with a default timeout.
- * @param {string} selector
- * @param {number} timeout
- * @returns {Promise<HTMLElement | null>} 
+ * Open file in new tab
+ * @param {string} url 
  */
-export async function elementIsLoaded(selector, timeout = 1000) {
-  const startTime = Date.now();
-
-  while (document.querySelector(selector) === null) {
-    await new Promise((resolve) => requestAnimationFrame(resolve));
-    if (Date.now() - startTime > timeout) break;
+export function openNewTab(url) {
+  if (!urlToNewTabMap[url] || urlToNewTabMap[url].closed) {
+    urlToNewTabMap[url] = window.open(url);
+  } else {
+    urlToNewTabMap[url].focus();
   }
-
-  return document.querySelector(selector);
-}
+} 

@@ -5,35 +5,15 @@ import { rbAndCbClick } from "https://cdn.jsdelivr.net/gh/episphere/quest@latest
 import { SOCcer as SOCcerProd } from "./../../prod/config.js";
 import { SOCcer as SOCcerStage } from "./../../stage/config.js";
 import { SOCcer as SOCcerDev } from "./../../dev/config.js";
+import { Octokit } from "https://cdn.skypack.dev/octokit";
 
 export const questionnaire = async (moduleId) => {
-    
-    let rootElement = document.getElementById('root');
-    rootElement.innerHTML = `
-    
-    <div class="row" style="margin-top:50px">
-        <div class = "col-md-1">
-        </div>
-        <div class = "col-md-10">
-            <div class="progress">
-                <div id="questProgBar" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-        </div>
-        <div class = "col-md-1">
-        </div>
-    </div>
-    <div class="row">
-        <div class = "col-md-1">
-        </div>
-        <div class = "col-md-10" id="questionnaireRoot">
-        </div>
-        <div class = "col-md-1">
-        </div>
-    </div>
-    
-    `
-
+ 
     showAnimation();
+
+    const questDiv = "questionnaireRoot";
+
+    displayQuest(questDiv);
 
     let data;
     let modules;
@@ -46,25 +26,30 @@ export const questionnaire = async (moduleId) => {
         if(responseModules.code === 200) {
             modules = responseModules.data;
 
-            await startModule(data, modules, moduleId);
+            await startModule(data, modules, moduleId, questDiv);
         }
     }
 }
 
-async function startModule(data, modules, moduleId) {
+async function startModule(data, modules, moduleId, questDiv) {
 
     let inputData = setInputData(data, modules); 
-
-    if (data[fieldMapping[moduleId].statusFlag] === fieldMapping.moduleStatus.notStarted){
-        let formData = {};
-        formData[fieldMapping[moduleId].startTs] = new Date().toISOString();
-        formData[fieldMapping[moduleId].statusFlag] = fieldMapping.moduleStatus.started;
-
-        storeResponse(formData);
-    }
-
+    let moduleConfig = questionnaireModules();
 
     let tJSON = undefined;
+    let url = "https://raw.githubusercontent.com/episphere/questionnaire/";
+    let path;
+    let sha;
+
+    let key = Object.keys(moduleConfig).find(key => moduleConfig[key].moduleId === moduleId);
+    
+    if(key) {
+        path = moduleConfig[key].path;
+    }
+    else {
+        displayError();
+        return;
+    }
 
     if (modules[fieldMapping[moduleId].conceptId]?.['treeJSON']) {
         tJSON = modules[fieldMapping[moduleId].conceptId]['treeJSON'];
@@ -74,79 +59,138 @@ async function startModule(data, modules, moduleId) {
     }
 
 
-    let moduleConfig = questionnaireModules();
-    let url = moduleConfig[Object.keys(moduleConfig).find(key => moduleConfig[key].moduleId === moduleId)].url;
+    if (data[fieldMapping[moduleId].statusFlag] === fieldMapping.moduleStatus.notStarted){
+        let formData = {};
+        formData[fieldMapping[moduleId].startTs] = new Date().toISOString();
+        formData[fieldMapping[moduleId].statusFlag] = fieldMapping.moduleStatus.started;
 
-    transform.render({
-            url: url,
-            activate: true,
-            store: storeResponseQuest,
-            retrieve: function(){return getMySurveys([fieldMapping[moduleId].conceptId])},
-            soccer: soccerFunction,
-            updateTree: storeResponseTree,
-            treeJSON: tJSON,
-        }, 'questionnaireRoot', inputData)
-        .then(() => {
-            //Grid fix first
-            let grids = document.getElementsByClassName('d-lg-block');
-            let max = grids.length;
-            for(let i = 0; i < max; i++){
-                let curr = grids[0]
-                curr.classList.add('d-xxl-block')
-                curr.classList.remove('d-lg-block')
+        storeResponse(formData);
+
+
+        //check limits
+        
+        const octokit = new Octokit({ });
+        let response = await octokit.request("GET https://api.github.com/repos/episphere/questionnaire/commits?path=" + path + "&sha=main&per_page=1");
+
+        if(response.status === 200 && response.data) {
+            sha = response.data[0].sha;
+
+            url += sha;
+            if(location.host === urls.prod) url += "/prod";
+            url += "/" + path;
+            
+            let moduleText = await (await fetch(url)).text();
+            let match = moduleText.match("{\"version\":\s*\"([0-9]{1}[\.]{1}[0-9]{1,3})\"}");
+
+            if(match) {
+                let version = match[1];
+                let questData = {};
+
+                questData[fieldMapping[moduleId].conceptId + ".sha"] = sha;
+                questData[fieldMapping[moduleId].conceptId + "." + fieldMapping[moduleId].version] = version;
+
+                await storeResponseQuest(questData)
+
             }
-            let ungrid = document.getElementsByClassName('d-lg-none');
-            max = ungrid.length
-            for(let i = 0; i < max; i++){
-                ungrid[0].classList.add('d-xxl-none')
-                ungrid[0].classList.remove('d-lg-none')
-
+            else {
+                displayError();
+                return;
             }
+        }
+        else {
+            displayError();
+            return;
+        }
 
-            //Add progress bar
-            let formsFound = document.getElementsByTagName('form')
-            let totalForms = formsFound.length;
-            let currFound = 0
-            for(let i = 0; i < formsFound.length; i++){
-                let currForm = formsFound[i]
-                if(currForm.classList.contains('active')){
-                    currFound = i;
-                    i = formsFound.length;
-                }
+        
+    }
+    else {
+        if (modules[fieldMapping[moduleId].conceptId]['sha']) {
+            sha = modules[fieldMapping[moduleId].conceptId]['sha'];
+
+            url += sha;
+            if(location.host === urls.prod) url += "/prod";
+            url += "/" + path;
+        }
+        else {
+            displayError();
+            return;
+        }
+    }
+
+    const questParameters = {
+        url: url,
+        activate: true,
+        store: storeResponseQuest,
+        retrieve: function(){return getMySurveys([fieldMapping[moduleId].conceptId])},
+        soccer: soccerFunction,
+        updateTree: storeResponseTree,
+        treeJSON: tJSON
+    }
+
+    transform.render(questParameters, questDiv, inputData).then(() => {
+        
+        //Grid fix first
+        let grids = document.getElementsByClassName('d-lg-block');
+        let max = grids.length;
+        for(let i = 0; i < max; i++){
+            let curr = grids[0]
+            curr.classList.add('d-xxl-block')
+            curr.classList.remove('d-lg-block')
+        }
+        let ungrid = document.getElementsByClassName('d-lg-none');
+        max = ungrid.length
+        for(let i = 0; i < max; i++){
+            ungrid[0].classList.add('d-xxl-none')
+            ungrid[0].classList.remove('d-lg-none')
+
+        }
+
+        //Add progress bar
+        let formsFound = document.getElementsByTagName('form')
+        let totalForms = formsFound.length;
+        let currFound = 0
+        for(let i = 0; i < formsFound.length; i++){
+            let currForm = formsFound[i]
+            if(currForm.classList.contains('active')){
+                currFound = i;
+                i = formsFound.length;
             }
-            let pBar = document.getElementById('questProgBar')
-            pBar.style.width = (parseInt(currFound/(totalForms-1) * 100)).toString() + '%'
+        }
+        let pBar = document.getElementById('questProgBar')
+        pBar.style.width = (parseInt(currFound/(totalForms-1) * 100)).toString() + '%'
 
-            let observer = new MutationObserver( mutations =>{
-                let forms = document.getElementsByTagName('form')
-                let numForms = forms.length;
-                
-                mutations.forEach(function(mutation) {
-                    if(mutation.attributeName == "class"){
-                        if(mutation.target.classList.contains('active')){
-                            let found = 0;
-                            for(let i = 0; i < forms.length; i++){
-                                if(forms[i].id == mutation.target.id){
-                                    found = i
-                                }
+        let observer = new MutationObserver( mutations =>{
+            let forms = document.getElementsByTagName('form')
+            let numForms = forms.length;
+            
+            mutations.forEach(function(mutation) {
+                if(mutation.attributeName == "class"){
+                    if(mutation.target.classList.contains('active')){
+                        let found = 0;
+                        for(let i = 0; i < forms.length; i++){
+                            if(forms[i].id == mutation.target.id){
+                                found = i
                             }
-                            let progBar = document.getElementById('questProgBar')
-                            progBar.style.width = (parseInt(found/(numForms-1) * 100)).toString() + '%'
                         }
-                        
+                        let progBar = document.getElementById('questProgBar')
+                        progBar.style.width = (parseInt(found/(numForms-1) * 100)).toString() + '%'
                     }
-                });
-                
+                    
+                }
             });
-            let elemId = document.getElementById('questionnaireRoot');
-            console.log(elemId)
-            observer.observe(elemId, {
-                childList: true, // observe direct children
-                subtree: true, // lower descendants too
-                //characterDataOldValue: true, // pass old data to callback
-                attributes:true,
-                });
-        })
+            
+        });
+        let elemId = document.getElementById('questionnaireRoot');
+        console.log(elemId)
+        observer.observe(elemId, {
+            childList: true, // observe direct children
+            subtree: true, // lower descendants too
+            //characterDataOldValue: true, // pass old data to callback
+            attributes:true,
+            });
+    })
+    .then(hideAnimation());
 }
 
 function soccerFunction(){
@@ -235,8 +279,6 @@ function soccerFunction(){
             }         
         });
     }
-
-    hideAnimation();
 }
 //BUILDING SOCCER
 function buildHTML(soccerResults, question, responseElement) {
@@ -347,4 +389,51 @@ const setInputData = (data, modules) => {
     }
 
     return inputData;
+}
+
+const displayQuest = (id) => {
+    
+    let rootElement = document.getElementById('root');
+    rootElement.innerHTML = `
+    
+        <div class="row" style="margin-top:50px">
+            <div class = "col-md-1">
+            </div>
+            <div class = "col-md-10">
+                <div class="progress">
+                    <div id="questProgBar" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+            <div class = "col-md-1">
+            </div>
+        </div>
+        <div class="row">
+            <div class = "col-md-1">
+            </div>
+            <div class = "col-md-10" id="${id}">
+            </div>
+            <div class = "col-md-1">
+            </div>
+        </div>
+    
+    `;
+}
+
+const displayError = () => {
+    
+    const mainContent = document.getElementById('root');
+    mainContent.innerHTML = `
+        <div class = "row" style="margin-top:25px">
+        <div class = "col-lg-2">
+        </div>
+        <div class = "col">
+            Something went wrong. Please try again. Contact the <a href= "https://norcfedramp.servicenowservices.com/participant" target="_blank">Connect Support Center.</a> if you continue to experience this problem.
+        </div>
+        <div class="col-lg-2">
+        </div>
+    `;
+
+    window.scrollTo(0, 0);
+
+    hideAnimation();
 }
