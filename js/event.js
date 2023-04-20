@@ -675,6 +675,32 @@ const openModal = () => {
     document.body.removeChild(tmpBtn);
 }
 
+export const downtimeWarning = () => {
+    document.getElementById('connectWarningModalHeader').style.display = 'block'; 
+    document.getElementById('connectWarningModalHeader').innerHTML = `
+        <h4 style="text-align:center; color:red">ATTENTION</h4>
+    `;
+
+    document.getElementById('connectWarningModalBody').innerHTML = `
+        <div style="text-align:center; color:red">
+            We are currently undergoing maintenance, please check back later.
+        </div>
+    `;
+
+    let footer = document.getElementById('connectWarningModalFooter');
+    let footerBtn = document.getElementById('warningCloseBtn');
+
+    footer.removeChild(footerBtn);
+
+    const tmpBtn = document.createElement('button');
+    tmpBtn.dataset.target = "#connectWarningModal";
+    tmpBtn.dataset.toggle = "modal";
+    tmpBtn.hidden = true;
+    document.body.appendChild(tmpBtn);
+    tmpBtn.click();
+    document.body.removeChild(tmpBtn);
+}
+
 export const environmentWarningModal = () => {
     document.getElementById('connectWarningModalHeader').style.display = 'block'; 
     document.getElementById('connectWarningModalHeader').innerHTML = `

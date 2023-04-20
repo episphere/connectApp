@@ -1,6 +1,6 @@
 import { getMyData, renderSyndicate, urls, fragment, checkAccount, validEmailFormat, validPhoneNumberFormat, appState, delay, getCleanSearchString, elementIsLoaded } from "../shared.js";
 import { signInConfig, signInConfigDev } from "./signIn.js";
-import { environmentWarningModal } from "../event.js";
+import { environmentWarningModal, downtimeWarning } from "../event.js";
 
 const usGov = `
 You are accessing a U.S. Government web site which may contain information that must be protected under the U.S. Privacy Act or other sensitive information and is intended for Government authorized use only. Unauthorized attempts to upload information, change information, or use of this web site may result in disciplinary action, civil, and/or criminal penalties. Unauthorized users of this web site should have no expectation of privacy regarding any communications or data processed by this web site. Anyone accessing this web site expressly consents to monitoring of their actions and all communication or data transitioning or stored on or related to this web site and is advised that if such monitoring reveals possible evidence of criminal activity, NIH may provide that evidence to law enforcement officials.
@@ -10,6 +10,9 @@ You are accessing a U.S. Government web site which may contain information that 
  * Renders homepage for sign-in/sign-up 
  */
 export const homePage = async () => {
+
+  let downtime = false;
+
     const mainContent = document.getElementById('root');
     mainContent.innerHTML = `
         <div class="row connectBody1">
@@ -112,6 +115,7 @@ export const homePage = async () => {
     }
     
     location.host !== urls.prod && !isMagicLinkSignIn && environmentWarningModal();
+    downtime && downtimeWarning();
 }
 
 export const joinNowBtn = (bool) => {
