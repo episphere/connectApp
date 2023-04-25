@@ -1,39 +1,39 @@
 {
     "HFHS":{
-        "Consent":"V1.0",
-        "HIPAA":"V1.0"
+        "Consent":"V0.02",
+        "HIPAA":"V0.02"
     },
     "HP":{
         "Consent":"V0.02",
         "HIPAA":"V0.02"
     },
     "KPCO":{
-        "Consent":"V1.0",
-        "HIPAA":"V1.0"
+        "Consent":"V0.02",
+        "HIPAA":"V0.02"
     },
     "KPGA":{
-        "Consent":"V1.0",
-        "HIPAA":"V1.0"
+        "Consent":"V0.02",
+        "HIPAA":"V0.02"
     },
     "KPHI":{
-        "Consent":"V1.0",
-        "HIPAA":"V1.0"
+        "Consent":"V0.02",
+        "HIPAA":"V0.02"
     },
     "KPNW":{
-        "Consent":"V1.0",
-        "HIPAA":"V1.0"
+        "Consent":"V0.02",
+        "HIPAA":"V0.02"
     },
     "Marshfield":{
-        "Consent":"V1.0",
-        "HIPAA":"V1.0"
+        "Consent":"V0.02",
+        "HIPAA":"V0.02"
     },
     "Sanford":{
-        "Consent":"V1.0",
-        "HIPAA":"V1.0"
+        "Consent":"V0.02",
+        "HIPAA":"V0.02"
     },
     "UChicago":{
-        "Consent":"V1.0",
-        "HIPAA":"V1.0"
+        "Consent":"V0.02",
+        "HIPAA":"V0.02"
     },
     "NCI":{
         "Consent":"V0.02",
