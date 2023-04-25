@@ -7,6 +7,8 @@ const { ExpirationPlugin } = workbox.expiration;
 const { BackgroundSyncPlugin } = workbox.backgroundSync
 const googleAnalytics = workbox.googleAnalytics;
 
+//change that is a comment
+
 googleAnalytics.initialize();
 registerRoute(/\.(?:js|css)$/, new NetworkFirst({cacheName: 'static-cache'}));
 registerRoute(/\.(?:png|jpg|jpeg|svg|gif|ico)$/,
