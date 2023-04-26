@@ -158,6 +158,9 @@ export const heardAboutStudy = () => {
                 </div>
             </div>
             <div class="row">
+                The next screens will take you through the informed consent process. They explain more about the study and what it means to take part in Connect. At the end, you can read the full informed consent form and electronic health records release form before you decide if you want to join.
+            </div>
+            <div class="row">
                 <div class="ml-auto">
                     <button type="submit" class="btn btn-primary save-data consentNextButton">Submit</button>
                 </div>
