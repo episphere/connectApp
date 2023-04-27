@@ -30,7 +30,7 @@ const siteToConsentSignPosMap = {
     "default": {nameX: 110, nameY: 400, signatureX: 110, signatureY: 330, dateX: 110, dateY: 370}
 }
 
-const siteToConsentSignPosMapV2 = { // update after adding remaing consent forms
+const siteToConsentSignPosMapV2 = { // update after adding remaing consent forms 
     "Sanford":{nameX:120,nameY:405,signatureX:120,signatureY:325,dateX:120,dateY:365},
     "HP":{nameX:90,nameY:415,signatureX:110,signatureY:340,dateX:90,dateY:380},
     "Marshfield":{nameX:110,nameY:415,signatureX:115,signatureY:340,dateX:110,dateY:380},
@@ -558,7 +558,7 @@ async function generateSignedPdf(data, file) {
     sourcePdfLocation = './forms/consent/' + data[454205108] + '.pdf';
     dateStr = new Date(data[454445267]).toLocaleDateString();
     const version = data[fieldMapping.consentVersion].split('_')[2]
-    if(version === `V0.02`) coords = siteToConsentSignPosMapV2[participantSite] ?? siteToConsentSignPosMap['default'];
+    if(version === `V0.02`) coords = siteToConsentSignPosMapV2[participantSite] ?? siteToConsentSignPosMap['default']; // update if condition after adding remaing consent forms 
     else coords = siteToConsentSignPosMap[participantSite] ?? siteToConsentSignPosMap['default'];
   } 
   else if (file === 'signed-HIPAA') {
