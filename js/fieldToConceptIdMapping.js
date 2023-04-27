@@ -11,9 +11,12 @@ export default
     "suffix":506826178,
     "homePhone":438643922,
     "prefEmail":869588347,
+    "additionalEmail":849786503,
     "cellPhone":388711124,
     "otherPhone":793072415,
     "prefContact":524461170,
+    "canWeVoicemailMobile": 271757434,
+    "canWeVoicemailHome": 187894482,
     "canWeText":646873644,
     "address1":521824358,
     "address2":442166669,
@@ -23,6 +26,10 @@ export default
     "healthcareProvider":827220437,
     "verification":821247024,
     "verified":197316935,
+    "firebaseAuthEmail": 421823980,
+    "userProfileSubmittedAutogen": 699625233,
+    "yes": 353358909,
+    "no": 104430631,
 
     moduleStatus: {
         notStarted:     972455046,
