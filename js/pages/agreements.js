@@ -18,19 +18,6 @@ const siteToHipaaSignPosMap = {
 }
 
 const siteToConsentSignPosMap = {
-    "Sanford":{nameX:120,nameY:410,signatureX:120,signatureY:450,dateX:120,dateY:370},
-    "HP":{nameX:90,nameY:415,signatureX:110,signatureY:340,dateX:90,dateY:380},
-    "Marshfield":{nameX:110,nameY:415,signatureX:115,signatureY:340,dateX:110,dateY:380},
-    "HFHS":{nameX:110,nameY:380,signatureX:115,signatureY:300,dateX:110,dateY:340},
-    "UChicago":{nameX:110,nameY:380,signatureX:115,signatureY:300,dateX:110,dateY:340},
-    "KPCO": {nameX:110,nameY:395,signatureX:110,signatureY:315,dateX:110,dateY:355},
-    "KPGA": {nameX:110,nameY:395,signatureX:110,signatureY:315,dateX:110,dateY:355},
-    "KPHI": {nameX:110,nameY:365,signatureX:110,signatureY:285,dateX:110,dateY:325},
-    "KPNW": {nameX:110,nameY:390,signatureX:110,signatureY:310,dateX:110,dateY:345},
-    "default": {nameX: 110, nameY: 400, signatureX: 110, signatureY: 330, dateX: 110, dateY: 370}
-}
-
-const siteToConsentSignPosMapV2 = { // update after adding remaing consent forms 
     "Sanford":{nameX:120,nameY:405,signatureX:120,signatureY:325,dateX:120,dateY:365},
     "HP":{nameX:90,nameY:415,signatureX:110,signatureY:340,dateX:90,dateY:380},
     "Marshfield":{nameX:110,nameY:415,signatureX:115,signatureY:340,dateX:110,dateY:380},
@@ -42,6 +29,7 @@ const siteToConsentSignPosMapV2 = { // update after adding remaing consent forms
     "KPNW": {nameX:110,nameY:390,signatureX:110,signatureY:310,dateX:110,dateY:345},
     "default": {nameX: 110, nameY: 400, signatureX: 110, signatureY: 330, dateX: 110, dateY: 370}
 }
+
 
 const siteToHipaaSignPosMapV2 = {
     "HFHS":{nameX:100,nameY:425,signatureX:110,signatureY:465,dateX:100,dateY:385}
@@ -557,9 +545,7 @@ async function generateSignedPdf(data, file) {
   if (file === 'signed-consent') {
     sourcePdfLocation = './forms/consent/' + data[454205108] + '.pdf';
     dateStr = new Date(data[454445267]).toLocaleDateString();
-    const version = data[fieldMapping.consentVersion].split('_')[2]
-    if(version === `V0.02`) coords = siteToConsentSignPosMapV2[participantSite] ?? siteToConsentSignPosMap['default']; // update if condition after adding remaing consent forms 
-    else coords = siteToConsentSignPosMap[participantSite] ?? siteToConsentSignPosMap['default'];
+    coords = siteToConsentSignPosMap[participantSite] ?? siteToConsentSignPosMap['default'];
   } 
   else if (file === 'signed-HIPAA') {
     sourcePdfLocation = './forms/HIPAA/' + data[412000022] + '.pdf';
