@@ -23,6 +23,8 @@ export default
     "healthcareProvider":827220437,
     "verification":821247024,
     "verified":197316935,
+    "consentVersion": 454205108,
+    "hipaaVersion": 412000022,
 
     moduleStatus: {
         notStarted:     972455046,
