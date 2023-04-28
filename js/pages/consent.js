@@ -2,6 +2,8 @@ import { todaysDate, storeResponse, dataSavingBtn, dateTime, errorMessageConsent
 import { renderUserProfile } from "../components/form.js";
 import { removeAllErrors, addEventsConsentSign } from "../event.js";
 import { downloadSignedPdf } from "./agreements.js";
+import { heardAboutStudy } from "./healthCareProvider.js";
+import {addEventHeardAboutStudy} from "../event.js"
 
 export const consentTemplate = () => {
     consentWelcomePage();
@@ -126,6 +128,15 @@ const consentWelcomePage = () => {
 
     document.getElementById('toActivities').addEventListener('click', () => {
         consentAboutPage();
+    })
+    document.getElementById('backToHeardAboutStudyForm').addEventListener('click', async () => {
+        const myData = await getMyData();
+        const formData = myData.code === 200 && myData.data['142654897']
+         ? myData.data['142654897'] 
+         : {}
+        const mainContent = document.getElementById('root');
+        mainContent.innerHTML = heardAboutStudy(formData);
+        addEventHeardAboutStudy();
     })
 }
 
