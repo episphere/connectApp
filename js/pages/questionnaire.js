@@ -60,14 +60,6 @@ async function startModule(data, modules, moduleId, questDiv) {
 
 
     if (data[fieldMapping[moduleId].statusFlag] === fieldMapping.moduleStatus.notStarted){
-        let formData = {};
-        formData[fieldMapping[moduleId].startTs] = new Date().toISOString();
-        formData[fieldMapping[moduleId].statusFlag] = fieldMapping.moduleStatus.started;
-
-        storeResponse(formData);
-
-
-        //check limits
         
         const octokit = new Octokit({ });
         let response = await octokit.request("GET https://api.github.com/repos/episphere/questionnaire/commits?path=" + path + "&sha=main&per_page=1");
@@ -85,12 +77,16 @@ async function startModule(data, modules, moduleId, questDiv) {
             if(match) {
                 let version = match[1];
                 let questData = {};
+                let formData = {};
 
                 questData[fieldMapping[moduleId].conceptId + ".sha"] = sha;
                 questData[fieldMapping[moduleId].conceptId + "." + fieldMapping[moduleId].version] = version;
 
-                await storeResponseQuest(questData)
+                formData[fieldMapping[moduleId].startTs] = new Date().toISOString();
+                formData[fieldMapping[moduleId].statusFlag] = fieldMapping.moduleStatus.started;
 
+                storeResponseQuest(questData);
+                storeResponse(formData);
             }
             else {
                 displayError();
@@ -101,8 +97,6 @@ async function startModule(data, modules, moduleId, questDiv) {
             displayError();
             return;
         }
-
-        
     }
     else {
         if (modules[fieldMapping[moduleId].conceptId]['sha']) {
