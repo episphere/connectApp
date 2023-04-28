@@ -60,14 +60,6 @@ async function startModule(data, modules, moduleId, questDiv) {
 
 
     if (data[fieldMapping[moduleId].statusFlag] === fieldMapping.moduleStatus.notStarted){
-        let formData = {};
-        formData[fieldMapping[moduleId].startTs] = new Date().toISOString();
-        formData[fieldMapping[moduleId].statusFlag] = fieldMapping.moduleStatus.started;
-
-        storeResponse(formData);
-
-
-        //check limits
         
         const octokit = new Octokit({ });
         let response = await octokit.request("GET https://api.github.com/repos/episphere/questionnaire/commits?path=" + path + "&sha=main&per_page=1");
@@ -80,29 +72,33 @@ async function startModule(data, modules, moduleId, questDiv) {
             url += "/" + path;
             
             let moduleText = await (await fetch(url)).text();
-            let match = moduleText.match("{\"version\":\s*\"([0-9]{1}[\.]{1}[0-9]{1,3})\"}");
+            let match = moduleText.match("{\"version\":\s*\"([0-9]{1,2}[\.]{1}[0-9]{1,3})\"}");
 
             if(match) {
                 let version = match[1];
                 let questData = {};
+                let formData = {};
 
                 questData[fieldMapping[moduleId].conceptId + ".sha"] = sha;
                 questData[fieldMapping[moduleId].conceptId + "." + fieldMapping[moduleId].version] = version;
 
-                await storeResponseQuest(questData)
+                formData[fieldMapping[moduleId].startTs] = new Date().toISOString();
+                formData[fieldMapping[moduleId].statusFlag] = fieldMapping.moduleStatus.started;
 
+                storeResponseQuest(questData);
+                storeResponse(formData);
             }
             else {
+                console.log("Error: No match found for version in module file.");
                 displayError();
                 return;
             }
         }
         else {
+            console.log("Error: Bad response from GitHub.");
             displayError();
             return;
         }
-
-        
     }
     else {
         if (modules[fieldMapping[moduleId].conceptId]['sha']) {
@@ -113,6 +109,7 @@ async function startModule(data, modules, moduleId, questDiv) {
             url += "/" + path;
         }
         else {
+            console.log("Error: No SHA found for module.");
             displayError();
             return;
         }
@@ -127,6 +124,8 @@ async function startModule(data, modules, moduleId, questDiv) {
         updateTree: storeResponseTree,
         treeJSON: tJSON
     }
+
+    window.scrollTo(0, 0);
 
     transform.render(questParameters, questDiv, inputData).then(() => {
         
