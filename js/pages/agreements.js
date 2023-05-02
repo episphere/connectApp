@@ -1,5 +1,6 @@
 import { getMyData, hideAnimation, showAnimation, siteAcronyms, dateTime, storeResponse, isMobile, openNewTab } from "../shared.js";
 import { initializeCanvas } from './consent.js'
+import fieldMapping from '../fieldToConceptIdMapping.js';
 
 const { PDFDocument, StandardFonts } = PDFLib;
 
@@ -17,7 +18,7 @@ const siteToHipaaSignPosMap = {
 }
 
 const siteToConsentSignPosMap = {
-    "Sanford":{nameX:120,nameY:410,signatureX:120,signatureY:450,dateX:120,dateY:370},
+    "Sanford":{nameX:120,nameY:405,signatureX:120,signatureY:325,dateX:120,dateY:365},
     "HP":{nameX:90,nameY:415,signatureX:110,signatureY:340,dateX:90,dateY:380},
     "Marshfield":{nameX:110,nameY:415,signatureX:115,signatureY:340,dateX:110,dateY:380},
     "HFHS":{nameX:110,nameY:380,signatureX:115,signatureY:300,dateX:110,dateY:340},
@@ -27,6 +28,11 @@ const siteToConsentSignPosMap = {
     "KPHI": {nameX:110,nameY:365,signatureX:110,signatureY:285,dateX:110,dateY:325},
     "KPNW": {nameX:110,nameY:390,signatureX:110,signatureY:310,dateX:110,dateY:345},
     "default": {nameX: 110, nameY: 400, signatureX: 110, signatureY: 330, dateX: 110, dateY: 370}
+}
+
+
+const siteToHipaaSignPosMapV2 = {
+    "HFHS":{nameX:100,nameY:425,signatureX:110,signatureY:465,dateX:100,dateY:385}
 }
 
 const defaultNameDateSignatureSize = {
@@ -540,10 +546,13 @@ async function generateSignedPdf(data, file) {
     sourcePdfLocation = './forms/consent/' + data[454205108] + '.pdf';
     dateStr = new Date(data[454445267]).toLocaleDateString();
     coords = siteToConsentSignPosMap[participantSite] ?? siteToConsentSignPosMap['default'];
-  } else if (file === 'signed-HIPAA') {
+  } 
+  else if (file === 'signed-HIPAA') {
     sourcePdfLocation = './forms/HIPAA/' + data[412000022] + '.pdf';
     dateStr = new Date(data[262613359]).toLocaleDateString();
-    coords = siteToHipaaSignPosMap[participantSite] ?? siteToHipaaSignPosMap['default'];
+    const version = data[fieldMapping.hipaaVersion].split('_')[2]
+    if(version === `V0.02` && participantSite === `HFHS`) coords = siteToHipaaSignPosMapV2[participantSite]
+    else coords = siteToHipaaSignPosMap[participantSite] ?? siteToHipaaSignPosMap['default'];
   }
 
   // adjust existing position data becaused of position shift

@@ -30,6 +30,8 @@ export default
     "userProfileSubmittedAutogen": 699625233,
     "yes": 353358909,
     "no": 104430631,
+    "consentVersion": 454205108,
+    "hipaaVersion": 412000022,
 
     moduleStatus: {
         notStarted:     972455046,
