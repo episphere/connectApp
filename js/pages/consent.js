@@ -1,7 +1,7 @@
-import { todaysDate, storeResponse, dataSavingBtn, dateTime, errorMessageConsent, siteAcronyms, getMyData, hideAnimation, showAnimation, isMobile } from "../shared.js";
+import { todaysDate, storeResponse, dataSavingBtn, dateTime, errorMessageConsent, siteAcronyms, getMyData, hideAnimation, showAnimation, isMobile, openNewTab} from "../shared.js";
 import { renderUserProfile } from "../components/form.js";
 import { removeAllErrors, addEventsConsentSign } from "../event.js";
-import { renderDownloadConsentCopy, renderDownloadHIPAA } from "./agreements.js";
+import { downloadSignedPdf } from "./agreements.js";
 
 export const consentTemplate = () => {
     consentWelcomePage();
@@ -611,7 +611,7 @@ const consentConsentPage = async () => {
                 <iframe id="pdfIframeContainer" src="${'./forms/consent/'  + participantSite + '_Consent_' + versionJSON[participantSite]['Consent'] + '.html'}" style="width:100%; height:500px; overflow:scroll;" frameborder="1px"><span class="loader">Please wait...</span></iframe>
                 <!--<object id="pdfContainer" data="https://storage.googleapis.com/myconnect_app_stage/forms/consent/HP_Consent_V1.0.pdf" style="height:500px; width:100%"></object>-->
                 <!--</div>-->
-                <div class="row"style="margin:auto"><div style="margin:auto"><a href="${'./forms/consent/'  + participantSite + '_Consent_' + versionJSON[participantSite]['Consent'] + '.pdf'}" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf" class="consentBodyFont2" data-file="consent-form"> Download an unsigned copy of the informed consent form&nbsp<i class="fas fa-file-download"></i></a></div></div>
+                <div class="row"style="margin:auto"><div style="margin:auto"><a href="${'./forms/consent/'  + participantSite + '_Consent_' + versionJSON[participantSite]['Consent'] + '.pdf'}" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf" class="consentBodyFont2" data-file="unsigned-form"> Download an unsigned copy of the informed consent form&nbsp<i class="fas fa-file-download"></i></a></div></div>
                 
                 <h4 class="consentSubheader" style="margin-top:50px">Electronic health records release (HIPAA Authorization) form</h4>
                 <p class="consentBodyFont2" style="text-indent:40px">This allows Connect to access your electronic health records.</p>
@@ -627,7 +627,7 @@ const consentConsentPage = async () => {
                 <iframe id="pdfIframeContainer1" src="${'./forms/HIPAA/'  + participantSite + '_HIPAA_' + versionJSON[participantSite]['HIPAA'] + '.html'}" style="width:100%; height:500px; overflow:scroll;" frameborder="1px"><span class="loader">Please wait...</span></iframe>
                 <!--<object id="pdfContainer1" style="height:500px; width:100%"></object>-->
                 <!--</div>-->
-                <div class="row" style="margin:auto"><div style="margin:auto"><a href="${'./forms/HIPAA/'  + participantSite + '_HIPAA_' + versionJSON[participantSite]['HIPAA'] + '.pdf'}" title="Download health records release form" data-toggle="tooltip" download="connect_hipaa.pdf" class="consentBodyFont2" data-file="consent-form">Download an unsigned copy of the release form&nbsp<i class="fas fa-file-download"></i></a></div></div>
+                <div class="row" style="margin:auto"><div style="margin:auto"><a href="${'./forms/HIPAA/'  + participantSite + '_HIPAA_' + versionJSON[participantSite]['HIPAA'] + '.pdf'}" title="Download health records release form" data-toggle="tooltip" download="connect_hipaa.pdf" class="consentBodyFont2" data-file="unsigned-form">Download an unsigned copy of the release form&nbsp<i class="fas fa-file-download"></i></a></div></div>
                 
                 
                 <p class="consentBodyFont2" style="margin-top:50px">By clicking “Yes, I agree to join Connect” and typing your name, you confirm the following:</p>
@@ -786,18 +786,8 @@ const consentConsentPage = async () => {
         consentIndigenousPage();
     })
 
-    let urlToNewTabMap = {};
-
-    function openNewTab(url) {
-      if (!urlToNewTabMap[url] || urlToNewTabMap[url].closed) {
-        urlToNewTabMap[url] = window.open(url);
-      } else {
-        urlToNewTabMap[url].focus();
-      }
-    } 
-
     if (isMobile) {
-        const anchorArray = document.querySelectorAll('a[data-file="consent-form"]');
+        const anchorArray = document.querySelectorAll('a[data-file="unsigned-form"]');
         for (const anchor of anchorArray) {
           anchor.addEventListener(
             "click",
@@ -812,21 +802,13 @@ const consentConsentPage = async () => {
     addEventConsentSubmit();
 }
 
-const initializeForm = (formName, containerName) =>{
-    let ob = document.getElementById(containerName);
-    ob.data = formName
-
-}
-
 export const consentFinishedPage = async () => {
     window.scrollTo(0, 0);
     const mainContent = document.getElementById('root');
     let template = renderProgress(10);
     const myData = await getMyData();
     let data = myData.data;
-    let siteDict = siteAcronyms();
-    let versionJSON = await fetch('./forms/Consent_versioning.json').then(res => res.json());
-    let participantSite = siteDict[myData.data['827220437']];
+
     template += `
     <div class="row">
         <div class="col-lg-2">
@@ -836,8 +818,8 @@ export const consentFinishedPage = async () => {
                 <h2>You have completed the consent process</h2>
             </div>
             <div style="margin-left:20px">
-                <div class="row"><div style="margin-left:20px"><i class="fas fa-file-download"></i> <a style="margin-left:10px" type="button" title="Download consent form" data-toggle="tooltip" id="consentDownload">Download a copy of your signed consent form&nbsp</a></div></div>
-                <div class="row"><div style="margin-left:20px"><i class="fas fa-file-download"></i> <a style="margin-left:10px" type="button" title="Download health records release form" data-toggle="tooltip" id="healthRecordsDownload">Download a copy of your signed health records release form&nbsp</a></div></div>
+                <div class="row"><div style="margin-left:20px"><i class="fas fa-file-download"></i> <a style="margin-left:10px" title="Download consent form" data-toggle="tooltip" id="consentDownload" download="signed_consent.pdf" data-file="signed-consent" >Download a copy of your signed consent form&nbsp</a></div></div>
+                <div class="row"><div style="margin-left:20px"><i class="fas fa-file-download"></i> <a style="margin-left:10px" title="Download health records release form" data-toggle="tooltip" id="healthRecordsDownload" download="signed_hipaa.pdf" data-file="signed-HIPAA" >Download a copy of your signed health records release form&nbsp</a></div></div>
             </div>
             
             <div>
@@ -854,14 +836,13 @@ export const consentFinishedPage = async () => {
     document.getElementById('toLeaving').addEventListener('click', () => {
         consentToProfilePage();
     })
-    document.getElementById('consentDownload').addEventListener('click', () => {
-        renderDownloadConsentCopy(data);
-    });
-    document.getElementById('healthRecordsDownload').addEventListener('click', () => {
-        renderDownloadHIPAA(data);
-    });
-    
 
+    const anchorIdArray= ['consentDownload', 'healthRecordsDownload'];
+    for (const anchorId of anchorIdArray) {
+      document.getElementById(anchorId).addEventListener('click', async (e) => {
+        await downloadSignedPdf(data, e);
+      });
+    }
 }
 
 export const consentToProfilePage = () => {
