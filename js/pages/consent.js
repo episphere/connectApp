@@ -839,8 +839,16 @@ export const consentFinishedPage = async () => {
 
     const anchorIdArray= ['consentDownload', 'healthRecordsDownload'];
     for (const anchorId of anchorIdArray) {
-      document.getElementById(anchorId).addEventListener('click', async (e) => {
+      const anchorElement = document.getElementById(anchorId);
+      if (!anchorElement) continue;
+
+      anchorElement.addEventListener('click', async (e) => {
         await downloadSignedPdf(data, e);
+      });
+
+      // Handle touch events in iPhone/iPad
+      anchorElement.addEventListener('touchend', (e) => {
+        anchorElement.click();
       });
     }
 }
