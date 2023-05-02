@@ -1,31 +1,62 @@
 import { allStates, showAnimation, hideAnimation, getMyData } from '../shared.js';
-import { changeEmail, changeContactInformation, changeMailingAddress, changeName, FormTypes, getCheckedRadioButtonValue, handleContactInformationRadioButtonPresets, handleOptionalFieldVisibility, hideEditButtonsUntilUserVerified, hideSuccessMessage, showAndPushElementToArrayIfExists, suffixList, suffixToTextMap, toggleElementVisibility, togglePendingVerificationMessage, updatePhoneNumberInputFocus, validateContactInformation, validateEmailAddress, validateMailingAddress, validateName } from '../settingsHelpers.js';
+import { changeEmail, changeContactInformation, changeMailingAddress, changeName, FormTypes, getCheckedRadioButtonValue, handleContactInformationRadioButtonPresets, handleOptionalFieldVisibility, hideOptionalElementsOnShowForm, hideSuccessMessage, showAndPushElementToArrayIfExists, showEditButtonsOnUserVerified, suffixList, suffixToTextMap, toggleElementVisibility, togglePendingVerificationMessage, updatePhoneNumberInputFocus, validateContactInformation, validateEmailAddress, validateMailingAddress, validateName } from '../settingsHelpers.js';
 import { addEventAddressAutoComplete } from '../event.js';
 import cId from '../fieldToConceptIdMapping.js';
 
+let changeNameButton;
+let changeContactInformationButton;
+let changeMailingAddressButton;
+let changeEmailButton;
+let nameElementArray = [];
+let mailingAddressElementArray = [];
+let contactInformationElementArray = [];
+let emailElementArray = [];
 let middleName;
 let suffix;
 let preferredFirstName;
 let otherPhoneNumberComplete;
 let additionalEmail;
+let successMessageElement;
+let isNameFormDisplayed;
+let isContactInformationFormDisplayed;
+let isMailingAddressFormDisplayed;
+let isEmailFormDisplayed;
+let canWeVoicemailMobile;
+let canWeText;
+let canWeVoicemailHome;
+let userData;
+let template = '';
 
+/**
+ * if fetch error or data is null, or profile has not been submitted, render incomplete profile message
+ * if data exists and profile has been submitted, then render the user's data
+ * if data exists and profile is verified, then render the user's data and edit functionality
+ */
 export const renderSettingsPage = async () => {
   document.title = 'My Connect - My Profile';
   showAnimation();
   const myData = await getMyData();
-  const userData = myData.data;
-  let canWeVoicemailMobile = userData[cId.canWeVoicemailMobile] === cId.yes;
-  let canWeText = userData[cId.canWeText] === cId.yes;
-  let canWeVoicemailHome = userData[cId.canWeVoicemailHome] === cId.yes;
-  middleName = userData[cId.mName];
-  suffix = userData[cId.suffix];
-  preferredFirstName = userData[cId.prefName];
-  otherPhoneNumberComplete = userData[cId.otherPhone];
-  additionalEmail = userData[cId.additionalEmail];
-  let template = '';
 
-  if (myData.code === 200 && userData[cId.userProfileSubmittedAutogen] !== undefined && userData[cId.userProfileSubmittedAutogen] === cId.yes) {
-    template += `
+  if (!myData || !myData.data || myData.code !== 200) {
+    template += `${profileIsIncomplete()}`;
+    buildPageTemplate();
+  } else {
+    userData = myData.data;
+    canWeVoicemailMobile = userData[cId.canWeVoicemailMobile] === cId.yes;
+    canWeText = userData[cId.canWeText] === cId.yes;
+    canWeVoicemailHome = userData[cId.canWeVoicemailHome] === cId.yes;
+    middleName = userData[cId.mName];
+    suffix = userData[cId.suffix];
+    preferredFirstName = userData[cId.prefName];
+    otherPhoneNumberComplete = userData[cId.otherPhone];
+    additionalEmail = userData[cId.additionalEmail];
+    isNameFormDisplayed = false;
+    isContactInformationFormDisplayed = false;
+    isMailingAddressFormDisplayed = false;
+    isEmailFormDisplayed = false;
+
+    if (userData[cId.userProfileSubmittedAutogen] === cId.yes) {
+      template += `
             <div class="row" style="margin-top:58px">
                 <div class="col-lg-3">
                 </div>
@@ -65,320 +96,308 @@ export const renderSettingsPage = async () => {
                 </div>
             </div>
                 `;
-  } else {
-    template += `
-            <div class="row align-center">
-                <span class="consentBodyFont1 w-100">
-                    You have not completed your profile yet.
-                </span>
-            </div>
-            
-        `;
-  }
+    } else {
+      template += `${profileIsIncomplete()}`;
+    }
 
+    buildPageTemplate();
+
+    /**
+     * If the user profile has been verified, then show the profile and edit functionality:
+     * Create the buttons, add the event listeners, push the elements to the arrays for visibility toggling
+     * If the user profile has not been verified, then hide the profile and edit functionality, show the pending verification message
+     */
+    if (userData[cId.verified] === cId.yes) {
+      changeNameButton = document.getElementById('changeNameButton');
+      changeContactInformationButton = document.getElementById('changeContactInformationButton');
+      changeMailingAddressButton = document.getElementById('changeMailingAddressButton');
+      changeEmailButton = document.getElementById('changeEmailButton');
+      showEditButtonsOnUserVerified();
+      handleEditNameSection();
+      handleEditContactInformationSection();
+      handleEditMailingAddressSection();
+      handleEditSignInInformationSection();
+    }
+  }
+};
+
+const buildPageTemplate = () => {
   document.getElementById('root').innerHTML = template;
   hideAnimation();
   togglePendingVerificationMessage(userData);
+};
 
-  /**
-   * If the user profile has been verified, then show the profile and edit functionality:
-   * Create the buttons, add the event listeners, push the elements to the arrays for visibility toggling
-   * If the user profile has not been verified, then hide the profile and edit functionality, show the pending verification message
-   */
-  if (
-    myData.code === 200 &&
-    userData[cId.userProfileSubmittedAutogen] !== undefined &&
-    userData[cId.userProfileSubmittedAutogen] === cId.yes &&
-    userData[cId.verified] !== undefined &&
-    userData[cId.verified] === cId.yes
-  ) {
-    const changeNameButton = document.getElementById('changeNameButton');
-    const changeContactInformationButton = document.getElementById('changeContactInformationButton');
-    const changeMailingAddressButton = document.getElementById('changeMailingAddressButton');
-    const changeEmailButton = document.getElementById('changeEmailButton');
-    const nameElementArray = [];
-    const mailingAddressElementArray = [];
-    const contactInformationElementArray = [];
-    const emailElementArray = [];
-    let successMessageElement;
-    let isNameFormDisplayed = false;
-    let isContactInformationFormDisplayed = false;
-    let isMailingAddressFormDisplayed = false;
-    let isEmailFormDisplayed = false;
+/**
+ * Name Section - push elements to array for visibility toggling if data exists
+ * Keep hidden otherwise (middle name and suffix are optional fields)
+ * on Submit: validate fields, toggle visibility, toggle button text
+ * if previously null fields have data, then show them
+ * if fields had data and are now null, then hide them
+ */
+const handleEditNameSection = () => {
+  nameElementArray.push(document.getElementById('firstNameRow'));
+  nameElementArray.push(document.getElementById('lastNameRow'));
+  nameElementArray.push(document.getElementById('changeNameGroup'));
+  const middleNameRow = document.getElementById('middleNameRow');
+  const suffixRow = document.getElementById('suffixRow');
+  const preferredFirstNameRow = document.getElementById('preferredFirstNameRow');
+  showAndPushElementToArrayIfExists(middleName, middleNameRow, nameElementArray);
+  showAndPushElementToArrayIfExists(suffix, suffixRow, nameElementArray);
+  showAndPushElementToArrayIfExists(preferredFirstName, preferredFirstNameRow, nameElementArray);
 
-    /**
-     * Name Section - push elements to array for visibility toggling if data exists
-     * Keep hidden otherwise (middle name and suffix are optional fields)
-     * on Submit: validate fields, toggle visibility, toggle button text
-     * if previously null fields have data, then show them
-     * if fields had data and are now null, then hide them
-     */
-    const handleEditNameSection = () => {
-      nameElementArray.push(document.getElementById('firstNameRow'));
-      nameElementArray.push(document.getElementById('lastNameRow'));
-      nameElementArray.push(document.getElementById('changeNameGroup'));
-      const middleNameRow = document.getElementById('middleNameRow');
-      const suffixRow = document.getElementById('suffixRow');
-      const preferredFirstNameRow = document.getElementById('preferredFirstNameRow');
-      showAndPushElementToArrayIfExists(middleName, middleNameRow, nameElementArray);
-      showAndPushElementToArrayIfExists(suffix, suffixRow, nameElementArray);
-      showAndPushElementToArrayIfExists(preferredFirstName, preferredFirstNameRow, nameElementArray);
+  changeNameButton.addEventListener('click', () => {
+    successMessageElement = hideSuccessMessage(successMessageElement);
+    isNameFormDisplayed = toggleElementVisibility(nameElementArray, isNameFormDisplayed);
+    if (isNameFormDisplayed) {
+      hideOptionalElementsOnShowForm([middleNameRow, suffixRow, preferredFirstNameRow]);
+      toggleActiveForm(FormTypes.NAME);
+    }
+    toggleButtonText(changeNameButton, changeContactInformationButton, changeMailingAddressButton, changeEmailButton);
+  });
 
-      changeNameButton.addEventListener('click', () => {
-        successMessageElement = hideSuccessMessage(successMessageElement);
-        isNameFormDisplayed = toggleElementVisibility(nameElementArray, isNameFormDisplayed);
-        if (isNameFormDisplayed) {
-          toggleActiveForm(FormTypes.NAME);
-        }
-        toggleButtonText();
-      });
+  document.getElementById('changeNameSubmit').addEventListener('click', e => {
+    const firstName = document.getElementById('newFirstNameField').value.trim();
+    const lastName = document.getElementById('newLastNameField').value.trim();
+    middleName = document.getElementById('newMiddleNameField').value.trim();
+    suffix = document.getElementById('newSuffixNameField').value.trim();
+    preferredFirstName = document.getElementById('newPreferredFirstNameField').value.trim();
 
-      document.getElementById('changeNameSubmit').addEventListener('click', e => {
-        const firstName = document.getElementById('newFirstNameField').value.trim();
-        const lastName = document.getElementById('newLastNameField').value.trim();
-        middleName = document.getElementById('newMiddleNameField').value.trim();
-        suffix = document.getElementById('newSuffixNameField').value.trim();
-        preferredFirstName = document.getElementById('newPreferredFirstNameField').value.trim();
+    const isNameValid = validateName(firstName, lastName, middleName);
+    if (isNameValid) {
+      isNameFormDisplayed = toggleElementVisibility(nameElementArray, isNameFormDisplayed);
+      toggleButtonText();
 
-        const isNameValid = validateName(firstName, lastName, middleName);
-        if (isNameValid) {
-          isNameFormDisplayed = toggleElementVisibility(nameElementArray, isNameFormDisplayed);
-          toggleButtonText();
+      changeName(firstName, lastName, middleName, suffix, preferredFirstName)
+        .then(() => {
+          handleOptionalFieldVisibility(middleName, 'profileMiddleName', middleNameRow, nameElementArray[0], 'text');
+          handleOptionalFieldVisibility(suffix, 'profileSuffix', suffixRow, nameElementArray[0], 'suffix');
+          handleOptionalFieldVisibility(preferredFirstName, 'profilePreferredFirstName', preferredFirstNameRow, nameElementArray[0], 'text');
+          successMessageElement = document.getElementById('changeNameSuccess');
+          successMessageElement.style.display = 'block';
+          document.getElementById('profileFirstName').textContent = firstName;
+          document.getElementById('profileLastName').textContent = lastName;
+        })
+        .catch(function (error) {
+          document.getElementById('changeNameFail').style.display = 'block';
+          document.getElementById('changeNameError').innerHTML = error.message;
+        });
+    }
+  });
+};
 
-          changeName(firstName, lastName, middleName, suffix, preferredFirstName)
-            .then(() => {
-              handleOptionalFieldVisibility(middleName, 'profileMiddleName', middleNameRow, nameElementArray[0], 'text');
-              handleOptionalFieldVisibility(suffix, 'profileSuffix', suffixRow, nameElementArray[0], 'suffix');
-              handleOptionalFieldVisibility(preferredFirstName, 'profilePreferredFirstName', preferredFirstNameRow, nameElementArray[0], 'text');
-              successMessageElement = document.getElementById('changeNameSuccess');
-              successMessageElement.style.display = 'block';
-              document.getElementById('profileFirstName').textContent = firstName;
-              document.getElementById('profileLastName').textContent = lastName;
-            })
-            .catch(function (error) {
-              document.getElementById('changeNameFail').style.display = 'block';
-              document.getElementById('changeNameError').innerHTML = error.message;
-            });
-        }
-      });
-    };
+/**
+ * Handle Contact information - all fields required
+ * push elements to array for visibility toggling
+ * Validate client-side
+ * It if validates, update firestore (re-validate server-side) and hide the form
+ * If it doesn't validate, alert the user about the error
+ */
+const handleEditContactInformationSection = () => {
+  contactInformationElementArray.push(document.getElementById('mobilePhoneRow'));
+  contactInformationElementArray.push(document.getElementById('mobilePhoneVoicemailRow'));
+  contactInformationElementArray.push(document.getElementById('mobilePhoneTextRow'));
+  contactInformationElementArray.push(document.getElementById('homePhoneRow'));
+  contactInformationElementArray.push(document.getElementById('homePhoneVoicemailRow'));
+  contactInformationElementArray.push(document.getElementById('preferredEmailRow'));
+  contactInformationElementArray.push(document.getElementById('changeContactInformationGroup'));
+  const otherPhoneRow = document.getElementById('otherPhoneRow');
+  const additionalEmailRow = document.getElementById('additionalEmailRow');
+  showAndPushElementToArrayIfExists(otherPhoneNumberComplete, otherPhoneRow, contactInformationElementArray);
+  showAndPushElementToArrayIfExists(additionalEmail, additionalEmailRow, contactInformationElementArray);
 
-    /**
-     * Handle Contact information - all fields required
-     * push elements to array for visibility toggling
-     * Validate client-side
-     * It if validates, update firestore (re-validate server-side) and hide the form
-     * If it doesn't validate, alert the user about the error
-     */
-    const handleEditContactInformationSection = () => {
-      contactInformationElementArray.push(document.getElementById('mobilePhoneRow'));
-      contactInformationElementArray.push(document.getElementById('mobilePhoneVoicemailRow'));
-      contactInformationElementArray.push(document.getElementById('mobilePhoneTextRow'));
-      contactInformationElementArray.push(document.getElementById('homePhoneRow'));
-      contactInformationElementArray.push(document.getElementById('homePhoneVoicemailRow'));
-      contactInformationElementArray.push(document.getElementById('preferredEmailRow'));
-      contactInformationElementArray.push(document.getElementById('changeContactInformationGroup'));
-      const otherPhoneRow = document.getElementById('otherPhoneRow');
-      const additionalEmailRow = document.getElementById('additionalEmailRow');
-      showAndPushElementToArrayIfExists(otherPhoneNumberComplete, otherPhoneRow, contactInformationElementArray);
-      showAndPushElementToArrayIfExists(additionalEmail, additionalEmailRow, contactInformationElementArray);
+  changeContactInformationButton.addEventListener('click', () => {
+    successMessageElement = hideSuccessMessage(successMessageElement);
+    isContactInformationFormDisplayed = toggleElementVisibility(contactInformationElementArray, isContactInformationFormDisplayed);
+    if (isContactInformationFormDisplayed) {
+      hideOptionalElementsOnShowForm([otherPhoneRow, additionalEmailRow]);
+      toggleActiveForm(FormTypes.CONTACT);
+    }
+    toggleButtonText();
+    handleContactInformationRadioButtonPresets(canWeVoicemailMobile, canWeText, canWeVoicemailHome);
+    updatePhoneNumberInputFocus();
+  });
 
-      changeContactInformationButton.addEventListener('click', () => {
-        successMessageElement = hideSuccessMessage(successMessageElement);
-        isContactInformationFormDisplayed = toggleElementVisibility(contactInformationElementArray, isContactInformationFormDisplayed);
-        if (isContactInformationFormDisplayed) {
-          toggleActiveForm(FormTypes.CONTACT);
-        }
-        toggleButtonText();
-        handleContactInformationRadioButtonPresets(canWeVoicemailMobile, canWeText, canWeVoicemailHome);
-        updatePhoneNumberInputFocus();
-      });
+  document.getElementById('changeContactInformationSubmit').addEventListener('click', e => {
+    const mobilePhoneNumberPart1 = document.getElementById('mobilePhoneNumber1').value;
+    const mobilePhoneNumberPart2 = document.getElementById('mobilePhoneNumber2').value;
+    const mobilePhoneNumberPart3 = document.getElementById('mobilePhoneNumber3').value;
+    const mobilePhoneNumberComplete = `${mobilePhoneNumberPart1}${mobilePhoneNumberPart2}${mobilePhoneNumberPart3}`;
 
-      document.getElementById('changeContactInformationSubmit').addEventListener('click', e => {
-        const mobilePhoneNumberPart1 = document.getElementById('mobilePhoneNumber1').value;
-        const mobilePhoneNumberPart2 = document.getElementById('mobilePhoneNumber2').value;
-        const mobilePhoneNumberPart3 = document.getElementById('mobilePhoneNumber3').value;
-        const mobilePhoneNumberComplete = `${mobilePhoneNumberPart1}${mobilePhoneNumberPart2}${mobilePhoneNumberPart3}`;
+    const homePhoneNumberPart1 = document.getElementById('homePhoneNumber1').value;
+    const homePhoneNumberPart2 = document.getElementById('homePhoneNumber2').value;
+    const homePhoneNumberPart3 = document.getElementById('homePhoneNumber3').value;
+    const homePhoneNumberComplete = `${homePhoneNumberPart1}${homePhoneNumberPart2}${homePhoneNumberPart3}`;
 
-        const homePhoneNumberPart1 = document.getElementById('homePhoneNumber1').value;
-        const homePhoneNumberPart2 = document.getElementById('homePhoneNumber2').value;
-        const homePhoneNumberPart3 = document.getElementById('homePhoneNumber3').value;
-        const homePhoneNumberComplete = `${homePhoneNumberPart1}${homePhoneNumberPart2}${homePhoneNumberPart3}`;
+    canWeVoicemailMobile = getCheckedRadioButtonValue('mobileVoicemailPermissionYesRadio');
+    canWeText = getCheckedRadioButtonValue('textPermissionYesRadio');
+    canWeVoicemailHome = getCheckedRadioButtonValue('homeVoicemailPermissionYesRadio');
 
-        canWeVoicemailMobile = getCheckedRadioButtonValue('mobileVoicemailPermissionYesRadio');
-        canWeText = getCheckedRadioButtonValue('textPermissionYesRadio');
-        canWeVoicemailHome = getCheckedRadioButtonValue('homeVoicemailPermissionYesRadio');
+    const preferredEmail = document.getElementById('newPreferredEmail').value.toLowerCase().trim();
 
-        const preferredEmail = document.getElementById('newPreferredEmail').value.toLowerCase().trim();
+    const otherPhoneNumberPart1 = document.getElementById('otherPhoneNumber1').value;
+    const otherPhoneNumberPart2 = document.getElementById('otherPhoneNumber2').value;
+    const otherPhoneNumberPart3 = document.getElementById('otherPhoneNumber3').value;
+    otherPhoneNumberComplete = `${otherPhoneNumberPart1}${otherPhoneNumberPart2}${otherPhoneNumberPart3}`;
+    additionalEmail = document.getElementById('newAdditionalEmail').value.toLowerCase().trim();
 
-        const otherPhoneNumberPart1 = document.getElementById('otherPhoneNumber1').value;
-        const otherPhoneNumberPart2 = document.getElementById('otherPhoneNumber2').value;
-        const otherPhoneNumberPart3 = document.getElementById('otherPhoneNumber3').value;
-        otherPhoneNumberComplete = `${otherPhoneNumberPart1}${otherPhoneNumberPart2}${otherPhoneNumberPart3}`;
-        additionalEmail = document.getElementById('newAdditionalEmail').value.toLowerCase().trim();
+    const isContactInformationValid = validateContactInformation(mobilePhoneNumberComplete, homePhoneNumberComplete, preferredEmail, otherPhoneNumberComplete, additionalEmail);
+    if (isContactInformationValid) {
+      isContactInformationFormDisplayed = toggleElementVisibility(contactInformationElementArray, isContactInformationFormDisplayed);
+      toggleButtonText();
+      changeContactInformation(mobilePhoneNumberComplete, homePhoneNumberComplete, canWeVoicemailMobile, canWeText, canWeVoicemailHome, preferredEmail, otherPhoneNumberComplete, additionalEmail)
+        .then(() => {
+          handleOptionalFieldVisibility(otherPhoneNumberComplete, 'profileOtherPhoneNumber', otherPhoneRow, contactInformationElementArray[0], 'phone');
+          handleOptionalFieldVisibility(additionalEmail, 'profileAdditionalEmail', additionalEmailRow, contactInformationElementArray[0], 'text');
+          successMessageElement = document.getElementById('changeContactInformationSuccess');
+          successMessageElement.style.display = 'block';
+          document.getElementById('profileMobilePhoneNumber').textContent = `${mobilePhoneNumberPart1} - ${mobilePhoneNumberPart2} - ${mobilePhoneNumberPart3}`;
+          document.getElementById('profileMobileVoicemailPermission').textContent = canWeVoicemailMobile === cId.yes ? 'Yes' : 'No';
+          document.getElementById('profileMobileTextPermission').textContent = canWeText === cId.yes ? 'Yes' : 'No';
+          document.getElementById('profileHomePhoneNumber').textContent = `${homePhoneNumberPart1} - ${homePhoneNumberPart2} - ${homePhoneNumberPart3}`;
+          document.getElementById('profileHomeVoicemailPermission').textContent = canWeVoicemailHome === cId.yes ? 'Yes' : 'No';
+          document.getElementById('profilePreferredEmail').textContent = preferredEmail;
+        })
+        .catch(function (error) {
+          document.getElementById('changeContactInformationFail').style.display = 'block';
+          document.getElementById('changeContactInformationError').innerHTML = error.message;
+        });
+    }
+  });
+};
 
-        const isContactInformationValid = validateContactInformation(mobilePhoneNumberPart1, mobilePhoneNumberPart2, mobilePhoneNumberPart3, mobilePhoneNumberComplete, homePhoneNumberPart1, homePhoneNumberPart2, homePhoneNumberPart3, homePhoneNumberComplete, preferredEmail, otherPhoneNumberPart1, otherPhoneNumberPart2, otherPhoneNumberPart3, otherPhoneNumberComplete, additionalEmail);
-        if (isContactInformationValid) {
-          isContactInformationFormDisplayed = toggleElementVisibility(contactInformationElementArray, isContactInformationFormDisplayed);
-          toggleButtonText();
-          changeContactInformation(mobilePhoneNumberComplete, homePhoneNumberComplete, canWeVoicemailMobile, canWeText, canWeVoicemailHome, preferredEmail, otherPhoneNumberComplete, additionalEmail)
-            .then(() => {
-              handleOptionalFieldVisibility(otherPhoneNumberComplete, 'profileOtherPhoneNumber', otherPhoneRow, contactInformationElementArray[0], 'phone');
-              handleOptionalFieldVisibility(additionalEmail, 'profileAdditionalEmail', additionalEmailRow, contactInformationElementArray[0], 'text');
-              successMessageElement = document.getElementById('changeContactInformationSuccess');
-              successMessageElement.style.display = 'block';
-              document.getElementById('profileMobilePhoneNumber').textContent = `${mobilePhoneNumberPart1} - ${mobilePhoneNumberPart2} - ${mobilePhoneNumberPart3}`;
-              document.getElementById('profileMobileVoicemailPermission').textContent = canWeVoicemailMobile === cId.yes ? 'Yes' : 'No';
-              document.getElementById('profileMobileTextPermission').textContent = canWeText === cId.yes ? 'Yes' : 'No';
-              document.getElementById('profileHomePhoneNumber').textContent = `${homePhoneNumberPart1} - ${homePhoneNumberPart2} - ${homePhoneNumberPart3}`;
-              document.getElementById('profileHomeVoicemailPermission').textContent = canWeVoicemailHome === cId.yes ? 'Yes' : 'No';
-              document.getElementById('profilePreferredEmail').textContent = preferredEmail;
-            })
-            .catch(function (error) {
-              document.getElementById('changeContactInformationFail').style.display = 'block';
-              document.getElementById('changeContactInformationError').innerHTML = error.message;
-            });
-        }
-      });
-    };
+/**
+ * Handle Mailing Address
+ * push elements to array for visibility toggling
+ * uses Google Maps API to autocomplete address
+ * Maps API/autocomplete added on 'click' only where mailingAddressForm is visible to (avoid unnecessary API calls/sessions)
+ * Validate client-side
+ * It if validates, update firestore (re-validate server-side) and hide the form
+ * If it doesn't validate, alert the user about the error
+ */
+const handleEditMailingAddressSection = () => {
+  mailingAddressElementArray.push(document.getElementById('currentMailingAddressDiv'));
+  mailingAddressElementArray.push(document.getElementById('changeMailingAddressGroup'));
+  changeMailingAddressButton.addEventListener('click', () => {
+    successMessageElement = hideSuccessMessage(successMessageElement);
+    isMailingAddressFormDisplayed = toggleElementVisibility(mailingAddressElementArray, isMailingAddressFormDisplayed);
+    if (isMailingAddressFormDisplayed) {
+      toggleActiveForm(FormTypes.MAILING);
+      addEventAddressAutoComplete(1);
+    }
+    toggleButtonText();
+  });
 
-    /**
-     * Handle Mailing Address
-     * push elements to array for visibility toggling
-     * uses Google Maps API to autocomplete address
-     * Maps API/autocomplete added on 'click' only where mailingAddressForm is visible to (avoid unnecessary API calls/sessions)
-     * Validate client-side
-     * It if validates, update firestore (re-validate server-side) and hide the form
-     * If it doesn't validate, alert the user about the error
-     */
-    const handleEditMailingAddressSection = () => {
-      mailingAddressElementArray.push(document.getElementById('currentMailingAddressDiv'));
-      mailingAddressElementArray.push(document.getElementById('changeMailingAddressGroup'));
-      changeMailingAddressButton.addEventListener('click', () => {
-        successMessageElement = hideSuccessMessage(successMessageElement);
-        isMailingAddressFormDisplayed = toggleElementVisibility(mailingAddressElementArray, isMailingAddressFormDisplayed);
-        if (isMailingAddressFormDisplayed) {
-          toggleActiveForm(FormTypes.MAILING);
-          addEventAddressAutoComplete(1);
-        }
-        toggleButtonText();
-      });
+  document.getElementById('changeMailingAddressSubmit').addEventListener('click', e => {
+    const addressLine1 = document.getElementById('UPAddress1Line1').value.trim();
+    const addressLine2 = document.getElementById('UPAddress1Line2').value.trim();
+    const city = document.getElementById('UPAddress1City').value.trim();
+    const state = document.getElementById('UPAddress1State').value.trim();
+    const zip = document.getElementById('UPAddress1Zip').value.trim();
 
-      document.getElementById('changeMailingAddressSubmit').addEventListener('click', e => {
-        const addressLine1 = document.getElementById('UPAddress1Line1').value.trim();
-        const addressLine2 = document.getElementById('UPAddress1Line2').value.trim();
-        const city = document.getElementById('UPAddress1City').value.trim();
-        const state = document.getElementById('UPAddress1State').value.trim();
-        const zip = document.getElementById('UPAddress1Zip').value.trim();
+    const isMailingAddressValid = validateMailingAddress(addressLine1, city, state, zip);
+    if (isMailingAddressValid) {
+      isMailingAddressFormDisplayed = toggleElementVisibility(mailingAddressElementArray, isMailingAddressFormDisplayed);
+      toggleButtonText();
+      changeMailingAddress(addressLine1, addressLine2, city, state, zip)
+        .then(() => {
+          if (!addressLine2 || addressLine2 === '') {
+            document.getElementById('profileMailingAddress').innerHTML = `${addressLine1}</br>${city}, ${state} ${zip}`;
+          } else {
+            document.getElementById('profileMailingAddress').innerHTML = `${addressLine1}</br>${addressLine2}</br>${city}, ${state} ${zip}`;
+          }
+          successMessageElement = document.getElementById('mailingAddressSuccess');
+          successMessageElement.style.display = 'block';
+        })
+        .catch(function (error) {
+          document.getElementById('mailingAddressFail').style.display = 'block';
+          document.getElementById('mailingAddressError').innerHTML = error.message;
+        });
+    }
+  });
+};
 
-        const isMailingAddressValid = validateMailingAddress(addressLine1, city, state, zip);
-        if (isMailingAddressValid) {
-          isMailingAddressFormDisplayed = toggleElementVisibility(mailingAddressElementArray, isMailingAddressFormDisplayed);
-          toggleButtonText();
-          changeMailingAddress(addressLine1, addressLine2, city, state, zip)
-            .then(() => {
-              if (!addressLine2 || addressLine2 === '') {
-                document.getElementById('profileMailingAddress').innerHTML = `${addressLine1}</br>${city}, ${state} ${zip}`;
-              } else {
-                document.getElementById('profileMailingAddress').innerHTML = `${addressLine1}</br>${addressLine2}</br>${city}, ${state} ${zip}`;
-              }
-              successMessageElement = document.getElementById('mailingAddressSuccess');
-              successMessageElement.style.display = 'block';
-            })
-            .catch(function (error) {
-              document.getElementById('mailingAddressFail').style.display = 'block';
-              document.getElementById('mailingAddressError').innerHTML = error.message;
-            });
-        }
-      });
-    };
+const handleEditSignInInformationSection = () => {
+  emailElementArray.push(document.getElementById('currentSignInInformationDiv'));
+  emailElementArray.push(document.getElementById('changeEmailGroup'));
 
-    const handleEditSignInInformationSection = () => {
-      emailElementArray.push(document.getElementById('currentSignInInformationDiv'));
-      emailElementArray.push(document.getElementById('changeEmailGroup'));
+  changeEmailButton.addEventListener('click', () => {
+    successMessageElement = hideSuccessMessage(successMessageElement);
+    isEmailFormDisplayed = toggleElementVisibility(emailElementArray, isEmailFormDisplayed);
+    if (isEmailFormDisplayed) {
+      toggleActiveForm(FormTypes.EMAIL);
+    }
+    toggleButtonText();
+  });
 
-      changeEmailButton.addEventListener('click', () => {
-        successMessageElement = hideSuccessMessage(successMessageElement);
-        isEmailFormDisplayed = toggleElementVisibility(emailElementArray, isEmailFormDisplayed);
-        if (isEmailFormDisplayed) {
-          toggleActiveForm(FormTypes.EMAIL);
-        }
-        toggleButtonText();
-      });
+  document.getElementById('changeEmailSubmit').addEventListener('click', e => {
+    const email = document.getElementById('newEmailField').value.trim();
+    const emailConfirm = document.getElementById('newEmailFieldCheck').value.trim();
 
-      document.getElementById('changeEmailSubmit').addEventListener('click', e => {
-        const email = document.getElementById('newEmailField').value.trim();
-        const emailConfirm = document.getElementById('newEmailFieldCheck').value.trim();
+    const isEmailValid = validateEmailAddress(email, emailConfirm);
 
-        const isEmailValid = validateEmailAddress(email, emailConfirm);
+    if (isEmailValid) {
+      isEmailFormDisplayed = toggleElementVisibility(emailElementArray, isEmailFormDisplayed);
+      toggleButtonText();
+      changeEmail(email)
+        .then(() => {
+          document.getElementById('profileEmailAddress').textContent = email;
+          successMessageElement = document.getElementById('emailSuccess');
+          successMessageElement.style.display = 'block';
+        })
+        .catch(function (error) {
+          document.getElementById('emailFail').style.display = 'block';
+          document.getElementById('emailError').innerHTML = error.message;
+        });
+    }
+  });
+};
 
-        if (isEmailValid) {
-          isEmailFormDisplayed = toggleElementVisibility(emailElementArray, isEmailFormDisplayed);
-          toggleButtonText();
-          changeEmail(email)
-            .then(() => {
-              document.getElementById('profileEmailAddress').textContent = email;
-              successMessageElement = document.getElementById('emailSuccess');
-              successMessageElement.style.display = 'block';
-            })
-            .catch(function (error) {
-              document.getElementById('emailFail').style.display = 'block';
-              document.getElementById('emailError').innerHTML = error.message;
-            });
-        }
-      });
-    };
-
-    const toggleActiveForm = clickedFormType => {
-      switch (clickedFormType) {
-        case FormTypes.NAME:
-          isContactInformationFormDisplayed = isContactInformationFormDisplayed ? toggleElementVisibility(contactInformationElementArray, isContactInformationFormDisplayed) : false;
-          isMailingAddressFormDisplayed = isMailingAddressFormDisplayed ? toggleElementVisibility(mailingAddressElementArray, isMailingAddressFormDisplayed) : false;
-          isEmailFormDisplayed = isEmailFormDisplayed ? toggleElementVisibility(emailElementArray, isEmailFormDisplayed) : false;
-          break;
-        case FormTypes.CONTACT:
-          isNameFormDisplayed = isNameFormDisplayed ? toggleElementVisibility(nameElementArray, isNameFormDisplayed) : false;
-          isMailingAddressFormDisplayed = isMailingAddressFormDisplayed ? toggleElementVisibility(mailingAddressElementArray, isMailingAddressFormDisplayed) : false;
-          isEmailFormDisplayed = isEmailFormDisplayed ? toggleElementVisibility(emailElementArray, isEmailFormDisplayed) : false;
-          break;
-        case FormTypes.MAILING:
-          isNameFormDisplayed = isNameFormDisplayed ? toggleElementVisibility(nameElementArray, isNameFormDisplayed) : false;
-          isContactInformationFormDisplayed = isContactInformationFormDisplayed ? toggleElementVisibility(contactInformationElementArray, isContactInformationFormDisplayed) : false;
-          isEmailFormDisplayed = isEmailFormDisplayed ? toggleElementVisibility(emailElementArray, isEmailFormDisplayed) : false;
-          break;
-        case FormTypes.EMAIL:
-          isNameFormDisplayed = isNameFormDisplayed ? toggleElementVisibility(nameElementArray, isNameFormDisplayed) : false;
-          isContactInformationFormDisplayed = isContactInformationFormDisplayed ? toggleElementVisibility(contactInformationElementArray, isContactInformationFormDisplayed) : false;
-          isMailingAddressFormDisplayed = isMailingAddressFormDisplayed ? toggleElementVisibility(mailingAddressElementArray, isMailingAddressFormDisplayed) : false;
-          break;
-        default:
-          break;
-      }
-    };
-
-    const toggleButtonText = () => {
-      changeNameButton.textContent = isNameFormDisplayed ? 'Cancel' : 'Update Name';
-      changeContactInformationButton.textContent = isContactInformationFormDisplayed ? 'Cancel' : 'Update Contact Info';
-      changeMailingAddressButton.textContent = isMailingAddressFormDisplayed ? 'Cancel' : 'Update Mailing Address';
-      changeEmailButton.textContent = isEmailFormDisplayed ? 'Cancel' : 'Update Email Address';
-    };
-
-    /**
-     * Get the editable elements, push to their respective arrays, add event listeners
-     * Hide editable elements if user is not yet verified in the system
-     */
-    handleEditNameSection();
-    handleEditContactInformationSection();
-    handleEditMailingAddressSection();
-    handleEditSignInInformationSection();
-  } else {
-    hideEditButtonsUntilUserVerified();
+const toggleActiveForm = clickedFormType => {
+  switch (clickedFormType) {
+    case FormTypes.NAME:
+      isContactInformationFormDisplayed = isContactInformationFormDisplayed ? toggleElementVisibility(contactInformationElementArray, isContactInformationFormDisplayed) : false;
+      isMailingAddressFormDisplayed = isMailingAddressFormDisplayed ? toggleElementVisibility(mailingAddressElementArray, isMailingAddressFormDisplayed) : false;
+      isEmailFormDisplayed = isEmailFormDisplayed ? toggleElementVisibility(emailElementArray, isEmailFormDisplayed) : false;
+      break;
+    case FormTypes.CONTACT:
+      isNameFormDisplayed = isNameFormDisplayed ? toggleElementVisibility(nameElementArray, isNameFormDisplayed) : false;
+      isMailingAddressFormDisplayed = isMailingAddressFormDisplayed ? toggleElementVisibility(mailingAddressElementArray, isMailingAddressFormDisplayed) : false;
+      isEmailFormDisplayed = isEmailFormDisplayed ? toggleElementVisibility(emailElementArray, isEmailFormDisplayed) : false;
+      break;
+    case FormTypes.MAILING:
+      isNameFormDisplayed = isNameFormDisplayed ? toggleElementVisibility(nameElementArray, isNameFormDisplayed) : false;
+      isContactInformationFormDisplayed = isContactInformationFormDisplayed ? toggleElementVisibility(contactInformationElementArray, isContactInformationFormDisplayed) : false;
+      isEmailFormDisplayed = isEmailFormDisplayed ? toggleElementVisibility(emailElementArray, isEmailFormDisplayed) : false;
+      break;
+    case FormTypes.EMAIL:
+      isNameFormDisplayed = isNameFormDisplayed ? toggleElementVisibility(nameElementArray, isNameFormDisplayed) : false;
+      isContactInformationFormDisplayed = isContactInformationFormDisplayed ? toggleElementVisibility(contactInformationElementArray, isContactInformationFormDisplayed) : false;
+      isMailingAddressFormDisplayed = isMailingAddressFormDisplayed ? toggleElementVisibility(mailingAddressElementArray, isMailingAddressFormDisplayed) : false;
+      break;
+    default:
+      break;
   }
+};
+
+const toggleButtonText = () => {
+  changeNameButton.textContent = isNameFormDisplayed ? 'Cancel' : 'Update Name';
+  changeContactInformationButton.textContent = isContactInformationFormDisplayed ? 'Cancel' : 'Update Contact Info';
+  changeMailingAddressButton.textContent = isMailingAddressFormDisplayed ? 'Cancel' : 'Update Mailing Address';
+  changeEmailButton.textContent = isEmailFormDisplayed ? 'Cancel' : 'Update Email Address';
 };
 
 /**
  * Start: HTML rendering functions
  */
+export const profileIsIncomplete = () => {
+  return `
+        <div class="row align-center">
+            <span class="consentBodyFont1 w-100">
+                You have not completed your profile yet.
+            </span>
+        </div>
+    `;
+};
 
 export const renderNameHeadingAndButton = () => {
   return `
@@ -387,7 +406,7 @@ export const renderNameHeadingAndButton = () => {
         <span class="userProfileLabels">Name</span>
       </div>
       <div class="col">
-        <button id="changeNameButton" class="btn btn-primary save-data consentNextButton" style="float:right;">
+        <button id="changeNameButton" class="btn btn-primary save-data consentNextButton" style="float:right; display:none;">
           Update Name
         </button>
       </div>
@@ -549,7 +568,7 @@ export const renderContactInformationHeadingAndButton = () => {
                   </span>
               </div>
               <div class="col">
-                  <button id="changeContactInformationButton" class="btn btn-primary save-data consentNextButton" style="float:right;">Update Contact Info</button>
+                  <button id="changeContactInformationButton" class="btn btn-primary save-data consentNextButton" style="float:right; display:none;">Update Contact Info</button>
               </div>
           </div>
       `;
@@ -688,7 +707,7 @@ export const renderChangeContactInformationGroup = userData => {
                   <div class="form-group row">
                       <div class="col">
                           <label for"editMobilePhone" class="col-form-label">
-                              Mobile phone <span class="required"</span>
+                              Mobile phone <span class="required">*</span>
                           </label>
                           <br>
                           <div class="btn-group col-md-4" id="editMobilePhone" style="margin-left:0px;">
@@ -729,15 +748,14 @@ export const renderChangeContactInformationGroup = userData => {
                   <div class="form-group row">
                       <div class="col">
                           <label for="editHomePhone" class="col-form-label">
-                              Home phone <span class="required"></span>
+                              Home phone <span class="required">*</span>
                           </label>
                           <br>
-                          <div class="btn-group col-md-4" id="editHomePhone">
+                          <div class="btn-group col-md-4" id="editHomePhone" style="margin-left:0px;">
                             <input type="tel" class="form-control num-val-phone" value="${userData[cId.homePhone].substr(0, 3)}" id="homePhoneNumber1" data-val-pattern="[1-9]{1}[0-9]{2}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
                             <input type="tel" class="form-control num-val-phone" value="${userData[cId.homePhone].substr(3, 3)}" id="homePhoneNumber2" data-val-pattern="[0-9]{3}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
                             <input type="tel" class="form-control num-val-phone" value="${userData[cId.homePhone].substr(6, 4)}" id="homePhoneNumber3" data-val-pattern="[0-9]{4}" title="Only numbers are allowed." size="4" maxlength="4" Placeholder="9999">
                           </div>
-                          
                       </div>
                   </div>
   
@@ -760,7 +778,7 @@ export const renderChangeContactInformationGroup = userData => {
                               Other phone (optional)
                           </label>
                           <br>
-                          <div class="btn-group col-md-4" id="editOtherPhone">
+                          <div class="btn-group col-md-4" id="editOtherPhone" style="margin-left:0px;">
                             <input type="tel" class="form-control num-val-phone" value="${userData[cId.otherPhone] ? `${userData[cId.otherPhone].substr(0, 3)}` : ''}" id="otherPhoneNumber1" data-val-pattern="[1-9]{1}[0-9]{2}" title="Only numbers are allowed." size="3" maxlength="3"> <span class="hyphen">-</span>
                             <input type="tel" class="form-control num-val-phone" value="${userData[cId.otherPhone] ? `${userData[cId.otherPhone].substr(3, 3)}` : ''}" id="otherPhoneNumber2" data-val-pattern="[0-9]{3}" title="Only numbers are allowed." size="3" maxlength="3"> <span class="hyphen">-</span>
                             <input type="tel" class="form-control num-val-phone" value="${userData[cId.otherPhone] ? `${userData[cId.otherPhone].substr(6, 4)}` : ''}" id="otherPhoneNumber3" data-val-pattern="[0-9]{4}" title="Only numbers are allowed." size="4" maxlength="4">
@@ -816,7 +834,7 @@ export const renderMailingAddressHeadingAndButton = () => {
               </span>
           </div>
           <div class="col">
-              <button id="changeMailingAddressButton" class="btn btn-primary save-data consentNextButton" style="float:right;">Update Address</button>
+              <button id="changeMailingAddressButton" class="btn btn-primary save-data consentNextButton" style="float:right; display:none;">Update Address</button>
           </div>
       </div>
       `;
@@ -936,7 +954,7 @@ export const renderSignInInformationHeadingAndButton = () => {
               </span>
           </div>
           <div class="col">
-              <button id="changeEmailButton" class="btn btn-primary save-data consentNextButton" style="float:right;">Update Login Email</button>
+              <button id="changeEmailButton" class="btn btn-primary save-data consentNextButton" style="float:right; display:none;">Update Login Email</button>
           </div>
       </div>
       `;
