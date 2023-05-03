@@ -67,9 +67,7 @@ async function startModule(data, modules, moduleId, questDiv) {
         if(response.status === 200 && response.data) {
             sha = response.data[0].sha;
 
-            url += sha;
-            if(location.host === urls.prod) url += "/prod";
-            url += "/" + path;
+            url += sha + "/" + path;
             
             let moduleText = await (await fetch(url)).text();
             let match = moduleText.match("{\"version\":\s*\"([0-9]{1,2}[\.]{1}[0-9]{1,3})\"}");
@@ -104,9 +102,7 @@ async function startModule(data, modules, moduleId, questDiv) {
         if (modules[fieldMapping[moduleId].conceptId]['sha']) {
             sha = modules[fieldMapping[moduleId].conceptId]['sha'];
 
-            url += sha;
-            if(location.host === urls.prod) url += "/prod";
-            url += "/" + path;
+            url += sha + "/" + path;
         }
         else {
             console.log("Error: No SHA found for module.");
