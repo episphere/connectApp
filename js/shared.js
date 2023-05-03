@@ -857,15 +857,30 @@ export const getConceptVariableName = async (conceptId) => {
 }
 
 export const questionnaireModules = () => {
-    return {
-        'Background and Overall Health': {path: 'module1Stage.txt', moduleId:"Module1", enabled:true},
-        'Medications, Reproductive Health, Exercise, and Sleep': {path: 'module2Stage.txt', moduleId:"Module2", enabled:false},
-        'Smoking, Alcohol, and Sun Exposure': {path: 'module3Stage.txt', moduleId:"Module3", enabled:false},
-        'Where You Live and Work': {path: 'module4Stage.txt', moduleId:"Module4", enabled:false},
-        'Enter SSN': {path: 'ssnModule.txt', moduleId:"ModuleSsn", enabled:false},
-        'Biospecimen Survey': {path: 'moduleBiospecimenStage.txt', moduleId:"Biospecimen", enabled:false},
-        'Clinical Biospecimen Survey': {path: 'moduleClinicalBloodUrineStage.txt', moduleId:"ClinicalBiospecimen", enabled:false},
-        'Menstrual Cycle': {path: 'moduleMenstrualStage.txt', moduleId:"MenstrualCycle", enabled:false}
+    
+    if(location.host === urls.prod) {
+        return {
+            'Background and Overall Health': {path: 'prod/module1.txt', moduleId:"Module1", enabled:true},
+            'Medications, Reproductive Health, Exercise, and Sleep': {path: 'prod/module2.txt', moduleId:"Module2", enabled:false},
+            'Smoking, Alcohol, and Sun Exposure': {path: 'prod/module3.txt', moduleId:"Module3", enabled:false},
+            'Where You Live and Work': {path: 'prod/module4.txt', moduleId:"Module4", enabled:false},
+            'Enter SSN': {path: 'prod/ssnModule.txt', moduleId:"ModuleSsn", enabled:false},
+            'Biospecimen Survey': {path: 'prod/moduleBiospecimen.txt', moduleId:"Biospecimen", enabled:false},
+            'Clinical Biospecimen Survey': {path: 'prod/moduleClinicalBloodUrine.txt', moduleId:"ClinicalBiospecimen", enabled:false},
+            'Menstrual Cycle': {path: 'prod/moduleMenstrual.txt', moduleId:"MenstrualCycle", enabled:false}
+        }
+    }
+    else {
+        return {
+            'Background and Overall Health': {path: 'module1Stage.txt', moduleId:"Module1", enabled:true},
+            'Medications, Reproductive Health, Exercise, and Sleep': {path: 'module2Stage.txt', moduleId:"Module2", enabled:false},
+            'Smoking, Alcohol, and Sun Exposure': {path: 'module3Stage.txt', moduleId:"Module3", enabled:false},
+            'Where You Live and Work': {path: 'module4Stage.txt', moduleId:"Module4", enabled:false},
+            'Enter SSN': {path: 'ssnModule.txt', moduleId:"ModuleSsn", enabled:false},
+            'Biospecimen Survey': {path: 'moduleBiospecimenStage.txt', moduleId:"Biospecimen", enabled:false},
+            'Clinical Biospecimen Survey': {path: 'moduleClinicalBloodUrineStage.txt', moduleId:"ClinicalBiospecimen", enabled:false},
+            'Menstrual Cycle': {path: 'moduleMenstrualStage.txt', moduleId:"MenstrualCycle", enabled:false}
+        }
     }
 }
 export const isBrowserCompatible = () => {
