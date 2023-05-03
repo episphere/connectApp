@@ -13,8 +13,6 @@ a{
 
 #root {
     height: 100%;
-    /*border-top: 1px solid #ffffff;
-    margin-top:10px;*/
     margin-top:1px;
     margin-left:15px;
     margin-right:15px;
@@ -502,10 +500,6 @@ canvas {
     overflow: auto;
 }
 
-#additionalEmailBtn {
-    /*padding-left: 0px*/
-}
-
 .connect-notification {
     position: relative;
 }
@@ -595,10 +589,6 @@ canvas {
     color: #1c4f6e !important;
 }
 
-/* .navbar-nav:hover {
-    border-bottom: 2px solid #bc1f40 !important;
-} */
-
 .btn-agreement {
     border: 0px;
 }
@@ -612,20 +602,6 @@ canvas {
     color: #ffffff !important;
     border-color: #918c8d !important;
 }
-
-/* @media (prefers-color-scheme: dark) {
-    body {
-        background-color: #1c1e21 !important;
-        color: #ffffff !important;
-        border-color: #918c8d !important;
-    }
-}
-  @media (prefers-color-scheme: light) {
-    body {
-        background-color: #ffffff;
-        color: #000000;
-    }
-} */
 
 .dark-modal {
     background-color: #1c1e21 !important;
@@ -852,10 +828,6 @@ input:checked + .slider:before {
     max-height: 350px;
 }
 
-.navbar-toggler {
-    /*border-color: #ffffff !important;*/
-}
-
 .nci-connect-logo {
     padding-left: 0px !important;
 }
@@ -922,7 +894,6 @@ input:checked + .slider:before {
     color:white;
     font-size: 46px;
     margin-right:auto;
-    /*font-family:"Montserrat Bold", bold;*/
 }
 
 .homeTitleText em{
@@ -1016,7 +987,6 @@ input:checked + .slider:before {
     background-color:#2a72a5; 
     padding-top:60px;
     line-height:1;
-    /*margin-bottom:180px;*/
 }
 
 .hovertext::before {
@@ -1158,6 +1128,11 @@ input:checked + .slider:before {
 .userProfileLinePaddings{
     padding-top:0px;
 }
+
+.custom-form-label {
+    font-weight: bold;
+    color: #333;
+  }
 
 
 @media (max-width: 819px) and (min-width:768px){
