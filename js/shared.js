@@ -1157,8 +1157,8 @@ function wrapToDiv(nodes) {
 export const delay = async (ms) =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
-export const validEmailFormat = /^[\p{L}\p{N}!#$%&'*+\-/=?^_`{|}~]+(\.[\p{L}\p{N}!#$%&'*+\-/=?^_`{|}~]+)*@[\p{L}\p{N}-]+(\.[\p{L}\p{N}-]+)*(\.[\p{L}\p{N}]{2,24}|\.xn--[\p{L}\p{N}-]{2,59})$/u;
-  
+export const validEmailFormat = /^[a-zA-Z0-9.!#$%&'*+"\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,63}$/;
+
 export const validNameFormat = /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-.]+$/i;
 
 // valid phone number examples: +1 123-456-789, 1-123-456-7890, 123-456-7890, 1234567890, 123.456 7890, (123)456-7890, (123) 456-7890, 123 456.7890, 123 456-7890, 123-456.7890, etc.
