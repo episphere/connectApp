@@ -1,4 +1,4 @@
-import { errorMessage, storeResponse, validEmailFormat, validPhoneNumberFormat } from './shared.js';
+import { errorMessage, storeResponse, validEmailFormat, validNameFormat, validPhoneNumberFormat } from './shared.js';
 import { removeAllErrors } from './event.js';
 import cId from './fieldToConceptIdMapping.js';
 
@@ -48,25 +48,39 @@ export const hideSuccessMessage = successMessageElement => {
   return null;
 };
 
-export const handleOptionalFieldVisibility = (value, text, element, matcher, type) => {
+export const handleOptionalFieldVisibility = (value, text, element, matcher, type, isRadioParentTruthy) => {
   if (value) {
+    const displayValue = matcher.style.display;
     if (type === 'text') {
-      document.getElementById(text).textContent = value;
+      updateElementContentAndDisplay(element, text, value, displayValue);
     } else if (type === 'suffix') {
-      document.getElementById(text).textContent = suffixToTextMap.get(parseInt(value));
+      updateElementContentAndDisplay(element, text, suffixToTextMap.get(parseInt(value)), displayValue);
     } else if (type === 'phone') {
-      document.getElementById(text).textContent = `${value.substring(0, 3)} - ${value.substring(3, 6)} - ${value.substring(6, 10)}`;
+      const formattedPhone = `${value.substring(0, 3)} - ${value.substring(3, 6)} - ${value.substring(6, 10)}`;
+      updateElementContentAndDisplay(element, text, formattedPhone, displayValue);
+    } else if (type === 'radio') {
+      if (isRadioParentTruthy) {
+        const radioText = value === cId.yes ? 'Yes' : 'No';
+        updateElementContentAndDisplay(element, text, radioText, displayValue);
+      } else {
+        element.style.display = 'none';
+      }
     } else {
       console.error('ERROR: bad type expression in handleOptionalFieldVisibility');
     }
-    element.style.display = matcher.style.display;
   } else {
     element.style.display = 'none';
   }
+  return value;
 };
 
-export const showAndPushElementToArrayIfExists = (value, element, array) => {
-  if (value && element) {
+const updateElementContentAndDisplay = (element, text, content, display) => {
+  document.getElementById(text).textContent = content;
+  element.style.display = display;
+};
+
+export const showAndPushElementToArrayIfExists = (value, element, isParentTruthy, array) => {
+  if (value !== null && value !== '' && element && isParentTruthy) {
     element.style.display = 'block';
     array.push(element);
   }
@@ -74,17 +88,21 @@ export const showAndPushElementToArrayIfExists = (value, element, array) => {
 
 export const hideOptionalElementsOnShowForm = elementsArray => {
   elementsArray.forEach(element => {
-    element.style.display = 'none';
+    if (element !== null) {
+      element.style.display = 'none';
+    }
   });
 };
 
-export const handleContactInformationRadioButtonPresets = (canWeVoicemailMobile, canWeText, canWeVoicemailHome) => {
+export const handleContactInformationRadioButtonPresets = (canWeVoicemailMobile, canWeText, canWeVoicemailHome, canWeVoicemailOther) => {
   document.getElementById('mobileVoicemailPermissionYesRadio').checked = canWeVoicemailMobile;
   document.getElementById('mobileVoicemailPermissionNoRadio').checked = !canWeVoicemailMobile;
   document.getElementById('textPermissionYesRadio').checked = canWeText;
   document.getElementById('textPermissionNoRadio').checked = !canWeText;
   document.getElementById('homeVoicemailPermissionYesRadio').checked = canWeVoicemailHome;
   document.getElementById('homeVoicemailPermissionNoRadio').checked = !canWeVoicemailHome;
+  document.getElementById('otherVoicemailPermissionYesRadio').checked = canWeVoicemailOther;
+  document.getElementById('otherVoicemailPermissionNoRadio').checked = !canWeVoicemailOther;
 };
 
 export const FormTypes = {
@@ -109,24 +127,25 @@ export const updatePhoneNumberInputFocus = () => {
   phoneElementIds.forEach(initFocusHandler);
 };
 
-export const validateName = (firstName, lastName, middleName) => {
+export const validateName = (firstNameField, lastNameField, middleNameField) => {
   removeAllErrors();
   let hasError = false;
   let focus = true;
-
   let nameFieldArray;
-  if (middleName) {
-    nameFieldArray = [firstName, lastName, middleName];
+  if (middleNameField) {
+    nameFieldArray = [firstNameField, lastNameField, middleNameField];
   } else {
-    nameFieldArray = [firstName, lastName];
+    nameFieldArray = [firstNameField, lastNameField];
   }
 
-  nameFieldArray.forEach(element => {
-    if (element.value) {
-      const validationPattern = element.dataset.validationPattern;
+  nameFieldArray.forEach(item => {
+    console.log(item.value);
+    console.log(item.id);
+    if (item.value) {
+      const validationPattern = item.dataset.validationPattern;
       if (validationPattern && validationPattern === 'alphabets') {
-        if (!/^[A-Za-z\s-]+$/.test(element.value)) {
-          errorMessage(element.id, element.dataset.errorValidation, focus);
+        if (!validNameFormat.test(item.value)) {
+          errorMessage(item.id, item.dataset.errorValidation, focus);
           focus = false;
           hasError = true;
         }
@@ -134,13 +153,13 @@ export const validateName = (firstName, lastName, middleName) => {
     }
   });
 
-  if (!firstName) {
+  if (!firstNameField.value) {
     errorMessage('newFirstNameField', 'Please enter a first name', focus);
     focus = false;
     hasError = true;
   }
 
-  if (!lastName) {
+  if (!lastNameField.value) {
     errorMessage('newLastNameField', 'Please enter a last name', focus);
     focus = false;
     hasError = true;
@@ -160,14 +179,23 @@ export const validateContactInformation = (mobilePhoneNumberComplete, homePhoneN
   let hasError = false;
   let focus = true;
 
-  if (!validPhoneNumberFormat.test(mobilePhoneNumberComplete)) {
+  if (!mobilePhoneNumberComplete && !homePhoneNumberComplete && !otherPhoneNumberComplete) {
+    errorMessage('editMobilePhone', 'At least one phone number is required. Please enter at least one 10-digit phone number in this format: 999-999-9999.');
+    errorMessage('editHomePhone', 'At least one phone number is required. Please enter at least one 10-digit phone number in this format: 999-999-9999.');
+    errorMessage('editOtherPhone', 'At least one phone number is required. Please enter at least one 10-digit phone number in this format: 999-999-9999.');
+    if (focus) document.getElementById('editMobilePhone').focus();
+    focus = false;
+    hasError = true;
+  }
+
+  if (mobilePhoneNumberComplete && !validPhoneNumberFormat.test(mobilePhoneNumberComplete)) {
     errorMessage('editMobilePhone', 'Please enter a 10-digit phone number in this format: 999-999-9999.');
     if (focus) document.getElementById('editMobilePhone').focus();
     focus = false;
     hasError = true;
   }
 
-  if (!validPhoneNumberFormat.test(homePhoneNumberComplete)) {
+  if (homePhoneNumberComplete && !validPhoneNumberFormat.test(homePhoneNumberComplete)) {
     errorMessage('editHomePhone', 'Please enter a 10-digit phone number in this format: 999-999-9999.');
     if (focus) document.getElementById('editHomePhone').focus();
     focus = false;
@@ -181,13 +209,7 @@ export const validateContactInformation = (mobilePhoneNumberComplete, homePhoneN
     hasError = true;
   }
 
-  if (!preferredEmail) {
-    errorMessage('newPreferredEmail', 'Please enter an email address.', focus);
-    focus = false;
-    hasError = true;
-  }
-
-  if (preferredEmail && !validEmailFormat.test(preferredEmail)) {
+  if (!preferredEmail || !validEmailFormat.test(preferredEmail)) {
     errorMessage('newPreferredEmail', 'Please enter an email address in this format: name@example.com.', focus);
     if (focus) document.getElementById('newPreferredEmail').focus();
     focus = false;
@@ -202,7 +224,7 @@ export const validateContactInformation = (mobilePhoneNumberComplete, homePhoneN
   }
 
   if (hasError) {
-    console.log('Error(s) found.');
+    console.error('Error(s) found.');
     return false;
   }
 
@@ -244,7 +266,7 @@ export const validateMailingAddress = (addressLine1, city, state, zip) => {
   }
 
   if (hasError) {
-    console.log('Error(s) found.');
+    console.error('Error(s) found.');
     return false;
   }
 
@@ -286,18 +308,24 @@ export const changeName = async (firstName, lastName, middleName, suffix, prefer
   });
 };
 
-export const changeContactInformation = async (mobilePhoneNumberComplete, homePhoneNumberComplete, canWeVoicemailMobile, canWeText, canWeVoicemailHome, preferredEmail, otherPhoneNumber, additionalEmail) => {
+export const changeContactInformation = async (mobilePhoneNumberComplete, homePhoneNumberComplete, canWeVoicemailMobile, canWeText, canWeVoicemailHome, preferredEmail, otherPhoneNumberComplete, canWeVoicemailOther, additionalEmail) => {
   document.getElementById('changeContactInformationFail').style.display = 'none';
   document.getElementById('changeContactInformationGroup').style.display = 'none';
 
+  canWeVoicemailMobile = mobilePhoneNumberComplete ? canWeVoicemailMobile : cId.no;
+  canWeText = mobilePhoneNumberComplete ? canWeText : cId.no;
+  canWeVoicemailHome = homePhoneNumberComplete ? canWeVoicemailHome : cId.no;
+  canWeVoicemailOther = otherPhoneNumberComplete ? canWeVoicemailOther : cId.no;
+
   const formData = {
-    388711124: mobilePhoneNumberComplete,
+    388711124: mobilePhoneNumberComplete ?? '',
     271757434: canWeVoicemailMobile,
     646873644: canWeText,
-    438643922: homePhoneNumberComplete,
+    438643922: homePhoneNumberComplete ?? '',
     187894482: canWeVoicemailHome,
     869588347: preferredEmail,
-    793072415: otherPhoneNumber ?? '',
+    793072415: otherPhoneNumberComplete ?? '',
+    983278853: canWeVoicemailOther,
     849786503: additionalEmail ?? '',
   };
 

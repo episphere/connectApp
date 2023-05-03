@@ -502,9 +502,11 @@ canvas {
     overflow: auto;
 }
 
+/*
 #additionalEmailBtn {
-    /*padding-left: 0px*/
+    padding-left: 0px
 }
+*/
 
 .connect-notification {
     position: relative;
@@ -852,9 +854,11 @@ input:checked + .slider:before {
     max-height: 350px;
 }
 
+/*
 .navbar-toggler {
-    /*border-color: #ffffff !important;*/
+    border-color: #ffffff !important;
 }
+*/
 
 .nci-connect-logo {
     padding-left: 0px !important;
@@ -1158,6 +1162,11 @@ input:checked + .slider:before {
 .userProfileLinePaddings{
     padding-top:0px;
 }
+
+.custom-form-label {
+    font-weight: bold;
+    color: #333;
+  }
 
 
 @media (max-width: 819px) and (min-width:768px){

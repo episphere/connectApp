@@ -1159,6 +1159,7 @@ export const delay = async (ms) =>
 
 export const validEmailFormat = /^[\p{L}\p{N}!#$%&'*+\-/=?^_`{|}~]+(\.[\p{L}\p{N}!#$%&'*+\-/=?^_`{|}~]+)*@[\p{L}\p{N}-]+(\.[\p{L}\p{N}-]+)*(\.[\p{L}\p{N}]{2,24}|\.xn--[\p{L}\p{N}-]{2,59})$/u;
   
+export const validNameFormat = /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-.]+$/i;
 
 // valid phone number examples: +1 123-456-789, 1-123-456-7890, 123-456-7890, 1234567890, 123.456 7890, (123)456-7890, (123) 456-7890, 123 456.7890, 123 456-7890, 123-456.7890, etc.
 export const validPhoneNumberFormat =
