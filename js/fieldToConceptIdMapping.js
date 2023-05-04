@@ -35,7 +35,7 @@ export default
     "hipaaVersion": 412000022,
     "heardAboutStudyForm" : 142654897,
 
-    "heardAboutStudyList":{
+    "heardAboutStudyCheckBoxes":{
         checkbox1: 196856782,
         checkbox2: 461488577,
         checkbox3: 942255248,
