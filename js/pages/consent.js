@@ -4,6 +4,7 @@ import { removeAllErrors, addEventsConsentSign } from "../event.js";
 import { downloadSignedPdf } from "./agreements.js";
 import { heardAboutStudy } from "./healthCareProvider.js";
 import {addEventHeardAboutStudy} from "../event.js"
+import fieldMapping from "../fieldToConceptIdMapping.js";
 
 export const consentTemplate = () => {
     consentWelcomePage();
@@ -131,8 +132,8 @@ const consentWelcomePage = () => {
     })
     document.getElementById('backToHeardAboutStudyForm').addEventListener('click', async () => {
         const myData = await getMyData();
-        const formData = myData.code === 200 && myData.data['142654897']
-         ? myData.data['142654897'] 
+        const formData = myData.code === 200 && myData.data[fieldMapping.heardAboutStudyForm]
+         ? myData.data[fieldMapping.heardAboutStudyForm] 
          : {}
         const mainContent = document.getElementById('root');
         mainContent.innerHTML = heardAboutStudy(formData);

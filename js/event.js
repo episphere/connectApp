@@ -2,6 +2,7 @@ import { allCountries, dataSavingBtn, storeResponse, validatePin, generateNewTok
 import { consentTemplate } from "./pages/consent.js";
 import { heardAboutStudy, healthCareProvider } from "./pages/healthCareProvider.js";
 import { myToDoList } from "./pages/myToDoList.js";
+import fieldMapping from "./fieldToConceptIdMapping.js";
 
 export const addEventsConsentSign = () => {
     document.getElementById('CSFirstName').addEventListener('keyup', () => {
@@ -196,26 +197,26 @@ export const addEventHeardAboutStudy = () => {
         e.preventDefault();
         dataSavingBtn('save-data');
         let formData = {};
-        formData["142654897"] = {};
-        formData["142654897"]["196856782"] = document.getElementById('checkbox1').checked ? 353358909 : 104430631;
-        formData["142654897"]["461488577"] = document.getElementById('checkbox2').checked ? 353358909 : 104430631;
-        formData["142654897"]["942255248"] = document.getElementById('checkbox3').checked ? 353358909 : 104430631;
-        formData["142654897"]["791389099"] = document.getElementById('checkbox4').checked ? 353358909 : 104430631;
-        formData["142654897"]["642287621"] = document.getElementById('checkbox5').checked ? 353358909 : 104430631;
-        formData["142654897"]["607081902"] = document.getElementById('checkbox6').checked ? 353358909 : 104430631;
-        formData["142654897"]["549687190"] = document.getElementById('checkbox7').checked ? 353358909 : 104430631;
-        formData["142654897"]["326825649"] = document.getElementById('checkbox8').checked ? 353358909 : 104430631;
-        formData["142654897"]["819377306"] = document.getElementById('checkbox9').checked ? 353358909 : 104430631;
-        formData["142654897"]["829269606"] = document.getElementById('checkbox10').checked ? 353358909 : 104430631;
-        formData["142654897"]["462314689"] = document.getElementById('checkbox11').checked ? 353358909 : 104430631;
-        formData["142654897"]["639721694"] = document.getElementById('checkbox12').checked ? 353358909 : 104430631;
-        formData["142654897"]["177402915"] = document.getElementById('checkbox13').checked ? 353358909 : 104430631;
-        formData["142654897"]["684726272"] = document.getElementById('checkbox14').checked ? 353358909 : 104430631;
-        formData["142654897"]["241590841"] = document.getElementById('checkbox15').checked ? 353358909 : 104430631;
-        formData["142654897"]["206879104"] = document.getElementById('checkbox16').checked ? 353358909 : 104430631;
-        formData["142654897"]["520301146"] = document.getElementById('checkbox17').checked ? 353358909 : 104430631;
-        formData["142654897"]["285130077"] = document.getElementById('checkbox18').checked ? 353358909 : 104430631;
-        formData["142654897"]["967372009"] = document.getElementById('checkbox19').checked ? 353358909 : 104430631;
+        formData[fieldMapping.heardAboutStudyForm] = {};
+        formData[fieldMapping.heardAboutStudyForm][fieldMapping.heardAboutStudyList.checkbox1]= document.getElementById('checkbox1').checked ? fieldMapping.yes : fieldMapping.no;
+        formData[fieldMapping.heardAboutStudyForm][fieldMapping.heardAboutStudyList.checkbox2] = document.getElementById('checkbox2').checked ? fieldMapping.yes : fieldMapping.no;
+        formData[fieldMapping.heardAboutStudyForm][fieldMapping.heardAboutStudyList.checkbox3] = document.getElementById('checkbox3').checked ? fieldMapping.yes : fieldMapping.no;
+        formData[fieldMapping.heardAboutStudyForm][fieldMapping.heardAboutStudyList.checkbox4] = document.getElementById('checkbox4').checked ? fieldMapping.yes : fieldMapping.no;
+        formData[fieldMapping.heardAboutStudyForm][fieldMapping.heardAboutStudyList.checkbox5] = document.getElementById('checkbox5').checked ? fieldMapping.yes : fieldMapping.no;
+        formData[fieldMapping.heardAboutStudyForm][fieldMapping.heardAboutStudyList.checkbox6] = document.getElementById('checkbox6').checked ? fieldMapping.yes : fieldMapping.no;
+        formData[fieldMapping.heardAboutStudyForm][fieldMapping.heardAboutStudyList.checkbox7] = document.getElementById('checkbox7').checked ? fieldMapping.yes : fieldMapping.no;
+        formData[fieldMapping.heardAboutStudyForm][fieldMapping.heardAboutStudyList.checkbox8] = document.getElementById('checkbox8').checked ? fieldMapping.yes : fieldMapping.no;
+        formData[fieldMapping.heardAboutStudyForm][fieldMapping.heardAboutStudyList.checkbox9] = document.getElementById('checkbox9').checked ? fieldMapping.yes : fieldMapping.no;
+        formData[fieldMapping.heardAboutStudyForm][fieldMapping.heardAboutStudyList.checkbox10] = document.getElementById('checkbox10').checked ? fieldMapping.yes : fieldMapping.no;
+        formData[fieldMapping.heardAboutStudyForm][fieldMapping.heardAboutStudyList.checkbox11] = document.getElementById('checkbox11').checked ? fieldMapping.yes : fieldMapping.no;
+        formData[fieldMapping.heardAboutStudyForm][fieldMapping.heardAboutStudyList.checkbox12] = document.getElementById('checkbox12').checked ? fieldMapping.yes : fieldMapping.no;
+        formData[fieldMapping.heardAboutStudyForm][fieldMapping.heardAboutStudyList.checkbox13] = document.getElementById('checkbox13').checked ? fieldMapping.yes : fieldMapping.no;
+        formData[fieldMapping.heardAboutStudyForm][fieldMapping.heardAboutStudyList.checkbox14] = document.getElementById('checkbox14').checked ? fieldMapping.yes : fieldMapping.no;
+        formData[fieldMapping.heardAboutStudyForm][fieldMapping.heardAboutStudyList.checkbox15] = document.getElementById('checkbox15').checked ? fieldMapping.yes : fieldMapping.no;
+        formData[fieldMapping.heardAboutStudyForm][fieldMapping.heardAboutStudyList.checkbox16] = document.getElementById('checkbox16').checked ? fieldMapping.yes : fieldMapping.no;
+        formData[fieldMapping.heardAboutStudyForm][fieldMapping.heardAboutStudyList.checkbox17] = document.getElementById('checkbox17').checked ? fieldMapping.yes : fieldMapping.no;
+        formData[fieldMapping.heardAboutStudyForm][fieldMapping.heardAboutStudyList.checkbox18] = document.getElementById('checkbox18').checked ? fieldMapping.yes : fieldMapping.no;
+        formData[fieldMapping.heardAboutStudyForm][fieldMapping.heardAboutStudyList.checkbox19] = document.getElementById('checkbox19').checked ? fieldMapping.yes : fieldMapping.no;
         
         const response = await storeResponse(formData);
         if(response.code === 200) {
