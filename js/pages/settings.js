@@ -29,7 +29,17 @@ let canWeVoicemailHome;
 let canWeVoicemailOther;
 let userData;
 let template = '';
-
+let middleNameRow;
+let suffixRow;
+let preferredFirstNameRow;
+let mobilePhoneRow;
+let mobilePhoneVoicemailRow;
+let mobilePhoneTextRow;
+let homePhoneRow;
+let homePhoneVoicemailRow;
+let otherPhoneRow;
+let otherPhoneVoicemailRow;
+let additionalEmailRow;
 /**
  * if fetch error or data is null, or profile has not been submitted, render incomplete profile message
  * if data exists and profile has been submitted, then render the user's data
@@ -130,6 +140,12 @@ const buildPageTemplate = () => {
   document.getElementById('root').innerHTML = template;
   hideAnimation();
   togglePendingVerificationMessage(userData);
+  if (userData[cId.userProfileSubmittedAutogen] === cId.yes) {
+    loadNameElements();
+    loadContactInformationElements();
+    loadMailingAddressElements();
+    loadSignInInformationElements();
+  }
 };
 
 /**
@@ -139,17 +155,19 @@ const buildPageTemplate = () => {
  * if previously null fields have data, then show them
  * if fields had data and are now null, then hide them
  */
-const handleEditNameSection = () => {
+const loadNameElements = () => {
   nameElementArray.push(document.getElementById('firstNameRow'));
   nameElementArray.push(document.getElementById('lastNameRow'));
   nameElementArray.push(document.getElementById('changeNameGroup'));
-  const middleNameRow = document.getElementById('middleNameRow');
-  const suffixRow = document.getElementById('suffixRow');
-  const preferredFirstNameRow = document.getElementById('preferredFirstNameRow');
+  middleNameRow = document.getElementById('middleNameRow');
+  suffixRow = document.getElementById('suffixRow');
+  preferredFirstNameRow = document.getElementById('preferredFirstNameRow');
   showAndPushElementToArrayIfExists(middleName, middleNameRow, !!middleName, nameElementArray);
   showAndPushElementToArrayIfExists(suffix, suffixRow, !!suffix, nameElementArray);
   showAndPushElementToArrayIfExists(preferredFirstName, preferredFirstNameRow, !!preferredFirstName, nameElementArray);
+};
 
+const handleEditNameSection = () => {
   changeNameButton.addEventListener('click', () => {
     successMessageElement = hideSuccessMessage(successMessageElement);
     isNameFormDisplayed = toggleElementVisibility(nameElementArray, isNameFormDisplayed);
@@ -173,23 +191,25 @@ const handleEditNameSection = () => {
       middleName = middleNameField.value.trim();
       isNameFormDisplayed = toggleElementVisibility(nameElementArray, isNameFormDisplayed);
       toggleButtonText();
-
-      changeName(firstName, lastName, middleName, suffix, preferredFirstName)
-        .then(() => {
-          handleOptionalFieldVisibility(middleName, 'profileMiddleName', middleNameRow, nameElementArray[0], 'text');
-          handleOptionalFieldVisibility(suffix, 'profileSuffix', suffixRow, nameElementArray[0], 'suffix');
-          handleOptionalFieldVisibility(preferredFirstName, 'profilePreferredFirstName', preferredFirstNameRow, nameElementArray[0], 'text');
-          successMessageElement = document.getElementById('changeNameSuccess');
-          successMessageElement.style.display = 'block';
-          document.getElementById('profileFirstName').textContent = firstName;
-          document.getElementById('profileLastName').textContent = lastName;
-        })
-        .catch(function (error) {
-          document.getElementById('changeNameFail').style.display = 'block';
-          document.getElementById('changeNameError').innerHTML = error.message;
-        });
+      submitNewName(firstName, lastName);
     }
   });
+};
+
+const submitNewName = async (firstName, lastName) => {
+  const isSuccess = await changeName(firstName, lastName, middleName, suffix, preferredFirstName, userData).catch(function (error) {
+    document.getElementById('changeNameFail').style.display = 'block';
+    document.getElementById('changeNameError').innerHTML = error.message;
+  });
+  if (isSuccess) {
+    handleOptionalFieldVisibility(middleName, 'profileMiddleName', middleNameRow, nameElementArray[0], 'text');
+    handleOptionalFieldVisibility(suffix, 'profileSuffix', suffixRow, nameElementArray[0], 'suffix');
+    handleOptionalFieldVisibility(preferredFirstName, 'profilePreferredFirstName', preferredFirstNameRow, nameElementArray[0], 'text');
+    successMessageElement = document.getElementById('changeNameSuccess');
+    successMessageElement.style.display = 'block';
+    document.getElementById('profileFirstName').textContent = firstName;
+    document.getElementById('profileLastName').textContent = lastName;
+  }
 };
 
 /**
@@ -199,18 +219,17 @@ const handleEditNameSection = () => {
  * It if validates, update firestore (re-validate server-side) and hide the form
  * If it doesn't validate, alert the user about the error
  */
-const handleEditContactInformationSection = () => {
+const loadContactInformationElements = () => {
   contactInformationElementArray.push(document.getElementById('preferredEmailRow'));
   contactInformationElementArray.push(document.getElementById('changeContactInformationGroup'));
-  const mobilePhoneRow = document.getElementById('mobilePhoneRow');
-  const mobilePhoneVoicemailRow = document.getElementById('mobilePhoneVoicemailRow');
-  const mobilePhoneTextRow = document.getElementById('mobilePhoneTextRow');
-  const homePhoneRow = document.getElementById('homePhoneRow');
-  const homePhoneVoicemailRow = document.getElementById('homePhoneVoicemailRow');
-  const otherPhoneRow = document.getElementById('otherPhoneRow');
-  const otherPhoneVoicemailRow = document.getElementById('otherPhoneVoicemailRow');
-  const additionalEmailRow = document.getElementById('additionalEmailRow');
-
+  mobilePhoneRow = document.getElementById('mobilePhoneRow');
+  mobilePhoneVoicemailRow = document.getElementById('mobilePhoneVoicemailRow');
+  mobilePhoneTextRow = document.getElementById('mobilePhoneTextRow');
+  homePhoneRow = document.getElementById('homePhoneRow');
+  homePhoneVoicemailRow = document.getElementById('homePhoneVoicemailRow');
+  otherPhoneRow = document.getElementById('otherPhoneRow');
+  otherPhoneVoicemailRow = document.getElementById('otherPhoneVoicemailRow');
+  additionalEmailRow = document.getElementById('additionalEmailRow');
   showAndPushElementToArrayIfExists(mobilePhoneNumberComplete, mobilePhoneRow, !!mobilePhoneNumberComplete, contactInformationElementArray);
   showAndPushElementToArrayIfExists(canWeVoicemailMobile, mobilePhoneVoicemailRow, !!mobilePhoneNumberComplete, contactInformationElementArray);
   showAndPushElementToArrayIfExists(canWeText, mobilePhoneTextRow, !!mobilePhoneNumberComplete, contactInformationElementArray);
@@ -219,6 +238,9 @@ const handleEditContactInformationSection = () => {
   showAndPushElementToArrayIfExists(otherPhoneNumberComplete, otherPhoneRow, !!otherPhoneNumberComplete, contactInformationElementArray);
   showAndPushElementToArrayIfExists(canWeVoicemailOther, otherPhoneVoicemailRow, !!otherPhoneNumberComplete, contactInformationElementArray);
   showAndPushElementToArrayIfExists(additionalEmail, additionalEmailRow, !!additionalEmail, contactInformationElementArray);
+};
+
+const handleEditContactInformationSection = () => {
   changeContactInformationButton.addEventListener('click', () => {
     successMessageElement = hideSuccessMessage(successMessageElement);
     isContactInformationFormDisplayed = toggleElementVisibility(contactInformationElementArray, isContactInformationFormDisplayed);
@@ -257,26 +279,29 @@ const handleEditContactInformationSection = () => {
     if (isContactInformationValid) {
       isContactInformationFormDisplayed = toggleElementVisibility(contactInformationElementArray, isContactInformationFormDisplayed);
       toggleButtonText();
-      changeContactInformation(mobilePhoneNumberComplete, homePhoneNumberComplete, canWeVoicemailMobile, canWeText, canWeVoicemailHome, preferredEmail, otherPhoneNumberComplete, canWeVoicemailOther, additionalEmail)
-        .then(() => {
-          handleOptionalFieldVisibility(mobilePhoneNumberComplete, 'profileMobilePhoneNumber', mobilePhoneRow, contactInformationElementArray[0], 'phone');
-          handleOptionalFieldVisibility(canWeVoicemailMobile, 'profileMobileVoicemailPermission', mobilePhoneVoicemailRow, contactInformationElementArray[0], 'radio', !!mobilePhoneNumberComplete);
-          handleOptionalFieldVisibility(canWeText, 'profileMobileTextPermission', mobilePhoneTextRow, contactInformationElementArray[0], 'radio', !!mobilePhoneNumberComplete);
-          handleOptionalFieldVisibility(homePhoneNumberComplete, 'profileHomePhoneNumber', homePhoneRow, contactInformationElementArray[0], 'phone');
-          handleOptionalFieldVisibility(canWeVoicemailHome, 'profileHomeVoicemailPermission', homePhoneVoicemailRow, contactInformationElementArray[0], 'radio', !!homePhoneNumberComplete);
-          handleOptionalFieldVisibility(otherPhoneNumberComplete, 'profileOtherPhoneNumber', otherPhoneRow, contactInformationElementArray[0], 'phone');
-          handleOptionalFieldVisibility(canWeVoicemailOther, 'profileOtherVoicemailPermission', otherPhoneVoicemailRow, contactInformationElementArray[0], 'radio', !!otherPhoneNumberComplete);
-          handleOptionalFieldVisibility(additionalEmail, 'profileAdditionalEmail', additionalEmailRow, contactInformationElementArray[0], 'text');
-          successMessageElement = document.getElementById('changeContactInformationSuccess');
-          successMessageElement.style.display = 'block';
-          document.getElementById('profilePreferredEmail').textContent = preferredEmail;
-        })
-        .catch(function (error) {
-          document.getElementById('changeContactInformationFail').style.display = 'block';
-          document.getElementById('changeContactInformationError').innerHTML = error.message;
-        });
+      submitNewContactInformation(preferredEmail);
     }
   });
+};
+
+const submitNewContactInformation = async preferredEmail => {
+  const isSuccess = await changeContactInformation(mobilePhoneNumberComplete, homePhoneNumberComplete, canWeVoicemailMobile, canWeText, canWeVoicemailHome, preferredEmail, otherPhoneNumberComplete, canWeVoicemailOther, additionalEmail, userData).catch(function (error) {
+    document.getElementById('changeContactInformationFail').style.display = 'block';
+    document.getElementById('changeContactInformationError').innerHTML = error.message;
+  });
+  if (isSuccess) {
+    handleOptionalFieldVisibility(mobilePhoneNumberComplete, 'profileMobilePhoneNumber', mobilePhoneRow, contactInformationElementArray[0], 'phone');
+    handleOptionalFieldVisibility(canWeVoicemailMobile, 'profileMobileVoicemailPermission', mobilePhoneVoicemailRow, contactInformationElementArray[0], 'radio', !!mobilePhoneNumberComplete);
+    handleOptionalFieldVisibility(canWeText, 'profileMobileTextPermission', mobilePhoneTextRow, contactInformationElementArray[0], 'radio', !!mobilePhoneNumberComplete);
+    handleOptionalFieldVisibility(homePhoneNumberComplete, 'profileHomePhoneNumber', homePhoneRow, contactInformationElementArray[0], 'phone');
+    handleOptionalFieldVisibility(canWeVoicemailHome, 'profileHomeVoicemailPermission', homePhoneVoicemailRow, contactInformationElementArray[0], 'radio', !!homePhoneNumberComplete);
+    handleOptionalFieldVisibility(otherPhoneNumberComplete, 'profileOtherPhoneNumber', otherPhoneRow, contactInformationElementArray[0], 'phone');
+    handleOptionalFieldVisibility(canWeVoicemailOther, 'profileOtherVoicemailPermission', otherPhoneVoicemailRow, contactInformationElementArray[0], 'radio', !!otherPhoneNumberComplete);
+    handleOptionalFieldVisibility(additionalEmail, 'profileAdditionalEmail', additionalEmailRow, contactInformationElementArray[0], 'text');
+    successMessageElement = document.getElementById('changeContactInformationSuccess');
+    successMessageElement.style.display = 'block';
+    document.getElementById('profilePreferredEmail').textContent = preferredEmail;
+  }
 };
 
 /**
@@ -288,9 +313,12 @@ const handleEditContactInformationSection = () => {
  * It if validates, update firestore (re-validate server-side) and hide the form
  * If it doesn't validate, alert the user about the error
  */
-const handleEditMailingAddressSection = () => {
+const loadMailingAddressElements = () => {
   mailingAddressElementArray.push(document.getElementById('currentMailingAddressDiv'));
   mailingAddressElementArray.push(document.getElementById('changeMailingAddressGroup'));
+};
+
+const handleEditMailingAddressSection = () => {
   changeMailingAddressButton.addEventListener('click', () => {
     successMessageElement = hideSuccessMessage(successMessageElement);
     isMailingAddressFormDisplayed = toggleElementVisibility(mailingAddressElementArray, isMailingAddressFormDisplayed);
@@ -312,28 +340,33 @@ const handleEditMailingAddressSection = () => {
     if (isMailingAddressValid) {
       isMailingAddressFormDisplayed = toggleElementVisibility(mailingAddressElementArray, isMailingAddressFormDisplayed);
       toggleButtonText();
-      changeMailingAddress(addressLine1, addressLine2, city, state, zip)
-        .then(() => {
-          if (!addressLine2 || addressLine2 === '') {
-            document.getElementById('profileMailingAddress').innerHTML = `${addressLine1}</br>${city}, ${state} ${zip}`;
-          } else {
-            document.getElementById('profileMailingAddress').innerHTML = `${addressLine1}</br>${addressLine2}</br>${city}, ${state} ${zip}`;
-          }
-          successMessageElement = document.getElementById('mailingAddressSuccess');
-          successMessageElement.style.display = 'block';
-        })
-        .catch(function (error) {
-          document.getElementById('mailingAddressFail').style.display = 'block';
-          document.getElementById('mailingAddressError').innerHTML = error.message;
-        });
+      submitNewMailingAddress(addressLine1, addressLine2, city, state, zip);
     }
   });
 };
 
-const handleEditSignInInformationSection = () => {
+const submitNewMailingAddress = async (addressLine1, addressLine2, city, state, zip) => {
+  const isSuccess = await changeMailingAddress(addressLine1, addressLine2, city, state, zip, userData).catch(function (error) {
+    document.getElementById('mailingAddressFail').style.display = 'block';
+    document.getElementById('mailingAddressError').innerHTML = error.message;
+  });
+  if (isSuccess) {
+    if (!addressLine2 || addressLine2 === '') {
+      document.getElementById('profileMailingAddress').innerHTML = `${addressLine1}</br>${city}, ${state} ${zip}`;
+    } else {
+      document.getElementById('profileMailingAddress').innerHTML = `${addressLine1}</br>${addressLine2}</br>${city}, ${state} ${zip}`;
+    }
+    successMessageElement = document.getElementById('mailingAddressSuccess');
+    successMessageElement.style.display = 'block';
+  }
+};
+
+const loadSignInInformationElements = () => {
   emailElementArray.push(document.getElementById('currentSignInInformationDiv'));
   emailElementArray.push(document.getElementById('changeEmailGroup'));
+};
 
+const handleEditSignInInformationSection = () => {
   changeEmailButton.addEventListener('click', () => {
     successMessageElement = hideSuccessMessage(successMessageElement);
     isEmailFormDisplayed = toggleElementVisibility(emailElementArray, isEmailFormDisplayed);
@@ -346,24 +379,26 @@ const handleEditSignInInformationSection = () => {
   document.getElementById('changeEmailSubmit').addEventListener('click', e => {
     const email = document.getElementById('newEmailField').value.trim();
     const emailConfirm = document.getElementById('newEmailFieldCheck').value.trim();
-
     const isEmailValid = validateEmailAddress(email, emailConfirm);
-
     if (isEmailValid) {
       isEmailFormDisplayed = toggleElementVisibility(emailElementArray, isEmailFormDisplayed);
       toggleButtonText();
-      changeEmail(email)
-        .then(() => {
-          document.getElementById('profileEmailAddress').textContent = email;
-          successMessageElement = document.getElementById('emailSuccess');
-          successMessageElement.style.display = 'block';
-        })
-        .catch(function (error) {
-          document.getElementById('emailFail').style.display = 'block';
-          document.getElementById('emailError').innerHTML = error.message;
-        });
+      submitNewEmailAddress(email, userData);
     }
   });
+};
+
+const submitNewEmailAddress = async email => {
+  const isSuccess = await changeEmail(email, userData).catch(function (error) {
+    document.getElementById('emailFail').style.display = 'block';
+    document.getElementById('emailError').innerHTML = error.message;
+  });
+
+  if (isSuccess) {
+    document.getElementById('profileEmailAddress').textContent = email;
+    successMessageElement = document.getElementById('emailSuccess');
+    successMessageElement.style.display = 'block';
+  }
 };
 
 const toggleActiveForm = clickedFormType => {
@@ -720,9 +755,9 @@ export const renderChangeContactInformationGroup = userData => {
                           </label>
                           <br>
                           <div class="btn-group col-md-4" id="editMobilePhone">
-                              <input type="tel" class="form-control num-val-phone" value="${userData[cId.cellPhone].substr(0, 3)}" data-val-pattern="[1-9]{1}[0-9]{2}" title="Only numbers are allowed." id="mobilePhoneNumber1" data-error-validation="Only numbers are allowed." size="3" maxlength="3" Placeholder="999" style="margin-left:0px"> <span class="hyphen">-</span>
-                              <input type="tel" class="form-control num-val-phone" value="${userData[cId.cellPhone].substr(3, 3)}" data-val-pattern="[0-9]{3}" title="Only numbers are allowed." id="mobilePhoneNumber2" data-error-validation="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
-                              <input type="tel" class="form-control num-val-phone" value="${userData[cId.cellPhone].substr(6, 4)}" data-val-pattern="[0-9]{4}" title="Only numbers are allowed." id="mobilePhoneNumber3" data-error-validation="Only numbers are allowed." size="4" maxlength="4" Placeholder="9999">
+                              <input type="tel" class="form-control num-val-phone" value="${userData[cId.cellPhone] && userData[cId.cellPhone].length === 10 ? userData[cId.cellPhone].substr(0, 3) : ''}" data-val-pattern="[1-9]{1}[0-9]{2}" title="Only numbers are allowed." id="mobilePhoneNumber1" data-error-validation="Only numbers are allowed." size="3" maxlength="3" Placeholder="999" style="margin-left:0px"> <span class="hyphen">-</span>
+                              <input type="tel" class="form-control num-val-phone" value="${userData[cId.cellPhone] && userData[cId.cellPhone].length === 10 ? userData[cId.cellPhone].substr(3, 3) : ''}" data-val-pattern="[0-9]{3}" title="Only numbers are allowed." id="mobilePhoneNumber2" data-error-validation="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
+                              <input type="tel" class="form-control num-val-phone" value="${userData[cId.cellPhone] && userData[cId.cellPhone].length === 10 ? userData[cId.cellPhone].substr(6, 4) : ''}" data-val-pattern="[0-9]{4}" title="Only numbers are allowed." id="mobilePhoneNumber3" data-error-validation="Only numbers are allowed." size="4" maxlength="4" Placeholder="9999">
                           </div>
                       </div>
                   </div>
@@ -760,9 +795,9 @@ export const renderChangeContactInformationGroup = userData => {
                           </label>
                           <br>
                           <div class="btn-group col-md-4" id="editHomePhone">
-                            <input type="tel" class="form-control num-val-phone" value="${userData[cId.homePhone].substr(0, 3)}" id="homePhoneNumber1" data-val-pattern="[1-9]{1}[0-9]{2}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
-                            <input type="tel" class="form-control num-val-phone" value="${userData[cId.homePhone].substr(3, 3)}" id="homePhoneNumber2" data-val-pattern="[0-9]{3}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
-                            <input type="tel" class="form-control num-val-phone" value="${userData[cId.homePhone].substr(6, 4)}" id="homePhoneNumber3" data-val-pattern="[0-9]{4}" title="Only numbers are allowed." size="4" maxlength="4" Placeholder="9999">
+                            <input type="tel" class="form-control num-val-phone" value="${userData[cId.homePhone] && userData[cId.homePhone].length === 10 ? userData[cId.homePhone].substr(0, 3) : ''}" id="homePhoneNumber1" data-val-pattern="[1-9]{1}[0-9]{2}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
+                            <input type="tel" class="form-control num-val-phone" value="${userData[cId.homePhone] && userData[cId.homePhone].length === 10 ? userData[cId.homePhone].substr(3, 3) : ''}" id="homePhoneNumber2" data-val-pattern="[0-9]{3}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
+                            <input type="tel" class="form-control num-val-phone" value="${userData[cId.homePhone] && userData[cId.homePhone].length === 10 ? userData[cId.homePhone].substr(6, 4) : ''}" id="homePhoneNumber3" data-val-pattern="[0-9]{4}" title="Only numbers are allowed." size="4" maxlength="4" Placeholder="9999">
                           </div>
                       </div>
                   </div>
@@ -787,9 +822,9 @@ export const renderChangeContactInformationGroup = userData => {
                           </label>
                           <br>
                           <div class="btn-group col-md-4" id="editOtherPhone">
-                            <input type="tel" class="form-control num-val-phone" value="${userData[cId.otherPhone] ? `${userData[cId.otherPhone].substr(0, 3)}` : ''}" id="otherPhoneNumber1" data-val-pattern="[1-9]{1}[0-9]{2}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
-                            <input type="tel" class="form-control num-val-phone" value="${userData[cId.otherPhone] ? `${userData[cId.otherPhone].substr(3, 3)}` : ''}" id="otherPhoneNumber2" data-val-pattern="[0-9]{3}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
-                            <input type="tel" class="form-control num-val-phone" value="${userData[cId.otherPhone] ? `${userData[cId.otherPhone].substr(6, 4)}` : ''}" id="otherPhoneNumber3" data-val-pattern="[0-9]{4}" title="Only numbers are allowed." size="4" maxlength="4" Placeholder="9999">
+                            <input type="tel" class="form-control num-val-phone" value="${userData[cId.otherPhone] && userData[cId.otherPhone].length === 10 ? `${userData[cId.otherPhone].substr(0, 3)}` : ''}" id="otherPhoneNumber1" data-val-pattern="[1-9]{1}[0-9]{2}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
+                            <input type="tel" class="form-control num-val-phone" value="${userData[cId.otherPhone] && userData[cId.otherPhone].length === 10 ? `${userData[cId.otherPhone].substr(3, 3)}` : ''}" id="otherPhoneNumber2" data-val-pattern="[0-9]{3}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
+                            <input type="tel" class="form-control num-val-phone" value="${userData[cId.otherPhone] && userData[cId.otherPhone].length === 10 ? `${userData[cId.otherPhone].substr(6, 4)}` : ''}" id="otherPhoneNumber3" data-val-pattern="[0-9]{4}" title="Only numbers are allowed." size="4" maxlength="4" Placeholder="9999">
                           </div>
                       </div>
                   </div>

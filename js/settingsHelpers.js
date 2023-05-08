@@ -139,8 +139,6 @@ export const validateName = (firstNameField, lastNameField, middleNameField) => 
   }
 
   nameFieldArray.forEach(item => {
-    console.log(item.value);
-    console.log(item.id);
     if (item.value) {
       const validationPattern = item.dataset.validationPattern;
       if (validationPattern && validationPattern === 'alphabets') {
@@ -280,101 +278,244 @@ export const validateEmailAddress = (email, emailConfirm) => {
       return true;
     } else {
       alert('Error: The email address format is not valid. Please enter an email address in this format: name@example.com.');
-      e.preventDefault();
       return false;
     }
   } else {
     alert('Error - the email addresses do not match. Please make sure the email addresses match, then resubmit the form.');
-    e.preventDefault();
     return false;
   }
 };
 
-export const changeName = async (firstName, lastName, middleName, suffix, preferredFirstName) => {
+export const changeName = async (firstName, lastName, middleName, suffix, preferredFirstName, userData) => {
   document.getElementById('changeNameFail').style.display = 'none';
   document.getElementById('changeNameGroup').style.display = 'none';
 
-  const formData = {
-    399159511: firstName,
-    231676651: middleName ?? '',
-    996038075: lastName,
-    506826178: suffix ?? '',
-    153211406: preferredFirstName ?? '',
+  const newValues = {
+    [cId.fName]: firstName,
+    [cId.mName]: middleName,
+    [cId.lName]: lastName,
+    [cId.suffix]: suffix,
+    [cId.prefName]: preferredFirstName,
   };
 
-  await storeResponse(formData).catch(function (error) {
-    document.getElementById('changeNameFail').style.display = 'block';
-    document.getElementById('changeNameError').innerHTML = error.message;
-  });
+  const { changedUserDataForProfile, changedUserDataForHistory } = findChangedUserDataValues(newValues, userData);
+  const isSuccess = await processUserDataUpdate(changedUserDataForProfile, changedUserDataForHistory, userData[cId.userProfileHistory], 'changeName', false);
+  return isSuccess;
 };
 
-export const changeContactInformation = async (mobilePhoneNumberComplete, homePhoneNumberComplete, canWeVoicemailMobile, canWeText, canWeVoicemailHome, preferredEmail, otherPhoneNumberComplete, canWeVoicemailOther, additionalEmail) => {
+export const changeContactInformation = async (mobilePhoneNumberComplete, homePhoneNumberComplete, canWeVoicemailMobile, canWeText, canWeVoicemailHome, preferredEmail, otherPhoneNumberComplete, canWeVoicemailOther, additionalEmail, userData) => {
   document.getElementById('changeContactInformationFail').style.display = 'none';
   document.getElementById('changeContactInformationGroup').style.display = 'none';
 
-  canWeVoicemailMobile = mobilePhoneNumberComplete ? canWeVoicemailMobile : cId.no;
-  canWeText = mobilePhoneNumberComplete ? canWeText : cId.no;
-  canWeVoicemailHome = homePhoneNumberComplete ? canWeVoicemailHome : cId.no;
-  canWeVoicemailOther = otherPhoneNumberComplete ? canWeVoicemailOther : cId.no;
+  canWeVoicemailMobile = mobilePhoneNumberComplete && canWeVoicemailMobile === cId.yes ? cId.yes : cId.no;
+  canWeText = mobilePhoneNumberComplete && canWeText === cId.yes ? cId.yes : cId.no;
+  canWeVoicemailHome = homePhoneNumberComplete && canWeVoicemailHome === cId.yes ? cId.yes : cId.no;
+  canWeVoicemailOther = otherPhoneNumberComplete && canWeVoicemailOther === cId.yes ? cId.yes : cId.no;
 
-  const formData = {
-    388711124: mobilePhoneNumberComplete ?? '',
-    271757434: canWeVoicemailMobile,
-    646873644: canWeText,
-    438643922: homePhoneNumberComplete ?? '',
-    187894482: canWeVoicemailHome,
-    869588347: preferredEmail,
-    793072415: otherPhoneNumberComplete ?? '',
-    983278853: canWeVoicemailOther,
-    849786503: additionalEmail ?? '',
+  const newValues = {
+    [cId.cellPhone]: mobilePhoneNumberComplete,
+    [cId.canWeVoicemailMobile]: canWeVoicemailMobile,
+    [cId.canWeText]: canWeText,
+    [cId.homePhone]: homePhoneNumberComplete,
+    [cId.canWeVoicemailHome]: canWeVoicemailHome,
+    [cId.prefEmail]: preferredEmail,
+    [cId.otherPhone]: otherPhoneNumberComplete,
+    [cId.canWeVoicemailOther]: canWeVoicemailOther,
+    [cId.additionalEmail]: additionalEmail,
   };
 
-  await storeResponse(formData).catch(function (error) {
-    document.getElementById('changeContactInformationFail').style.display = 'block';
-    document.getElementById('changeContactInformationError').innerHTML = error.message;
-  });
+  const { changedUserDataForProfile, changedUserDataForHistory } = findChangedUserDataValues(newValues, userData);
+  const isSuccess = await processUserDataUpdate(changedUserDataForProfile, changedUserDataForHistory, userData[cId.userProfileHistory], 'changeContactInformation', false);
+  return isSuccess;
 };
 
-export const changeMailingAddress = async (addressLine1, addressLine2, city, state, zip) => {
+export const changeMailingAddress = async (addressLine1, addressLine2, city, state, zip, userData) => {
   document.getElementById('mailingAddressFail').style.display = 'none';
   document.getElementById('changeMailingAddressGroup').style.display = 'none';
 
-  const formData = {
-    521824358: addressLine1,
-    442166669: addressLine2 ?? '',
-    703385619: city,
-    634434746: state,
-    892050548: zip,
+  const newValues = {
+    [cId.address1]: addressLine1,
+    [cId.address2]: addressLine2 ?? '',
+    [cId.city]: city,
+    [cId.state]: state,
+    [cId.zip]: zip,
   };
 
-  await storeResponse(formData).catch(function (error) {
-    document.getElementById('mailingAddressFail').style.display = 'block';
-    document.getElementById('mailingAddressError').innerHTML = error.message;
-  });
+  const { changedUserDataForProfile, changedUserDataForHistory } = findChangedUserDataValues(newValues, userData);
+  const isSuccess = await processUserDataUpdate(changedUserDataForProfile, changedUserDataForHistory, userData[cId.userProfileHistory], 'mailingAddress', false);
+  return isSuccess;
 };
 
-export const changeEmail = async email => {
+/**
+ * Change email is different than the above changes because it writes to two places: firebase auth and the user profile.
+ * only continue if the firebase auth email change is successful (determined by the value of isAuthEmailUpdateSuccess).
+ * @param {string} email - the new email address
+ * @param {*} userData - the user profile data
+ * @returns
+ */
+export const changeEmail = async (email, userData) => {
   var user = firebase.auth().currentUser;
   document.getElementById('emailFail').style.display = 'none';
   document.getElementById('emailSuccess').style.display = 'none';
 
-  await user
-    .updateEmail(email)
-    .then(function () {
-      document.getElementById('changeEmailGroup').style.display = 'none';
-      document.getElementById('emailSuccess').style.display = 'block';
-    })
-    .catch(function (error) {
-      document.getElementById('emailFail').style.display = 'block';
-      document.getElementById('emailError').innerHTML = error.message;
-    });
-
-  const emailData = {
-    421823980: email,
-  };
-
-  await storeResponse(emailData).catch(function (error) {
+  let isAuthEmailUpdateSuccess = true;
+  await user.updateEmail(email).catch(function (error) {
     document.getElementById('emailFail').style.display = 'block';
     document.getElementById('emailError').innerHTML = error.message;
+    isAuthEmailUpdateSuccess = false;
   });
+
+  if (!isAuthEmailUpdateSuccess) {
+    return false;
+  }
+
+  document.getElementById('changeEmailGroup').style.display = 'none';
+
+  const newValues = {
+    [cId.firebaseAuthEmail]: email,
+  };
+
+  const { changedUserDataForProfile, changedUserDataForHistory } = findChangedUserDataValues(newValues, userData);
+  const isSuccess = await processUserDataUpdate(changedUserDataForProfile, changedUserDataForHistory, userData[cId.userProfileHistory], 'email', false);
+  return isSuccess;
+};
+
+/**
+ * Iterate the new values, compare them to existing values, and return the changed values.
+ * @param {object} newUserData - the newly entered form fields
+ * @param {object} existingUserData - the existing user profile data
+ * @returns {changedUserDataForProfile, changedUserDataForHistory} - parallel objects containing the changed values
+ */
+const findChangedUserDataValues = (newUserData, existingUserData) => {
+  const changedUserDataForProfile = {};
+  const changedUserDataForHistory = {};
+
+  Object.keys(newUserData).forEach(key => {
+    if (newUserData[key] !== existingUserData[key]) {
+      changedUserDataForProfile[key] = newUserData[key];
+      changedUserDataForHistory[key] = existingUserData[key] ? existingUserData[key] : 'previously_empty';
+    }
+
+    //account for voicemail and text preferences in history when new phone number is added
+    //this forces save of previous preferences to history, attached to the phone number change
+    if (cId.cellPhone in changedUserDataForProfile) {
+      changedUserDataForProfile[cId.canWeVoicemailMobile] = newUserData[cId.canWeVoicemailMobile] ? newUserData[cId.canWeVoicemailMobile] : cId.no;
+      changedUserDataForHistory[cId.canWeVoicemailMobile] = existingUserData[cId.canWeVoicemailMobile] ? existingUserData[cId.canWeVoicemailMobile] : cId.no;
+      changedUserDataForProfile[cId.canWeText] = newUserData[cId.canWeText] ? newUserData[cId.canWeText] : cId.no;
+      changedUserDataForHistory[cId.canWeText] = existingUserData[cId.canWeText] ? existingUserData[cId.canWeText] : cId.no;
+    }
+
+    if (cId.homePhone in changedUserDataForProfile) {
+      changedUserDataForProfile[cId.canWeVoicemailHome] = newUserData[cId.canWeVoicemailHome] ? newUserData[cId.canWeVoicemailHome] : cId.no;
+      changedUserDataForHistory[cId.canWeVoicemailHome] = existingUserData[cId.canWeVoicemailHome] ? existingUserData[cId.canWeVoicemailHome] : cId.no;
+    }
+
+    if (cId.otherPhone in changedUserDataForProfile) {
+      changedUserDataForProfile[cId.canWeVoicemailOther] = newUserData[cId.canWeVoicemailOther] ? newUserData[cId.canWeVoicemailOther] : cId.no;
+      changedUserDataForHistory[cId.canWeVoicemailOther] = existingUserData[cId.canWeVoicemailOther] ? existingUserData[cId.canWeVoicemailOther] : cId.no;
+    }
+
+  });
+
+  return { changedUserDataForProfile, changedUserDataForHistory };
+};
+
+/**
+ * Check whether changes were made to the user profile. If so, update the user profile and history.
+ * @param {object} changedUserDataForProfile - the changed values to be written to the user profile
+ * @param {object} changedUserDataForHistory  - the previous values to be written to history.
+ * @param {object} userHistory - the user's existing history
+ * @param {string} type - the type of data being changed (e.g. name, contact info, mailing address, log-in email)
+ * @param {*} isProfile
+ * @returns {boolean} - whether the write operation was successful to control the UI messaging
+ */
+const processUserDataUpdate = async (changedUserDataForProfile, changedUserDataForHistory, userHistory, type, isProfile) => {
+  if (changedUserDataForProfile && Object.keys(changedUserDataForProfile).length !== 0) {
+    changedUserDataForProfile[cId.userProfileHistory] = updateUserHistory(changedUserDataForProfile, changedUserDataForHistory, userHistory, false);
+    //console.log('changedUserData', changedUserDataForProfile);
+
+    await storeResponse(changedUserDataForProfile)
+    .catch(function (error) {
+      document.getElementById(`${type}Fail`).style.display = 'block';
+      document.getElementById(`${type}Error`).innerHTML = error.message;
+      return false;
+    });
+    return true;
+  } else {
+    document.getElementById(`${type}Fail`).style.display = 'block';
+    document.getElementById(`${type}Error`).innerHTML = 'No changes were made. If you meant to update your existing information, please make a change and try again.';
+    return false;
+  }
+};
+
+//TODO work in progress pending data model changes. This description may not be accurate yet. No history writes are happening on initial signup (05/08/2023 JA)
+/**
+ * Update the user's history based on new data entered by the user. Prepari it for POST to user's proifle in firestore
+ * @param {array of objects} newDataToWrite - the new data update (changed data only) entered by the user
+ * @param {array of objects} existingDataToUpdate - the existingData to write to history (parallel data structure to newDataToWrite)
+ * @param {array of objects} userHistory - the user's existing history
+ * @param {boolean} isInitialSignup - is this the initial signup?
+ * @returns {userProfileHistoryArray} -the array of objects to write to user profile history, with the new data added to the end of the array
+ * This routine runs once per form submission.
+ * First, check for user history
+ * if it's the initial signup, or history is null, or history is empty, create user history based on current data.
+ *     This is the original history and needs to be the first map in the array.
+ *     This logic is included because the study already has active users prior to implementing the user history feature.
+ * if isInitialSignup, stop after creating the initial history. There are no more updates to process.
+ * if !isInitialSignup, process the user's changes after checking (and creating if necessary) the user's initial history.
+ *     Add the user's update as a new map at the end of the user history array and include a timestamp
+ */
+
+//TODO work in progress pending data design decisions - don't delete commented out code yet
+const updateUserHistory = (newDataToWrite, existingDataToUpdate, userHistory, isInitialSignup) => {
+  const userProfileHistoryArray = [];
+  // if (isInitialSignup || !currentUserHistory || Object.keys(currentUserHistory).length === 0) {
+  //     console.log('CurrentUserHistoryIsEmpty');
+  //     const initialUserHistoryMap = populateUserHistoryMap(newData, existingData, isInitialSignup);
+  //     userProfileHistoryArray.push(initialUserHistoryMap);
+  // }
+  if (!isInitialSignup) {
+    //userProfileHistoryArray.push({1:1, 2:2, 3:3});
+    if (userHistory && Object.keys(userHistory).length > 0) userProfileHistoryArray.push(...userHistory);
+
+    const newUserHistoryMap = populateUserHistoryMap(newDataToWrite, existingDataToUpdate, isInitialSignup);
+    userProfileHistoryArray.push(newUserHistoryMap);
+  }
+  return userProfileHistoryArray;
+};
+
+const populateUserHistoryMap = (newData, existingData, isInitialSignup) => {
+  const userHistoryMap = {};
+  if (existingData[cId.fName]) userHistoryMap[cId.fName] = isInitialSignup ? newData[cId.fName] : existingData[cId.fName];
+  if (existingData[cId.mName]) userHistoryMap[cId.mName] = isInitialSignup ? newData[cId.mName] : existingData[cId.mName];
+  if (existingData[cId.lName]) userHistoryMap[cId.lName] = isInitialSignup ? newData[cId.lName] : existingData[cId.lName];
+  if (existingData[cId.suffix]) userHistoryMap[cId.suffix] = isInitialSignup ? newData[cId.suffix] : existingData[cId.suffix];
+  if (existingData[cId.prefName]) userHistoryMap[cId.prefName] = isInitialSignup ? newData[cId.prefName] : existingData[cId.prefName];
+  if (existingData[cId.cellPhone]) {
+    userHistoryMap[cId.cellPhone] = isInitialSignup ? newData[cId.cellPhone] : existingData[cId.cellPhone];
+    userHistoryMap[cId.canWeVoicemailMobile] = isInitialSignup ? newData[cId.canWeVoicemailMobile] : existingData[cId.canWeVoicemailMobile];
+    userHistoryMap[cId.canWeText] = isInitialSignup ? newData[cId.canWeText] : existingData[cId.canWeText];
+  }
+  if (existingData[cId.homePhone]) {
+    userHistoryMap[cId.homePhone] = isInitialSignup ? newData[cId.homePhone] : existingData[cId.homePhone];
+    userHistoryMap[cId.canWeVoicemailHome] = isInitialSignup ? newData[cId.canWeVoicemailHome] : existingData[cId.canWeVoicemailHome];
+  }
+  if (existingData[cId.otherPhone]) {
+    userHistoryMap[cId.otherPhone] = isInitialSignup ? newData[cId.otherPhone] : existingData[cId.otherPhone];
+    userHistoryMap[cId.canWeVoicemailOther] = isInitialSignup ? newData[cId.canWeVoicemailOther] : existingData[cId.canWeVoicemailOther];
+  }
+  if (existingData[cId.prefEmail]) userHistoryMap[cId.prefEmail] = isInitialSignup ? newData[cId.prefEmail] : existingData[cId.prefEmail];
+  if (existingData[cId.additionalEmail]) userHistoryMap[cId.additionalEmail] = isInitialSignup ? newData[cId.additionalEmail] : existingData[cId.additionalEmail];
+  if (existingData[cId.address1]) userHistoryMap[cId.address1] = isInitialSignup ? newData[cId.address1] : existingData[cId.address1];
+  if (existingData[cId.address2]) userHistoryMap[cId.address2] = isInitialSignup ? newData[cId.address2] : existingData[cId.address2];
+  if (existingData[cId.city]) userHistoryMap[cId.city] = isInitialSignup ? newData[cId.city] : existingData[cId.city];
+  if (existingData[cId.state]) userHistoryMap[cId.state] = isInitialSignup ? newData[cId.state] : existingData[cId.state];
+  if (existingData[cId.zip]) userHistoryMap[cId.zip] = isInitialSignup ? newData[cId.zip] : existingData[cId.zip];
+  if (existingData[cId.firebaseAuthEmail]) userHistoryMap[cId.firebaseAuthEmail] = isInitialSignup ? newData[cId.firebaseAuthEmail] : existingData[cId.firebaseAuthEmail];
+
+  if (userHistoryMap !== null) {
+    userHistoryMap[cId.userProfileUpdateTimestamp] = new Date().toISOString();
+  }
+
+  return userHistoryMap;
 };

@@ -33,6 +33,8 @@ export default
     "no": 104430631,
     "consentVersion": 454205108,
     "hipaaVersion": 412000022,
+    "userProfileHistory": 569151507,
+    "userProfileUpdateTimestamp": 371303487,
 
     moduleStatus: {
         notStarted:     972455046,

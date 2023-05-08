@@ -136,7 +136,7 @@ export const storeResponse = async (formData) => {
 }
 
 export const getMyData = async () => {
-  try {
+
     const idToken = await getIdToken();
     const response = await fetch(`${api}?api=getUserProfile`, {
       headers: {
@@ -144,21 +144,7 @@ export const getMyData = async () => {
       },
     });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    const data = await response.json();
-
-    if (data === null) {
-      console.error('Fetch is null');
-      return;
-    }
-
-    return data;
-  } catch (error) {
-    console.error(`Fetch error: ${error}`);
-  }
+    return response.json();
 };
 
 export const getMySurveys = async (data) => {
@@ -1159,7 +1145,7 @@ export const delay = async (ms) =>
 
 export const validEmailFormat = /^[a-zA-Z0-9.!#$%&'*+"\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,63}$/;
 
-export const validNameFormat = /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-.]+$/i;
+export const validNameFormat = /^[A-Za-zÀ-ÖØ-öø-ÿ\s'\-.]+$/i;
 
 // valid phone number examples: +1 123-456-789, 1-123-456-7890, 123-456-7890, 1234567890, 123.456 7890, (123)456-7890, (123) 456-7890, 123 456.7890, 123 456-7890, 123-456.7890, etc.
 export const validPhoneNumberFormat =
