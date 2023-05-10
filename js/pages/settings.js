@@ -45,6 +45,7 @@ let additionalEmailRow;
  * if data exists and profile has been submitted, then render the user's data
  * if data exists and profile is verified, then render the user's data and edit functionality
  */
+
 export const renderSettingsPage = async () => {
   document.title = 'My Connect - My Profile';
   showAnimation();
@@ -76,32 +77,32 @@ export const renderSettingsPage = async () => {
                 <div class="col-lg-3">
                 </div>
                 <div class="col-lg-6" id="myProfileHeader">
-                    <p id="pendingVerification" style="color:#1c5d86">
-                        Thank you for joining the National Cancer Institute's Connect for Cancer Prevention Study. Your involvement is very important.
-                        We are currently verifying your profile, which may take up to 3 business days.
-                        <br>
+                    <p id="pendingVerification" style="color:#1c5d86; display:none;">
+                    Thank you for joining the National Cancer Institute's Connect for Cancer Prevention Study. Your involvement is very important.
+                    We are currently verifying your profile, which may take up to 3 business days.
+                    <br>
                     </p>
-                    <p class="consentHeadersFont" style="color:#606060">
+                    <p class="consentHeadersFont" id="myProfileTextContainer" style="color:#606060; display:none;">
                         My Profile
                     </p>
-                    
-                    <div class="userProfileBox">
+                
+                    <div class="userProfileBox" id="nameDiv" style="display:none">
                         ${renderNameHeadingAndButton()}
                         ${renderUserNameData(userData)}
                         ${renderChangeNameGroup(userData)} 
                     </div>
-                    <div class="userProfileBox">
+                    <div class="userProfileBox" id="contactInformationDiv" style="display:none">
                         ${renderContactInformationHeadingAndButton()}
                         ${renderContactInformationData(userData, canWeVoicemailMobile, canWeText, canWeVoicemailHome, canWeVoicemailOther)}
                         ${renderChangeContactInformationGroup(userData)}
                     </div>    
                         
-                    <div class="userProfileBox">
+                    <div class="userProfileBox" id="mailingAddressDiv" style="display:none">
                         ${renderMailingAddressHeadingAndButton()}
                         ${renderMailingAddressData(userData)}
                         ${renderChangeMailingAddressGroup(1)}
                     </div>
-                    <div class="userProfileBox">
+                    <div class="userProfileBox" id="signInInformationDiv" style="display:none">
                         ${renderSignInInformationHeadingAndButton()}
                         ${renderSignInInformationData(userData)}
                         ${renderChangeSignInInformationGroup(userData)}
@@ -110,12 +111,13 @@ export const renderSettingsPage = async () => {
                 <div class="col-lg-3">
                 </div>
             </div>
-                `;
+                `;  
     } else {
       template += `${profileIsIncomplete()}`;
     }
-
-    buildPageTemplate();
+    
+    buildPageTemplate();  
+      
 
     /**
      * If the user profile has been verified, then show the profile and edit functionality:
@@ -138,14 +140,23 @@ export const renderSettingsPage = async () => {
 
 const buildPageTemplate = () => {
   document.getElementById('root').innerHTML = template;
-  hideAnimation();
-  togglePendingVerificationMessage(userData);
   if (userData[cId.userProfileSubmittedAutogen] === cId.yes) {
-    loadNameElements();
-    loadContactInformationElements();
-    loadMailingAddressElements();
-    loadSignInInformationElements();
+      loadNameElements();
+      loadContactInformationElements();
+      loadMailingAddressElements();
+      loadSignInInformationElements();
+      showFormElements();
+      togglePendingVerificationMessage(userData);
   }
+  hideAnimation();
+};
+
+const showFormElements = () => {
+  document.getElementById('myProfileTextContainer').style.display = 'block';
+  document.getElementById('nameDiv').style.display = 'block';
+  document.getElementById('contactInformationDiv').style.display = 'block';
+  document.getElementById('mailingAddressDiv').style.display = 'block';
+  document.getElementById('signInInformationDiv').style.display = 'block';
 };
 
 /**
@@ -209,6 +220,7 @@ const submitNewName = async (firstName, lastName) => {
     successMessageElement.style.display = 'block';
     document.getElementById('profileFirstName').textContent = firstName;
     document.getElementById('profileLastName').textContent = lastName;
+    refreshUserDataAfterEdit();
   }
 };
 
@@ -249,7 +261,7 @@ const handleEditContactInformationSection = () => {
       toggleActiveForm(FormTypes.CONTACT);
     }
     toggleButtonText();
-    handleContactInformationRadioButtonPresets(canWeVoicemailMobile, canWeText, canWeVoicemailHome, canWeVoicemailOther);
+    handleContactInformationRadioButtonPresets(mobilePhoneNumberComplete, canWeVoicemailMobile, canWeText, homePhoneNumberComplete, canWeVoicemailHome, otherPhoneNumberComplete, canWeVoicemailOther);
     updatePhoneNumberInputFocus();
   });
 
@@ -301,6 +313,7 @@ const submitNewContactInformation = async preferredEmail => {
     successMessageElement = document.getElementById('changeContactInformationSuccess');
     successMessageElement.style.display = 'block';
     document.getElementById('profilePreferredEmail').textContent = preferredEmail;
+    refreshUserDataAfterEdit();
   }
 };
 
@@ -358,6 +371,7 @@ const submitNewMailingAddress = async (addressLine1, addressLine2, city, state, 
     }
     successMessageElement = document.getElementById('mailingAddressSuccess');
     successMessageElement.style.display = 'block';
+    refreshUserDataAfterEdit();
   }
 };
 
@@ -398,6 +412,7 @@ const submitNewEmailAddress = async email => {
     document.getElementById('profileEmailAddress').textContent = email;
     successMessageElement = document.getElementById('emailSuccess');
     successMessageElement.style.display = 'block';
+    refreshUserDataAfterEdit();
   }
 };
 
@@ -435,6 +450,13 @@ const toggleButtonText = () => {
   changeEmailButton.textContent = isEmailFormDisplayed ? 'Cancel' : 'Update Email Address';
 };
 
+const refreshUserDataAfterEdit = async () => {
+  const updatedUserData = await getMyData();
+  if (updatedUserData.code === 200) {
+    userData = updatedUserData.data;
+  }
+};
+
 /**
  * Start: HTML rendering functions
  */
@@ -468,7 +490,7 @@ export const renderUserNameData = userData => {
       ${
         userData[cId.fName]
           ? `
-          <div class="row userProfileLinePaddings" id="firstNameRow" >
+          <div class="row userProfileLinePaddings" id="firstNameRow">
               <div class="col">
                   <span class="userProfileBodyFonts">
                       First Name
