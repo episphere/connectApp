@@ -462,7 +462,6 @@ const findChangedUserDataValues = (newUserData, existingUserData, type) => {
 const processUserDataUpdate = async (changedUserDataForProfile, changedUserDataForHistory, userHistory, type) => {
   if (changedUserDataForProfile && Object.keys(changedUserDataForProfile).length !== 0) {
     changedUserDataForProfile[cId.userProfileHistory] = updateUserHistory(changedUserDataForHistory, userHistory);
-    //console.log('changedUserData', changedUserDataForProfile);
 
     await storeResponse(changedUserDataForProfile)
     .catch(function (error) {
