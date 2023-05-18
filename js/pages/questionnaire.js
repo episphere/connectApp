@@ -5,7 +5,7 @@ import { rbAndCbClick } from "https://cdn.jsdelivr.net/gh/episphere/quest@latest
 import { SOCcer as SOCcerProd } from "./../../prod/config.js";
 import { SOCcer as SOCcerStage } from "./../../stage/config.js";
 import { SOCcer as SOCcerDev } from "./../../dev/config.js";
-import { Octokit } from "https://cdn.skypack.dev/octokit";
+import { Octokit } from "https://cdn.skypack.dev/pin/octokit@v2.0.14-WDHE0c1GgF96ore7BeW1/mode=imports/optimized/octokit.js";
 
 export const questionnaire = async (moduleId) => {
  
