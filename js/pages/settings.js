@@ -3,49 +3,64 @@ import { changeEmail, changeContactInformation, changeMailingAddress, changeName
 import { addEventAddressAutoComplete } from '../event.js';
 import cId from '../fieldToConceptIdMapping.js';
 
-let changeNameButton;
-let changeContactInformationButton;
-let changeMailingAddressButton;
-let changeEmailButton;
-let nameElementArray = [];
-let mailingAddressElementArray = [];
-let contactInformationElementArray = [];
-let emailElementArray = [];
-let middleName;
-let suffix;
-let preferredFirstName;
-let mobilePhoneNumberComplete;
-let homePhoneNumberComplete;
-let otherPhoneNumberComplete;
-let additionalEmail;
+const nameElementArray = [];
+const mailingAddressElementArray = [];
+const contactInformationElementArray = [];
+const emailElementArray = [];
+
+const btnObj = {
+    changeNameButton: null,
+    changeContactInformationButton: null,
+    changeMailingAddressButton: null,
+    changeEmailButton: null
+};
+
+const optVars = {
+    middleName: null,
+    suffix: null,
+    preferredFirstName: null,
+    mobilePhoneNumberComplete: null,
+    homePhoneNumberComplete: null,
+    otherPhoneNumberComplete: null,
+    additionalEmail1: null,
+    additionalEmail2: null,
+    canWeVoicemailMobile: null,
+    canWeText: null,
+    canWeVoicemailHome: null,
+    canWeVoicemailOther: null
+};
+
+const formVisBools = {
+    isNameFormDisplayed: null,
+    isContactInformationFormDisplayed: null,
+    isMailingAddressFormDisplayed: null,
+    isEmailFormDisplayed: null,
+};
+
+const optRowEles = {
+    middleNameRow: null,
+    suffixRow: null,
+    preferredFirstNameRow: null,
+    mobilePhoneRow: null,
+    mobilePhoneVoicemailRow: null,
+    mobilePhoneTextRow: null,
+    homePhoneRow: null,
+    homePhoneVoicemailRow: null,
+    otherPhoneRow: null,
+    otherPhoneVoicemailRow: null,
+    additionalEmail1Row: null,
+    additionalEmail2Row: null
+};
+
 let successMessageElement;
-let isNameFormDisplayed;
-let isContactInformationFormDisplayed;
-let isMailingAddressFormDisplayed;
-let isEmailFormDisplayed;
-let canWeVoicemailMobile;
-let canWeText;
-let canWeVoicemailHome;
-let canWeVoicemailOther;
 let userData;
 let template = '';
-let middleNameRow;
-let suffixRow;
-let preferredFirstNameRow;
-let mobilePhoneRow;
-let mobilePhoneVoicemailRow;
-let mobilePhoneTextRow;
-let homePhoneRow;
-let homePhoneVoicemailRow;
-let otherPhoneRow;
-let otherPhoneVoicemailRow;
-let additionalEmailRow;
+
 /**
  * if fetch error or data is null, or profile has not been submitted, render incomplete profile message
  * if data exists and profile has been submitted, then render the user's data
  * if data exists and profile is verified, then render the user's data and edit functionality
  */
-
 export const renderSettingsPage = async () => {
   document.title = 'My Connect - My Profile';
   showAnimation();
@@ -56,21 +71,22 @@ export const renderSettingsPage = async () => {
     buildPageTemplate();
   } else {
     userData = myData.data;
-    canWeVoicemailMobile = userData[cId.canWeVoicemailMobile] === cId.yes;
-    canWeText = userData[cId.canWeText] === cId.yes;
-    canWeVoicemailHome = userData[cId.canWeVoicemailHome] === cId.yes;
-    canWeVoicemailOther = userData[cId.canWeVoicemailOther] === cId.yes;
-    middleName = userData[cId.mName];
-    suffix = userData[cId.suffix];
-    preferredFirstName = userData[cId.prefName];
-    mobilePhoneNumberComplete = userData[cId.cellPhone];
-    homePhoneNumberComplete = userData[cId.homePhone];
-    otherPhoneNumberComplete = userData[cId.otherPhone];
-    additionalEmail = userData[cId.additionalEmail];
-    isNameFormDisplayed = false;
-    isContactInformationFormDisplayed = false;
-    isMailingAddressFormDisplayed = false;
-    isEmailFormDisplayed = false;
+    optVars.canWeVoicemailMobile = userData[cId.canWeVoicemailMobile] === cId.yes;
+    optVars.canWeText = userData[cId.canWeText] === cId.yes;
+    optVars.canWeVoicemailHome = userData[cId.canWeVoicemailHome] === cId.yes;
+    optVars.canWeVoicemailOther = userData[cId.canWeVoicemailOther] === cId.yes;
+    optVars.middleName = userData[cId.mName];
+    optVars.suffix = userData[cId.suffix];
+    optVars.preferredFirstName = userData[cId.prefName];
+    optVars.mobilePhoneNumberComplete = userData[cId.cellPhone];
+    optVars.homePhoneNumberComplete = userData[cId.homePhone];
+    optVars.otherPhoneNumberComplete = userData[cId.otherPhone];
+    optVars.additionalEmail1 = userData[cId.additionalEmail1];
+    optVars.additionalEmail2 = userData[cId.additionalEmail2];
+    formVisBools.isNameFormDisplayed = false;
+    formVisBools.isContactInformationFormDisplayed = false;
+    formVisBools.isMailingAddressFormDisplayed = false;
+    formVisBools.isEmailFormDisplayed = false;
     if (userData[cId.userProfileSubmittedAutogen] === cId.yes) {
       template += `
             <div class="row" style="margin-top:58px">
@@ -93,7 +109,7 @@ export const renderSettingsPage = async () => {
                     </div>
                     <div class="userProfileBox" id="contactInformationDiv" style="display:none">
                         ${renderContactInformationHeadingAndButton()}
-                        ${renderContactInformationData(userData, canWeVoicemailMobile, canWeText, canWeVoicemailHome, canWeVoicemailOther)}
+                        ${renderContactInformationData(userData, optVars.canWeVoicemailMobile, optVars.canWeText, optVars.canWeVoicemailHome, optVars.canWeVoicemailOther)}
                         ${renderChangeContactInformationGroup(userData)}
                     </div>    
                         
@@ -124,11 +140,12 @@ export const renderSettingsPage = async () => {
      * Create the buttons, add the event listeners, push the elements to the arrays for visibility toggling
      * If the user profile has not been verified, then hide the profile and edit functionality, show the pending verification message
      */
-    if (userData[cId.verified] === cId.yes) {
-      changeNameButton = document.getElementById('changeNameButton');
-      changeContactInformationButton = document.getElementById('changeContactInformationButton');
-      changeMailingAddressButton = document.getElementById('changeMailingAddressButton');
-      changeEmailButton = document.getElementById('changeEmailButton');
+    //TODO test this
+    if (userData[cId.verification] == cId.verified) {
+      btnObj.changeNameButton = document.getElementById('changeNameButton');
+      btnObj.changeContactInformationButton = document.getElementById('changeContactInformationButton');
+      btnObj.changeMailingAddressButton = document.getElementById('changeMailingAddressButton');
+      btnObj.changeEmailButton = document.getElementById('changeEmailButton');
       showEditButtonsOnUserVerified();
       handleEditNameSection();
       handleEditContactInformationSection();
@@ -170,37 +187,37 @@ const loadNameElements = () => {
   nameElementArray.push(document.getElementById('firstNameRow'));
   nameElementArray.push(document.getElementById('lastNameRow'));
   nameElementArray.push(document.getElementById('changeNameGroup'));
-  middleNameRow = document.getElementById('middleNameRow');
-  suffixRow = document.getElementById('suffixRow');
-  preferredFirstNameRow = document.getElementById('preferredFirstNameRow');
-  showAndPushElementToArrayIfExists(middleName, middleNameRow, !!middleName, nameElementArray);
-  showAndPushElementToArrayIfExists(suffix, suffixRow, !!suffix, nameElementArray);
-  showAndPushElementToArrayIfExists(preferredFirstName, preferredFirstNameRow, !!preferredFirstName, nameElementArray);
+  optRowEles.middleNameRow = document.getElementById('middleNameRow');
+  optRowEles.suffixRow = document.getElementById('suffixRow');
+  optRowEles.preferredFirstNameRow = document.getElementById('preferredFirstNameRow');
+  showAndPushElementToArrayIfExists(optVars.middleName, optRowEles.middleNameRow, !!optVars.middleName, nameElementArray);
+  showAndPushElementToArrayIfExists(optVars.suffix, optRowEles.suffixRow, !!optVars.suffix, nameElementArray);
+  showAndPushElementToArrayIfExists(optVars.preferredFirstName, optRowEles.preferredFirstNameRow, !!optVars.preferredFirstName, nameElementArray);
 };
 
 const handleEditNameSection = () => {
-  changeNameButton.addEventListener('click', () => {
+  btnObj.changeNameButton.addEventListener('click', () => {
     successMessageElement = hideSuccessMessage(successMessageElement);
-    isNameFormDisplayed = toggleElementVisibility(nameElementArray, isNameFormDisplayed);
-    if (isNameFormDisplayed) {
-      hideOptionalElementsOnShowForm([middleNameRow, suffixRow, preferredFirstNameRow]);
+    formVisBools.isNameFormDisplayed = toggleElementVisibility(nameElementArray, formVisBools.isNameFormDisplayed);
+    if (formVisBools.isNameFormDisplayed) {
+      hideOptionalElementsOnShowForm([optRowEles.middleNameRow, optRowEles.suffixRow, optRowEles.preferredFirstNameRow]);
       toggleActiveForm(FormTypes.NAME);
     }
-    toggleButtonText(changeNameButton, changeContactInformationButton, changeMailingAddressButton, changeEmailButton);
+    toggleButtonText(btnObj.changeNameButton, btnObj.changeContactInformationButton, btnObj.changeMailingAddressButton, btnObj.changeEmailButton);
   });
 
   document.getElementById('changeNameSubmit').addEventListener('click', e => {
     const firstNameField = document.getElementById('newFirstNameField');
     const lastNameField = document.getElementById('newLastNameField');
     const middleNameField = document.getElementById('newMiddleNameField');
-    suffix = document.getElementById('newSuffixNameField').value.trim();
-    preferredFirstName = document.getElementById('newPreferredFirstNameField').value.trim();
+    optVars.suffix = document.getElementById('newSuffixNameField').value.trim();
+    optVars.preferredFirstName = document.getElementById('newPreferredFirstNameField').value.trim();
     const isNameValid = validateName(firstNameField, lastNameField, middleNameField);
     if (isNameValid) {
       const firstName = firstNameField.value.trim();
       const lastName = lastNameField.value.trim();
-      middleName = middleNameField.value.trim();
-      isNameFormDisplayed = toggleElementVisibility(nameElementArray, isNameFormDisplayed);
+      optVars.middleName = middleNameField.value.trim();
+      formVisBools.isNameFormDisplayed = toggleElementVisibility(nameElementArray, formVisBools.isNameFormDisplayed);
       toggleButtonText();
       submitNewName(firstName, lastName);
     }
@@ -208,14 +225,14 @@ const handleEditNameSection = () => {
 };
 
 const submitNewName = async (firstName, lastName) => {
-  const isSuccess = await changeName(firstName, lastName, middleName, suffix, preferredFirstName, userData).catch(function (error) {
+  const isSuccess = await changeName(firstName, lastName, optVars.middleName, optVars.suffix, optVars.preferredFirstName, userData).catch(function (error) {
     document.getElementById('changeNameFail').style.display = 'block';
     document.getElementById('changeNameError').innerHTML = error.message;
   });
   if (isSuccess) {
-    handleOptionalFieldVisibility(middleName, 'profileMiddleName', middleNameRow, nameElementArray[0], 'text');
-    handleOptionalFieldVisibility(suffix, 'profileSuffix', suffixRow, nameElementArray[0], 'suffix');
-    handleOptionalFieldVisibility(preferredFirstName, 'profilePreferredFirstName', preferredFirstNameRow, nameElementArray[0], 'text');
+    handleOptionalFieldVisibility(optVars.middleName, 'profileMiddleName', optRowEles.middleNameRow, nameElementArray[0], 'text');
+    handleOptionalFieldVisibility(optVars.suffix, 'profileSuffix', optRowEles.suffixRow, nameElementArray[0], 'suffix');
+    handleOptionalFieldVisibility(optVars.preferredFirstName, 'profilePreferredFirstName', optRowEles.preferredFirstNameRow, nameElementArray[0], 'text');
     successMessageElement = document.getElementById('changeNameSuccess');
     successMessageElement.style.display = 'block';
     document.getElementById('profileFirstName').textContent = firstName;
@@ -234,34 +251,36 @@ const submitNewName = async (firstName, lastName) => {
 const loadContactInformationElements = () => {
   contactInformationElementArray.push(document.getElementById('preferredEmailRow'));
   contactInformationElementArray.push(document.getElementById('changeContactInformationGroup'));
-  mobilePhoneRow = document.getElementById('mobilePhoneRow');
-  mobilePhoneVoicemailRow = document.getElementById('mobilePhoneVoicemailRow');
-  mobilePhoneTextRow = document.getElementById('mobilePhoneTextRow');
-  homePhoneRow = document.getElementById('homePhoneRow');
-  homePhoneVoicemailRow = document.getElementById('homePhoneVoicemailRow');
-  otherPhoneRow = document.getElementById('otherPhoneRow');
-  otherPhoneVoicemailRow = document.getElementById('otherPhoneVoicemailRow');
-  additionalEmailRow = document.getElementById('additionalEmailRow');
-  showAndPushElementToArrayIfExists(mobilePhoneNumberComplete, mobilePhoneRow, !!mobilePhoneNumberComplete, contactInformationElementArray);
-  showAndPushElementToArrayIfExists(canWeVoicemailMobile, mobilePhoneVoicemailRow, !!mobilePhoneNumberComplete, contactInformationElementArray);
-  showAndPushElementToArrayIfExists(canWeText, mobilePhoneTextRow, !!mobilePhoneNumberComplete, contactInformationElementArray);
-  showAndPushElementToArrayIfExists(homePhoneNumberComplete, homePhoneRow, !!homePhoneNumberComplete, contactInformationElementArray);
-  showAndPushElementToArrayIfExists(canWeVoicemailHome, homePhoneVoicemailRow, !!homePhoneNumberComplete, contactInformationElementArray);
-  showAndPushElementToArrayIfExists(otherPhoneNumberComplete, otherPhoneRow, !!otherPhoneNumberComplete, contactInformationElementArray);
-  showAndPushElementToArrayIfExists(canWeVoicemailOther, otherPhoneVoicemailRow, !!otherPhoneNumberComplete, contactInformationElementArray);
-  showAndPushElementToArrayIfExists(additionalEmail, additionalEmailRow, !!additionalEmail, contactInformationElementArray);
+  optRowEles.mobilePhoneRow = document.getElementById('mobilePhoneRow');
+  optRowEles.mobilePhoneVoicemailRow = document.getElementById('mobilePhoneVoicemailRow');
+  optRowEles.mobilePhoneTextRow = document.getElementById('mobilePhoneTextRow');
+  optRowEles.homePhoneRow = document.getElementById('homePhoneRow');
+  optRowEles.homePhoneVoicemailRow = document.getElementById('homePhoneVoicemailRow');
+  optRowEles.otherPhoneRow = document.getElementById('otherPhoneRow');
+  optRowEles.otherPhoneVoicemailRow = document.getElementById('otherPhoneVoicemailRow');
+  optRowEles.additionalEmail1Row = document.getElementById('additionalEmail1Row');
+  optRowEles.additionalEmail2Row = document.getElementById('additionalEmail2Row');
+  showAndPushElementToArrayIfExists(optVars.mobilePhoneNumberComplete, optRowEles.mobilePhoneRow, !!optVars.mobilePhoneNumberComplete, contactInformationElementArray);
+  showAndPushElementToArrayIfExists(optVars.canWeVoicemailMobile, optRowEles.mobilePhoneVoicemailRow, !!optVars.mobilePhoneNumberComplete, contactInformationElementArray);
+  showAndPushElementToArrayIfExists(optVars.canWeText, optRowEles.mobilePhoneTextRow, !!optVars.mobilePhoneNumberComplete, contactInformationElementArray);
+  showAndPushElementToArrayIfExists(optVars.homePhoneNumberComplete, optRowEles.homePhoneRow, !!optVars.homePhoneNumberComplete, contactInformationElementArray);
+  showAndPushElementToArrayIfExists(optVars.canWeVoicemailHome, optRowEles.homePhoneVoicemailRow, !!optVars.homePhoneNumberComplete, contactInformationElementArray);
+  showAndPushElementToArrayIfExists(optVars.otherPhoneNumberComplete, optRowEles.otherPhoneRow, !!optVars.otherPhoneNumberComplete, contactInformationElementArray);
+  showAndPushElementToArrayIfExists(optVars.canWeVoicemailOther, optRowEles.otherPhoneVoicemailRow, !!optVars.otherPhoneNumberComplete, contactInformationElementArray);
+  showAndPushElementToArrayIfExists(optVars.additionalEmail1, optRowEles.additionalEmail1Row, !!optVars.additionalEmail1, contactInformationElementArray);
+  showAndPushElementToArrayIfExists(optVars.additionalEmail2, optRowEles.additionalEmail2Row, !!optVars.additionalEmail2, contactInformationElementArray);
 };
 
 const handleEditContactInformationSection = () => {
-  changeContactInformationButton.addEventListener('click', () => {
+  btnObj.changeContactInformationButton.addEventListener('click', () => {
     successMessageElement = hideSuccessMessage(successMessageElement);
-    isContactInformationFormDisplayed = toggleElementVisibility(contactInformationElementArray, isContactInformationFormDisplayed);
-    if (isContactInformationFormDisplayed) {
-      hideOptionalElementsOnShowForm([mobilePhoneRow, mobilePhoneVoicemailRow, mobilePhoneTextRow, homePhoneRow, homePhoneVoicemailRow, otherPhoneRow, otherPhoneVoicemailRow, additionalEmailRow]);
+    formVisBools.isContactInformationFormDisplayed = toggleElementVisibility(contactInformationElementArray, formVisBools.isContactInformationFormDisplayed);
+    if (formVisBools.isContactInformationFormDisplayed) {
+      hideOptionalElementsOnShowForm([optRowEles.mobilePhoneRow, optRowEles.mobilePhoneVoicemailRow, optRowEles.mobilePhoneTextRow, optRowEles.homePhoneRow, optRowEles.homePhoneVoicemailRow, optRowEles.otherPhoneRow, optRowEles.otherPhoneVoicemailRow, optRowEles.additionalEmail1Row, optRowEles.additionalEmail2Row]);
       toggleActiveForm(FormTypes.CONTACT);
     }
     toggleButtonText();
-    handleContactInformationRadioButtonPresets(mobilePhoneNumberComplete, canWeVoicemailMobile, canWeText, homePhoneNumberComplete, canWeVoicemailHome, otherPhoneNumberComplete, canWeVoicemailOther);
+    handleContactInformationRadioButtonPresets(optVars.mobilePhoneNumberComplete, optVars.canWeVoicemailMobile, optVars.canWeText, optVars.homePhoneNumberComplete, optVars.canWeVoicemailHome, optVars.otherPhoneNumberComplete, optVars.canWeVoicemailOther);
     updatePhoneNumberInputFocus();
   });
 
@@ -269,27 +288,28 @@ const handleEditContactInformationSection = () => {
     const mobilePhoneNumberPart1 = document.getElementById('mobilePhoneNumber1').value;
     const mobilePhoneNumberPart2 = document.getElementById('mobilePhoneNumber2').value;
     const mobilePhoneNumberPart3 = document.getElementById('mobilePhoneNumber3').value;
-    mobilePhoneNumberComplete = `${mobilePhoneNumberPart1}${mobilePhoneNumberPart2}${mobilePhoneNumberPart3}`;
+    optVars.mobilePhoneNumberComplete = `${mobilePhoneNumberPart1}${mobilePhoneNumberPart2}${mobilePhoneNumberPart3}`;
     const homePhoneNumberPart1 = document.getElementById('homePhoneNumber1').value;
     const homePhoneNumberPart2 = document.getElementById('homePhoneNumber2').value;
     const homePhoneNumberPart3 = document.getElementById('homePhoneNumber3').value;
-    homePhoneNumberComplete = `${homePhoneNumberPart1}${homePhoneNumberPart2}${homePhoneNumberPart3}`;
+    optVars.homePhoneNumberComplete = `${homePhoneNumberPart1}${homePhoneNumberPart2}${homePhoneNumberPart3}`;
     const otherPhoneNumberPart1 = document.getElementById('otherPhoneNumber1').value;
     const otherPhoneNumberPart2 = document.getElementById('otherPhoneNumber2').value;
     const otherPhoneNumberPart3 = document.getElementById('otherPhoneNumber3').value;
-    otherPhoneNumberComplete = `${otherPhoneNumberPart1}${otherPhoneNumberPart2}${otherPhoneNumberPart3}`;
+    optVars.otherPhoneNumberComplete = `${otherPhoneNumberPart1}${otherPhoneNumberPart2}${otherPhoneNumberPart3}`;
 
-    canWeVoicemailMobile = getCheckedRadioButtonValue('mobileVoicemailPermissionYesRadio');
-    canWeText = getCheckedRadioButtonValue('textPermissionYesRadio');
-    canWeVoicemailHome = getCheckedRadioButtonValue('homeVoicemailPermissionYesRadio');
-    canWeVoicemailOther = getCheckedRadioButtonValue('otherVoicemailPermissionYesRadio');
+    optVars.canWeVoicemailMobile = getCheckedRadioButtonValue('mobileVoicemailPermissionYesRadio');
+    optVars.canWeText = getCheckedRadioButtonValue('textPermissionYesRadio');
+    optVars.canWeVoicemailHome = getCheckedRadioButtonValue('homeVoicemailPermissionYesRadio');
+    optVars.canWeVoicemailOther = getCheckedRadioButtonValue('otherVoicemailPermissionYesRadio');
 
     const preferredEmail = document.getElementById('newPreferredEmail').value.toLowerCase().trim();
-    additionalEmail = document.getElementById('newAdditionalEmail').value.toLowerCase().trim();
+    optVars.additionalEmail1 = document.getElementById('newadditionalEmail1').value.toLowerCase().trim();
+    optVars.additionalEmail2 = document.getElementById('newadditionalEmail2').value.toLowerCase().trim();
 
-    const isContactInformationValid = validateContactInformation(mobilePhoneNumberComplete, homePhoneNumberComplete, preferredEmail, otherPhoneNumberComplete, additionalEmail);
+    const isContactInformationValid = validateContactInformation(optVars.mobilePhoneNumberComplete, optVars.homePhoneNumberComplete, preferredEmail, optVars.otherPhoneNumberComplete, optVars.additionalEmail1, optVars.additionalEmail2);
     if (isContactInformationValid) {
-      isContactInformationFormDisplayed = toggleElementVisibility(contactInformationElementArray, isContactInformationFormDisplayed);
+      formVisBools.isContactInformationFormDisplayed = toggleElementVisibility(contactInformationElementArray, formVisBools.isContactInformationFormDisplayed);
       toggleButtonText();
       submitNewContactInformation(preferredEmail);
     }
@@ -297,19 +317,20 @@ const handleEditContactInformationSection = () => {
 };
 
 const submitNewContactInformation = async preferredEmail => {
-  const isSuccess = await changeContactInformation(mobilePhoneNumberComplete, homePhoneNumberComplete, canWeVoicemailMobile, canWeText, canWeVoicemailHome, preferredEmail, otherPhoneNumberComplete, canWeVoicemailOther, additionalEmail, userData).catch(function (error) {
+  const isSuccess = await changeContactInformation(optVars.mobilePhoneNumberComplete, optVars.homePhoneNumberComplete, optVars.canWeVoicemailMobile, optVars.canWeText, optVars.canWeVoicemailHome, preferredEmail, optVars.otherPhoneNumberComplete, optVars.canWeVoicemailOther, optVars.additionalEmail1, optVars.additionalEmail2, userData).catch(function (error) {
     document.getElementById('changeContactInformationFail').style.display = 'block';
     document.getElementById('changeContactInformationError').innerHTML = error.message;
   });
   if (isSuccess) {
-    handleOptionalFieldVisibility(mobilePhoneNumberComplete, 'profileMobilePhoneNumber', mobilePhoneRow, contactInformationElementArray[0], 'phone');
-    handleOptionalFieldVisibility(canWeVoicemailMobile, 'profileMobileVoicemailPermission', mobilePhoneVoicemailRow, contactInformationElementArray[0], 'radio', !!mobilePhoneNumberComplete);
-    handleOptionalFieldVisibility(canWeText, 'profileMobileTextPermission', mobilePhoneTextRow, contactInformationElementArray[0], 'radio', !!mobilePhoneNumberComplete);
-    handleOptionalFieldVisibility(homePhoneNumberComplete, 'profileHomePhoneNumber', homePhoneRow, contactInformationElementArray[0], 'phone');
-    handleOptionalFieldVisibility(canWeVoicemailHome, 'profileHomeVoicemailPermission', homePhoneVoicemailRow, contactInformationElementArray[0], 'radio', !!homePhoneNumberComplete);
-    handleOptionalFieldVisibility(otherPhoneNumberComplete, 'profileOtherPhoneNumber', otherPhoneRow, contactInformationElementArray[0], 'phone');
-    handleOptionalFieldVisibility(canWeVoicemailOther, 'profileOtherVoicemailPermission', otherPhoneVoicemailRow, contactInformationElementArray[0], 'radio', !!otherPhoneNumberComplete);
-    handleOptionalFieldVisibility(additionalEmail, 'profileAdditionalEmail', additionalEmailRow, contactInformationElementArray[0], 'text');
+    handleOptionalFieldVisibility(optVars.mobilePhoneNumberComplete, 'profileMobilePhoneNumber', optRowEles.mobilePhoneRow, contactInformationElementArray[0], 'phone');
+    handleOptionalFieldVisibility(optVars.canWeVoicemailMobile, 'profileMobileVoicemailPermission', optRowEles.mobilePhoneVoicemailRow, contactInformationElementArray[0], 'radio', !!optVars.mobilePhoneNumberComplete);
+    handleOptionalFieldVisibility(optVars.canWeText, 'profileMobileTextPermission', optRowEles.mobilePhoneTextRow, contactInformationElementArray[0], 'radio', !!optVars.mobilePhoneNumberComplete);
+    handleOptionalFieldVisibility(optVars.homePhoneNumberComplete, 'profileHomePhoneNumber', optRowEles.homePhoneRow, contactInformationElementArray[0], 'phone');
+    handleOptionalFieldVisibility(optVars.canWeVoicemailHome, 'profileHomeVoicemailPermission', optRowEles.homePhoneVoicemailRow, contactInformationElementArray[0], 'radio', !!optVars.homePhoneNumberComplete);
+    handleOptionalFieldVisibility(optVars.otherPhoneNumberComplete, 'profileOtherPhoneNumber', optRowEles.otherPhoneRow, contactInformationElementArray[0], 'phone');
+    handleOptionalFieldVisibility(optVars.canWeVoicemailOther, 'profileOtherVoicemailPermission', optRowEles.otherPhoneVoicemailRow, contactInformationElementArray[0], 'radio', !!optVars.otherPhoneNumberComplete);
+    handleOptionalFieldVisibility(optVars.additionalEmail1, 'profileadditionalEmail1', optRowEles.additionalEmail1Row, contactInformationElementArray[0], 'text');
+    handleOptionalFieldVisibility(optVars.additionalEmail2, 'profileadditionalEmail2', optRowEles.additionalEmail2Row, contactInformationElementArray[0], 'text');
     successMessageElement = document.getElementById('changeContactInformationSuccess');
     successMessageElement.style.display = 'block';
     document.getElementById('profilePreferredEmail').textContent = preferredEmail;
@@ -332,10 +353,10 @@ const loadMailingAddressElements = () => {
 };
 
 const handleEditMailingAddressSection = () => {
-  changeMailingAddressButton.addEventListener('click', () => {
+  btnObj.changeMailingAddressButton.addEventListener('click', () => {
     successMessageElement = hideSuccessMessage(successMessageElement);
-    isMailingAddressFormDisplayed = toggleElementVisibility(mailingAddressElementArray, isMailingAddressFormDisplayed);
-    if (isMailingAddressFormDisplayed) {
+    formVisBools.isMailingAddressFormDisplayed = toggleElementVisibility(mailingAddressElementArray, formVisBools.isMailingAddressFormDisplayed);
+    if (formVisBools.isMailingAddressFormDisplayed) {
       toggleActiveForm(FormTypes.MAILING);
       addEventAddressAutoComplete(1);
     }
@@ -351,7 +372,7 @@ const handleEditMailingAddressSection = () => {
 
     const isMailingAddressValid = validateMailingAddress(addressLine1, city, state, zip);
     if (isMailingAddressValid) {
-      isMailingAddressFormDisplayed = toggleElementVisibility(mailingAddressElementArray, isMailingAddressFormDisplayed);
+      formVisBools.isMailingAddressFormDisplayed = toggleElementVisibility(mailingAddressElementArray, formVisBools.isMailingAddressFormDisplayed);
       toggleButtonText();
       submitNewMailingAddress(addressLine1, addressLine2, city, state, zip);
     }
@@ -381,10 +402,10 @@ const loadSignInInformationElements = () => {
 };
 
 const handleEditSignInInformationSection = () => {
-  changeEmailButton.addEventListener('click', () => {
+  btnObj.changeEmailButton.addEventListener('click', () => {
     successMessageElement = hideSuccessMessage(successMessageElement);
-    isEmailFormDisplayed = toggleElementVisibility(emailElementArray, isEmailFormDisplayed);
-    if (isEmailFormDisplayed) {
+    formVisBools.isEmailFormDisplayed = toggleElementVisibility(emailElementArray, formVisBools.isEmailFormDisplayed);
+    if (formVisBools.isEmailFormDisplayed) {
       toggleActiveForm(FormTypes.EMAIL);
     }
     toggleButtonText();
@@ -395,7 +416,7 @@ const handleEditSignInInformationSection = () => {
     const emailConfirm = document.getElementById('newEmailFieldCheck').value.trim();
     const isEmailValid = validateEmailAddress(email, emailConfirm);
     if (isEmailValid) {
-      isEmailFormDisplayed = toggleElementVisibility(emailElementArray, isEmailFormDisplayed);
+      formVisBools.isEmailFormDisplayed = toggleElementVisibility(emailElementArray, formVisBools.isEmailFormDisplayed);
       toggleButtonText();
       submitNewEmailAddress(email, userData);
     }
@@ -419,24 +440,24 @@ const submitNewEmailAddress = async email => {
 const toggleActiveForm = clickedFormType => {
   switch (clickedFormType) {
     case FormTypes.NAME:
-      isContactInformationFormDisplayed = isContactInformationFormDisplayed ? toggleElementVisibility(contactInformationElementArray, isContactInformationFormDisplayed) : false;
-      isMailingAddressFormDisplayed = isMailingAddressFormDisplayed ? toggleElementVisibility(mailingAddressElementArray, isMailingAddressFormDisplayed) : false;
-      isEmailFormDisplayed = isEmailFormDisplayed ? toggleElementVisibility(emailElementArray, isEmailFormDisplayed) : false;
+      formVisBools.isContactInformationFormDisplayed = formVisBools.isContactInformationFormDisplayed ? toggleElementVisibility(contactInformationElementArray, formVisBools.isContactInformationFormDisplayed) : false;
+      formVisBools.isMailingAddressFormDisplayed = formVisBools.isMailingAddressFormDisplayed ? toggleElementVisibility(mailingAddressElementArray, formVisBools.isMailingAddressFormDisplayed) : false;
+      formVisBools.isEmailFormDisplayed = formVisBools.isEmailFormDisplayed ? toggleElementVisibility(emailElementArray, formVisBools.isEmailFormDisplayed) : false;
       break;
     case FormTypes.CONTACT:
-      isNameFormDisplayed = isNameFormDisplayed ? toggleElementVisibility(nameElementArray, isNameFormDisplayed) : false;
-      isMailingAddressFormDisplayed = isMailingAddressFormDisplayed ? toggleElementVisibility(mailingAddressElementArray, isMailingAddressFormDisplayed) : false;
-      isEmailFormDisplayed = isEmailFormDisplayed ? toggleElementVisibility(emailElementArray, isEmailFormDisplayed) : false;
+      formVisBools.isNameFormDisplayed = formVisBools.isNameFormDisplayed ? toggleElementVisibility(nameElementArray, formVisBools.isNameFormDisplayed) : false;
+      formVisBools.isMailingAddressFormDisplayed = formVisBools.isMailingAddressFormDisplayed ? toggleElementVisibility(mailingAddressElementArray, formVisBools.isMailingAddressFormDisplayed) : false;
+      formVisBools.isEmailFormDisplayed = formVisBools.isEmailFormDisplayed ? toggleElementVisibility(emailElementArray, formVisBools.isEmailFormDisplayed) : false;
       break;
     case FormTypes.MAILING:
-      isNameFormDisplayed = isNameFormDisplayed ? toggleElementVisibility(nameElementArray, isNameFormDisplayed) : false;
-      isContactInformationFormDisplayed = isContactInformationFormDisplayed ? toggleElementVisibility(contactInformationElementArray, isContactInformationFormDisplayed) : false;
-      isEmailFormDisplayed = isEmailFormDisplayed ? toggleElementVisibility(emailElementArray, isEmailFormDisplayed) : false;
+      formVisBools.isNameFormDisplayed = formVisBools.isNameFormDisplayed ? toggleElementVisibility(nameElementArray, formVisBools.isNameFormDisplayed) : false;
+      formVisBools.isContactInformationFormDisplayed = formVisBools.isContactInformationFormDisplayed ? toggleElementVisibility(contactInformationElementArray, formVisBools.isContactInformationFormDisplayed) : false;
+      formVisBools.isEmailFormDisplayed = formVisBools.isEmailFormDisplayed ? toggleElementVisibility(emailElementArray, formVisBools.isEmailFormDisplayed) : false;
       break;
     case FormTypes.EMAIL:
-      isNameFormDisplayed = isNameFormDisplayed ? toggleElementVisibility(nameElementArray, isNameFormDisplayed) : false;
-      isContactInformationFormDisplayed = isContactInformationFormDisplayed ? toggleElementVisibility(contactInformationElementArray, isContactInformationFormDisplayed) : false;
-      isMailingAddressFormDisplayed = isMailingAddressFormDisplayed ? toggleElementVisibility(mailingAddressElementArray, isMailingAddressFormDisplayed) : false;
+      formVisBools.isNameFormDisplayed = formVisBools.isNameFormDisplayed ? toggleElementVisibility(nameElementArray, formVisBools.isNameFormDisplayed) : false;
+      formVisBools.isContactInformationFormDisplayed = formVisBools.isContactInformationFormDisplayed ? toggleElementVisibility(contactInformationElementArray, formVisBools.isContactInformationFormDisplayed) : false;
+      formVisBools.isMailingAddressFormDisplayed = formVisBools.isMailingAddressFormDisplayed ? toggleElementVisibility(mailingAddressElementArray, formVisBools.isMailingAddressFormDisplayed) : false;
       break;
     default:
       break;
@@ -444,10 +465,10 @@ const toggleActiveForm = clickedFormType => {
 };
 
 const toggleButtonText = () => {
-  changeNameButton.textContent = isNameFormDisplayed ? 'Cancel' : 'Update Name';
-  changeContactInformationButton.textContent = isContactInformationFormDisplayed ? 'Cancel' : 'Update Contact Info';
-  changeMailingAddressButton.textContent = isMailingAddressFormDisplayed ? 'Cancel' : 'Update Mailing Address';
-  changeEmailButton.textContent = isEmailFormDisplayed ? 'Cancel' : 'Update Email Address';
+  btnObj.changeNameButton.textContent = formVisBools.isNameFormDisplayed ? 'Cancel' : 'Update Name';
+  btnObj.changeContactInformationButton.textContent = formVisBools.isContactInformationFormDisplayed ? 'Cancel' : 'Update Contact Info';
+  btnObj.changeMailingAddressButton.textContent = formVisBools.isMailingAddressFormDisplayed ? 'Cancel' : 'Update Mailing Address';
+  btnObj.changeEmailButton.textContent = formVisBools.isEmailFormDisplayed ? 'Cancel' : 'Update Email Address';
 };
 
 const refreshUserDataAfterEdit = async () => {
@@ -513,7 +534,7 @@ export const renderUserNameData = userData => {
               <br>
                   <b>
                   <div id="profileMiddleName">
-                      ${middleName}
+                      ${optVars.middleName}
                     </div>
                   </b>
               </span>
@@ -545,7 +566,7 @@ export const renderUserNameData = userData => {
               <br>
                   <b>
                   <div id="profileSuffix">
-                      ${suffixToTextMap.get(parseInt(suffix))}
+                      ${suffixToTextMap.get(parseInt(optVars.suffix))}
                     </div>
                   </b>
               </span>
@@ -559,7 +580,7 @@ export const renderUserNameData = userData => {
               <br>
                   <b>
                   <div id="profilePreferredFirstName">
-                        ${preferredFirstName}
+                        ${optVars.preferredFirstName}
                     </div>
                   </b>
               </span>
@@ -749,19 +770,32 @@ export const renderContactInformationData = (userData, canWeVoicemailMobile, can
                 </span>
             </div>
         </div>
-        <div class="row userProfileLinePaddings" id="additionalEmailRow" style="display:none">
+        <div class="row userProfileLinePaddings" id="additionalEmail1Row" style="display:none">
             <div class="col">
                 <span class="userProfileBodyFonts">
-                    Additional Email
+                    Additional Email 1
                 <br>
                     <b>
-                    <div id="profileAdditionalEmail">
-                        ${userData[cId.additionalEmail]}
+                    <div id="profileadditionalEmail1">
+                        ${userData[cId.additionalEmail1]}
                     </div>
                     </b>
                 </span>
             </div>
-        </div>        
+        </div>
+        <div class="row userProfileLinePaddings" id="additionalEmail2Row" style="display:none">
+            <div class="col">
+                <span class="userProfileBodyFonts">
+                    Additional Email 2
+                <br>
+                    <b>
+                    <div id="profileadditionalEmail2">
+                        ${userData[cId.additionalEmail2]}
+                    </div>
+                    </b>
+                </span>
+            </div>
+        </div>         
       `;
 };
 
@@ -873,8 +907,15 @@ export const renderChangeContactInformationGroup = userData => {
 
                   <div class="form-group row">
                       <div class="col">
-                          <label for="newAdditionalEmail" class="custom-form-label">Additional Email (optional)</label>
-                          <input max-width:382px;" value="${userData[cId.additionalEmail] ? `${userData[cId.additionalEmail]}` : ''}" type="email" class="form-control ml-1" id="newAdditionalEmail" placeholder="abc@mail.com">
+                          <label for="newadditionalEmail1" class="custom-form-label">Additional Email 1 (optional)</label>
+                          <input max-width:382px;" value="${userData[cId.additionalEmail1] ? `${userData[cId.additionalEmail1]}` : ''}" type="email" class="form-control ml-1" id="newadditionalEmail1" placeholder="abc@mail.com">
+                      </div>
+                  </div>
+
+                  <div class="form-group row">
+                      <div class="col">
+                          <label for="newadditionalEmail2" class="custom-form-label">Additional Email 2 (optional)</label>
+                          <input max-width:382px;" value="${userData[cId.additionalEmail2] ? `${userData[cId.additionalEmail2]}` : ''}" type="email" class="form-control ml-1" id="newadditionalEmail2" placeholder="abc@mail.com">
                       </div>
                   </div>
   

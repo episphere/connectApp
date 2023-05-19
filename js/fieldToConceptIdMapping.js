@@ -11,7 +11,8 @@ export default
     "suffix":506826178,
     "homePhone":438643922,
     "prefEmail":869588347,
-    "additionalEmail":849786503,
+    "additionalEmail1":849786503,
+    "additionalEmail2":635101039,
     "cellPhone":388711124,
     "otherPhone":793072415,
     "prefContact":524461170,
@@ -35,6 +36,12 @@ export default
     "hipaaVersion": 412000022,
     "userProfileHistory": 569151507,
     "userProfileUpdateTimestamp": 371303487,
+    "profileChangeRequestedBy": 611005658,
+    "firebaseSignInMechanism": 995036844,
+    "signInGoogle": 943488874,
+    "signInPassword": 101178950,
+    "signInPhone": 804918759,
+
     "heardAboutStudyForm" : 142654897,
 
     "heardAboutStudyCheckBoxes":{
