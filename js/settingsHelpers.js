@@ -467,7 +467,6 @@ const findChangedUserDataValues = (newUserData, existingUserData, type) => {
  * @param {string} type - the type of data being changed (e.g. name, contact info, mailing address, log-in email).
  * @returns {boolean} - whether the write operation was successful to control the UI messaging.
  */
-//TODO test this preferred email logic, pass, and write
 const processUserDataUpdate = async (changedUserDataForProfile, changedUserDataForHistory, userHistory, preferredEmailExisting, type) => {
   const preferredEmail = changedUserDataForProfile[cId.preferredEmail] ?? preferredEmailExisting ?? '';
   if (changedUserDataForProfile && Object.keys(changedUserDataForProfile).length !== 0) {

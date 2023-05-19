@@ -140,7 +140,6 @@ export const renderSettingsPage = async () => {
      * Create the buttons, add the event listeners, push the elements to the arrays for visibility toggling
      * If the user profile has not been verified, then hide the profile and edit functionality, show the pending verification message
      */
-    //TODO test this
     if (userData[cId.verification] == cId.verified) {
       btnObj.changeNameButton = document.getElementById('changeNameButton');
       btnObj.changeContactInformationButton = document.getElementById('changeContactInformationButton');
