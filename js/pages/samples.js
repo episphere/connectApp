@@ -108,19 +108,21 @@ export const renderSamplesPage = async () => {
                             </div>
                         </div>
                     </div>
-                    <div class="row" style="width:100%">
                 
                     ${site.name !== "Henry Ford Health" ? `
-                    <div class="consentHeadersFont" style="color:#606060;width:100%">
-                    <div>
-                        What Will Happen During My Appointment?
-                    </div>
-                </div>
-                <div class="messagesBodyFont" style="width:100%">
-                    <div>
-                        ${site.whatHappens}
-                    </div>
-                </div>` : '' 
+                    <div class="row" style="width:100%">
+                        <div class="consentHeadersFont" style="color:#606060;width:100%">
+                            <div>
+                                What Will Happen During My Appointment?
+                            </div>
+                        </div>
+                        <div class="messagesBodyFont" style="width:100%">
+                            <div>
+                                ${site.whatHappens}
+                            </div>
+                        </div>
+                    </div>` 
+                    : '' 
                     }
                     <div class="row" style="width:100%">
                         <div class="consentHeadersFont" style="color:#606060;width:100%">
@@ -367,7 +369,6 @@ const henry_ford = {
     scheduling: 'For questions and scheduling please call 855-574-7540 or email <a href="mailto: ConnectStudy@hfhs.org">ConnectStudy@hfhs.org</a>.<br><br><em>All patients and visitors are required to wear a mask. If you enter the building without a mask, we will give one to you. If you are unable to wear a mask for the duration of the visit, we ask that you do not schedule your visit at this time.</em>',
     howLong: '<span style="font-weight:900; text-decoration:bold">For Option 1: Connect Research Lab Appointment</span><br>Please expect to spend about one hour at your appointment to donate your samples and complete a short survey.<br><span style="font-weight:500; text-decoration:bold">For Option 2: Henry Ford Health Lab Services Locations</span><br>Wait times to donate samples may vary by location. To better serve HFH patients, Henry Ford Lab Services have started using <span style="font-weight:900; text-decoration:bold">“Save My Spot".</span><br><br><span style="font-weight:900; text-decoration:bold">“Save My Spot"</span> is an optional service to reserve your spot in line at one of the participating Henry Ford Health Lab Services locations (Macomb and Wyandotte). All lab orders must be placed before using “Save My Spot,” including your lab order for Connect.<br><br>To use this optional service, click this link only after receiving order confirmation from Connect staff: <a href= "https://www.henryford.com/locations/henry-ford-hospital/lab-services">https://www.henryford.com/locations/henry-ford-hospital/lab-services</a> ',
     prepareInstructions: 'On the day of your visit to donate samples for Connect, you do not need to fast unless told to do so by your provider for any other lab work they’ve ordered. We request you drink plenty of water to keep hydrated but <span style="font-weight:900; text-decoration:bold">stop drinking water one hour before your visit.</span><br><br><span style="font-weight:900; text-decoration:bold">One hour before your visit:</span> Please <span style="font-weight:900; text-decoration:bold">do not</span> eat, drink, chew gum, smoke, vape, or chew any products (including tobacco), rinse your mouth, or brush your teeth.<br><br><span style="font-weight:900; text-decoration:bold">Things to bring and remember:</span><br><br>We will ask you to complete a short survey on MyConnect after you donate samples. You will need your login method for MyConnect and a personal device to complete the survey. <br><br>You will be asked questions related to:<ul><li>The last time you ate or drank before your appointment, and the time you went to sleep the night before your appointment and woke up on the day of your appointment.</li><li>If you are menstruating, the start date of your most recent menstrual period in the last 12 months.</li></ul><br><div class="consentHeadersFont" style="color:#606060;width:100%">When Will I Receive My $25 Payment?</div><br>You will receive your $25 gift card after you donate a blood sample and complete all four sections of your first Connect survey.<br><br>You can find the four sections of your first survey on your MyConnect Dashboard. These sections are:<ol><li>Background and Overall Health</li><li>Medications, Reproductive Health, Exercise, and Sleep</li><li>Smoking, Alcohol, and Sun Exposure</li><li>Where you Live and Work</li>',
-    whatHappens: '',
     support: 'Call 1-877-505-0253 (9:00 a.m.-11:00 p.m. ET on weekdays and 10:00 a.m.-7:00 p.m. ET on weekends)',
     locationNotes: '<h4>Option 1: Connect Research Labs</h4>',
     locations: [
