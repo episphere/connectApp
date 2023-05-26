@@ -94,13 +94,31 @@ export const hideOptionalElementsOnShowForm = elementsArray => {
   });
 };
 
+/**
+ * Sign-in Information -> removeLoginEmailButton and removeLoginPhoneButton.
+ * Show the confirmation modal after user clicks 'Remove this...' button.
+ * Require confirmation from user prior to unlinking the authentication provider.
+ * Then hide the modal.
+ */
 export const attachLoginRemovalButtons = () => {
+  console.log('attachLoginRemovalButtons');
   document.getElementById("removeLoginEmailButton").addEventListener("click", function() {
-    unlinkFirebaseAuthProvider('email');
+    document.getElementById('confirmRemoveEmail').addEventListener('click', function() {
+      unlinkFirebaseAuthProvider('email');
+      document.getElementById('confirmationModal').style.display = 'none';
+    });
   });
 
-  document.getElementById("removeLoginPhoneButton").addEventListener("click", function() {
-    unlinkFirebaseAuthProvider('phone');
+  document.getElementById('removeLoginPhoneButton').addEventListener('click', function() {
+    document.getElementById('confirmationModal').style.display = 'block';
+    document.getElementById('confirmRemovePhone').addEventListener('click', function() {
+        unlinkFirebaseAuthProvider('phone');
+        document.getElementById('confirmationModal').style.display = 'none';
+    });
+  });
+
+  document.getElementById('cancelRemove').addEventListener('click', function() {
+    document.getElementById('confirmationModal').style.display = 'none';
   });
 };
 

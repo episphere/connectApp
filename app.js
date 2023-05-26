@@ -287,6 +287,7 @@ const userProfile = () => {
                 });
                 hideAnimation();
                 document.getElementById('verifyEmail').addEventListener('click', () => {
+                    console.log('sending email verification')
                     user.sendEmailVerification().then(function() {
                         
                     }).catch(function(error) {

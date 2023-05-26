@@ -6,7 +6,7 @@ import cId from '../fieldToConceptIdMapping.js';
 const nameElementArray = [];
 const mailingAddressElementArray = [];
 const contactInformationElementArray = [];
-const emailElementArray = [];
+const loginElementArray = [];
 
 const btnObj = {
     changeNameButton: null,
@@ -79,8 +79,8 @@ export const renderSettingsPage = async () => {
     firebaseAuthUser = firebase.auth().currentUser;
     optVars.loginEmail = firebaseAuthUser.email;
     optVars.loginPhone = firebaseAuthUser.phoneNumber;
-    console.log('firebaseAuthUser', optVars.loginEmail, optVars.loginPhone);
-    console.log('firebaseAuthUserFull', firebaseAuthUser);
+    // console.log('firebaseAuthUser', optVars.loginEmail, optVars.loginPhone);
+    // console.log('firebaseAuthUserFull', firebaseAuthUser);
     optVars.canWeVoicemailMobile = userData[cId.canWeVoicemailMobile] === cId.yes;
     optVars.canWeText = userData[cId.canWeText] === cId.yes;
     optVars.canWeVoicemailHome = userData[cId.canWeVoicemailHome] === cId.yes;
@@ -125,7 +125,7 @@ export const renderSettingsPage = async () => {
                         
                     <div class="userProfileBox" id="mailingAddressDiv" style="display:none">
                         ${renderMailingAddressHeadingAndButton()}
-                        ${renderMailingAddressData(userData)}
+                        ${renderMailingAddressData()}
                         ${renderChangeMailingAddressGroup(1)}
                     </div>
                     <div class="userProfileBox" id="signInInformationDiv" style="display:none">
@@ -171,13 +171,13 @@ const buildPageTemplate = () => {
       loadContactInformationElements();
       loadMailingAddressElements();
       loadSignInInformationElements();
-      showFormElements();
+      showMajorFormDivs();
       togglePendingVerificationMessage(userData);
   }
   hideAnimation();
 };
 
-const showFormElements = () => {
+const showMajorFormDivs = () => {
   document.getElementById('myProfileTextContainer').style.display = 'block';
   document.getElementById('nameDiv').style.display = 'block';
   document.getElementById('contactInformationDiv').style.display = 'block';
@@ -407,26 +407,26 @@ const submitNewMailingAddress = async (addressLine1, addressLine2, city, state, 
 };
 
 const loadSignInInformationElements = () => {
-  emailElementArray.push(document.getElementById('currentSignInInformationDiv'));
-  emailElementArray.push(document.getElementById('changeLoginGroup'));
+  loginElementArray.push(document.getElementById('currentSignInInformationDiv'));
+  loginElementArray.push(document.getElementById('changeLoginGroup'));
   optRowEles.loginEmailRow = document.getElementById('loginEmailRow');
   optRowEles.loginPhoneRow = document.getElementById('loginPhoneRow');
-  showAndPushElementToArrayIfExists(optVars.loginEmail, optRowEles.loginEmailRow, !!optVars.loginEmail, contactInformationElementArray);
-  showAndPushElementToArrayIfExists(optVars.loginPhone, optRowEles.loginPhoneRow, !!optVars.loginPhone, contactInformationElementArray);
+  showAndPushElementToArrayIfExists(optVars.loginEmail, optRowEles.loginEmailRow, !!optVars.loginEmail, loginElementArray);
+  showAndPushElementToArrayIfExists(optVars.loginPhone, optRowEles.loginPhoneRow, !!optVars.loginPhone, loginElementArray);
 };
 
 const handleEditSignInInformationSection = () => {
   btnObj.changeLoginButton.addEventListener('click', () => {
     successMessageElement = hideSuccessMessage(successMessageElement);
-    formVisBools.isEmailFormDisplayed = toggleElementVisibility(emailElementArray, formVisBools.isEmailFormDisplayed);
+    formVisBools.isEmailFormDisplayed = toggleElementVisibility(loginElementArray, formVisBools.isEmailFormDisplayed);
     if (formVisBools.isEmailFormDisplayed) {
       hideOptionalElementsOnShowForm([optRowEles.loginEmailRow, optRowEles.loginPhoneRow]);
       toggleActiveForm(FormTypes.LOGIN);
-    }
+      attachTabEventListeners();
+      attachLoginRemovalButtons();
+      openUpdateLoginForm({ currentTarget: document.getElementsByClassName('tablinks')[0] }, 'form1');
+    } 
     toggleButtonText();
-    attachTabEventListeners();
-    attachLoginRemovalButtons();
-    openUpdateLoginForm({ currentTarget: document.getElementsByClassName('tablinks')[0] }, 'form1');
   });
 
   document.getElementById('changeLoginSubmit').addEventListener('click', e => {
@@ -440,7 +440,7 @@ const handleEditSignInInformationSection = () => {
     console.log('isEmailValid', isEmailValid, 'isPhoneValid', isPhoneValid);
 
     if (isEmailValid || isPhoneValid) {
-        formVisBools.isEmailFormDisplayed = toggleElementVisibility(emailElementArray, formVisBools.isEmailFormDisplayed);
+        formVisBools.isEmailFormDisplayed = toggleElementVisibility(loginElementArray, formVisBools.isEmailFormDisplayed);
         toggleButtonText();
         submitNewLoginMethod(email, phone, userData);
     }
@@ -482,17 +482,17 @@ const toggleActiveForm = clickedFormType => {
     case FormTypes.NAME:
       formVisBools.isContactInformationFormDisplayed = formVisBools.isContactInformationFormDisplayed ? toggleElementVisibility(contactInformationElementArray, formVisBools.isContactInformationFormDisplayed) : false;
       formVisBools.isMailingAddressFormDisplayed = formVisBools.isMailingAddressFormDisplayed ? toggleElementVisibility(mailingAddressElementArray, formVisBools.isMailingAddressFormDisplayed) : false;
-      formVisBools.isEmailFormDisplayed = formVisBools.isEmailFormDisplayed ? toggleElementVisibility(emailElementArray, formVisBools.isEmailFormDisplayed) : false;
+      formVisBools.isEmailFormDisplayed = formVisBools.isEmailFormDisplayed ? toggleElementVisibility(loginElementArray, formVisBools.isEmailFormDisplayed) : false;
       break;
     case FormTypes.CONTACT:
       formVisBools.isNameFormDisplayed = formVisBools.isNameFormDisplayed ? toggleElementVisibility(nameElementArray, formVisBools.isNameFormDisplayed) : false;
       formVisBools.isMailingAddressFormDisplayed = formVisBools.isMailingAddressFormDisplayed ? toggleElementVisibility(mailingAddressElementArray, formVisBools.isMailingAddressFormDisplayed) : false;
-      formVisBools.isEmailFormDisplayed = formVisBools.isEmailFormDisplayed ? toggleElementVisibility(emailElementArray, formVisBools.isEmailFormDisplayed) : false;
+      formVisBools.isEmailFormDisplayed = formVisBools.isEmailFormDisplayed ? toggleElementVisibility(loginElementArray, formVisBools.isEmailFormDisplayed) : false;
       break;
     case FormTypes.MAILING:
       formVisBools.isNameFormDisplayed = formVisBools.isNameFormDisplayed ? toggleElementVisibility(nameElementArray, formVisBools.isNameFormDisplayed) : false;
       formVisBools.isContactInformationFormDisplayed = formVisBools.isContactInformationFormDisplayed ? toggleElementVisibility(contactInformationElementArray, formVisBools.isContactInformationFormDisplayed) : false;
-      formVisBools.isEmailFormDisplayed = formVisBools.isEmailFormDisplayed ? toggleElementVisibility(emailElementArray, formVisBools.isEmailFormDisplayed) : false;
+      formVisBools.isEmailFormDisplayed = formVisBools.isEmailFormDisplayed ? toggleElementVisibility(loginElementArray, formVisBools.isEmailFormDisplayed) : false;
       break;
     case FormTypes.LOGIN:
       formVisBools.isNameFormDisplayed = formVisBools.isNameFormDisplayed ? toggleElementVisibility(nameElementArray, formVisBools.isNameFormDisplayed) : false;
@@ -1200,9 +1200,12 @@ const renderTabbedForm = () => {
                 <button class="btn-remove-login" id="removeLoginEmailButton">Remove this email address</button>
             </div>
             <hr>
-            <br>` : ''}
-            ${renderEmailOrPhoneInput('email')}
+            <br>
+            ` : ''
+        }
+        ${renderEmailOrPhoneInput('email')}
         </div>
+        
         <div id="form2" class="tabcontent">
         ${currentPhone ?
             `
@@ -1214,9 +1217,11 @@ const renderTabbedForm = () => {
                 <button class="btn-remove-login" id="removeLoginPhoneButton">Remove this phone number</button>
             </div>
             <hr>
-            <br>` : ''}
-            ${renderEmailOrPhoneInput('phone')}
-            <div style="margin-left:10px" id="recaptcha-container"></div>
+            <br>
+            ` : ''
+        }
+        ${renderEmailOrPhoneInput('phone')}
+        <div style="margin-left:10px" id="recaptcha-container"></div>
         </div>
     `;
 };
@@ -1251,6 +1256,18 @@ const renderEmailOrPhoneInput = (type) => {
         <br>
         <input type="${elementId.toLowerCase()}" id="new${elementId}FieldCheck" class="form-control required-field" placeholder="Confirm New ${label}"/>
         <br>
+        ${renderConfirmationModal(elementId)} 
     `;
 };
-    
+
+const renderConfirmationModal = (removalType) => {
+    return `
+    <div id="confirmationModal" class="modal-remove-login">
+        <div class="modal-content">
+            <p><strong><i>Important</i></strong>: Are you sure you want to remove this ${removalType.toLowerCase()} login method?</p>
+            <button id="confirmRemove${removalType}">Confirm</button>
+            <button id="cancelRemove">Cancel</button>
+        </div>
+    </div>
+    `;
+};  
