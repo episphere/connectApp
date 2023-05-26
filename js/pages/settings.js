@@ -1,5 +1,5 @@
 import { allStates, showAnimation, hideAnimation, getMyData } from '../shared.js';
-import { changeEmail, changeContactInformation, changeMailingAddress, changeName, FormTypes, getCheckedRadioButtonValue, handleContactInformationRadioButtonPresets, handleOptionalFieldVisibility, hideOptionalElementsOnShowForm, hideSuccessMessage, showAndPushElementToArrayIfExists, showEditButtonsOnUserVerified, suffixList, suffixToTextMap, toggleElementVisibility, togglePendingVerificationMessage, updatePhoneNumberInputFocus, validateContactInformation, validateEmailAddress, validateMailingAddress, validateName } from '../settingsHelpers.js';
+import { attachLoginRemovalButtons, attachTabEventListeners, changeLoginMethod, changeContactInformation, changeMailingAddress, changeName, FormTypes, getCheckedRadioButtonValue, handleContactInformationRadioButtonPresets, handleOptionalFieldVisibility, hideOptionalElementsOnShowForm, hideSuccessMessage, openUpdateLoginForm, showAndPushElementToArrayIfExists, showEditButtonsOnUserVerified, suffixList, suffixToTextMap, toggleElementVisibility, togglePendingVerificationMessage, updatePhoneNumberInputFocus, validateContactInformation, validateLoginEmail, validateLoginPhone, validateMailingAddress, validateName } from '../settingsHelpers.js';
 import { addEventAddressAutoComplete } from '../event.js';
 import cId from '../fieldToConceptIdMapping.js';
 
@@ -12,7 +12,7 @@ const btnObj = {
     changeNameButton: null,
     changeContactInformationButton: null,
     changeMailingAddressButton: null,
-    changeEmailButton: null
+    changeLoginButton: null
 };
 
 const optVars = {
@@ -27,7 +27,9 @@ const optVars = {
     canWeVoicemailMobile: null,
     canWeText: null,
     canWeVoicemailHome: null,
-    canWeVoicemailOther: null
+    canWeVoicemailOther: null,
+    loginEmail: null,
+    loginPhone: null
 };
 
 const formVisBools = {
@@ -49,9 +51,12 @@ const optRowEles = {
     otherPhoneRow: null,
     otherPhoneVoicemailRow: null,
     additionalEmail1Row: null,
-    additionalEmail2Row: null
+    additionalEmail2Row: null,
+    loginEmailRow: null,
+    loginPhoneRow: null
 };
 
+let firebaseAuthUser;
 let successMessageElement;
 let userData;
 let template = '';
@@ -71,6 +76,11 @@ export const renderSettingsPage = async () => {
     buildPageTemplate();
   } else {
     userData = myData.data;
+    firebaseAuthUser = firebase.auth().currentUser;
+    optVars.loginEmail = firebaseAuthUser.email;
+    optVars.loginPhone = firebaseAuthUser.phoneNumber;
+    console.log('firebaseAuthUser', optVars.loginEmail, optVars.loginPhone);
+    console.log('firebaseAuthUserFull', firebaseAuthUser);
     optVars.canWeVoicemailMobile = userData[cId.canWeVoicemailMobile] === cId.yes;
     optVars.canWeText = userData[cId.canWeText] === cId.yes;
     optVars.canWeVoicemailHome = userData[cId.canWeVoicemailHome] === cId.yes;
@@ -104,13 +114,13 @@ export const renderSettingsPage = async () => {
                 
                     <div class="userProfileBox" id="nameDiv" style="display:none">
                         ${renderNameHeadingAndButton()}
-                        ${renderUserNameData(userData)}
-                        ${renderChangeNameGroup(userData)} 
+                        ${renderUserNameData()}
+                        ${renderChangeNameGroup()} 
                     </div>
                     <div class="userProfileBox" id="contactInformationDiv" style="display:none">
                         ${renderContactInformationHeadingAndButton()}
-                        ${renderContactInformationData(userData, optVars.canWeVoicemailMobile, optVars.canWeText, optVars.canWeVoicemailHome, optVars.canWeVoicemailOther)}
-                        ${renderChangeContactInformationGroup(userData)}
+                        ${renderContactInformationData()}
+                        ${renderChangeContactInformationGroup()}
                     </div>    
                         
                     <div class="userProfileBox" id="mailingAddressDiv" style="display:none">
@@ -120,8 +130,8 @@ export const renderSettingsPage = async () => {
                     </div>
                     <div class="userProfileBox" id="signInInformationDiv" style="display:none">
                         ${renderSignInInformationHeadingAndButton()}
-                        ${renderSignInInformationData(userData)}
-                        ${renderChangeSignInInformationGroup(userData)}
+                        ${renderSignInInformationData()}
+                        ${renderChangeSignInInformationGroup()}
                     </div>
                 </div>    
                 <div class="col-lg-3">
@@ -144,7 +154,7 @@ export const renderSettingsPage = async () => {
       btnObj.changeNameButton = document.getElementById('changeNameButton');
       btnObj.changeContactInformationButton = document.getElementById('changeContactInformationButton');
       btnObj.changeMailingAddressButton = document.getElementById('changeMailingAddressButton');
-      btnObj.changeEmailButton = document.getElementById('changeEmailButton');
+      btnObj.changeLoginButton = document.getElementById('changeLoginButton');
       showEditButtonsOnUserVerified();
       handleEditNameSection();
       handleEditContactInformationSection();
@@ -202,7 +212,7 @@ const handleEditNameSection = () => {
       hideOptionalElementsOnShowForm([optRowEles.middleNameRow, optRowEles.suffixRow, optRowEles.preferredFirstNameRow]);
       toggleActiveForm(FormTypes.NAME);
     }
-    toggleButtonText(btnObj.changeNameButton, btnObj.changeContactInformationButton, btnObj.changeMailingAddressButton, btnObj.changeEmailButton);
+    toggleButtonText(btnObj.changeNameButton, btnObj.changeContactInformationButton, btnObj.changeMailingAddressButton, btnObj.changeLoginButton);
   });
 
   document.getElementById('changeNameSubmit').addEventListener('click', e => {
@@ -259,6 +269,7 @@ const loadContactInformationElements = () => {
   optRowEles.otherPhoneVoicemailRow = document.getElementById('otherPhoneVoicemailRow');
   optRowEles.additionalEmail1Row = document.getElementById('additionalEmail1Row');
   optRowEles.additionalEmail2Row = document.getElementById('additionalEmail2Row');
+
   showAndPushElementToArrayIfExists(optVars.mobilePhoneNumberComplete, optRowEles.mobilePhoneRow, !!optVars.mobilePhoneNumberComplete, contactInformationElementArray);
   showAndPushElementToArrayIfExists(optVars.canWeVoicemailMobile, optRowEles.mobilePhoneVoicemailRow, !!optVars.mobilePhoneNumberComplete, contactInformationElementArray);
   showAndPushElementToArrayIfExists(optVars.canWeText, optRowEles.mobilePhoneTextRow, !!optVars.mobilePhoneNumberComplete, contactInformationElementArray);
@@ -397,40 +408,70 @@ const submitNewMailingAddress = async (addressLine1, addressLine2, city, state, 
 
 const loadSignInInformationElements = () => {
   emailElementArray.push(document.getElementById('currentSignInInformationDiv'));
-  emailElementArray.push(document.getElementById('changeEmailGroup'));
+  emailElementArray.push(document.getElementById('changeLoginGroup'));
+  optRowEles.loginEmailRow = document.getElementById('loginEmailRow');
+  optRowEles.loginPhoneRow = document.getElementById('loginPhoneRow');
+  showAndPushElementToArrayIfExists(optVars.loginEmail, optRowEles.loginEmailRow, !!optVars.loginEmail, contactInformationElementArray);
+  showAndPushElementToArrayIfExists(optVars.loginPhone, optRowEles.loginPhoneRow, !!optVars.loginPhone, contactInformationElementArray);
 };
 
 const handleEditSignInInformationSection = () => {
-  btnObj.changeEmailButton.addEventListener('click', () => {
+  btnObj.changeLoginButton.addEventListener('click', () => {
     successMessageElement = hideSuccessMessage(successMessageElement);
     formVisBools.isEmailFormDisplayed = toggleElementVisibility(emailElementArray, formVisBools.isEmailFormDisplayed);
     if (formVisBools.isEmailFormDisplayed) {
-      toggleActiveForm(FormTypes.EMAIL);
+      hideOptionalElementsOnShowForm([optRowEles.loginEmailRow, optRowEles.loginPhoneRow]);
+      toggleActiveForm(FormTypes.LOGIN);
     }
     toggleButtonText();
+    attachTabEventListeners();
+    attachLoginRemovalButtons();
+    openUpdateLoginForm({ currentTarget: document.getElementsByClassName('tablinks')[0] }, 'form1');
   });
 
-  document.getElementById('changeEmailSubmit').addEventListener('click', e => {
+  document.getElementById('changeLoginSubmit').addEventListener('click', e => {
     const email = document.getElementById('newEmailField').value.trim();
     const emailConfirm = document.getElementById('newEmailFieldCheck').value.trim();
-    const isEmailValid = validateEmailAddress(email, emailConfirm);
-    if (isEmailValid) {
-      formVisBools.isEmailFormDisplayed = toggleElementVisibility(emailElementArray, formVisBools.isEmailFormDisplayed);
-      toggleButtonText();
-      submitNewEmailAddress(email, userData);
+    const phone = document.getElementById('newPhoneField').value.trim();
+    const phoneConfirm = document.getElementById('newPhoneField').value.trim();
+
+    const isEmailValid = email && emailConfirm && validateLoginEmail(email, emailConfirm);
+    const isPhoneValid = phone && phoneConfirm && validateLoginPhone(phone, phoneConfirm);
+    console.log('isEmailValid', isEmailValid, 'isPhoneValid', isPhoneValid);
+
+    if (isEmailValid || isPhoneValid) {
+        formVisBools.isEmailFormDisplayed = toggleElementVisibility(emailElementArray, formVisBools.isEmailFormDisplayed);
+        toggleButtonText();
+        submitNewLoginMethod(email, phone, userData);
     }
   });
 };
 
-const submitNewEmailAddress = async email => {
-  const isSuccess = await changeEmail(email, userData).catch(function (error) {
-    document.getElementById('emailFail').style.display = 'block';
-    document.getElementById('emailError').innerHTML = error.message;
+const submitNewLoginMethod = async (email, phone) => {
+  const isSuccess = await changeLoginMethod(firebaseAuthUser, email, phone, userData).catch(function (error) {
+    document.getElementById('loginUpdateFail').style.display = 'block';
+    document.getElementById('loginUpdateError').innerHTML = error.message;
   });
 
   if (isSuccess) {
-    document.getElementById('profileEmailAddress').textContent = email;
-    successMessageElement = document.getElementById('emailSuccess');
+    firebaseAuthUser = firebase.auth().currentUser;
+    const profileEmailElement = document.getElementById('profileEmail');
+    const profilePhoneElement = document.getElementById('profilePhone');
+    if (firebaseAuthUser.email) {
+        profileEmailElement.textContent = firebaseAuthUser.email;
+        profileEmailElement.style.display = 'block';
+
+    } else {
+        profileEmailElement.style.display = 'none';
+    }
+    if (firebaseAuthUser.phoneNumber) {
+        profilePhoneElement.textContent = firebaseAuthUser.phoneNumber;
+        profilePhoneElement.style.display = 'block';        
+    } else {
+        profilePhoneElement.style.display = 'none';
+    }
+
+    successMessageElement = document.getElementById('loginUpdateSuccess');
     successMessageElement.style.display = 'block';
     refreshUserDataAfterEdit();
   }
@@ -453,7 +494,7 @@ const toggleActiveForm = clickedFormType => {
       formVisBools.isContactInformationFormDisplayed = formVisBools.isContactInformationFormDisplayed ? toggleElementVisibility(contactInformationElementArray, formVisBools.isContactInformationFormDisplayed) : false;
       formVisBools.isEmailFormDisplayed = formVisBools.isEmailFormDisplayed ? toggleElementVisibility(emailElementArray, formVisBools.isEmailFormDisplayed) : false;
       break;
-    case FormTypes.EMAIL:
+    case FormTypes.LOGIN:
       formVisBools.isNameFormDisplayed = formVisBools.isNameFormDisplayed ? toggleElementVisibility(nameElementArray, formVisBools.isNameFormDisplayed) : false;
       formVisBools.isContactInformationFormDisplayed = formVisBools.isContactInformationFormDisplayed ? toggleElementVisibility(contactInformationElementArray, formVisBools.isContactInformationFormDisplayed) : false;
       formVisBools.isMailingAddressFormDisplayed = formVisBools.isMailingAddressFormDisplayed ? toggleElementVisibility(mailingAddressElementArray, formVisBools.isMailingAddressFormDisplayed) : false;
@@ -466,8 +507,8 @@ const toggleActiveForm = clickedFormType => {
 const toggleButtonText = () => {
   btnObj.changeNameButton.textContent = formVisBools.isNameFormDisplayed ? 'Cancel' : 'Update Name';
   btnObj.changeContactInformationButton.textContent = formVisBools.isContactInformationFormDisplayed ? 'Cancel' : 'Update Contact Info';
-  btnObj.changeMailingAddressButton.textContent = formVisBools.isMailingAddressFormDisplayed ? 'Cancel' : 'Update Mailing Address';
-  btnObj.changeEmailButton.textContent = formVisBools.isEmailFormDisplayed ? 'Cancel' : 'Update Email Address';
+  btnObj.changeMailingAddressButton.textContent = formVisBools.isMailingAddressFormDisplayed ? 'Cancel' : 'Update Address';
+  btnObj.changeLoginButton.textContent = formVisBools.isEmailFormDisplayed ? 'Cancel' : 'Update Login';
 };
 
 const refreshUserDataAfterEdit = async () => {
@@ -505,7 +546,7 @@ export const renderNameHeadingAndButton = () => {
     `;
 };
 
-export const renderUserNameData = userData => {
+export const renderUserNameData = () => {
   return `
       ${
         userData[cId.fName]
@@ -588,7 +629,7 @@ export const renderUserNameData = userData => {
       `;
 };
 
-export const renderChangeNameGroup = userData => {
+export const renderChangeNameGroup = () => {
   return `
       <div class="row userProfileLinePaddings" id="changeNameGroup" style="display:none;">
             <div class="col">
@@ -661,7 +702,7 @@ export const renderContactInformationHeadingAndButton = () => {
       `;
 };
 
-export const renderContactInformationData = (userData, canWeVoicemailMobile, canWeText, canWeVoicemailHome, canWeVoicemailOther) => {
+export const renderContactInformationData = () => {
   return `
         <div class="row userProfileLinePaddings" id="mobilePhoneRow" style="display:none;">
             <div class="col">
@@ -670,7 +711,7 @@ export const renderContactInformationData = (userData, canWeVoicemailMobile, can
                 <br>
                     <b>
                     <div id="profileMobilePhoneNumber">
-                        ${userData[cId.cellPhone] ? `${userData[cId.cellPhone].substr(0, 3)} - ${userData[cId.cellPhone].substr(3, 3)} - ${userData[cId.cellPhone].substr(6, 4)}` : ''}
+                        ${optVars.mobilePhoneNumberComplete ? `${optVars.mobilePhoneNumberComplete.substr(0, 3)} - ${optVars.mobilePhoneNumberComplete.substr(3, 3)} - ${optVars.mobilePhoneNumberComplete.substr(6, 4)}` : ''}
                     </div>    
                     </b>
                 </span>
@@ -683,7 +724,7 @@ export const renderContactInformationData = (userData, canWeVoicemailMobile, can
                 <br>
                     <b>
                     <div id="profileMobileVoicemailPermission">
-                        ${canWeVoicemailMobile ? 'Yes' : 'No'}
+                        ${optVars.canWeVoicemailMobile ? 'Yes' : 'No'}
                     </div>    
                     </b>
                 </span>
@@ -696,7 +737,7 @@ export const renderContactInformationData = (userData, canWeVoicemailMobile, can
                 <br>
                     <b>
                     <div id="profileMobileTextPermission">
-                        ${canWeText ? 'Yes' : 'No'}
+                        ${optVars.canWeText ? 'Yes' : 'No'}
                     </div>    
                     </b>
                 </span>
@@ -709,7 +750,7 @@ export const renderContactInformationData = (userData, canWeVoicemailMobile, can
                 <br>
                     <b>
                     <div id="profileHomePhoneNumber">
-                        ${userData[cId.homePhone] ? `${userData[cId.homePhone].substr(0, 3)} - ${userData[cId.homePhone].substr(3, 3)} - ${userData[cId.homePhone].substr(6, 4)}` : ''}
+                        ${optVars.homePhoneNumberComplete ? `${optVars.homePhoneNumberComplete.substr(0, 3)} - ${optVars.homePhoneNumberComplete.substr(3, 3)} - ${optVars.homePhoneNumberComplete.substr(6, 4)}` : ''}
                     </div>    
                     </b>
                 </span>
@@ -722,7 +763,7 @@ export const renderContactInformationData = (userData, canWeVoicemailMobile, can
                 <br>
                     <b>
                     <div id="profileHomeVoicemailPermission">
-                        ${canWeVoicemailHome ? 'Yes' : 'No'}
+                        ${optVars.canWeVoicemailHome ? 'Yes' : 'No'}
                     </div>    
                     </b>
                 </span>
@@ -735,7 +776,7 @@ export const renderContactInformationData = (userData, canWeVoicemailMobile, can
                 <br>
                     <b>
                     <div id="profileOtherPhoneNumber">
-                        ${userData[cId.otherPhone] ? `${userData[cId.otherPhone].substr(0, 3)} - ${userData[cId.otherPhone].substr(3, 3)} - ${userData[cId.otherPhone].substr(6, 4)}` : ''}
+                        ${optVars.otherPhoneNumberComplete ? `${optVars.otherPhoneNumberComplete.substr(0, 3)} - ${optVars.otherPhoneNumberComplete.substr(3, 3)} - ${optVars.otherPhoneNumberComplete.substr(6, 4)}` : ''}
                     </div>    
                     </b>
                 </span>
@@ -749,7 +790,7 @@ export const renderContactInformationData = (userData, canWeVoicemailMobile, can
                 <br>
                     <b>
                     <div id="profileOtherVoicemailPermission">
-                        ${canWeVoicemailOther ? 'Yes' : 'No'}
+                        ${optVars.canWeVoicemailOther ? 'Yes' : 'No'}
                     </div>    
                     </b>
                 </span>
@@ -776,7 +817,7 @@ export const renderContactInformationData = (userData, canWeVoicemailMobile, can
                 <br>
                     <b>
                     <div id="profileadditionalEmail1">
-                        ${userData[cId.additionalEmail1]}
+                        ${optVars.additionalEmail1}
                     </div>
                     </b>
                 </span>
@@ -789,7 +830,7 @@ export const renderContactInformationData = (userData, canWeVoicemailMobile, can
                 <br>
                     <b>
                     <div id="profileadditionalEmail2">
-                        ${userData[cId.additionalEmail2]}
+                        ${optVars.additionalEmail2}
                     </div>
                     </b>
                 </span>
@@ -798,7 +839,7 @@ export const renderContactInformationData = (userData, canWeVoicemailMobile, can
       `;
 };
 
-export const renderChangeContactInformationGroup = userData => {
+export const renderChangeContactInformationGroup = () => {
   return `
       <div class="row userProfileLinePaddings" id="changeContactInformationGroup" style="display:none;">
           <div class="col">
@@ -810,9 +851,9 @@ export const renderChangeContactInformationGroup = userData => {
                           </label>
                           <br>
                           <div class="btn-group col-md-4" id="editMobilePhone">
-                              <input type="tel" class="form-control num-val-phone" value="${userData[cId.cellPhone] && userData[cId.cellPhone].length === 10 ? userData[cId.cellPhone].substr(0, 3) : ''}" data-val-pattern="[1-9]{1}[0-9]{2}" title="Only numbers are allowed." id="mobilePhoneNumber1" data-error-validation="Only numbers are allowed." size="3" maxlength="3" Placeholder="999" style="margin-left:0px"> <span class="hyphen">-</span>
-                              <input type="tel" class="form-control num-val-phone" value="${userData[cId.cellPhone] && userData[cId.cellPhone].length === 10 ? userData[cId.cellPhone].substr(3, 3) : ''}" data-val-pattern="[0-9]{3}" title="Only numbers are allowed." id="mobilePhoneNumber2" data-error-validation="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
-                              <input type="tel" class="form-control num-val-phone" value="${userData[cId.cellPhone] && userData[cId.cellPhone].length === 10 ? userData[cId.cellPhone].substr(6, 4) : ''}" data-val-pattern="[0-9]{4}" title="Only numbers are allowed." id="mobilePhoneNumber3" data-error-validation="Only numbers are allowed." size="4" maxlength="4" Placeholder="9999">
+                              <input type="tel" class="form-control num-val-phone" value="${optVars.mobilePhoneNumberComplete && optVars.mobilePhoneNumberComplete.length === 10 ? optVars.mobilePhoneNumberComplete.substr(0, 3) : ''}" data-val-pattern="[1-9]{1}[0-9]{2}" title="Only numbers are allowed." id="mobilePhoneNumber1" data-error-validation="Only numbers are allowed." size="3" maxlength="3" Placeholder="999" style="margin-left:0px"> <span class="hyphen">-</span>
+                              <input type="tel" class="form-control num-val-phone" value="${optVars.mobilePhoneNumberComplete && optVars.mobilePhoneNumberComplete.length === 10 ? optVars.mobilePhoneNumberComplete.substr(3, 3) : ''}" data-val-pattern="[0-9]{3}" title="Only numbers are allowed." id="mobilePhoneNumber2" data-error-validation="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
+                              <input type="tel" class="form-control num-val-phone" value="${optVars.mobilePhoneNumberComplete && optVars.mobilePhoneNumberComplete.length === 10 ? optVars.mobilePhoneNumberComplete.substr(6, 4) : ''}" data-val-pattern="[0-9]{4}" title="Only numbers are allowed." id="mobilePhoneNumber3" data-error-validation="Only numbers are allowed." size="4" maxlength="4" Placeholder="9999">
                           </div>
                       </div>
                   </div>
@@ -850,9 +891,9 @@ export const renderChangeContactInformationGroup = userData => {
                           </label>
                           <br>
                           <div class="btn-group col-md-4" id="editHomePhone">
-                            <input type="tel" class="form-control num-val-phone" value="${userData[cId.homePhone] && userData[cId.homePhone].length === 10 ? userData[cId.homePhone].substr(0, 3) : ''}" id="homePhoneNumber1" data-val-pattern="[1-9]{1}[0-9]{2}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
-                            <input type="tel" class="form-control num-val-phone" value="${userData[cId.homePhone] && userData[cId.homePhone].length === 10 ? userData[cId.homePhone].substr(3, 3) : ''}" id="homePhoneNumber2" data-val-pattern="[0-9]{3}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
-                            <input type="tel" class="form-control num-val-phone" value="${userData[cId.homePhone] && userData[cId.homePhone].length === 10 ? userData[cId.homePhone].substr(6, 4) : ''}" id="homePhoneNumber3" data-val-pattern="[0-9]{4}" title="Only numbers are allowed." size="4" maxlength="4" Placeholder="9999">
+                            <input type="tel" class="form-control num-val-phone" value="${optVars.homePhoneNumberComplete && optVars.homePhoneNumberComplete.length === 10 ? optVars.homePhoneNumberComplete.substr(0, 3) : ''}" id="homePhoneNumber1" data-val-pattern="[1-9]{1}[0-9]{2}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
+                            <input type="tel" class="form-control num-val-phone" value="${optVars.homePhoneNumberComplete && optVars.homePhoneNumberComplete.length === 10 ? optVars.homePhoneNumberComplete.substr(3, 3) : ''}" id="homePhoneNumber2" data-val-pattern="[0-9]{3}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
+                            <input type="tel" class="form-control num-val-phone" value="${optVars.homePhoneNumberComplete && optVars.homePhoneNumberComplete.length === 10 ? optVars.homePhoneNumberComplete.substr(6, 4) : ''}" id="homePhoneNumber3" data-val-pattern="[0-9]{4}" title="Only numbers are allowed." size="4" maxlength="4" Placeholder="9999">
                           </div>
                       </div>
                   </div>
@@ -877,9 +918,9 @@ export const renderChangeContactInformationGroup = userData => {
                           </label>
                           <br>
                           <div class="btn-group col-md-4" id="editOtherPhone">
-                            <input type="tel" class="form-control num-val-phone" value="${userData[cId.otherPhone] && userData[cId.otherPhone].length === 10 ? `${userData[cId.otherPhone].substr(0, 3)}` : ''}" id="otherPhoneNumber1" data-val-pattern="[1-9]{1}[0-9]{2}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
-                            <input type="tel" class="form-control num-val-phone" value="${userData[cId.otherPhone] && userData[cId.otherPhone].length === 10 ? `${userData[cId.otherPhone].substr(3, 3)}` : ''}" id="otherPhoneNumber2" data-val-pattern="[0-9]{3}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
-                            <input type="tel" class="form-control num-val-phone" value="${userData[cId.otherPhone] && userData[cId.otherPhone].length === 10 ? `${userData[cId.otherPhone].substr(6, 4)}` : ''}" id="otherPhoneNumber3" data-val-pattern="[0-9]{4}" title="Only numbers are allowed." size="4" maxlength="4" Placeholder="9999">
+                            <input type="tel" class="form-control num-val-phone" value="${optVars.otherPhoneNumberComplete && optVars.otherPhoneNumberComplete.length === 10 ? `${optVars.otherPhoneNumberComplete.substr(0, 3)}` : ''}" id="otherPhoneNumber1" data-val-pattern="[1-9]{1}[0-9]{2}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
+                            <input type="tel" class="form-control num-val-phone" value="${optVars.otherPhoneNumberComplete && optVars.otherPhoneNumberComplete.length === 10 ? `${optVars.otherPhoneNumberComplete.substr(3, 3)}` : ''}" id="otherPhoneNumber2" data-val-pattern="[0-9]{3}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
+                            <input type="tel" class="form-control num-val-phone" value="${optVars.otherPhoneNumberComplete && optVars.otherPhoneNumberComplete.length === 10 ? `${optVars.otherPhoneNumberComplete.substr(6, 4)}` : ''}" id="otherPhoneNumber3" data-val-pattern="[0-9]{4}" title="Only numbers are allowed." size="4" maxlength="4" Placeholder="9999">
                           </div>
                       </div>
                   </div>
@@ -907,14 +948,14 @@ export const renderChangeContactInformationGroup = userData => {
                   <div class="form-group row">
                       <div class="col">
                           <label for="newadditionalEmail1" class="custom-form-label">Additional Email 1 (optional)</label>
-                          <input max-width:382px;" value="${userData[cId.additionalEmail1] ? `${userData[cId.additionalEmail1]}` : ''}" type="email" class="form-control ml-1" id="newadditionalEmail1" placeholder="abc@mail.com">
+                          <input max-width:382px;" value="${optVars.additionalEmail1 ? `${optVars.additionalEmail1}` : ''}" type="email" class="form-control ml-1" id="newadditionalEmail1" placeholder="abc@mail.com">
                       </div>
                   </div>
 
                   <div class="form-group row">
                       <div class="col">
                           <label for="newadditionalEmail2" class="custom-form-label">Additional Email 2 (optional)</label>
-                          <input max-width:382px;" value="${userData[cId.additionalEmail2] ? `${userData[cId.additionalEmail2]}` : ''}" type="email" class="form-control ml-1" id="newadditionalEmail2" placeholder="abc@mail.com">
+                          <input max-width:382px;" value="${optVars.additionalEmail2 ? `${optVars.additionalEmail2}` : ''}" type="email" class="form-control ml-1" id="newadditionalEmail2" placeholder="abc@mail.com">
                       </div>
                   </div>
   
@@ -958,7 +999,7 @@ export const renderMailingAddressHeadingAndButton = () => {
       `;
 };
 
-export const renderMailingAddressData = userData => {
+export const renderMailingAddressData = () => {
   return `
             <div class="row userProfileLinePaddings" id="currentMailingAddressDiv">
                 <div class="col">
@@ -1072,69 +1113,144 @@ export const renderSignInInformationHeadingAndButton = () => {
               </span>
           </div>
           <div class="col">
-              <button id="changeEmailButton" class="btn btn-primary save-data consentNextButton" style="float:right; display:none;">Update Login Email</button>
+              <button id="changeLoginButton" class="btn btn-primary save-data consentNextButton" style="float:right; display:none;">Update Login</button>
           </div>
       </div>
       `;
 };
 
-export const renderSignInInformationData = userData => {
-  return `
-      ${
-        userData[cId.firebaseAuthEmail]
-          ? `
+export const renderSignInInformationData = () => {
+    const loginPhone = optVars.loginPhone ? optVars.loginPhone.replace(/^\+1/, '') : '';
+    return `
         <div class="row userProfileLinePaddings" id="currentSignInInformationDiv">
             <div class="col">
-                <span class="userProfileBodyFonts">
+                <span class="userProfileBodyFonts" id="loginEmailRow" style="display:none">
                     Sign-in Email Address
                     <br>
                     <b>
-                    <div id="profileEmailAddress">${userData[cId.firebaseAuthEmail]}</div>
+                    <div id="profileEmail">${optVars.loginEmail}</div>
+                    </b>
+                    </br>
+                </span>
+                <span class="userProfileBodyFonts" id="loginPhoneRow" style="display:none">
+                    Sign-in Phone Number
+                    <br>
+                    <b>
+                    <div id="profilePhone">${loginPhone.substr(0, 3)}-${loginPhone.substr(3,3)}-${loginPhone.substr(6, 4)}</div>
                     </b>
                     </br>
                 </span>
             </div>
         </div>
-                `
-          : ''
-      }
-      `;
+        `      
 };
 
 export const renderChangeSignInInformationGroup = () => {
-  return `
-          <div class="row userProfileLinePaddings" id="changeEmailGroup" style="display:none;">
-              <div class="col">
-                  <label for="newEmailField" class="custom-form-label">
-                    Email Address <span class="required">*</span></label>
-                  </label>
-                  <br>
-                  <input type="email" id="newEmailField" class="form-control required-field" placeholder="Enter new Email address"/>
-                  <br>
-                  <br>
-                  <label for="newEmailFieldCheck" class="custom-form-label">
-                    Confirm Email Address <span class="required">*</span></label>
-                  </label>
-                  <br>
-                  <input type="email" id="newEmailFieldCheck" class="form-control required-field" placeholder="Re-enter new Email address"/>
-                  <br>
-                  <br>
-                  <button id="changeEmailSubmit" class="btn btn-primary save-data consentNextButton">Submit Email Update</button>
-              </div>
-          </div>
-          <div class="row userProfileLinePaddings" id="emailSuccess" style="display:none;">
+    return `  
+        <div class="row userProfileLinePaddings" id="changeLoginGroup" style="display:none;">
+            <div class="col">
+                <span class="userProfileBodyFonts">
+                    Need to update your sign-in information? Choose your preferred login method below:
+                </span>
+                <br>
+                <br>
+                <div id="tabbedForm">
+                ${renderTabbedForm()}
+                </div>
+                <br>
+                <button id="changeLoginSubmit" class="btn btn-primary save-data consentNextButton">Submit Login Update</button>
+                </div>
+            </div>
+
+          <div class="row userProfileLinePaddings" id="loginUpdateSuccess" style="display:none;">
               <div class="col">
                   <span class="userProfileBodyFonts">
-                      Email Change Success!
+                      Login Update Success!
                   </span>
               </div>
           </div>
-          <div class="row userProfileLinePaddings" id="emailFail" style="display:none;">
+          <!-- TODO TODO TODO -->
+          <div class="row userProfileLinePaddings" id="loginUpdateFail" style="display:none;">
               <div class="col">
-                  <span id="emailError" class="userProfileBodyFonts" style="color:red;">
-                      Email Change Failed!
+                  <span id="loginUpdateError" class="userProfileBodyFonts" style="color:red;">
+                      Login Update Failed!
                   </span>
               </div>
           </div>
       `;
+    };
+
+const renderTabbedForm = () => {
+    const currentEmail = optVars.loginEmail ?? '';
+    const currentPhone = optVars.loginPhone ?? '';
+    return `
+        <div class="tab">
+            <button class="tablinks">Use email</button>
+            <button class="tablinks">Use mobile phone</button>
+        </div>
+        <br>
+        <div id="form1" class="tabcontent">
+        ${currentEmail ? 
+            `
+            <hr>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span>Current login email:
+                    <strong>${currentEmail}</strong>
+                </span>
+                <button class="btn-remove-login" id="removeLoginEmailButton">Remove this email address</button>
+            </div>
+            <hr>
+            <br>` : ''}
+            ${renderEmailOrPhoneInput('email')}
+        </div>
+        <div id="form2" class="tabcontent">
+        ${currentPhone ?
+            `
+            <hr>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span>Current login phone:
+                    <strong>${currentPhone}</strong>
+                </span>
+                <button class="btn-remove-login" id="removeLoginPhoneButton">Remove this phone number</button>
+            </div>
+            <hr>
+            <br>` : ''}
+            ${renderEmailOrPhoneInput('phone')}
+            <div style="margin-left:10px" id="recaptcha-container"></div>
+        </div>
+    `;
 };
+
+const renderEmailOrPhoneInput = (type) => {  
+    const phoneEmailMap = {
+        email: {
+            label: 'New Email Address',
+            elementId: 'Email',
+        },
+        phone: {
+            label: 'New Phone Number',
+            elementId: 'Phone',
+        },
+    };  
+    const { label, elementId } = phoneEmailMap[type] || phoneEmailMap.email;
+
+    return `
+        <span>Enter your new login ${label}:</span>
+        <br>
+        <br>
+        <label for="new${elementId}Field" class="custom-form-label">
+            ${label} <span class="required">*</span>
+        </label>
+        <br>
+        <input type="${elementId.toLowerCase()}" id="new${elementId}Field" class="form-control required-field" placeholder="Enter New ${label}"/>
+        <br>
+        <br>
+        <label for="new${elementId}FieldCheck" class="custom-form-label">
+            Confirm ${label} <span class="required">*</span>
+        </label>
+        <br>
+        <input type="${elementId.toLowerCase()}" id="new${elementId}FieldCheck" class="form-control required-field" placeholder="Confirm New ${label}"/>
+        <br>
+    `;
+};
+    

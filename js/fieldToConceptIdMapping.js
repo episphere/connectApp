@@ -29,6 +29,7 @@ export default
     "verification":821247024,
     "verified":197316935,
     "firebaseAuthEmail": 421823980,
+    "firebaseAuthPhone": 348474836,
     "userProfileSubmittedAutogen": 699625233,
     "yes": 353358909,
     "no": 104430631,

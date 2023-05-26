@@ -1101,6 +1101,43 @@ input:checked + .slider:before {
     line-height: 24px;
 }
 
+.btn-remove-login {
+    background-color: #1c5d86;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+.tab {
+    overflow: hidden;
+    justify-content: left;
+  }
+  
+  .tab button {
+    background-color: #f1f1f1;
+    cursor: pointer;
+    padding: 16px 16px;
+    transition: 0.3s;
+    color: #606060;
+    font-size: 17px;
+    border:none;
+  }
+  
+  .tab button:hover {
+    background-color: #ddd;
+  }
+  
+  .tab button.active {
+    background-color: #ccc;
+    border: 1px solid #1c5d86;
+  }
+
 .userProfileBox{
     border: 1px solid #A9AEB1;
     border-radius:3px;
