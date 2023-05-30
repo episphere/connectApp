@@ -5,7 +5,7 @@ export const urls = {
     'prod': 'myconnect.cancer.gov',
     'stage': 'myconnect-stage.cancer.gov'
 }
-console.log("another change");
+console.log("another changes");
 
 function createStore(initialState = {}) {
   let state = initialState;
