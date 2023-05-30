@@ -15,6 +15,8 @@ export const questionnaire = async (moduleId) => {
 
     displayQuest(questDiv);
 
+    console.log("This is my change");
+
     let data;
     let modules;
 
