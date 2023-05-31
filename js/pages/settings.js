@@ -1,5 +1,5 @@
 import { allStates, showAnimation, hideAnimation, getMyData } from '../shared.js';
-import { attachLoginRemovalButtons, attachTabEventListeners, changeLoginMethod, changeContactInformation, changeMailingAddress, changeName, FormTypes, getCheckedRadioButtonValue, handleContactInformationRadioButtonPresets, handleOptionalFieldVisibility, hideOptionalElementsOnShowForm, hideSuccessMessage, openUpdateLoginForm, showAndPushElementToArrayIfExists, showEditButtonsOnUserVerified, suffixList, suffixToTextMap, toggleElementVisibility, togglePendingVerificationMessage, updatePhoneNumberInputFocus, validateContactInformation, validateLoginEmail, validateLoginPhone, validateMailingAddress, validateName } from '../settingsHelpers.js';
+import { attachTabEventListeners, changeLoginMethod, changeContactInformation, changeMailingAddress, changeName, FormTypes, getCheckedRadioButtonValue, handleContactInformationRadioButtonPresets, handleOptionalFieldVisibility, hideOptionalElementsOnShowForm, hideSuccessMessage, openUpdateLoginForm, showAndPushElementToArrayIfExists, showEditButtonsOnUserVerified, suffixList, suffixToTextMap, toggleElementVisibility, togglePendingVerificationMessage, unlinkFirebaseAuthProvider, updatePhoneNumberInputFocus, validateContactInformation, validateLoginEmail, validateLoginPhone, validateMailingAddress, validateName } from '../settingsHelpers.js';
 import { addEventAddressAutoComplete } from '../event.js';
 import cId from '../fieldToConceptIdMapping.js';
 
@@ -36,7 +36,7 @@ const formVisBools = {
     isNameFormDisplayed: null,
     isContactInformationFormDisplayed: null,
     isMailingAddressFormDisplayed: null,
-    isEmailFormDisplayed: null,
+    isLoginFormDisplayed: null,
 };
 
 const optRowEles = {
@@ -96,7 +96,7 @@ export const renderSettingsPage = async () => {
     formVisBools.isNameFormDisplayed = false;
     formVisBools.isContactInformationFormDisplayed = false;
     formVisBools.isMailingAddressFormDisplayed = false;
-    formVisBools.isEmailFormDisplayed = false;
+    formVisBools.isLoginFormDisplayed = false;
     if (userData[cId.userProfileSubmittedAutogen] === cId.yes) {
       template += `
             <div class="row" style="margin-top:58px">
@@ -160,6 +160,8 @@ export const renderSettingsPage = async () => {
       handleEditContactInformationSection();
       handleEditMailingAddressSection();
       handleEditSignInInformationSection();
+      attachTabEventListeners();
+      attachLoginRemovalButtons(optVars.loginEmail, optVars.loginPhone, formVisBools, loginElementArray, btnObj);
     }
   }
 };
@@ -418,41 +420,47 @@ const loadSignInInformationElements = () => {
 const handleEditSignInInformationSection = () => {
   btnObj.changeLoginButton.addEventListener('click', () => {
     successMessageElement = hideSuccessMessage(successMessageElement);
-    formVisBools.isEmailFormDisplayed = toggleElementVisibility(loginElementArray, formVisBools.isEmailFormDisplayed);
-    if (formVisBools.isEmailFormDisplayed) {
+    formVisBools.isLoginFormDisplayed = toggleElementVisibility(loginElementArray, formVisBools.isLoginFormDisplayed);
+    if (formVisBools.isLoginFormDisplayed) {
       hideOptionalElementsOnShowForm([optRowEles.loginEmailRow, optRowEles.loginPhoneRow]);
       toggleActiveForm(FormTypes.LOGIN);
-      attachTabEventListeners();
-      attachLoginRemovalButtons();
       openUpdateLoginForm({ currentTarget: document.getElementsByClassName('tablinks')[0] }, 'form1');
-    } 
+    }
     toggleButtonText();
   });
 
-  document.getElementById('changeLoginSubmit').addEventListener('click', e => {
+  document.getElementById('changeEmailSubmit').addEventListener('click', e => {
     const email = document.getElementById('newEmailField').value.trim();
     const emailConfirm = document.getElementById('newEmailFieldCheck').value.trim();
-    const phone = document.getElementById('newPhoneField').value.trim();
-    const phoneConfirm = document.getElementById('newPhoneField').value.trim();
-
     const isEmailValid = email && emailConfirm && validateLoginEmail(email, emailConfirm);
-    const isPhoneValid = phone && phoneConfirm && validateLoginPhone(phone, phoneConfirm);
-    console.log('isEmailValid', isEmailValid, 'isPhoneValid', isPhoneValid);
-
-    if (isEmailValid || isPhoneValid) {
-        formVisBools.isEmailFormDisplayed = toggleElementVisibility(loginElementArray, formVisBools.isEmailFormDisplayed);
-        toggleButtonText();
-        submitNewLoginMethod(email, phone, userData);
+    console.log('isEmailValid', isEmailValid);
+    if (isEmailValid) {
+        submitNewLoginMethod(email, null, userData)
     }
   });
+
+  document.getElementById('changePhoneSubmit').addEventListener('click', e => {
+    const phone = document.getElementById('newPhoneField').value.trim();
+    const phoneConfirm = document.getElementById('newPhoneField').value.trim();
+    const isPhoneValid = phone && phoneConfirm && validateLoginPhone(phone, phoneConfirm);
+    console.log('isPhoneValid', isPhoneValid);
+    if (isPhoneValid) {
+        submitNewLoginMethod(null, phone, userData);
+    }
+  });
+
 };
 
 const submitNewLoginMethod = async (email, phone) => {
-  const isSuccess = await changeLoginMethod(firebaseAuthUser, email, phone, userData).catch(function (error) {
+  const isSuccess = await changeLoginMethod(firebaseAuthUser, email, phone, userData).catch((error) => {
     document.getElementById('loginUpdateFail').style.display = 'block';
     document.getElementById('loginUpdateError').innerHTML = error.message;
   });
+  console.log('SUBMIT IS SUCCESS?', isSuccess);
 
+  formVisBools.isLoginFormDisplayed = toggleElementVisibility(loginElementArray, formVisBools.isLoginFormDisplayed);
+  toggleButtonText();
+  
   if (isSuccess) {
     firebaseAuthUser = firebase.auth().currentUser;
     const profileEmailElement = document.getElementById('profileEmail');
@@ -482,17 +490,17 @@ const toggleActiveForm = clickedFormType => {
     case FormTypes.NAME:
       formVisBools.isContactInformationFormDisplayed = formVisBools.isContactInformationFormDisplayed ? toggleElementVisibility(contactInformationElementArray, formVisBools.isContactInformationFormDisplayed) : false;
       formVisBools.isMailingAddressFormDisplayed = formVisBools.isMailingAddressFormDisplayed ? toggleElementVisibility(mailingAddressElementArray, formVisBools.isMailingAddressFormDisplayed) : false;
-      formVisBools.isEmailFormDisplayed = formVisBools.isEmailFormDisplayed ? toggleElementVisibility(loginElementArray, formVisBools.isEmailFormDisplayed) : false;
+      formVisBools.isLoginFormDisplayed = formVisBools.isLoginFormDisplayed ? toggleElementVisibility(loginElementArray, formVisBools.isLoginFormDisplayed) : false;
       break;
     case FormTypes.CONTACT:
       formVisBools.isNameFormDisplayed = formVisBools.isNameFormDisplayed ? toggleElementVisibility(nameElementArray, formVisBools.isNameFormDisplayed) : false;
       formVisBools.isMailingAddressFormDisplayed = formVisBools.isMailingAddressFormDisplayed ? toggleElementVisibility(mailingAddressElementArray, formVisBools.isMailingAddressFormDisplayed) : false;
-      formVisBools.isEmailFormDisplayed = formVisBools.isEmailFormDisplayed ? toggleElementVisibility(loginElementArray, formVisBools.isEmailFormDisplayed) : false;
+      formVisBools.isLoginFormDisplayed = formVisBools.isLoginFormDisplayed ? toggleElementVisibility(loginElementArray, formVisBools.isLoginFormDisplayed) : false;
       break;
     case FormTypes.MAILING:
       formVisBools.isNameFormDisplayed = formVisBools.isNameFormDisplayed ? toggleElementVisibility(nameElementArray, formVisBools.isNameFormDisplayed) : false;
       formVisBools.isContactInformationFormDisplayed = formVisBools.isContactInformationFormDisplayed ? toggleElementVisibility(contactInformationElementArray, formVisBools.isContactInformationFormDisplayed) : false;
-      formVisBools.isEmailFormDisplayed = formVisBools.isEmailFormDisplayed ? toggleElementVisibility(loginElementArray, formVisBools.isEmailFormDisplayed) : false;
+      formVisBools.isLoginFormDisplayed = formVisBools.isLoginFormDisplayed ? toggleElementVisibility(loginElementArray, formVisBools.isLoginFormDisplayed) : false;
       break;
     case FormTypes.LOGIN:
       formVisBools.isNameFormDisplayed = formVisBools.isNameFormDisplayed ? toggleElementVisibility(nameElementArray, formVisBools.isNameFormDisplayed) : false;
@@ -504,11 +512,11 @@ const toggleActiveForm = clickedFormType => {
   }
 };
 
-const toggleButtonText = () => {
+export const toggleButtonText = () => {
   btnObj.changeNameButton.textContent = formVisBools.isNameFormDisplayed ? 'Cancel' : 'Update Name';
   btnObj.changeContactInformationButton.textContent = formVisBools.isContactInformationFormDisplayed ? 'Cancel' : 'Update Contact Info';
   btnObj.changeMailingAddressButton.textContent = formVisBools.isMailingAddressFormDisplayed ? 'Cancel' : 'Update Address';
-  btnObj.changeLoginButton.textContent = formVisBools.isEmailFormDisplayed ? 'Cancel' : 'Update Login';
+  btnObj.changeLoginButton.textContent = formVisBools.isLoginFormDisplayed ? 'Cancel' : 'Update Login';
 };
 
 const refreshUserDataAfterEdit = async () => {
@@ -517,6 +525,102 @@ const refreshUserDataAfterEdit = async () => {
     userData = updatedUserData.data;
   }
 };
+
+/**
+ * Sign-in Information -> removeLoginEmailButton and removeLoginPhoneButton.
+ * Show the confirmation modal after user clicks 'Remove this <ButtonType>' button.
+ * Require confirmation from user prior to unlinking the authentication provider.
+ * Then close the modal.
+ */
+const attachLoginRemovalButtons = async (currentEmail, currentPhone) => {
+    let removalType = null;
+
+    const modalMap = {
+        'Email': currentEmail ? document.getElementById('confirmationModalEmail') : null,
+        'Phone': currentPhone ? document.getElementById('confirmationModalPhone') : null
+    }
+
+    const modalStatusMap = {
+        'Email': modalMap['Email'] && modalMap['Email'].style.display === 'block',
+        'Phone': modalMap['Phone'] && modalMap['Phone'].style.display === 'block'
+    }
+
+    const openModal = (type) => {
+        if (!modalStatusMap[type]) {
+            modalMap[type].style.display = 'block';
+            removalType = type;
+            modalStatusMap[type] = true;
+        }
+    }
+
+    const closeModal = (type) => {
+        modalMap[type].style.display = 'none';
+        modalStatusMap[type] = false;
+    }
+
+    const addListenerToButton = (type, buttonID, confirmButtonID, cancelRemoveButtonID) => {
+        if (modalMap[type] && !modalStatusMap[type]) {
+            document.getElementById(buttonID).addEventListener("click", () => {
+                console.log(`${buttonID} click`);
+                openModal(type);
+            });
+
+            document.getElementById(confirmButtonID).addEventListener('click', async () => {
+                if (removalType === type) {
+                    let result;
+                    try {
+                        result = await unlinkFirebaseAuthProvider(type.toLowerCase());
+                        closeModal(type);
+                        updateUIAfterUnlink(result === true, result === true ? null : result);
+                    } catch (error) {
+                        const errorMessage = error.message ? error.message : "An error occurred";
+                        closeModal(type);
+                        updateUIAfterUnlink(false, errorMessage);
+                    }
+                }
+            });
+
+            document.getElementById(cancelRemoveButtonID).addEventListener('click', () => closeModal(type));
+        }
+    }
+
+    addListenerToButton('Email', 'removeLoginEmailButton', 'confirmRemoveEmail', 'cancelRemoveEmail');
+    addListenerToButton('Phone', 'removeLoginPhoneButton', 'confirmRemovePhone', 'cancelRemovePhone');
+}
+
+const updateUIAfterUnlink = async (isSuccess, error) => {
+    formVisBools.isLoginFormDisplayed = toggleElementVisibility(loginElementArray, formVisBools.isLoginFormDisplayed);
+    toggleButtonText();
+    
+    console.log('isSuccess - updateUIAfterUnlink: ', isSuccess);
+
+    if (isSuccess) {
+      firebaseAuthUser = firebase.auth().currentUser;
+        
+      if (firebaseAuthUser.email) {
+          const profileEmailElement = document.getElementById('profileEmail');
+          profileEmailElement.textContent = firebaseAuthUser.email;
+          profileEmailElement.style.display = 'block';
+      } else {
+          optRowEles.loginEmailRow.style.display = 'none';
+      }
+
+      if (firebaseAuthUser.phoneNumber) {
+          const profilePhoneElement = document.getElementById('profilePhone');
+          profilePhoneElement.textContent = firebaseAuthUser.phoneNumber;
+          profilePhoneElement.style.display = 'block';        
+      } else {
+          optRowEles.loginPhoneRow.style.display = 'none';
+      }
+  
+      successMessageElement = document.getElementById('loginUpdateSuccess');
+      successMessageElement.style.display = 'block';
+      await refreshUserDataAfterEdit();
+    } else {
+        document.getElementById('loginUpdateFail').style.display = 'block';
+        document.getElementById('loginUpdateError').innerHTML = error;
+    }
+  }
 
 /**
  * Start: HTML rendering functions
@@ -1157,8 +1261,6 @@ export const renderChangeSignInInformationGroup = () => {
                 <div id="tabbedForm">
                 ${renderTabbedForm()}
                 </div>
-                <br>
-                <button id="changeLoginSubmit" class="btn btn-primary save-data consentNextButton">Submit Login Update</button>
                 </div>
             </div>
 
@@ -1169,7 +1271,6 @@ export const renderChangeSignInInformationGroup = () => {
                   </span>
               </div>
           </div>
-          <!-- TODO TODO TODO -->
           <div class="row userProfileLinePaddings" id="loginUpdateFail" style="display:none;">
               <div class="col">
                   <span id="loginUpdateError" class="userProfileBodyFonts" style="color:red;">
@@ -1181,6 +1282,7 @@ export const renderChangeSignInInformationGroup = () => {
     };
 
 const renderTabbedForm = () => {
+    console.log('renderTabbedForm');
     const currentEmail = optVars.loginEmail ?? '';
     const currentPhone = optVars.loginPhone ?? '';
     return `
@@ -1190,39 +1292,46 @@ const renderTabbedForm = () => {
         </div>
         <br>
         <div id="form1" class="tabcontent">
-        ${currentEmail ? 
-            `
-            <hr>
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span>Current login email:
-                    <strong>${currentEmail}</strong>
-                </span>
-                <button class="btn-remove-login" id="removeLoginEmailButton">Remove this email address</button>
-            </div>
-            <hr>
+            ${currentEmail ? 
+                `
+                <hr>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span>Current login email:
+                        <strong>${currentEmail}</strong>
+                    </span>
+                    <button class="btn-remove-login" id="removeLoginEmailButton">Remove this email address</button>
+                </div>
+                <hr>
+                <br>
+                ` : ''
+            }
+            ${renderEmailOrPhoneInput('email')}
+            ${renderConfirmationModal('Email')}
             <br>
-            ` : ''
-        }
-        ${renderEmailOrPhoneInput('email')}
+            <button id="changeEmailSubmit" class="btn btn-primary save-data consentNextButton">Submit Email Update</button>
         </div>
         
         <div id="form2" class="tabcontent">
-        ${currentPhone ?
-            `
-            <hr>
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span>Current login phone:
-                    <strong>${currentPhone}</strong>
-                </span>
-                <button class="btn-remove-login" id="removeLoginPhoneButton">Remove this phone number</button>
-            </div>
-            <hr>
+            ${currentPhone ?
+                `
+                <hr>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span>Current login phone:
+                        <strong>${currentPhone}</strong>
+                    </span>
+                    <button class="btn-remove-login" id="removeLoginPhoneButton">Remove this phone number</button>
+                </div>
+                <hr>
+                <br>
+                ` : ''
+            }
+            ${renderEmailOrPhoneInput('phone')}
             <br>
-            ` : ''
-        }
-        ${renderEmailOrPhoneInput('phone')}
-        <div style="margin-left:10px" id="recaptcha-container"></div>
-        </div>
+            ${renderConfirmationModal('Phone')}
+            <button id="changePhoneSubmit" class="btn btn-primary save-data consentNextButton">Submit Phone Update</button>
+            <br>
+            <div style="margin-left:10px" id="recaptcha-container"></div>
+        </div> 
     `;
 };
 
@@ -1240,7 +1349,7 @@ const renderEmailOrPhoneInput = (type) => {
     const { label, elementId } = phoneEmailMap[type] || phoneEmailMap.email;
 
     return `
-        <span>Enter your new login ${label}:</span>
+        <span>Update your login ${label}:</span>
         <br>
         <br>
         <label for="new${elementId}Field" class="custom-form-label">
@@ -1256,17 +1365,17 @@ const renderEmailOrPhoneInput = (type) => {
         <br>
         <input type="${elementId.toLowerCase()}" id="new${elementId}FieldCheck" class="form-control required-field" placeholder="Confirm New ${label}"/>
         <br>
-        ${renderConfirmationModal(elementId)} 
     `;
 };
 
 const renderConfirmationModal = (removalType) => {
+    console.log('renderConfirmationModal - removal type: ', removalType);
     return `
-    <div id="confirmationModal" class="modal-remove-login">
+    <div id="confirmationModal${removalType}" class="modal-remove-login" style="display:none" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">
             <p><strong><i>Important</i></strong>: Are you sure you want to remove this ${removalType.toLowerCase()} login method?</p>
             <button id="confirmRemove${removalType}">Confirm</button>
-            <button id="cancelRemove">Cancel</button>
+            <button id="cancelRemove${removalType}">Cancel</button>
         </div>
     </div>
     `;

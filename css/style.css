@@ -1157,6 +1157,7 @@ input:checked + .slider:before {
     padding: 20px;
     border: 1px solid #888;
     width: 50%;
+    font-size: large;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
     animation-name: animatetop;
     animation-duration: 0.4s;
@@ -1167,7 +1168,7 @@ input:checked + .slider:before {
     to {top: 0; opacity: 1}
 }
 
-#confirmRemoveEmail, #confirmRemovePhone, #cancelRemove {
+#confirmRemoveEmail, #confirmRemovePhone, #cancelRemoveEmail, #cancelRemovePhone {
     cursor: pointer;
     padding: 10px 20px;
     margin: 10px 2px;

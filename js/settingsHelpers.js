@@ -1,4 +1,4 @@
-import { getCleanSearchString, getParameters, errorMessage, storeResponse, validEmailFormat, validNameFormat, validPhoneNumberFormat } from './shared.js';
+import { getIdToken, errorMessage, storeResponse, validEmailFormat, validNameFormat, validPhoneNumberFormat } from './shared.js';
 import { removeAllErrors } from './event.js';
 import cId from './fieldToConceptIdMapping.js';
 
@@ -91,34 +91,6 @@ export const hideOptionalElementsOnShowForm = elementsArray => {
     if (element !== null) {
       element.style.display = 'none';
     }
-  });
-};
-
-/**
- * Sign-in Information -> removeLoginEmailButton and removeLoginPhoneButton.
- * Show the confirmation modal after user clicks 'Remove this...' button.
- * Require confirmation from user prior to unlinking the authentication provider.
- * Then hide the modal.
- */
-export const attachLoginRemovalButtons = () => {
-  console.log('attachLoginRemovalButtons');
-  document.getElementById("removeLoginEmailButton").addEventListener("click", function() {
-    document.getElementById('confirmRemoveEmail').addEventListener('click', function() {
-      unlinkFirebaseAuthProvider('email');
-      document.getElementById('confirmationModal').style.display = 'none';
-    });
-  });
-
-  document.getElementById('removeLoginPhoneButton').addEventListener('click', function() {
-    document.getElementById('confirmationModal').style.display = 'block';
-    document.getElementById('confirmRemovePhone').addEventListener('click', function() {
-        unlinkFirebaseAuthProvider('phone');
-        document.getElementById('confirmationModal').style.display = 'none';
-    });
-  });
-
-  document.getElementById('cancelRemove').addEventListener('click', function() {
-    document.getElementById('confirmationModal').style.display = 'none';
   });
 };
 
@@ -335,11 +307,10 @@ export const validateMailingAddress = (addressLine1, city, state, zip) => {
   return true;
 };
 
-//TODO simplify
+
 export const validateLoginEmail = (email, emailConfirm) => {
   if (email === emailConfirm) {
-    const isEmailValid = !!validEmailFormat.test(email);
-    if (isEmailValid) {
+    if (!!validEmailFormat.test(email)) {
       return true;
     } else {
       alert('Error: The email address format is not valid. Please enter an email address in this format: name@example.com.');
@@ -433,10 +404,9 @@ export const changeMailingAddress = async (addressLine1, addressLine2, city, sta
 };
 
 //TODO does it update login method field in firestore??
-//TODO handle phone case
 /**
- * Change email is different than the above changes because it writes to two places: firebase auth and the user profile.
- * only continue if the firebase auth email change is successful (determined by the value of isAuthEmailUpdateSuccess).
+ * Changing email and/or phone must write to two places: firebase auth and the user profile.
+ * only continue if the firebase auth email or auth phone number change is successful (determined by the value of isAuthEmailUpdateSuccess() and isAuthPhoneUpdateSuccess()).
  * Firebase change email process:
  *  (1) Make user confirm password. This is required to complete the steps afterwards.
  *  (2) Reauthenticate to avoid 'sensitive operation' Firebase error (user must have authenticated recently to update email or Firebase disallows the operation)
@@ -449,7 +419,6 @@ export const changeMailingAddress = async (addressLine1, addressLine2, city, sta
  * @returns {isSuccess} - true if the email change was successful, false otherwise
  */
 export const changeLoginMethod = async (firebaseAuthUser, email, phone, userData) => {
-  // let firebaseAuthUser = firebase.auth().currentUser;
   console.log('user', firebaseAuthUser);
   document.getElementById('loginUpdateFail').style.display = 'none';
   document.getElementById('loginUpdateSuccess').style.display = 'none';
@@ -470,7 +439,9 @@ export const changeLoginMethod = async (firebaseAuthUser, email, phone, userData
     isAuthEmailUpdateSuccess = await updateFirebaseAuthEmail(firebaseAuthUser, email);
   }
   if (phone) {
+    phone = cleanPhoneNumber(phone);
     console.log('isPhone', phone);
+
     newValuesForFirestore[cId.firebaseAuthPhone] = phone;
     //newValuesForFirestore[cId.firebaseAuthEmail] = '';
     newValuesForFirestore[cId.firebaseSignInMechanism] = cId.signInPhone;
@@ -494,66 +465,104 @@ export const changeLoginMethod = async (firebaseAuthUser, email, phone, userData
   return isSuccess;
 };
 
+/**
+ * Update the user's email address in Firebase Auth.
+ * @param {Object<User>} firebaseAuthUser - the firebase auth user object 
+ * @param {String} email - the new email address 
+ * @returns {boolean} - true if the update was successful, false otherwise
+ */
 const updateFirebaseAuthEmail = async (firebaseAuthUser, email) => {
   console.log('callingUpdateEmail', email);
-  await firebaseAuthUser.updateEmail(email).catch(function (error) {
+  try {
+    await firebaseAuthUser.updateEmail(email);
+    return true;
+  } catch (error) {
     handleUpdatePhoneEmailErrorInUI('updateFirebaseAuthEmail()', error);
     return false;
-  });
-  return true;
+  }
 };
 
-const unlinkFirebaseAuthProvider = async (providerType) => {
+/**
+ * Update the user's phone number in Firebase Auth.
+ * This walks the user through two verification processes:
+ *  (1) recaptcha verification in the browser.
+ *  (2) phone number verification with a texted code.
+ * @param {Object<User>} firebaseAuthUser - the firebase auth user object 
+ * @param {String} phone - the new cleaned phone number 
+ * @returns {boolean} - true if the update was successful, false otherwise
+ */
+const updateFirebaseAuthPhone = async (firebaseAuthUser, phone) => {
+  try {
+      console.log('calling updateFirebaseAuthPhone', phone);
+      document.getElementById('changePhoneSubmit').style.display = 'none';
+      window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
+
+      const phoneNumber = `+1${phone}`;
+      const recaptchaVerifier = window.recaptchaVerifier;
+      const provider = new firebase.auth.PhoneAuthProvider;
+
+      const verificationId = await provider.verifyPhoneNumber(phoneNumber, recaptchaVerifier);
+      const verificationCode = window.prompt('Please enter the verification code that was sent to your mobile device.');
+      if (!verificationCode) {
+          throw new Error("Verification code not provided");
+      }
+
+      const phoneCredential = firebase.auth.PhoneAuthProvider.credential(verificationId, verificationCode);
+      await firebaseAuthUser.linkWithCredential(phoneCredential);
+      window.recaptchaVerifier.clear();
+      console.log('Phone number linked successfully');
+      return true;
+  } catch (error) {
+      console.error('updateFirebaseAuthPhone() error', error);
+      handleUpdatePhoneEmailErrorInUI('updateFirebaseAuthPhone()', error);
+      document.getElementById('recaptcha-container').style.display = 'none';
+      return false;
+  }
+};
+
+/**
+ * Unlink a provider from the current user's Firebase account, without using the Firebase Admin SDK.
+ * Guard rails on this function (imposed in Firebase's .unlink() function): It fails for user's primary email or phone, or if the user is not currently authenticated.
+ * @param {String} providerType - 'email' or 'phone' 
+ * @returns {boolean} - true if the unlink was successful, false otherwise
+ */
+export const unlinkFirebaseAuthProvider = async (providerType) => {
   const providerTypeMap = {
     'email': firebase.auth.EmailAuthProvider.PROVIDER_ID,
     'phone': firebase.auth.PhoneAuthProvider.PROVIDER_ID
   };
 
-  const firebaseAuthUser = firebase.auth().currentUser;
+  try {
+    const firebaseAuthUser = firebase.auth().currentUser;
+    console.log('firebaseAuthUser', firebaseAuthUser);
 
-  if (providerType in providerTypeMap) {
-    await firebaseAuthUser.unlink(providerTypeMap[providerType]).catch(error => {
-      // TODO failure message
-      return false;
-    });
+    if (!firebaseAuthUser) {
+      throw new Error('No user is currently authenticated');
+    }
 
-    // TODO success message or pass back true bool
+    if (!(providerType in providerTypeMap)) {
+      throw new Error('Invalid providerType. Expected "email" or "phone"');
+    }
+
+    await firebaseAuthUser.unlink(providerTypeMap[providerType]);
+    //TODO update firestore to match
+
+    console.log('Successfully unlinked provider:', providerType);
     return true;
-  } 
-
-  console.error('Bad providerType arg in unlinkFirebaseAuthProvider()');
-  return false;
-};
-
-const updateFirebaseAuthPhone = async (firebaseAuthUser, phone) => {
-    // Generate a phone number verification
-    console.log('calling updateFirebaseAuthPhone', phone);
-    const recaptchaContainer = document.getElementById('recaptcha-container');
-    recaptchaContainer.style.display = 'block';
-    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(recaptchaContainer); 
-    console.log('recaptchaVerifier', window.recaptchaVerifier);
-    const phoneNumber = `+1${phone}`;
-    const appVerifier = window.recaptchaVerifier;
-    const provider = new firebase.auth().PhoneAuthProvider();
-    provider.verifyPhoneNumber(phoneNumber, appVerifier)
-      .then(verificationId => {
-        const verificationCode = window.prompt('Please enter the verification ' +
-          'code that was sent to your mobile device.');
-        return provider.credential(verificationId, verificationCode);
-      })
-      .then(phoneCredential => {
-        //const user = firebase.auth().currentUser;
-        return firebaseAuthUser.linkWithCredential(phoneCredential);
-      })
-      .catch(error => {
-        handleUpdatePhoneEmailErrorInUI('updateFirebaseAuthPhone()', error);
-      });
+  } catch (error) {
+    console.error('Failed to unlink provider:', error.message);
+    return error.message;
+  }
 };
 
 const handleUpdatePhoneEmailErrorInUI = (functionName, error) => {
   console.error(`Error (${functionName}): ${error}`);
   document.getElementById('loginUpdateFail').style.display = 'block';
   document.getElementById('loginUpdateError').innerHTML = error.message;
+};
+
+const cleanPhoneNumber = (phoneNumber) => {
+  return phoneNumber.replace(/\D/g, '');
 };
 
 /**
@@ -568,14 +577,20 @@ const handleUpdatePhoneEmailErrorInUI = (functionName, error) => {
  *   the same is true for homePhone and otherPhone (canWeVoicemailHome and canWeVoicemailOther)
  *   if user deletes a number, set canWeVoicemail and canWeText to '' (empty string) --per spec on 05-09-2023
  *   if user updates a number, ensure the canWeVoicemail and canWeText values are set
+ *   Update: 05-26-2023 do not include email addresses in user profile archiving. Exclude those keys from the history object.
+
 */
 const findChangedUserDataValues = (newUserData, existingUserData, type) => {
   const changedUserDataForProfile = {};
   const changedUserDataForHistory = {};
+  const excludeHistoryKeys = [fieldMapping.prefEmail, fieldMapping.additionalEmail1, fieldMapping.additionalEmail2, fieldMapping.firebaseAuthEmail];
+
   Object.keys(newUserData).forEach(key => {
     if (newUserData[key] !== existingUserData[key]) {
       changedUserDataForProfile[key] = newUserData[key] ?? '';
-      changedUserDataForHistory[key] = existingUserData[key] ?? '';
+      if (!excludeHistoryKeys.includes(key)) {
+        changedUserDataForHistory[key] = existingUserData[key] ?? '';
+      }
     }
   });
 
@@ -658,7 +673,7 @@ const updateUserHistory = (existingDataToUpdate, userHistory, preferredEmail) =>
   if (userHistory && Object.keys(userHistory).length > 0) userProfileHistoryArray.push(...userHistory);
   
   const newUserHistoryMap = populateUserHistoryMap(existingDataToUpdate, preferredEmail);
-  if (Object.keys(newUserHistoryMap).length > 0) userProfileHistoryArray.push(newUserHistoryMap);
+  if (newUserHistoryMap && Object.keys(newUserHistoryMap).length > 0) userProfileHistoryArray.push(newUserHistoryMap);
 
   return userProfileHistoryArray;
 };
@@ -678,15 +693,11 @@ const populateUserHistoryMap = (existingData, preferredEmail) => {
     cId.canWeVoicemailHome,
     cId.otherPhone,
     cId.canWeVoicemailOther,
-    //cId.prefEmail,
-    //cId.additionalEmail1,
-    //cId.additionalEmail2,
     cId.address1,
     cId.address2,
     cId.city,
     cId.state,
     cId.zip,
-    //cId.firebaseAuthEmail,
   ];
 
   keys.forEach((key) => {
@@ -709,7 +720,80 @@ const populateUserHistoryMap = (existingData, preferredEmail) => {
   if (Object.keys(userHistoryMap).length > 0) {
     userHistoryMap[cId.userProfileUpdateTimestamp] = new Date().toISOString();
     userHistoryMap[cId.profileChangeRequestedBy] = preferredEmail;
+    return userHistoryMap;
+  } else {
+    return null;
+  }
+};
+
+export const updateFirebaseAuthentication = async (newAuthData) =>  {
+    showAnimation();
+  
+    const authenticationDataPayload = {
+        "data": newAuthData
+    }
+  
+    const idToken = await getIdToken();
+    const response = await fetch(`${api}?api=updateParticipantFirebaseAuthentication`,{
+        method:'POST',
+        body: JSON.stringify(authenticationDataPayload),
+        headers:{
+            Authorization:"Bearer "+ idToken,
+            "Content-Type": "application/json"
+            }
+        });
+        console.log('response', response);
+        hideAnimation();
+        if (response.status === 200) {
+            return await response.json();
+        //     signInMechanismClickHandler({}, changedOption, siteKey);
+        //     let alertList = document.getElementById("alert_placeholder");
+        //     let template = ``;
+        //     template += `
+        //             <div class="alert alert-success alert-dismissible fade show" role="alert">
+        //               Operation successful!
+        //               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        //                         <span aria-hidden="true">&times;</span>
+        //                     </button>
+        //             </div>`;
+        //     alertList.innerHTML = template;
+            
+        //     closeModal();
+            
+        //     const changeLoginModeText = document.getElementById('Change Login Moderow').children[1];
+        //     const changeLoginEmailRow = document.getElementById('Change Login Emailrow');
+        //     const changeLoginPhoneRow = document.getElementById('Change Login Phonerow');
+  
+        //     if (switchPackage.flag === "updatePhone" || switchPackage.flag === "updateEmail" || switchPackage.flag === "replaceSignin") {
+        //         changeLoginModeText.innerHTML = 'Updating login';
+        //         if (changeLoginPhoneRow) changeLoginPhoneRow.children[1].innerHTML = 'Updating phone number';
+        //         if (changeLoginEmailRow) changeLoginEmailRow.children[1].innerHTML = 'Updating email';
+        //     }
+        //     await reloadParticipantData(changedOption.token, siteKey);
+        }
+  
+        else if (response.status === 409) {
+            // const body = document.getElementById('modalBody');
+            // let template = ``
+            // if (switchPackage.phone) template += '<div>Phone Number already in use!</div>'
+            // else template += '<div>Email already in use!</div>'
+            // body.innerHTML = template;
+            // return false;
+        }
+  
+        else if (response.status === 403) {
+            // const body = document.getElementById('modalBody');
+            // let template = ``
+            // if (switchPackage.phone) template += '<div>Invalid Phone Number!</div>' 
+            // else template += '<div>Invalid Email!</div>'
+            // body.innerHTML = template;
+            // return false;
+         }
+  
+        else { 
+            const body = document.getElementById('modalBody');
+            body.innerHTML = `Operation Unsuccessful!`;
+            return false;
+        }
   }
 
-  return userHistoryMap;
-};
