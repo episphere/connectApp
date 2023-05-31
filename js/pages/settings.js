@@ -1,5 +1,5 @@
 import { allStates, showAnimation, hideAnimation, getMyData } from '../shared.js';
-import { attachTabEventListeners, changeLoginMethod, changeContactInformation, changeMailingAddress, changeName, FormTypes, getCheckedRadioButtonValue, handleContactInformationRadioButtonPresets, handleOptionalFieldVisibility, hideOptionalElementsOnShowForm, hideSuccessMessage, openUpdateLoginForm, showAndPushElementToArrayIfExists, showEditButtonsOnUserVerified, suffixList, suffixToTextMap, toggleElementVisibility, togglePendingVerificationMessage, unlinkFirebaseAuthProvider, updatePhoneNumberInputFocus, validateContactInformation, validateLoginEmail, validateLoginPhone, validateMailingAddress, validateName } from '../settingsHelpers.js';
+import { attachTabEventListeners, addOrUpdateAuthenticationMethod, changeContactInformation, changeMailingAddress, changeName, formatFirebaseAuthPhoneNumber, FormTypes, getCheckedRadioButtonValue, handleContactInformationRadioButtonPresets, handleOptionalFieldVisibility, hideOptionalElementsOnShowForm, hideSuccessMessage, openUpdateLoginForm, showAndPushElementToArrayIfExists, showEditButtonsOnUserVerified, suffixList, suffixToTextMap, toggleElementVisibility, togglePendingVerificationMessage, unlinkFirebaseAuthProvider, updatePhoneNumberInputFocus, validateContactInformation, validateLoginEmail, validateLoginPhone, validateMailingAddress, validateName } from '../settingsHelpers.js';
 import { addEventAddressAutoComplete } from '../event.js';
 import cId from '../fieldToConceptIdMapping.js';
 
@@ -77,10 +77,10 @@ export const renderSettingsPage = async () => {
   } else {
     userData = myData.data;
     firebaseAuthUser = firebase.auth().currentUser;
-    optVars.loginEmail = firebaseAuthUser.email;
-    optVars.loginPhone = firebaseAuthUser.phoneNumber;
-    // console.log('firebaseAuthUser', optVars.loginEmail, optVars.loginPhone);
-    // console.log('firebaseAuthUserFull', firebaseAuthUser);
+    console.log('firebaseAuthUser', firebaseAuthUser);
+    console.log('userData', userData);
+    optVars.loginEmail = userData[cId.firebaseAuthEmail];
+    optVars.loginPhone = userData[cId.firebaseAuthPhone];
     optVars.canWeVoicemailMobile = userData[cId.canWeVoicemailMobile] === cId.yes;
     optVars.canWeText = userData[cId.canWeText] === cId.yes;
     optVars.canWeVoicemailHome = userData[cId.canWeVoicemailHome] === cId.yes;
@@ -161,7 +161,7 @@ export const renderSettingsPage = async () => {
       handleEditMailingAddressSection();
       handleEditSignInInformationSection();
       attachTabEventListeners();
-      attachLoginRemovalButtons(optVars.loginEmail, optVars.loginPhone, formVisBools, loginElementArray, btnObj);
+      attachLoginEditFormButtons(optVars.loginEmail, optVars.loginPhone, formVisBools, loginElementArray, btnObj);
     }
   }
 };
@@ -441,7 +441,7 @@ const handleEditSignInInformationSection = () => {
 
   document.getElementById('changePhoneSubmit').addEventListener('click', e => {
     const phone = document.getElementById('newPhoneField').value.trim();
-    const phoneConfirm = document.getElementById('newPhoneField').value.trim();
+    const phoneConfirm = document.getElementById('newPhoneFieldCheck').value.trim();
     const isPhoneValid = phone && phoneConfirm && validateLoginPhone(phone, phoneConfirm);
     console.log('isPhoneValid', isPhoneValid);
     if (isPhoneValid) {
@@ -452,36 +452,48 @@ const handleEditSignInInformationSection = () => {
 };
 
 const submitNewLoginMethod = async (email, phone) => {
-  const isSuccess = await changeLoginMethod(firebaseAuthUser, email, phone, userData).catch((error) => {
+    console.log('calling SUBMITNEWLOGINMETHOD');
+  const isSuccess = await addOrUpdateAuthenticationMethod(firebaseAuthUser, email, phone, userData).catch((error) => {
     document.getElementById('loginUpdateFail').style.display = 'block';
     document.getElementById('loginUpdateError').innerHTML = error.message;
   });
   console.log('SUBMIT IS SUCCESS?', isSuccess);
-
-  formVisBools.isLoginFormDisplayed = toggleElementVisibility(loginElementArray, formVisBools.isLoginFormDisplayed);
-  toggleButtonText();
   
   if (isSuccess) {
-    firebaseAuthUser = firebase.auth().currentUser;
+    await refreshUserDataAfterEdit();
+
+    formVisBools.isLoginFormDisplayed = toggleElementVisibility(loginElementArray, formVisBools.isLoginFormDisplayed);
+    toggleButtonText();
+    document.getElementById('changeLoginGroup').style.display = 'none';
+
     const profileEmailElement = document.getElementById('profileEmail');
     const profilePhoneElement = document.getElementById('profilePhone');
-    if (firebaseAuthUser.email) {
-        profileEmailElement.textContent = firebaseAuthUser.email;
-        profileEmailElement.style.display = 'block';
+    const firebaseAuthEmail = userData[cId.firebaseAuthEmail];
+    const firebaseAuthPhone = formatFirebaseAuthPhoneNumber(userData[cId.firebaseAuthPhone]);
+    console.log('firebaseAuthPhone', firebaseAuthPhone);
 
+    if (firebaseAuthEmail) {
+        console.log('displaying email');
+        document.getElementById('loginEmailRow').style.display = 'block';
+        profileEmailElement.textContent = firebaseAuthEmail;
+        profileEmailElement.style.display = 'block';
     } else {
+        console.log('hiding email');
         profileEmailElement.style.display = 'none';
     }
-    if (firebaseAuthUser.phoneNumber) {
-        profilePhoneElement.textContent = firebaseAuthUser.phoneNumber;
+
+    if (firebaseAuthPhone) {
+        console.log('displaying phone');
+        document.getElementById('loginPhoneRow').style.display = 'block';
+        profilePhoneElement.innerHTML = `${firebaseAuthPhone}`;
         profilePhoneElement.style.display = 'block';        
     } else {
+        console.log('hiding phone');
         profilePhoneElement.style.display = 'none';
     }
 
     successMessageElement = document.getElementById('loginUpdateSuccess');
     successMessageElement.style.display = 'block';
-    refreshUserDataAfterEdit();
   }
 };
 
@@ -532,7 +544,7 @@ const refreshUserDataAfterEdit = async () => {
  * Require confirmation from user prior to unlinking the authentication provider.
  * Then close the modal.
  */
-const attachLoginRemovalButtons = async (currentEmail, currentPhone) => {
+const attachLoginEditFormButtons = async (currentEmail, currentPhone) => {
     let removalType = null;
 
     const modalMap = {
@@ -558,7 +570,17 @@ const attachLoginRemovalButtons = async (currentEmail, currentPhone) => {
         modalStatusMap[type] = false;
     }
 
-    const addListenerToButton = (type, buttonID, confirmButtonID, cancelRemoveButtonID) => {
+    /**
+     * Add event listeners to update login form buttons.
+     * Handle modal toggling based on the active modal (phone or email)
+     * Authentication method protection: Only trigger unlink operation if the user already has another login method in firebase auth.
+     * If the user has only one login method, then do not allow the user to unlink it, show alert in this case.
+     * @param {string} type - 'Email' or 'Phone' 
+     * @param {string} buttonID - the HTML Button's id: 'removeLoginEmailButton' or 'removeLoginPhoneButton' 
+     * @param {string} confirmButtonID - the HTML Button's id: 'confirmRemoveEmailButton' or 'confirmRemovePhoneButton'
+     * @param {string} cancelRemoveButtonID - the HTML Button's id: 'cancelRemoveEmailButton' or 'cancelRemovePhoneButton'
+     */
+    const addListenerToButton = async (type, buttonID, confirmButtonID, cancelRemoveButtonID) => {
         if (modalMap[type] && !modalStatusMap[type]) {
             document.getElementById(buttonID).addEventListener("click", () => {
                 console.log(`${buttonID} click`);
@@ -569,13 +591,24 @@ const attachLoginRemovalButtons = async (currentEmail, currentPhone) => {
                 if (removalType === type) {
                     let result;
                     try {
-                        result = await unlinkFirebaseAuthProvider(type.toLowerCase());
-                        closeModal(type);
-                        updateUIAfterUnlink(result === true, result === true ? null : result);
+                        const firebaseUser = firebase.auth().currentUser;
+                        if (firebaseUser.email && firebaseUser.phoneNumber) {
+                            result = await unlinkFirebaseAuthProvider(type.toLowerCase());
+                            const isSuccess = result === true;
+                            console.log('result - unlinkFirebaseAuthProvider: ', result);
+                            closeModal(type);
+                            updateUIAfterUnlink(isSuccess, type, isSuccess ? null : result);
+                        } else {
+                            closeModal(type);
+                            const otherLoginType = type === 'Email' ? 'phone number' : 'email';
+                            const activeLoginType = otherLoginType === 'email' ? 'phone number' : 'email';
+                            alert(`At least one login method is required.\n\nPlease add a new ${otherLoginType} login method before removing this ${activeLoginType} login.`);
+
+                        }
                     } catch (error) {
                         const errorMessage = error.message ? error.message : "An error occurred";
                         closeModal(type);
-                        updateUIAfterUnlink(false, errorMessage);
+                        updateUIAfterUnlink(false, type, errorMessage);
                     }
                 }
             });
@@ -588,39 +621,43 @@ const attachLoginRemovalButtons = async (currentEmail, currentPhone) => {
     addListenerToButton('Phone', 'removeLoginPhoneButton', 'confirmRemovePhone', 'cancelRemovePhone');
 }
 
-const updateUIAfterUnlink = async (isSuccess, error) => {
+const updateUIAfterUnlink = async (isSuccess, type, error) => {
+    console.log('isSuccess - updateUIAfterUnlink: ', isSuccess, 'type', type);
+
     formVisBools.isLoginFormDisplayed = toggleElementVisibility(loginElementArray, formVisBools.isLoginFormDisplayed);
     toggleButtonText();
     
-    console.log('isSuccess - updateUIAfterUnlink: ', isSuccess);
-
     if (isSuccess) {
-      firebaseAuthUser = firebase.auth().currentUser;
+      await refreshUserDataAfterEdit();
         
-      if (firebaseAuthUser.email) {
-          const profileEmailElement = document.getElementById('profileEmail');
-          profileEmailElement.textContent = firebaseAuthUser.email;
-          profileEmailElement.style.display = 'block';
+      const firebaseAuthEmail = userData[cId.firebaseAuthEmail];
+      const firebaseAuthPhone = formatFirebaseAuthPhoneNumber(userData[cId.firebaseAuthPhone]);
+
+      if (firebaseAuthEmail && type !== 'email') {
+        document.getElementById('loginEmailRow').style.display = 'block';
+        const profileEmailElement = document.getElementById('profileEmail');
+        profileEmailElement.textContent = firebaseAuthEmail;
+        profileEmailElement.style.display = 'block';
       } else {
-          optRowEles.loginEmailRow.style.display = 'none';
+        optRowEles.loginEmailRow.style.display = 'none';
       }
 
-      if (firebaseAuthUser.phoneNumber) {
-          const profilePhoneElement = document.getElementById('profilePhone');
-          profilePhoneElement.textContent = firebaseAuthUser.phoneNumber;
-          profilePhoneElement.style.display = 'block';        
+      if (firebaseAuthPhone && type !== 'phone') {
+        document.getElementById('loginPhoneRow').style.display = 'block';
+        const profilePhoneElement = document.getElementById('profilePhone');
+        profilePhoneElement.innerHTML = `${firebaseAuthPhone}`;
+        profilePhoneElement.style.display = 'block';        
       } else {
-          optRowEles.loginPhoneRow.style.display = 'none';
+        optRowEles.loginPhoneRow.style.display = 'none';
       }
   
       successMessageElement = document.getElementById('loginUpdateSuccess');
       successMessageElement.style.display = 'block';
-      await refreshUserDataAfterEdit();
     } else {
         document.getElementById('loginUpdateFail').style.display = 'block';
         document.getElementById('loginUpdateError').innerHTML = error;
     }
-  }
+}
 
 /**
  * Start: HTML rendering functions
@@ -1282,7 +1319,6 @@ export const renderChangeSignInInformationGroup = () => {
     };
 
 const renderTabbedForm = () => {
-    console.log('renderTabbedForm');
     const currentEmail = optVars.loginEmail ?? '';
     const currentPhone = optVars.loginPhone ?? '';
     return `
@@ -1317,7 +1353,7 @@ const renderTabbedForm = () => {
                 <hr>
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <span>Current login phone:
-                        <strong>${currentPhone}</strong>
+                        <strong>${currentPhone.substr(0, 3)}-${currentPhone.substr(3,3)}-${currentPhone.substr(6, 4)}</strong>
                     </span>
                     <button class="btn-remove-login" id="removeLoginPhoneButton">Remove this phone number</button>
                 </div>
@@ -1369,7 +1405,6 @@ const renderEmailOrPhoneInput = (type) => {
 };
 
 const renderConfirmationModal = (removalType) => {
-    console.log('renderConfirmationModal - removal type: ', removalType);
     return `
     <div id="confirmationModal${removalType}" class="modal-remove-login" style="display:none" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">

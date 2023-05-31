@@ -1237,4 +1237,55 @@ export function openNewTab(url) {
   } else {
     urlToNewTabMap[url].focus();
   }
-} 
+}
+
+export const processUnlinkAuthProviderWithFirebaseAdmin = async(newAuthData) => {
+    const errorMap = {
+        'auth/phone-number-already-exists': {
+          status: 409,
+          message: 'The user with the provided phone number already exists.'
+        },
+        'auth/email-already-exists': {
+          status: 409,
+          message: 'The user with the provided email already exists.'
+        },
+        'auth/invalid-phone-number': {
+          status: 403,
+          message: 'Invalid Phone number'
+        },
+        'auth/invalid-email': {
+          status: 403,
+          message: 'Invalid Email'
+        }
+    };
+    
+    const handleError = (error) => {
+    if (error in errorMap) {
+        const { status, message } = errorMap[error];
+        return res.status(status).json(getResponseJSON(message, status));
+    }
+    return res.status(400).json(getResponseJSON('Operation Unsuccessful', 400));
+    }
+
+    const authenticationDataPayload = {
+        "data": newAuthData
+    }
+  
+    const idToken = await getIdToken();
+    const response = await fetch(`${api}?api=updateParticipantFirebaseAuthentication`,{
+        method:'POST',
+        body: JSON.stringify(authenticationDataPayload),
+        headers:{
+            Authorization:"Bearer "+ idToken,
+            "Content-Type": "application/json"
+        }
+    });
+    console.log('response', response);
+    hideAnimation();
+    
+    if (response.status === 200) {
+        return await response.json();
+    } else {
+        return handleError(response.status);
+    }
+};
