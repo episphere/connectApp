@@ -77,8 +77,6 @@ export const renderSettingsPage = async () => {
   } else {
     userData = myData.data;
     firebaseAuthUser = firebase.auth().currentUser;
-    console.log('firebaseAuthUser', firebaseAuthUser);
-    console.log('userData', userData);
     optVars.loginEmail = userData[cId.firebaseAuthEmail];
     optVars.loginPhone = userData[cId.firebaseAuthPhone];
     optVars.canWeVoicemailMobile = userData[cId.canWeVoicemailMobile] === cId.yes;
@@ -433,7 +431,6 @@ const handleEditSignInInformationSection = () => {
     const email = document.getElementById('newEmailField').value.trim();
     const emailConfirm = document.getElementById('newEmailFieldCheck').value.trim();
     const isEmailValid = email && emailConfirm && validateLoginEmail(email, emailConfirm);
-    console.log('isEmailValid', isEmailValid);
     if (isEmailValid) {
         submitNewLoginMethod(email, null, userData)
     }
@@ -443,7 +440,6 @@ const handleEditSignInInformationSection = () => {
     const phone = document.getElementById('newPhoneField').value.trim();
     const phoneConfirm = document.getElementById('newPhoneFieldCheck').value.trim();
     const isPhoneValid = phone && phoneConfirm && validateLoginPhone(phone, phoneConfirm);
-    console.log('isPhoneValid', isPhoneValid);
     if (isPhoneValid) {
         submitNewLoginMethod(null, phone, userData);
     }
@@ -452,12 +448,10 @@ const handleEditSignInInformationSection = () => {
 };
 
 const submitNewLoginMethod = async (email, phone) => {
-    console.log('calling SUBMITNEWLOGINMETHOD');
   const isSuccess = await addOrUpdateAuthenticationMethod(firebaseAuthUser, email, phone, userData).catch((error) => {
     document.getElementById('loginUpdateFail').style.display = 'block';
     document.getElementById('loginUpdateError').innerHTML = error.message;
   });
-  console.log('SUBMIT IS SUCCESS?', isSuccess);
   
   if (isSuccess) {
     await refreshUserDataAfterEdit();
@@ -470,25 +464,20 @@ const submitNewLoginMethod = async (email, phone) => {
     const profilePhoneElement = document.getElementById('profilePhone');
     const firebaseAuthEmail = userData[cId.firebaseAuthEmail];
     const firebaseAuthPhone = formatFirebaseAuthPhoneNumber(userData[cId.firebaseAuthPhone]);
-    console.log('firebaseAuthPhone', firebaseAuthPhone);
 
     if (firebaseAuthEmail) {
-        console.log('displaying email');
         document.getElementById('loginEmailRow').style.display = 'block';
         profileEmailElement.textContent = firebaseAuthEmail;
         profileEmailElement.style.display = 'block';
     } else {
-        console.log('hiding email');
         profileEmailElement.style.display = 'none';
     }
 
     if (firebaseAuthPhone) {
-        console.log('displaying phone');
         document.getElementById('loginPhoneRow').style.display = 'block';
         profilePhoneElement.innerHTML = `${firebaseAuthPhone}`;
         profilePhoneElement.style.display = 'block';        
     } else {
-        console.log('hiding phone');
         profilePhoneElement.style.display = 'none';
     }
 
@@ -583,7 +572,6 @@ const attachLoginEditFormButtons = async (currentEmail, currentPhone) => {
     const addListenerToButton = async (type, buttonID, confirmButtonID, cancelRemoveButtonID) => {
         if (modalMap[type] && !modalStatusMap[type]) {
             document.getElementById(buttonID).addEventListener("click", () => {
-                console.log(`${buttonID} click`);
                 openModal(type);
             });
 
@@ -595,7 +583,6 @@ const attachLoginEditFormButtons = async (currentEmail, currentPhone) => {
                         if (firebaseUser.email && firebaseUser.phoneNumber) {
                             result = await unlinkFirebaseAuthProvider(type.toLowerCase());
                             const isSuccess = result === true;
-                            console.log('result - unlinkFirebaseAuthProvider: ', result);
                             closeModal(type);
                             updateUIAfterUnlink(isSuccess, type, isSuccess ? null : result);
                         } else {
@@ -622,8 +609,6 @@ const attachLoginEditFormButtons = async (currentEmail, currentPhone) => {
 }
 
 const updateUIAfterUnlink = async (isSuccess, type, error) => {
-    console.log('isSuccess - updateUIAfterUnlink: ', isSuccess, 'type', type);
-
     formVisBools.isLoginFormDisplayed = toggleElementVisibility(loginElementArray, formVisBools.isLoginFormDisplayed);
     toggleButtonText();
     
@@ -1261,7 +1246,7 @@ export const renderSignInInformationHeadingAndButton = () => {
 };
 
 export const renderSignInInformationData = () => {
-    const loginPhone = optVars.loginPhone ? optVars.loginPhone.replace(/^\+1/, '') : '';
+    const loginPhone = optVars.loginPhone ? formatFirebaseAuthPhoneNumber(optVars.loginPhone) /*optVars.loginPhone.replace(/^\+1/, '')*/ : '';
     return `
         <div class="row userProfileLinePaddings" id="currentSignInInformationDiv">
             <div class="col">
@@ -1277,7 +1262,7 @@ export const renderSignInInformationData = () => {
                     Sign-in Phone Number
                     <br>
                     <b>
-                    <div id="profilePhone">${loginPhone.substr(0, 3)}-${loginPhone.substr(3,3)}-${loginPhone.substr(6, 4)}</div>
+                    <div id="profilePhone">${loginPhone}</div>
                     </b>
                     </br>
                 </span>
@@ -1320,7 +1305,7 @@ export const renderChangeSignInInformationGroup = () => {
 
 const renderTabbedForm = () => {
     const currentEmail = optVars.loginEmail ?? '';
-    const currentPhone = optVars.loginPhone ?? '';
+    const currentPhone = formatFirebaseAuthPhoneNumber(optVars.loginPhone) ?? '';
     return `
         <div class="tab">
             <button class="tablinks">Use email</button>
@@ -1335,7 +1320,7 @@ const renderTabbedForm = () => {
                     <span>Current login email:
                         <strong>${currentEmail}</strong>
                     </span>
-                    <button class="btn-remove-login" id="removeLoginEmailButton">Remove this email address</button>
+                    <button class="btn-remove-login" id="removeLoginEmailButton" style="display:none">Remove this email address</button>
                 </div>
                 <hr>
                 <br>
@@ -1353,7 +1338,7 @@ const renderTabbedForm = () => {
                 <hr>
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <span>Current login phone:
-                        <strong>${currentPhone.substr(0, 3)}-${currentPhone.substr(3,3)}-${currentPhone.substr(6, 4)}</strong>
+                        <strong>${currentPhone}</strong>
                     </span>
                     <button class="btn-remove-login" id="removeLoginPhoneButton">Remove this phone number</button>
                 </div>
