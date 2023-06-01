@@ -453,7 +453,7 @@ export const addOrUpdateAuthenticationMethod = async (firebaseAuthUser, email, p
   }
 
   if ((email && firebaseAuthUser.phoneNumber) || phone && firebaseAuthUser.email) {
-    newValuesForFirestore[cId.firebaseSignInMechanism] = 'password';
+    newValuesForFirestore[cId.firebaseSignInMechanism] = 'passwordAndPhone';
   }
 
   if (!isAuthUpdateSuccess) {
