@@ -280,8 +280,7 @@ export const renderSamplesPage = async () => {
             </div>    
             `;
         }
-        console.log(site.name);
-        console.log(henry_ford.name);
+
         document.getElementById('root').innerHTML = template;
     });
 }
