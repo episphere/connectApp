@@ -311,7 +311,7 @@ const renderMainBody = (data, collections, tab) => {
     let modules = questionnaireModules();
     modules = setModuleAttributes(data, modules, collections);
     
-    let toDisplaySystem = [{'header':'First Survey', 'body': ['Background and Overall Health', 'Where You Live and Work', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure']}, {'body':['Enter SSN']}]
+    let toDisplaySystem = [{'header':'First Survey', 'body': ['Background and Overall Health', 'Where You Live and Work', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure']}, {'body':['Covid-19', 'Enter SSN']}]
     if(data['821247024'] && data['821247024'] == 875007964){
         toDisplaySystem = [{'header':'First Survey', 'body': ['Background and Overall Health', 'Where You Live and Work', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure']}]
     }
@@ -650,6 +650,12 @@ const setModuleAttributes = (data, modules, collections) => {
     modules['Enter SSN'].hasIcon = false;
     modules['Enter SSN'].noButton = false;
     modules['Enter SSN'].estimatedTime = 'Less than 5 minutes'
+    
+    modules['Covid-19'].header = 'COVID-19'
+    modules['Covid-19'].description = 'This survey asks questions about your history of COVID-19, including any vaccinations you may have received and details about times you may have gotten sick with COVID-19.';
+    modules['Covid-19'].hasIcon = false;
+    modules['Covid-19'].noButton = false;
+    modules['Covid-19'].estimatedTime = 'Less than 5 minutes'
 
     modules['Biospecimen Survey'].header = 'Baseline Blood, Urine, and Mouthwash Sample Survey';
     modules['Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples, and your history of COVID-19. ';
@@ -701,6 +707,10 @@ const setModuleAttributes = (data, modules, collections) => {
 
     if (data[fieldMapping.ModuleSsn.statusFlag] === fieldMapping.moduleStatus.submitted) { 
         modules['Enter SSN'].completed = true;
+    };
+    
+    if (data[fieldMapping.ModuleCovid19.statusFlag] === fieldMapping.moduleStatus.submitted) { 
+        modules['Covid-19'].completed = true;
     };
 
     if (data[fieldMapping.Biospecimen.statusFlag] === fieldMapping.moduleStatus.submitted) { 
