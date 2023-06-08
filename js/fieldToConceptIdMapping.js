@@ -82,7 +82,8 @@ export default
         "D_166676176":      "ModuleSsn",
         "D_299215535":      "Biospecimen",
         "D_912367929":      "MenstrualCycle",
-        "D_826163434":      "ClinicalBiospecimen"
+        "D_826163434":      "ClinicalBiospecimen",
+        "D_793330426":      "ModuleCovid19"
     },
 
     "Module1_OLD": {
@@ -144,6 +145,15 @@ export default
         "statusFlag":       "126331570", 
         "standaloneSurvey": true,
         "version":          "628939958"
+    },
+    
+    "ModuleCovid19": {
+        "conceptId":        "D_793330426", 
+        "startTs":          "268176409", 
+        "completeTs":       "784810139",  
+        "statusFlag":       "220186468", 
+        "standaloneSurvey": true,
+        "version":          "931332817"
     },
 
     "Biospecimen": {
