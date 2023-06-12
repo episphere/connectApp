@@ -500,6 +500,10 @@ export async function signInCheckRender ({ ui }) {
       <h5>Not Found</h5>
       <div class="d-flex flex-column justify-content-left ">
         <p>Your ${account.type} (${account.value}) cannot be found.</p>
+        <p> If you’re having trouble signing in or don’t remember your account information, please contact the Connect Support Center at 
+          <a href="tel:+18664626621">1-866-462-6621</a> or 
+          <a href="mailto:ConnectStudy@norc.org">ConnectStudy@norc.org</a> before creating a new account.
+        </p>
         <p>Use another account? <a href="#" id="useAnotherAccount">Click here</a> </p>
         <p>Don't have an account? <a href="#" id="createNewAccount">Create one here</a> </p>
       <div>
