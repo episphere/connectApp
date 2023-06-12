@@ -39,9 +39,6 @@ export default
     "userProfileUpdateTimestamp": 371303487,
     "profileChangeRequestedBy": 611005658,
     "firebaseSignInMechanism": 995036844,
-    "signInGoogle": 943488874,
-    "signInPassword": 101178950,
-    "signInPhone": 804918759,
 
     "heardAboutStudyForm" : 142654897,
 

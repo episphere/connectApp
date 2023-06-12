@@ -1,5 +1,5 @@
 import { allStates, showAnimation, hideAnimation, getMyData } from '../shared.js';
-import { attachTabEventListeners, addOrUpdateAuthenticationMethod, changeContactInformation, changeMailingAddress, changeName, formatFirebaseAuthPhoneNumber, FormTypes, getCheckedRadioButtonValue, handleContactInformationRadioButtonPresets, handleOptionalFieldVisibility, hideOptionalElementsOnShowForm, hideSuccessMessage, openUpdateLoginForm, showAndPushElementToArrayIfExists, showEditButtonsOnUserVerified, suffixList, suffixToTextMap, toggleElementVisibility, togglePendingVerificationMessage, unlinkFirebaseAuthProvider, updatePhoneNumberInputFocus, validateContactInformation, validateLoginEmail, validateLoginPhone, validateMailingAddress, validateName } from '../settingsHelpers.js';
+import { attachTabEventListeners, addOrUpdateAuthenticationMethod, changeContactInformation, changeMailingAddress, changeName, checkAuthDataConsistency, formatFirebaseAuthPhoneNumber, FormTypes, getCheckedRadioButtonValue, handleContactInformationRadioButtonPresets, handleOptionalFieldVisibility, hideOptionalElementsOnShowForm, hideSuccessMessage, openUpdateLoginForm, showAndPushElementToArrayIfExists, showEditButtonsOnUserVerified, suffixList, suffixToTextMap, toggleElementVisibility, togglePendingVerificationMessage, unlinkFirebaseAuthProvider, updatePhoneNumberInputFocus, validateContactInformation, validateLoginEmail, validateLoginPhone, validateMailingAddress, validateName } from '../settingsHelpers.js';
 import { addEventAddressAutoComplete } from '../event.js';
 import cId from '../fieldToConceptIdMapping.js';
 
@@ -77,7 +77,9 @@ export const renderSettingsPage = async () => {
   } else {
     userData = myData.data;
     firebaseAuthUser = firebase.auth().currentUser;
-    optVars.loginEmail = userData[cId.firebaseAuthEmail];
+    const isAuthDataConsistent = await checkAuthDataConsistency(firebaseAuthUser.email ?? '', firebaseAuthUser.phoneNumber ?? '', userData[cId.firebaseAuthEmail] ?? '', userData[cId.firebaseAuthPhone] ?? '');
+    if (!isAuthDataConsistent) await refreshUserDataAfterEdit();
+    optVars.loginEmail = userData[cId.firebaseAuthEmail] && !userData[cId.firebaseAuthEmail].startsWith('noreply') ? userData[cId.firebaseAuthEmail] : '';
     optVars.loginPhone = userData[cId.firebaseAuthPhone];
     optVars.canWeVoicemailMobile = userData[cId.canWeVoicemailMobile] === cId.yes;
     optVars.canWeText = userData[cId.canWeText] === cId.yes;
@@ -571,17 +573,21 @@ const attachLoginEditFormButtons = async (currentEmail, currentPhone) => {
      */
     const addListenerToButton = async (type, buttonID, confirmButtonID, cancelRemoveButtonID) => {
         if (modalMap[type] && !modalStatusMap[type]) {
-            document.getElementById(buttonID).addEventListener("click", () => {
+            const button = document.getElementById(buttonID);
+            const confirmButton = document.getElementById(confirmButtonID);
+            const cancelRemovalButton = document.getElementById(cancelRemoveButtonID);
+
+            button && button.addEventListener("click", () => {
                 openModal(type);
             });
 
-            document.getElementById(confirmButtonID).addEventListener('click', async () => {
+            confirmButton && confirmButton.addEventListener('click', async () => {
                 if (removalType === type) {
                     let result;
                     try {
                         const firebaseUser = firebase.auth().currentUser;
                         if (firebaseUser.email && firebaseUser.phoneNumber) {
-                            result = await unlinkFirebaseAuthProvider(type.toLowerCase());
+                            result = await unlinkFirebaseAuthProvider(type.toLowerCase(), userData);
                             const isSuccess = result === true;
                             closeModal(type);
                             updateUIAfterUnlink(isSuccess, type, isSuccess ? null : result);
@@ -590,7 +596,6 @@ const attachLoginEditFormButtons = async (currentEmail, currentPhone) => {
                             const otherLoginType = type === 'Email' ? 'phone number' : 'email';
                             const activeLoginType = otherLoginType === 'email' ? 'phone number' : 'email';
                             alert(`At least one login method is required.\n\nPlease add a new ${otherLoginType} login method before removing this ${activeLoginType} login.`);
-
                         }
                     } catch (error) {
                         const errorMessage = error.message ? error.message : "An error occurred";
@@ -600,7 +605,7 @@ const attachLoginEditFormButtons = async (currentEmail, currentPhone) => {
                 }
             });
 
-            document.getElementById(cancelRemoveButtonID).addEventListener('click', () => closeModal(type));
+            cancelRemovalButton && cancelRemovalButton.addEventListener('click', () => closeModal(type));
         }
     }
 
@@ -610,12 +615,13 @@ const attachLoginEditFormButtons = async (currentEmail, currentPhone) => {
 
 const updateUIAfterUnlink = async (isSuccess, type, error) => {
     formVisBools.isLoginFormDisplayed = toggleElementVisibility(loginElementArray, formVisBools.isLoginFormDisplayed);
+    document.getElementById('changeLoginGroup').style.display = 'none';
     toggleButtonText();
     
     if (isSuccess) {
       await refreshUserDataAfterEdit();
         
-      const firebaseAuthEmail = userData[cId.firebaseAuthEmail];
+      const firebaseAuthEmail = userData[cId.firebaseAuthEmail] && !userData[cId.firebaseAuthEmail].startsWith('noreply') ? userData[cId.firebaseAuthEmail] : ''; 
       const firebaseAuthPhone = formatFirebaseAuthPhoneNumber(userData[cId.firebaseAuthPhone]);
 
       if (firebaseAuthEmail && type !== 'email') {
@@ -1246,7 +1252,7 @@ export const renderSignInInformationHeadingAndButton = () => {
 };
 
 export const renderSignInInformationData = () => {
-    const loginPhone = optVars.loginPhone ? formatFirebaseAuthPhoneNumber(optVars.loginPhone) /*optVars.loginPhone.replace(/^\+1/, '')*/ : '';
+    const loginPhone = optVars.loginPhone ? formatFirebaseAuthPhoneNumber(optVars.loginPhone) : '';
     return `
         <div class="row userProfileLinePaddings" id="currentSignInInformationDiv">
             <div class="col">
@@ -1304,7 +1310,7 @@ export const renderChangeSignInInformationGroup = () => {
     };
 
 const renderTabbedForm = () => {
-    const currentEmail = optVars.loginEmail ?? '';
+    const currentEmail = optVars.loginEmail;
     const currentPhone = formatFirebaseAuthPhoneNumber(optVars.loginPhone) ?? '';
     return `
         <div class="tab">
@@ -1320,7 +1326,7 @@ const renderTabbedForm = () => {
                     <span>Current login email:
                         <strong>${currentEmail}</strong>
                     </span>
-                    <button class="btn-remove-login" id="removeLoginEmailButton" style="display:none">Remove this email address</button>
+                    ${currentPhone ? `<button class="btn-remove-login" id="removeLoginEmailButton">Remove this email address</button>` : ''}
                 </div>
                 <hr>
                 <br>
@@ -1340,7 +1346,7 @@ const renderTabbedForm = () => {
                     <span>Current login phone:
                         <strong>${currentPhone}</strong>
                     </span>
-                    <button class="btn-remove-login" id="removeLoginPhoneButton">Remove this phone number</button>
+                    ${currentEmail ? `<button class="btn-remove-login" id="removeLoginPhoneButton">Remove this phone number</button>` : ''}
                 </div>
                 <hr>
                 <br>

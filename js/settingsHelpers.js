@@ -419,6 +419,33 @@ export const changeMailingAddress = async (addressLine1, addressLine2, city, sta
 };
 
 /**
+ * confirm the user's Firebase Auth email and phone data match the user's Firestore email and phone data.
+ * We write these separately, one after another, so there's a chance the first write (Firebase Auth) succeeds and the second wite (Firestore) fails.
+ * This only costs an API call if the data is inconsistent since we hava access to both datapoints already.
+ * @param {object} firebaseAuthData - the user's Firebase Auth email and phone data 
+ * @param {object} firestoreParticipantData - the user's Firestore email and phone data
+ */
+export const checkAuthDataConsistency = async (firebaseAuthEmail, firebaseAuthPhoneNumber, firestoreParticipantEmail, firestoreParticipantPhoneNumber) => {
+  const isAuthEmailConsistent = firebaseAuthEmail === firestoreParticipantEmail;
+  const isAuthPhoneConsistent = firebaseAuthPhoneNumber === firestoreParticipantPhoneNumber;
+
+  if (!isAuthEmailConsistent || !isAuthPhoneConsistent) {
+    const authDataToSync = {
+      [cId.firebaseAuthEmail]: firebaseAuthEmail,
+      [cId.firebaseAuthPhone]: firebaseAuthPhoneNumber,
+    };
+    try {
+      await storeResponse(authDataToSync);
+    } catch (error) {
+      console.error('Error updating document (storeResponse): ', error);
+      return false;
+    }
+    return false;
+  }
+  return true;
+};
+
+/**
  * Changing email and/or phone must write to two places: firebase auth and the user profile.
  * Only continue if the firebase auth email or auth phone number change is successful (determined by the value of isAuthEmailUpdateSuccess() and isAuthPhoneUpdateSuccess()).
  * If both email and phone auth methods exist becuase of this update, use 'password' as the value for the firebaseSignInMechanism field in the user profile.
@@ -477,8 +504,7 @@ const updateFirebaseAuthEmail = async (firebaseAuthUser, email) => {
     await firebaseAuthUser.updateEmail(email);
     return true;
   } catch (error) {
-    handleUpdatePhoneEmailErrorInUI('updateFirebaseAuthEmail()', error);
-    return false;
+    throw error;
   }
 };
 
@@ -511,20 +537,20 @@ const updateFirebaseAuthPhone = async (firebaseAuthUser, phone) => {
       window.recaptchaVerifier.clear();
       return true;
   } catch (error) {
-      console.error('updateFirebaseAuthPhone() error', error);
-      handleUpdatePhoneEmailErrorInUI('updateFirebaseAuthPhone()', error);
       document.getElementById('recaptcha-container').style.display = 'none';
-      return false;
+      throw error;
   }
 };
 
 /**
  * Unlink a provider from the current user's Firebase account.
  * On Success, update the user's signInMechanism and (firebaseAuthEmail or firebaseAuthPhone) in the user's Firestore profile.
+ * Important: FirebaseAuth phone number can be unlinked. FirebaseAuth email cannot be unlinked.
+ * Workaround: If the user wants to unlink their email, we write a 'noreply' email to the user's auth profile and firestore profile, which effectively disables the prior email login.
  * @param {String} providerType - 'email' or 'phone' 
  * @returns {boolean} - true if the unlink was successful, false otherwise
  */
-export const unlinkFirebaseAuthProvider = async (providerType) => {
+export const unlinkFirebaseAuthProvider = async (providerType, userData) => {
   try {
     const firebaseAuthUser = firebase.auth().currentUser;
 
@@ -535,13 +561,21 @@ export const unlinkFirebaseAuthProvider = async (providerType) => {
     if (!(providerType === 'email' || providerType === 'phone')) {
       throw new Error('Invalid providerType. Expected "email" or "phone"');
     }
-
-    const result = await unlinkFirebaseAuthenticationTrigger(providerType);
+    let result;
+    let noReplyEmail;
+    if (providerType === 'phone') {
+      result = await unlinkFirebaseAuthenticationTrigger(providerType);
+    } else if (providerType === 'email') {
+      noReplyEmail = `noreply${firebaseAuthUser.uid}@episphere.github.io`;
+      result = await addOrUpdateAuthenticationMethod(firebaseAuthUser, noReplyEmail, null, userData);
+    } else {
+      console.error('bad providerType arg in unlinkFirebaseAuthProvider()');
+    }
 
     if (result === true) {
       const changedUserDataForProfile = {};
       if (providerType === 'email') {
-        changedUserDataForProfile[cId.firebaseAuthEmail] = '';
+        changedUserDataForProfile[cId.firebaseAuthEmail] = noReplyEmail;
         changedUserDataForProfile[cId.firebaseSignInMechanism] = 'phone';
       };
       if (providerType === 'phone') {
