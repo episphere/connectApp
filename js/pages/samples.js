@@ -358,8 +358,6 @@ const marshfield = {
             '220 24th St S,<br>Wisconsin Rapids,WI 54494',
             'Thursdays: 7:00 a.m. - 4:00 p.m. <br> Fridays: 7:00 a.m. - 10:00 a.m.',
             'General parking available'
-
-
         ]
     ]
 };
