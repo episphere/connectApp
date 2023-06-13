@@ -15,6 +15,7 @@ import { renderVerifiedPage } from "./js/pages/verifiedPage.js";
 import { firebaseConfig as devFirebaseConfig } from "./dev/config.js";
 import { firebaseConfig as stageFirebaseConfig } from "./stage/config.js";
 import { firebaseConfig as prodFirebaseConfig } from "./prod/config.js";
+import conceptIdMap from "./js/fieldToConceptIdMapping.js";
 
 let auth = '';
 
@@ -243,12 +244,17 @@ const userProfile = () => {
             if(href.includes(specialParameter)) href = href.substr(href.indexOf(specialParameter) + specialParameter.length, href.length);
             const parameters = getParameters(href);
             showAnimation();
-            
-            if(parameters && parameters.token){
-                await validateToken(parameters.token);
-                await storeResponse({
-                  335767902: new Date(parseInt(user.metadata.a)).toISOString(),
-                });
+
+            const firstSignInTime = new Date(user.metadata.creationTime).toISOString();
+            appState.setState((state) => ({
+              participantData: { ...state.participantData, firstSignInTime },
+            }));
+
+            if (parameters?.token) {
+                const response = await validateToken(parameters.token); // Add uid and sign-in flag if token is valid
+                if (response.code === 200) {
+                    await storeResponse({[conceptIdMap.firstSignInTime]: firstSignInTime});
+                }
             }
 
             const userData = await getMyData();
@@ -306,7 +312,7 @@ const userProfile = () => {
             else {
                 mainContent.innerHTML = requestPINTemplate();
                 addEventPinAutoUpperCase();
-                addEventRequestPINForm(user.metadata.a);
+                addEventRequestPINForm();
                 addEventToggleSubmit();
                 hideAnimation();
             }
