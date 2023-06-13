@@ -139,13 +139,18 @@ export const getMyData = async () => {
 
     const idToken = await getIdToken();
     const response = await fetch(`${api}?api=getUserProfile`, {
-      headers: {
-        Authorization: 'Bearer ' + idToken,
-      },
+        headers: {
+            Authorization: 'Bearer ' + idToken,
+        },
     });
 
     return response.json();
 };
+
+export const hasUserData = (response) => {
+
+    return response.code === 200 && Object.keys(response.data) > 0;
+}
 
 export const getMySurveys = async (data) => {
     

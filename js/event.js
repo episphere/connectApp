@@ -1,4 +1,4 @@
-import { allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, errorMessageNumbers, BirthMonths, getAge, getMyData, retrieveNotifications, removeActiveClass, toggleNavbarMobileView } from "./shared.js";
+import { allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, BirthMonths, getAge, getMyData, hasUserData, retrieveNotifications, removeActiveClass, toggleNavbarMobileView } from "./shared.js";
 import { consentTemplate } from "./pages/consent.js";
 import { heardAboutStudy, healthCareProvider } from "./pages/healthCareProvider.js";
 import { myToDoList } from "./pages/myToDoList.js";
@@ -989,7 +989,7 @@ const verifyUserDetails = (formData) => {
         if(response.code === 200) {
             const myData = await getMyData();
             hideAnimation();
-            if(myData.code === 200){
+            if(hasUserData(myData)){
                 myToDoList(myData.data, true);
             }
         }

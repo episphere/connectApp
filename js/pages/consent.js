@@ -1,4 +1,4 @@
-import { todaysDate, storeResponse, dataSavingBtn, dateTime, errorMessageConsent, siteAcronyms, getMyData, hideAnimation, showAnimation, isMobile, openNewTab} from "../shared.js";
+import { todaysDate, storeResponse, dataSavingBtn, dateTime, errorMessageConsent, siteAcronyms, getMyData, hasUserData, isMobile, openNewTab} from "../shared.js";
 import { renderUserProfile } from "../components/form.js";
 import { removeAllErrors, addEventsConsentSign } from "../event.js";
 import { downloadSignedPdf } from "./agreements.js";
@@ -132,7 +132,7 @@ const consentWelcomePage = () => {
     })
     document.getElementById('backToHeardAboutStudyForm').addEventListener('click', async () => {
         const myData = await getMyData();
-        const formData = myData.code === 200 && myData.data[fieldMapping.heardAboutStudyForm]
+        const formData = hasUserData(myData) && myData.data[fieldMapping.heardAboutStudyForm]
          ? myData.data[fieldMapping.heardAboutStudyForm] 
          : {}
         const mainContent = document.getElementById('root');
@@ -593,6 +593,8 @@ const consentConsentPage = async () => {
     let template = renderProgress(9);
     
     const myData = await getMyData();
+    if(!hasUserData(myData)) return;
+
     let siteDict = siteAcronyms();
     let versionJSON = await fetch('./forms/Consent_versioning.json').then(res => res.json());
     let participantSite = siteDict[myData.data['827220437']];
@@ -820,6 +822,8 @@ export const consentFinishedPage = async () => {
     const mainContent = document.getElementById('root');
     let template = renderProgress(10);
     const myData = await getMyData();
+    if(!hasUserData(myData)) return;
+
     let data = myData.data;
 
     template += `
@@ -1095,7 +1099,10 @@ const consentSubmit = async e => {
     //consent and hipaa forms
     let versionJSON = await fetch('./forms/Consent_versioning.json').then(res => res.json());
     let siteDict = siteAcronyms();
-    const myData = await getMyData()
+    
+    const myData = await getMyData();
+    if(!hasUserData(myData)) return;
+
     let participantSite = siteDict[myData.data['827220437']];
     formData['454205108'] = participantSite + '_Consent_' + versionJSON[participantSite]['Consent'];
     formData['412000022'] = participantSite + '_HIPAA_' + versionJSON[participantSite]['HIPAA']

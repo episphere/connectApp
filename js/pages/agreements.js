@@ -1,4 +1,4 @@
-import { getMyData, hideAnimation, showAnimation, siteAcronyms, dateTime, storeResponse, isMobile, openNewTab } from "../shared.js";
+import { getMyData, hasUserData, hideAnimation, showAnimation, siteAcronyms, dateTime, storeResponse, isMobile, openNewTab } from "../shared.js";
 import { initializeCanvas } from './consent.js'
 import fieldMapping from '../fieldToConceptIdMapping.js';
 
@@ -60,7 +60,7 @@ export const renderAgreements = async () => {
     showAnimation();
     const myData = await getMyData();
     let template = '';
-    if(myData.code === 200 && myData.data['919254129'] !== undefined && myData.data['919254129'] === 353358909){
+    if(hasUserData(myData) && myData.data['919254129'] !== undefined && myData.data['919254129'] === 353358909){
         template += `
             <div class="row">
                 <div class="col-lg-2">
