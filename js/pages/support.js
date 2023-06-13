@@ -1,4 +1,4 @@
-import { getMyData } from "../shared.js";
+import { getMyData, hasUserData } from "../shared.js";
 
 export const renderSupportPage = async () => {
     document.title = 'My Connect - Support';
@@ -6,7 +6,7 @@ export const renderSupportPage = async () => {
     let site = 0;
     let link="https://norcfedramp.servicenowservices.com/recruit"
     let phone = "1-877-505-0253"
-    if(myData.data){
+    if(hasUserData(myData)){
         site = myData["data"]['827220437']
         let data = myData.data;
         

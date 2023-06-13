@@ -1,4 +1,4 @@
-import { getMyData, renderSyndicate, urls, fragment, checkAccount, validEmailFormat, validPhoneNumberFormat, appState, delay, getCleanSearchString, elementIsLoaded } from "../shared.js";
+import { getMyData, hasUserData, renderSyndicate, urls, fragment, checkAccount, validEmailFormat, validPhoneNumberFormat, appState, getCleanSearchString, elementIsLoaded } from "../shared.js";
 import { signInConfig, signInConfigDev } from "./signIn.js";
 import { environmentWarningModal, downtimeWarning } from "../event.js";
 
@@ -130,11 +130,8 @@ export const joinNowBtn = (bool) => {
 
 export const whereAmIInDashboard = async () => {
     let myData = await getMyData();
-    if(myData.code != 200){
-        
-        return '';
-
-    }
+    if(!hasUserData(myData)) return '';
+    
     let data = myData.data;
     if(data['827220437'] && data['142654897']){
         if(data['919254129'] === 353358909){

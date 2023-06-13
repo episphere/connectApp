@@ -1,4 +1,4 @@
-import { storeResponse, getMyData, getMySurveys, urls, questionnaireModules, storeResponseQuest, storeResponseTree, showAnimation, hideAnimation, addEventReturnToDashboard } from "../shared.js";
+import { storeResponse, getMyData, hasUserData, getMySurveys, urls, questionnaireModules, storeResponseQuest, storeResponseTree, showAnimation, hideAnimation, addEventReturnToDashboard } from "../shared.js";
 import fieldMapping from '../fieldToConceptIdMapping.js'; 
 import { transform } from 'https://cdn.jsdelivr.net/gh/episphere/quest@latest/replace2.js';
 import { rbAndCbClick } from "https://cdn.jsdelivr.net/gh/episphere/quest@latest/questionnaire.js";
@@ -19,7 +19,7 @@ export const questionnaire = async (moduleId) => {
     let modules;
 
     let responseData = await getMyData();
-    if(responseData.code === 200) {
+    if(hasUserData(responseData)) {
         data = responseData.data;
 
         let responseModules = await getMySurveys([...new Set([fieldMapping.Module1.conceptId, fieldMapping.Module1_OLD.conceptId, fieldMapping.Biospecimen.conceptId, fieldMapping[moduleId].conceptId])]);
