@@ -328,6 +328,10 @@ const renderMainBody = (data, collections, tab) => {
         toDisplaySystem.unshift({'body':['Menstrual Cycle']})
     }
 
+    if(modules['Covid-19'].enabled) {
+        toDisplaySystem.unshift({'body':['Covid-19']});
+    }
+    
     if(tab === 'todo'){
         let hasModlesRemaining = false;
 
@@ -650,6 +654,10 @@ const setModuleAttributes = (data, modules, collections) => {
     modules['Enter SSN'].hasIcon = false;
     modules['Enter SSN'].noButton = false;
     modules['Enter SSN'].estimatedTime = 'Less than 5 minutes'
+    
+    modules['Covid-19'].header = 'COVID-19'
+    modules['Covid-19'].description = 'This survey asks questions about your history of COVID-19, including any vaccinations you may have received and details about times you may have gotten sick with COVID-19.';
+    modules['Covid-19'].estimatedTime = 'Less than 5 minutes'
 
     modules['Biospecimen Survey'].header = 'Baseline Blood, Urine, and Mouthwash Sample Survey';
     modules['Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples, and your history of COVID-19. ';
@@ -665,10 +673,12 @@ const setModuleAttributes = (data, modules, collections) => {
 
     if(data['331584571']?.['266600170']?.['840048338']) {
         modules['Biospecimen Survey'].enabled = true;
+        modules['Covid-19'].enabled = true;
     }
 
     if(collections && collections.filter(collection => collection['650516960'] === 664882224).length > 0) {
         modules['Clinical Biospecimen Survey'].enabled = true;
+        modules['Covid-19'].enabled = true;
     }
 
     if(data['289750687'] === 353358909) {
@@ -701,6 +711,10 @@ const setModuleAttributes = (data, modules, collections) => {
 
     if (data[fieldMapping.ModuleSsn.statusFlag] === fieldMapping.moduleStatus.submitted) { 
         modules['Enter SSN'].completed = true;
+    };
+    
+    if (data[fieldMapping.ModuleCovid19.statusFlag] === fieldMapping.moduleStatus.submitted) { 
+        modules['Covid-19'].completed = true;
     };
 
     if (data[fieldMapping.Biospecimen.statusFlag] === fieldMapping.moduleStatus.submitted) { 

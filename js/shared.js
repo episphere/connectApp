@@ -877,6 +877,7 @@ export const questionnaireModules = () => {
             'Smoking, Alcohol, and Sun Exposure': {path: 'module3Stage.txt', moduleId:"Module3", enabled:false},
             'Where You Live and Work': {path: 'module4Stage.txt', moduleId:"Module4", enabled:false},
             'Enter SSN': {path: 'ssnModule.txt', moduleId:"ModuleSsn", enabled:false},
+            'Covid-19': {path: 'moduleCOVID19Stage.txt', moduleId:"ModuleCovid19", enabled:true},
             'Biospecimen Survey': {path: 'moduleBiospecimenStage.txt', moduleId:"Biospecimen", enabled:false},
             'Clinical Biospecimen Survey': {path: 'moduleClinicalBloodUrineStage.txt', moduleId:"ClinicalBiospecimen", enabled:false},
             'Menstrual Cycle': {path: 'moduleMenstrualStage.txt', moduleId:"MenstrualCycle", enabled:false}
