@@ -655,8 +655,8 @@ const setModuleAttributes = (data, modules, collections) => {
     modules['Enter SSN'].noButton = false;
     modules['Enter SSN'].estimatedTime = 'Less than 5 minutes'
     
-    modules['Covid-19'].header = 'COVID-19'
-    modules['Covid-19'].description = 'This survey asks questions about your history of COVID-19, including any vaccinations you may have received and details about times you may have gotten sick with COVID-19.';
+    modules['Covid-19'].header = 'COVID-19 Survey'
+    modules['Covid-19'].description = 'Questions about your history of COVID-19, including any vaccinations you may have received and details about times you may have gotten sick with COVID-19.'
     modules['Covid-19'].estimatedTime = 'Less than 5 minutes'
 
     modules['Biospecimen Survey'].header = 'Baseline Blood, Urine, and Mouthwash Sample Survey';
