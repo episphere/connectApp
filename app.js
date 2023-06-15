@@ -76,6 +76,10 @@ window.onload = async () => {
         if (!user.isAnonymous) {
           localforage.clear();
           inactivityTime();
+          const firstSignInTime = new Date(user.metadata.creationTime).toISOString();
+          appState.setState((state) => ({
+            participantData: { ...state.participantData, firstSignInTime }
+          }));
         } 
       } else {
         appState.setState({ idToken: '' });
@@ -245,14 +249,10 @@ const userProfile = () => {
             const parameters = getParameters(href);
             showAnimation();
 
-            const firstSignInTime = new Date(user.metadata.creationTime).toISOString();
-            appState.setState((state) => ({
-              participantData: { ...state.participantData, firstSignInTime },
-            }));
-
             if (parameters?.token) {
                 const response = await validateToken(parameters.token); // Add uid and sign-in flag if token is valid
                 if (response.code === 200) {
+                    const firstSignInTime = new Date(user.metadata.creationTime).toISOString();
                     await storeResponse({[conceptIdMap.firstSignInTime]: firstSignInTime});
                 }
             }
