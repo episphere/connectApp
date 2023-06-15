@@ -398,9 +398,67 @@ export const changeContactInformation = async (mobilePhoneNumberComplete, homePh
     [cId.additionalEmail2]: additionalEmail2,
   };
 
-  const { changedUserDataForProfile, changedUserDataForHistory } = findChangedUserDataValues(newValues, userData, 'changeContactInformation');
+  let { changedUserDataForProfile, changedUserDataForHistory } = findChangedUserDataValues(newValues, userData, 'changeContactInformation');
+  changedUserDataForProfile = handleAllPhoneNoField(changedUserDataForProfile, userData);
+  changedUserDataForProfile = handleAllEmailField(changedUserDataForProfile, userData);
   const isSuccess = processUserDataUpdate(changedUserDataForProfile, changedUserDataForHistory, userData[cId.userProfileHistory], userData[cId.prefEmail], 'changeContactInformation');
   return isSuccess;
+};
+
+/**
+ * Handle the allPhoneNo field in the user profile
+ * If a number is in the changedUserDataForProfile, the participant has added this phone number. Add it to the allPhoneNo field.
+ * Then check the userData profile for an existing value at the field being updated. The participant is updating this phone number. Remove it from the allPhoneNo field.
+ * If an empty string is in the changedUserDataForProfile, the participant has removed this phone number. Remove it from the allPhoneNo field.
+ */
+const handleAllPhoneNoField = (changedUserDataForProfile, userData) => {
+  const allPhoneNo = userData.query.allPhoneNo ?? [];
+  const phoneTypes = [cId.cellPhone, cId.homePhone, cId.otherPhone];
+
+  phoneTypes.forEach(phoneType => {
+    if (changedUserDataForProfile[phoneType] && !allPhoneNo.includes(changedUserDataForProfile[phoneType])) {
+      allPhoneNo.push(changedUserDataForProfile[phoneType]);
+    }
+
+    if (changedUserDataForProfile[phoneType] || changedUserDataForProfile[phoneType] === '') {
+      const indexToRemove = allPhoneNo.indexOf(userData[phoneType]);  
+      if (indexToRemove !== -1) {
+        allPhoneNo.splice(indexToRemove, 1);
+      }  
+    }
+  });
+
+  changedUserDataForProfile['query.allPhoneNo'] = allPhoneNo;
+  
+  return changedUserDataForProfile;
+};
+
+/**
+ * Handle the allEmails field in the user profile
+ * If an email is in the changedUserDataForProfile, the participant has added this email. Add it to the allEmails field.
+ * If an email is in the changedUserDataForHistory, the participant has removed this email. Remove it from the allEmails field.
+ */
+const handleAllEmailField = (changedUserDataForProfile, userData) => {
+  const allEmails = userData.query.allEmails ?? [];
+  const emailTypes = [cId.prefEmail, cId.additionalEmail1, cId.additionalEmail2];
+
+  emailTypes.forEach(emailType => {
+    if (changedUserDataForProfile[emailType] && !allEmails.includes(changedUserDataForProfile[emailType])) {
+      allEmails.push(changedUserDataForProfile[emailType]);
+    }
+
+    if (changedUserDataForProfile[emailType] || changedUserDataForProfile[emailType] === '') {
+      const indexToRemove = allEmails.indexOf(userData[emailType]);  
+      if (indexToRemove !== -1) {
+        allEmails.splice(indexToRemove, 1);
+      }  
+    }
+  });
+
+  changedUserDataForProfile['query.allEmails'] = allEmails;
+  
+  console.log('userData.query.allEmails - 2', allEmails);
+  return changedUserDataForProfile;
 };
 
 export const changeMailingAddress = async (addressLine1, addressLine2, city, state, zip, userData) => {
