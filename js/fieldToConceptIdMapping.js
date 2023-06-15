@@ -39,6 +39,9 @@ export default
     "userProfileUpdateTimestamp": 371303487,
     "profileChangeRequestedBy": 611005658,
     "firebaseSignInMechanism": 995036844,
+    "dataDestroyCategorical": 883668444,
+    "requestedDataDestroyNotSigned": 111959410,
+    "requestedDataDestroySigned": 704529432,
 
     "heardAboutStudyForm" : 142654897,
 

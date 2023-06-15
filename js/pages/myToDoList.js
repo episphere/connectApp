@@ -268,8 +268,16 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
         return;
     }
     else if(data['827220437'] && !data['142654897']){
-        mainContent.innerHTML =  heardAboutStudy();
-        addEventHeardAboutStudy();
+        if (data[fieldMapping.dataDestroyCategorical] === fieldMapping.requestedDataDestroySigned) {
+            mainContent.innerHTML = `
+                <br>
+                <p>
+                    We have deleted your information based on the data destruction request form you signed. If you have any questions, please contact the <a href="#support">Connect Support Center</a>.
+                </p>`;
+        } else {
+            mainContent.innerHTML =  heardAboutStudy();
+            addEventHeardAboutStudy();
+        }
         hideAnimation();
     }
     else if(data['379080287']){

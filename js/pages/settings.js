@@ -59,6 +59,7 @@ const optRowEles = {
 let firebaseAuthUser;
 let successMessageElement;
 let userData;
+let isParticipantDataDestroyed;
 let template = '';
 
 /**
@@ -77,8 +78,13 @@ export const renderSettingsPage = async () => {
   } else {
     userData = myData.data;
     firebaseAuthUser = firebase.auth().currentUser;
-    const isAuthDataConsistent = await checkAuthDataConsistency(firebaseAuthUser.email ?? '', firebaseAuthUser.phoneNumber ?? '', userData[cId.firebaseAuthEmail] ?? '', userData[cId.firebaseAuthPhone] ?? '');
-    if (!isAuthDataConsistent) await refreshUserDataAfterEdit();
+    isParticipantDataDestroyed = userData[cId.dataDestroyCategorical] === cId.requestedDataDestroySigned;
+    if (!isParticipantDataDestroyed) {
+        const isAuthDataConsistent = await checkAuthDataConsistency(firebaseAuthUser.email ?? '', firebaseAuthUser.phoneNumber ?? '', userData[cId.firebaseAuthEmail] ?? '', userData[cId.firebaseAuthPhone] ?? '');
+        if (!isAuthDataConsistent) {
+            await refreshUserDataAfterEdit();
+        }
+    }    
     optVars.loginEmail = userData[cId.firebaseAuthEmail] && !userData[cId.firebaseAuthEmail].startsWith('noreply') ? userData[cId.firebaseAuthEmail] : '';
     optVars.loginPhone = userData[cId.firebaseAuthPhone];
     optVars.canWeVoicemailMobile = userData[cId.canWeVoicemailMobile] === cId.yes;
@@ -103,9 +109,11 @@ export const renderSettingsPage = async () => {
                 <div class="col-lg-3">
                 </div>
                 <div class="col-lg-6" id="myProfileHeader">
-                    <p id="pendingVerification" style="color:#1c5d86; display:none;">
-                    Thank you for joining the National Cancer Institute's Connect for Cancer Prevention Study. Your involvement is very important.
-                    We are currently verifying your profile, which may take up to 3 business days.
+                    <p id="pendingVerification" style="color:${!isParticipantDataDestroyed ? '#1c5d86' : 'red'}; display:none;">
+                    ${!isParticipantDataDestroyed
+                        ? "Thank you for joining the National Cancer Institute's Connect for Cancer Prevention Study. Your involvement is very important. We are currently verifying your profile, which may take up to 3 business days."
+                        : `We have deleted your information based on the data destruction request form you signed. If you have any questions, please contact the <a href="#support">Connect Support Center</a>.`
+                    }
                     <br>
                     </p>
                     <p class="consentHeadersFont" id="myProfileTextContainer" style="color:#606060; display:none;">
@@ -161,7 +169,7 @@ export const renderSettingsPage = async () => {
       handleEditMailingAddressSection();
       handleEditSignInInformationSection();
       attachTabEventListeners();
-      attachLoginEditFormButtons(optVars.loginEmail, optVars.loginPhone, formVisBools, loginElementArray, btnObj);
+      attachLoginEditFormButtons();
     }
   }
 };
@@ -214,7 +222,7 @@ const handleEditNameSection = () => {
       hideOptionalElementsOnShowForm([optRowEles.middleNameRow, optRowEles.suffixRow, optRowEles.preferredFirstNameRow]);
       toggleActiveForm(FormTypes.NAME);
     }
-    toggleButtonText(btnObj.changeNameButton, btnObj.changeContactInformationButton, btnObj.changeMailingAddressButton, btnObj.changeLoginButton);
+    toggleButtonText();
   });
 
   document.getElementById('changeNameSubmit').addEventListener('click', e => {
@@ -434,7 +442,7 @@ const handleEditSignInInformationSection = () => {
     const emailConfirm = document.getElementById('newEmailFieldCheck').value.trim();
     const isEmailValid = email && emailConfirm && validateLoginEmail(email, emailConfirm);
     if (isEmailValid) {
-        submitNewLoginMethod(email, null, userData)
+        submitNewLoginMethod(email, null)
     }
   });
 
@@ -443,7 +451,7 @@ const handleEditSignInInformationSection = () => {
     const phoneConfirm = document.getElementById('newPhoneFieldCheck').value.trim();
     const isPhoneValid = phone && phoneConfirm && validateLoginPhone(phone, phoneConfirm);
     if (isPhoneValid) {
-        submitNewLoginMethod(null, phone, userData);
+        submitNewLoginMethod(null, phone);
     }
   });
 
@@ -535,12 +543,12 @@ const refreshUserDataAfterEdit = async () => {
  * Require confirmation from user prior to unlinking the authentication provider.
  * Then close the modal.
  */
-const attachLoginEditFormButtons = async (currentEmail, currentPhone) => {
+const attachLoginEditFormButtons = async () => {
     let removalType = null;
 
     const modalMap = {
-        'Email': currentEmail ? document.getElementById('confirmationModalEmail') : null,
-        'Phone': currentPhone ? document.getElementById('confirmationModalPhone') : null
+        'Email': optVars.loginEmail ? document.getElementById('confirmationModalEmail') : null,
+        'Phone': optVars.loginPhone ? document.getElementById('confirmationModalPhone') : null
     }
 
     const modalStatusMap = {
@@ -843,7 +851,7 @@ export const renderContactInformationData = () => {
                 <br>
                     <b>
                     <div id="profileMobilePhoneNumber">
-                        ${optVars.mobilePhoneNumberComplete ? `${optVars.mobilePhoneNumberComplete.substr(0, 3)} - ${optVars.mobilePhoneNumberComplete.substr(3, 3)} - ${optVars.mobilePhoneNumberComplete.substr(6, 4)}` : ''}
+                        ${optVars.mobilePhoneNumberComplete ? `${optVars.mobilePhoneNumberComplete.substr(0, 3)}-${optVars.mobilePhoneNumberComplete.substr(3, 3)}-${optVars.mobilePhoneNumberComplete.substr(6, 4)}` : ''}
                     </div>    
                     </b>
                 </span>
@@ -882,7 +890,7 @@ export const renderContactInformationData = () => {
                 <br>
                     <b>
                     <div id="profileHomePhoneNumber">
-                        ${optVars.homePhoneNumberComplete ? `${optVars.homePhoneNumberComplete.substr(0, 3)} - ${optVars.homePhoneNumberComplete.substr(3, 3)} - ${optVars.homePhoneNumberComplete.substr(6, 4)}` : ''}
+                        ${optVars.homePhoneNumberComplete ? `${optVars.homePhoneNumberComplete.substr(0, 3)}-${optVars.homePhoneNumberComplete.substr(3, 3)}-${optVars.homePhoneNumberComplete.substr(6, 4)}` : ''}
                     </div>    
                     </b>
                 </span>
@@ -908,7 +916,7 @@ export const renderContactInformationData = () => {
                 <br>
                     <b>
                     <div id="profileOtherPhoneNumber">
-                        ${optVars.otherPhoneNumberComplete ? `${optVars.otherPhoneNumberComplete.substr(0, 3)} - ${optVars.otherPhoneNumberComplete.substr(3, 3)} - ${optVars.otherPhoneNumberComplete.substr(6, 4)}` : ''}
+                        ${optVars.otherPhoneNumberComplete ? `${optVars.otherPhoneNumberComplete.substr(0, 3)}-${optVars.otherPhoneNumberComplete.substr(3, 3)}-${optVars.otherPhoneNumberComplete.substr(6, 4)}` : ''}
                     </div>    
                     </b>
                 </span>
@@ -936,7 +944,7 @@ export const renderContactInformationData = () => {
                 <br>
                     <b>
                     <div id="profilePreferredEmail">
-                        ${userData[cId.prefEmail]}
+                        ${!isParticipantDataDestroyed ? userData[cId.prefEmail] : 'data deleted'}
                     </div>
                     </b>
                 </span>
@@ -1138,13 +1146,18 @@ export const renderMailingAddressData = () => {
                     <span class="userProfileBodyFonts">
                         Mailing Address
                     <br>
-                        <b>
-                        <div id="profileMailingAddress">
-                            ${userData[cId.address1]}</br>
+                    <b>
+                    <div id="profileMailingAddress">
+                        ${!isParticipantDataDestroyed ?
+                        `
+                           ${userData[cId.address1]}</br>
                             ${userData[cId.address2] ? `${userData[cId.address2]}</br>` : ''}
-                            ${userData[cId.city]}, ${userData[cId.state]} ${userData[cId.zip]}
-                        </div>    
-                        </b>
+                            ${userData[cId.city]}, ${userData[cId.state]} ${userData[cId.zip]}    
+                        ` 
+                        : 'data deleted'
+                    }
+                    </div>
+                    </b>
                     </span>
                 </div>
             </div>

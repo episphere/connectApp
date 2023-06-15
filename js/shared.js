@@ -1262,9 +1262,9 @@ export const processUnlinkAuthProviderWithFirebaseAdmin = async(newAuthData) => 
     const handleError = (error) => {
         if (error in errorMap) {
             const { status, message } = errorMap[error];
-            return res.status(status).json(getResponseJSON(message, status));
+            return { message: message, status: status };
         }
-        return res.status(400).json(getResponseJSON('Operation Unsuccessful', 400));
+        return { message: 'Operation Unsuccessful', status: 400 };
     }
 
     const authenticationDataPayload = {
