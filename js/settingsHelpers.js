@@ -604,12 +604,13 @@ const updateFirebaseAuthPhone = async (firebaseAuthUser, phone) => {
         window.recaptchaVerifier.clear();
         return true;
       } else {
-        throw new Error(`Failed to unlink existing phone number: ${unlinkResult}`);
+        throw new Error(`Failed to unlink existing phone number`);
       }
       
   } catch (error) {
       document.getElementById('recaptcha-container').style.display = 'none';
       console.error('Error updating phone number: ', error);
+      hideAnimation();
       throw error;
   }
 };
@@ -633,18 +634,18 @@ export const unlinkFirebaseAuthProvider = async (providerType, userData) => {
     if (!(providerType === 'email' || providerType === 'phone')) {
       throw new Error('Invalid providerType. Expected "email" or "phone"');
     }
-    let isSuccess;
+    let updateResult;
     let noReplyEmail;
     if (providerType === 'phone') {
-      isSuccess = await unlinkFirebaseAuthenticationTrigger(providerType);
+      updateResult = await unlinkFirebaseAuthenticationTrigger(providerType);
     } else if (providerType === 'email') {
       noReplyEmail = `noreply${firebaseAuthUser.uid}@episphere.github.io`;
-      isSuccess = await addOrUpdateAuthenticationMethod(firebaseAuthUser, noReplyEmail, null, userData);
+      updateResult = await addOrUpdateAuthenticationMethod(firebaseAuthUser, noReplyEmail, null, userData);
     } else {
       console.error('bad providerType arg in unlinkFirebaseAuthProvider()');
     }
 
-    if (isSuccess === true) {
+    if (updateResult === true) {
       const changedUserDataForProfile = {};
       if (providerType === 'email') {
         changedUserDataForProfile[cId.firebaseAuthEmail] = noReplyEmail;
@@ -665,17 +666,17 @@ export const unlinkFirebaseAuthProvider = async (providerType, userData) => {
 
       return true;
     } else {
-      handleUpdatePhoneEmailErrorInUI('unlinkFirebaseAuthenticationTrigger()', isSuccess);
-      return false;
+      handleUpdatePhoneEmailErrorInUI('unlinkFirebaseAuthProvider', updateResult);
+      return updateResult.message;
     };
   } catch (error) {
     console.error('Failed to unlink provider:', error.message);
+    hideAnimation();
     return error.message;
   }
 };
 
 const handleUpdatePhoneEmailErrorInUI = (functionName, error) => {
-  console.error(`Error in (${functionName}): ${error}`);
   document.getElementById('loginUpdateFail').style.display = 'block';
   document.getElementById('loginUpdateError').innerHTML = error.message;
 };
@@ -697,6 +698,8 @@ const cleanPhoneNumber = (phoneNumber) => {
  *   if user deletes a number, set canWeVoicemail and canWeText to '' (empty string) --per spec on 05-09-2023
  *   if user updates a number, ensure the canWeVoicemail and canWeText values are set
  *   Update: 05-26-2023 do not include email addresses in user profile archiving. Exclude those keys from the history object.
+ * RE: !excludeHistoryKeys.includes(key) -> if the key is not in the excludeHistoryKeys array, then include it in the history object
+ * RE: existingUserData[key] ?? '' -> if the existingUserData[key] is null/undefined/empty, then write an empty string to the history object. This marks the change as requested by the data team.
 */
 const findChangedUserDataValues = (newUserData, existingUserData, type) => {
   const changedUserDataForProfile = {};
@@ -858,10 +861,14 @@ export const unlinkFirebaseAuthenticationTrigger = async (authToUnlink) =>  {
     if (authToUnlink === 'email') newAuthData['phone'] = phoneNumber;
     if (authToUnlink === 'phone') newAuthData['email'] = email;
 
-    const response = await processUnlinkAuthProviderWithFirebaseAdmin(newAuthData);
-    
-    hideAnimation();
-    
-    return response.code === 200 ? true : response.message;
+    try {
+      const response = await processUnlinkAuthProviderWithFirebaseAdmin(newAuthData);
+      hideAnimation();
+      return response.code === 200 ? true : response;
+    } catch (error) {
+      console.error('An error occurred:', error);
+      hideAnimation();
+      throw error;
+  }
 }
 
