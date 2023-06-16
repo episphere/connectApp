@@ -361,8 +361,8 @@ export const changeName = async (firstName, lastName, middleName, suffix, prefer
     [cId.lName]: lastName,
     [cId.suffix]: suffix,
     [cId.prefName]: preferredFirstName,
-    ['query.firstName']: firstName,
-    ['query.lastName']: lastName,
+    ['query.firstName']: firstName.toLowerCase(),
+    ['query.lastName']: lastName.toLowerCase(),
   };
 
   const { changedUserDataForProfile, changedUserDataForHistory } = findChangedUserDataValues(newValues, userData);
@@ -444,7 +444,7 @@ const handleAllEmailField = (changedUserDataForProfile, userData) => {
 
   emailTypes.forEach(emailType => {
     if (changedUserDataForProfile[emailType] && !allEmails.includes(changedUserDataForProfile[emailType])) {
-      allEmails.push(changedUserDataForProfile[emailType]);
+      allEmails.push(changedUserDataForProfile[emailType].toLowerCase());
     }
 
     if (changedUserDataForProfile[emailType] || changedUserDataForProfile[emailType] === '') {
@@ -457,7 +457,6 @@ const handleAllEmailField = (changedUserDataForProfile, userData) => {
 
   changedUserDataForProfile['query.allEmails'] = allEmails;
   
-  console.log('userData.query.allEmails - 2', allEmails);
   return changedUserDataForProfile;
 };
 
@@ -528,7 +527,7 @@ export const addOrUpdateAuthenticationMethod = async (firebaseAuthUser, email, p
     try {
       await updateFirebaseAuthEmail(firebaseAuthUser, email);
     } catch (error) {
-      console.error(error);
+      console.error(`Error: updateFirebaseAuthEmail(): ${error}`);
       throw error;
     }
   }
@@ -543,7 +542,7 @@ export const addOrUpdateAuthenticationMethod = async (firebaseAuthUser, email, p
     try {
       await updateFirebaseAuthPhone(firebaseAuthUser, phone);
     } catch (error) {
-      console.error(error);
+      console.error(`Error: updateFirebaseAuthPhone(): ${error}`);
       throw error;
     }
   }
@@ -860,7 +859,7 @@ export const unlinkFirebaseAuthenticationTrigger = async (authToUnlink) =>  {
     if (authToUnlink === 'phone') newAuthData['email'] = email;
 
     const response = await processUnlinkAuthProviderWithFirebaseAdmin(newAuthData);
-
+    
     hideAnimation();
     
     return response.code === 200 ? true : response.message;

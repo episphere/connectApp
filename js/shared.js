@@ -1280,7 +1280,7 @@ export const processUnlinkAuthProviderWithFirebaseAdmin = async(newAuthData) => 
             "Content-Type": "application/json"
         }
     });
-    console.log('response', response);
+    console.log('response - processUnlinkAuthProviderWithFirebaseAdmin', response);
     hideAnimation();
     
     if (response.status === 200) {
