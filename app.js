@@ -69,10 +69,9 @@ window.onload = async () => {
     auth = firebase.auth();
 
     auth.onAuthStateChanged(async (user) => {
+      let idToken = '';
       if (user) {
-        const idToken = await user.getIdToken();
-        appState.setState({ idToken });
-
+        idToken = await user.getIdToken();
         if (!user.isAnonymous) {
           localforage.clear();
           inactivityTime();
@@ -81,9 +80,9 @@ window.onload = async () => {
             participantData: { ...state.participantData, firstSignInTime }
           }));
         } 
-      } else {
-        appState.setState({ idToken: '' });
       }
+
+      appState.setState({ idToken });
     });
 
     if ('serviceWorker' in navigator) {
