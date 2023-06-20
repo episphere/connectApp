@@ -148,7 +148,7 @@ export const whereAmIInDashboard = async () => {
                 return 'Please go fill out your surveys <a href="#dashboard">Here</a>';
             }
             //fill out your user profile
-            return 'Please go and ill out your user profile <a href="#dashboard">Here</a>';
+            return 'Please go and fill out your user profile <a href="#dashboard">Here</a>';
         }
         //sign e-consent
         return 'Please go and sign the e-consent form <a href="#dashboard">Here</a>';
@@ -500,6 +500,10 @@ export async function signInCheckRender ({ ui }) {
       <h5>Not Found</h5>
       <div class="d-flex flex-column justify-content-left ">
         <p>Your ${account.type} (${account.value}) cannot be found.</p>
+        <p>If you’re having trouble signing in or don’t remember your account information, please contact the Connect Support Center at 
+          <a href="tel:+18664626621">1-866-462-6621</a> or 
+          <a href="mailto:ConnectStudy@norc.org">ConnectStudy@norc.org</a> before creating a new account.
+        </p>
         <p>Use another account? <a href="#" id="useAnotherAccount">Click here</a> </p>
         <p>Don't have an account? <a href="#" id="createNewAccount">Create one here</a> </p>
       <div>

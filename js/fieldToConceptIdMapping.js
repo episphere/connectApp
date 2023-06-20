@@ -29,6 +29,7 @@ export default
     "verification":821247024,
     "verified":197316935,
     "firebaseAuthEmail": 421823980,
+    "firebaseAuthPhone": 348474836,
     "userProfileSubmittedAutogen": 699625233,
     "yes": 353358909,
     "no": 104430631,
@@ -38,9 +39,9 @@ export default
     "userProfileUpdateTimestamp": 371303487,
     "profileChangeRequestedBy": 611005658,
     "firebaseSignInMechanism": 995036844,
-    "signInGoogle": 943488874,
-    "signInPassword": 101178950,
-    "signInPhone": 804918759,
+    "dataDestroyCategorical": 883668444,
+    "requestedDataDestroyNotSigned": 111959410,
+    "requestedDataDestroySigned": 704529432,
     firstSignInTime: 335767902,
 
     "heardAboutStudyForm" : 142654897,
@@ -83,7 +84,8 @@ export default
         "D_166676176":      "ModuleSsn",
         "D_299215535":      "Biospecimen",
         "D_912367929":      "MenstrualCycle",
-        "D_826163434":      "ClinicalBiospecimen"
+        "D_826163434":      "ClinicalBiospecimen",
+        "D_793330426":      "ModuleCovid19"
     },
 
     "Module1_OLD": {
@@ -145,6 +147,15 @@ export default
         "statusFlag":       "126331570", 
         "standaloneSurvey": true,
         "version":          "628939958"
+    },
+    
+    "ModuleCovid19": {
+        "conceptId":        "D_793330426", 
+        "startTs":          "268176409", 
+        "completeTs":       "784810139",  
+        "statusFlag":       "220186468", 
+        "standaloneSurvey": true,
+        "version":          "931332817"
     },
 
     "Biospecimen": {
