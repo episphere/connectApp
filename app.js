@@ -76,9 +76,7 @@ window.onload = async () => {
           localforage.clear();
           inactivityTime();
           const firstSignInTime = new Date(user.metadata.creationTime).toISOString();
-          appState.setState((state) => ({
-            participantData: { ...state.participantData, firstSignInTime }
-          }));
+            appState.setState({ participantData: { firstSignInTime } });
         } 
       }
 
