@@ -882,6 +882,7 @@ export const questionnaireModules = () => {
             'Smoking, Alcohol, and Sun Exposure': {path: 'module3Stage.txt', moduleId:"Module3", enabled:false},
             'Where You Live and Work': {path: 'module4Stage.txt', moduleId:"Module4", enabled:false},
             'Enter SSN': {path: 'ssnModule.txt', moduleId:"ModuleSsn", enabled:false},
+            'Covid-19': {path: 'moduleCOVID19Stage.txt', moduleId:"ModuleCovid19", enabled:true},
             'Biospecimen Survey': {path: 'moduleBiospecimenStage.txt', moduleId:"Biospecimen", enabled:false},
             'Clinical Biospecimen Survey': {path: 'moduleClinicalBloodUrineStage.txt', moduleId:"ClinicalBiospecimen", enabled:false},
             'Menstrual Cycle': {path: 'moduleMenstrualStage.txt', moduleId:"MenstrualCycle", enabled:false}
@@ -1242,4 +1243,28 @@ export function openNewTab(url) {
   } else {
     urlToNewTabMap[url].focus();
   }
-} 
+}
+
+export const processUnlinkAuthProviderWithFirebaseAdmin = async(newAuthData) => {
+    const authenticationDataPayload = {
+        "data": newAuthData
+    }
+  
+    const idToken = await getIdToken();
+  
+    try {
+        const response = await fetch(`${api}?api=updateParticipantFirebaseAuthentication`,{
+            method:'POST',
+            body: JSON.stringify(authenticationDataPayload),
+            headers:{
+                Authorization:"Bearer " + idToken,
+                "Content-Type": "application/json"
+            }
+        });
+        
+        return await response.json();
+    } catch (error) {
+        console.error('An error occurred in processUnlinkAuthProviderWithFirebaseAdmin():', error);
+        return { message: error.message, status: 'error' };
+    }
+};
