@@ -149,7 +149,7 @@ export const getMyData = async () => {
 
 export const hasUserData = (response) => {
 
-    return response.code === 200 && Object.keys(response.data) > 0;
+    return response.code === 200 && Object.keys(response.data).length > 0;
 }
 
 export const getMySurveys = async (data) => {
