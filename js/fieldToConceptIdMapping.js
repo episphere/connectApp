@@ -29,6 +29,7 @@ export default
     "verification":821247024,
     "verified":197316935,
     "firebaseAuthEmail": 421823980,
+    "firebaseAuthPhone": 348474836,
     "userProfileSubmittedAutogen": 699625233,
     "yes": 353358909,
     "no": 104430631,
@@ -38,9 +39,9 @@ export default
     "userProfileUpdateTimestamp": 371303487,
     "profileChangeRequestedBy": 611005658,
     "firebaseSignInMechanism": 995036844,
-    "signInGoogle": 943488874,
-    "signInPassword": 101178950,
-    "signInPhone": 804918759,
+    "dataDestroyCategorical": 883668444,
+    "requestedDataDestroyNotSigned": 111959410,
+    "requestedDataDestroySigned": 704529432,
 
     "heardAboutStudyForm" : 142654897,
 

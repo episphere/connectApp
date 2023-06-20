@@ -1238,4 +1238,28 @@ export function openNewTab(url) {
   } else {
     urlToNewTabMap[url].focus();
   }
-} 
+}
+
+export const processUnlinkAuthProviderWithFirebaseAdmin = async(newAuthData) => {
+    const authenticationDataPayload = {
+        "data": newAuthData
+    }
+  
+    const idToken = await getIdToken();
+  
+    try {
+        const response = await fetch(`${api}?api=updateParticipantFirebaseAuthentication`,{
+            method:'POST',
+            body: JSON.stringify(authenticationDataPayload),
+            headers:{
+                Authorization:"Bearer " + idToken,
+                "Content-Type": "application/json"
+            }
+        });
+        
+        return await response.json();
+    } catch (error) {
+        console.error('An error occurred in processUnlinkAuthProviderWithFirebaseAdmin():', error);
+        return { message: error.message, status: 'error' };
+    }
+};

@@ -109,7 +109,7 @@ export const renderSamplesPage = async () => {
                         </div>
                     </div>
                 
-                    ${site.name !== "Henry Ford Health" ? `
+                    ${site.name !== henry_ford.name ? `
                     <div class="row" style="width:100%">
                         <div class="consentHeadersFont" style="color:#606060;width:100%">
                             <div>
@@ -280,7 +280,7 @@ export const renderSamplesPage = async () => {
             </div>    
             `;
         }
-        
+
         document.getElementById('root').innerHTML = template;
     });
 }
@@ -519,7 +519,6 @@ const locations = [
 const renderLocations = (site) => {
     let template = '';
 
-    console.log(site.locations);
     if(site.locations){
         site.locations.forEach(location => {
             template += `

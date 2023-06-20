@@ -148,7 +148,7 @@ export const whereAmIInDashboard = async () => {
                 return 'Please go fill out your surveys <a href="#dashboard">Here</a>';
             }
             //fill out your user profile
-            return 'Please go and ill out your user profile <a href="#dashboard">Here</a>';
+            return 'Please go and fill out your user profile <a href="#dashboard">Here</a>';
         }
         //sign e-consent
         return 'Please go and sign the e-consent form <a href="#dashboard">Here</a>';
