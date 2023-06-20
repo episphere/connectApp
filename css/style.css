@@ -1077,7 +1077,7 @@ input:checked + .slider:before {
 .messagesHeaderFont{
     font-family: 'Montserrat', sans-serif;
     font-weight: bold;
-    font-size:20px;
+    font-size:23px;
     line-height:25px;
     color: #6B6B6B;
 }
@@ -1087,6 +1087,7 @@ input:checked + .slider:before {
     font-size:18px;
     line-height:27px;
     color: #2E2E2E;
+    margin: top 20px;
 }
 
 
