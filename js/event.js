@@ -1069,7 +1069,7 @@ export const addEventToggleSubmit = () => {
     })
 }
 
-export const addEventRequestPINForm = (accountCreatedAt) => {
+export const addEventRequestPINForm = () => {
     const form = document.getElementById('requestPINForm');
     form.addEventListener('submit', async e => {
         e.preventDefault();
@@ -1077,7 +1077,7 @@ export const addEventRequestPINForm = (accountCreatedAt) => {
         const pin = document.getElementById('participantPIN').value;
         const mainContent = document.getElementById('root');
         let formData = {};
-        formData["335767902"] = (new Date(parseInt(accountCreatedAt))).toISOString(); // Store account creation time
+        formData[fieldMapping.firstSignInTime] = appState.getState().participantData.firstSignInTime;
 
         if(pin && pin !== ""){
             const response = await validatePin(pin);
