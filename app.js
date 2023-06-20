@@ -1,4 +1,4 @@
-import { getParameters, validateToken, userLoggedIn, getMyData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, appState } from "./js/shared.js";
+import { getParameters, validateToken, userLoggedIn, getMyData, hasUserData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, appState } from "./js/shared.js";
 import { userNavBar, homeNavBar } from "./js/components/navbar.js";
 import { homePage, joinNowBtn, whereAmIInDashboard, renderHomeAboutPage, renderHomeExpectationsPage, renderHomePrivacyPage } from "./js/pages/homePage.js";
 import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser, addEventToggleSubmit } from "./js/event.js";
@@ -219,19 +219,22 @@ const router = async () => {
     }
     else{
         const data = await getMyData();
-        toggleNavBar(route, data);  // If logged in, pass data to toggleNavBar
 
-        if (route === '#') userProfile();
-        else if (route === '#dashboard') userProfile();
-        else if (route === '#messages') renderNotificationsPage();
-        else if (route === '#sign_out') signOut();
-        else if (route === '#forms') renderAgreements();
-        else if (route === '#myprofile') renderSettingsPage();
-        else if (route === '#support') renderSupportPage();
-        else if (route === '#samples') renderSamplesPage();
-        else if (route === '#payment') renderPaymentPage();
-        else if (route === '#verified') renderVerifiedPage();
-        else window.location.hash = '#';
+        if(hasUserData(data)) {
+            toggleNavBar(route, data);  // If logged in, pass data to toggleNavBar
+
+            if (route === '#') userProfile();
+            else if (route === '#dashboard') userProfile();
+            else if (route === '#messages') renderNotificationsPage();
+            else if (route === '#sign_out') signOut();
+            else if (route === '#forms') renderAgreements();
+            else if (route === '#myprofile') renderSettingsPage();
+            else if (route === '#support') renderSupportPage();
+            else if (route === '#samples') renderSamplesPage();
+            else if (route === '#payment') renderPaymentPage();
+            else if (route === '#verified') renderVerifiedPage();
+            else window.location.hash = '#';   
+        }
     }
 }
 
@@ -299,7 +302,7 @@ const userProfile = () => {
                 return;
             }
             
-            if (userData.code === 200) {
+            if (hasUserData(userData)) {
 
                 const myData = userData.data;
                 const myCollections = await getMyCollections();

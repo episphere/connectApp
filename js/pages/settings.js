@@ -1,5 +1,5 @@
-import { allStates, showAnimation, hideAnimation, getMyData } from '../shared.js';
-import { attachTabEventListeners, addOrUpdateAuthenticationMethod, changeContactInformation, changeMailingAddress, changeName, checkAuthDataConsistency, formatFirebaseAuthPhoneNumber, FormTypes, getCheckedRadioButtonValue, handleContactInformationRadioButtonPresets, handleOptionalFieldVisibility, hideOptionalElementsOnShowForm, hideSuccessMessage, openUpdateLoginForm, showAndPushElementToArrayIfExists, showEditButtonsOnUserVerified, suffixList, suffixToTextMap, toggleElementVisibility, togglePendingVerificationMessage, unlinkFirebaseAuthProvider, updatePhoneNumberInputFocus, validateContactInformation, validateLoginEmail, validateLoginPhone, validateMailingAddress, validateName } from '../settingsHelpers.js';
+import { allStates, showAnimation, hideAnimation, getMyData, hasUserData } from '../shared.js';
+import { changeEmail, changeContactInformation, changeMailingAddress, changeName, FormTypes, getCheckedRadioButtonValue, handleContactInformationRadioButtonPresets, handleOptionalFieldVisibility, hideOptionalElementsOnShowForm, hideSuccessMessage, showAndPushElementToArrayIfExists, showEditButtonsOnUserVerified, suffixList, suffixToTextMap, toggleElementVisibility, togglePendingVerificationMessage, updatePhoneNumberInputFocus, validateContactInformation, validateEmailAddress, validateMailingAddress, validateName } from '../settingsHelpers.js';
 import { addEventAddressAutoComplete } from '../event.js';
 import cId from '../fieldToConceptIdMapping.js';
 
@@ -72,7 +72,7 @@ export const renderSettingsPage = async () => {
   showAnimation();
   const myData = await getMyData();
 
-  if (!myData || !myData.data || myData.code !== 200) {
+  if (!hasUserData(myData)) {
     template += `${profileIsIncomplete()}`;
     buildPageTemplate();
   } else {
@@ -532,7 +532,7 @@ export const toggleButtonText = () => {
 
 const refreshUserDataAfterEdit = async () => {
   const updatedUserData = await getMyData();
-  if (updatedUserData.code === 200) {
+  if (hasUserData(updatedUserData)) {
     userData = updatedUserData.data;
   }
 };

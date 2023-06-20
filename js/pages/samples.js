@@ -1,9 +1,12 @@
-import { getMyData } from "../shared.js";
+import { getMyData, hasUserData } from "../shared.js";
 
 export const renderSamplesPage = async () => {
     document.title = 'My Connect - Samples';
 
     getMyData().then(res => {
+
+        if(!hasUserData(res)) return;
+        
         const site = locations.filter(location => location.concept == res.data['827220437'])[0];
         
         let template; 
