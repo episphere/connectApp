@@ -283,8 +283,7 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
     else if(data['379080287']){
         mainContent.innerHTML = requestPINTemplate();
         addEventPinAutoUpperCase();
-        let user = firebase.auth().currentUser;
-        addEventRequestPINForm(user.metadata.a);
+        addEventRequestPINForm();
         addEventToggleSubmit();
         hideAnimation();
     }

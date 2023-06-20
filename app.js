@@ -15,6 +15,7 @@ import { renderVerifiedPage } from "./js/pages/verifiedPage.js";
 import { firebaseConfig as devFirebaseConfig } from "./dev/config.js";
 import { firebaseConfig as stageFirebaseConfig } from "./stage/config.js";
 import { firebaseConfig as prodFirebaseConfig } from "./prod/config.js";
+import conceptIdMap from "./js/fieldToConceptIdMapping.js";
 
 let auth = '';
 
@@ -68,17 +69,18 @@ window.onload = async () => {
     auth = firebase.auth();
 
     auth.onAuthStateChanged(async (user) => {
+      let idToken = '';
       if (user) {
-        const idToken = await user.getIdToken();
-        appState.setState({ idToken });
-
+        idToken = await user.getIdToken();
         if (!user.isAnonymous) {
           localforage.clear();
           inactivityTime();
+          const firstSignInTime = new Date(user.metadata.creationTime).toISOString();
+          appState.setState({ participantData: { firstSignInTime } });
         } 
-      } else {
-        appState.setState({ idToken: '' });
       }
+
+      appState.setState({ idToken });
     });
 
     if ('serviceWorker' in navigator) {
@@ -243,12 +245,13 @@ const userProfile = () => {
             if(href.includes(specialParameter)) href = href.substr(href.indexOf(specialParameter) + specialParameter.length, href.length);
             const parameters = getParameters(href);
             showAnimation();
-            
-            if(parameters && parameters.token){
-                await validateToken(parameters.token);
-                await storeResponse({
-                  335767902: new Date(parseInt(user.metadata.a)).toISOString(),
-                });
+
+            if (parameters?.token) {
+                const response = await validateToken(parameters.token); // Add uid and sign-in flag if token is valid
+                if (response.code === 200) {
+                    const firstSignInTime = new Date(user.metadata.creationTime).toISOString();
+                    await storeResponse({[conceptIdMap.firstSignInTime]: firstSignInTime});
+                }
             }
 
             const userData = await getMyData();
@@ -306,7 +309,7 @@ const userProfile = () => {
             else {
                 mainContent.innerHTML = requestPINTemplate();
                 addEventPinAutoUpperCase();
-                addEventRequestPINForm(user.metadata.a);
+                addEventRequestPINForm();
                 addEventToggleSubmit();
                 hideAnimation();
             }
