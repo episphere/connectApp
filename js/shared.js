@@ -152,6 +152,10 @@ export const hasUserData = (response) => {
     return response.code === 200 && Object.keys(response.data).length > 0;
 }
 
+export const successResponse = (response) => {
+    return response.code === 200
+}
+
 export const getMySurveys = async (data) => {
     
     const idToken = await getIdToken();
