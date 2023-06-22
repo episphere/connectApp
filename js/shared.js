@@ -140,11 +140,20 @@ export const getMyData = async () => {
     const idToken = await getIdToken();
     const response = await fetch(`${api}?api=getUserProfile`, {
         headers: {
-            Authorization: "Bearer " + idToken
-        }
-    })
+            Authorization: 'Bearer ' + idToken,
+        },
+    });
 
     return response.json();
+};
+
+export const hasUserData = (response) => {
+
+    return response.code === 200 && Object.keys(response.data).length > 0;
+}
+
+export const successResponse = (response) => {
+    return response.code === 200
 }
 
 export const getMySurveys = async (data) => {
@@ -877,6 +886,7 @@ export const questionnaireModules = () => {
             'Smoking, Alcohol, and Sun Exposure': {path: 'module3Stage.txt', moduleId:"Module3", enabled:false},
             'Where You Live and Work': {path: 'module4Stage.txt', moduleId:"Module4", enabled:false},
             'Enter SSN': {path: 'ssnModule.txt', moduleId:"ModuleSsn", enabled:false},
+            'Covid-19': {path: 'moduleCOVID19Stage.txt', moduleId:"ModuleCovid19", enabled:true},
             'Biospecimen Survey': {path: 'moduleBiospecimenStage.txt', moduleId:"Biospecimen", enabled:false},
             'Clinical Biospecimen Survey': {path: 'moduleClinicalBloodUrineStage.txt', moduleId:"ClinicalBiospecimen", enabled:false},
             'Menstrual Cycle': {path: 'moduleMenstrualStage.txt', moduleId:"MenstrualCycle", enabled:false}
@@ -1158,8 +1168,9 @@ function wrapToDiv(nodes) {
 export const delay = async (ms) =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
-export const validEmailFormat =
-  /^[a-zA-Z0-9-.!#$%&'*+/=?^_`{|}~]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+export const validEmailFormat = /^[a-zA-Z0-9.!#$%&'*+"\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,63}$/;
+
+export const validNameFormat = /^[A-Za-zÀ-ÖØ-öø-ÿ\s'\-.]+$/i;
 
 // valid phone number examples: +1 123-456-789, 1-123-456-7890, 123-456-7890, 1234567890, 123.456 7890, (123)456-7890, (123) 456-7890, 123 456.7890, 123 456-7890, 123-456.7890, etc.
 export const validPhoneNumberFormat =
@@ -1236,4 +1247,28 @@ export function openNewTab(url) {
   } else {
     urlToNewTabMap[url].focus();
   }
-} 
+}
+
+export const processUnlinkAuthProviderWithFirebaseAdmin = async(newAuthData) => {
+    const authenticationDataPayload = {
+        "data": newAuthData
+    }
+  
+    const idToken = await getIdToken();
+  
+    try {
+        const response = await fetch(`${api}?api=updateParticipantFirebaseAuthentication`,{
+            method:'POST',
+            body: JSON.stringify(authenticationDataPayload),
+            headers:{
+                Authorization:"Bearer " + idToken,
+                "Content-Type": "application/json"
+            }
+        });
+        
+        return await response.json();
+    } catch (error) {
+        console.error('An error occurred in processUnlinkAuthProviderWithFirebaseAdmin():', error);
+        return { message: error.message, status: 'error' };
+    }
+};

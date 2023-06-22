@@ -11,9 +11,14 @@ export default
     "suffix":506826178,
     "homePhone":438643922,
     "prefEmail":869588347,
+    "additionalEmail1":849786503,
+    "additionalEmail2":635101039,
     "cellPhone":388711124,
     "otherPhone":793072415,
     "prefContact":524461170,
+    "canWeVoicemailMobile":271757434,
+    "canWeVoicemailHome":187894482,
+    "canWeVoicemailOther":983278853,
     "canWeText":646873644,
     "address1":521824358,
     "address2":442166669,
@@ -23,8 +28,45 @@ export default
     "healthcareProvider":827220437,
     "verification":821247024,
     "verified":197316935,
+    "firebaseAuthEmail": 421823980,
+    "firebaseAuthPhone": 348474836,
+    "userProfileSubmittedAutogen": 699625233,
+    "yes": 353358909,
+    "no": 104430631,
     "consentVersion": 454205108,
     "hipaaVersion": 412000022,
+    "userProfileHistory": 569151507,
+    "userProfileUpdateTimestamp": 371303487,
+    "profileChangeRequestedBy": 611005658,
+    "firebaseSignInMechanism": 995036844,
+    "dataDestroyCategorical": 883668444,
+    "requestedDataDestroyNotSigned": 111959410,
+    "requestedDataDestroySigned": 704529432,
+    firstSignInTime: 335767902,
+
+    "heardAboutStudyForm" : 142654897,
+
+    "heardAboutStudyCheckBoxes":{
+        checkbox1: 196856782,
+        checkbox2: 461488577,
+        checkbox3: 942255248,
+        checkbox4: 791389099,
+        checkbox5: 642287621,
+        checkbox6: 607081902,
+        checkbox7: 549687190,
+        checkbox8: 326825649,
+        checkbox9: 819377306,
+        checkbox10: 829269606,
+        checkbox11: 462314689,
+        checkbox12: 639721694,
+        checkbox13: 177402915,
+        checkbox14: 684726272,
+        checkbox15: 241590841,
+        checkbox16: 206879104,
+        checkbox17: 520301146,
+        checkbox18: 285130077,
+        checkbox19: 967372009,
+    },
 
     moduleStatus: {
         notStarted:     972455046,
@@ -42,7 +84,8 @@ export default
         "D_166676176":      "ModuleSsn",
         "D_299215535":      "Biospecimen",
         "D_912367929":      "MenstrualCycle",
-        "D_826163434":      "ClinicalBiospecimen"
+        "D_826163434":      "ClinicalBiospecimen",
+        "D_793330426":      "ModuleCovid19"
     },
 
     "Module1_OLD": {
@@ -104,6 +147,15 @@ export default
         "statusFlag":       "126331570", 
         "standaloneSurvey": true,
         "version":          "628939958"
+    },
+    
+    "ModuleCovid19": {
+        "conceptId":        "D_793330426", 
+        "startTs":          "268176409", 
+        "completeTs":       "784810139",  
+        "statusFlag":       "220186468", 
+        "standaloneSurvey": true,
+        "version":          "931332817"
     },
 
     "Biospecimen": {

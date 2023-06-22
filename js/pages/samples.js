@@ -1,9 +1,12 @@
-import { getMyData } from "../shared.js";
+import { getMyData, hasUserData } from "../shared.js";
 
 export const renderSamplesPage = async () => {
     document.title = 'My Connect - Samples';
 
     getMyData().then(res => {
+
+        if(!hasUserData(res)) return;
+        
         const site = locations.filter(location => location.concept == res.data['827220437'])[0];
         
         let template; 
@@ -108,6 +111,8 @@ export const renderSamplesPage = async () => {
                             </div>
                         </div>
                     </div>
+                
+                    ${site.name !== henry_ford.name ? `
                     <div class="row" style="width:100%">
                         <div class="consentHeadersFont" style="color:#606060;width:100%">
                             <div>
@@ -119,7 +124,9 @@ export const renderSamplesPage = async () => {
                                 ${site.whatHappens}
                             </div>
                         </div>
-                    </div>
+                    </div>` 
+                    : '' 
+                    }
                     <div class="row" style="width:100%">
                         <div class="consentHeadersFont" style="color:#606060;width:100%">
                             <div>
@@ -276,7 +283,7 @@ export const renderSamplesPage = async () => {
             </div>    
             `;
         }
-        
+
         document.getElementById('root').innerHTML = template;
     });
 }
@@ -328,7 +335,7 @@ const marshfield = {
     name: 'Marshfield',
     donatingSamples: 'As part of Connect, we ask you to donate blood, urine, and saliva samples and complete a short survey.',
     whenToDonate: 'The Connect team will send you an email when it is time to donate your samples. Be sure to check your spam or junk folder. After you receive the email, it is important to donate your samples as soon as you can. It is easy to donate all of your samples in one visit.<br><br><span style="font-weight:900; text-decoration:underline">Note:</span> If you have recently had a blood transfusion or donated blood, please wait at least <span style="font-weight:900; text-decoration:underline">eight weeks</span> from your donation or transfusion before donating your samples for Connect. If you have recently donated plasma, please wait at least <span style="font-weight:900; text-decoration:underline">two days</span> from your plasma donation before donating samples for Connect. If you have an upcoming colonoscopy, please be sure that you <span style="font-weight:900; text-decoration:underline">do not</span> donate samples for Connect on the <span style="font-weight:900; text-decoration:underline">same day</span> as your colonoscopy.',
-    howToDonate: 'When you receive the email, please call Marshfield Clinic Research Institute at 715-898-9444 to schedule an appointment to donate your samples at a time that is convenient for you.',
+    howToDonate: 'The email we send you will contain a link to schedule an appointment. Simply click the link to schedule a time that is convenient for you to donate your samples. You can also call Marshfield Clinic Research Institute at 715-898-9444 to schedule an appointment, or a Connect team member will call you to schedule an appointment to donate your samples at a time that is convenient for you.',
     scheduling: 'For questions and scheduling please call: 715-898-9444 or email <a href="mailto: connectstudy@marshfieldresearch.org">connectstudy@marshfieldresearch.org</a>.<br><br>All patients and visitors are required to wear a mask. If you enter the building without a mask, we will give one to you. If you are unable to wear a mask for the duration of the visit, we ask that you do not schedule your visit at this time.',
     howLong: 'Please expect to spend an average of one hour at your appointment to donate your samples and complete a short survey.',
     prepareInstructions: 'On the day of your appointment, please drink plenty of water, but <span style="font-weight:900; text-decoration:underline">stop drinking water one hour before your appointment.</span><br><br><span style="font-weight:900; text-decoration:underline">One hour before your appointment:</span> Please <span style="font-weight:900; text-decoration:underline">do not</span> eat, drink any liquids (including water), chew gum, smoke, vape, or chew any products (including tobacco), rinse your mouth, or brush your teeth.<br><br><span style="font-weight:900; text-decoration:underline">Things to bring and remember:</span><br><br><ul><li>Make sure you know your login information for the MyConnect app.</li><li>We will ask you to complete a short survey when you donate your samples. It may be helpful to have this information on hand:<ul><li>The last time you ate or drank, and the times you went to sleep the night before your appointment and woke up on the day of your appointment.</li><li>If you are menstruating, the start date of your most recent menstrual period in the last 12 months.</li><li>Information and dates regarding COVID-19 testing, symptoms, recovery information (including any hospital stay and treatment), and your vaccination status.</li></ul></li></ul>',
@@ -338,19 +345,25 @@ const marshfield = {
         [
             'Marshfield Clinic, Marshfield Center',
             '1000 N. Oak Ave<br>Marshfield, WI 54449',
-            'Monday - Friday: 8:00 a.m.-2:00 p.m. *please ask about early morning or evening appointment availability if needed',
+            'Monday - Thursday: 7:00 a.m. - 4:00 p.m. and Friday 7a.m. - noon',
             'General parking available'
         ],
         [
             'Lake Hallie Center',
             '12961 27th Ave<br>Chippewa Falls, WI 54729',
-            'Monday - Friday: 10:00 a.m.-2:00 p.m. *please ask about early morning or evening appointment availability if needed',
+            'Monday, Tuesday, Thursday: 8:00 a.m. - 2:00 p.m.<br> Wednesday: 7:00 a.m. - 2:00 p.m.',
             'General parking available'
         ],
         [
             'Weston Center',
             '3400 Ministry Pkwy<br>Weston, WI 54476',
-            'Monday - Friday: 8:00 a.m. to 2:00 p.m. *please ask about early morning or evening appointment availability if needed',
+            'Mondays and Thursdays: 8:00 a.m. - 1:00 p.m. *please ask about evening and Friday appointment availability if needed',
+            'General parking available'
+        ],
+        [
+            'Wisconsin Rapids Center',
+            '220 24th St S,<br>Wisconsin Rapids,WI 54494',
+            'Thursdays: 7:00 a.m. - 4:00 p.m. <br> Fridays: 7:00 a.m. - 10:00 a.m.',
             'General parking available'
         ]
     ]
@@ -359,28 +372,39 @@ const marshfield = {
 const henry_ford = {
     concept: '548392715',
     name: 'Henry Ford Health',
-    donatingSamples: 'As part of Connect, we ask you to donate blood, urine, and saliva samples and complete a short survey.',
-    whenToDonate: 'The Connect team will send you an email when it is time to donate your samples. Be sure to check your spam or junk folder. After you receive the email, it is important to donate your samples as soon as you can. It is easy to donate all of your samples in one visit.<br><br><span style="font-weight:900; text-decoration:underline">Note:</span> If you have recently had a blood transfusion or donated blood, please wait at least <span style="font-weight:900; text-decoration:underline">eight weeks</span> from your donation or transfusion before donating your samples for Connect. If you have recently donated plasma, please wait at least <span style="font-weight:900; text-decoration:underline">two days</span> from your plasma donation before donating samples for Connect. If you have an upcoming colonoscopy, please be sure that you <span style="font-weight:900; text-decoration:underline">do not</span> donate samples for Connect on the <span style="font-weight:900; text-decoration:underline">same day</span> as your colonoscopy.',
-    howToDonate: 'The email we send you will contain a link to schedule an appointment. Simply click the link to schedule a time that is convenient for you to donate your samples. You can also call Henry Ford Health\'s Connect line at 855-574-7540 to schedule an appointment, or a Connect team member will call you to schedule an appointment to donate your samples at a time that is convenient for you.',
+    donatingSamples: 'Thank you for being part of Connect. As part of the study, we ask you to donate blood, urine, and saliva samples.',
+    whenToDonate: 'The Connect team will send you an email when it is time to donate your samples. Be sure to check your spam or junk folder. After you receive the email, it is important to donate your samples as soon as you can.<br><br><span style="font-weight:900; text-decoration:bold">Important Notes:</span><br><br><ol><li> If you have had a blood transfusion or donated blood recently:<br> Please wait at least <span style="font-weight:900; text-decoration:bold">eight weeks</span> from your donation or transfusion before donating your samples for Connect.</li><br><li> If you have recently donated plasma:<br> Please wait at least <span style="font-weight:900; text-decoration:bold">two days</span> from your plasma donation before donating samples for Connect.</li><br><li> If you have an upcoming colonoscopy:<br> Please be sure that you <span style="font-weight:900; text-decoration:bold">do not</span> donate samples for Connect on the <span style="font-weight:900; text-decoration:bold">same day</span> as your colonoscopy.</li></ol>',
+    howToDonate: 'Connect participants at Henry Ford Health have two options for donating samples. You can choose the most convenient option for you.<br><br><span style="font-weight:900; text-decoration:bold">Option 1:</span> Make an appointment to come into one of our Connect Research Labs to donate your samples.<br><br><span style="font-weight:900; text-decoration:bold">Option 2:</span> A study team member can request a lab order be placed for you. After you receive the order confirmation email, you can donate samples by visiting a participating Henry Ford Health Lab Services location during normal hours of operation.<br><br> The table below includes more information about these options.<br><br><table border="1"><tr><th>Option 1: Connect Research Lab </th><th>Option 2: HFH Lab Services</th></tr><tr><td>Connect team will greet you and walk you through your visit.</td><td>More hours and more locations, no need to schedule an appointment.</td></tr><tr><td>The team will draw blood, collect urine, and collect a saliva sample by asking you to swish with mouthwash.</td><td>Lab staff will collect blood and urine samples at your visit. We will send a mouthwash collection kit and instructions to you to complete your saliva sample at home.</td></tr><tr><td>Schedule your appointment using the link in the email we send or schedule with Connect staff by calling 855-574-7540.</td><td>Request a lab order using the link in the email we send. The order will be placed by Connect staff.<span style="font-weight:900; text-decoration:bold"> Please allow up to 48 hours to receive order confirmation via email.</span> Once you receive the confirmation email, visit a participating HFH Lab Services location.<span style="font-weight:900; text-decoration:bold"> Orders expire after 90 days.</span></td></tr></table><br>When it is time to donate your samples, we will send you an email with a link to make your selection. Simply click the link to schedule a time that works for you to donate your samples at a Connect Research Lab or to request a lab order be placed so you can donate samples at a participating Henry Ford Health Lab Services location. <br><br> You can donate Connect samples and complete any labs ordered by your provider in the same visit.<br><br><span style="font-weight:900; text-decoration:bold">For questions or assistance with transportation, please call 855-574-7540 or email <a href="mailto:ConnectStudy@hfhs.org">ConnectStudy@hfhs.org</a></span>',
     scheduling: 'For questions and scheduling please call 855-574-7540 or email <a href="mailto: ConnectStudy@hfhs.org">ConnectStudy@hfhs.org</a>.<br><br><em>All patients and visitors are required to wear a mask. If you enter the building without a mask, we will give one to you. If you are unable to wear a mask for the duration of the visit, we ask that you do not schedule your visit at this time.</em>',
-    howLong: 'Please expect to spend about one hour at your appointment to donate your samples and complete a short survey.',
-    prepareInstructions: 'On the day of your appointment, please drink plenty of water to keep hydrated but, <span style="font-weight:900; text-decoration:underline">stop drinking water one hour before your appointment.</span><br><br><span style="font-weight:900; text-decoration:underline">One hour before your appointment:</span> Please <span style="font-weight:900; text-decoration:underline">do not</span> eat, drink, chew gum, smoke, vape, or chew any products (including tobacco), rinse your mouth, or brush your teeth.<br><br><span style="font-weight:900; text-decoration:underline">Things to bring and remember:</span><br><br><ul><li>We will ask you to complete a short survey when you donate your samples. You will need your login information for the MyConnect app to complete the survey. It may also be helpful to have this information:<ul><li>The last time you ate or drank before your appointment, and the times you went to sleep the night before your appointment and woke up on the day of your appointment.</li><li>If you are menstruating, the start date of your most recent menstrual period in the last 12 months.</li><li>Information and dates regarding COVID-19 testing, symptoms, recovery information (including any hospital stay and treatment), and vaccination status.</li></ul></li></ul>',
-    whatHappens: 'The Connect team will check you in for your appointment and then collect your samples. At the end of your visit, the Connect team will check you out of your appointment.<br><br>We will draw a blood sample, collect a urine sample, and collect a saliva sample by asking you to swish with mouthwash.<br><br>We will also ask you to complete a short survey on the MyConnect app using your mobile phone. You will need your MyConnect app login information to complete the survey. If you do not have a mobile phone, we will provide you with a tablet to complete your survey. We strongly encourage you to complete your survey at your appointment. If you choose to complete it after you leave your appointment, it is important to do so as soon as possible.<br><br>At your appointment, we will ask you to complete your first Connect survey if you haven\'t already done so. If you are able to complete this survey before your appointment, it will save you time. You will receive your $25 gift card after you donate a blood sample and complete your first survey.',
+    howLong: '<span style="font-weight:900; text-decoration:bold">For Option 1: Connect Research Lab Appointment</span><br>Please expect to spend about one hour at your appointment to donate your samples and complete a short survey.<br><span style="font-weight:500; text-decoration:bold">For Option 2: Henry Ford Health Lab Services Locations</span><br>Wait times to donate samples may vary by location. To better serve HFH patients, Henry Ford Lab Services have started using <span style="font-weight:900; text-decoration:bold">“Save My Spot".</span><br><br><span style="font-weight:900; text-decoration:bold">“Save My Spot"</span> is an optional service to reserve your spot in line at one of the participating Henry Ford Health Lab Services locations (Macomb and Wyandotte). All lab orders must be placed before using “Save My Spot,” including your lab order for Connect.<br><br>To use this optional service, click this link only after receiving order confirmation from Connect staff: <a href= "https://www.henryford.com/locations/henry-ford-hospital/lab-services">https://www.henryford.com/locations/henry-ford-hospital/lab-services</a> ',
+    prepareInstructions: 'On the day of your visit to donate samples for Connect, you do not need to fast unless told to do so by your provider for any other lab work they’ve ordered. We request you drink plenty of water to keep hydrated but <span style="font-weight:900; text-decoration:bold">stop drinking water one hour before your visit.</span><br><br><span style="font-weight:900; text-decoration:bold">One hour before your visit:</span> Please <span style="font-weight:900; text-decoration:bold">do not</span> eat, drink, chew gum, smoke, vape, or chew any products (including tobacco), rinse your mouth, or brush your teeth.<br><br><span style="font-weight:900; text-decoration:bold">Things to bring and remember:</span><br><br>We will ask you to complete a short survey on MyConnect after you donate samples. You will need your login method for MyConnect and a personal device to complete the survey. <br><br>You will be asked questions related to:<ul><li>The last time you ate or drank before your appointment, and the time you went to sleep the night before your appointment and woke up on the day of your appointment.</li><li>If you are menstruating, the start date of your most recent menstrual period in the last 12 months.</li></ul><br><div class="consentHeadersFont" style="color:#606060;width:100%">When Will I Receive My $25 Payment?</div><br>You will receive your $25 gift card after you donate a blood sample and complete all four sections of your first Connect survey.<br><br>You can find the four sections of your first survey on your MyConnect Dashboard. These sections are:<ol><li>Background and Overall Health</li><li>Medications, Reproductive Health, Exercise, and Sleep</li><li>Smoking, Alcohol, and Sun Exposure</li><li>Where you Live and Work</li>',
     support: 'Call 1-877-505-0253 (9:00 a.m.-11:00 p.m. ET on weekdays and 10:00 a.m.-7:00 p.m. ET on weekends)',
-    locationNotes: 'Henry Ford Health plans to open new collection locations and expand appointment times this year. If you don\'t see a location or time below that is convenient for you, please check back soon. <br><br>Henry Ford Health currently offers two locations in the Detroit area:<br></br><p>Henry Ford Hospital - Detroit</p><p>Henry Ford Medical Center - Livonia</p>',
+    locationNotes: '<h4>Option 1: Connect Research Labs</h4>',
     locations: [
         [
             'Henry Ford Hospital - Detroit, K13 Research Clinic',
             '2799 W Grand Blvd<br>K Building, Floor 13<br>Detroit, MI 48202<br>(888) 777-4167',
-            'Tuesday and Thursday 9:00 a.m. – 5:00 p.m.',
+            'Tuesday and Thursday 9:00 a.m. - 3:30 p.m. Wednesday 9:30 a.m. - 3:30 p.m.',
             'Free self-parking available to visitors. Lots located near each hospital entrance (Main, West, East) or use the parking garage on the Lodge service drive, near Bethune.'
         ],
         [
             'Henry Ford Medical Center - Livonia',
             '29200 Schoolcraft Road<br>Radiology, Floor 1<br>Livonia, MI 48150<br>(734) 523-1050',
-            'Mondays 9:00 a.m. to 4:00 p.m.',
-            'Easy, free self-parking is available in the surface lot in front of the building. From the service drive, turn into the lot near the Aldi and head towards the back of the plaza. The medical center, and parking lot, are located behind Aldi.'
-        ]
+            'Mondays, Tuesdays and Wednesdays 9:00 a.m. - 4:00 p.m.',
+            'Easy, free self-parking is available in the surface lot in front of the building. From the service drive, turn into the lot near the Aldi and head towards the back of the plaza. The medical center, and parking lot, are located behind Aldi.<br><br><br><h4><div class="consentHeadersFont" style="color:#606060;width:100%">Option 2: Henry Ford Health Lab Services locations</div></h4>',
+        ],
+        [
+           'Henry Ford Hospital- Macomb',  
+           '16151 19 Mile Road<br> Ste 110<br>Clinton Township, MI 48038<br>Location: First Floor, Suite 110',
+           'Monday to Thursday 6:00 a.m. - 7:00 p.m. <br>Friday 6:00 a.m. - 5:00 p.m. <br>Saturday 6:00 a.m. - 12:00 p.m.',
+           'All self-parking at Henry Ford Macomb Hospital is free. Self-parking areas are available near the Main entrance, Medical Pavilion and Emergency entrance. Wheelchairs are available at all entrances.',
+        ],
+        [
+          'Henry Ford Hospital- Wyandotte',
+          '2333 Biddle Ave<br> Wyandotte, MI 48192<br> Location: First Floor Lab Services',
+          'Monday to Friday 8:00 a.m. - 4:15 p.m. <br> Saturday 7:00 a.m. - 12:00 p.m.',
+          'Parking lots are conveniently located near all hospital entrances for those who do not wish to use valet. Wheelchairs are available at all entrances and handicapped parking is available in each parking area. Valet parking is available at all hospital entrances for $3.00. This service is not available on holidays.',
+        ],
     ]
 };
 
@@ -388,10 +412,10 @@ const u_chicago = {
     concept: '809703864',
     name: 'UChicago Medicine',
     donatingSamples: 'As part of  Connect, we ask you to donate blood, urine, and saliva samples and complete a short survey.',
-    whenToDonate: 'The Connect team will send you an email when it is time to donate your samples. Be sure to check your spam or junk folder. After you receive the email, it is important to donate your samples as soon as you can. It is easy to donate all of your samples in one visit.<br><br><span style="font-weight:900; text-decoration:underline">Note:</span> If you have recently had a blood transfusion or donated blood, please wait at least <span style="font-weight:900; text-decoration:underline">eight weeks</span> from your donation or transfusion before donating your samples for Connect. If you have recently donated plasma, please wait at least <span style="font-weight:900; text-decoration:underline">two days</span> from your plasma donation before donating samples for Connect. If you have an upcoming colonoscopy, please be sure that you <span style="font-weight:900; text-decoration:underline">do not</span> donate samples for Connect on the <span style="font-weight:900; text-decoration:underline">same day</span> as your colonoscopy.',
+    whenToDonate: 'The Connect team will send you an email when it is time to donate your samples. Be sure to check your spam or junk folder. After you receive the email, it is important to donate your samples as soon as you can. It is easy to donate all of your samples in one visit.<br><br><span style="font-weight:900; text-decoration:underline">Note:</span> If you have recently had a blood transfusion or donated blood please wait at least <span style="font-weight:900; text-decoration:underline">eight weeks</span> from your transfusion or donation before donating your samples for Connect. If you have recently donated plasma, please wait at least <span style="font-weight:900; text-decoration:underline">two days</span> from your plasma donation before donating samples for Connect. If you have an upcoming colonoscopy, please be sure that you <span style="font-weight:900; text-decoration:underline">do not</span> donate samples for Connect on the <span style="font-weight:900; text-decoration:underline">same day</span> as your colonoscopy.',
     howToDonate: 'The email we send you will contain a link to schedule an appointment. Simply click the link to schedule a time that is convenient for you to donate your samples. You can also call UChicago at (773) 834-5804  or walk into a clinic location below without scheduling an appointment. Please note that the wait time for a walk-in sample donation may be longer than for a scheduled appointment.',
     howLong: 'If you complete your first Connect survey before your appointment, please expect to spend about 45 minutes at your appointment to donate your samples and complete a short survey',
-    prepareInstructions: '<em>All patients and visitors are required to wear a mask per UChicago Medicine mask policy. If you enter the building without a mask, we will give one to you. If you are unable to wear a mask for the duration of the visit, we ask that you do not schedule your visit at this time.</em><br><br>Hand sanitizer will be available for your use, and staff will check your temperature when you arrive. All patients and visitors are required to practice social distancing while in our clinics and hospitals.<br><br>On the day of your appointment, you do not need to fast. We request you to drink plenty of water to keep hydrated, but <span style="font-weight:900; text-decoration:underline">stop drinking water one hour before your appointment.</span><br><br><span style="font-weight:900; text-decoration:underline">One hour before your appointment:</span> Please <span style="font-weight:900; text-decoration:underline">do not</span> eat, drink any liquids (including water), chew gum, smoke, vape, or chew any products (including tobacco), rinse your mouth, or brush your teeth.<br><br><span style="font-weight:900; text-decoration:underline">Things to bring and remember:</span><br><br><ul><li>Please remember to bring a valid photo ID that is not expired (driver\'s license, passport, Chicago CityKey, school photo ID, or other photo ID)</li><li>Make sure you know your login information for the MyConnect app</li><li>We will ask you to complete a short survey when you donate your samples. It may be helpful to have this information on hand:<ul><li>The last time you ate or drank before your appointment, and the times you went to sleep the night before your appointment and woke up on the day of your appointment.</li><li>If you are menstruating, the start date of your most recent menstrual period in the last 12 months.</li><li>Information and dates regarding COVID-19 testing, symptoms, recovery information (including any hospital stay and treatment), and vaccination status.</li></ul></li></ul>',
+    prepareInstructions: '<em>All patients and visitors are required to wear a mask per UChicago Medicine mask policy. If you enter the building without a mask, we will give one to you. If you are unable to wear a mask for the duration of the visit, we ask that you do not schedule your visit at this time.</em><br><br>Hand sanitizer will be available for your use, and staff will check your temperature when you arrive. All patients and visitors are required to practice social distancing while in our clinics and hospitals.<br><br>On the day of your appointment, you do not need to fast. We request you to drink plenty of water to keep hydrated, but <span style="font-weight:900; text-decoration:underline">stop drinking water one hour before your appointment.</span><br><br><span style="font-weight:900; text-decoration:underline">One hour before your appointment:</span> Please <span style="font-weight:900; text-decoration:underline">do not</span> eat, drink any liquids (including water), chew gum, smoke, vape, or chew any products (including tobacco), rinse your mouth, or brush your teeth.<br><br><span style="font-weight:900; text-decoration:underline">Things to bring and remember:</span><br><br><ul><li>Please remember to bring a valid photo ID that is not expired (driver\'s license, passport, Chicago CityKey, school photo ID, or other photo ID)</li><li>Make sure you know your login information for the MyConnect app</li><li>We will ask you to complete a short survey when you donate your samples. It may be helpful to have this information on hand:<ul><li>The last time you ate or drank before your appointment, and the times you went to sleep the night before your appointment and woke up on the day of your appointment.</li><li>If you are menstruating, the start date of your most recent menstrual period in the last 12 months.</li></ul></li></ul>',
     whatHappens: 'The research team will check you in for your appointment and then collect your samples. At the end of your visit, the research team will check you out of your appointment.<br><br>We will draw a blood sample, collect a urine sample, and collect a saliva sample by asking you to swish with mouthwash.<br><br>We will also ask you to complete a short survey on the MyConnect app using your mobile phone. You will need your MyConnect app login information to complete the survey. If you do not have a mobile phone, we will provide you with a tablet to complete your survey. We strongly encourage you to complete your survey at your appointment. If you choose to complete it after you leave your appointment, it is important to do so as soon as possible.<br><br><span style="text-decoration: underline;">To save time at your appointment, please also complete your first Connect survey on the MyConnect app before donating samples.</span> If you are not able to complete the survey before your appointment, we will ask you to complete the survey during your appointment.',
     support: 'Call 1-877-505-0253 (8:00 a.m.-10:00 p.m. CT on weekdays and 9:00 a.m.-6:00 p.m. CT on weekends)',
     locations: [
@@ -498,7 +522,6 @@ const locations = [
 const renderLocations = (site) => {
     let template = '';
 
-    console.log(site.locations);
     if(site.locations){
         site.locations.forEach(location => {
             template += `
@@ -554,7 +577,6 @@ const renderLocations = (site) => {
                     </div>
                 </div>
     
-                <div class="row" style="width:100%"></div>
                 <br>
                 <br>
             `;

@@ -1,7 +1,10 @@
-import { todaysDate, storeResponse, dataSavingBtn, dateTime, errorMessageConsent, siteAcronyms, getMyData, hideAnimation, showAnimation, isMobile, openNewTab} from "../shared.js";
+import { todaysDate, storeResponse, dataSavingBtn, dateTime, errorMessageConsent, siteAcronyms, getMyData, hasUserData, isMobile, openNewTab} from "../shared.js";
 import { renderUserProfile } from "../components/form.js";
 import { removeAllErrors, addEventsConsentSign } from "../event.js";
 import { downloadSignedPdf } from "./agreements.js";
+import { heardAboutStudy } from "./healthCareProvider.js";
+import {addEventHeardAboutStudy} from "../event.js"
+import fieldMapping from "../fieldToConceptIdMapping.js";
 
 export const consentTemplate = () => {
     consentWelcomePage();
@@ -110,6 +113,7 @@ const consentWelcomePage = () => {
                 <p class="consentBodyFont1">After you have learned about Connect, you will view the full informed consent form and electronic health records release form. These forms provide more details about the study. Then, you can decide if you want to join Connect.</p>
                 <div class="row" style="padding:0;">
                     <div class="col-md-2">
+                        <button class="btn btn-primary consentPrevButton" type="button" id="backToHeardAboutStudyForm" style="min-width:100%; margin-top:100px;margin-bottom:10px;">Previous</button>
                     </div>
                     <div class="col-md-8">
                     </div>
@@ -125,6 +129,15 @@ const consentWelcomePage = () => {
 
     document.getElementById('toActivities').addEventListener('click', () => {
         consentAboutPage();
+    })
+    document.getElementById('backToHeardAboutStudyForm').addEventListener('click', async () => {
+        const myData = await getMyData();
+        const formData = hasUserData(myData) && myData.data[fieldMapping.heardAboutStudyForm]
+         ? myData.data[fieldMapping.heardAboutStudyForm] 
+         : {}
+        const mainContent = document.getElementById('root');
+        mainContent.innerHTML = heardAboutStudy(formData);
+        addEventHeardAboutStudy();
     })
 }
 
@@ -580,6 +593,8 @@ const consentConsentPage = async () => {
     let template = renderProgress(9);
     
     const myData = await getMyData();
+    if(!hasUserData(myData)) return;
+
     let siteDict = siteAcronyms();
     let versionJSON = await fetch('./forms/Consent_versioning.json').then(res => res.json());
     let participantSite = siteDict[myData.data['827220437']];
@@ -807,6 +822,8 @@ export const consentFinishedPage = async () => {
     const mainContent = document.getElementById('root');
     let template = renderProgress(10);
     const myData = await getMyData();
+    if(!hasUserData(myData)) return;
+
     let data = myData.data;
 
     template += `
@@ -839,8 +856,16 @@ export const consentFinishedPage = async () => {
 
     const anchorIdArray= ['consentDownload', 'healthRecordsDownload'];
     for (const anchorId of anchorIdArray) {
-      document.getElementById(anchorId).addEventListener('click', async (e) => {
+      const anchorElement = document.getElementById(anchorId);
+      if (!anchorElement) continue;
+
+      anchorElement.addEventListener('click', async (e) => {
         await downloadSignedPdf(data, e);
+      });
+
+      // Handle touch events in iPhone/iPad
+      anchorElement.addEventListener('touchend', (e) => {
+        anchorElement.click();
       });
     }
 }
@@ -1074,7 +1099,10 @@ const consentSubmit = async e => {
     //consent and hipaa forms
     let versionJSON = await fetch('./forms/Consent_versioning.json').then(res => res.json());
     let siteDict = siteAcronyms();
-    const myData = await getMyData()
+    
+    const myData = await getMyData();
+    if(!hasUserData(myData)) return;
+
     let participantSite = siteDict[myData.data['827220437']];
     formData['454205108'] = participantSite + '_Consent_' + versionJSON[participantSite]['Consent'];
     formData['412000022'] = participantSite + '_HIPAA_' + versionJSON[participantSite]['HIPAA']

@@ -1,4 +1,4 @@
-import { getParameters, validateToken, userLoggedIn, getMyData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, appState } from "./js/shared.js";
+import { getParameters, validateToken, userLoggedIn, getMyData, hasUserData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, appState, successResponse } from "./js/shared.js";
 import { userNavBar, homeNavBar } from "./js/components/navbar.js";
 import { homePage, joinNowBtn, whereAmIInDashboard, renderHomeAboutPage, renderHomeExpectationsPage, renderHomePrivacyPage } from "./js/pages/homePage.js";
 import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser, addEventToggleSubmit } from "./js/event.js";
@@ -15,6 +15,7 @@ import { renderVerifiedPage } from "./js/pages/verifiedPage.js";
 import { firebaseConfig as devFirebaseConfig } from "./dev/config.js";
 import { firebaseConfig as stageFirebaseConfig } from "./stage/config.js";
 import { firebaseConfig as prodFirebaseConfig } from "./prod/config.js";
+import conceptIdMap from "./js/fieldToConceptIdMapping.js";
 
 let auth = '';
 
@@ -47,7 +48,7 @@ window.onload = async () => {
         script.src = `https://maps.googleapis.com/maps/api/js?key=${prodFirebaseConfig.apiKey}&libraries=places&callback=Function.prototype`
         !firebase.apps.length ? firebase.initializeApp(prodFirebaseConfig) : firebase.app();
 
-        //window.DD_RUM && window.DD_RUM.init({ ...datadogConfig, env: 'prod' });
+        window.DD_RUM && window.DD_RUM.init({ ...datadogConfig, env: 'prod' });
     }
     else if(location.host === urls.stage) {
         script.src = `https://maps.googleapis.com/maps/api/js?key=${stageFirebaseConfig.apiKey}&libraries=places&callback=Function.prototype`
@@ -62,23 +63,24 @@ window.onload = async () => {
         !isLocalDev && window.DD_RUM && window.DD_RUM.init({ ...datadogConfig, env: 'dev' });
     }
 
-    !isLocalDev && location.host !== urls.prod && window.DD_RUM && window.DD_RUM.startSessionReplayRecording();
+    !isLocalDev && window.DD_RUM && window.DD_RUM.startSessionReplayRecording();
     
     document.body.appendChild(script)
     auth = firebase.auth();
 
     auth.onAuthStateChanged(async (user) => {
+      let idToken = '';
       if (user) {
-        const idToken = await user.getIdToken();
-        appState.setState({ idToken });
-
+        idToken = await user.getIdToken();
         if (!user.isAnonymous) {
           localforage.clear();
           inactivityTime();
+          const firstSignInTime = new Date(user.metadata.creationTime).toISOString();
+          appState.setState({ participantData: { firstSignInTime } });
         } 
-      } else {
-        appState.setState({ idToken: '' });
       }
+
+      appState.setState({ idToken });
     });
 
     if ('serviceWorker' in navigator) {
@@ -217,19 +219,22 @@ const router = async () => {
     }
     else{
         const data = await getMyData();
-        toggleNavBar(route, data);  // If logged in, pass data to toggleNavBar
 
-        if (route === '#') userProfile();
-        else if (route === '#dashboard') userProfile();
-        else if (route === '#messages') renderNotificationsPage();
-        else if (route === '#sign_out') signOut();
-        else if (route === '#forms') renderAgreements();
-        else if (route === '#myprofile') renderSettingsPage();
-        else if (route === '#support') renderSupportPage();
-        else if (route === '#samples') renderSamplesPage();
-        else if (route === '#payment') renderPaymentPage();
-        else if (route === '#verified') renderVerifiedPage();
-        else window.location.hash = '#';
+        if(successResponse(data)) {
+            toggleNavBar(route, data);  // If logged in, pass data to toggleNavBar
+
+            if (route === '#') userProfile();
+            else if (route === '#dashboard') userProfile();
+            else if (route === '#messages') renderNotificationsPage();
+            else if (route === '#sign_out') signOut();
+            else if (route === '#forms') renderAgreements();
+            else if (route === '#myprofile') renderSettingsPage();
+            else if (route === '#support') renderSupportPage();
+            else if (route === '#samples') renderSamplesPage();
+            else if (route === '#payment') renderPaymentPage();
+            else if (route === '#verified') renderVerifiedPage();
+            else window.location.hash = '#';   
+        }
     }
 }
 
@@ -243,12 +248,13 @@ const userProfile = () => {
             if(href.includes(specialParameter)) href = href.substr(href.indexOf(specialParameter) + specialParameter.length, href.length);
             const parameters = getParameters(href);
             showAnimation();
-            
-            if(parameters && parameters.token){
-                await validateToken(parameters.token);
-                await storeResponse({
-                  335767902: new Date(parseInt(user.metadata.a)).toISOString(),
-                });
+
+            if (parameters?.token) {
+                const response = await validateToken(parameters.token); // Add uid and sign-in flag if token is valid
+                if (response.code === 200) {
+                    const firstSignInTime = new Date(user.metadata.creationTime).toISOString();
+                    await storeResponse({[conceptIdMap.firstSignInTime]: firstSignInTime});
+                }
             }
 
             const userData = await getMyData();
@@ -296,7 +302,7 @@ const userProfile = () => {
                 return;
             }
             
-            if (userData.code === 200) {
+            if (hasUserData(userData)) {
 
                 const myData = userData.data;
                 const myCollections = await getMyCollections();
@@ -306,7 +312,7 @@ const userProfile = () => {
             else {
                 mainContent.innerHTML = requestPINTemplate();
                 addEventPinAutoUpperCase();
-                addEventRequestPINForm(user.metadata.a);
+                addEventRequestPINForm();
                 addEventToggleSubmit();
                 hideAnimation();
             }
