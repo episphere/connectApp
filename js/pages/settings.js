@@ -479,7 +479,7 @@ const submitNewLoginMethod = async (email, phone) => {
         document.getElementById('loginEmailRow').style.display = 'block';
         profileEmailElement.innerHTML = optVars.loginEmail;
         profileEmailElement.style.display = 'block';
-        loginEmailField && (loginEmailField.textContent = optVars.loginEmail);
+        loginEmailField && (loginEmailField.innerHTML = optVars.loginEmail);
         loginEmailDiv && (loginEmailDiv.style.display = 'block');
     } else {
         profileEmailElement.style.display = 'none';
@@ -489,7 +489,7 @@ const submitNewLoginMethod = async (email, phone) => {
         document.getElementById('loginPhoneRow').style.display = 'block';
         profilePhoneElement.innerHTML = `${optVars.loginPhone}`;
         profilePhoneElement.style.display = 'block';
-        loginPhoneField && (loginPhoneField.textContent = optVars.loginPhone);
+        loginPhoneField && (loginPhoneField.innerHTML = optVars.loginPhone);
         loginPhoneDiv && (loginPhoneDiv.style.display = 'block');        
     } else {
         profilePhoneElement.style.display = 'none';
