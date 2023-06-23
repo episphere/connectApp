@@ -1249,7 +1249,8 @@ export function openNewTab(url) {
   }
 }
 
-export const processUnlinkAuthProviderWithFirebaseAdmin = async(newAuthData) => {
+export const processAuthWithFirebaseAdmin = async(newAuthData) => {
+
     const authenticationDataPayload = {
         "data": newAuthData
     }
@@ -1268,7 +1269,7 @@ export const processUnlinkAuthProviderWithFirebaseAdmin = async(newAuthData) => 
         
         return await response.json();
     } catch (error) {
-        console.error('An error occurred in processUnlinkAuthProviderWithFirebaseAdmin():', error);
+        console.error('An error occurred in processAuthWithFirebaseAdmin():', error);
         return { message: error.message, status: 'error' };
     }
 };

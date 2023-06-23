@@ -1,4 +1,4 @@
-import { hideAnimation, errorMessage, processUnlinkAuthProviderWithFirebaseAdmin, showAnimation, storeResponse, validEmailFormat, validNameFormat, validPhoneNumberFormat } from './shared.js';
+import { hideAnimation, errorMessage, processAuthWithFirebaseAdmin, showAnimation, storeResponse, validEmailFormat, validNameFormat, validPhoneNumberFormat } from './shared.js';
 import { removeAllErrors } from './event.js';
 import cId from './fieldToConceptIdMapping.js';
 
@@ -478,33 +478,6 @@ export const changeMailingAddress = async (addressLine1, addressLine2, city, sta
 };
 
 /**
- * confirm the user's Firebase Auth email and phone data match the user's Firestore email and phone data.
- * We write these separately, one after another, so there's a chance the first write (Firebase Auth) succeeds and the second wite (Firestore) fails.
- * This only costs an API call if the data is inconsistent since we hava access to both datapoints already.
- * @param {object} firebaseAuthData - the user's Firebase Auth email and phone data 
- * @param {object} firestoreParticipantData - the user's Firestore email and phone data
- */
-export const checkAuthDataConsistency = async (firebaseAuthEmail, firebaseAuthPhoneNumber, firestoreParticipantEmail, firestoreParticipantPhoneNumber) => {
-  const isAuthEmailConsistent = firebaseAuthEmail === firestoreParticipantEmail;
-  const isAuthPhoneConsistent = firebaseAuthPhoneNumber === firestoreParticipantPhoneNumber;
-
-  if (!isAuthEmailConsistent || !isAuthPhoneConsistent) {
-    const authDataToSync = {
-      [cId.firebaseAuthEmail]: firebaseAuthEmail,
-      [cId.firebaseAuthPhone]: firebaseAuthPhoneNumber,
-    };
-    try {
-      await storeResponse(authDataToSync);
-    } catch (error) {
-      console.error('Error updating document (storeResponse): ', error);
-      return false;
-    }
-    return false;
-  }
-  return true;
-};
-
-/**
  * Changing email and/or phone must write to two places: firebase auth and the user profile.
  * Only continue if the firebase auth email or auth phone number change is successful (determined by the value of isAuthUpdateSuccess).
  * If both email and phone auth methods exist becuase of this update, use 'passwordAndPhone' as the value for the firebaseSignInMechanism field in the user profile.
@@ -512,20 +485,21 @@ export const checkAuthDataConsistency = async (firebaseAuthEmail, firebaseAuthPh
  * @param {*} userData - the user profile data
  * @returns {boolean} - true if the email change was successful, false otherwise
  */
-export const addOrUpdateAuthenticationMethod = async (firebaseAuthUser, email, phone, userData) => {
+export const addOrUpdateAuthenticationMethod = async (email, phone, userData) => {
   document.getElementById('loginUpdateFail').style.display = 'none';
   document.getElementById('loginUpdateSuccess').style.display = 'none';
-
+  
+  const firebaseAuthUser = firebase.auth().currentUser;
   const valuesForFirebaseAuth = {};
   const newValuesForFirestore = {};
 
   if (email) {
     newValuesForFirestore[cId.firebaseAuthEmail] = email;
-    newValuesForFirestore[cId.firebaseSignInMechanism] = 'password';
+    userData[cId.firebaseAuthPhone] ? newValuesForFirestore[cId.firebaseSignInMechanism] = 'passwordAndPhone' : newValuesForFirestore[cId.firebaseSignInMechanism] = 'password';
     valuesForFirebaseAuth['email'] = email;
     valuesForFirebaseAuth['uid'] = firebaseAuthUser.uid;
     try {
-      await updateFirebaseAuthEmail(firebaseAuthUser, email);
+      await updateFirebaseAuthEmail(email);
     } catch (error) {
       console.error(`Error: updateFirebaseAuthEmail(): ${error}`);
       throw error;
@@ -536,21 +510,18 @@ export const addOrUpdateAuthenticationMethod = async (firebaseAuthUser, email, p
     phone = cleanPhoneNumber(phone);
     phone = `+1${phone}`;
     newValuesForFirestore[cId.firebaseAuthPhone] = phone;
+    userData[cId.firebaseAuthEmail] ? newValuesForFirestore[cId.firebaseSignInMechanism] = 'passwordAndPhone' : newValuesForFirestore[cId.firebaseSignInMechanism] = 'phone';
     newValuesForFirestore[cId.firebaseSignInMechanism] = 'phone';
     valuesForFirebaseAuth['phoneNumber'] = phone;
     valuesForFirebaseAuth['uid'] = firebaseAuthUser.uid;
     try {
-      await updateFirebaseAuthPhone(firebaseAuthUser, phone);
+      await updateFirebaseAuthPhone(phone);
     } catch (error) {
       console.error(`Error: updateFirebaseAuthPhone(): ${error}`);
       throw error;
     }
   }
 
-  if ((email && firebaseAuthUser.phoneNumber) || phone && firebaseAuthUser.email) {
-    newValuesForFirestore[cId.firebaseSignInMechanism] = 'passwordAndPhone';
-  }
-  
   document.getElementById('changeLoginGroup').style.display = 'none';
   const { changedUserDataForProfile, changedUserDataForHistory } = findChangedUserDataValues(newValuesForFirestore, userData);
   const isSuccess = processUserDataUpdate(changedUserDataForProfile, changedUserDataForHistory, userData[cId.userProfileHistory], userData[cId.prefEmail], 'loginUpdate');
@@ -559,12 +530,12 @@ export const addOrUpdateAuthenticationMethod = async (firebaseAuthUser, email, p
 
 /**
  * Update the user's email address in Firebase Auth.
- * @param {Object<User>} firebaseAuthUser - the firebase auth user object 
  * @param {String} email - the new email address 
- * @returns {boolean} - true if the update was successful, false otherwise
+ * @returns {boolean} - true if the update was successful, false otherwise.
  */
-const updateFirebaseAuthEmail = async (firebaseAuthUser, email) => {
+const updateFirebaseAuthEmail = async (email) => {
   try {
+    const firebaseAuthUser = firebase.auth().currentUser;
     await firebaseAuthUser.updateEmail(email);
     return true;
   } catch (error) {
@@ -577,17 +548,17 @@ const updateFirebaseAuthEmail = async (firebaseAuthUser, email) => {
  * This walks the user through two verification processes:
  *  (1) recaptcha verification in the browser.
  *  (2) phone number verification with a texted code.
- * @param {Object<User>} firebaseAuthUser - the firebase auth user object.
  * @param {String} phone - the new cleaned phone number.
  * @returns {boolean} - true if the update was successful, false otherwise.
  * Note: '+1' has already been prepended to the phone number (format required by Firebase Auth).
  * Note: the user's existing phone number must be unlinked from the user's Firebase Auth account before writing the new phone number.
  */
-const updateFirebaseAuthPhone = async (firebaseAuthUser, phone) => {
+const updateFirebaseAuthPhone = async (phone) => {
+  const changePhoneSubmit = document.getElementById('changePhoneSubmit');
   try {
-      document.getElementById('changePhoneSubmit').style.display = 'none';
+      const firebaseAuthUser = firebase.auth().currentUser;
+      if (changePhoneSubmit) changePhoneSubmit.style.display = 'none';
       window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
-
       const recaptchaVerifier = window.recaptchaVerifier;
       const provider = new firebase.auth.PhoneAuthProvider;
 
@@ -596,19 +567,20 @@ const updateFirebaseAuthPhone = async (firebaseAuthUser, phone) => {
       if (!verificationCode) {
           throw new Error("Verification code not provided");
       }
-
+      
       const phoneCredential = firebase.auth.PhoneAuthProvider.credential(verificationId, verificationCode);
-      const unlinkResult = await unlinkFirebaseAuthProvider('phone');
+      const unlinkResult = firebaseAuthUser.phoneNumber ? await unlinkFirebaseAuthProvider('phone') : true;
       if (unlinkResult === true) {
         await firebaseAuthUser.linkWithCredential(phoneCredential);
-        window.recaptchaVerifier.clear();
+        if (window.recaptchaVerifier) window.recaptchaVerifier.clear();
         return true;
       } else {
         throw new Error(`Failed to unlink existing phone number`);
       }
       
   } catch (error) {
-      document.getElementById('recaptcha-container').style.display = 'none';
+      if (window.recaptchaVerifier) window.recaptchaVerifier.clear();
+      if (changePhoneSubmit) changePhoneSubmit.style.display = 'block';
       console.error('Error updating phone number: ', error);
       hideAnimation();
       throw error;
@@ -640,7 +612,7 @@ export const unlinkFirebaseAuthProvider = async (providerType, userData) => {
       updateResult = await unlinkFirebaseAuthenticationTrigger(providerType);
     } else if (providerType === 'email') {
       noReplyEmail = `noreply${firebaseAuthUser.uid}@episphere.github.io`;
-      updateResult = await addOrUpdateAuthenticationMethod(firebaseAuthUser, noReplyEmail, null, userData);
+      updateResult = await addOrUpdateAuthenticationMethod(noReplyEmail, null, userData);
     } else {
       console.error('bad providerType arg in unlinkFirebaseAuthProvider()');
     }
@@ -862,7 +834,7 @@ export const unlinkFirebaseAuthenticationTrigger = async (authToUnlink) =>  {
     if (authToUnlink === 'phone') newAuthData['email'] = email;
 
     try {
-      const response = await processUnlinkAuthProviderWithFirebaseAdmin(newAuthData);
+      const response = await processAuthWithFirebaseAdmin(newAuthData);
       hideAnimation();
       return response.code === 200 ? true : response;
     } catch (error) {

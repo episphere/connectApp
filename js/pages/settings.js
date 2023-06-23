@@ -1,5 +1,5 @@
 import { allStates, showAnimation, hideAnimation, getMyData, hasUserData } from '../shared.js';
-import { attachTabEventListeners, addOrUpdateAuthenticationMethod, changeContactInformation, changeMailingAddress, changeName, checkAuthDataConsistency, formatFirebaseAuthPhoneNumber, FormTypes, getCheckedRadioButtonValue, handleContactInformationRadioButtonPresets, handleOptionalFieldVisibility, hideOptionalElementsOnShowForm, hideSuccessMessage, openUpdateLoginForm, showAndPushElementToArrayIfExists, showEditButtonsOnUserVerified, suffixList, suffixToTextMap, toggleElementVisibility, togglePendingVerificationMessage, unlinkFirebaseAuthProvider, updatePhoneNumberInputFocus, validateContactInformation, validateLoginEmail, validateLoginPhone, validateMailingAddress, validateName } from '../settingsHelpers.js';
+import { attachTabEventListeners, addOrUpdateAuthenticationMethod, changeContactInformation, changeMailingAddress, changeName, formatFirebaseAuthPhoneNumber, FormTypes, getCheckedRadioButtonValue, handleContactInformationRadioButtonPresets, handleOptionalFieldVisibility, hideOptionalElementsOnShowForm, hideSuccessMessage, openUpdateLoginForm, showAndPushElementToArrayIfExists, showEditButtonsOnUserVerified, suffixList, suffixToTextMap, toggleElementVisibility, togglePendingVerificationMessage, unlinkFirebaseAuthProvider, updatePhoneNumberInputFocus, validateContactInformation, validateLoginEmail, validateLoginPhone, validateMailingAddress, validateName } from '../settingsHelpers.js';
 import { addEventAddressAutoComplete } from '../event.js';
 import cId from '../fieldToConceptIdMapping.js';
 
@@ -77,14 +77,9 @@ export const renderSettingsPage = async () => {
     buildPageTemplate();
   } else {
     userData = myData.data;
-    firebaseAuthUser = firebase.auth().currentUser;
+    await firebase.auth().currentUser.reload();
+    firebaseAuthUser = await firebase.auth().currentUser;
     isParticipantDataDestroyed = userData[cId.dataDestroyCategorical] === cId.requestedDataDestroySigned;
-    if (!isParticipantDataDestroyed) {
-        const isAuthDataConsistent = await checkAuthDataConsistency(firebaseAuthUser.email ?? '', firebaseAuthUser.phoneNumber ?? '', userData[cId.firebaseAuthEmail] ?? '', userData[cId.firebaseAuthPhone] ?? '');
-        if (!isAuthDataConsistent) {
-            await refreshUserDataAfterEdit();
-        }
-    }    
     optVars.loginEmail = userData[cId.firebaseAuthEmail] && !userData[cId.firebaseAuthEmail].startsWith('noreply') ? userData[cId.firebaseAuthEmail] : '';
     optVars.loginPhone = userData[cId.firebaseAuthPhone];
     optVars.canWeVoicemailMobile = userData[cId.canWeVoicemailMobile] === cId.yes;
@@ -458,35 +453,44 @@ const handleEditSignInInformationSection = () => {
 };
 
 const submitNewLoginMethod = async (email, phone) => {
-  const isSuccess = await addOrUpdateAuthenticationMethod(firebaseAuthUser, email, phone, userData).catch((error) => {
+  const isSuccess = await addOrUpdateAuthenticationMethod(email, phone, userData).catch((error) => {
     document.getElementById('loginUpdateFail').style.display = 'block';
     document.getElementById('loginUpdateError').innerHTML = error.message;
   });
   
   if (isSuccess) {
     await refreshUserDataAfterEdit();
-
+    clearLoginFormFields();
     formVisBools.isLoginFormDisplayed = toggleElementVisibility(loginElementArray, formVisBools.isLoginFormDisplayed);
     toggleButtonText();
     document.getElementById('changeLoginGroup').style.display = 'none';
 
+    optVars.loginEmail = userData[cId.firebaseAuthEmail] ? userData[cId.firebaseAuthEmail] : '';
+    optVars.loginPhone = formatFirebaseAuthPhoneNumber(userData[cId.firebaseAuthPhone]);
+
     const profileEmailElement = document.getElementById('profileEmail');
     const profilePhoneElement = document.getElementById('profilePhone');
-    const firebaseAuthEmail = userData[cId.firebaseAuthEmail];
-    const firebaseAuthPhone = formatFirebaseAuthPhoneNumber(userData[cId.firebaseAuthPhone]);
+    const loginEmailField = document.getElementById('loginEmailField');
+    const loginPhoneField = document.getElementById('loginPhoneField');
+    const loginEmailDiv = document.getElementById('loginEmailDiv');
+    const loginPhoneDiv = document.getElementById('loginPhoneDiv');
 
-    if (firebaseAuthEmail) {
+    if (optVars.loginEmail) {
         document.getElementById('loginEmailRow').style.display = 'block';
-        profileEmailElement.textContent = firebaseAuthEmail;
+        profileEmailElement.innerHTML = optVars.loginEmail;
         profileEmailElement.style.display = 'block';
+        loginEmailField && (loginEmailField.textContent = optVars.loginEmail);
+        loginEmailDiv && (loginEmailDiv.style.display = 'block');
     } else {
         profileEmailElement.style.display = 'none';
     }
 
-    if (firebaseAuthPhone) {
+    if (optVars.loginPhone) {
         document.getElementById('loginPhoneRow').style.display = 'block';
-        profilePhoneElement.innerHTML = `${firebaseAuthPhone}`;
-        profilePhoneElement.style.display = 'block';        
+        profilePhoneElement.innerHTML = `${optVars.loginPhone}`;
+        profilePhoneElement.style.display = 'block';
+        loginPhoneField && (loginPhoneField.textContent = optVars.loginPhone);
+        loginPhoneDiv && (loginPhoneDiv.style.display = 'block');        
     } else {
         profilePhoneElement.style.display = 'none';
     }
@@ -534,6 +538,8 @@ const refreshUserDataAfterEdit = async () => {
   const updatedUserData = await getMyData();
   if (hasUserData(updatedUserData)) {
     userData = updatedUserData.data;
+    await firebase.auth().currentUser.reload();
+    firebaseAuthUser = firebase.auth().currentUser;
   }
 };
 
@@ -628,23 +634,23 @@ const updateUIAfterUnlink = async (isSuccess, type, error) => {
     
     if (isSuccess) {
       await refreshUserDataAfterEdit();
-        
-      const firebaseAuthEmail = userData[cId.firebaseAuthEmail] && !userData[cId.firebaseAuthEmail].startsWith('noreply') ? userData[cId.firebaseAuthEmail] : ''; 
-      const firebaseAuthPhone = formatFirebaseAuthPhoneNumber(userData[cId.firebaseAuthPhone]);
 
-      if (firebaseAuthEmail && type !== 'email') {
+      optVars.loginEmail = userData[cId.firebaseAuthEmail] && !userData[cId.firebaseAuthEmail].startsWith('noreply') ? userData[cId.firebaseAuthEmail] : ''; 
+      optVars.loginPhone = formatFirebaseAuthPhoneNumber(userData[cId.firebaseAuthPhone]);
+
+      if (optVars.loginEmail && type !== 'email') {
         document.getElementById('loginEmailRow').style.display = 'block';
         const profileEmailElement = document.getElementById('profileEmail');
-        profileEmailElement.textContent = firebaseAuthEmail;
+        profileEmailElement.textContent = optVars.loginEmail;
         profileEmailElement.style.display = 'block';
       } else {
         optRowEles.loginEmailRow.style.display = 'none';
       }
 
-      if (firebaseAuthPhone && type !== 'phone') {
+      if (optVars.loginPhone && type !== 'phone') {
         document.getElementById('loginPhoneRow').style.display = 'block';
         const profilePhoneElement = document.getElementById('profilePhone');
-        profilePhoneElement.innerHTML = `${firebaseAuthPhone}`;
+        profilePhoneElement.innerHTML = `${optVars.loginPhone}`;
         profilePhoneElement.style.display = 'block';        
       } else {
         optRowEles.loginPhoneRow.style.display = 'none';
@@ -656,7 +662,29 @@ const updateUIAfterUnlink = async (isSuccess, type, error) => {
         document.getElementById('loginUpdateFail').style.display = 'block';
         document.getElementById('loginUpdateError').innerHTML = error;
     }
+
+    if (!(optVars.loginEmail && optVars.loginPhone)) {
+        const removeLoginEmailButton = document.getElementById('removeLoginEmailButton');
+        const removeLoginPhoneButton = document.getElementById('removeLoginPhoneButton');
+        if (removeLoginEmailButton) removeLoginEmailButton.style.display = 'none';
+        if (removeLoginPhoneButton) removeLoginPhoneButton.style.display = 'none';
+    }
+
+    if (!optVars.loginEmail) document.getElementById('loginEmailDiv').style.display = 'none';
+    if (!optVars.loginPhone) document.getElementById('loginPhoneDiv').style.display = 'none';
+
 }
+
+const clearLoginFormFields = () => {
+    const newEmailField = document.getElementById('newEmailField');
+    const newEmailFieldCheck = document.getElementById('newEmailFieldCheck');
+    const newPhoneField = document.getElementById('newPhoneField');
+    const newPhoneFieldCheck = document.getElementById('newPhoneFieldCheck');
+    newEmailField && (newEmailField.value = '');
+    newEmailFieldCheck && (newEmailFieldCheck.value = '');
+    newPhoneField && (newPhoneField.value = '');
+    newPhoneFieldCheck && (newPhoneFieldCheck.value = '');
+};
 
 /**
  * Start: HTML rendering functions
@@ -1323,8 +1351,6 @@ export const renderChangeSignInInformationGroup = () => {
     };
 
 const renderTabbedForm = () => {
-    const currentEmail = optVars.loginEmail;
-    const currentPhone = formatFirebaseAuthPhoneNumber(optVars.loginPhone) ?? '';
     return `
         <div class="tab">
             <button class="tablinks">Use email</button>
@@ -1332,14 +1358,14 @@ const renderTabbedForm = () => {
         </div>
         <br>
         <div id="form1" class="tabcontent">
-            ${currentEmail ? 
+            ${optVars.loginEmail ? 
                 `
                 <hr>
-                <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; justify-content: space-between; align-items: center;" id="loginEmailDiv">
                     <span>Current login email:
-                        <strong>${currentEmail}</strong>
+                        <strong id="loginEmailField">${optVars.loginEmail}</strong>
                     </span>
-                    ${currentPhone ? `<button class="btn-remove-login" id="removeLoginEmailButton">Remove this email address</button>` : ''}
+                    ${optVars.loginPhone ? `<button class="btn-remove-login" id="removeLoginEmailButton">Remove this email address</button>` : ''}
                 </div>
                 <hr>
                 <br>
@@ -1352,14 +1378,14 @@ const renderTabbedForm = () => {
         </div>
         
         <div id="form2" class="tabcontent">
-            ${currentPhone ?
+            ${optVars.loginPhone ?
                 `
                 <hr>
-                <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; justify-content: space-between; align-items: center;" id="loginPhoneDiv">
                     <span>Current login phone:
-                        <strong>${currentPhone}</strong>
+                        <strong id="loginPhoneField">${formatFirebaseAuthPhoneNumber(optVars.loginPhone)}</strong>
                     </span>
-                    ${currentEmail ? `<button class="btn-remove-login" id="removeLoginPhoneButton">Remove this phone number</button>` : ''}
+                    ${optVars.loginEmail ? `<button class="btn-remove-login" id="removeLoginPhoneButton">Remove this phone number</button>` : ''}
                 </div>
                 <hr>
                 <br>
@@ -1368,6 +1394,7 @@ const renderTabbedForm = () => {
             ${renderEmailOrPhoneInput('phone')}
             <br>
             ${renderConfirmationModal('Phone')}
+            <p style="color:#1c5d86;">After you click, “Submit,” a pop-up box will display and ask you to enter the verification code sent to your mobile device. Please enter this code and click “OK” to verify your phone number.</p>
             <button id="changePhoneSubmit" class="btn btn-primary save-data consentNextButton">Submit Phone Update</button>
             <br>
             <div style="margin-left:10px" id="recaptcha-container"></div>
