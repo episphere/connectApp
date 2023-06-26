@@ -372,7 +372,7 @@ const getMostImportantPhoneNumber = (firebaseAuthPhoneNumber, firestoreParticipa
  * confirm the user's Firebase Auth email and phone data match the user's Firestore email and phone data.
  * There's a 'gotcha' with magic links -the firebase auth profile is stripped of the phone number auth when a magic link is used for email login.
  * The 'if' case below handles this. We check the firebase auth && firestore participant profiles for a phone match. If no match, and a phone number exists in the firestore participant profile, we write update the auth phone number to the firebase auth profile.
- * The 'else if' case handles the following: We write firebase auth and firestore participant data separately, one after another. There's a chance the first write (Firebase Auth) succeeds and the second wite (Firestore) fails.
+ * The 'else if' case handles the following: We write firebase auth and firestore participant data separately, one after another. There's a chance the first write (Firebase Auth) succeeds and the second write (Firestore) fails.
  * This only costs an API call if the data is inconsistent since we hava access to both datapoints from app init. It otherwise only costs the time to run the check.
  */
 const checkAuthDataConsistency = async (firebaseAuthEmail, firebaseAuthPhoneNumber, firestoreParticipantEmail, firestoreParticipantPhoneNumber) => {
@@ -382,8 +382,7 @@ const checkAuthDataConsistency = async (firebaseAuthEmail, firebaseAuthPhoneNumb
     if (firestoreParticipantPhoneNumber && !firebaseAuthPhoneNumber) {
       await updateFirebaseAuthPhoneTrigger(firestoreParticipantPhoneNumber);
       return false;
-    } 
-    else if (!isAuthEmailConsistent || !isAuthPhoneConsistent) {
+    } else if (!isAuthEmailConsistent || !isAuthPhoneConsistent) {
       const authDataToSync = {
         [conceptIdMap.firebaseAuthEmail]: firebaseAuthEmail,
         [conceptIdMap.firebaseAuthPhone]: getMostImportantPhoneNumber(firebaseAuthPhoneNumber, firestoreParticipantPhoneNumber)
@@ -421,4 +420,4 @@ const updateFirebaseAuthPhoneTrigger = async (phone) =>  {
       hideAnimation();
       throw error;
     }
-};    
+};
