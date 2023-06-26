@@ -362,6 +362,12 @@ const toggleNavBar = (route, data) => {
     });
 }
 
+const getMostImportantPhoneNumber = (firebaseAuthPhoneNumber, firestoreParticipantPhoneNumber) => {
+    if (firebaseAuthPhoneNumber) return firebaseAuthPhoneNumber;
+    else if (firestoreParticipantPhoneNumber) return firestoreParticipantPhoneNumber;
+    else return null;
+};
+
 /**
  * confirm the user's Firebase Auth email and phone data match the user's Firestore email and phone data.
  * There's a 'gotcha' with magic links -the firebase auth profile is stripped of the phone number auth when a magic link is used for email login.
@@ -380,11 +386,7 @@ const checkAuthDataConsistency = async (firebaseAuthEmail, firebaseAuthPhoneNumb
     else if (!isAuthEmailConsistent || !isAuthPhoneConsistent) {
       const authDataToSync = {
         [conceptIdMap.firebaseAuthEmail]: firebaseAuthEmail,
-        [conceptIdMap.firebaseAuthPhone]: firebaseAuthPhoneNumber 
-          ? firebaseAuthPhoneNumber 
-          : firestoreParticipantPhoneNumber 
-          ? firestoreParticipantPhoneNumber 
-          : null,
+        [conceptIdMap.firebaseAuthPhone]: getMostImportantPhoneNumber(firebaseAuthPhoneNumber, firestoreParticipantPhoneNumber)
       };
   
       try {
@@ -397,7 +399,7 @@ const checkAuthDataConsistency = async (firebaseAuthEmail, firebaseAuthPhoneNumb
     } else {
       return true;
     }
-  };
+};
 
 const updateFirebaseAuthPhoneTrigger = async (phone) =>  {
     showAnimation();

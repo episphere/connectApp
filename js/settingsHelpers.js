@@ -551,7 +551,9 @@ const updateFirebaseAuthEmail = async (email) => {
  * @param {String} phone - the new cleaned phone number.
  * @returns {boolean} - true if the update was successful, false otherwise.
  * Note: '+1' has already been prepended to the phone number (format required by Firebase Auth).
- * Note: the user's existing phone number must be unlinked from the user's Firebase Auth account before writing the new phone number.
+ * Note: The user's existing phone number must be unlinked from the user's Firebase Auth account before writing the new phone number.
+ * Note: If firebaseAuthUser.phoneNumber exists, unlink it from the user's Firebase Auth account and return the result. If it doesn't exist, the api call isn't needed. Continue with the success case (true).
+ * 
  */
 const updateFirebaseAuthPhone = async (phone) => {
   const changePhoneSubmit = document.getElementById('changePhoneSubmit');
