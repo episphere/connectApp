@@ -359,13 +359,13 @@ export const changeName = async (firstName, lastName, middleName, suffix, prefer
     [cId.fName]: firstName,
     [cId.mName]: middleName,
     [cId.lName]: lastName,
-    [cId.suffix]: suffix,
+    [cId.suffix]: parseInt(suffix),
     [cId.prefName]: preferredFirstName,
     ['query.firstName']: firstName.toLowerCase(),
     ['query.lastName']: lastName.toLowerCase(),
   };
 
-  const { changedUserDataForProfile, changedUserDataForHistory } = findChangedUserDataValues(newValues, userData);
+  const { changedUserDataForProfile, changedUserDataForHistory } = findChangedUserDataValues(newValues, userData, 'changeName');
   const isSuccess = processUserDataUpdate(changedUserDataForProfile, changedUserDataForHistory, userData[cId.userProfileHistory], userData[cId.prefEmail], 'changeName');
   return isSuccess;
 };
@@ -387,13 +387,13 @@ export const changeContactInformation = async (mobilePhoneNumberComplete, homePh
 
   const newValues = {
     [cId.cellPhone]: mobilePhoneNumberComplete,
-    [cId.canWeVoicemailMobile]: canWeVoicemailMobile,
-    [cId.canWeText]: canWeText,
+    [cId.canWeVoicemailMobile]: parseInt(canWeVoicemailMobile),
+    [cId.canWeText]: parseInt(canWeText),
     [cId.homePhone]: homePhoneNumberComplete,
-    [cId.canWeVoicemailHome]: canWeVoicemailHome,
+    [cId.canWeVoicemailHome]: parseInt(canWeVoicemailHome),
     [cId.prefEmail]: preferredEmail,
     [cId.otherPhone]: otherPhoneNumberComplete,
-    [cId.canWeVoicemailOther]: canWeVoicemailOther,
+    [cId.canWeVoicemailOther]: parseInt(canWeVoicemailOther),
     [cId.additionalEmail1]: additionalEmail1,
     [cId.additionalEmail2]: additionalEmail2,
   };
@@ -469,7 +469,7 @@ export const changeMailingAddress = async (addressLine1, addressLine2, city, sta
     [cId.address2]: addressLine2 ?? '',
     [cId.city]: city,
     [cId.state]: state,
-    [cId.zip]: zip,
+    [cId.zip]: zip.toString(),
   };
 
   const { changedUserDataForProfile, changedUserDataForHistory } = findChangedUserDataValues(newValues, userData);
@@ -672,53 +672,71 @@ const cleanPhoneNumber = (phoneNumber) => {
  *   if user deletes a number, set canWeVoicemail and canWeText to '' (empty string) --per spec on 05-09-2023
  *   if user updates a number, ensure the canWeVoicemail and canWeText values are set
  *   Update: 05-26-2023 do not include email addresses in user profile archiving. Exclude those keys from the history object.
- * RE: !excludeHistoryKeys.includes(key) -> if the key is not in the excludeHistoryKeys array, then include it in the history object
+ * RE: !excludeHistoryKeys.includes(key) -> if the key is not in the excludeHistoryKeys array, then include it in the history object.
  * RE: existingUserData[key] ?? '' -> if the existingUserData[key] is null/undefined/empty, then write an empty string to the history object. This marks the change as requested by the data team.
+ * Update: 06-27-2023
+ *   (1) Do not tie empty text and voicemail permissions to profile history.
+ *   (2) Use cId.noneOfTheseApply for suffix that had a value and now has no value
+ *   (3) Default phone permissions to cId.no instead of using an empty string.
 */
 const findChangedUserDataValues = (newUserData, existingUserData, type) => {
   const changedUserDataForProfile = {};
   const changedUserDataForHistory = {};
   const excludeHistoryKeys = [cId.prefEmail, cId.additionalEmail1, cId.additionalEmail2, cId.firebaseAuthEmail];
+  const keysToSkipIfNull = [cId.canWeText, cId.canWeVoicemailMobile, cId.canWeVoicemailHome, cId.canWeVoicemailOther];
 
   Object.keys(newUserData).forEach(key => {
     if (newUserData[key] !== existingUserData[key]) {
       changedUserDataForProfile[key] = newUserData[key];
       if (!excludeHistoryKeys.includes(key)) {
-        changedUserDataForHistory[key] = existingUserData[key] ?? '';
+        if (existingUserData[key] || !keysToSkipIfNull.includes(existingUserData[key])) {
+          changedUserDataForHistory[key] = existingUserData[key] ?? '';
+        }
       }
     }
   });
-
+  
   if (type === 'changeContactInformation') {
 
     if (cId.cellPhone in changedUserDataForProfile) {
         if (!newUserData[cId.cellPhone]) {
-          changedUserDataForProfile[cId.canWeVoicemailMobile] = '';
-          changedUserDataForProfile[cId.canWeText] = '';
+          changedUserDataForProfile[cId.canWeVoicemailMobile] = cId.no;
+          changedUserDataForProfile[cId.canWeText] = cId.no;
         } else {
           changedUserDataForProfile[cId.canWeVoicemailMobile] = newUserData[cId.canWeVoicemailMobile] ?? existingUserData[cId.canWeVoicemailMobile] ?? cId.no;
           changedUserDataForProfile[cId.canWeText] = newUserData[cId.canWeText] ?? existingUserData[cId.canWeText] ?? cId.no;
         }
-        changedUserDataForHistory[cId.canWeVoicemailMobile] = existingUserData[cId.canWeVoicemailMobile] ?? cId.no;
-        changedUserDataForHistory[cId.canWeText] = existingUserData[cId.canWeText] ?? cId.no;
+
+        if (existingUserData[cId.canWeVoicemailMobile]) changedUserDataForHistory[cId.canWeVoicemailMobile] = existingUserData[cId.canWeVoicemailMobile];
+        if (existingUserData[cId.canWeText]) changedUserDataForHistory[cId.canWeText] = existingUserData[cId.canWeText];
     }
 
     if (cId.homePhone in changedUserDataForProfile) {
       if (!newUserData[cId.homePhone]) {
-        changedUserDataForProfile[cId.canWeVoicemailHome] = '';
+        changedUserDataForProfile[cId.canWeVoicemailHome] = cId.no;
       } else {
         changedUserDataForProfile[cId.canWeVoicemailHome] = newUserData[cId.canWeVoicemailHome] ?? existingUserData[cId.canWeVoicemailMobile] ?? cId.no;
       }
-      changedUserDataForHistory[cId.canWeVoicemailHome] = existingUserData[cId.canWeVoicemailHome] ?? cId.no;
+
+      if (existingUserData[cId.canWeVoicemailHome]) changedUserDataForHistory[cId.canWeVoicemailHome] = existingUserData[cId.canWeVoicemailHome];
     }
 
     if (cId.otherPhone in changedUserDataForProfile) {
       if (!newUserData[cId.otherPhone]) {
-        changedUserDataForProfile[cId.canWeVoicemailOther] = '';
+        changedUserDataForProfile[cId.canWeVoicemailOther] = cId.no;
       } else {
         changedUserDataForProfile[cId.canWeVoicemailOther] = newUserData[cId.canWeVoicemailOther] ?? existingUserData[cId.canWeVoicemailOther] ?? cId.no;
       }
-      changedUserDataForHistory[cId.canWeVoicemailOther] = existingUserData[cId.canWeVoicemailOther] ?? cId.no;
+      
+      if (existingUserData[cId.canWeVoicemailOther]) changedUserDataForHistory[cId.canWeVoicemailOther] = existingUserData[cId.canWeVoicemailOther];
+    }
+  }  
+
+  if (type === 'changeName') {
+    if (cId.suffix in changedUserDataForProfile) {
+      if (!newUserData[cId.suffix]) {
+        changedUserDataForProfile[cId.suffix] = cId.noneOfTheseApply;
+      }
     }
   }
 
@@ -736,7 +754,7 @@ const findChangedUserDataValues = (newUserData, existingUserData, type) => {
 const processUserDataUpdate = async (changedUserDataForProfile, changedUserDataForHistory, userHistory, preferredEmailExisting, type) => {
   const preferredEmail = changedUserDataForProfile[cId.preferredEmail] ?? preferredEmailExisting ?? '';
   if (changedUserDataForProfile && Object.keys(changedUserDataForProfile).length !== 0) {
-    changedUserDataForProfile[cId.userProfileHistory] = updateUserHistory(changedUserDataForHistory, userHistory, preferredEmail);
+    changedUserDataForProfile[cId.userProfileHistory] = updateUserHistory(changedUserDataForHistory, userHistory, preferredEmail, changedUserDataForProfile[cId.suffix]);
     await storeResponse(changedUserDataForProfile)
     .catch(function (error) {
       console.error('Error writing document (storeResponse): ', error);
@@ -762,17 +780,17 @@ const processUserDataUpdate = async (changedUserDataForProfile, changedUserDataF
  * @param {array of objects} userHistory - the user's existing history
  * @returns {userProfileHistoryArray} -the array of objects to write to user profile history, with the new data added to the end of the array
  */
-const updateUserHistory = (existingDataToUpdate, userHistory, preferredEmail) => {
+const updateUserHistory = (existingDataToUpdate, userHistory, preferredEmail, newSuffix) => {
   const userProfileHistoryArray = [];
   if (userHistory && Object.keys(userHistory).length > 0) userProfileHistoryArray.push(...userHistory);
   
-  const newUserHistoryMap = populateUserHistoryMap(existingDataToUpdate, preferredEmail);
+  const newUserHistoryMap = populateUserHistoryMap(existingDataToUpdate, preferredEmail, newSuffix);
   if (newUserHistoryMap && Object.keys(newUserHistoryMap).length > 0) userProfileHistoryArray.push(newUserHistoryMap);
 
   return userProfileHistoryArray;
 };
 
-const populateUserHistoryMap = (existingData, preferredEmail) => {
+const populateUserHistoryMap = (existingData, preferredEmail, newSuffix) => {
   const userHistoryMap = {};
   const keys = [
     cId.fName,
@@ -798,17 +816,21 @@ const populateUserHistoryMap = (existingData, preferredEmail) => {
     existingData[key] != null && (userHistoryMap[key] = existingData[key]);
   });
 
-  if (existingData[cId.cellPhone] != null) {
+  if (existingData[cId.cellPhone]) {
     userHistoryMap[cId.canWeVoicemailMobile] = existingData[cId.canWeVoicemailMobile];
     userHistoryMap[cId.canWeText] = existingData[cId.canWeText];
   }
 
-  if (existingData[cId.homePhone] != null) {
+  if (existingData[cId.homePhone]) {
     userHistoryMap[cId.canWeVoicemailHome] = existingData[cId.canWeVoicemailHome];
   }
 
-  if (existingData[cId.otherPhone] != null) {
+  if (existingData[cId.otherPhone]) {
     userHistoryMap[cId.canWeVoicemailOther] = existingData[cId.canWeVoicemailOther];
+  }
+
+  if (newSuffix && !existingData[cId.suffix]) {
+    userHistoryMap[cId.suffix] = cId.noneOfTheseApply;
   }
 
   if (Object.keys(userHistoryMap).length > 0) {
