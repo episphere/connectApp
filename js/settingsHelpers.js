@@ -689,9 +689,7 @@ const findChangedUserDataValues = (newUserData, existingUserData, type) => {
     if (newUserData[key] !== existingUserData[key]) {
       changedUserDataForProfile[key] = newUserData[key];
       if (!excludeHistoryKeys.includes(key)) {
-        if (existingUserData[key] || !keysToSkipIfNull.includes(existingUserData[key])) {
           changedUserDataForHistory[key] = existingUserData[key] ?? '';
-        }
       }
     }
   });
@@ -739,6 +737,10 @@ const findChangedUserDataValues = (newUserData, existingUserData, type) => {
       }
     }
   }
+
+  keysToSkipIfNull.forEach(key => {
+    if (changedUserDataForHistory[key] === '') changedUserDataForHistory[key] = null;
+  });
 
   return { changedUserDataForProfile, changedUserDataForHistory };
 };
@@ -817,16 +819,16 @@ const populateUserHistoryMap = (existingData, preferredEmail, newSuffix) => {
   });
 
   if (existingData[cId.cellPhone]) {
-    userHistoryMap[cId.canWeVoicemailMobile] = existingData[cId.canWeVoicemailMobile];
-    userHistoryMap[cId.canWeText] = existingData[cId.canWeText];
+    userHistoryMap[cId.canWeVoicemailMobile] = existingData[cId.canWeVoicemailMobile] ?? cId.no;
+    userHistoryMap[cId.canWeText] = existingData[cId.canWeText] ?? cId.no;
   }
 
   if (existingData[cId.homePhone]) {
-    userHistoryMap[cId.canWeVoicemailHome] = existingData[cId.canWeVoicemailHome];
+    userHistoryMap[cId.canWeVoicemailHome] = existingData[cId.canWeVoicemailHome] ?? cId.no;
   }
 
   if (existingData[cId.otherPhone]) {
-    userHistoryMap[cId.canWeVoicemailOther] = existingData[cId.canWeVoicemailOther];
+    userHistoryMap[cId.canWeVoicemailOther] = existingData[cId.canWeVoicemailOther] ?? cId.no;
   }
 
   if (newSuffix && !existingData[cId.suffix]) {
