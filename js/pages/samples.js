@@ -357,7 +357,7 @@ const marshfield = {
         [
             'Weston Center',
             '3400 Ministry Pkwy<br>Weston, WI 54476',
-            'Mondays and Thursdays: 7:00 a.m. to 1:00 p.m. *Please ask about evening and Friday appointment availability if needed',
+            'Mondays - Thursdays: 7:00 a.m. to 1:00 p.m. *Please ask about evening and Friday appointment availability if needed',
             'General parking available'
         ],
         [
