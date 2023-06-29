@@ -351,19 +351,19 @@ const marshfield = {
         [
             'Lake Hallie Center',
             '12961 27th Ave<br>Chippewa Falls, WI 54729',
-            'Monday, Tuesday, Thursday: 8:00 a.m. to 4:00 p.m.<br>Wednesday: 7:00 a.m. to 4:00 p.m.<br>Fridays: 8:00 a.m. to 2:00 p.m.',
+            'Monday - Thursday: 7:00 a.m. to 4:00 p.m.<br>Fridays: 8:00 a.m. to 2:00 p.m.',
             'General parking available'
         ],
         [
             'Weston Center',
             '3400 Ministry Pkwy<br>Weston, WI 54476',
-            'Mondays and Thursdays: 7:00 a.m. to 1:00 p.m. *Please ask about evening and Friday appointment availability if needed',
+            'Mondays - Thursdays: 7:00 a.m. to 1:00 p.m. *Please ask about evening and Friday appointment availability if needed',
             'General parking available'
         ],
         [
             'Wisconsin Rapids Center',
             '220 24th St S,<br>Wisconsin Rapids,WI 54494',
-            'Thursdays: 7:00 a.m. to 1:00 p.m.',
+            'Thursdays: 7:00 a.m. to 4:00 p.m.<br>Fridays: 7:00 a.m. to 10:00 a.m.',
             'General parking available'
         ]
     ]
