@@ -87,7 +87,7 @@ export const renderSettingsPage = async () => {
     optVars.canWeVoicemailHome = userData[cId.canWeVoicemailHome] === cId.yes;
     optVars.canWeVoicemailOther = userData[cId.canWeVoicemailOther] === cId.yes;
     optVars.middleName = userData[cId.mName];
-    optVars.suffix = userData[cId.suffix];
+    optVars.suffix = userData[cId.suffix] && userData[cId.suffix] !== cId.noneOfTheseApply ? userData[cId.suffix] : '';
     optVars.preferredFirstName = userData[cId.prefName];
     optVars.mobilePhoneNumberComplete = userData[cId.cellPhone];
     optVars.homePhoneNumberComplete = userData[cId.homePhone];
@@ -99,16 +99,22 @@ export const renderSettingsPage = async () => {
     formVisBools.isMailingAddressFormDisplayed = false;
     formVisBools.isLoginFormDisplayed = false;
     if (userData[cId.userProfileSubmittedAutogen] === cId.yes) {
+      let headerMessage = '';
+      if (!isParticipantDataDestroyed) {
+        if (userData[cId.verification] !== cId.verified) {
+            headerMessage = "Thank you for joining the National Cancer Institute's Connect for Cancer Prevention Study. Your involvement is very important. We are currently verifying your profile, which may take up to 3 business days.";
+        }
+      } else {
+        headerMessage = `We have deleted your information based on the data destruction request we received from you. If you have any questions, please contact the <a href="#support">Connect Support Center</a>.`;
+      }
+
       template += `
             <div class="row" style="margin-top:58px">
                 <div class="col-lg-3">
                 </div>
                 <div class="col-lg-6" id="myProfileHeader">
                     <p id="pendingVerification" style="color:${!isParticipantDataDestroyed ? '#1c5d86' : 'red'}; display:none;">
-                    ${!isParticipantDataDestroyed
-                        ? "Thank you for joining the National Cancer Institute's Connect for Cancer Prevention Study. Your involvement is very important. We are currently verifying your profile, which may take up to 3 business days."
-                        : `We have deleted your information based on the data destruction request form you signed. If you have any questions, please contact the <a href="#support">Connect Support Center</a>.`
-                    }
+                    ${headerMessage}
                     <br>
                     </p>
                     <p class="consentHeadersFont" id="myProfileTextContainer" style="color:#606060; display:none;">
