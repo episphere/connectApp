@@ -318,9 +318,30 @@ const renderMainBody = (data, collections, tab) => {
     let modules = questionnaireModules();
     modules = setModuleAttributes(data, modules, collections);
     
-    let toDisplaySystem = [{'header':'First Survey', 'body': ['Background and Overall Health', 'Where You Live and Work', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure']}, {'body':['Enter SSN']}]
-    if(data['821247024'] && data['821247024'] == 875007964){
-        toDisplaySystem = [{'header':'First Survey', 'body': ['Background and Overall Health', 'Where You Live and Work', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure']}]
+    let toDisplaySystem = [
+        {
+            header: "First Survey",
+            body: [
+                "Background and Overall Health",
+                "Where You Live and Work",
+                "Medications, Reproductive Health, Exercise, and Sleep",
+                "Smoking, Alcohol, and Sun Exposure",
+            ],
+        },
+        { body: ["Enter SSN"] },
+    ];
+    if (data["821247024"] && data["821247024"] == 875007964) {
+        toDisplaySystem = [
+            {
+                header: "First Survey",
+                body: [
+                    "Background and Overall Health",
+                    "Where You Live and Work",
+                    "Medications, Reproductive Health, Exercise, and Sleep",
+                    "Smoking, Alcohol, and Sun Exposure",
+                ],
+            },
+        ];
     }
 
     if(modules['Biospecimen Survey'].enabled) {
@@ -336,7 +357,12 @@ const renderMainBody = (data, collections, tab) => {
     }
 
     if(modules['Covid-19'].enabled) {
-        toDisplaySystem.unshift({'body':['Covid-19']});
+        if (toDisplaySystem.length <= 1) {
+            toDisplaySystem.push({ 'body': ["Covid-19"] });
+        } else {
+            const index = toDisplaySystem.length - 1;
+            toDisplaySystem[index].body.unshift("Covid-19");
+        }
     }
     
     if(tab === 'todo'){
@@ -664,6 +690,8 @@ const setModuleAttributes = (data, modules, collections) => {
     
     modules['Covid-19'].header = 'COVID-19 Survey'
     modules['Covid-19'].description = 'Questions about your history of COVID-19, including any vaccinations you may have received and details about times you may have gotten sick with COVID-19.'
+    modules['Covid-19'].hasIcon = false;
+    modules['Covid-19'].noButton = false;
     modules['Covid-19'].estimatedTime = '10 minutes'
 
     modules['Biospecimen Survey'].header = 'Baseline Blood, Urine, and Mouthwash Sample Survey';
