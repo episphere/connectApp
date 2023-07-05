@@ -1,9 +1,10 @@
-import { allStates, allCountries, getMyData } from "../shared.js";
+import { allStates, allCountries, getMyData, hasUserData } from "../shared.js";
 import { addEventMonthSelection, addEventUPSubmit, addEventCancerFollowUp, addEventChangeFocus, addEventAddressAutoComplete, addEventAdditionalEmail, addEventCheckCanText, addEventDisableCopyPaste } from "../event.js";
 
 export const renderUserProfile = async () => {
     const myData = await getMyData();
-    const siteId = myData.data ? myData.data['827220437'] : undefined;
+    if(!hasUserData(myData)) return;
+    
     const mainContent = document.getElementById('root');
     let suffixList = {612166858: 0,255907182: 1,226924545: 2,270793412: 3,959021713: 4,643664527: 5,537892528: 6};
     mainContent.innerHTML = `

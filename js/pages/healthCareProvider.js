@@ -1,4 +1,5 @@
 import { sites } from "../shared.js";
+import fieldMapping from "../fieldToConceptIdMapping.js"; 
 
 export const requestPINTemplate = () => {
     return `
@@ -89,7 +90,9 @@ export const healthCareProvider = (siteId) => {
     return template;
 }
 
-export const heardAboutStudy = () => {
+export const heardAboutStudy = (formData = {}) => {
+    const getChecked = (value) =>  value === fieldMapping.yes ? "checked" : "";
+    const { heardAboutStudyCheckBoxes } = fieldMapping;
     return `
         <br>
         <div class="row">
@@ -100,62 +103,65 @@ export const heardAboutStudy = () => {
             <label><strong>How did you hear about this study? (Select all that apply)</strong></label>
             <div class="form-group">
                 <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox8"> Another Connect participant</label>
+                    <label><input type="checkbox" id="checkbox8" ${getChecked(formData[heardAboutStudyCheckBoxes.checkbox8])}> Another Connect participant</label>
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox13"> Connect research staff at my health care system</label>
+                    <label><input type="checkbox" id="checkbox13" ${getChecked(formData[heardAboutStudyCheckBoxes.checkbox13])}> Connect research staff at my health care system</label>
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox10"> Connect table at public event</label>
+                    <label><input type="checkbox" id="checkbox10" ${getChecked(formData[heardAboutStudyCheckBoxes.checkbox10])}> Connect table at public event</label>
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox16"> Connect website on Cancer.gov</label>
+                    <label><input type="checkbox" id="checkbox16" ${getChecked(formData[heardAboutStudyCheckBoxes.checkbox16])}> Connect website on Cancer.gov</label>
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox2"> Email or text invitation</label>
+                    <label><input type="checkbox" id="checkbox2" ${getChecked(formData[heardAboutStudyCheckBoxes.checkbox2])}> Email or text invitation</label>
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox7"> Family or friend</label>
+                    <label><input type="checkbox" id="checkbox7" ${getChecked(formData[heardAboutStudyCheckBoxes.checkbox7])}> Family or friend</label>
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox14"> Health care system newsletter</label>
+                    <label><input type="checkbox" id="checkbox14" ${getChecked(formData[heardAboutStudyCheckBoxes.checkbox14])}> Health care system newsletter</label>
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox15"> Health care system website</label>
+                    <label><input type="checkbox" id="checkbox15" ${getChecked(formData[heardAboutStudyCheckBoxes.checkbox15])}> Health care system website</label>
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox6"> Invitation through my patient portal (such as MyChart)</label>
+                    <label><input type="checkbox" id="checkbox6" ${getChecked(formData[heardAboutStudyCheckBoxes.checkbox6])}> Invitation through my patient portal (such as MyChart)</label>
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox3"> Letter or brochure in mail</label>
+                    <label><input type="checkbox" id="checkbox3" ${getChecked(formData[heardAboutStudyCheckBoxes.checkbox3])}> Letter or brochure in mail</label>
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox17"> Local news, television, or radio station</label>
+                    <label><input type="checkbox" id="checkbox17" ${getChecked(formData[heardAboutStudyCheckBoxes.checkbox17])}> Local news, television, or radio station</label>
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox4"> News article or press release about Connect </label>
+                    <label><input type="checkbox" id="checkbox4" ${getChecked(formData[heardAboutStudyCheckBoxes.checkbox4])}> News article or press release about Connect </label>
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox12"> Phone call invitation</label>
+                    <label><input type="checkbox" id="checkbox12" ${getChecked(formData[heardAboutStudyCheckBoxes.checkbox12])}> Phone call invitation</label>
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox1"> Physician or other health care staff</label>
+                    <label><input type="checkbox" id="checkbox1" ${getChecked(formData[heardAboutStudyCheckBoxes.checkbox1])}> Physician or other health care staff</label>
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox9"> Poster, flyer, or sign at my health care system</label>
+                    <label><input type="checkbox" id="checkbox9" ${getChecked(formData[heardAboutStudyCheckBoxes.checkbox9])}> Poster, flyer, or sign at my health care system</label>
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox19"> Recorded message</label>
+                    <label><input type="checkbox" id="checkbox19" ${getChecked(formData[heardAboutStudyCheckBoxes.checkbox19])}> Recorded message</label>
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox5"> Social media post (on Facebook, Twitter, Instagram, or other channels)</label>
+                    <label><input type="checkbox" id="checkbox5" ${getChecked(formData[heardAboutStudyCheckBoxes.checkbox5])}> Social media post (on Facebook, Twitter, Instagram, or other channels)</label>
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox" id="checkbox18"> Video</label>
+                    <label><input type="checkbox" id="checkbox18" ${getChecked(formData[heardAboutStudyCheckBoxes.checkbox18])}> Video</label>
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox"  id="checkbox11"> Other</label>
+                    <label><input type="checkbox"  id="checkbox11" ${getChecked(formData[heardAboutStudyCheckBoxes.checkbox11])}> Other</label>
                 </div>
+            </div>
+            <div class="row">
+                The next screens will take you through the informed consent process. They explain more about the study and what it means to take part in Connect. At the end, you can read the full informed consent form and electronic health records release form before you decide if you want to join.
             </div>
             <div class="row">
                 <div class="ml-auto">

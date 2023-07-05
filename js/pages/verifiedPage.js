@@ -1,9 +1,9 @@
-import { getMyData } from "../shared.js";
+import { getMyData, hasUserData } from "../shared.js";
 
 export const renderVerifiedPage = async () => {
     const myData = await getMyData();
     let site = 0;
-    if(myData.data){
+    if(hasUserData(myData)){
         site = myData["data"]['827220437']
     }
     let template =  `

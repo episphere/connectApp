@@ -1,10 +1,10 @@
-import { getMyData } from "../shared.js";
+import { getMyData, hasUserData } from "../shared.js";
 
 export const renderPaymentPage = async () => {
     document.title = 'My Connect - Payment';
     const myData = await getMyData();
     let site = 0;
-    if(myData.data){
+    if(hasUserData(myData)){
         site = myData["data"]['827220437']
     }
     let paymentInfo = `
