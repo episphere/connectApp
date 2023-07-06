@@ -111,7 +111,7 @@ export const renderSamplesPage = async () => {
                             </div>
                         </div>
                     </div>
-                
+
                     ${site.name !== henry_ford.name ? `
                     <div class="row" style="width:100%">
                         <div class="consentHeadersFont" style="color:#606060;width:100%">
