@@ -1,4 +1,4 @@
-import { getMyData, hideAnimation, showAnimation, siteAcronyms, dateTime, storeResponse, isMobile, openNewTab } from "../shared.js";
+import { getMyData, hasUserData, hideAnimation, showAnimation, siteAcronyms, dateTime, storeResponse, isMobile, openNewTab } from "../shared.js";
 import { initializeCanvas } from './consent.js'
 import fieldMapping from '../fieldToConceptIdMapping.js';
 
@@ -60,7 +60,7 @@ export const renderAgreements = async () => {
     showAnimation();
     const myData = await getMyData();
     let template = '';
-    if(myData.code === 200 && myData.data['919254129'] !== undefined && myData.data['919254129'] === 353358909){
+    if(hasUserData(myData) && myData.data['919254129'] !== undefined && myData.data['919254129'] === 353358909){
         template += `
             <div class="row">
                 <div class="col-lg-2">
@@ -278,19 +278,19 @@ export const renderAgreements = async () => {
 }
 
 const addEventAgreementOptions = (myData) => {
-    
-    const downloadConsent = document.getElementById('downloadConsent');
-    if(downloadConsent){
-        downloadConsent.addEventListener('click', async (e) => {
-            await downloadSignedPdf(myData.data, e);
-        })
-    }
+    const anchorIdArray = ['downloadConsent', 'downloadHIPAA'];
+    for (const anchorId of anchorIdArray) {
+      const anchorElement = document.getElementById(anchorId);
+      if (!anchorElement) continue;
 
-    const downloadHIPAA = document.getElementById('downloadHIPAA');
-    if(downloadHIPAA){
-        downloadHIPAA.addEventListener('click', async (e) => {
-            await downloadSignedPdf(myData.data, e);
-        })
+      anchorElement.addEventListener('click', async (e) => {
+        await downloadSignedPdf(myData.data, e);
+      });
+
+      // Handle touch events in iPhone/iPad
+      anchorElement.addEventListener('touchend', (e) => {
+        anchorElement.click();
+      });
     }
 
     const downloadRevoke = document.getElementById('downloadRevoke');

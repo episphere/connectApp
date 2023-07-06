@@ -1,4 +1,4 @@
-import { getParameters, validateToken, userLoggedIn, getMyData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, appState } from "./js/shared.js";
+import { getParameters, validateToken, userLoggedIn, getMyData, hasUserData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, appState, processAuthWithFirebaseAdmin, successResponse } from "./js/shared.js";
 import { userNavBar, homeNavBar } from "./js/components/navbar.js";
 import { homePage, joinNowBtn, whereAmIInDashboard, renderHomeAboutPage, renderHomeExpectationsPage, renderHomePrivacyPage } from "./js/pages/homePage.js";
 import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser, addEventToggleSubmit } from "./js/event.js";
@@ -15,6 +15,7 @@ import { renderVerifiedPage } from "./js/pages/verifiedPage.js";
 import { firebaseConfig as devFirebaseConfig } from "./dev/config.js";
 import { firebaseConfig as stageFirebaseConfig } from "./stage/config.js";
 import { firebaseConfig as prodFirebaseConfig } from "./prod/config.js";
+import conceptIdMap from "./js/fieldToConceptIdMapping.js";
 
 let auth = '';
 
@@ -47,7 +48,7 @@ window.onload = async () => {
         script.src = `https://maps.googleapis.com/maps/api/js?key=${prodFirebaseConfig.apiKey}&libraries=places&callback=Function.prototype`
         !firebase.apps.length ? firebase.initializeApp(prodFirebaseConfig) : firebase.app();
 
-        //window.DD_RUM && window.DD_RUM.init({ ...datadogConfig, env: 'prod' });
+        window.DD_RUM && window.DD_RUM.init({ ...datadogConfig, env: 'prod' });
     }
     else if(location.host === urls.stage) {
         script.src = `https://maps.googleapis.com/maps/api/js?key=${stageFirebaseConfig.apiKey}&libraries=places&callback=Function.prototype`
@@ -62,23 +63,24 @@ window.onload = async () => {
         !isLocalDev && window.DD_RUM && window.DD_RUM.init({ ...datadogConfig, env: 'dev' });
     }
 
-    !isLocalDev && location.host !== urls.prod && window.DD_RUM && window.DD_RUM.startSessionReplayRecording();
+    !isLocalDev && window.DD_RUM && window.DD_RUM.startSessionReplayRecording();
     
     document.body.appendChild(script)
     auth = firebase.auth();
 
     auth.onAuthStateChanged(async (user) => {
+      let idToken = '';
       if (user) {
-        const idToken = await user.getIdToken();
-        appState.setState({ idToken });
-
+        idToken = await user.getIdToken();
         if (!user.isAnonymous) {
           localforage.clear();
           inactivityTime();
+          const firstSignInTime = new Date(user.metadata.creationTime).toISOString();
+          appState.setState({ participantData: { firstSignInTime } });
         } 
-      } else {
-        appState.setState({ idToken: '' });
       }
+
+      appState.setState({ idToken });
     });
 
     if ('serviceWorker' in navigator) {
@@ -217,19 +219,24 @@ const router = async () => {
     }
     else{
         const data = await getMyData();
-        toggleNavBar(route, data);  // If logged in, pass data to toggleNavBar
 
-        if (route === '#') userProfile();
-        else if (route === '#dashboard') userProfile();
-        else if (route === '#messages') renderNotificationsPage();
-        else if (route === '#sign_out') signOut();
-        else if (route === '#forms') renderAgreements();
-        else if (route === '#myprofile') renderSettingsPage();
-        else if (route === '#support') renderSupportPage();
-        else if (route === '#samples') renderSamplesPage();
-        else if (route === '#payment') renderPaymentPage();
-        else if (route === '#verified') renderVerifiedPage();
-        else window.location.hash = '#';
+        if(successResponse(data)) {
+            const firebaseAuthUser = firebase.auth().currentUser;
+            await checkAuthDataConsistency(firebaseAuthUser.email ?? '', firebaseAuthUser.phoneNumber ?? '', data.data[conceptIdMap.firebaseAuthEmail] ?? '', data.data[conceptIdMap.firebaseAuthPhone] ?? '');
+            toggleNavBar(route, data);  // If logged in, pass data to toggleNavBar
+
+            if (route === '#') userProfile();
+            else if (route === '#dashboard') userProfile();
+            else if (route === '#messages') renderNotificationsPage();
+            else if (route === '#sign_out') signOut();
+            else if (route === '#forms') renderAgreements();
+            else if (route === '#myprofile') renderSettingsPage();
+            else if (route === '#support') renderSupportPage();
+            else if (route === '#samples') renderSamplesPage();
+            else if (route === '#payment') renderPaymentPage();
+            else if (route === '#verified') renderVerifiedPage();
+            else window.location.hash = '#';   
+        }
     }
 }
 
@@ -243,12 +250,13 @@ const userProfile = () => {
             if(href.includes(specialParameter)) href = href.substr(href.indexOf(specialParameter) + specialParameter.length, href.length);
             const parameters = getParameters(href);
             showAnimation();
-            
-            if(parameters && parameters.token){
-                await validateToken(parameters.token);
-                await storeResponse({
-                  335767902: new Date(parseInt(user.metadata.a)).toISOString(),
-                });
+
+            if (parameters?.token) {
+                const response = await validateToken(parameters.token); // Add uid and sign-in flag if token is valid
+                if (response.code === 200) {
+                    const firstSignInTime = new Date(user.metadata.creationTime).toISOString();
+                    await storeResponse({[conceptIdMap.firstSignInTime]: firstSignInTime});
+                }
             }
 
             const userData = await getMyData();
@@ -296,7 +304,7 @@ const userProfile = () => {
                 return;
             }
             
-            if (userData.code === 200) {
+            if (hasUserData(userData)) {
 
                 const myData = userData.data;
                 const myCollections = await getMyCollections();
@@ -306,7 +314,7 @@ const userProfile = () => {
             else {
                 mainContent.innerHTML = requestPINTemplate();
                 addEventPinAutoUpperCase();
-                addEventRequestPINForm(user.metadata.a);
+                addEventRequestPINForm();
                 addEventToggleSubmit();
                 hideAnimation();
             }
@@ -353,3 +361,59 @@ const toggleNavBar = (route, data) => {
         }
     });
 }
+
+/**
+ * confirm the user's Firebase Auth email and phone data match the user's Firestore email and phone data.
+ * There's a 'gotcha' with magic links -the firebase auth profile is stripped of the phone number auth when a magic link is used for email login.
+ * The 'if' case below handles this. We check the firebase auth && firestore participant profiles for a phone match. If no match, and a phone number exists in the firestore participant profile, we write update the auth phone number to the firebase auth profile.
+ * The 'else if' case handles the following: We write firebase auth and firestore participant data separately, one after another. There's a chance the first write (Firebase Auth) succeeds and the second write (Firestore) fails.
+ * This only costs an API call if the data is inconsistent since we hava access to both datapoints from app init. It otherwise only costs the time to run the check.
+ */
+const checkAuthDataConsistency = async (firebaseAuthEmail, firebaseAuthPhoneNumber, firestoreParticipantEmail, firestoreParticipantPhoneNumber) => {
+    const isAuthEmailConsistent = firebaseAuthEmail === firestoreParticipantEmail;
+    const isAuthPhoneConsistent = firebaseAuthPhoneNumber === firestoreParticipantPhoneNumber;
+  
+    if (firestoreParticipantPhoneNumber && !firebaseAuthPhoneNumber) {
+      await updateFirebaseAuthPhoneTrigger(firestoreParticipantPhoneNumber);
+      return false;
+    } else if (!isAuthEmailConsistent || !isAuthPhoneConsistent) {
+      const authDataToSync = {
+        [conceptIdMap.firebaseAuthEmail]: firebaseAuthEmail,
+      };
+
+      if (firebaseAuthPhoneNumber || firestoreParticipantPhoneNumber) {
+        authDataToSync[conceptIdMap.firebaseAuthPhone] = firebaseAuthPhoneNumber ?? firestoreParticipantPhoneNumber;
+      }
+  
+      try {
+        await storeResponse(authDataToSync);
+      } catch (error) {
+        console.error('Error updating document (storeResponse): ', error);
+        return false;
+      }      
+      return false;
+    }
+    return true;
+};
+
+const updateFirebaseAuthPhoneTrigger = async (phone) =>  {
+    showAnimation();
+    const uid = firebase.auth().currentUser.uid;
+    if (phone && phone.startsWith('+1')) phone = phone.substring(2);
+    let newAuthData = {};
+    newAuthData['uid'] = uid;
+    newAuthData['flag'] = 'replaceSignin';
+    newAuthData['phone'] = phone;
+  
+    try {
+      await processAuthWithFirebaseAdmin(newAuthData);
+      hideAnimation();
+      const firebaseAuthUser = firebase.auth().currentUser;
+      await firebaseAuthUser.reload();
+      return;
+    } catch (error) {
+      console.error('An error occurred:', error);
+      hideAnimation();
+      throw error;
+    }
+};

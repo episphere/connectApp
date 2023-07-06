@@ -1,7 +1,8 @@
-import { allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, errorMessageNumbers, BirthMonths, getAge, getMyData, retrieveNotifications, removeActiveClass, toggleNavbarMobileView } from "./shared.js";
+import { allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, BirthMonths, getAge, getMyData, hasUserData, retrieveNotifications, removeActiveClass, toggleNavbarMobileView, appState } from "./shared.js";
 import { consentTemplate } from "./pages/consent.js";
 import { heardAboutStudy, healthCareProvider } from "./pages/healthCareProvider.js";
 import { myToDoList } from "./pages/myToDoList.js";
+import fieldMapping from "./fieldToConceptIdMapping.js";
 
 export const addEventsConsentSign = () => {
     document.getElementById('CSFirstName').addEventListener('keyup', () => {
@@ -195,31 +196,36 @@ export const addEventHeardAboutStudy = () => {
     form.addEventListener('submit', async e => {
         e.preventDefault();
         dataSavingBtn('save-data');
-        let formData = {};
-        formData["142654897"] = {};
-        formData["142654897"]["196856782"] = document.getElementById('checkbox1').checked ? 353358909 : 104430631;
-        formData["142654897"]["461488577"] = document.getElementById('checkbox2').checked ? 353358909 : 104430631;
-        formData["142654897"]["942255248"] = document.getElementById('checkbox3').checked ? 353358909 : 104430631;
-        formData["142654897"]["791389099"] = document.getElementById('checkbox4').checked ? 353358909 : 104430631;
-        formData["142654897"]["642287621"] = document.getElementById('checkbox5').checked ? 353358909 : 104430631;
-        formData["142654897"]["607081902"] = document.getElementById('checkbox6').checked ? 353358909 : 104430631;
-        formData["142654897"]["549687190"] = document.getElementById('checkbox7').checked ? 353358909 : 104430631;
-        formData["142654897"]["326825649"] = document.getElementById('checkbox8').checked ? 353358909 : 104430631;
-        formData["142654897"]["819377306"] = document.getElementById('checkbox9').checked ? 353358909 : 104430631;
-        formData["142654897"]["829269606"] = document.getElementById('checkbox10').checked ? 353358909 : 104430631;
-        formData["142654897"]["462314689"] = document.getElementById('checkbox11').checked ? 353358909 : 104430631;
-        formData["142654897"]["639721694"] = document.getElementById('checkbox12').checked ? 353358909 : 104430631;
-        formData["142654897"]["177402915"] = document.getElementById('checkbox13').checked ? 353358909 : 104430631;
-        formData["142654897"]["684726272"] = document.getElementById('checkbox14').checked ? 353358909 : 104430631;
-        formData["142654897"]["241590841"] = document.getElementById('checkbox15').checked ? 353358909 : 104430631;
-        formData["142654897"]["206879104"] = document.getElementById('checkbox16').checked ? 353358909 : 104430631;
-        formData["142654897"]["520301146"] = document.getElementById('checkbox17').checked ? 353358909 : 104430631;
-        formData["142654897"]["285130077"] = document.getElementById('checkbox18').checked ? 353358909 : 104430631;
-        formData["142654897"]["967372009"] = document.getElementById('checkbox19').checked ? 353358909 : 104430631;
+
+        const getValue = (id) => document.getElementById(id).checked ? fieldMapping.yes : fieldMapping.no;
+        const { heardAboutStudyCheckBoxes } = fieldMapping;
+        const inputData = {};
+        inputData[heardAboutStudyCheckBoxes.checkbox1]= getValue('checkbox1');
+        inputData[heardAboutStudyCheckBoxes.checkbox2] = getValue('checkbox2');
+        inputData[heardAboutStudyCheckBoxes.checkbox3] = getValue('checkbox3');
+        inputData[heardAboutStudyCheckBoxes.checkbox4] = getValue('checkbox4');
+        inputData[heardAboutStudyCheckBoxes.checkbox5] = getValue('checkbox5');
+        inputData[heardAboutStudyCheckBoxes.checkbox6] = getValue('checkbox6');
+        inputData[heardAboutStudyCheckBoxes.checkbox7] = getValue('checkbox7');
+        inputData[heardAboutStudyCheckBoxes.checkbox8] = getValue('checkbox8');
+        inputData[heardAboutStudyCheckBoxes.checkbox9] = getValue('checkbox9');
+        inputData[heardAboutStudyCheckBoxes.checkbox10] = getValue('checkbox10');
+        inputData[heardAboutStudyCheckBoxes.checkbox11] = getValue('checkbox11');
+        inputData[heardAboutStudyCheckBoxes.checkbox12] = getValue('checkbox12');
+        inputData[heardAboutStudyCheckBoxes.checkbox13] = getValue('checkbox13');
+        inputData[heardAboutStudyCheckBoxes.checkbox14] = getValue('checkbox14');
+        inputData[heardAboutStudyCheckBoxes.checkbox15] = getValue('checkbox15');
+        inputData[heardAboutStudyCheckBoxes.checkbox16] = getValue('checkbox16');
+        inputData[heardAboutStudyCheckBoxes.checkbox17] = getValue('checkbox17');
+        inputData[heardAboutStudyCheckBoxes.checkbox18] = getValue('checkbox18');
+        inputData[heardAboutStudyCheckBoxes.checkbox19] = getValue('checkbox19');
+        
+
+        const formData = {};
+        formData[fieldMapping.heardAboutStudyForm] = inputData;
         
         const response = await storeResponse(formData);
         if(response.code === 200) {
-            const mainContent = document.getElementById('root');
             consentTemplate();
         }
     });
@@ -983,7 +989,7 @@ const verifyUserDetails = (formData) => {
         if(response.code === 200) {
             const myData = await getMyData();
             hideAnimation();
-            if(myData.code === 200){
+            if(hasUserData(myData)){
                 myToDoList(myData.data, true);
             }
         }
@@ -1063,7 +1069,7 @@ export const addEventToggleSubmit = () => {
     })
 }
 
-export const addEventRequestPINForm = (accountCreatedAt) => {
+export const addEventRequestPINForm = () => {
     const form = document.getElementById('requestPINForm');
     form.addEventListener('submit', async e => {
         e.preventDefault();
@@ -1071,7 +1077,7 @@ export const addEventRequestPINForm = (accountCreatedAt) => {
         const pin = document.getElementById('participantPIN').value;
         const mainContent = document.getElementById('root');
         let formData = {};
-        formData["335767902"] = (new Date(parseInt(accountCreatedAt))).toISOString(); // Store account creation time
+        formData[fieldMapping.firstSignInTime] = appState.getState().participantData.firstSignInTime;
 
         if(pin && pin !== ""){
             const response = await validatePin(pin);
