@@ -481,25 +481,31 @@ const submitNewLoginMethod = async (email, phone) => {
     const loginPhoneField = document.getElementById('loginPhoneField');
     const loginEmailDiv = document.getElementById('loginEmailDiv');
     const loginPhoneDiv = document.getElementById('loginPhoneDiv');
+    const loginEmailRow = document.getElementById('loginEmailRow');
+    const loginPhoneRow = document.getElementById('loginPhoneRow');
     
     if (optVars.loginEmail) {
-        document.getElementById('loginEmailRow').style.display = 'block';
+        loginEmailRow.style.display = 'block';
         profileEmailElement.innerHTML = optVars.loginEmail;
         profileEmailElement.style.display = 'block';
         loginEmailField && (loginEmailField.innerHTML = optVars.loginEmail);
         loginEmailDiv && (loginEmailDiv.style.display = 'block');
     } else {
+        console.log('login email else');
+        loginEmailRow && (loginEmailRow.style.display = 'none');
         loginEmailDiv && (loginEmailDiv.style.display = 'none');
         profileEmailElement.style.display = 'none';
     }
 
     if (optVars.loginPhone) {
-        document.getElementById('loginPhoneRow').style.display = 'block';
+        loginPhoneRow.style.display = 'block';
         profilePhoneElement.innerHTML = `${optVars.loginPhone}`;
         profilePhoneElement.style.display = 'block';
         loginPhoneField && (loginPhoneField.innerHTML = optVars.loginPhone);
         loginPhoneDiv && (loginPhoneDiv.style.display = 'block');        
     } else {
+        console.log('login phone else');
+        loginPhoneRow && (loginPhoneRow.style.display = 'none');
         loginPhoneDiv && (loginPhoneDiv.style.display = 'none');
         profilePhoneElement.style.display = 'none';
     }
