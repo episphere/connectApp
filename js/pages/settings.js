@@ -1451,4 +1451,4 @@ const renderConfirmationModal = (removalType) => {
         </div>
     </div>
     `;
-};  
+};
