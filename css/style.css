@@ -194,6 +194,12 @@ a{
     color: rgba(0,0,0,.5) !important;
 }
 
+.nav-item > a.disabled {
+    pointer-events: none;
+    cursor: default;
+    color: grey !important;
+  }
+
 .form-group {
     padding-left: 0px !important;
     margin-bottom:0px !important;

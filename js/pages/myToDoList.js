@@ -1,4 +1,4 @@
-import { hideAnimation, questionnaireModules, storeResponse, sites } from "../shared.js";
+import { hideAnimation, questionnaireModules, storeResponse, sites , isParticipantDataDestroyed} from "../shared.js";
 import { blockParticipant, questionnaire } from "./questionnaire.js";
 import { renderUserProfile } from "../components/form.js";
 import { consentTemplate } from "./consent.js";
@@ -38,7 +38,11 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                 `;
                 let finalMessage = "";
                 const defaultMessage = "<p/><br>You have withdrawn from Connect. We will not collect any more data from you. If you have any questions, please contact the Connect Support Center by calling 1-877-505-0253 or by emailing <a href='mailto:ConnectSupport@norc.org'>ConnectSupport@norc.org</a>.<br>";
-                if (data.hasOwnProperty('831041022') && data['831041022'] == 353358909){
+
+                if (isParticipantDataDestroyed(data)){
+                    finalMessage += "At your request, we have deleted your Connect data. If you have any questions, please contact the Connect Support Center by calling 1-877-505-0253 or by emailing  <a href='mailto:ConnectSupport@norc.org'>ConnectSupport@norc.org</a>."
+                }
+                else if (data.hasOwnProperty('831041022') && data['831041022'] == 353358909){
                     if (!data['359404406'] || data['359404406'] == 104430631){
                         finalMessage += "You have a new <a href='#forms'>form</a> to sign." + defaultMessage
                     }
@@ -269,12 +273,19 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
         return;
     }
     else if(data['827220437'] && !data['142654897']){
-        if (data[fieldMapping.dataDestroyCategorical] === fieldMapping.requestedDataDestroySigned) {
+        if (isParticipantDataDestroyed(data)) {
             mainContent.innerHTML = `
-                <br>
-                <p>
-                    We have deleted your information based on the data destruction request form you signed. If you have any questions, please contact the <a href="#support">Connect Support Center</a>.
-                </p>`;
+                <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
+                    <div class="row">
+                        <div class="col-lg-2"></div>
+                        <div class="col-lg-8">
+                            <p>
+                            At your request, we have deleted your Connect data. If you have any questions, please contact the Connect Support Center by calling 1-877-505-0253 or by emailing  <a href='mailto:ConnectSupport@norc.org'>ConnectSupport@norc.org</a>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            `;
         } else {
             mainContent.innerHTML =  heardAboutStudy();
             addEventHeardAboutStudy();
@@ -289,9 +300,24 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
         hideAnimation();
     }
     else{
-        mainContent.innerHTML = healthCareProvider();
-        addEventHealthCareProviderSubmit();
-        addEventHealthProviderModalSubmit();
+        if (isParticipantDataDestroyed(data)) {
+            mainContent.innerHTML = `
+                <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
+                    <div class="row">
+                        <div class="col-lg-2"></div>
+                        <div class="col-lg-8">
+                            <p>
+                            At your request, we have deleted your Connect data. If you have any questions, please contact the Connect Support Center by calling 1-877-505-0253 or by emailing  <a href='mailto:ConnectSupport@norc.org'>ConnectSupport@norc.org</a>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        } else {
+            mainContent.innerHTML = healthCareProvider();
+            addEventHealthCareProviderSubmit();
+            addEventHealthProviderModalSubmit();
+        }
         hideAnimation();
     }
 }
