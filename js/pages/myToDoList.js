@@ -135,7 +135,7 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                 else if(data['821247024'] && data['821247024'] == 922622075) {
                     template += `
                     <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
-                        Our records show that there is another account linked to your sign in information. Please contact the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling <span style="white-space:nowrap;overflow:hidden">1-877-505-0253</span> so we can help you access the correct account.
+                        Our records show that you already have another account with a different email or phone number. Please try signing in again. Contact the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling <span style="white-space:nowrap;overflow:hidden">1-877-505-0253</span> if you need help accessing your account.
                     </div>
                     </div>
                     <div class="col-lg-2">
