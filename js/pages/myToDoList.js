@@ -361,7 +361,7 @@ const renderMainBody = (data, collections, tab) => {
             toDisplaySystem.push({ 'body': ["Covid-19"] });
         } else {
             const index = toDisplaySystem.length - 1;
-            toDisplaySystem[index].body.unshift("Covid-19");
+            toDisplaySystem[index].body.push("Covid-19");
         }
     }
     
