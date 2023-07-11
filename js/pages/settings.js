@@ -491,7 +491,6 @@ const submitNewLoginMethod = async (email, phone) => {
         loginEmailField && (loginEmailField.innerHTML = optVars.loginEmail);
         loginEmailDiv && (loginEmailDiv.style.display = 'block');
     } else {
-        console.log('login email else');
         loginEmailRow && (loginEmailRow.style.display = 'none');
         loginEmailDiv && (loginEmailDiv.style.display = 'none');
         profileEmailElement.style.display = 'none';
@@ -504,7 +503,6 @@ const submitNewLoginMethod = async (email, phone) => {
         loginPhoneField && (loginPhoneField.innerHTML = optVars.loginPhone);
         loginPhoneDiv && (loginPhoneDiv.style.display = 'block');        
     } else {
-        console.log('login phone else');
         loginPhoneRow && (loginPhoneRow.style.display = 'none');
         loginPhoneDiv && (loginPhoneDiv.style.display = 'none');
         profilePhoneElement.style.display = 'none';
