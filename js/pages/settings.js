@@ -469,9 +469,10 @@ const submitNewLoginMethod = async (email, phone) => {
     clearLoginFormFields();
     formVisBools.isLoginFormDisplayed = toggleElementVisibility(loginElementArray, formVisBools.isLoginFormDisplayed);
     toggleButtonText();
+    document.getElementById('changePhoneSubmit').style.display = 'block';
     document.getElementById('changeLoginGroup').style.display = 'none';
 
-    optVars.loginEmail = userData[cId.firebaseAuthEmail] ? userData[cId.firebaseAuthEmail] : '';
+    optVars.loginEmail = userData[cId.firebaseAuthEmail] && !userData[cId.firebaseAuthEmail].startsWith('noreply') ? userData[cId.firebaseAuthEmail] : '';
     optVars.loginPhone = formatFirebaseAuthPhoneNumber(userData[cId.firebaseAuthPhone]);
 
     const profileEmailElement = document.getElementById('profileEmail');
@@ -480,7 +481,7 @@ const submitNewLoginMethod = async (email, phone) => {
     const loginPhoneField = document.getElementById('loginPhoneField');
     const loginEmailDiv = document.getElementById('loginEmailDiv');
     const loginPhoneDiv = document.getElementById('loginPhoneDiv');
-
+    
     if (optVars.loginEmail) {
         document.getElementById('loginEmailRow').style.display = 'block';
         profileEmailElement.innerHTML = optVars.loginEmail;
@@ -488,6 +489,7 @@ const submitNewLoginMethod = async (email, phone) => {
         loginEmailField && (loginEmailField.innerHTML = optVars.loginEmail);
         loginEmailDiv && (loginEmailDiv.style.display = 'block');
     } else {
+        loginEmailDiv && (loginEmailDiv.style.display = 'none');
         profileEmailElement.style.display = 'none';
     }
 
@@ -498,6 +500,7 @@ const submitNewLoginMethod = async (email, phone) => {
         loginPhoneField && (loginPhoneField.innerHTML = optVars.loginPhone);
         loginPhoneDiv && (loginPhoneDiv.style.display = 'block');        
     } else {
+        loginPhoneDiv && (loginPhoneDiv.style.display = 'none');
         profilePhoneElement.style.display = 'none';
     }
 
@@ -607,7 +610,7 @@ const attachLoginEditFormButtons = async () => {
                     try {
                         const firebaseUser = firebase.auth().currentUser;
                         if (firebaseUser.email && firebaseUser.phoneNumber) {
-                            result = await unlinkFirebaseAuthProvider(type.toLowerCase(), userData);
+                            result = await unlinkFirebaseAuthProvider(type.toLowerCase(), userData, null, true);
                             const isSuccess = result === true;
                             closeModal(type);
                             updateUIAfterUnlink(isSuccess, type, isSuccess ? null : result);

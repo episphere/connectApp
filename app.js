@@ -262,7 +262,7 @@ const userProfile = () => {
             const userData = await getMyData();
 
             window.history.replaceState({},'Dashboard', './#dashboard');
-            if(user.email && !user.emailVerified){
+            if(user.email && !user.emailVerified && !user.email.startsWith('noreply')) {
                 const mainContent = document.getElementById('root');
                 mainContent.innerHTML = `
                     <br>
