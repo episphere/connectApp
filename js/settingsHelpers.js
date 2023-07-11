@@ -361,11 +361,11 @@ export const changeName = async (firstName, lastName, middleName, suffix, prefer
     [cId.lName]: lastName,
     [cId.suffix]: parseInt(suffix),
     [cId.prefName]: preferredFirstName,
-    ['query.firstName']: firstName.toLowerCase(),
-    ['query.lastName']: lastName.toLowerCase(),
   };
-
-  const { changedUserDataForProfile, changedUserDataForHistory } = findChangedUserDataValues(newValues, userData, 'changeName');
+  
+  let { changedUserDataForProfile, changedUserDataForHistory } = findChangedUserDataValues(newValues, userData, 'changeName');
+  changedUserDataForProfile = handleNameField(firstNameTypes, 'firstName', changedUserDataForProfile, userData);
+  changedUserDataForProfile = handleNameField(lastNameTypes, 'lastName', changedUserDataForProfile, userData);
   const isSuccess = processUserDataUpdate(changedUserDataForProfile, changedUserDataForHistory, userData[cId.userProfileHistory], userData[cId.prefEmail], 'changeName');
   return isSuccess;
 };
@@ -403,6 +403,37 @@ export const changeContactInformation = async (mobilePhoneNumberComplete, homePh
   changedUserDataForProfile = handleAllEmailField(changedUserDataForProfile, userData);
   const isSuccess = processUserDataUpdate(changedUserDataForProfile, changedUserDataForHistory, userData[cId.userProfileHistory], userData[cId.prefEmail], 'changeContactInformation');
   return isSuccess;
+};
+
+const firstNameTypes = [cId.fName, cId.prefName, cId.consentFirstName];
+const lastNameTypes = [cId.lName, cId.consentLastName];
+
+/**
+ * Handle the query.frstName and query.lastName fields in the participant profile.
+ * Check the changedUserDataForProfile object and then the participant profile for all name types. If a name is in changedUserDataForProfile, that's the up-to-date version. Add it to the queryNameArray.
+ * If a nameType isn't in changedUserData, check the existing participant profile and add that to the queryNameArray.
+ * If a nameType is an empty string in changedUserData, don't add it to the queryNameArray even if it exists in the participant profile. The empty string means the participant wants the name removed.
+ * Lastly, remove duplicates. This can happen when the participant has a consent name that matches the first or last name.
+ * @param {array} nameTypes - array of name types to check.
+ * @param {string} fieldName - the name of the field to update.
+ * @param {object} changedUserDataForProfile - the changed user data.
+ * @param {object} userData - the existing participant object.
+ */
+const handleNameField = (nameTypes, fieldName, changedUserDataForProfile, userData) => {
+  const queryNameArray = [];
+  nameTypes.forEach(nameType => {
+      if (changedUserDataForProfile[nameType]) {
+          queryNameArray.push(changedUserDataForProfile[nameType].toLowerCase());
+      } else if (userData[nameType] && changedUserDataForProfile[nameType] !== '') {
+          queryNameArray.push(userData[nameType].toLowerCase());
+      }
+  });
+
+  const uniqueNameArray = Array.from(new Set(queryNameArray));
+
+  changedUserDataForProfile[`query.${fieldName}`] = uniqueNameArray;
+
+  return changedUserDataForProfile;
 };
 
 /**
@@ -869,4 +900,3 @@ export const unlinkFirebaseAuthenticationTrigger = async (authToUnlink) =>  {
       throw error;
   }
 }
-
