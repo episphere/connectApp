@@ -321,7 +321,7 @@ export const addEventUPSubmit = () => {
                     }
                 }
                 if(validationPattern && validationPattern === 'year') {
-                    if(!/[19|20]{2}[0-9]{2}/.test(element.value)) {
+                    if(!/^(19|20)[0-9]{2}$/.test(element.value)) {
                         errorMessage(element.id, element.dataset.errorValidation, focus)
                         focus = false;
                         hasError = true;
