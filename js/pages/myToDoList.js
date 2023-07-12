@@ -272,24 +272,9 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
         hideAnimation();
         return;
     }
-    else if(data['827220437'] && !data['142654897']){
-        if (isParticipantDataDestroyed(data)) {
-            mainContent.innerHTML = `
-                <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
-                    <div class="row">
-                        <div class="col-lg-2"></div>
-                        <div class="col-lg-8">
-                            <p>
-                            At your request, we have deleted your Connect data. If you have any questions, please contact the Connect Support Center by calling 1-877-505-0253 or by emailing  <a href='mailto:ConnectSupport@norc.org'>ConnectSupport@norc.org</a>.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            `;
-        } else {
-            mainContent.innerHTML =  heardAboutStudy();
-            addEventHeardAboutStudy();
-        }
+    else if(data['827220437'] && !data['142654897'] && !isParticipantDataDestroyed(data)){
+        mainContent.innerHTML =  heardAboutStudy();
+        addEventHeardAboutStudy();
         hideAnimation();
     }
     else if(data['379080287']){

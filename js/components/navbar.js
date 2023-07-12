@@ -1,7 +1,7 @@
 import { urls , isParticipantDataDestroyed } from "../shared.js";
 
 export const userNavBar = (data) => {
-    const newClass = isParticipantDataDestroyed(data.data) ? 'disabled': '';
+    const disabledClass = isParticipantDataDestroyed(data.data) ? 'disabled': '';
 
     let template = `
         
@@ -12,7 +12,7 @@ export const userNavBar = (data) => {
         </div>
         <div class="navbar-nav transparent-border" ${/*style ="position:relative;"*/''}>
             <li class="nav-item">
-                <a class="nav-link ${newClass}" href="#messages" id="Notifications">
+                <a class="nav-link ${disabledClass}" href="#messages" id="Notifications">
                     Messages
                     <!--<span class="badge">2</span>-->
                 </a>
@@ -25,12 +25,12 @@ export const userNavBar = (data) => {
         </div>
         <div class="navbar-nav transparent-border">
             <li class="nav-item">
-                <a class="nav-link ${newClass}" href="#myprofile" id="userSettings">My Profile</a>
+                <a class="nav-link ${disabledClass}" href="#myprofile" id="userSettings">My Profile</a>
             </li>
         </div>
         <div class="navbar-nav transparent-border">
             <li class="nav-item">
-                <a class="nav-link ${newClass}" href="#payment" id="connectPayment"> My Payment</a>
+                <a class="nav-link ${disabledClass}" href="#payment" id="connectPayment"> My Payment</a>
             </li>
         </div>
 
@@ -42,7 +42,7 @@ export const userNavBar = (data) => {
         
         <div class="navbar-nav transparent-border">
             <li class="nav-item">
-                <a class="nav-link ${newClass}" href="#samples" id="connectSamples"> My Samples</a>
+                <a class="nav-link ${disabledClass}" href="#samples" id="connectSamples"> My Samples</a>
             </li>
         </div>
 
@@ -51,7 +51,7 @@ export const userNavBar = (data) => {
     template += `
         <div class="navbar-nav transparent-border">
             <li class="nav-item">
-                <a class="nav-link ${newClass}" href="#support" id="connectSupport"> Support</a>
+                <a class="nav-link ${disabledClass}" href="#support" id="connectSupport"> Support</a>
             </li>
         </div>
         <div class="navbar-nav transparent-border ml-auto">
