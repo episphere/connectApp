@@ -390,7 +390,7 @@ const henry_ford = {
         [
             'Henry Ford Medical Center - Livonia',
             '29200 Schoolcraft Road<br>Radiology, Floor 1<br>Livonia, MI 48150<br>(734) 523-1050',
-            'Mondays, Tuesdays and Wednesdays 9:30 a.m. - 3:30 p.m.<br> Every 2<sup>nd</sup> and 4<sup>th</sup> Saturday  of the month, 8:00 a.m. to 11:30 a.m.',
+            'Mondays, Tuesdays and Wednesdays 9:30 a.m. - 3:30 p.m.<br> Every 2<sup>nd</sup> and 4<sup>th</sup> Saturday  of the month, 8:00 a.m. - 11:30 a.m.',
             'Easy, free self-parking is available in the surface lot in front of the building. From the service drive, turn into the lot near the Aldi and head towards the back of the plaza. The medical center, and parking lot, are located behind Aldi.<br><br><br><h4><div class="consentHeadersFont" style="color:#606060;width:100%">Option 2: Henry Ford Health Lab Services locations</div></h4>',
         ],
         [
@@ -407,8 +407,8 @@ const henry_ford = {
         ],
         [
            'Henry Ford Hospital-West Bloomfield',
-           '6777 West Maple Road<br>West Bloomfield, MI 48322<br>Location: Lab Services First Floor-Bloomfield Reception',
-           'Monday to Thursday 6:30 a.m. to 6:00 p.m. <br>Friday 6:30 a.m. to 5:00 p.m.<br>Saturday 7:00 a.m. to 3:00 p.m.',
+           '6777 West Maple Road<br>West Bloomfield, MI 48322<br>Location: Lab Services First Floor - Bloomfield Reception',
+           'Monday to Thursday 6:30 a.m. - 6:00 p.m. <br>Friday 6:30 a.m. - 5:00 p.m.<br>Saturday 7:00 a.m. - 3:00 p.m.',
            'All self-parking at Henry Ford West Bloomfield Hospital is free. Self-parking areas are available near the Main entrance and at the Henry Ford Cancer entrance. Wheelchairs are available at all entrances. Handicapped-designated parking spaces are located in front of the Main entrance, the West entrance and the Emergency entrance.',
         ],
     ]
