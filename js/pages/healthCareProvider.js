@@ -1,6 +1,16 @@
 import { sites } from "../shared.js";
 import fieldMapping from "../fieldToConceptIdMapping.js"; 
 
+export const duplicateAccountReminderRender = () => {
+  document.getElementById('root').innerHTML = `
+    <div class="row justify-content-center mt-4">
+      <div class="col-lg-8 alert alert-warning">
+        Our records show that you already have an account. Please try signing in again using your other account. Contact the Connect Support Center by emailing <a href="mailto:ConnectSupport@norc.org" target="_blank">ConnectSupport@norc.org</a> or calling 1-877-505-0253 if you need help accessing your account.
+      </div>
+    </div>
+  `;
+};
+
 export const requestPINTemplate = () => {
     return `
         <br>

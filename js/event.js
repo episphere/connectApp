@@ -1,6 +1,6 @@
 import { allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, BirthMonths, getAge, getMyData, hasUserData, retrieveNotifications, removeActiveClass, toggleNavbarMobileView, appState } from "./shared.js";
 import { consentTemplate } from "./pages/consent.js";
-import { heardAboutStudy, healthCareProvider } from "./pages/healthCareProvider.js";
+import { heardAboutStudy, healthCareProvider, duplicateAccountReminderRender } from "./pages/healthCareProvider.js";
 import { myToDoList } from "./pages/myToDoList.js";
 import fieldMapping from "./fieldToConceptIdMapping.js";
 
@@ -1062,9 +1062,9 @@ export const addEventPinAutoUpperCase = () => {
 
 export const addEventToggleSubmit = () => {
     const pin = document.getElementById('participantPIN');
+    const submitButton = document.getElementById('pinSubmit');
     pin.addEventListener('input', () => {
         const pinValue = pin.value;
-        const submitButton = document.getElementById('pinSubmit');
         submitButton.disabled = (!pinValue || pinValue == "");
     })
 }
@@ -1074,30 +1074,31 @@ export const addEventRequestPINForm = () => {
     form.addEventListener('submit', async e => {
         e.preventDefault();
         showAnimation();
-        const pin = document.getElementById('participantPIN').value;
+        const pin = document.getElementById('participantPIN').value?.trim();
         const mainContent = document.getElementById('root');
         let formData = {};
         formData[fieldMapping.firstSignInTime] = appState.getState().participantData.firstSignInTime;
 
-        if(pin && pin !== ""){
+        if (pin !== "") {
             const response = await validatePin(pin);
-            if(response.code !== 200){
+            if (response.code === 202 && response.message === "Duplicate account") {
+                duplicateAccountReminderRender();
+            } else if (response.code === 200) {
+                formData[fieldMapping.pinNumber] = pin;
+                await storeResponse(formData);
+                hideAnimation();
+                mainContent.innerHTML =  heardAboutStudy();
+                addEventHeardAboutStudy();
+            } else {
                 await generateNewToken();
-                formData["379080287"] = pin;
+                formData[fieldMapping.pinNumber] = pin;
                 await storeResponse(formData);
                 hideAnimation();
                 mainContent.innerHTML = healthCareProvider();
                 addEventHealthCareProviderSubmit();
                 addEventHealthProviderModalSubmit();
             }
-            if(response.code === 200){
-                formData["379080287"] = pin;
-                await storeResponse(formData);
-                hideAnimation();
-                mainContent.innerHTML =  heardAboutStudy();
-                addEventHeardAboutStudy();
-            }
-            
+
         }else{
             await generateNewToken();
             formData["828729648"] = 353358909;
@@ -1107,6 +1108,7 @@ export const addEventRequestPINForm = () => {
             addEventHealthCareProviderSubmit();
             addEventHealthProviderModalSubmit();
         }
+        hideAnimation();
     })
 }
 
