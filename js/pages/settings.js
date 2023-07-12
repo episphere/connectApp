@@ -1336,7 +1336,7 @@ export const renderChangeSignInInformationGroup = () => {
         <div class="row userProfileLinePaddings" id="changeLoginGroup" style="display:none;">
             <div class="col">
                 <span class="userProfileBodyFonts">
-                    Need to update your sign-in information? Choose your preferred login method below:
+                    Need to update your sign-in information? Add or update your information below:
                 </span>
                 <br>
                 <br>
@@ -1366,8 +1366,8 @@ export const renderChangeSignInInformationGroup = () => {
 const renderTabbedForm = () => {
     return `
         <div class="tab">
-            <button class="tablinks">Use email</button>
-            <button class="tablinks">Use mobile phone</button>
+            <button class="tablinks">Update email</button>
+            <button class="tablinks">Update mobile phone</button>
         </div>
         <br>
         <div id="form1" class="tabcontent">
