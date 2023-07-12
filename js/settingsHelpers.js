@@ -429,9 +429,7 @@ const handleNameField = (nameTypes, fieldName, changedUserDataForProfile, userDa
       }
   });
 
-  const uniqueNameArray = Array.from(new Set(queryNameArray));
-
-  changedUserDataForProfile[`query.${fieldName}`] = uniqueNameArray;
+  changedUserDataForProfile[`query.${fieldName}`] = Array.from(new Set(queryNameArray));
 
   return changedUserDataForProfile;
 };
@@ -635,6 +633,9 @@ const updateFirebaseAuthPhone = async (phone, userData) => {
  * Important: FirebaseAuth phone number can be unlinked. FirebaseAuth email cannot be unlinked.
  * Workaround: If the user wants to unlink their email, we write a 'noreply' email to the user's auth profile and firestore profile, which effectively disables the prior email login.
  * @param {String} providerType - 'email' or 'phone' 
+ * @param {Object} userData - the user's current userData object
+ * @param {String} newPhone - the new phone number (if applicable)
+ * @param {boolean} isPhoneRemoval - true if the phone number is being removed, false otherwise
  * @returns {boolean} - true if the unlink was successful, false otherwise
  */
 export const unlinkFirebaseAuthProvider = async (providerType, userData, newPhone, isPhoneRemoval) => {
@@ -711,10 +712,6 @@ export const updateToNoReplyEmail = async (uid, noReplyEmail) => {
       throw error;
     }
 };
-
-
-
-
 
 const handleUpdatePhoneEmailErrorInUI = (functionName, error) => {
   document.getElementById('loginUpdateFail').style.display = 'block';
