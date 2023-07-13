@@ -406,7 +406,7 @@ const henry_ford = {
           'Parking lots are conveniently located near all hospital entrances for those who do not wish to use valet. Wheelchairs are available at all entrances and handicapped parking is available in each parking area. Valet parking is available at all hospital entrances for $3.00. This service is not available on holidays.',
         ],
         [
-           'Henry Ford Hospital-West Bloomfield',
+           'Henry Ford Hospital - West Bloomfield',
            '6777 West Maple Road<br>West Bloomfield, MI 48322<br>Location: Lab Services First Floor - Bloomfield Reception',
            'Monday to Thursday 6:30 a.m. - 6:00 p.m. <br>Friday 6:30 a.m. - 5:00 p.m.<br>Saturday 7:00 a.m. - 3:00 p.m.',
            'All self-parking at Henry Ford West Bloomfield Hospital is free. Self-parking areas are available near the Main entrance and at the Henry Ford Cancer entrance. Wheelchairs are available at all entrances. Handicapped-designated parking spaces are located in front of the Main entrance, the West entrance and the Emergency entrance.',
