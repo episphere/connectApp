@@ -1274,3 +1274,24 @@ export const processAuthWithFirebaseAdmin = async(newAuthData) => {
         return { message: error.message, status: 'error' };
     }
 };
+
+const isIsoDate = (str) => {
+    if (!/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/.test(str)) return false;
+    const d = new Date(str);
+    return d instanceof Date && !isNaN(d) && d.toISOString() === str; // valid date
+};
+
+export const isParticipantDataDestroyed = (data) => {
+    if (!data) return
+    const millisecondsWait = 5184000000; // 60days
+    const timeDiff = data.hasOwnProperty(fieldMapping.dateRequestedDataDestroy) && isIsoDate(data[fieldMapping.dateRequestedDataDestroy])
+        ? new Date().getTime() -
+          new Date(data[fieldMapping.dateRequestedDataDestroy]).getTime()
+        : 0;
+    return (
+        (data.hasOwnProperty(fieldMapping.dataDestroyCategorical) &&
+            data[fieldMapping.dataDestroyCategorical] ===
+                fieldMapping.requestedDataDestroySigned) ||
+        timeDiff > millisecondsWait
+    );
+};
