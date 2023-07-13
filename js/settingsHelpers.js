@@ -405,8 +405,8 @@ export const changeContactInformation = async (mobilePhoneNumberComplete, homePh
   return isSuccess;
 };
 
-const firstNameTypes = [cId.fName, cId.prefName, cId.consentFirstName];
-const lastNameTypes = [cId.lName, cId.consentLastName];
+const firstNameTypes = [cId.consentFirstName, cId.fName, cId.prefName];
+const lastNameTypes = [cId.consentLastName, cId.lName];
 
 /**
  * Handle the query.frstName and query.lastName fields in the participant profile.
