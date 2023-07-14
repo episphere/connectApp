@@ -1092,8 +1092,8 @@ const consentSubmit = async e => {
     formData['736251808'] = CSLastName.value.trim();
     formData['480305327'] = CSNameSuffix.value === '' ? undefined : parseInt(CSNameSuffix.value);
     formData['982402227'] = CSDate.split('/')[2]+CSDate.split('/')[0]+CSDate.split('/')[1];
-    formData['query.firstName'] = CSFirstName.value.trim().toLowerCase();
-    formData['query.lastName'] = CSLastName.value.trim().toLowerCase();
+    formData['query.firstName'] = [CSFirstName.value.trim().toLowerCase()];
+    formData['query.lastName'] = [CSLastName.value.trim().toLowerCase()];
     formData['919254129'] = 353358909;
     formData['454445267'] = dateTime();
     formData['262613359'] = dateTime();

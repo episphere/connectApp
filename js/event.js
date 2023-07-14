@@ -519,10 +519,10 @@ export const addEventUPSubmit = () => {
         let formData = {};
         formData['507120821'] = 602439976;
         formData['399159511'] = document.getElementById('UPFirstName').value.trim();
-        formData['query.firstName'] = document.getElementById('UPFirstName').value.trim().toLowerCase();
+        formData['query.firstName'] = [document.getElementById('UPFirstName').value.trim().toLowerCase()];
         formData['231676651'] = document.getElementById('UPMiddleInitial').value.trim();
         formData['996038075'] = document.getElementById('UPLastName').value.trim();
-        formData['query.lastName'] = document.getElementById('UPLastName').value.trim().toLowerCase();
+        formData['query.lastName'] = [document.getElementById('UPLastName').value.trim().toLowerCase()];
         
         /*
          *TODO
