@@ -1081,7 +1081,7 @@ export const addEventRequestPINForm = () => {
 
         if (pin !== "") {
             const response = await validatePin(pin);
-            if (response.code === 202 && response.message === "Duplicate account") {
+            if (response.code === 202) {
                 duplicateAccountReminderRender();
             } else if (response.code === 200) {
                 formData[fieldMapping.pinNumber] = pin;
