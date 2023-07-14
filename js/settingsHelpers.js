@@ -700,10 +700,6 @@ export const updateToNoReplyEmail = async (uid, noReplyEmail) => {
     document.getElementById('loginUpdateFail').style.display = 'none';
     document.getElementById('loginUpdateSuccess').style.display = 'none';
     
-    const valuesForFirebaseAuth = {};
-    valuesForFirebaseAuth['email'] = noReplyEmail;
-    valuesForFirebaseAuth['uid'] = uid;
-    
     try {
       await updateFirebaseAuthEmail(noReplyEmail);
       return true;
