@@ -707,26 +707,26 @@ const setModuleAttributes = (data, modules, collections) => {
     modules['Covid-19'].estimatedTime = '10 minutes'
 
     modules['Biospecimen Survey'].header = 'Baseline Blood, Urine, and Mouthwash Sample Survey';
-    modules['Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples, and your history of COVID-19. ';
+    modules['Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples.';
     modules['Biospecimen Survey'].estimatedTime = '5 minutes';
     
     modules['Clinical Biospecimen Survey'].header = 'Baseline Blood and Urine Sample Survey';
-    modules['Clinical Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples, and your history of COVID-19. ';
+    modules['Clinical Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples.';
     modules['Clinical Biospecimen Survey'].estimatedTime = '5 minutes';
 
     modules['Menstrual Cycle'].header = 'Menstrual Cycle Survey';
     modules['Menstrual Cycle'].description = 'Questions about the date of your first menstrual period after you donated samples for Connect. ';
     modules['Menstrual Cycle'].estimatedTime = '5 minutes';
 
-    if(data['331584571']?.['266600170']?.['840048338']) {
+    // if(data['331584571']?.['266600170']?.['840048338']) {
         modules['Biospecimen Survey'].enabled = true;
         modules['Covid-19'].enabled = true;
-    }
+    // }
 
-    if(collections && collections.filter(collection => collection['650516960'] === 664882224).length > 0) {
+    // if(collections && collections.filter(collection => collection['650516960'] === 664882224).length > 0) {
         modules['Clinical Biospecimen Survey'].enabled = true;
         modules['Covid-19'].enabled = true;
-    }
+    // }
 
     if(data['289750687'] === 353358909) {
         modules['Menstrual Cycle'].enabled = true;
