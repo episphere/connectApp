@@ -718,15 +718,15 @@ const setModuleAttributes = (data, modules, collections) => {
     modules['Menstrual Cycle'].description = 'Questions about the date of your first menstrual period after you donated samples for Connect. ';
     modules['Menstrual Cycle'].estimatedTime = '5 minutes';
 
-    // if(data['331584571']?.['266600170']?.['840048338']) {
+    if(data['331584571']?.['266600170']?.['840048338']) {
         modules['Biospecimen Survey'].enabled = true;
         modules['Covid-19'].enabled = true;
-    // }
+    }
 
-    // if(collections && collections.filter(collection => collection['650516960'] === 664882224).length > 0) {
+    if(collections && collections.filter(collection => collection['650516960'] === 664882224).length > 0) {
         modules['Clinical Biospecimen Survey'].enabled = true;
         modules['Covid-19'].enabled = true;
-    // }
+    }
 
     if(data['289750687'] === 353358909) {
         modules['Menstrual Cycle'].enabled = true;
