@@ -707,11 +707,11 @@ const setModuleAttributes = (data, modules, collections) => {
     modules['Covid-19'].estimatedTime = '10 minutes'
 
     modules['Biospecimen Survey'].header = 'Baseline Blood, Urine, and Mouthwash Sample Survey';
-    modules['Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples, and your history of COVID-19. ';
+    modules['Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples.';
     modules['Biospecimen Survey'].estimatedTime = '5 minutes';
     
     modules['Clinical Biospecimen Survey'].header = 'Baseline Blood and Urine Sample Survey';
-    modules['Clinical Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples, and your history of COVID-19. ';
+    modules['Clinical Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples.';
     modules['Clinical Biospecimen Survey'].estimatedTime = '5 minutes';
 
     modules['Menstrual Cycle'].header = 'Menstrual Cycle Survey';
