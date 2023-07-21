@@ -469,9 +469,10 @@ const submitNewLoginMethod = async (email, phone) => {
     clearLoginFormFields();
     formVisBools.isLoginFormDisplayed = toggleElementVisibility(loginElementArray, formVisBools.isLoginFormDisplayed);
     toggleButtonText();
+    document.getElementById('changePhoneSubmit').style.display = 'block';
     document.getElementById('changeLoginGroup').style.display = 'none';
 
-    optVars.loginEmail = userData[cId.firebaseAuthEmail] ? userData[cId.firebaseAuthEmail] : '';
+    optVars.loginEmail = userData[cId.firebaseAuthEmail] && !userData[cId.firebaseAuthEmail].startsWith('noreply') ? userData[cId.firebaseAuthEmail] : '';
     optVars.loginPhone = formatFirebaseAuthPhoneNumber(userData[cId.firebaseAuthPhone]);
 
     const profileEmailElement = document.getElementById('profileEmail');
@@ -480,24 +481,30 @@ const submitNewLoginMethod = async (email, phone) => {
     const loginPhoneField = document.getElementById('loginPhoneField');
     const loginEmailDiv = document.getElementById('loginEmailDiv');
     const loginPhoneDiv = document.getElementById('loginPhoneDiv');
-
+    const loginEmailRow = document.getElementById('loginEmailRow');
+    const loginPhoneRow = document.getElementById('loginPhoneRow');
+    
     if (optVars.loginEmail) {
-        document.getElementById('loginEmailRow').style.display = 'block';
+        loginEmailRow.style.display = 'block';
         profileEmailElement.innerHTML = optVars.loginEmail;
         profileEmailElement.style.display = 'block';
         loginEmailField && (loginEmailField.innerHTML = optVars.loginEmail);
         loginEmailDiv && (loginEmailDiv.style.display = 'block');
     } else {
+        loginEmailRow && (loginEmailRow.style.display = 'none');
+        loginEmailDiv && (loginEmailDiv.style.display = 'none');
         profileEmailElement.style.display = 'none';
     }
 
     if (optVars.loginPhone) {
-        document.getElementById('loginPhoneRow').style.display = 'block';
+        loginPhoneRow.style.display = 'block';
         profilePhoneElement.innerHTML = `${optVars.loginPhone}`;
         profilePhoneElement.style.display = 'block';
         loginPhoneField && (loginPhoneField.innerHTML = optVars.loginPhone);
         loginPhoneDiv && (loginPhoneDiv.style.display = 'block');        
     } else {
+        loginPhoneRow && (loginPhoneRow.style.display = 'none');
+        loginPhoneDiv && (loginPhoneDiv.style.display = 'none');
         profilePhoneElement.style.display = 'none';
     }
 
@@ -607,7 +614,7 @@ const attachLoginEditFormButtons = async () => {
                     try {
                         const firebaseUser = firebase.auth().currentUser;
                         if (firebaseUser.email && firebaseUser.phoneNumber) {
-                            result = await unlinkFirebaseAuthProvider(type.toLowerCase(), userData);
+                            result = await unlinkFirebaseAuthProvider(type.toLowerCase(), userData, null, true);
                             const isSuccess = result === true;
                             closeModal(type);
                             updateUIAfterUnlink(isSuccess, type, isSuccess ? null : result);
@@ -1329,7 +1336,7 @@ export const renderChangeSignInInformationGroup = () => {
         <div class="row userProfileLinePaddings" id="changeLoginGroup" style="display:none;">
             <div class="col">
                 <span class="userProfileBodyFonts">
-                    Need to update your sign-in information? Choose your preferred login method below:
+                    Need to update your sign-in information? Add or update your information below:
                 </span>
                 <br>
                 <br>
@@ -1359,8 +1366,8 @@ export const renderChangeSignInInformationGroup = () => {
 const renderTabbedForm = () => {
     return `
         <div class="tab">
-            <button class="tablinks">Use email</button>
-            <button class="tablinks">Use mobile phone</button>
+            <button class="tablinks">Update email</button>
+            <button class="tablinks">Update mobile phone</button>
         </div>
         <br>
         <div id="form1" class="tabcontent">
@@ -1380,7 +1387,7 @@ const renderTabbedForm = () => {
             ${renderEmailOrPhoneInput('email')}
             ${renderConfirmationModal('Email')}
             <br>
-            <button id="changeEmailSubmit" class="btn btn-primary save-data consentNextButton">Submit Email Update</button>
+            <button id="changeEmailSubmit" class="btn btn-primary save-data consentNextButton">Submit new login email</button>
         </div>
         
         <div id="form2" class="tabcontent">
@@ -1401,7 +1408,7 @@ const renderTabbedForm = () => {
             <br>
             ${renderConfirmationModal('Phone')}
             <p style="color:#1c5d86;">After you click, “Submit,” a pop-up box will display and ask you to enter the verification code sent to your mobile device. Please enter this code and click “OK” to verify your phone number.</p>
-            <button id="changePhoneSubmit" class="btn btn-primary save-data consentNextButton">Submit Phone Update</button>
+            <button id="changePhoneSubmit" class="btn btn-primary save-data consentNextButton">Submit new login phone number</button>
             <br>
             <div style="margin-left:10px" id="recaptcha-container"></div>
         </div> 
@@ -1411,32 +1418,36 @@ const renderTabbedForm = () => {
 const renderEmailOrPhoneInput = (type) => {  
     const phoneEmailMap = {
         email: {
-            label: 'New Email Address',
+            label: 'email',
+            heading: 'New Email Address',
+            placeholder: 'email address',
             elementId: 'Email',
         },
         phone: {
-            label: 'New Phone Number',
+            label: 'mobile phone number',
+            heading: 'New Mobile Phone Number',
+            placeholder: 'mobile phone number',
             elementId: 'Phone',
         },
     };  
-    const { label, elementId } = phoneEmailMap[type] || phoneEmailMap.email;
+    const { label, heading, placeholder, elementId } = phoneEmailMap[type] || phoneEmailMap.email;
 
     return `
         <span>Update your login ${label}:</span>
         <br>
         <br>
         <label for="new${elementId}Field" class="custom-form-label">
-            ${label} <span class="required">*</span>
+            ${heading} <span class="required">*</span>
         </label>
         <br>
-        <input type="${elementId.toLowerCase()}" id="new${elementId}Field" class="form-control required-field" placeholder="Enter New ${label}"/>
+        <input type="${elementId.toLowerCase()}" id="new${elementId}Field" class="form-control required-field" placeholder="Enter new ${placeholder}"/>
         <br>
         <br>
         <label for="new${elementId}FieldCheck" class="custom-form-label">
-            Confirm ${label} <span class="required">*</span>
+            Confirm ${heading} <span class="required">*</span>
         </label>
         <br>
-        <input type="${elementId.toLowerCase()}" id="new${elementId}FieldCheck" class="form-control required-field" placeholder="Confirm New ${label}"/>
+        <input type="${elementId.toLowerCase()}" id="new${elementId}FieldCheck" class="form-control required-field" placeholder="Confirm new ${placeholder}"/>
         <br>
     `;
 };
@@ -1451,4 +1462,4 @@ const renderConfirmationModal = (removalType) => {
         </div>
     </div>
     `;
-};  
+};

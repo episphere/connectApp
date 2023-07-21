@@ -89,7 +89,7 @@ export const renderUserProfile = async () => {
                 <div class="col-md-4">
                     <label class="col-form-label" style="padding:0;">Year <span class="required">*</span></label>
                     <br>
-                    <input style="margin-left:0px; max-width:152px;" type="text" class="form-control required-field input-validation" data-error-required='Please select your birth year.' data-validation-pattern="year" data-error-validation="Your birth year must contain four digits in the YYYY format." maxlength="4" id="UPYear" title="Birth year, must be in 1900s" Placeholder="Enter birth year">
+                    <input style="margin-left:0px; max-width:152px;" type="text" class="form-control required-field input-validation" data-error-required='Please select your birth year.' data-validation-pattern="year" data-error-validation="The year you entered is outside of our expected range. Please check your entry." maxlength="4" id="UPYear" title="Birth year, must be in 1900s" Placeholder="Enter birth year">
                     <!--<datalist id="yearsOption"></datalist>-->
                 </div>
             </div>
@@ -344,7 +344,7 @@ export const renderMailingAddress = (type, id, required, showCountry) => {
                     Line 1 (street, PO box, rural route) ${required ? '<span class="required">*</span>': ''}
                 </label>
                 <br>
-                <input style="margin-left:0px; max-width:301px;" type=text id="UPAddress${id}Line1" autocomplete="off" class="form-control required-field" data-error-required='Please enter the first line of your mailing address.' placeholder="Enter street, PO box, rural route">
+                <input style="margin-left:0px; max-width:301px;" type=text id="UPAddress${id}Line1" autocomplete="off" class="form-control required-field" data-error-required='Please enter the first line of your mailing address.' placeholder="Enter street, PO box, rural route" maxlength="70">
             </div>
         </div>
         <div class="form-group row">
@@ -353,7 +353,7 @@ export const renderMailingAddress = (type, id, required, showCountry) => {
                     Line 2 (apartment, suite, unit, building)
                 </label>
                 <br>
-                <input style="margin-left:0px; max-width:301px;" type=text id="UPAddress${id}Line2" autocomplete="off" class="form-control" placeholder="Enter apartment, suite, unit, building">
+                <input style="margin-left:0px; max-width:301px;" type=text id="UPAddress${id}Line2" autocomplete="off" class="form-control" placeholder="Enter apartment, suite, unit, building" maxlength="70">
             </div>
         </div>
         <div class="form-group row">

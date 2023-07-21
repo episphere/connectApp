@@ -2,7 +2,7 @@ import { getParameters, validateToken, userLoggedIn, getMyData, hasUserData, get
 import { userNavBar, homeNavBar } from "./js/components/navbar.js";
 import { homePage, joinNowBtn, whereAmIInDashboard, renderHomeAboutPage, renderHomeExpectationsPage, renderHomePrivacyPage } from "./js/pages/homePage.js";
 import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser, addEventToggleSubmit } from "./js/event.js";
-import { requestPINTemplate } from "./js/pages/healthCareProvider.js";
+import { requestPINTemplate, duplicateAccountReminderRender } from "./js/pages/healthCareProvider.js";
 import { myToDoList } from "./js/pages/myToDoList.js";
 import {renderNotificationsPage} from "./js/pages/notifications.js"
 import { renderAgreements } from "./js/pages/agreements.js";
@@ -253,7 +253,11 @@ const userProfile = () => {
 
             if (parameters?.token) {
                 const response = await validateToken(parameters.token); // Add uid and sign-in flag if token is valid
-                if (response.code === 200) {
+                if (response.code === 202) {
+                    duplicateAccountReminderRender();
+                    hideAnimation();
+                    return;
+                } else if (response.code === 200) {
                     const firstSignInTime = new Date(user.metadata.creationTime).toISOString();
                     await storeResponse({[conceptIdMap.firstSignInTime]: firstSignInTime});
                 }
@@ -262,7 +266,7 @@ const userProfile = () => {
             const userData = await getMyData();
 
             window.history.replaceState({},'Dashboard', './#dashboard');
-            if(user.email && !user.emailVerified){
+            if(user.email && !user.emailVerified && !user.email.startsWith('noreply')) {
                 const mainContent = document.getElementById('root');
                 mainContent.innerHTML = `
                     <br>

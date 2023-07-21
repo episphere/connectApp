@@ -336,7 +336,7 @@ const marshfield = {
     donatingSamples: 'As part of Connect, we ask you to donate blood, urine, and saliva samples and complete a short survey.',
     whenToDonate: 'The Connect team will send you an email when it is time to donate your samples. Be sure to check your spam or junk folder. After you receive the email, it is important to donate your samples as soon as you can. It is easy to donate all of your samples in one visit.<br><br><span style="font-weight:900; text-decoration:underline">Note:</span> If you have recently had a blood transfusion or donated blood, please wait at least <span style="font-weight:900; text-decoration:underline">eight weeks</span> from your donation or transfusion before donating your samples for Connect. If you have recently donated plasma, please wait at least <span style="font-weight:900; text-decoration:underline">two days</span> from your plasma donation before donating samples for Connect. If you have an upcoming colonoscopy, please be sure that you <span style="font-weight:900; text-decoration:underline">do not</span> donate samples for Connect on the <span style="font-weight:900; text-decoration:underline">same day</span> as your colonoscopy.',
     howToDonate: 'The email we send you will contain a link to schedule an appointment. Simply click the link to schedule a time that is convenient for you to donate your samples. You can also call Marshfield Clinic Research Institute at 715-898-9444 to schedule an appointment, or a Connect team member will call you to schedule an appointment to donate your samples at a time that is convenient for you.',
-    scheduling: 'For questions and scheduling please call: 715-898-9444 or email <a href="mailto: connectstudy@marshfieldresearch.org">connectstudy@marshfieldresearch.org</a>.<br><br>All patients and visitors are required to wear a mask. If you enter the building without a mask, we will give one to you. If you are unable to wear a mask for the duration of the visit, we ask that you do not schedule your visit at this time.',
+    scheduling: 'For questions and scheduling please call: 715-898-9444 or email <a href="mailto: connectstudy@marshfieldresearch.org">connectstudy@marshfieldresearch.org</a>.',
     howLong: 'Please expect to spend an average of one hour at your appointment to donate your samples and complete a short survey.',
     prepareInstructions: 'On the day of your appointment, please drink plenty of water, but <span style="font-weight:900; text-decoration:underline">stop drinking water one hour before your appointment.</span><br><br><span style="font-weight:900; text-decoration:underline">One hour before your appointment:</span> Please <span style="font-weight:900; text-decoration:underline">do not</span> eat, drink any liquids (including water), chew gum, smoke, vape, or chew any products (including tobacco), rinse your mouth, or brush your teeth.<br><br><span style="font-weight:900; text-decoration:underline">Things to bring and remember:</span><br><br><ul><li>Make sure you know your login information for the MyConnect app.</li><li>We will ask you to complete a short survey when you donate your samples. It may be helpful to have this information on hand:<ul><li>The last time you ate or drank, and the times you went to sleep the night before your appointment and woke up on the day of your appointment.</li><li>If you are menstruating, the start date of your most recent menstrual period in the last 12 months.</li></ul></li></ul>',
     whatHappens: 'The Connect team will check you in for your appointment and then collect your samples. At the end of your visit, the Connect team will check you out of your appointment.<br><br>We will draw a blood sample, collect a urine sample, and collect a saliva sample by asking you to swish with mouthwash.<br><br>We will also ask you to complete <span style="font-weight:900; text-decoration:underline">a short survey</span> on the MyConnect app using your mobile phone. If you do not have a mobile phone, we will provide a tablet for you to use complete your survey. You will need your MyConnect app login information to complete the survey.',
@@ -352,6 +352,12 @@ const marshfield = {
             'Lake Hallie Center',
             '12961 27th Ave<br>Chippewa Falls, WI 54729',
             'Monday - Thursday: 7:00 a.m. to 4:00 p.m.<br>Fridays: 8:00 a.m. to 2:00 p.m.',
+            'General parking available'
+        ],
+        [
+            'Minocqua Center',
+            '9576 WI-70 Trunk<br>Minocqua, WI 54548',
+            'Wednesdays: 8:00 a.m. to 1:00 p.m.',
             'General parking available'
         ],
         [
@@ -390,7 +396,7 @@ const henry_ford = {
         [
             'Henry Ford Medical Center - Livonia',
             '29200 Schoolcraft Road<br>Radiology, Floor 1<br>Livonia, MI 48150<br>(734) 523-1050',
-            'Mondays, Tuesdays and Wednesdays 9:00 a.m. - 4:00 p.m.',
+            'Mondays, Tuesdays and Wednesdays 9:30 a.m. - 3:30 p.m.<br> Every 2<sup>nd</sup> and 4<sup>th</sup> Saturday  of the month, 8:00 a.m. - 11:30 a.m.',
             'Easy, free self-parking is available in the surface lot in front of the building. From the service drive, turn into the lot near the Aldi and head towards the back of the plaza. The medical center, and parking lot, are located behind Aldi.<br><br><br><h4><div class="consentHeadersFont" style="color:#606060;width:100%">Option 2: Henry Ford Health Lab Services locations</div></h4>',
         ],
         [
@@ -404,6 +410,12 @@ const henry_ford = {
           '2333 Biddle Ave<br> Wyandotte, MI 48192<br> Location: First Floor Lab Services',
           'Monday to Friday 8:00 a.m. - 4:15 p.m. <br> Saturday 7:00 a.m. - 12:00 p.m.',
           'Parking lots are conveniently located near all hospital entrances for those who do not wish to use valet. Wheelchairs are available at all entrances and handicapped parking is available in each parking area. Valet parking is available at all hospital entrances for $3.00. This service is not available on holidays.',
+        ],
+        [
+           'Henry Ford Hospital - West Bloomfield',
+           '6777 West Maple Road<br>West Bloomfield, MI 48322<br>Location: Lab Services First Floor - Bloomfield Reception',
+           'Monday to Thursday 6:30 a.m. - 6:00 p.m. <br>Friday 6:30 a.m. - 5:00 p.m.<br>Saturday 7:00 a.m. - 3:00 p.m.',
+           'All self-parking at Henry Ford West Bloomfield Hospital is free. Self-parking areas are available near the Main entrance and at the Henry Ford Cancer entrance. Wheelchairs are available at all entrances. Handicapped-designated parking spaces are located in front of the Main entrance, the West entrance and the Emergency entrance.',
         ],
     ]
 };
