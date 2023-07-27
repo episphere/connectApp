@@ -530,6 +530,7 @@ export const addEventUPSubmit = () => {
          */
         let prefName = document.getElementById('UPPreferredName').value.trim();
         formData['153211406'] = prefName;
+        formData['query.firstName'] = [document.getElementById('UPPreferredName').value.trim().toLowerCase()];
 
         if(document.getElementById('UPSuffix').value) formData['506826178'] = parseInt(document.getElementById('UPSuffix').value);
         let month = document.getElementById('UPMonth').value;
