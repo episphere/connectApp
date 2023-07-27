@@ -518,19 +518,16 @@ export const addEventUPSubmit = () => {
         if(hasError) return false;
         let formData = {};
         formData['507120821'] = 602439976;
-        formData['399159511'] = document.getElementById('UPFirstName').value.trim();
-        formData['query.firstName'] = [document.getElementById('UPFirstName').value.trim().toLowerCase()];
+        const firstName = document.getElementById('UPFirstName').value?.trim();
+        formData['399159511'] = firstName;
+        formData['query.firstName'] = [firstName.toLowerCase()];
         formData['231676651'] = document.getElementById('UPMiddleInitial').value.trim();
-        formData['996038075'] = document.getElementById('UPLastName').value.trim();
-        formData['query.lastName'] = [document.getElementById('UPLastName').value.trim().toLowerCase()];
-        
-        /*
-         *TODO
-         *Check how we should be storing the preferred name if they do not have one
-         */
-        let prefName = document.getElementById('UPPreferredName').value.trim();
+        const lastName = document.getElementById('UPLastName').value?.trim();
+        formData['996038075'] = lastName
+        formData['query.lastName'] = [lastName.toLowerCase()];
+        const prefName = document.getElementById('UPPreferredName').value?.trim();
         formData['153211406'] = prefName;
-        formData['query.firstName'] = [document.getElementById('UPPreferredName').value.trim().toLowerCase()];
+        formData['query.firstName'] = [prefName.toLowerCase()];
 
         if(document.getElementById('UPSuffix').value) formData['506826178'] = parseInt(document.getElementById('UPSuffix').value);
         let month = document.getElementById('UPMonth').value;
