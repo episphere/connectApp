@@ -1,4 +1,4 @@
-import { hideAnimation, questionnaireModules, storeResponse, sites } from "../shared.js";
+import { hideAnimation, questionnaireModules, storeResponse, sites , isParticipantDataDestroyed} from "../shared.js";
 import { blockParticipant, questionnaire } from "./questionnaire.js";
 import { renderUserProfile } from "../components/form.js";
 import { consentTemplate } from "./consent.js";
@@ -37,24 +37,29 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                      
                 `;
                 let finalMessage = "";
-                if (data.hasOwnProperty('831041022') && data['831041022'] == 353358909){
+                const defaultMessage = "<p/><br>You have withdrawn from Connect. We will not collect any more data from you. If you have any questions, please contact the Connect Support Center by calling 1-877-505-0253 or by emailing <a href='mailto:ConnectSupport@norc.org'>ConnectSupport@norc.org</a>.<br>";
+
+                if (isParticipantDataDestroyed(data)){
+                    finalMessage += "At your request, we have deleted your Connect data. If you have any questions, please contact the Connect Support Center by calling 1-877-505-0253 or by emailing  <a href='mailto:ConnectSupport@norc.org'>ConnectSupport@norc.org</a>."
+                }
+                else if (data.hasOwnProperty('831041022') && data['831041022'] == 353358909){
                     if (!data['359404406'] || data['359404406'] == 104430631){
-                        finalMessage += "You have a new <a href='#forms'>form</a> to sign.<br>You have been withdrawn from Connect per your request.<br>"
+                        finalMessage += "You have a new <a href='#forms'>form</a> to sign." + defaultMessage
                     }
                     else if((data['747006172'] && data['747006172'] !== 104430631) && (!data['153713899'] || data['153713899'] == 104430631)){
-                        finalMessage += "You have a new <a href='#forms'>form</a> to sign.<br>You have been withdrawn from Connect per your request.<br>"
+                        finalMessage += "You have a new <a href='#forms'>form</a> to sign." + defaultMessage
                     }
                     else{
-                        finalMessage += "You have been withdrawn from Connect per your request.<br>"
+                        finalMessage += defaultMessage
                     }
                 }
                 else if ((data['747006172'] && data['747006172'] !== 104430631)){
                     
                     if (!data['153713899'] || data['153713899'] == 104430631){
-                        finalMessage += "You have a new <a href='#forms'>form</a> to sign.<br>You have been withdrawn from Connect per your request.<br>"
+                        finalMessage += "You have a new <a href='#forms'>form</a> to sign." + defaultMessage
                     }
                     else{
-                        finalMessage += "You have been withdrawn from Connect per your request.<br>"
+                        finalMessage += defaultMessage
                     }
                 }
                 if(finalMessage.trim() !== ""){
@@ -68,7 +73,7 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                     return;
                 }
                 else if (((data.hasOwnProperty('773707518') && data['773707518'] == 353358909)) && (!data['153713899'] || data['153713899'] == 104430631)){
-                    topMessage += "You have a new <a href='#forms'>form</a> to sign.<br>"
+                    topMessage += "You have a new <a href='#forms'>form</a> to sign.<p/><br>"
                 }
                 if(!data['821247024'] || data['821247024'] == 875007964){
                     if(data['unverifiedSeen'] && data['unverifiedSeen'] === true){
@@ -135,7 +140,7 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                 else if(data['821247024'] && data['821247024'] == 922622075) {
                     template += `
                     <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
-                        Our records show that there is another account linked to your sign in information. Please contact the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling <span style="white-space:nowrap;overflow:hidden">1-877-505-0253</span> so we can help you access the correct account.
+                        Our records show that you already have another account with a different email or phone number. Please try signing in again. Contact the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling <span style="white-space:nowrap;overflow:hidden">1-877-505-0253</span> if you need help accessing your account.
                     </div>
                     </div>
                     <div class="col-lg-2">
@@ -267,17 +272,9 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
         hideAnimation();
         return;
     }
-    else if(data['827220437'] && !data['142654897']){
-        if (data[fieldMapping.dataDestroyCategorical] === fieldMapping.requestedDataDestroySigned) {
-            mainContent.innerHTML = `
-                <br>
-                <p>
-                    We have deleted your information based on the data destruction request form you signed. If you have any questions, please contact the <a href="#support">Connect Support Center</a>.
-                </p>`;
-        } else {
-            mainContent.innerHTML =  heardAboutStudy();
-            addEventHeardAboutStudy();
-        }
+    else if(data['827220437'] && !data['142654897'] && !isParticipantDataDestroyed(data)){
+        mainContent.innerHTML =  heardAboutStudy();
+        addEventHeardAboutStudy();
         hideAnimation();
     }
     else if(data['379080287']){
@@ -288,9 +285,24 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
         hideAnimation();
     }
     else{
-        mainContent.innerHTML = healthCareProvider();
-        addEventHealthCareProviderSubmit();
-        addEventHealthProviderModalSubmit();
+        if (isParticipantDataDestroyed(data)) {
+            mainContent.innerHTML = `
+                <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
+                    <div class="row">
+                        <div class="col-lg-2"></div>
+                        <div class="col-lg-8">
+                            <p>
+                            At your request, we have deleted your Connect data. If you have any questions, please contact the Connect Support Center by calling 1-877-505-0253 or by emailing  <a href='mailto:ConnectSupport@norc.org'>ConnectSupport@norc.org</a>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        } else {
+            mainContent.innerHTML = healthCareProvider();
+            addEventHealthCareProviderSubmit();
+            addEventHealthProviderModalSubmit();
+        }
         hideAnimation();
     }
 }
@@ -318,9 +330,30 @@ const renderMainBody = (data, collections, tab) => {
     let modules = questionnaireModules();
     modules = setModuleAttributes(data, modules, collections);
     
-    let toDisplaySystem = [{'header':'First Survey', 'body': ['Background and Overall Health', 'Where You Live and Work', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure']}, {'body':['Enter SSN']}]
-    if(data['821247024'] && data['821247024'] == 875007964){
-        toDisplaySystem = [{'header':'First Survey', 'body': ['Background and Overall Health', 'Where You Live and Work', 'Medications, Reproductive Health, Exercise, and Sleep', 'Smoking, Alcohol, and Sun Exposure']}]
+    let toDisplaySystem = [
+        {
+            header: "First Survey",
+            body: [
+                "Background and Overall Health",
+                "Where You Live and Work",
+                "Medications, Reproductive Health, Exercise, and Sleep",
+                "Smoking, Alcohol, and Sun Exposure",
+            ],
+        },
+        { body: ["Enter SSN"] },
+    ];
+    if (data["821247024"] && data["821247024"] == 875007964) {
+        toDisplaySystem = [
+            {
+                header: "First Survey",
+                body: [
+                    "Background and Overall Health",
+                    "Where You Live and Work",
+                    "Medications, Reproductive Health, Exercise, and Sleep",
+                    "Smoking, Alcohol, and Sun Exposure",
+                ],
+            },
+        ];
     }
 
     if(modules['Biospecimen Survey'].enabled) {
@@ -336,7 +369,12 @@ const renderMainBody = (data, collections, tab) => {
     }
 
     if(modules['Covid-19'].enabled) {
-        toDisplaySystem.unshift({'body':['Covid-19']});
+        if (toDisplaySystem.length <= 1) {
+            toDisplaySystem.push({ 'body': ["Covid-19"] });
+        } else {
+            const index = toDisplaySystem.length - 1;
+            toDisplaySystem[index].body.push("Covid-19");
+        }
     }
     
     if(tab === 'todo'){
@@ -664,14 +702,16 @@ const setModuleAttributes = (data, modules, collections) => {
     
     modules['Covid-19'].header = 'COVID-19 Survey'
     modules['Covid-19'].description = 'Questions about your history of COVID-19, including any vaccinations you may have received and details about times you may have gotten sick with COVID-19.'
+    modules['Covid-19'].hasIcon = false;
+    modules['Covid-19'].noButton = false;
     modules['Covid-19'].estimatedTime = '10 minutes'
 
     modules['Biospecimen Survey'].header = 'Baseline Blood, Urine, and Mouthwash Sample Survey';
-    modules['Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples, and your history of COVID-19. ';
+    modules['Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples.';
     modules['Biospecimen Survey'].estimatedTime = '5 minutes';
     
     modules['Clinical Biospecimen Survey'].header = 'Baseline Blood and Urine Sample Survey';
-    modules['Clinical Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples, and your history of COVID-19. ';
+    modules['Clinical Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples.';
     modules['Clinical Biospecimen Survey'].estimatedTime = '5 minutes';
 
     modules['Menstrual Cycle'].header = 'Menstrual Cycle Survey';

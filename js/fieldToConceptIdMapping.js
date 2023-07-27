@@ -7,6 +7,8 @@ export default
     "birthMonth":564964481,
     "birthDay":795827569,
     "birthYear":544150384,
+    "consentFirstName": 471168198,
+    "consentLastName": 736251808,
     "consentDate":454445267,
     "suffix":506826178,
     "homePhone":438643922,
@@ -39,11 +41,13 @@ export default
     "userProfileUpdateTimestamp": 371303487,
     "profileChangeRequestedBy": 611005658,
     "firebaseSignInMechanism": 995036844,
+    "dateRequestedDataDestroy": 269050420,
     "dataDestroyCategorical": 883668444,
     "requestedDataDestroyNotSigned": 111959410,
     "requestedDataDestroySigned": 704529432,
     "noneOfTheseApply": 398561594,
     firstSignInTime: 335767902,
+    pinNumber: 379080287,
 
     "heardAboutStudyForm" : 142654897,
 

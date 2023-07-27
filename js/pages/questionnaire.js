@@ -22,7 +22,7 @@ export const questionnaire = async (moduleId) => {
     if(hasUserData(responseData)) {
         data = responseData.data;
 
-        let responseModules = await getMySurveys([...new Set([fieldMapping.Module1.conceptId, fieldMapping.Module1_OLD.conceptId, fieldMapping.Biospecimen.conceptId, fieldMapping[moduleId].conceptId])]);
+        let responseModules = await getMySurveys([...new Set([fieldMapping.Module1.conceptId, fieldMapping.Module1_OLD.conceptId, fieldMapping.Biospecimen.conceptId, fieldMapping.ClinicalBiospecimen.conceptId, fieldMapping[moduleId].conceptId])]);
         if(responseModules.code === 200) {
             modules = responseModules.data;
 
@@ -341,6 +341,7 @@ const setInputData = (data, modules) => {
     let module1_v1 = modules[fieldMapping.Module1.conceptId];
     let module1_v2 = modules[fieldMapping.Module1_OLD.conceptId];
     let moduleBiospecimen = modules[fieldMapping.Biospecimen.conceptId];
+    let moduleClinical = modules[fieldMapping.ClinicalBiospecimen.conceptId];
 
     if (module1_v1) {
         if (module1_v1["D_407056417"]) inputData["D_407056417"] = module1_v1["D_407056417"];
@@ -369,6 +370,10 @@ const setInputData = (data, modules) => {
 
     if (moduleBiospecimen) {
         if (moduleBiospecimen["D_644459734"]) inputData["D_644459734"] = moduleBiospecimen["D_644459734"];
+    }
+
+    if (moduleClinical) {
+        if (moduleClinical["D_644459734"]) inputData["D_644459734"] = moduleClinical["D_644459734"];
     }
     
     let birthMonth =  data[fieldMapping.birthMonth];
