@@ -519,17 +519,17 @@ export const addEventUPSubmit = () => {
         let formData = {};
         formData['507120821'] = 602439976;
         formData['399159511'] = document.getElementById('UPFirstName').value.trim();
-        formData['query.firstName'] = [document.getElementById('UPFirstName').value.trim().toLowerCase()];
         formData['231676651'] = document.getElementById('UPMiddleInitial').value.trim();
         formData['996038075'] = document.getElementById('UPLastName').value.trim();
         formData['query.lastName'] = [document.getElementById('UPLastName').value.trim().toLowerCase()];
         
-        /*
-         *TODO
-         *Check how we should be storing the preferred name if they do not have one
-         */
         let prefName = document.getElementById('UPPreferredName').value.trim();
         formData['153211406'] = prefName;
+
+        const queryFirstNameArray = [];
+        if (formData['399159511']) queryFirstNameArray.push(formData['399159511'].toLowerCase());
+        if (formData['153211406'] && formData['399159511'] !== formData['153211406']) queryFirstNameArray.push(formData['153211406'].toLowerCase());
+        formData['query.firstName'] = queryFirstNameArray;
 
         if(document.getElementById('UPSuffix').value) formData['506826178'] = parseInt(document.getElementById('UPSuffix').value);
         let month = document.getElementById('UPMonth').value;
