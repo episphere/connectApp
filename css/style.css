@@ -135,13 +135,13 @@ a{
 
 .row {
     padding: 15px;
+    max-width: 100% !important;
 }
 
 .images-col {
     padding-left: 0px !important;
     padding-right: 0px !important;
 }
-
 .join-now-col {
     text-align: center;
     background-color: #aa0201;
@@ -1304,4 +1304,7 @@ button.connect-secondary {
     background-color: white;
     border-color: #2a72a5;
     color: #2a72a5;
+}
+.list-style { 
+    list-style-type: disc!important;
 }

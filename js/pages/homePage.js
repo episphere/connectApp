@@ -167,32 +167,485 @@ export const whereAmIInDashboard = async () => {
 export const renderHomeAboutPage =  () => {
     const mainContent = document.getElementById('root');
     mainContent.innerHTML = `
+    <link rel="stylesheet" media="all" href="https://www.cancer.gov/connect-prevention-study/sites/g/files/xnrzdm246/files/css/css_OLbt7L-WJSHlUUD5jXU697lzYlbsp4N6NkV-x07NBpI.css"/>
+    <link rel="stylesheet" media="all" href="https://www.cancer.gov/connect-prevention-study/profiles/custom/cgov_site/themes/custom/cgov/cgov_common/dist/css/Common.css?ryhhto"/>
+    <link rel="stylesheet" media="all" href="https://www.cancer.gov/connect-prevention-study/profiles/custom/cgov_site/themes/custom/cgov/cgov_common/dist/css/Article.css?ryhhto"/>
+    <link rel="stylesheet" media="all" href="https://www.cancer.gov/connect-prevention-study/profiles/custom/cgov_site/themes/custom/cgov/cgov_common/dist/css/Connect.css?ryhhto"/>
+
         <div class="row">
             <div class="col-1">
             </div>
             <div class="col-10" id="connectBody">
+            <article>
+    <div class="resize-content">
+        <h1>
+            About the Study
+        </h1>
+        <div class="page-options-container">
+  <!-- PAGE OPTIONS -->
+  
+  <div id="PageOptionsControl1" class="page-options no-resize">
+      <ul>
+                          <li class="page-options--print">
+            <a title="Print" aria-label="Print" href="#"></a>
+          </li>
+                          <li class="page-options--email">
+            <a title="Email" aria-label="Email" href="#"></a>
+          </li>
+                                      </ul>
+  </div>
+  <!-- END PAGE OPTIONS -->
+</div>
+
+        <div id="cgvBody">
+          <div data-entity-embed-display="view_mode:media.image_display_article_medium" class="embedded-entity align-right">
+      
+
+
+
+        
+    
+  <figure class="image-medium centered-set">
+      <div class="centered-element">
+              <img loading="lazy" src="https://www.cancer.gov/connect-prevention-study/sites/g/files/xnrzdm246/files/styles/cgov_article/public/cgov_image/media_image/2021-06/about-the-study-lead.jpg?h=becdecf7&amp;itok=03qT_e3y" width="555" height="320" alt="A group of diverse older adults standing together with their arms around each other looking to camera" />
+
+
+
+
+              </div>
+        </figure>
+
+
+
+  </div>
+
+          <div class="blog-intro-text">
+  <h2>Working Together to Prevent Cancer</h2>
+
+<p>The Connect for Cancer Prevention Study wants to better understand the causes of cancer and how to prevent it. We are asking you to join Connect so that we can study the health and behavior patterns that may affect cancer risk.</p>
+
+<p>Together, we can change the future of cancer prevention.</p></div>
+              <div class="accordion">
+    <nav class="on-this-page hide-otp-on-collapse" role="navigation">
+        <h6>On This Page</h6>
+    <ul>
+                      <li class="list-style">
+          <a href="#why-connect-is-important">
+            <p>Why Connect Is Important</p>
+</a>
+        </li>
+                              <li class="list-style">
+          <a href="#what-to-expect-if-you-decide-to-join">
+            <p>What to Expect If You Decide to Join</p>
+</a>
+        </li>
+                              <li class="list-style">
+          <a href="#where-this-study-takes-place">
+            <p>Where This Study Takes Place</p>
+</a>
+        </li>
+                              <li class="list-style">
+          <a href="#about-our-researchers">
+            <p>About Our Researchers</p>
+</a>
+        </li>
+                              <li class="list-style">
+          <a href="#a-resource-for-science">
+            <p>A Resource for Science</p>
+</a>
+        </li>
+                  </ul>
+  </nav>
+            <section>
+                    <h2 id="why-connect-is-important">
+    <p>Why Connect Is Important</p>
+</h2>
+<p>If we learn how to prevent cancer, we can lower the number of people who get it. Cancer is the second-leading cause of death in the United States. While treatments are improving, the number of people who get cancer is expected to rise in the next 10 years as the population ages and lifestyles and behaviors continue to change.</p>
+
+<p>To study the causes of cancer and learn how to prevent it, we can follow groups of people over a long period of time. In research, we call these groups cohorts. The Connect for Cancer Prevention Study will follow a new cohort of 200,000 adults throughout the United States.</p>
+
+<div data-embed-button="cgov_image_button" data-entity-embed-display="view_mode:media.image_display_article_small" data-entity-type="media" data-entity-uuid="5028dcbd-e14f-41a1-94b4-30863de0f916" data-langcode="en" class="embedded-entity align-left">
+
+
+
+        
+    
+  <figure class="image-small centered-set"><div class="centered-element">
+              <img loading="lazy" src="https://www.cancer.gov/connect-prevention-study/sites/g/files/xnrzdm246/files/styles/cgov_article/public/cgov_image/media_image/2021-06/biracial-family.jpg?h=10690783&amp;itok=UknIZyNT" width="900" height="599" alt="A couple with two women are swinging a child held between them and smiling" /></div>
+        </figure></div>
+<p>We are looking for people who have never had cancer to join Connect, but there are some exceptions. If you have or once had non-melanoma skin cancer, or a <a data-entity-substitution="canonical" data-entity-type="node" data-entity-uuid="e01d4bbb-7642-4a8e-927f-0e9d6c8654b0" href="/connect-prevention-study/who-can-join">condition</a> that raises the risk of getting cancer, such as DCIS of the breast (stage 0 breast cancer), you can still join Connect. If you have any of these conditions, we hope you join Connect. We are interested in learning how these conditions may relate to cancer risk.</p>
+
+<p>Patterns that affect cancer risk may vary based on where people live, their race or ethnicity, their age, and other factors. It is important for Connect to include many types of people so that new discoveries can benefit everybody.</p>
+
+<p>We are launching Connect today because modern cohorts are needed to study new and future exposures that may affect cancer risk. We are using new technology and research methods that can lead to key discoveries to prevent cancer.</p>
+
+
+      </section>
+              <section>
+                    <h2 id="what-to-expect-if-you-decide-to-join"><br>
+    <p>What to Expect If You Decide to Join</p>
+</h2>
+<p>We will reach out to you when you join the study and then a few times each year to ask for updates about your health and information about things like your habits, diet, exercise, and use of alcohol or tobacco.</p>
+
+<p>We will also ask you to donate samples of blood, urine, and saliva (biological specimens) when you join the study and every two or three years after. These samples provide information about what is going on in your body. Information from different types of samples can help us find health and behavior patterns that may affect cancer risk. Learn more from our <a data-entity-substitution="canonical" data-entity-type="node" data-entity-uuid="6a5a3e24-4247-4b79-b3ab-d5ec782e6d75" href="/connect-prevention-study/what-to-expect">What to Expect</a> page.</p>
+
+<p>Connect will go on for many years because events that may affect cancer risk happen over a lifetime, and most cancers develop later in life. If you join, we hope you take part for many years. The longer you participate, the more we may learn.</p>
+
+
+      </section>
+              <section>
+                    <h2 id="where-this-study-takes-place">
+    <p>Where This Study Takes Place</p>
+</h2>
+<p>For a study of this size and importance, we partnered with <a data-entity-substitution="canonical" data-entity-type="node" data-entity-uuid="e01d4bbb-7642-4a8e-927f-0e9d6c8654b0" href="/connect-prevention-study/who-can-join">nine health care systems</a> throughout the United States. People who get their health care through these systems tend to stay for a long time. This is an important quality for cohort studies like ours that need to follow people over the course of their lives.</p>
+
+<p>Health care systems store private, protected information about their patients’ health from all aspects of care in the form of electronic health records (EHRs). By agreeing to share the information in your EHRs with Connect, researchers can get a full picture of your health. We can also coordinate with your health care system to collect leftover samples from your regular health care visits, like stool or urine, or tissue from people who develop a cancer or precancer.</p>
+
+
+      </section>
+              <section>
+                    <h2 id="about-our-researchers">
+    <p>About Our Researchers</p>
+</h2>
+<div data-embed-button="cgov_image_button" data-entity-embed-display="view_mode:media.image_display_article_medium" data-entity-type="media" data-entity-uuid="a9c6725a-8ac1-4456-a414-dc72e99c13d0" data-langcode="en" class="embedded-entity align-right">
+
+
+
+        
+    
+  <figure class="image-medium centered-set"><div class="centered-element">
+              <img loading="lazy" src="https://www.cancer.gov/connect-prevention-study/sites/g/files/xnrzdm246/files/styles/cgov_article/public/cgov_image/media_image/2021-06/female-reseracher-tablet.jpg?h=b4427edb&amp;itok=aK3gzwZv" width="600" height="415" alt="Woman wearing a lab coat looking at a tablet computer" /></div>
+        </figure></div>
+<p style="margin-bottom: 0.5rem">The Connect for Cancer Prevention Study is being led by our team of federal government researchers at the National Cancer Institute (NCI), part of the National Institutes of Health (NIH), and researchers at partner health care systems. Study teams at partner health care systems have experience conducting research studies like Connect, and many have particular expertise in research related to cancer.</p>
+
+<p style="margin-bottom: 0.5rem">Our team at NCI is part of the largest cancer research group in the world that studies the causes of disease, or epidemiology. Our team and other researchers at NCI have long histories of studying cancer and have made important discoveries. For example, in another cohort study, we found that drinking coffee was associated with lower risk of death from cancer and other causes. This was good news for coffee drinkers! NCI research informs public health policy in the United States and around the world. Connect will contribute evidence that can impact public health policy far into the future.</p>
+
+
+      </section>
+              <section>
+                    <h2 id="a-resource-for-science">
+    <p>A Resource for Science</p>
+</h2>
+<p>Our team and others at NCI develop research resources and partnerships for the broader research community. We will safely store information from Connect online so researchers around the world can work together to study the causes of cancer and learn how to prevent it. Scientists in cancer research and other areas who are not part of Connect can ask to use the information we collect for their research. We will protect your privacy by removing information that can identify you from your survey answers and samples before we share them with other researchers. The more scientists who study the information we collect, the more we can discover. To learn more about how we safely store and share information, visit the <a data-entity-substitution="canonical" data-entity-type="node" data-entity-uuid="88d25dc4-9a83-4394-ac97-c45e460173b3" href="/connect-prevention-study/privacy">Your Privacy</a> section of this site.</p>
+
+<p>Researchers interested in studying information collected through the Connect for Cancer Prevention Study can <a href="https://dceg.cancer.gov/research/who-we-study/cohorts/connect">learn more about the cohort</a> and how to request access to shared resources.</p>
+
+
+      </section>
+    </div>
+
+        </div>
+    </div>
+        <footer class="article-footer">
+      
+      
+          
+                      <div id="nvcgSlSyndication">
+	<div class="contentid-911760 slot-item only-SI">
+      <div class="syndication">
+  </div>
+
+  </div>
+</div>
+
+
+          </footer>
+</article>
+
             </div>
             <div class="col-1">
             </div>
         </div>
         `
-    renderSyndicate("https://api.digitalmedia.hhs.gov/api/v2/resources/media/19351/syndicate.json?stripStyles=false&stripScripts=false&stripBreaks=false&stripImages=false&stripClasses=false&stripIds=false&displayMethod=undefined&autoplay=false","connectBody", 'about')
+    // renderSyndicate("https://api.digitalmedia.hhs.gov/api/v2/resources/media/19351/syndicate.json?stripStyles=false&stripScripts=false&stripBreaks=false&stripImages=false&stripClasses=false&stripIds=false&displayMethod=undefined&autoplay=false","connectBody", 'about')
     window.scrollTo(0, 0);
 }
 
 export const renderHomeExpectationsPage = () => {
     const mainContent = document.getElementById('root');
     mainContent.innerHTML = `
+    <link rel="stylesheet" media="all" href="https://www.cancer.gov/connect-prevention-study/sites/g/files/xnrzdm246/files/css/css_OLbt7L-WJSHlUUD5jXU697lzYlbsp4N6NkV-x07NBpI.css"/>
+    <link rel="stylesheet" media="all" href="https://www.cancer.gov/connect-prevention-study/profiles/custom/cgov_site/themes/custom/cgov/cgov_common/dist/css/Common.css?ryhhto"/>
+    <link rel="stylesheet" media="all" href="https://www.cancer.gov/connect-prevention-study/profiles/custom/cgov_site/themes/custom/cgov/cgov_common/dist/css/Article.css?ryhhto"/>
+    <link rel="stylesheet" media="all" href="https://www.cancer.gov/connect-prevention-study/profiles/custom/cgov_site/themes/custom/cgov/cgov_common/dist/css/Connect.css?ryhhto"/>
         <div class="row">
         <div class="col-1">
         </div>
         <div class="col-10" id="connectBody">
+        <article>
+                                <div class="resize-content">
+                                    <h1>
+                                                What to Expect
+                                            </h1>
+                                    <div class="page-options-container">
+                                        <!-- PAGE OPTIONS -->
+
+                                        <div id="PageOptionsControl1" class="page-options no-resize">
+                                            <ul>
+                                                <li class="page-options--print">
+                                                    <a title="Print" aria-label="Print" href="#"></a>
+                                                </li>
+                                                <li class="page-options--email">
+                                                    <a title="Email" aria-label="Email" href="#"></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <!-- END PAGE OPTIONS -->
+                                    </div>
+
+                                    <div id="cgvBody">
+                                        <div data-entity-embed-display="view_mode:media.image_display_article_medium" class="embedded-entity align-right">
+
+                                            <figure class="image-medium centered-set">
+                                                <div class="centered-element">
+                                                    <img loading="lazy" src="https://www.cancer.gov/connect-prevention-study/sites/g/files/xnrzdm246/files/styles/cgov_article/public/cgov_image/media_image/2021-06/what-to-expect-lead.jpg?h=becdecf7&amp;itok=Xqd0--45" width="800" height="575" alt="Two women smiling. One woman has her arm leaning on her partner."/>
+
+                                                </div>
+                                            </figure>
+
+                                        </div>
+
+                                        <div class="blog-intro-text">
+                                            <p>If you are interested in joining the Connect for Cancer Prevention Study and think you are eligible, it is easy to sign up. If you choose to join Connect, we will ask you to take part in study activities from time to time. Most study activities are easy to complete online a few times each year.</p>
+                                        </div>
+                                        <div class="accordion">
+                                            <nav class="on-this-page hide-otp-on-collapse" role="navigation">
+                                                <h6>On This Page</h6>
+                                                <ul>
+                                                    <li class = "list-style">
+                                                        <a href="#joining-connect">
+                                                            <p>Joining Connect</p>
+                                                        </a>
+                                                    </li>
+                                                    <li class = "list-style">
+                                                        <a href="#after-you-join">
+                                                            <p>After You Join</p>
+                                                        </a>
+                                                    </li>
+                                                    <li class="list-style">
+                                                        <a href="#long-term-study-activities">
+                                                            <p>Long-term Study Activities</p>
+                                                        </a>
+                                                    </li>
+                                                    <li class="list-style">
+                                                        <a href="#what-connect-will-do">
+                                                            <p>What Connect Will Do</p>
+                                                        </a>
+                                                    </li>
+                                                    <li class="list-style">
+                                                        <a href="#how-your-information-will-help-prevent-cancer">
+                                                            <p>How Your Information Will Help Prevent Cancer</p>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </nav>
+                                            <section>
+                                                <h2 id="joining-connect">
+                                                    <p>Joining Connect</p>
+                                                </h2>
+                                                <p class="paragraph">You can sign up for Connect through the MyConnect participant app, where you can complete the online informed consent process, agree to share your electronic health records, and create a profile. Then, the Connect team at your health care system will check that you are eligible to join the study.</p>
+
+                                                <p>To sign up for Connect:</p>
+
+                                                <h3>1. Visit the MyConnect Participant App</h3>
+
+                                                <p>You can access the participant app by clicking the "Join Now" button at the top or bottom of this page.</p>
+
+                                                <p>
+                                                    The MyConnect app is not a standalone app for a smartphone and cannot be accessed by downloading from an App Store, such as Google Play or Apple App Store. You can access MyConnect by visiting 
+                                                    <a href="https://myconnect.cancer.gov">MyConnect.cancer.gov</a>
+                                                     on any of these supported internet browsers: Google Chrome, Safari, Microsoft Edge, and Firefox.
+                                                </p>
+
+                                                <h3>2. Complete the Online Informed Consent Process</h3>
+
+                                                <p>
+                                                    The online informed consent process will tell you what it means to take part in Connect and how we will protect your privacy. We will guide you through a series of web pages about the study. Please read the full 
+                                                    <a data-entity-substitution="canonical" data-entity-type="media" data-entity-uuid="78c89167-2c80-46e8-945c-953229718faf" href="/connect-prevention-study/what-to-expect/sample-consent">informed consent form</a>
+                                                    . 
+                                                    <a href="https://norcfedramp.servicenowservices.com/recruit">Connect Support Center</a>
+                                                     staff can answer any questions you have about the study before you decide to join.
+                                                </p>
+
+                                                <h3>3. Agree to Share Your Electronic Health Records (EHRs)</h3>
+
+                                                <div data-embed-button="cgov_image_button" data-entity-embed-display="view_mode:media.image_display_article_medium" data-entity-type="media" data-entity-uuid="58dcaa8b-896a-451e-8916-74dd9df5e9ec" data-langcode="en" class="embedded-entity align-right">
+
+                                                    <figure class="image-medium centered-set">
+                                                        <div class="centered-element">
+                                                            <img loading="lazy" src="https://www.cancer.gov/connect-prevention-study/sites/g/files/xnrzdm246/files/styles/cgov_article/public/cgov_image/media_image/2021-06/man-on-ipad.jpg?h=6fb3b3f4&amp;itok=UnPBIuSF" width="698" height="300" alt="A man is sitting on the couch and looking at information on a tablet"/>
+                                                        </div>
+                                                    </figure>
+                                                </div>
+                                                <p>These records include information about your past, current, or future health status, test results, medical procedures, images (such as x-rays), and medicines you take.</p>
+
+                                                <p>Sharing your health records gives researchers a full picture of your health. Seeing the full picture can help us learn what makes some people more likely to get cancer than others.</p>
+
+                                                <p>
+                                                    Please read the full HIPAA Authorization form. Signing this form will allow Connect to access your health records. 
+                                                    <a href="https://norcfedramp.servicenowservices.com/recruit">Connect Support Center</a>
+                                                     staff can answer any questions about the study and sharing your health records before you decide to join.
+                                                </p>
+
+                                                <h3>4. Create a Profile</h3>
+
+                                                <p>We will ask you to fill out information like your name, date of birth, address, and how you prefer that we contact you.</p>
+
+                                                <p>The Connect team at your health care system will use this information to check that you are eligible for the study. We will contact you within a few business days to let you know if you are able to join Connect.</p>
+
+                                                <div class="callout-box">
+                                                    <p>
+                                                        <a data-entity-substitution="canonical" data-entity-type="node" data-entity-uuid="88d25dc4-9a83-4394-ac97-c45e460173b3" href="/connect-prevention-study/privacy">Your privacy</a>
+                                                         is important to us. We follow security rules to protect your information.
+                                                    </p>
+                                                </div>
+
+                                                <p>Joining Connect will not affect your health care or health benefits. If you join, you can stop at any time. There is no monetary cost tied to taking part in Connect.</p>
+
+                                            </section>
+                                            <section>
+                                                <h2 id="after-you-join">
+                                                    <p>After You Join</p>
+                                                </h2>
+                                                <p>If you join Connect, we will ask you to complete online surveys and donate blood, urine, and saliva samples (biological specimens).</p>
+
+                                                <p>We will share some results from your surveys and samples with you privately, if you choose to receive them. We will not add information from the study to your health record or share information with your health care providers, but you are free to share any results you receive with your health care providers and anyone else. We will also share updates about Connect with you online over the course of the study.</p>
+
+                                                <div data-embed-button="cgov_image_button" data-entity-embed-display="view_mode:media.image_display_article_small" data-entity-type="media" data-entity-uuid="ad936b40-5dad-48fb-a55a-eab139bae8dc" data-langcode="en" class="embedded-entity align-right">
+
+                                                    <figure class="image-small centered-set">
+                                                        <div class="centered-element">
+                                                            <img loading="lazy" src="https://www.cancer.gov/connect-prevention-study/sites/g/files/xnrzdm246/files/styles/cgov_article/public/cgov_contextual_image/2021-06/Surveys-icon.png?h=83bea889&amp;itok=PmiznnRF" width="114" height="113" alt="Online survey icon"/>
+                                                        </div>
+                                                    </figure>
+                                                </div>
+                                                <h3>Answer Online Surveys</h3>
+
+                                                <p>Connect surveys will ask about your health, habits, family, home, and work. We will send you surveys to complete when you join the study and then a few times each year. The first survey can take one to two hours to complete. This survey is broken into sections, so you can pause and return to complete it at any time. Most follow up surveys will take 20 to 30 minutes to complete. Surveys can be completed on any computer, tablet, or smartphone. You can skip any questions that you are not comfortable answering.</p>
+
+                                                <div data-embed-button="cgov_image_button" data-entity-embed-display="view_mode:media.image_display_article_small" data-entity-type="media" data-entity-uuid="991aae93-b84a-4890-af37-563a83abc48b" data-langcode="en" class="embedded-entity align-right">
+
+                                                    <figure class="image-small centered-set">
+                                                        <div class="centered-element">
+                                                            <img loading="lazy" src="https://www.cancer.gov/connect-prevention-study/sites/g/files/xnrzdm246/files/styles/cgov_article/public/cgov_contextual_image/2021-06/samples-icon.png?h=ab0ab1c4&amp;itok=efuNvI64" width="114" height="113" alt="Icon of a small cup of a sample"/>
+                                                        </div>
+                                                    </figure>
+                                                </div>
+                                                <h3>Donate Samples</h3>
+
+                                                <p>We will ask you to donate blood, urine, and saliva samples (biological specimens) when you join the study and then every two or three years after.
+
+                                                When you donate each sample, we will ask you to answer a short survey about your recent actions (like medicines you took or foods you ate).
+
+                                                Some samples may be collected where you get your health care. Others are easy for you to collect at home. There is no monetary cost tied to donating samples. We will cover the cost of postage for mailing samples and parking validation for donating samples in person.
+
+                                                After you complete the first survey and donate your first blood sample, you will receive $25 in cash or as a gift card, depending on your health care system.</p>
+
+                                            </section>
+                                            <section>
+                                                <h2 id="long-term-study-activities">
+                                                    <p>Long-term Study Activities</p>
+                                                </h2>
+                                                <p>It takes time to understand the causes of cancer. Changes in your life, habits, behaviors, and the things we can measure in your samples give us important information that we can use to understand how cancer and other diseases develop. If you join, we hope you will be an active part of Connect for years to come. </p>
+
+                                                <p>For as long as you are part of Connect, we will ask you to:</p>
+
+                                                <ul>
+                                                    <li class="list-style">Update your information and answer new online surveys at least once a year.</li>
+                                                    <li class="list-style">Donate new blood, urine, and saliva samples every two to three years.</li>
+                                                </ul>
+                                                <p>We may invite you to take part in other study activities. These are optional. We may provide payment for some of these other activities. You can say yes or no to these activities and stay in Connect.</p>
+
+                                                <p>These activities could include:</p>
+
+                                                <ul>
+                                                    <li class="list-style">Donating other samples (like stool, toenails, or hair) or samples from your home (like dust or dryer lint).</li>
+                                                    <li class="list-style">Having physical measurements (like height, weight, and blood pressure) taken at a health clinic or at home.</li>
+                                                    <li class="list-style">Sharing information from electronic health trackers that you wear or mobile phone apps. These could measure physical activity, diet, sleep, or things about where you live.</li>
+                                                </ul>
+
+                                            </section>
+                                            <section>
+                                                <h2 id="what-connect-will-do">
+                                                    <p>What Connect Will Do</p>
+                                                </h2>
+                                                <div data-embed-button="cgov_image_button" data-entity-embed-display="view_mode:media.image_display_article_small" data-entity-type="media" data-entity-uuid="a06c9cb7-d53a-49fc-a725-6eade93250d4" data-langcode="en" class="embedded-entity align-right">
+
+                                                    <figure class="image-small centered-set">
+                                                        <div class="centered-element">
+                                                            <img loading="lazy" src="https://www.cancer.gov/connect-prevention-study/sites/g/files/xnrzdm246/files/styles/cgov_article/public/cgov_contextual_image/2021-06/health-records-icon.png?h=83bea889&amp;itok=zq0TdLYR" width="114" height="113" alt="Health records icon"/>
+                                                        </div>
+                                                    </figure>
+                                                </div>
+                                                <p>If you join Connect, we will collect information from your health care system and other sources to better understand your health.</p>
+
+                                                <p>Examples of other sources include:</p>
+
+                                                <ul>
+                                                    <li class="list-style">Cancer and other health registries</li>
+                                                    <li class="list-style">Environmental databases that have information about air quality in areas where you live and work</li>
+                                                    <li class="list-style">Other databases, like the census, that have information about your neighborhood</li>
+                                                </ul>
+                                                <p>Our team will collect this information. It will not take extra effort on your part.</p>
+
+                                                <p>To collect information from some of these sources, we will use your name, address, and social security number (if you shared it) to check that we have the right information for you. We protect your privacy every time we collect information about you from other sources.</p>
+
+                                                <p>If your regular health care visits include collection of certain samples, we may coordinate with your health care system to collect any unused portions. These could include:</p>
+
+                                                <ul>
+                                                    <li class="list-style">Tissue from medical procedures, such as a biopsy or surgery</li>
+                                                    <li class="list-style">Stool, often used for colon cancer screening</li>
+                                                    <li class="list-style">Samples from HPV and Pap smears, often used for cervical cancer screening</li>
+                                                    <li class="list-style">Blood from blood tests, such as cholesterol checks</li>
+                                                    <li class="list-style">Urine from tests to check for some infections</li>
+                                                </ul>
+
+                                            </section>
+                                            <section>
+                                                <h2 id="how-your-information-will-help-prevent-cancer">
+                                                    <p>How Your Information Will Help Prevent Cancer</p>
+                                                </h2>
+                                                <p>Your health information and samples can help researchers better understand cancer and its causes. We value the time, effort, and information you choose to share with Connect, and are committed to protecting your privacy every step of the way.</p>
+
+                                                <p>
+                                                    <a data-entity-substitution="canonical" data-entity-type="node" data-entity-uuid="4378d52a-d349-4f2d-8d53-79af4d20ec26" href="/connect-prevention-study/about">Researchers around the world</a>
+                                                     may use your information (without identifying you) to better understand the causes of cancer and other health problems.
+                                                </p>
+
+                                                <p>Health information, survey answers, and samples can help researchers answer important questions. Researchers can compare the habits, diet, and health issues of people who get cancer to those who do not. Your blood, urine, and other samples help researchers understand what is happening in your body. For example, we may measure cholesterol or other things that affect health, like vitamin levels or pollution from the environment. This information can help us learn more about the causes of cancer and how to prevent it.</p>
+
+                                                <p>We will update you about study progress and what we learn over time.</p>
+
+                                                <p>
+                                                    Still have questions about Connect? 
+                                                    <a href="https://norcfedramp.servicenowservices.com/recruit">Contact us</a>
+                                                    .
+                                                </p>
+
+                                            </section>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <footer class="article-footer">
+
+                                    <div id="nvcgSlSyndication">
+                                        <div class="contentid-911760 slot-item only-SI">
+                                            <div class="syndication">
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </footer>
+                            </article>
+
         </div>
         <div class="col-1">
         </div>
         </div>
         `
-    renderSyndicate("https://api.digitalmedia.hhs.gov/api/v2/resources/media/19350/syndicate.json?stripStyles=false&stripScripts=false&stripBreaks=false&stripImages=false&stripClasses=false&stripIds=false&displayMethod=undefined&autoplay=false","connectBody", 'expectations')
+    // renderSyndicate("https://api.digitalmedia.hhs.gov/api/v2/resources/media/19350/syndicate.json?stripStyles=false&stripScripts=false&stripBreaks=false&stripImages=false&stripClasses=false&stripIds=false&displayMethod=undefined&autoplay=false","connectBody", 'expectations')
     window.scrollTo(0, 0);
     let sections = document.getElementsByTagName('h2')
 
@@ -202,16 +655,75 @@ export const renderHomeExpectationsPage = () => {
 export const renderHomePrivacyPage =  () => {
     const mainContent = document.getElementById('root');
     mainContent.innerHTML = `
+    <link rel="stylesheet" media="all" href="https://www.cancer.gov/connect-prevention-study/sites/g/files/xnrzdm246/files/css/css_OLbt7L-WJSHlUUD5jXU697lzYlbsp4N6NkV-x07NBpI.css"/>
+    <link rel="stylesheet" media="all" href="https://www.cancer.gov/connect-prevention-study/profiles/custom/cgov_site/themes/custom/cgov/cgov_common/dist/css/Common.css?ryhhto"/>
+    <link rel="stylesheet" media="all" href="https://www.cancer.gov/connect-prevention-study/profiles/custom/cgov_site/themes/custom/cgov/cgov_common/dist/css/Article.css?ryhhto"/>
+    <link rel="stylesheet" media="all" href="https://www.cancer.gov/connect-prevention-study/profiles/custom/cgov_site/themes/custom/cgov/cgov_common/dist/css/Connect.css?ryhhto"/>
         <div class="row">
         <div class="col-1">
         </div>
         <div class="col-10" id="connectBody">
+        <article>
+
+  
+    <!-- Banner Area -->
+  
+  <!-- End Banner Area -->
+
+  <div class="resize-content">
+
+    <!-- PAGE TITLE -->
+    <h1>Your Privacy Is Important to Us</h1>
+    <!-- END PAGE TITLE -->
+    <div class="page-options-container">
+  <!-- PAGE OPTIONS -->
+  
+  <div id="PageOptionsControl1" class="page-options no-resize">
+      <ul>
+                          <li class="page-options--print">
+            <a title="Print" aria-label="Print" href="#"></a>
+          </li>
+                          <li class="page-options--email">
+            <a title="Email" aria-label="Email" href="#"></a>
+          </li>
+      </ul>
+  </div>
+  <!-- END PAGE OPTIONS -->
+</div>
+
+
+    <!-- Contents -->
+      <div data-embed-button="cgov_image_button" data-entity-embed-display="view_mode:media.image_display_article_medium" data-entity-type="media" data-entity-uuid="9d4dfd8b-1626-4c49-a2c2-762a3b8397f1" data-langcode="en" class="embedded-entity align-right">
+
+
+
+        
+    
+  <figure class="image-medium centered-set"><div class="centered-element">
+              <img loading="lazy" src="https://www.cancer.gov/connect-prevention-study/sites/g/files/xnrzdm246/files/styles/cgov_article/public/cgov_image/media_image/2021-06/your-privacy-lead.jpg?h=becdecf7&amp;itok=iygf7OKL" width="400" height="475" alt="A man in a wheelchair looking at information on a tablet" /></div>
+        </figure></div>
+<p style="margin-top:16px">As part of the study, we ask you to share information that can identify you, like your name, address, and social security number (optional), and health information. Our team values the important information you share with us, and will protect this information with the highest privacy standards.</p>
+
+<p>To protect your information, we: </p>
+
+<ul><li class="list-style">Follow federal privacy rules, including the <a href="https://www.justice.gov/archives/opcl/overview-privacy-act-1974-2015-edition">Privacy Act</a> and the <a href="https://grants.nih.gov/grants/guide/notice-files/NOT-OD-19-050.html">Common Rule</a>.</li>
+	<li class="list-style">Maintain tight security controls. Our information systems, including the MyConnect participant app, are watched closely by security experts.</li>
+	<li class="list-style">Remove information that can identify you, including your name, date of birth, and social security number (if you shared it), from your survey answers and samples before we share them with researchers. This information is replaced with a unique number (a code) to protect your identity.</li>
+	<li class="list-style">Limit and keep track of who can access the information and samples you share. Only approved researchers who agree to our privacy rules will be allowed to use study information and samples for valid scientific reasons.</li>
+	<li class="list-style">Maintain our <a href="https://grants.nih.gov/policy/humansubjects/coc.htm">Certificate of Confidentiality</a> from the United States government. This will help protect against any legal requests (such as a court order) to give out information that could identify you.</li>
+</ul><p>If you have questions about our privacy safeguards, please <a href="https://norcfedramp.servicenowservices.com/recruit">contact us</a>.</p>
+
+
+    <!-- End Contents -->
+
+  </div>
+  </article>
         </div>
         <div class="col-1">
         </div>
         </div>
         `
-    renderSyndicate("https://api.digitalmedia.hhs.gov/api/v2/resources/media/19352/syndicate.json?stripStyles=false&stripScripts=false&stripBreaks=false&stripImages=false&stripClasses=false&stripIds=false&displayMethod=undefined&autoplay=false","connectBody", 'privacy')
+    // renderSyndicate("https://api.digitalmedia.hhs.gov/api/v2/resources/media/19352/syndicate.json?stripStyles=false&stripScripts=false&stripBreaks=false&stripImages=false&stripClasses=false&stripIds=false&displayMethod=undefined&autoplay=false","connectBody", 'privacy')
     window.scrollTo(0, 0);
 
 }
