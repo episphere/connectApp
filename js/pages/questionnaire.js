@@ -83,7 +83,7 @@ async function startModule(data, modules, moduleId, questDiv) {
                 formData[fieldMapping[moduleId].startTs] = new Date().toISOString();
                 formData[fieldMapping[moduleId].statusFlag] = fieldMapping.moduleStatus.started;
 
-                storeResponseQuest(questData);
+                await storeResponseQuest(questData);
                 storeResponse(formData);
             }
             else {
