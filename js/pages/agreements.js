@@ -325,7 +325,8 @@ const addEventAgreementOptions = (myData) => {
 }
 
 const renderDownloadRevoke = async (data) => {
-    const participantSignature = `${data[471168198]} ${data[436680969] || ''} ${data[736251808]}`;
+    const middleName = data[436680969] ? ` ${data[436680969]} ` : ' ';
+    const participantSignature = `${data[471168198]}${middleName}${data[736251808]}`;
     const pdfLocation = './forms/HIPAA_Revocation_V1.0.pdf';
     const currentTime = new Date(data[613641698]).toLocaleDateString();
 
@@ -334,7 +335,8 @@ const renderDownloadRevoke = async (data) => {
 
 
 const renderDownloadDestroy = async (data) => {
-    const participantSignature = `${data[471168198]} ${data[436680969] || ''} ${data[736251808]}`;
+    const middleName = data[436680969] ? ` ${data[436680969]} ` : ' ';
+    const participantSignature = `${data[471168198]}${middleName}${data[736251808]}`;
     const pdfLocation = './forms/Data_Destruction_V1.0.pdf';
     const currentTime = new Date(data[119449326]).toLocaleDateString();
 
@@ -539,7 +541,8 @@ async function generateSignedPdf(data, file) {
   let dateStr;
   const siteDict = siteAcronyms();
   const participantSite = siteDict[data['827220437']];
-  const participantFullName = `${data[471168198]} ${data[436680969] || ''} ${data[736251808]}`;
+  const middleName = data[436680969] ? ` ${data[436680969]} ` : ' ';
+  const participantFullName = `${data[471168198]}${middleName}${data[736251808]}`;
   const fontSize = siteToSignFontSizeMap[participantSite] ?? siteToSignFontSizeMap['default'];
 
   if (file === 'signed-consent') {
