@@ -325,8 +325,8 @@ const addEventAgreementOptions = (myData) => {
 }
 
 const renderDownloadRevoke = async (data) => {
-    const middleName = data[436680969] ? ` ${data[436680969]} ` : ' ';
-    const participantSignature = `${data[471168198]}${middleName}${data[736251808]}`;
+    const middleName = data[826240317] ? ` ${data[826240317]} ` : ' ';
+    const participantSignature = `${data[765336427]}${middleName}${data[479278368]}`;
     const pdfLocation = './forms/HIPAA_Revocation_V1.0.pdf';
     const currentTime = new Date(data[613641698]).toLocaleDateString();
 
@@ -335,8 +335,8 @@ const renderDownloadRevoke = async (data) => {
 
 
 const renderDownloadDestroy = async (data) => {
-    const middleName = data[436680969] ? ` ${data[436680969]} ` : ' ';
-    const participantSignature = `${data[471168198]}${middleName}${data[736251808]}`;
+    const middleName = data[268665918] ? ` ${data[268665918]} ` : ' ';
+    const participantSignature = `${data[104278817]}${middleName}${data[744604255]}`;
     const pdfLocation = './forms/Data_Destruction_V1.0.pdf';
     const currentTime = new Date(data[119449326]).toLocaleDateString();
 
