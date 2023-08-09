@@ -2,7 +2,6 @@ import { getMyData, hasUserData } from "../shared.js";
 
 export const renderSamplesPage = async () => {
     document.title = 'My Connect - Samples';
-
     getMyData().then(res => {
 
         if(!hasUserData(res)) return;
@@ -314,7 +313,7 @@ const sanford = {
     name: 'Sanford',
     donatingSamples: 'As part of Connect, we ask you to donate blood, urine, and saliva samples and complete a short survey.',
     whenToDonate: 'The Connect team will send a MyChart message when it is time to donate your samples. If you do not have a MyChart account, we will send you an email. Be sure to check your spam or junk folder. After you receive the MyChart message or email, it is important to donate your samples as soon as you can. It is easy to donate all of your samples in one visit.<br><br><span style="font-weight:900; text-decoration:underline">Note:</span> If you have recently had a blood transfusion or donated blood, please wait at least <span style="font-weight:900; text-decoration:underline">eight weeks</span> from your donation or transfusion before donating your samples for Connect. If you have recently donated plasma, please wait at least <span style="font-weight:900; text-decoration:underline">two days</span> from your plasma donation before donating samples for Connect. If you have an upcoming colonoscopy, please be sure that you <span style="font-weight:900; text-decoration:underline">do not</span> donate samples for Connect on the <span style="font-weight:900; text-decoration:underline">same day</span> as your colonoscopy.',
-    howToDonate: 'The MyChart message or email we send you will contain a link to schedule an appointment. Simply click the link to schedule a time that is convenient for you to donate your samples.',
+    howToDonate: 'The MyChart message or email we send you will contain a link to schedule an appointment. Simply click the link to schedule a time that is convenient for you to donate your samples.Be sure you are scheduling an appointment in the city you are closest to.',
     scheduling: 'Scheduling link will be sent by the Connect team at Sanford.<br><br>For questions, please call 605-312-6100 or email <a href="mailto: connectstudy@sanfordhealth.org">connectstudy@sanfordhealth.org</a>.',
     howLong: 'Please expect to spend about 30 minutes at your appointment to donate your samples and complete a short survey.',
     prepareInstructions: '<em>All patients and visitors are required to wear a mask per Sanford mask policy. If you enter the building without a mask, we will give one to you. If you are unable to wear a mask for the duration of the visit, we ask that you do not schedule your visit at this time.</em><br><br>On the day of your appointment, please drink plenty of water, but <span style="font-weight:900; text-decoration:underline">stop drinking water one hour before your appointment.</span><br><br><span style="font-weight:900; text-decoration:underline">One hour before your appointment:</span> Please <span style="font-weight:900; text-decoration:underline">do not</span> eat, drink any liquids (including water), chew gum, smoke, vape, or chew any products (including tobacco), rinse your mouth, or brush your teeth.<br><br><span style="font-weight:900; text-decoration:underline">Things to bring and remember:</span><br><br><ul><li>Make sure you know your login information for the MyConnect app.</li><li>We will ask you to complete a short survey when you donate your samples. It may also be helpful to have this information on hand:<ul><li>The last time you ate or drank before your appointment, and the times you went to sleep the night before your appointment and woke up on the day of your appointment.</li><li>If you are menstruating, the start date of your most recent menstrual period in the last 12 months.</li><li>Information and dates regarding COVID-19 testing, symptoms, recovery information (including any hospital stay and treatment), and vaccination status.</li></ul></li></ul>',
@@ -322,11 +321,18 @@ const sanford = {
     support: 'Call 1-877-505-0253 (8:00 a.m.-10:00 p.m. CT on weekdays and 9:00 a.m.-6:00 p.m. CT on weekends)',
     locations: [
         [
-            'Sanford Imagenetics',
-            '1321 W. 22nd St.<br>Sioux Falls, SD 57105',
-            'Monday - Thursday: 7:00 a.m.-4:00 p.m.<br>Friday: 7:00 a.m.-2:00 p.m.',
-            'Patient parking available in lot.'
-        ]
+            'Sioux Falls: Sanford Imagenetics',
+            '1321 W. 22nd St.<br>Sioux Falls, SD 57104',
+            '',
+            'Free patient parking available is available in the lot near the front entrance--Door JJ. No parking validation needed.'
+        ],
+
+        [
+           'Fargo: South University Urgent Care/Orthopedic Walk-In Clinic',
+           '1720 University Drive S<br>Fargo, ND 58102<br> Enter Through Door #8',
+           '',
+           'Free patient parking available is available in the lot near the Urgent Care entrance—Door #8. No parking validation needed.'
+        ],
     ]
 };
 
@@ -521,7 +527,7 @@ const locations = [
 
 const renderLocations = (site) => {
     let template = '';
-
+console.log("site",site)
     if(site.locations){
         site.locations.forEach(location => {
             template += `
@@ -554,7 +560,8 @@ const renderLocations = (site) => {
                 </div>
             </div>`
             }
-            template+=`    
+            if(location[2])  {
+                template+=`    
                 <div class="row" style="width:100%;padding:5px 15px;">
                     <div style="width:100%">
                         <div class="messagesHeaderFont">
@@ -564,8 +571,10 @@ const renderLocations = (site) => {
                             ${location[2]}
                         </div>
                     </div>
-                </div>
-    
+                </div>`
+            }
+            
+            template+=` 
                 <div class="row" style="width:100%">
                     <div style="width:100%">
                         <div class="messagesHeaderFont">
@@ -582,7 +591,6 @@ const renderLocations = (site) => {
             `;
         });
     }
-
 
     return template;
 }
