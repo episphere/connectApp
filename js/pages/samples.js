@@ -329,7 +329,7 @@ const sanford = {
 
         [
            'Fargo: South University Urgent Care/Orthopedic Walk-In Clinic',
-           '1720 University Drive S<br>Fargo, ND 58102<br> Enter Through Door #8',
+           '1720 University Drive S<br>Fargo, ND 58102<br>Enter Through Door #8',
            '',
            'Free patient parking available is available in the lot near the Urgent Care entrance—Door #8. No parking validation needed.'
         ],
