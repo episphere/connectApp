@@ -527,7 +527,6 @@ const locations = [
 
 const renderLocations = (site) => {
     let template = '';
-console.log("site",site)
     if(site.locations){
         site.locations.forEach(location => {
             template += `
