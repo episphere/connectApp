@@ -544,7 +544,7 @@ export const toggleButtonText = () => {
   btnObj.changeNameButton.textContent = formVisBools.isNameFormDisplayed ? 'Cancel' : 'Update Name';
   btnObj.changeContactInformationButton.textContent = formVisBools.isContactInformationFormDisplayed ? 'Cancel' : 'Update Contact Info';
   btnObj.changeMailingAddressButton.textContent = formVisBools.isMailingAddressFormDisplayed ? 'Cancel' : 'Update Address';
-  btnObj.changeLoginButton.textContent = formVisBools.isLoginFormDisplayed ? 'Cancel' : 'Update Login';
+  btnObj.changeLoginButton.textContent = formVisBools.isLoginFormDisplayed ? 'Cancel' : 'Update Sign In';
 };
 
 const refreshUserDataAfterEdit = async () => {
@@ -557,7 +557,7 @@ const refreshUserDataAfterEdit = async () => {
 };
 
 /**
- * Sign-in Information -> removeLoginEmailButton and removeLoginPhoneButton.
+ * Sign in Information -> removeLoginEmailButton and removeLoginPhoneButton.
  * Show the confirmation modal after user clicks 'Remove this <ButtonType>' button.
  * Require confirmation from user prior to unlinking the authentication provider.
  * Then close the modal.
@@ -1299,7 +1299,7 @@ export const renderSignInInformationHeadingAndButton = () => {
               </span>
           </div>
           <div class="col">
-              <button id="changeLoginButton" class="btn btn-primary save-data consentNextButton" style="float:right; display:none;">Update Login</button>
+              <button id="changeLoginButton" class="btn btn-primary save-data consentNextButton" style="float:right; display:none;">Update Sign In</button>
           </div>
       </div>
       `;
@@ -1311,7 +1311,7 @@ export const renderSignInInformationData = () => {
         <div class="row userProfileLinePaddings" id="currentSignInInformationDiv">
             <div class="col">
                 <span class="userProfileBodyFonts" id="loginEmailRow" style="display:none">
-                    Sign-in Email Address
+                    Sign in Email Address
                     <br>
                     <b>
                     <div id="profileEmail">${optVars.loginEmail}</div>
@@ -1319,7 +1319,7 @@ export const renderSignInInformationData = () => {
                     </br>
                 </span>
                 <span class="userProfileBodyFonts" id="loginPhoneRow" style="display:none">
-                    Sign-in Phone Number
+                    Sign in Phone Number
                     <br>
                     <b>
                     <div id="profilePhone">${loginPhone}</div>
@@ -1336,7 +1336,7 @@ export const renderChangeSignInInformationGroup = () => {
         <div class="row userProfileLinePaddings" id="changeLoginGroup" style="display:none;">
             <div class="col">
                 <span class="userProfileBodyFonts">
-                    Need to update your sign-in information? Add or update your information below:
+                    Need to update your sign in information? Add or update your information below:
                 </span>
                 <br>
                 <br>
@@ -1366,8 +1366,8 @@ export const renderChangeSignInInformationGroup = () => {
 const renderTabbedForm = () => {
     return `
         <div class="tab">
-            <button class="tablinks">Update email</button>
-            <button class="tablinks">Update mobile phone</button>
+            <button class="tablinks">${optVars.loginEmail ? 'Update' : 'Add'} email</button>
+            <button class="tablinks">${optVars.loginPhone ? 'Update' : 'Add'} mobile phone</button>
         </div>
         <br>
         <div id="form1" class="tabcontent">
@@ -1375,7 +1375,7 @@ const renderTabbedForm = () => {
                 `
                 <hr>
                 <div style="display: flex; justify-content: space-between; align-items: center;" id="loginEmailDiv">
-                    <span>Current login email:
+                    <span>Current sign in email:
                         <strong id="loginEmailField">${optVars.loginEmail}</strong>
                     </span>
                     ${optVars.loginPhone ? `<button class="btn-remove-login" id="removeLoginEmailButton">Remove this email address</button>` : ''}
@@ -1387,7 +1387,7 @@ const renderTabbedForm = () => {
             ${renderEmailOrPhoneInput('email')}
             ${renderConfirmationModal('Email')}
             <br>
-            <button id="changeEmailSubmit" class="btn btn-primary save-data consentNextButton">Submit new login email</button>
+            <button id="changeEmailSubmit" class="btn btn-primary save-data consentNextButton">Submit new sign in email</button>
         </div>
         
         <div id="form2" class="tabcontent">
@@ -1395,7 +1395,7 @@ const renderTabbedForm = () => {
                 `
                 <hr>
                 <div style="display: flex; justify-content: space-between; align-items: center;" id="loginPhoneDiv">
-                    <span>Current login phone:
+                    <span>Current sign in phone:
                         <strong id="loginPhoneField">${formatFirebaseAuthPhoneNumber(optVars.loginPhone)}</strong>
                     </span>
                     ${optVars.loginEmail ? `<button class="btn-remove-login" id="removeLoginPhoneButton">Remove this phone number</button>` : ''}
@@ -1408,7 +1408,7 @@ const renderTabbedForm = () => {
             <br>
             ${renderConfirmationModal('Phone')}
             <p style="color:#1c5d86;">After you click, “Submit,” a pop-up box will display and ask you to enter the verification code sent to your mobile device. Please enter this code and click “OK” to verify your phone number.</p>
-            <button id="changePhoneSubmit" class="btn btn-primary save-data consentNextButton">Submit new login phone number</button>
+            <button id="changePhoneSubmit" class="btn btn-primary save-data consentNextButton">Submit new sign in phone number</button>
             <br>
             <div style="margin-left:10px" id="recaptcha-container"></div>
         </div> 
@@ -1433,9 +1433,6 @@ const renderEmailOrPhoneInput = (type) => {
     const { label, heading, placeholder, elementId } = phoneEmailMap[type] || phoneEmailMap.email;
 
     return `
-        <span>Update your login ${label}:</span>
-        <br>
-        <br>
         <label for="new${elementId}Field" class="custom-form-label">
             ${heading} <span class="required">*</span>
         </label>
@@ -1456,7 +1453,7 @@ const renderConfirmationModal = (removalType) => {
     return `
     <div id="confirmationModal${removalType}" class="modal-remove-login" style="display:none" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">
-            <p><strong><i>Important</i></strong>: Are you sure you want to remove this ${removalType.toLowerCase()} login method?</p>
+            <p><strong><i>Important</i></strong>: Are you sure you want to remove this ${removalType.toLowerCase()} sign in method?</p>
             <button id="confirmRemove${removalType}">Confirm</button>
             <button id="cancelRemove${removalType}">Cancel</button>
         </div>
