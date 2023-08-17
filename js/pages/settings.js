@@ -460,7 +460,6 @@ const handleEditSignInInformationSection = () => {
 
 const submitNewLoginMethod = async (email, phone) => {
   const isSuccess = await addOrUpdateAuthenticationMethod(email, phone, userData).catch((error) => {
-    console.error(error);
     document.getElementById('loginUpdateFail').style.display = 'block';
     let errorMessage = error.message;
     if (error.code && (error.code === 'auth/credential-already-in-use' || error.code === 'auth/email-already-in-use')) {
