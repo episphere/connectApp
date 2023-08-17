@@ -1127,22 +1127,23 @@ input:checked + .slider:before {
 }
   
 .tab button {
-    background-color: #f1f1f1;
+    background-color: #ffbf17;
+    opacity: .6;
     cursor: pointer;
     padding: 16px 16px;
     transition: 0.3s;
-    color: #606060;
+    color:#174C70 !important;
+    font-weight: bold;
     font-size: 17px;
     border:none;
 }
   
 .tab button:hover {
-    background-color: #ddd;
+    opacity: 1;
 }
   
 .tab button.active {
-    background-color: #ccc;
-    border: 1px solid #1c5d86;
+    opacity: 1;
 }
 
 .modal-remove-login {

@@ -460,8 +460,13 @@ const handleEditSignInInformationSection = () => {
 
 const submitNewLoginMethod = async (email, phone) => {
   const isSuccess = await addOrUpdateAuthenticationMethod(email, phone, userData).catch((error) => {
+    console.error(error);
     document.getElementById('loginUpdateFail').style.display = 'block';
-    document.getElementById('loginUpdateError').innerHTML = error.message;
+    let errorMessage = error.message;
+    if (error.code && (error.code === 'auth/credential-already-in-use' || error.code === 'auth/email-already-in-use')) {
+        errorMessage = 'This '+(email ? 'email' : 'phone number')+' is already linked to a MyConnect account. Please check your entry. If you think this is a mistake, please contact the Connect Support Center at 1-877-505-0253 or <a href="mailto:connectsupport@norc.org">ConnectSupport@norc.org</a>';
+    }
+    document.getElementById('loginUpdateError').innerHTML = errorMessage;
   });
   
   if (isSuccess) {
