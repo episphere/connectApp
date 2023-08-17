@@ -2,6 +2,7 @@ import { getMyData, hasUserData } from "../shared.js";
 
 export const renderSamplesPage = async () => {
     document.title = 'My Connect - Samples';
+
     getMyData().then(res => {
 
         if(!hasUserData(res)) return;
@@ -110,7 +111,7 @@ export const renderSamplesPage = async () => {
                             </div>
                         </div>
                     </div>
-
+                
                     ${site.name !== henry_ford.name ? `
                     <div class="row" style="width:100%">
                         <div class="consentHeadersFont" style="color:#606060;width:100%">
@@ -313,26 +314,25 @@ const sanford = {
     name: 'Sanford',
     donatingSamples: 'As part of Connect, we ask you to donate blood, urine, and saliva samples and complete a short survey.',
     whenToDonate: 'The Connect team will send a MyChart message when it is time to donate your samples. If you do not have a MyChart account, we will send you an email. Be sure to check your spam or junk folder. After you receive the MyChart message or email, it is important to donate your samples as soon as you can. It is easy to donate all of your samples in one visit.<br><br><span style="font-weight:900; text-decoration:underline">Note:</span> If you have recently had a blood transfusion or donated blood, please wait at least <span style="font-weight:900; text-decoration:underline">eight weeks</span> from your donation or transfusion before donating your samples for Connect. If you have recently donated plasma, please wait at least <span style="font-weight:900; text-decoration:underline">two days</span> from your plasma donation before donating samples for Connect. If you have an upcoming colonoscopy, please be sure that you <span style="font-weight:900; text-decoration:underline">do not</span> donate samples for Connect on the <span style="font-weight:900; text-decoration:underline">same day</span> as your colonoscopy.',
-    howToDonate: 'The MyChart message or email we send you will contain a link to schedule an appointment. Simply click the link to schedule a time that is convenient for you to donate your samples. Be sure you are scheduling an appointment in the city you are closest to.',
+    howToDonate: 'The MyChart message or email we send you will contain a link to schedule an appointment. Simply click the link to schedule a time that is convenient for you to donate your samples.',
     scheduling: 'Scheduling link will be sent by the Connect team at Sanford.<br><br>For questions, please call 605-312-6100 or email <a href="mailto: connectstudy@sanfordhealth.org">connectstudy@sanfordhealth.org</a>.',
     howLong: 'Please expect to spend about 30 minutes at your appointment to donate your samples and complete a short survey.',
     prepareInstructions: '<em>All patients and visitors are required to wear a mask per Sanford mask policy. If you enter the building without a mask, we will give one to you. If you are unable to wear a mask for the duration of the visit, we ask that you do not schedule your visit at this time.</em><br><br>On the day of your appointment, please drink plenty of water, but <span style="font-weight:900; text-decoration:underline">stop drinking water one hour before your appointment.</span><br><br><span style="font-weight:900; text-decoration:underline">One hour before your appointment:</span> Please <span style="font-weight:900; text-decoration:underline">do not</span> eat, drink any liquids (including water), chew gum, smoke, vape, or chew any products (including tobacco), rinse your mouth, or brush your teeth.<br><br><span style="font-weight:900; text-decoration:underline">Things to bring and remember:</span><br><br><ul><li>Make sure you know your login information for the MyConnect app.</li><li>We will ask you to complete a short survey when you donate your samples. It may also be helpful to have this information on hand:<ul><li>The last time you ate or drank before your appointment, and the times you went to sleep the night before your appointment and woke up on the day of your appointment.</li><li>If you are menstruating, the start date of your most recent menstrual period in the last 12 months.</li><li>Information and dates regarding COVID-19 testing, symptoms, recovery information (including any hospital stay and treatment), and vaccination status.</li></ul></li></ul>',
-    whatHappens: 'Check in at the front desk when you enter the Imagenetics Building. The registration team will direct you to the lab where the Connect team will collect your samples. At the end of your visit, the Connect team will check you out of your appointment.<br><br>We will draw a blood sample, collect a urine sample, and collect a saliva sample by asking you to swish with mouthwash.<br><br>We will also ask you to complete a short survey on the MyConnect app using your mobile phone. You will need your MyConnect app login information to complete the survey. If you do not have a mobile phone, we may be able to provide you with a tablet to complete your survey.<br><br>We strongly encourage you to complete your survey at your appointment. If you choose to complete it after you leave your appointment, it is important to do so as soon as possible.',
+    whatHappens: 'Check in at the registration desk. The registration team will direct you where to go next in order to get your samples collected.  At the end of your visit, the Connect team will check you out of your appointment.<br><br>We will draw a blood sample, collect a urine sample, and collect a saliva sample by asking you to swish with mouthwash.<br><br>We will also ask you to complete a short survey on the MyConnect app using your mobile phone. You will need your MyConnect app login information to complete the survey. If you do not have a mobile phone, we may be able to provide you with a tablet to complete your survey.<br><br>We strongly encourage you to complete your survey at your appointment. If you choose to complete it after you leave your appointment, it is important to do so as soon as possible.',
     support: 'Call 1-877-505-0253 (8:00 a.m.-10:00 p.m. CT on weekdays and 9:00 a.m.-6:00 p.m. CT on weekends)',
     locations: [
         [
-            'Sioux Falls: Sanford Imagenetics',
+            'Sanford Imagenetics',
             '1321 W. 22nd St.<br>Sioux Falls, SD 57104',
             '',
             'Free patient parking available is available in the lot near the front entrance--Door JJ. No parking validation needed.'
         ],
-
         [
-           'Fargo: South University Urgent Care/Orthopedic Walk-In Clinic',
-           '1720 University Drive S<br>Fargo, ND 58102<br>Enter Through Door #8',
-           '',
-           'Free patient parking available is available in the lot near the Urgent Care entrance—Door #8. No parking validation needed.'
-        ],
+            'Fargo: South University Urgent Care/Orthopedic Walk-In Clinic',
+            '1720 University Drive S<br>Fargo, ND 58102<br>Enter Through Door #8',
+            '',
+            'Free patient parking available is available in the lot near the Urgent Care entrance—Door #8. No parking validation needed',
+        ]
     ]
 };
 
@@ -342,40 +342,34 @@ const marshfield = {
     donatingSamples: 'As part of Connect, we ask you to donate blood, urine, and saliva samples and complete a short survey.',
     whenToDonate: 'The Connect team will send you an email when it is time to donate your samples. Be sure to check your spam or junk folder. After you receive the email, it is important to donate your samples as soon as you can. It is easy to donate all of your samples in one visit.<br><br><span style="font-weight:900; text-decoration:underline">Note:</span> If you have recently had a blood transfusion or donated blood, please wait at least <span style="font-weight:900; text-decoration:underline">eight weeks</span> from your donation or transfusion before donating your samples for Connect. If you have recently donated plasma, please wait at least <span style="font-weight:900; text-decoration:underline">two days</span> from your plasma donation before donating samples for Connect. If you have an upcoming colonoscopy, please be sure that you <span style="font-weight:900; text-decoration:underline">do not</span> donate samples for Connect on the <span style="font-weight:900; text-decoration:underline">same day</span> as your colonoscopy.',
     howToDonate: 'The email we send you will contain a link to schedule an appointment. Simply click the link to schedule a time that is convenient for you to donate your samples. You can also call Marshfield Clinic Research Institute at 715-898-9444 to schedule an appointment, or a Connect team member will call you to schedule an appointment to donate your samples at a time that is convenient for you.',
-    scheduling: 'For questions and scheduling please call: 715-898-9444 or email <a href="mailto: connectstudy@marshfieldresearch.org">connectstudy@marshfieldresearch.org</a>.',
+    scheduling: 'For questions and scheduling please call: 715-898-9444 or email <a href="mailto: connectstudy@marshfieldresearch.org">connectstudy@marshfieldresearch.org</a>.<br><br>All patients and visitors are required to wear a mask. If you enter the building without a mask, we will give one to you. If you are unable to wear a mask for the duration of the visit, we ask that you do not schedule your visit at this time.',
     howLong: 'Please expect to spend an average of one hour at your appointment to donate your samples and complete a short survey.',
-    prepareInstructions: 'On the day of your appointment, please drink plenty of water, but <span style="font-weight:900; text-decoration:underline">stop drinking water one hour before your appointment.</span><br><br><span style="font-weight:900; text-decoration:underline">One hour before your appointment:</span> Please <span style="font-weight:900; text-decoration:underline">do not</span> eat, drink any liquids (including water), chew gum, smoke, vape, or chew any products (including tobacco), rinse your mouth, or brush your teeth.<br><br><span style="font-weight:900; text-decoration:underline">Things to bring and remember:</span><br><br><ul><li>Make sure you know your login information for the MyConnect app.</li><li>We will ask you to complete a short survey when you donate your samples. It may be helpful to have this information on hand:<ul><li>The last time you ate or drank, and the times you went to sleep the night before your appointment and woke up on the day of your appointment.</li><li>If you are menstruating, the start date of your most recent menstrual period in the last 12 months.</li></ul></li></ul>',
+    prepareInstructions: 'On the day of your appointment, please drink plenty of water, but <span style="font-weight:900; text-decoration:underline">stop drinking water one hour before your appointment.</span><br><br><span style="font-weight:900; text-decoration:underline">One hour before your appointment:</span> Please <span style="font-weight:900; text-decoration:underline">do not</span> eat, drink any liquids (including water), chew gum, smoke, vape, or chew any products (including tobacco), rinse your mouth, or brush your teeth.<br><br><span style="font-weight:900; text-decoration:underline">Things to bring and remember:</span><br><br><ul><li>Make sure you know your login information for the MyConnect app.</li><li>We will ask you to complete a short survey when you donate your samples. It may be helpful to have this information on hand:<ul><li>The last time you ate or drank, and the times you went to sleep the night before your appointment and woke up on the day of your appointment.</li><li>If you are menstruating, the start date of your most recent menstrual period in the last 12 months.</li><li>Information and dates regarding COVID-19 testing, symptoms, recovery information (including any hospital stay and treatment), and your vaccination status.</li></ul></li></ul>',
     whatHappens: 'The Connect team will check you in for your appointment and then collect your samples. At the end of your visit, the Connect team will check you out of your appointment.<br><br>We will draw a blood sample, collect a urine sample, and collect a saliva sample by asking you to swish with mouthwash.<br><br>We will also ask you to complete <span style="font-weight:900; text-decoration:underline">a short survey</span> on the MyConnect app using your mobile phone. If you do not have a mobile phone, we will provide a tablet for you to use complete your survey. You will need your MyConnect app login information to complete the survey.',
     support: 'Call 1-877-505-0253 (8:00 a.m.-10:00 p.m. CT on weekdays and 9:00 a.m.-6:00 p.m. CT on weekends)',
     locations: [
         [
             'Marshfield Clinic, Marshfield Center',
             '1000 N. Oak Ave<br>Marshfield, WI 54449',
-            'Monday - Thursday: 7:00 a.m. to 4:00 p.m. and Friday 7:00 a.m. to noon',
+            'Monday - Thursday: 7:00 a.m. - 4:00 p.m. and Friday 7a.m. - noon',
             'General parking available'
         ],
         [
             'Lake Hallie Center',
             '12961 27th Ave<br>Chippewa Falls, WI 54729',
-            'Monday - Thursday: 7:00 a.m. to 4:00 p.m.<br>Fridays: 8:00 a.m. to 2:00 p.m.',
-            'General parking available'
-        ],
-        [
-            'Minocqua Center',
-            '9576 WI-70 Trunk<br>Minocqua, WI 54548',
-            'Wednesdays: 8:00 a.m. to 1:00 p.m.',
+            'Monday, Tuesday, Thursday: 8:00 a.m. - 2:00 p.m.<br> Wednesday: 7:00 a.m. - 2:00 p.m.',
             'General parking available'
         ],
         [
             'Weston Center',
             '3400 Ministry Pkwy<br>Weston, WI 54476',
-            'Mondays - Thursdays: 7:00 a.m. to 1:00 p.m. *Please ask about evening and Friday appointment availability if needed',
+            'Mondays and Thursdays: 8:00 a.m. - 1:00 p.m. *please ask about evening and Friday appointment availability if needed',
             'General parking available'
         ],
         [
             'Wisconsin Rapids Center',
             '220 24th St S,<br>Wisconsin Rapids,WI 54494',
-            'Thursdays: 7:00 a.m. to 4:00 p.m.<br>Fridays: 7:00 a.m. to 10:00 a.m.',
+            'Thursdays: 7:00 a.m. - 4:00 p.m. <br> Fridays: 7:00 a.m. - 10:00 a.m.',
             'General parking available'
         ]
     ]
@@ -402,7 +396,7 @@ const henry_ford = {
         [
             'Henry Ford Medical Center - Livonia',
             '29200 Schoolcraft Road<br>Radiology, Floor 1<br>Livonia, MI 48150<br>(734) 523-1050',
-            'Mondays, Tuesdays and Wednesdays 9:30 a.m. - 3:30 p.m.<br> Every 2<sup>nd</sup> and 4<sup>th</sup> Saturday  of the month, 8:00 a.m. - 11:30 a.m.',
+            'Mondays, Tuesdays and Wednesdays 9:00 a.m. - 4:00 p.m.',
             'Easy, free self-parking is available in the surface lot in front of the building. From the service drive, turn into the lot near the Aldi and head towards the back of the plaza. The medical center, and parking lot, are located behind Aldi.<br><br><br><h4><div class="consentHeadersFont" style="color:#606060;width:100%">Option 2: Henry Ford Health Lab Services locations</div></h4>',
         ],
         [
@@ -416,12 +410,6 @@ const henry_ford = {
           '2333 Biddle Ave<br> Wyandotte, MI 48192<br> Location: First Floor Lab Services',
           'Monday to Friday 8:00 a.m. - 4:15 p.m. <br> Saturday 7:00 a.m. - 12:00 p.m.',
           'Parking lots are conveniently located near all hospital entrances for those who do not wish to use valet. Wheelchairs are available at all entrances and handicapped parking is available in each parking area. Valet parking is available at all hospital entrances for $3.00. This service is not available on holidays.',
-        ],
-        [
-           'Henry Ford Hospital - West Bloomfield',
-           '6777 West Maple Road<br>West Bloomfield, MI 48322<br>Location: Lab Services First Floor - Bloomfield Reception',
-           'Monday to Thursday 6:30 a.m. - 6:00 p.m. <br>Friday 6:30 a.m. - 5:00 p.m.<br>Saturday 7:00 a.m. - 3:00 p.m.',
-           'All self-parking at Henry Ford West Bloomfield Hospital is free. Self-parking areas are available near the Main entrance and at the Henry Ford Cancer entrance. Wheelchairs are available at all entrances. Handicapped-designated parking spaces are located in front of the Main entrance, the West entrance and the Emergency entrance.',
         ],
     ]
 };
@@ -539,6 +527,7 @@ const locations = [
 
 const renderLocations = (site) => {
     let template = '';
+
     if(site.locations){
         site.locations.forEach(location => {
             template += `
@@ -571,8 +560,8 @@ const renderLocations = (site) => {
                 </div>
             </div>`
             }
-            if(location[2])  {
-                template+=`    
+           if (location[2] ){ 
+            template+=`   
                 <div class="row" style="width:100%;padding:5px 15px;">
                     <div style="width:100%">
                         <div class="messagesHeaderFont">
@@ -583,9 +572,8 @@ const renderLocations = (site) => {
                         </div>
                     </div>
                 </div>`
-            }
-            
-            template+=` 
+           }
+            template+=`    
                 <div class="row" style="width:100%">
                     <div style="width:100%">
                         <div class="messagesHeaderFont">
@@ -603,5 +591,7 @@ const renderLocations = (site) => {
         });
     }
 
+
     return template;
+
 }
