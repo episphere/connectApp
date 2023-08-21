@@ -322,7 +322,7 @@ const sanford = {
     support: 'Call 1-877-505-0253 (8:00 a.m.-10:00 p.m. CT on weekdays and 9:00 a.m.-6:00 p.m. CT on weekends)',
     locations: [
         [
-            'Sanford Imagenetics',
+            'Sioux Falls: Sanford Imagenetics',
             '1321 W. 22nd St.<br>Sioux Falls, SD 57104',
             '',
             'Free patient parking available is available in the lot near the front entrance--Door JJ. No parking validation needed.'
