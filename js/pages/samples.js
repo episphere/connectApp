@@ -351,7 +351,7 @@ const marshfield = {
         [
             'Marshfield Clinic, Marshfield Center',
             '1000 N. Oak Ave<br>Marshfield, WI 54449',
-            'Monday - Thursday: 7:00 a.m. - 4:00 p.m. and Friday 7a.m. - noon',
+            'Monday - Thursday: 7:00 a.m. - 4:00 p.m. and Friday 7 a.m. - noon',
             'General parking available'
         ],
         [
