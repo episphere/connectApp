@@ -313,11 +313,11 @@ const sanford = {
     name: 'Sanford',
     donatingSamples: 'As part of Connect, we ask you to donate blood, urine, and saliva samples and complete a short survey.',
     whenToDonate: 'The Connect team will send a MyChart message when it is time to donate your samples. If you do not have a MyChart account, we will send you an email. Be sure to check your spam or junk folder. After you receive the MyChart message or email, it is important to donate your samples as soon as you can. It is easy to donate all of your samples in one visit.<br><br><span style="font-weight:900; text-decoration:underline">Note:</span> If you have recently had a blood transfusion or donated blood, please wait at least <span style="font-weight:900; text-decoration:underline">eight weeks</span> from your donation or transfusion before donating your samples for Connect. If you have recently donated plasma, please wait at least <span style="font-weight:900; text-decoration:underline">two days</span> from your plasma donation before donating samples for Connect. If you have an upcoming colonoscopy, please be sure that you <span style="font-weight:900; text-decoration:underline">do not</span> donate samples for Connect on the <span style="font-weight:900; text-decoration:underline">same day</span> as your colonoscopy.',
-    howToDonate: 'The MyChart message or email we send you will contain a link to schedule an appointment. Simply click the link to schedule a time that is convenient for you to donate your samples. Be sure you are scheduling an appointment in the city you are closest to.',
-    scheduling: 'Scheduling link will be sent by the Connect team at Sanford.<br><br>For questions, please call 605-312-6100 or email <a href="mailto: connectstudy@sanfordhealth.org">connectstudy@sanfordhealth.org</a>.',
+    howToDonate: 'The MyChart message or email we send you will contain a link to schedule an appointment. Simply click the link to schedule an appointment at a time and location that is convenient for you.',
+    scheduling: 'Scheduling information will be sent by the Connect team at Sanford via your MyChart or email.<br><br>For questions, please call 605-312-6100 or email <a href="mailto: connectstudy@sanfordhealth.org">connectstudy@sanfordhealth.org</a>.',
     howLong: 'Please expect to spend about 30 minutes at your appointment to donate your samples and complete a short survey.',
     prepareInstructions: '<em>All patients and visitors are required to wear a mask per Sanford mask policy. If you enter the building without a mask, we will give one to you. If you are unable to wear a mask for the duration of the visit, we ask that you do not schedule your visit at this time.</em><br><br>On the day of your appointment, please drink plenty of water, but <span style="font-weight:900; text-decoration:underline">stop drinking water one hour before your appointment.</span><br><br><span style="font-weight:900; text-decoration:underline">One hour before your appointment:</span> Please <span style="font-weight:900; text-decoration:underline">do not</span> eat, drink any liquids (including water), chew gum, smoke, vape, or chew any products (including tobacco), rinse your mouth, or brush your teeth.<br><br><span style="font-weight:900; text-decoration:underline">Things to bring and remember:</span><br><br><ul><li>Make sure you know your login information for the MyConnect app.</li><li>We will ask you to complete a short survey when you donate your samples. It may also be helpful to have this information on hand:<ul><li>The last time you ate or drank before your appointment, and the times you went to sleep the night before your appointment and woke up on the day of your appointment.</li><li>If you are menstruating, the start date of your most recent menstrual period in the last 12 months.</li><li>Information and dates regarding COVID-19 testing, symptoms, recovery information (including any hospital stay and treatment), and vaccination status.</li></ul></li></ul>',
-    whatHappens: 'Check in at the front desk when you enter the Imagenetics Building. The registration team will direct you to the lab where the Connect team will collect your samples. At the end of your visit, the Connect team will check you out of your appointment.<br><br>We will draw a blood sample, collect a urine sample, and collect a saliva sample by asking you to swish with mouthwash.<br><br>We will also ask you to complete a short survey on the MyConnect app using your mobile phone. You will need your MyConnect app login information to complete the survey. If you do not have a mobile phone, we may be able to provide you with a tablet to complete your survey.<br><br>We strongly encourage you to complete your survey at your appointment. If you choose to complete it after you leave your appointment, it is important to do so as soon as possible.',
+    whatHappens: 'Check in at the registration desk. The registration team will direct you where to go next in order to get your samples collected.  At the end of your visit, the Connect team will check you out of your appointment.<br><br>We will draw a blood sample, collect a urine sample, and collect a saliva sample by asking you to swish with mouthwash.<br><br>We will also ask you to complete a short survey on the MyConnect app using your mobile phone. You will need your MyConnect app login information to complete the survey. If you do not have a mobile phone, we may be able to provide you with a tablet to complete your survey.<br><br>We strongly encourage you to complete your survey at your appointment. If you choose to complete it after you leave your appointment, it is important to do so as soon as possible.',
     support: 'Call 1-877-505-0253 (8:00 a.m.-10:00 p.m. CT on weekdays and 9:00 a.m.-6:00 p.m. CT on weekends)',
     locations: [
         [
@@ -326,13 +326,12 @@ const sanford = {
             '',
             'Free patient parking available is available in the lot near the front entrance--Door JJ. No parking validation needed.'
         ],
-
         [
-           'Fargo: South University Urgent Care/Orthopedic Walk-In Clinic',
-           '1720 University Drive S<br>Fargo, ND 58102<br>Enter Through Door #8',
-           '',
-           'Free patient parking available is available in the lot near the Urgent Care entrance—Door #8. No parking validation needed.'
-        ],
+            'Fargo: South University Urgent Care/Orthopedic Walk-In Clinic',
+            '1720 University Drive S<br>Fargo, ND 58102<br>Enter Through Door #8',
+            '',
+            'Free patient parking available is available in the lot near the Urgent Care entrance—Door #8. No parking validation needed',
+        ]
     ]
 };
 
