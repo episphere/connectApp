@@ -533,7 +533,7 @@ export const addOrUpdateAuthenticationMethod = async (email, phone, userData) =>
     try {
       await updateFirebaseAuthEmail(email);
     } catch (error) {
-      console.error(`Error: updateFirebaseAuthEmail(): ${error}`, error);
+      console.error(`Error: updateFirebaseAuthEmail().`, error);
       throw error;
     }
   }
