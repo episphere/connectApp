@@ -462,9 +462,21 @@ const submitNewLoginMethod = async (email, phone) => {
   const isSuccess = await addOrUpdateAuthenticationMethod(email, phone, userData).catch((error) => {
     document.getElementById('loginUpdateFail').style.display = 'block';
     let errorMessage = error.message;
-    if (error.code && (error.code === 'auth/credential-already-in-use' || error.code === 'auth/email-already-in-use')) {
-        errorMessage = 'This '+(email ? 'email' : 'phone number')+' is already linked to a MyConnect account. Please check your entry. If you think this is a mistake, please contact the Connect Support Center at 1-877-505-0253 or <a href="mailto:connectsupport@norc.org">ConnectSupport@norc.org</a>';
+    if (error.code) {
+        switch (error.code) {
+            case 'auth/credential-already-in-use':
+            case 'auth/email-already-in-use':
+                errorMessage = 'This '+(email ? 'email' : 'phone number')+' is already linked to a MyConnect account. Please check your entry. If you think this is a mistake, please contact the Connect Support Center at 1-877-505-0253 or <a href="mailto:connectsupport@norc.org">ConnectSupport@norc.org</a>';
+                break;
+            case 'auth/invalid-verification-code':
+                errorMessage = 'The verification code you entered does not match what we sent. Please check the code we sent to your mobile device and enter the verification code again. If you didn\'t get a code, click "Submit new sign in phone number" again to receive a new code.';
+                break;
+            case 'auth/requires-recent-login':
+                errorMessage = 'We are not able to update your sign in information at this time. Please sign out and sign back in to your account to make updates to your information.';
+                break;
+        }
     }
+        
     document.getElementById('loginUpdateError').innerHTML = errorMessage;
   });
   
