@@ -1,6 +1,7 @@
 import { getMyData, hasUserData, hideAnimation, showAnimation, siteAcronyms, dateTime, storeResponse, isMobile, openNewTab } from "../shared.js";
 import { initializeCanvas } from './consent.js'
 import fieldMapping from '../fieldToConceptIdMapping.js';
+import {suffixToTextMap} from '../settingsHelpers.js'
 
 const { PDFDocument, StandardFonts } = PDFLib;
 
@@ -325,7 +326,9 @@ const addEventAgreementOptions = (myData) => {
 }
 
 const renderDownloadRevoke = async (data) => {
-    const participantSignature = data[471168198] + ' ' + data[736251808]
+    const middleName = data[826240317] ? ` ${data[826240317]} ` : ' ';
+    const suffix = data[693626233] ? suffixToTextMap.get(parseInt(data[693626233])) : '';
+    const participantSignature = `${data[765336427]}${middleName}${data[479278368]} ${suffix}`.trim();
     const pdfLocation = './forms/HIPAA_Revocation_V1.0.pdf';
     const currentTime = new Date(data[613641698]).toLocaleDateString();
 
@@ -334,7 +337,9 @@ const renderDownloadRevoke = async (data) => {
 
 
 const renderDownloadDestroy = async (data) => {
-    const participantSignature = data[471168198] + ' ' + data[736251808]
+    const middleName = data[268665918] ? ` ${data[268665918]} ` : ' ';
+    const suffix = data[592227431] ? suffixToTextMap.get(parseInt(data[592227431])) : '';
+    const participantSignature = `${data[104278817]}${middleName}${data[744604255]} ${suffix}`.trim();
     const pdfLocation = './forms/Data_Destruction_V1.0.pdf';
     const currentTime = new Date(data[119449326]).toLocaleDateString();
 
@@ -539,7 +544,9 @@ async function generateSignedPdf(data, file) {
   let dateStr;
   const siteDict = siteAcronyms();
   const participantSite = siteDict[data['827220437']];
-  const participantFullName = data[471168198] + ' ' + data[736251808];
+  const middleName = data[436680969] ? ` ${data[436680969]} ` : ' ';
+  const suffix = data[480305327] ? suffixToTextMap.get(parseInt(data[480305327])) : '';
+  const participantFullName = `${data[471168198]}${middleName}${data[736251808]} ${suffix}`.trim();
   const fontSize = siteToSignFontSizeMap[participantSite] ?? siteToSignFontSizeMap['default'];
 
   if (file === 'signed-consent') {
