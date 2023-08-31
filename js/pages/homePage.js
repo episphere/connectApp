@@ -7,7 +7,7 @@ You are accessing a U.S. Government web site which may contain information that 
 `;
 
 /**
- * Renders homepage for sign-in/sign-up 
+ * Renders homepage for sign in/sign up 
  */
 export const homePage = async () => {
 
