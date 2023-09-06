@@ -185,7 +185,10 @@ async function startModule(data, modules, moduleId, questDiv) {
             attributes:true,
             });
     })
-    .then(hideAnimation());
+    .then(() => {
+        document.getElementById(questDiv).style.visibility = 'visible';
+        hideAnimation();
+    });
 }
 
 function soccerFunction(){
@@ -417,6 +420,8 @@ const displayQuest = (id) => {
         </div>
     
     `;
+
+    document.getElementById(id).style.visibility = 'hidden';
 }
 
 const displayError = () => {

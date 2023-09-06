@@ -252,7 +252,7 @@ const userProfile = () => {
             showAnimation();
 
             if (parameters?.token) {
-                const response = await validateToken(parameters.token); // Add uid and sign-in flag if token is valid
+                const response = await validateToken(parameters.token); // Add uid and sign in flag if token is valid
                 if (response.code === 202) {
                     duplicateAccountReminderRender();
                     hideAnimation();
