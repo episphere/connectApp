@@ -71,6 +71,7 @@ export const renderSettingsPage = async () => {
   document.title = 'My Connect - My Profile';
   showAnimation();
   const myData = await getMyData();
+  template = '';
 
   if (!hasUserData(myData)) {
     template += `${profileIsIncomplete()}`;
@@ -177,7 +178,7 @@ export const renderSettingsPage = async () => {
 
 const buildPageTemplate = () => {
   document.getElementById('root').innerHTML = template;
-  if (userData[cId.userProfileSubmittedAutogen] === cId.yes) {
+  if (userData && userData[cId.userProfileSubmittedAutogen] === cId.yes) {
       loadNameElements();
       loadContactInformationElements();
       loadMailingAddressElements();
