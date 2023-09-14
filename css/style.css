@@ -1309,3 +1309,15 @@ button.connect-secondary {
 .list-style { 
     list-style-type: disc!important;
 }
+
+
+@media screen and (max-width:700px)
+{
+    div.blog-intro-text img {
+        float:none;
+        width:200px;
+        height:200px;
+        padding-bottom: 10px;
+    }
+}
+
