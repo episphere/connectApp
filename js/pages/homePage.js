@@ -293,7 +293,7 @@ export const renderHomeExpectationsPage = () => {
           </h1>
           <div id="cgvBody">
               <div class="blog-intro-text">
-                <img loading="lazy" src="https://www.cancer.gov/connect-prevention-study/sites/g/files/xnrzdm246/files/styles/cgov_article/public/cgov_image/media_image/2021-06/what-to-expect-lead.jpg?h=becdecf7&amp;itok=Xqd0--45" width="340" height="250" style="float:right; padding-left:15px;" alt="Two women smiling. One woman has her arm leaning on her partner."/>
+                <img loading="lazy" src="https://www.cancer.gov/connect-prevention-study/sites/g/files/xnrzdm246/files/styles/cgov_article/public/cgov_image/media_image/2021-06/what-to-expect-lead.jpg?h=becdecf7&amp;itok=Xqd0--45" width="370" height="330" style="float:right; padding-left:15px;" alt="Two women smiling. One woman has her arm leaning on her partner."/>
                 <p>If you are interested in joining the Connect for Cancer Prevention Study and think you are eligible, it is easy to sign up. If you choose to join Connect, we will ask you to take part in study activities from time to time. Most study activities are easy to complete online a few times each year.</p>
               </div>
               <div class="accordion">
@@ -350,7 +350,7 @@ export const renderHomeExpectationsPage = () => {
                     </p>
                     <h3>3. Agree to Share Your Electronic Health Records (EHRs)</h3>
                     <div class="blog-intro-text">
-                    <img loading="lazy" src="https://www.cancer.gov/connect-prevention-study/sites/g/files/xnrzdm246/files/styles/cgov_article/public/cgov_image/media_image/2021-06/man-on-ipad.jpg?h=6fb3b3f4&amp;itok=UnPBIuSF" width="300" height="200" style="float:right; padding-left:15px" alt="A man is sitting on the couch and looking at information on a tablet"/>
+                    <img loading="lazy" src="https://www.cancer.gov/connect-prevention-study/sites/g/files/xnrzdm246/files/styles/cgov_article/public/cgov_image/media_image/2021-06/man-on-ipad.jpg?h=6fb3b3f4&amp;itok=UnPBIuSF" width="350" height="230" style="float:right; padding-left:15px" alt="A man is sitting on the couch and looking at information on a tablet"/>
                     <p>These records include information about your past, current, or future health status, test results, medical procedures, images (such as x-rays), and medicines you take.</p>
                     </div>
                     <p>Sharing your health records gives researchers a full picture of your health. Seeing the full picture can help us learn what makes some people more likely to get cancer than others.</p>
