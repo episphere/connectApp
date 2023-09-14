@@ -291,12 +291,6 @@ export const renderHomeExpectationsPage = () => {
           <h1>
               What to Expect
           </h1>
-          <div class="page-options-container">
-              <!-- PAGE OPTIONS -->
-              <div id="PageOptionsControl1" class="page-options no-resize">
-              </div>
-              <!-- END PAGE OPTIONS -->
-          </div>
           <div id="cgvBody">
               <div class="blog-intro-text">
                 <img loading="lazy" src="https://www.cancer.gov/connect-prevention-study/sites/g/files/xnrzdm246/files/styles/cgov_article/public/cgov_image/media_image/2021-06/what-to-expect-lead.jpg?h=becdecf7&amp;itok=Xqd0--45" width="340" height="250" style="float:right; padding-left:15px;" alt="Two women smiling. One woman has her arm leaning on her partner."/>
@@ -505,13 +499,6 @@ export const renderHomePrivacyPage =  () => {
             <!-- PAGE TITLE -->
             <h1>Your Privacy Is Important to Us</h1>
             <!-- END PAGE TITLE -->
-            <div class="page-options-container">
-               <!-- PAGE OPTIONS -->
-               <div id="PageOptionsControl1" class="page-options no-resize">
-                 
-               </div>
-               <!-- END PAGE OPTIONS -->
-            </div>
             <!-- Contents -->
             <div class="blog-intro-text">
            <img loading="lazy" src="https://www.cancer.gov/connect-prevention-study/sites/g/files/xnrzdm246/files/styles/cgov_article/public/cgov_image/media_image/2021-06/your-privacy-lead.jpg?h=becdecf7&amp;itok=iygf7OKL" width="350" height="300" style="float:right; padding-left:20px; " alt="A man in a wheelchair looking at information on a tablet" />
