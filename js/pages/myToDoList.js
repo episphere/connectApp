@@ -733,16 +733,16 @@ const setModuleAttributes = (data, modules, collections) => {
 
         if(data[fieldMapping.MenstrualCycle.statusFlag] != fieldMapping.moduleStatus.submitted) {
 
-            const currentDate = Date.now();
-            const milllisecondsToDays = 1000 * 60 * 60 * 24;
+            const cutoffDate = new Date();
+            cutoffDate.setDate(cutoffDate.getDate() - 45);
 
             if(data[fieldMapping.Biospecimen.statusFlag] === fieldMapping.moduleStatus.submitted) {
-                if((currentDate - new Date(data[fieldMapping.Biospecimen.completeTs]).getTime()) / milllisecondsToDays > 45) {
+                if(data[fieldMapping.Biospecimen.completeTs] < cutoffDate.toISOString()) {
                     modules['Menstrual Cycle'].enabled = false;
                 }
             }
             else if(data[fieldMapping.ClinicalBiospecimen.statusFlag] === fieldMapping.moduleStatus.submitted) {
-                if((currentDate - new Date(data[fieldMapping.ClinicalBiospecimen.completeTs]).getTime()) / milllisecondsToDays > 45) {
+                if(data[fieldMapping.ClinicalBiospecimen.completeTs] < cutoffDate.toISOString()) {
                     modules['Menstrual Cycle'].enabled = false;
                 }
             }
