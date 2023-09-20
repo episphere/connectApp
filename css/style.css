@@ -1094,6 +1094,7 @@ input:checked + .slider:before {
     line-height:27px;
     color: #2E2E2E;
     margin-top:20px;
+
 }
 
 
@@ -1311,4 +1312,12 @@ button.connect-secondary {
     background-color: white;
     border-color: #2a72a5;
     color: #2a72a5;
+}
+
+#bld{
+    color:#000000;
+    font-weight: bold;
+    font-weight:900; 
+    text-decoration:bold; 
+    font-family:Montserrat;
 }
