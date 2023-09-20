@@ -478,241 +478,237 @@ export const renderHomeExpectationsPage = () => {
        </div>
        <div class="col-1">
        </div>
-    </div>
-        `
+    </div>`
     window.scrollTo(0, 0);
     let sections = document.getElementsByTagName('h2')
+  }
 
-}
-
-export const renderHomePrivacyPage =  () => {
-    const mainContent = document.getElementById('root');
-    mainContent.innerHTML = `
-<div class="row">
-   <div class="col-1">
-   </div>
-   <div class="col-10" id="connectBody">
-      <article>
-         <!-- Banner Area -->
-         <!-- End Banner Area -->
-         <div class="resize-content">
-            <!-- PAGE TITLE -->
-            <h1>Your Privacy Is Important to Us</h1>
-            <!-- END PAGE TITLE -->
-            <!-- Contents -->
-            <div class="blog-intro-text">
-           <img loading="lazy" src="https://www.cancer.gov/connect-prevention-study/sites/g/files/xnrzdm246/files/styles/cgov_article/public/cgov_image/media_image/2021-06/your-privacy-lead.jpg?h=becdecf7&amp;itok=iygf7OKL" width="350" height="300" style="float:right; padding-left:20px; " alt="A man in a wheelchair looking at information on a tablet" />
-            <p style="margin-top:16px">As part of the study, we ask you to share information that can identify you, like your name, address, and social security number (optional), and health information. Our team values the important information you share with us, and will protect this information with the highest privacy standards.</p>
+export const renderHomePrivacyPage = () => {
+  const mainContent = document.getElementById('root');
+  mainContent.innerHTML = `
+    <div class="row">
+      <div class="col-1">
+      </div>
+      <div class="col-10" id="connectBody">
+          <article>
+            <!-- Banner Area -->
+            <!-- End Banner Area -->
+            <div class="resize-content">
+                <!-- PAGE TITLE -->
+                <h1>Your Privacy Is Important to Us</h1>
+                <!-- END PAGE TITLE -->
+                <!-- Contents -->
+                <div class="blog-intro-text">
+              <img loading="lazy" src="https://www.cancer.gov/connect-prevention-study/sites/g/files/xnrzdm246/files/styles/cgov_article/public/cgov_image/media_image/2021-06/your-privacy-lead.jpg?h=becdecf7&amp;itok=iygf7OKL" width="350" height="300" style="float:right; padding-left:20px; " alt="A man in a wheelchair looking at information on a tablet" />
+                <p style="margin-top:16px">As part of the study, we ask you to share information that can identify you, like your name, address, and social security number (optional), and health information. Our team values the important information you share with us, and will protect this information with the highest privacy standards.</p>
+                </div>
+                <p>To protect your information, we: </p>
+                <ul>
+                  <li class="list-style">Follow federal privacy rules, including the <a href="https://www.justice.gov/archives/opcl/overview-privacy-act-1974-2015-edition">Privacy Act</a> and the <a href="https://grants.nih.gov/grants/guide/notice-files/NOT-OD-19-050.html">Common Rule</a>.</li>
+                  <li class="list-style">Maintain tight security controls. Our information systems, including the MyConnect participant app, are watched closely by security experts.</li>
+                  <li class="list-style">Remove information that can identify you, including your name, date of birth, and social security number (if you shared it), from your survey answers and samples before we share them with researchers. This information is replaced with a unique number (a code) to protect your identity.</li>
+                  <li class="list-style">Limit and keep track of who can access the information and samples you share. Only approved researchers who agree to our privacy rules will be allowed to use study information and samples for valid scientific reasons.</li>
+                  <li class="list-style">Maintain our <a href="https://grants.nih.gov/policy/humansubjects/coc.htm">Certificate of Confidentiality</a> from the United States government. This will help protect against any legal requests (such as a court order) to give out information that could identify you.</li>
+                </ul>
+                <p>If you have questions about our privacy safeguards, please <a href="https://norcfedramp.servicenowservices.com/recruit">contact us</a>.</p>
+                <!-- End Contents -->
             </div>
-            <p>To protect your information, we: </p>
-            <ul>
-               <li class="list-style">Follow federal privacy rules, including the <a href="https://www.justice.gov/archives/opcl/overview-privacy-act-1974-2015-edition">Privacy Act</a> and the <a href="https://grants.nih.gov/grants/guide/notice-files/NOT-OD-19-050.html">Common Rule</a>.</li>
-               <li class="list-style">Maintain tight security controls. Our information systems, including the MyConnect participant app, are watched closely by security experts.</li>
-               <li class="list-style">Remove information that can identify you, including your name, date of birth, and social security number (if you shared it), from your survey answers and samples before we share them with researchers. This information is replaced with a unique number (a code) to protect your identity.</li>
-               <li class="list-style">Limit and keep track of who can access the information and samples you share. Only approved researchers who agree to our privacy rules will be allowed to use study information and samples for valid scientific reasons.</li>
-               <li class="list-style">Maintain our <a href="https://grants.nih.gov/policy/humansubjects/coc.htm">Certificate of Confidentiality</a> from the United States government. This will help protect against any legal requests (such as a court order) to give out information that could identify you.</li>
-            </ul>
-            <p>If you have questions about our privacy safeguards, please <a href="https://norcfedramp.servicenowservices.com/recruit">contact us</a>.</p>
-            <!-- End Contents -->
-         </div>
-      </article>
-   </div>
-   <div class="col-1">
-   </div>
-</div>
-`
-window.scrollTo(0, 0);
+          </article>
+      </div>
+      <div class="col-1">
+      </div>
+    </div>`
+  window.scrollTo(0, 0);
 }
+
 export function signInSignUpEntryRender({ ui }) {
-const df = fragment`
-<div class="mx-4">
-   <p class="loginTitleFont" style="text-align:center;">Sign Into Your Account</p>
-   <button type="button" class="connect connect-primary" style="width:100%" id="signInBtn">Sign In</button>
-   <hr/>
-   <p class="loginTitleFont" style="text-align:center;">Sign Up</p>
-   <button type="button" class = "connect connect-secondary" style="width:100%" id="signUpBtn">Create Account</button>
-   <div style="font-size:8px" class="mt-3">
-      ${usGov}
-   </div>
-</div>
-`;
-const signInBtn = df.querySelector('#signInBtn');
-const signUpBtn = df.querySelector('#signUpBtn');
-document.getElementById('signInWrapperDiv').replaceChildren(df);
-signInBtn.addEventListener('click', async () => {
-await signInCheckRender({ ui });
-});
-signUpBtn.addEventListener('click', () => {
-signUpRender({ ui });
-});
+  const df = fragment`
+  <div class="mx-4">
+    <p class="loginTitleFont" style="text-align:center;">Sign Into Your Account</p>
+    <button type="button" class="connect connect-primary" style="width:100%" id="signInBtn">Sign In</button>
+    <hr/>
+    <p class="loginTitleFont" style="text-align:center;">Sign Up</p>
+    <button type="button" class = "connect connect-secondary" style="width:100%" id="signUpBtn">Create Account</button>
+    <div style="font-size:8px" class="mt-3">
+    ${usGov}
+    </div>
+  </div>`;
+
+  const signInBtn = df.querySelector('#signInBtn');
+  const signUpBtn = df.querySelector('#signUpBtn');
+
+  document.getElementById('signInWrapperDiv').replaceChildren(df);
+  signInBtn.addEventListener('click', async () => {
+    await signInCheckRender({ ui });
+  });
+  signUpBtn.addEventListener('click', () => {
+    signUpRender({ ui });
+  });
 }
+
 export async function signInCheckRender ({ ui }) {
-const df = fragment`
-<div class="mx-4">
-   <form ">
+  const df = fragment`
+  <div class="mx-4">
+    <form ">
       <label for="accountInput" class="form-label">
-      Email or Phone<br />
-      <span style="font-size: 0.8rem; color:gray">Phone Format: 123-456-7890</span>
+        Email or Phone<br />
+        <span style="font-size: 0.8rem; color:gray">Phone Format: 123-456-7890</span>
       </label>
       <input type="text" id="accountInput" />
       <div class="alert alert-warning mt-1"
-         id="invalidInputAlert" role="alert" style="display:none">
-         Please enter a valid email or phone number
+          id="invalidInputAlert" role="alert" style="display:none">
+          Please enter a valid email or phone number
       </div>
       <button type="submit" class="connect connect-primary my-3" style="width:100%" id="signInBtn">
       Continue
       </button>
       <p>
-         Don't have an account?
-         <a href="#" id="signUpAnchor">Create one here</a>
+          Don't have an account?
+          <a href="#" id="signUpAnchor">Create one here</a>
       </p>
-   </form>
-   <div style="font-size:8px" class="mt-3">
+    </form>
+    <div style="font-size:8px" class="mt-3">
       ${usGov}
-   </div>
-</div>
-`;
+    </div>
+  </div>`;
    
-    const signInBtn = df.querySelector('#signInBtn');
-    const accountInput = df.querySelector('#accountInput');
-    const signUpAnchor = df.querySelector('#signUpAnchor');
-    const invalidInputAlertDiv = df.querySelector('#invalidInputAlert');
+  const signInBtn = df.querySelector('#signInBtn');
+  const accountInput = df.querySelector('#accountInput');
+  const signUpAnchor = df.querySelector('#signUpAnchor');
+  const invalidInputAlertDiv = df.querySelector('#invalidInputAlert');
 
-    document.getElementById('signInWrapperDiv').replaceChildren(df);
+  document.getElementById('signInWrapperDiv').replaceChildren(df);
 
-    signInBtn.addEventListener('click', async (e) => {
-      e.preventDefault();
-      const inputStr = accountInput.value.trim();
-      const isEmail = !!inputStr.match(validEmailFormat);
-      const isPhone = !!inputStr.match(validPhoneNumberFormat);
+  signInBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const inputStr = accountInput.value.trim();
+    const isEmail = !!inputStr.match(validEmailFormat);
+    const isPhone = !!inputStr.match(validPhoneNumberFormat);
 
-      if (isEmail) {
-        await signInAnonymously();
-        const emailForQuery = inputStr
-          .replaceAll('%', '%25')
-          .replaceAll('#', '%23')
-          .replaceAll('&', '%26')
-          .replaceAll(`'`, '%27')
-          .replaceAll('+', '%2B');
+    if (isEmail) {
+      await signInAnonymously();
+      const emailForQuery = inputStr
+        .replaceAll('%', '%25')
+        .replaceAll('#', '%23')
+        .replaceAll('&', '%26')
+        .replaceAll(`'`, '%27')
+        .replaceAll('+', '%2B');
 
-        const response = await checkAccount({
-          accountType: 'email',
-          accountValue: emailForQuery,
-        });
+      const response = await checkAccount({
+        accountType: 'email',
+        accountValue: emailForQuery,
+      });
 
-        if (response?.data?.accountExists) {
-          const account = { type: 'email', value: inputStr };
-          firebaseSignInRender({ ui, account });
-        } else {
-          const account = { type: 'email', value: inputStr };
-          accountNotFoundRender({ ui, account });
-        }
-      } else if (isPhone) {
-        await signInAnonymously();
-        const phoneNumberStr = inputStr.match(/\d+/g).join('').slice(-10);
-        const response = await checkAccount({ accountType: 'phone', accountValue: phoneNumberStr });
-
-        if (response?.data?.accountExists) {
-          const account = { type: 'phone', value: phoneNumberStr };
-          firebaseSignInRender({ ui, account });
-        } else {
-          const account = { type: 'phone number', value: inputStr };
-          accountNotFoundRender({ ui, account });
-        }
+      if (response?.data?.accountExists) {
+        const account = { type: 'email', value: inputStr };
+        firebaseSignInRender({ ui, account });
       } else {
-        addWarning();
+        const account = { type: 'email', value: inputStr };
+        accountNotFoundRender({ ui, account });
       }
-    });
+    } else if (isPhone) {
+      await signInAnonymously();
+      const phoneNumberStr = inputStr.match(/\d+/g).join('').slice(-10);
+      const response = await checkAccount({ accountType: 'phone', accountValue: phoneNumberStr });
 
-    signUpAnchor.addEventListener('click', () => {
-    signUpRender({ ui });
-    });
-
-    invalidInputAlertDiv.addEventListener('click', () => {
-      removeWarning();
-    });
-
-    function removeWarning() {
-      invalidInputAlertDiv.style.display = 'none';
-      accountInput.style.border = '1px solid #ccc';
-    }
-
-    function addWarning() {
-      invalidInputAlertDiv.style.display = 'block';
-      accountInput.style.border = '2px solid red';
-    }
-
-  };
-
-
-
-  export async function firebaseSignInRender({ ui, account = {} }) {
-    const df = fragment`
-    <div class="mx-4">
-      <p class="loginTitleFont" style="text-align:center;">Sign In</p>
-      <div id="signInDiv"></div>
-      <div style="font-size:8px" class="mt-3">
-      ${usGov}
-      </div>
-    </div>`;
-
-   document.getElementById('signInWrapperDiv').replaceChildren(df);
-
-    if (location.host === urls.prod || location.host === urls.stage) {
-      ui.start('#signInDiv', signInConfig());
+      if (response?.data?.accountExists) {
+        const account = { type: 'phone', value: phoneNumberStr };
+        firebaseSignInRender({ ui, account });
+      } else {
+        const account = { type: 'phone number', value: inputStr };
+        accountNotFoundRender({ ui, account });
+      }
     } else {
-      ui.start('#signInDiv', signInConfigDev());
+      addWarning();
     }
+  });
 
-    const {signInEmail, signInTime} = JSON.parse(window.localStorage.getItem('connectSignIn') || '{}');
-    const timeLimit = 1000 * 60 * 60 ; // 1 hour time limit
+  signUpAnchor.addEventListener('click', () => {
+  signUpRender({ ui });
+  });
 
-    if (account.type === 'magicLink' && signInEmail  && Date.now() - signInTime < timeLimit) {
-      await elementIsLoaded('div[class~="firebaseui-id-page-email-link-sign-in-confirmation"]', 1500);
-      const emailInput =  document.querySelector('input[class~="firebaseui-id-email"]');
+  invalidInputAlertDiv.addEventListener('click', () => {
+    removeWarning();
+  });
 
-      if (emailInput !== null) {
-        emailInput.value = signInEmail;
-        document.querySelector('button[class~="firebaseui-id-submit"]').click();
-        window.localStorage.removeItem('connectSignIn');
-      } 
-
-      return;
-    }
-
-    if (account.type === 'email') {
-      document.querySelector('button[data-provider-id="password"]').click();
-      document.querySelector('input[class~="firebaseui-id-email"]').value = account.value;
-      document.querySelector('label[class~="firebaseui-label"]').remove();
-
-      // Handle 'Cancel' button click
-      document
-        .querySelector('button[class~="firebaseui-id-secondary-link"]')
-        .addEventListener('click', (e) => {
-          signInCheckRender({ ui });
-        });
-
-      // Handle 'Next' button click
-      document
-        .querySelector('button[class~="firebaseui-id-submit"]')
-        .addEventListener('click', (e) => {
-          const signInData={signInEmail:account.value, signInTime: Date.now()}
-          window.localStorage.setItem('connectSignIn', JSON.stringify(signInData) );
-        });
-    } else if (account.type === 'phone') {
-      document.querySelector('button[data-provider-id="phone"]').click();
-      document.querySelector('h1[class~="firebaseui-title"]').innerText = "Sign in with phone number";
-      document.querySelector('input[class~="firebaseui-id-phone-number"]').value = account.value;
-      document.querySelector('label[class~="firebaseui-label"]').remove();
-      
-      // Handle 'Cancel' button click
-      document
-        .querySelector('button[class~="firebaseui-id-secondary-link')
-        .addEventListener('click', (e) => {
-          signInCheckRender({ ui });
-        });
-    }
+  function removeWarning() {
+    invalidInputAlertDiv.style.display = 'none';
+    accountInput.style.border = '1px solid #ccc';
   }
+
+  function addWarning() {
+    invalidInputAlertDiv.style.display = 'block';
+    accountInput.style.border = '2px solid red';
+  }
+};
+
+export async function firebaseSignInRender({ ui, account = {} }) {
+  const df = fragment`
+  <div class="mx-4">
+    <p class="loginTitleFont" style="text-align:center;">Sign In</p>
+    <div id="signInDiv"></div>
+    <div style="font-size:8px" class="mt-3">
+    ${usGov}
+    </div>
+  </div>`;
+
+  document.getElementById('signInWrapperDiv').replaceChildren(df);
+
+  if (location.host === urls.prod || location.host === urls.stage) {
+    ui.start('#signInDiv', signInConfig());
+  } else {
+    ui.start('#signInDiv', signInConfigDev());
+  }
+
+  const {signInEmail, signInTime} = JSON.parse(window.localStorage.getItem('connectSignIn') || '{}');
+  const timeLimit = 1000 * 60 * 60 ; // 1 hour time limit
+
+  if (account.type === 'magicLink' && signInEmail  && Date.now() - signInTime < timeLimit) {
+    await elementIsLoaded('div[class~="firebaseui-id-page-email-link-sign-in-confirmation"]', 1500);
+    const emailInput =  document.querySelector('input[class~="firebaseui-id-email"]');
+
+    if (emailInput !== null) {
+      emailInput.value = signInEmail;
+      document.querySelector('button[class~="firebaseui-id-submit"]').click();
+      window.localStorage.removeItem('connectSignIn');
+    } 
+
+    return;
+  }
+
+  if (account.type === 'email') {
+    document.querySelector('button[data-provider-id="password"]').click();
+    document.querySelector('input[class~="firebaseui-id-email"]').value = account.value;
+    document.querySelector('label[class~="firebaseui-label"]').remove();
+
+    // Handle 'Cancel' button click
+    document
+      .querySelector('button[class~="firebaseui-id-secondary-link"]')
+      .addEventListener('click', (e) => {
+        signInCheckRender({ ui });
+      });
+
+    // Handle 'Next' button click
+    document
+      .querySelector('button[class~="firebaseui-id-submit"]')
+      .addEventListener('click', (e) => {
+        const signInData={signInEmail:account.value, signInTime: Date.now()}
+        window.localStorage.setItem('connectSignIn', JSON.stringify(signInData) );
+      });
+  } else if (account.type === 'phone') {
+    document.querySelector('button[data-provider-id="phone"]').click();
+    document.querySelector('h1[class~="firebaseui-title"]').innerText = "Sign in with phone number";
+    document.querySelector('input[class~="firebaseui-id-phone-number"]').value = account.value;
+    document.querySelector('label[class~="firebaseui-label"]').remove();
+    
+    // Handle 'Cancel' button click
+    document
+      .querySelector('button[class~="firebaseui-id-secondary-link')
+      .addEventListener('click', (e) => {
+        signInCheckRender({ ui });
+      });
+  }
+}
 
   function signUpRender({ ui }) {
     const df = fragment`
