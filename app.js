@@ -1,8 +1,8 @@
-import { getParameters, validateToken, userLoggedIn, getMyData, hasUserData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, appState, successResponse } from "./js/shared.js";
+import { getParameters, validateToken, userLoggedIn, getMyData, hasUserData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, appState, processAuthWithFirebaseAdmin, successResponse } from "./js/shared.js";
 import { userNavBar, homeNavBar } from "./js/components/navbar.js";
 import { homePage, joinNowBtn, whereAmIInDashboard, renderHomeAboutPage, renderHomeExpectationsPage, renderHomePrivacyPage } from "./js/pages/homePage.js";
 import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser, addEventToggleSubmit } from "./js/event.js";
-import { requestPINTemplate } from "./js/pages/healthCareProvider.js";
+import { requestPINTemplate, duplicateAccountReminderRender } from "./js/pages/healthCareProvider.js";
 import { myToDoList } from "./js/pages/myToDoList.js";
 import {renderNotificationsPage} from "./js/pages/notifications.js"
 import { renderAgreements } from "./js/pages/agreements.js";
@@ -221,6 +221,8 @@ const router = async () => {
         const data = await getMyData();
 
         if(successResponse(data)) {
+            const firebaseAuthUser = firebase.auth().currentUser;
+            await checkAuthDataConsistency(firebaseAuthUser.email ?? '', firebaseAuthUser.phoneNumber ?? '', data.data[conceptIdMap.firebaseAuthEmail] ?? '', data.data[conceptIdMap.firebaseAuthPhone] ?? '');
             toggleNavBar(route, data);  // If logged in, pass data to toggleNavBar
 
             if (route === '#') userProfile();
@@ -250,8 +252,12 @@ const userProfile = () => {
             showAnimation();
 
             if (parameters?.token) {
-                const response = await validateToken(parameters.token); // Add uid and sign-in flag if token is valid
-                if (response.code === 200) {
+                const response = await validateToken(parameters.token); // Add uid and sign in flag if token is valid
+                if (response.code === 202) {
+                    duplicateAccountReminderRender();
+                    hideAnimation();
+                    return;
+                } else if (response.code === 200) {
                     const firstSignInTime = new Date(user.metadata.creationTime).toISOString();
                     await storeResponse({[conceptIdMap.firstSignInTime]: firstSignInTime});
                 }
@@ -260,7 +266,7 @@ const userProfile = () => {
             const userData = await getMyData();
 
             window.history.replaceState({},'Dashboard', './#dashboard');
-            if(user.email && !user.emailVerified){
+            if(user.email && !user.emailVerified && !user.email.startsWith('noreply')) {
                 const mainContent = document.getElementById('root');
                 mainContent.innerHTML = `
                     <br>
@@ -359,3 +365,59 @@ const toggleNavBar = (route, data) => {
         }
     });
 }
+
+/**
+ * confirm the user's Firebase Auth email and phone data match the user's Firestore email and phone data.
+ * There's a 'gotcha' with magic links -the firebase auth profile is stripped of the phone number auth when a magic link is used for email login.
+ * The 'if' case below handles this. We check the firebase auth && firestore participant profiles for a phone match. If no match, and a phone number exists in the firestore participant profile, we write update the auth phone number to the firebase auth profile.
+ * The 'else if' case handles the following: We write firebase auth and firestore participant data separately, one after another. There's a chance the first write (Firebase Auth) succeeds and the second write (Firestore) fails.
+ * This only costs an API call if the data is inconsistent since we hava access to both datapoints from app init. It otherwise only costs the time to run the check.
+ */
+const checkAuthDataConsistency = async (firebaseAuthEmail, firebaseAuthPhoneNumber, firestoreParticipantEmail, firestoreParticipantPhoneNumber) => {
+    const isAuthEmailConsistent = firebaseAuthEmail === firestoreParticipantEmail;
+    const isAuthPhoneConsistent = firebaseAuthPhoneNumber === firestoreParticipantPhoneNumber;
+  
+    if (firestoreParticipantPhoneNumber && !firebaseAuthPhoneNumber) {
+      await updateFirebaseAuthPhoneTrigger(firestoreParticipantPhoneNumber);
+      return false;
+    } else if (!isAuthEmailConsistent || !isAuthPhoneConsistent) {
+      const authDataToSync = {
+        [conceptIdMap.firebaseAuthEmail]: firebaseAuthEmail,
+      };
+
+      if (firebaseAuthPhoneNumber || firestoreParticipantPhoneNumber) {
+        authDataToSync[conceptIdMap.firebaseAuthPhone] = firebaseAuthPhoneNumber ?? firestoreParticipantPhoneNumber;
+      }
+  
+      try {
+        await storeResponse(authDataToSync);
+      } catch (error) {
+        console.error('Error updating document (storeResponse): ', error);
+        return false;
+      }      
+      return false;
+    }
+    return true;
+};
+
+const updateFirebaseAuthPhoneTrigger = async (phone) =>  {
+    showAnimation();
+    const uid = firebase.auth().currentUser.uid;
+    if (phone && phone.startsWith('+1')) phone = phone.substring(2);
+    let newAuthData = {};
+    newAuthData['uid'] = uid;
+    newAuthData['flag'] = 'replaceSignin';
+    newAuthData['phone'] = phone;
+  
+    try {
+      await processAuthWithFirebaseAdmin(newAuthData);
+      hideAnimation();
+      const firebaseAuthUser = firebase.auth().currentUser;
+      await firebaseAuthUser.reload();
+      return;
+    } catch (error) {
+      console.error('An error occurred:', error);
+      hideAnimation();
+      throw error;
+    }
+};

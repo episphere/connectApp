@@ -1,5 +1,5 @@
 import { allStates, showAnimation, hideAnimation, getMyData, hasUserData } from '../shared.js';
-import { attachTabEventListeners, addOrUpdateAuthenticationMethod, changeContactInformation, changeMailingAddress, changeName, checkAuthDataConsistency, formatFirebaseAuthPhoneNumber, FormTypes, getCheckedRadioButtonValue, handleContactInformationRadioButtonPresets, handleOptionalFieldVisibility, hideOptionalElementsOnShowForm, hideSuccessMessage, openUpdateLoginForm, showAndPushElementToArrayIfExists, showEditButtonsOnUserVerified, suffixList, suffixToTextMap, toggleElementVisibility, togglePendingVerificationMessage, unlinkFirebaseAuthProvider, updatePhoneNumberInputFocus, validateContactInformation, validateLoginEmail, validateLoginPhone, validateMailingAddress, validateName } from '../settingsHelpers.js';
+import { attachTabEventListeners, addOrUpdateAuthenticationMethod, changeContactInformation, changeMailingAddress, changeName, formatFirebaseAuthPhoneNumber, FormTypes, getCheckedRadioButtonValue, handleContactInformationRadioButtonPresets, handleOptionalFieldVisibility, hideOptionalElementsOnShowForm, hideSuccessMessage, openUpdateLoginForm, showAndPushElementToArrayIfExists, showEditButtonsOnUserVerified, suffixList, suffixToTextMap, toggleElementVisibility, togglePendingVerificationMessage, unlinkFirebaseAuthProvider, updatePhoneNumberInputFocus, validateContactInformation, validateLoginEmail, validateLoginPhone, validateMailingAddress, validateName } from '../settingsHelpers.js';
 import { addEventAddressAutoComplete } from '../event.js';
 import cId from '../fieldToConceptIdMapping.js';
 
@@ -71,20 +71,16 @@ export const renderSettingsPage = async () => {
   document.title = 'My Connect - My Profile';
   showAnimation();
   const myData = await getMyData();
+  template = '';
 
   if (!hasUserData(myData)) {
     template += `${profileIsIncomplete()}`;
     buildPageTemplate();
   } else {
     userData = myData.data;
-    firebaseAuthUser = firebase.auth().currentUser;
+    await firebase.auth().currentUser.reload();
+    firebaseAuthUser = await firebase.auth().currentUser;
     isParticipantDataDestroyed = userData[cId.dataDestroyCategorical] === cId.requestedDataDestroySigned;
-    if (!isParticipantDataDestroyed) {
-        const isAuthDataConsistent = await checkAuthDataConsistency(firebaseAuthUser.email ?? '', firebaseAuthUser.phoneNumber ?? '', userData[cId.firebaseAuthEmail] ?? '', userData[cId.firebaseAuthPhone] ?? '');
-        if (!isAuthDataConsistent) {
-            await refreshUserDataAfterEdit();
-        }
-    }    
     optVars.loginEmail = userData[cId.firebaseAuthEmail] && !userData[cId.firebaseAuthEmail].startsWith('noreply') ? userData[cId.firebaseAuthEmail] : '';
     optVars.loginPhone = userData[cId.firebaseAuthPhone];
     optVars.canWeVoicemailMobile = userData[cId.canWeVoicemailMobile] === cId.yes;
@@ -92,7 +88,7 @@ export const renderSettingsPage = async () => {
     optVars.canWeVoicemailHome = userData[cId.canWeVoicemailHome] === cId.yes;
     optVars.canWeVoicemailOther = userData[cId.canWeVoicemailOther] === cId.yes;
     optVars.middleName = userData[cId.mName];
-    optVars.suffix = userData[cId.suffix];
+    optVars.suffix = userData[cId.suffix] && userData[cId.suffix] !== cId.noneOfTheseApply ? userData[cId.suffix] : '';
     optVars.preferredFirstName = userData[cId.prefName];
     optVars.mobilePhoneNumberComplete = userData[cId.cellPhone];
     optVars.homePhoneNumberComplete = userData[cId.homePhone];
@@ -104,16 +100,22 @@ export const renderSettingsPage = async () => {
     formVisBools.isMailingAddressFormDisplayed = false;
     formVisBools.isLoginFormDisplayed = false;
     if (userData[cId.userProfileSubmittedAutogen] === cId.yes) {
+      let headerMessage = '';
+      if (!isParticipantDataDestroyed) {
+        if (userData[cId.verification] !== cId.verified) {
+            headerMessage = "Thank you for joining the National Cancer Institute's Connect for Cancer Prevention Study. Your involvement is very important. We are currently verifying your profile, which may take up to 3 business days.";
+        }
+      } else {
+        headerMessage = `We have deleted your information based on the data destruction request we received from you. If you have any questions, please contact the <a href="#support">Connect Support Center</a>.`;
+      }
+
       template += `
             <div class="row" style="margin-top:58px">
                 <div class="col-lg-3">
                 </div>
                 <div class="col-lg-6" id="myProfileHeader">
                     <p id="pendingVerification" style="color:${!isParticipantDataDestroyed ? '#1c5d86' : 'red'}; display:none;">
-                    ${!isParticipantDataDestroyed
-                        ? "Thank you for joining the National Cancer Institute's Connect for Cancer Prevention Study. Your involvement is very important. We are currently verifying your profile, which may take up to 3 business days."
-                        : `We have deleted your information based on the data destruction request form you signed. If you have any questions, please contact the <a href="#support">Connect Support Center</a>.`
-                    }
+                    ${headerMessage}
                     <br>
                     </p>
                     <p class="consentHeadersFont" id="myProfileTextContainer" style="color:#606060; display:none;">
@@ -176,7 +178,7 @@ export const renderSettingsPage = async () => {
 
 const buildPageTemplate = () => {
   document.getElementById('root').innerHTML = template;
-  if (userData[cId.userProfileSubmittedAutogen] === cId.yes) {
+  if (userData && userData[cId.userProfileSubmittedAutogen] === cId.yes) {
       loadNameElements();
       loadContactInformationElements();
       loadMailingAddressElements();
@@ -458,36 +460,68 @@ const handleEditSignInInformationSection = () => {
 };
 
 const submitNewLoginMethod = async (email, phone) => {
-  const isSuccess = await addOrUpdateAuthenticationMethod(firebaseAuthUser, email, phone, userData).catch((error) => {
+  const isSuccess = await addOrUpdateAuthenticationMethod(email, phone, userData).catch((error) => {
     document.getElementById('loginUpdateFail').style.display = 'block';
-    document.getElementById('loginUpdateError').innerHTML = error.message;
+    let errorMessage = error.message;
+    if (error.code) {
+        switch (error.code) {
+            case 'auth/credential-already-in-use':
+            case 'auth/email-already-in-use':
+                errorMessage = 'This '+(email ? 'email' : 'phone number')+' is already linked to a MyConnect account. Please check your entry. If you think this is a mistake, please contact the Connect Support Center at 1-877-505-0253 or <a href="mailto:connectsupport@norc.org">ConnectSupport@norc.org</a>';
+                break;
+            case 'auth/invalid-verification-code':
+                errorMessage = 'The verification code you entered does not match what we sent. Please check the code we sent to your mobile device and enter the verification code again. If you didn\'t get a code, click "Submit new sign in phone number" again to receive a new code.';
+                break;
+            case 'auth/requires-recent-login':
+                errorMessage = 'We are not able to update your sign in information at this time. Please sign out and sign back in to your account to make updates to your information.';
+                break;
+        }
+    }
+        
+    document.getElementById('loginUpdateError').innerHTML = errorMessage;
   });
   
   if (isSuccess) {
     await refreshUserDataAfterEdit();
-
+    clearLoginFormFields();
     formVisBools.isLoginFormDisplayed = toggleElementVisibility(loginElementArray, formVisBools.isLoginFormDisplayed);
     toggleButtonText();
+    document.getElementById('changePhoneSubmit').style.display = 'block';
     document.getElementById('changeLoginGroup').style.display = 'none';
+
+    optVars.loginEmail = userData[cId.firebaseAuthEmail] && !userData[cId.firebaseAuthEmail].startsWith('noreply') ? userData[cId.firebaseAuthEmail] : '';
+    optVars.loginPhone = formatFirebaseAuthPhoneNumber(userData[cId.firebaseAuthPhone]);
 
     const profileEmailElement = document.getElementById('profileEmail');
     const profilePhoneElement = document.getElementById('profilePhone');
-    const firebaseAuthEmail = userData[cId.firebaseAuthEmail];
-    const firebaseAuthPhone = formatFirebaseAuthPhoneNumber(userData[cId.firebaseAuthPhone]);
-
-    if (firebaseAuthEmail) {
-        document.getElementById('loginEmailRow').style.display = 'block';
-        profileEmailElement.textContent = firebaseAuthEmail;
+    const loginEmailField = document.getElementById('loginEmailField');
+    const loginPhoneField = document.getElementById('loginPhoneField');
+    const loginEmailDiv = document.getElementById('loginEmailDiv');
+    const loginPhoneDiv = document.getElementById('loginPhoneDiv');
+    const loginEmailRow = document.getElementById('loginEmailRow');
+    const loginPhoneRow = document.getElementById('loginPhoneRow');
+    
+    if (optVars.loginEmail) {
+        loginEmailRow.style.display = 'block';
+        profileEmailElement.innerHTML = optVars.loginEmail;
         profileEmailElement.style.display = 'block';
+        loginEmailField && (loginEmailField.innerHTML = optVars.loginEmail);
+        loginEmailDiv && (loginEmailDiv.style.display = 'block');
     } else {
+        loginEmailRow && (loginEmailRow.style.display = 'none');
+        loginEmailDiv && (loginEmailDiv.style.display = 'none');
         profileEmailElement.style.display = 'none';
     }
 
-    if (firebaseAuthPhone) {
-        document.getElementById('loginPhoneRow').style.display = 'block';
-        profilePhoneElement.innerHTML = `${firebaseAuthPhone}`;
-        profilePhoneElement.style.display = 'block';        
+    if (optVars.loginPhone) {
+        loginPhoneRow.style.display = 'block';
+        profilePhoneElement.innerHTML = `${optVars.loginPhone}`;
+        profilePhoneElement.style.display = 'block';
+        loginPhoneField && (loginPhoneField.innerHTML = optVars.loginPhone);
+        loginPhoneDiv && (loginPhoneDiv.style.display = 'block');        
     } else {
+        loginPhoneRow && (loginPhoneRow.style.display = 'none');
+        loginPhoneDiv && (loginPhoneDiv.style.display = 'none');
         profilePhoneElement.style.display = 'none';
     }
 
@@ -527,18 +561,20 @@ export const toggleButtonText = () => {
   btnObj.changeNameButton.textContent = formVisBools.isNameFormDisplayed ? 'Cancel' : 'Update Name';
   btnObj.changeContactInformationButton.textContent = formVisBools.isContactInformationFormDisplayed ? 'Cancel' : 'Update Contact Info';
   btnObj.changeMailingAddressButton.textContent = formVisBools.isMailingAddressFormDisplayed ? 'Cancel' : 'Update Address';
-  btnObj.changeLoginButton.textContent = formVisBools.isLoginFormDisplayed ? 'Cancel' : 'Update Login';
+  btnObj.changeLoginButton.textContent = formVisBools.isLoginFormDisplayed ? 'Cancel' : 'Update Sign In';
 };
 
 const refreshUserDataAfterEdit = async () => {
   const updatedUserData = await getMyData();
   if (hasUserData(updatedUserData)) {
     userData = updatedUserData.data;
+    await firebase.auth().currentUser.reload();
+    firebaseAuthUser = firebase.auth().currentUser;
   }
 };
 
 /**
- * Sign-in Information -> removeLoginEmailButton and removeLoginPhoneButton.
+ * Sign in Information -> removeLoginEmailButton and removeLoginPhoneButton.
  * Show the confirmation modal after user clicks 'Remove this <ButtonType>' button.
  * Require confirmation from user prior to unlinking the authentication provider.
  * Then close the modal.
@@ -595,7 +631,7 @@ const attachLoginEditFormButtons = async () => {
                     try {
                         const firebaseUser = firebase.auth().currentUser;
                         if (firebaseUser.email && firebaseUser.phoneNumber) {
-                            result = await unlinkFirebaseAuthProvider(type.toLowerCase(), userData);
+                            result = await unlinkFirebaseAuthProvider(type.toLowerCase(), userData, null, true);
                             const isSuccess = result === true;
                             closeModal(type);
                             updateUIAfterUnlink(isSuccess, type, isSuccess ? null : result);
@@ -628,23 +664,23 @@ const updateUIAfterUnlink = async (isSuccess, type, error) => {
     
     if (isSuccess) {
       await refreshUserDataAfterEdit();
-        
-      const firebaseAuthEmail = userData[cId.firebaseAuthEmail] && !userData[cId.firebaseAuthEmail].startsWith('noreply') ? userData[cId.firebaseAuthEmail] : ''; 
-      const firebaseAuthPhone = formatFirebaseAuthPhoneNumber(userData[cId.firebaseAuthPhone]);
 
-      if (firebaseAuthEmail && type !== 'email') {
+      optVars.loginEmail = userData[cId.firebaseAuthEmail] && !userData[cId.firebaseAuthEmail].startsWith('noreply') ? userData[cId.firebaseAuthEmail] : ''; 
+      optVars.loginPhone = formatFirebaseAuthPhoneNumber(userData[cId.firebaseAuthPhone]);
+
+      if (optVars.loginEmail && type !== 'email') {
         document.getElementById('loginEmailRow').style.display = 'block';
         const profileEmailElement = document.getElementById('profileEmail');
-        profileEmailElement.textContent = firebaseAuthEmail;
+        profileEmailElement.textContent = optVars.loginEmail;
         profileEmailElement.style.display = 'block';
       } else {
         optRowEles.loginEmailRow.style.display = 'none';
       }
 
-      if (firebaseAuthPhone && type !== 'phone') {
+      if (optVars.loginPhone && type !== 'phone') {
         document.getElementById('loginPhoneRow').style.display = 'block';
         const profilePhoneElement = document.getElementById('profilePhone');
-        profilePhoneElement.innerHTML = `${firebaseAuthPhone}`;
+        profilePhoneElement.innerHTML = `${optVars.loginPhone}`;
         profilePhoneElement.style.display = 'block';        
       } else {
         optRowEles.loginPhoneRow.style.display = 'none';
@@ -656,7 +692,29 @@ const updateUIAfterUnlink = async (isSuccess, type, error) => {
         document.getElementById('loginUpdateFail').style.display = 'block';
         document.getElementById('loginUpdateError').innerHTML = error;
     }
+
+    if (!(optVars.loginEmail && optVars.loginPhone)) {
+        const removeLoginEmailButton = document.getElementById('removeLoginEmailButton');
+        const removeLoginPhoneButton = document.getElementById('removeLoginPhoneButton');
+        if (removeLoginEmailButton) removeLoginEmailButton.style.display = 'none';
+        if (removeLoginPhoneButton) removeLoginPhoneButton.style.display = 'none';
+    }
+
+    if (!optVars.loginEmail) document.getElementById('loginEmailDiv').style.display = 'none';
+    if (!optVars.loginPhone) document.getElementById('loginPhoneDiv').style.display = 'none';
+
 }
+
+const clearLoginFormFields = () => {
+    const newEmailField = document.getElementById('newEmailField');
+    const newEmailFieldCheck = document.getElementById('newEmailFieldCheck');
+    const newPhoneField = document.getElementById('newPhoneField');
+    const newPhoneFieldCheck = document.getElementById('newPhoneFieldCheck');
+    newEmailField && (newEmailField.value = '');
+    newEmailFieldCheck && (newEmailFieldCheck.value = '');
+    newPhoneField && (newPhoneField.value = '');
+    newPhoneFieldCheck && (newPhoneFieldCheck.value = '');
+};
 
 /**
  * Start: HTML rendering functions
@@ -1258,7 +1316,7 @@ export const renderSignInInformationHeadingAndButton = () => {
               </span>
           </div>
           <div class="col">
-              <button id="changeLoginButton" class="btn btn-primary save-data consentNextButton" style="float:right; display:none;">Update Login</button>
+              <button id="changeLoginButton" class="btn btn-primary save-data consentNextButton" style="float:right; display:none;">Update Sign In</button>
           </div>
       </div>
       `;
@@ -1270,7 +1328,7 @@ export const renderSignInInformationData = () => {
         <div class="row userProfileLinePaddings" id="currentSignInInformationDiv">
             <div class="col">
                 <span class="userProfileBodyFonts" id="loginEmailRow" style="display:none">
-                    Sign-in Email Address
+                    Sign in Email Address
                     <br>
                     <b>
                     <div id="profileEmail">${optVars.loginEmail}</div>
@@ -1278,7 +1336,7 @@ export const renderSignInInformationData = () => {
                     </br>
                 </span>
                 <span class="userProfileBodyFonts" id="loginPhoneRow" style="display:none">
-                    Sign-in Phone Number
+                    Sign in Phone Number
                     <br>
                     <b>
                     <div id="profilePhone">${loginPhone}</div>
@@ -1295,7 +1353,7 @@ export const renderChangeSignInInformationGroup = () => {
         <div class="row userProfileLinePaddings" id="changeLoginGroup" style="display:none;">
             <div class="col">
                 <span class="userProfileBodyFonts">
-                    Need to update your sign-in information? Choose your preferred login method below:
+                    Need to update your sign in information? Add or update your information below:
                 </span>
                 <br>
                 <br>
@@ -1323,23 +1381,21 @@ export const renderChangeSignInInformationGroup = () => {
     };
 
 const renderTabbedForm = () => {
-    const currentEmail = optVars.loginEmail;
-    const currentPhone = formatFirebaseAuthPhoneNumber(optVars.loginPhone) ?? '';
     return `
         <div class="tab">
-            <button class="tablinks">Use email</button>
-            <button class="tablinks">Use mobile phone</button>
+            <button class="tablinks">${optVars.loginEmail ? 'Update' : 'Add'} email</button>
+            <button class="tablinks">${optVars.loginPhone ? 'Update' : 'Add'} mobile phone</button>
         </div>
         <br>
         <div id="form1" class="tabcontent">
-            ${currentEmail ? 
+            ${optVars.loginEmail ? 
                 `
                 <hr>
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span>Current login email:
-                        <strong>${currentEmail}</strong>
+                <div style="display: flex; justify-content: space-between; align-items: center;" id="loginEmailDiv">
+                    <span>Current sign in email:
+                        <strong id="loginEmailField">${optVars.loginEmail}</strong>
                     </span>
-                    ${currentPhone ? `<button class="btn-remove-login" id="removeLoginEmailButton">Remove this email address</button>` : ''}
+                    ${optVars.loginPhone ? `<button class="btn-remove-login" id="removeLoginEmailButton">Remove this email address</button>` : ''}
                 </div>
                 <hr>
                 <br>
@@ -1348,18 +1404,18 @@ const renderTabbedForm = () => {
             ${renderEmailOrPhoneInput('email')}
             ${renderConfirmationModal('Email')}
             <br>
-            <button id="changeEmailSubmit" class="btn btn-primary save-data consentNextButton">Submit Email Update</button>
+            <button id="changeEmailSubmit" class="btn btn-primary save-data consentNextButton">Submit new sign in email</button>
         </div>
         
         <div id="form2" class="tabcontent">
-            ${currentPhone ?
+            ${optVars.loginPhone ?
                 `
                 <hr>
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span>Current login phone:
-                        <strong>${currentPhone}</strong>
+                <div style="display: flex; justify-content: space-between; align-items: center;" id="loginPhoneDiv">
+                    <span>Current sign in phone:
+                        <strong id="loginPhoneField">${formatFirebaseAuthPhoneNumber(optVars.loginPhone)}</strong>
                     </span>
-                    ${currentEmail ? `<button class="btn-remove-login" id="removeLoginPhoneButton">Remove this phone number</button>` : ''}
+                    ${optVars.loginEmail ? `<button class="btn-remove-login" id="removeLoginPhoneButton">Remove this phone number</button>` : ''}
                 </div>
                 <hr>
                 <br>
@@ -1368,7 +1424,8 @@ const renderTabbedForm = () => {
             ${renderEmailOrPhoneInput('phone')}
             <br>
             ${renderConfirmationModal('Phone')}
-            <button id="changePhoneSubmit" class="btn btn-primary save-data consentNextButton">Submit Phone Update</button>
+            <p style="color:#1c5d86;">After you click, “Submit,” a pop-up box will display and ask you to enter the verification code sent to your mobile device. Please enter this code and click “OK” to verify your phone number.</p>
+            <button id="changePhoneSubmit" class="btn btn-primary save-data consentNextButton">Submit new sign in phone number</button>
             <br>
             <div style="margin-left:10px" id="recaptcha-container"></div>
         </div> 
@@ -1378,32 +1435,33 @@ const renderTabbedForm = () => {
 const renderEmailOrPhoneInput = (type) => {  
     const phoneEmailMap = {
         email: {
-            label: 'New Email Address',
+            label: 'email',
+            heading: 'New Email Address',
+            placeholder: 'email address',
             elementId: 'Email',
         },
         phone: {
-            label: 'New Phone Number',
+            label: 'mobile phone number',
+            heading: 'New Mobile Phone Number',
+            placeholder: 'mobile phone number',
             elementId: 'Phone',
         },
     };  
-    const { label, elementId } = phoneEmailMap[type] || phoneEmailMap.email;
+    const { label, heading, placeholder, elementId } = phoneEmailMap[type] || phoneEmailMap.email;
 
     return `
-        <span>Update your login ${label}:</span>
-        <br>
-        <br>
         <label for="new${elementId}Field" class="custom-form-label">
-            ${label} <span class="required">*</span>
+            ${heading} <span class="required">*</span>
         </label>
         <br>
-        <input type="${elementId.toLowerCase()}" id="new${elementId}Field" class="form-control required-field" placeholder="Enter New ${label}"/>
+        <input type="${elementId.toLowerCase()}" id="new${elementId}Field" class="form-control required-field" placeholder="Enter new ${placeholder}"/>
         <br>
         <br>
         <label for="new${elementId}FieldCheck" class="custom-form-label">
-            Confirm ${label} <span class="required">*</span>
+            Confirm ${heading} <span class="required">*</span>
         </label>
         <br>
-        <input type="${elementId.toLowerCase()}" id="new${elementId}FieldCheck" class="form-control required-field" placeholder="Confirm New ${label}"/>
+        <input type="${elementId.toLowerCase()}" id="new${elementId}FieldCheck" class="form-control required-field" placeholder="Confirm new ${placeholder}"/>
         <br>
     `;
 };
@@ -1412,10 +1470,10 @@ const renderConfirmationModal = (removalType) => {
     return `
     <div id="confirmationModal${removalType}" class="modal-remove-login" style="display:none" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">
-            <p><strong><i>Important</i></strong>: Are you sure you want to remove this ${removalType.toLowerCase()} login method?</p>
+            <p><strong><i>Important</i></strong>: Are you sure you want to remove this ${removalType.toLowerCase()} sign in method?</p>
             <button id="confirmRemove${removalType}">Confirm</button>
             <button id="cancelRemove${removalType}">Cancel</button>
         </div>
     </div>
     `;
-};  
+};

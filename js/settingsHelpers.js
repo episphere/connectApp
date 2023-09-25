@@ -1,4 +1,4 @@
-import { hideAnimation, errorMessage, processUnlinkAuthProviderWithFirebaseAdmin, showAnimation, storeResponse, validEmailFormat, validNameFormat, validPhoneNumberFormat } from './shared.js';
+import { hideAnimation, errorMessage, processAuthWithFirebaseAdmin, showAnimation, storeResponse, validEmailFormat, validNameFormat, validPhoneNumberFormat } from './shared.js';
 import { removeAllErrors } from './event.js';
 import cId from './fieldToConceptIdMapping.js';
 
@@ -359,13 +359,13 @@ export const changeName = async (firstName, lastName, middleName, suffix, prefer
     [cId.fName]: firstName,
     [cId.mName]: middleName,
     [cId.lName]: lastName,
-    [cId.suffix]: suffix,
+    [cId.suffix]: parseInt(suffix),
     [cId.prefName]: preferredFirstName,
-    ['query.firstName']: firstName.toLowerCase(),
-    ['query.lastName']: lastName.toLowerCase(),
   };
-
-  const { changedUserDataForProfile, changedUserDataForHistory } = findChangedUserDataValues(newValues, userData);
+  
+  let { changedUserDataForProfile, changedUserDataForHistory } = findChangedUserDataValues(newValues, userData, 'changeName');
+  changedUserDataForProfile = handleNameField(firstNameTypes, 'firstName', changedUserDataForProfile, userData);
+  changedUserDataForProfile = handleNameField(lastNameTypes, 'lastName', changedUserDataForProfile, userData);
   const isSuccess = processUserDataUpdate(changedUserDataForProfile, changedUserDataForHistory, userData[cId.userProfileHistory], userData[cId.prefEmail], 'changeName');
   return isSuccess;
 };
@@ -387,13 +387,13 @@ export const changeContactInformation = async (mobilePhoneNumberComplete, homePh
 
   const newValues = {
     [cId.cellPhone]: mobilePhoneNumberComplete,
-    [cId.canWeVoicemailMobile]: canWeVoicemailMobile,
-    [cId.canWeText]: canWeText,
+    [cId.canWeVoicemailMobile]: parseInt(canWeVoicemailMobile),
+    [cId.canWeText]: parseInt(canWeText),
     [cId.homePhone]: homePhoneNumberComplete,
-    [cId.canWeVoicemailHome]: canWeVoicemailHome,
+    [cId.canWeVoicemailHome]: parseInt(canWeVoicemailHome),
     [cId.prefEmail]: preferredEmail,
     [cId.otherPhone]: otherPhoneNumberComplete,
-    [cId.canWeVoicemailOther]: canWeVoicemailOther,
+    [cId.canWeVoicemailOther]: parseInt(canWeVoicemailOther),
     [cId.additionalEmail1]: additionalEmail1,
     [cId.additionalEmail2]: additionalEmail2,
   };
@@ -403,6 +403,35 @@ export const changeContactInformation = async (mobilePhoneNumberComplete, homePh
   changedUserDataForProfile = handleAllEmailField(changedUserDataForProfile, userData);
   const isSuccess = processUserDataUpdate(changedUserDataForProfile, changedUserDataForHistory, userData[cId.userProfileHistory], userData[cId.prefEmail], 'changeContactInformation');
   return isSuccess;
+};
+
+const firstNameTypes = [cId.consentFirstName, cId.fName, cId.prefName];
+const lastNameTypes = [cId.consentLastName, cId.lName];
+
+/**
+ * Handle the query.frstName and query.lastName fields in the participant profile.
+ * Check the changedUserDataForProfile object and then the participant profile for all name types. If a name is in changedUserDataForProfile, that's the up-to-date version. Add it to the queryNameArray.
+ * If a nameType isn't in changedUserData, check the existing participant profile and add that to the queryNameArray.
+ * If a nameType is an empty string in changedUserData, don't add it to the queryNameArray even if it exists in the participant profile. The empty string means the participant wants the name removed.
+ * Lastly, remove duplicates. This can happen when the participant has a consent name that matches the first or last name.
+ * @param {array} nameTypes - array of name types to check.
+ * @param {string} fieldName - the name of the field to update.
+ * @param {object} changedUserDataForProfile - the changed user data.
+ * @param {object} userData - the existing participant object.
+ */
+const handleNameField = (nameTypes, fieldName, changedUserDataForProfile, userData) => {
+  const queryNameArray = [];
+  nameTypes.forEach(nameType => {
+      if (changedUserDataForProfile[nameType]) {
+          queryNameArray.push(changedUserDataForProfile[nameType].toLowerCase());
+      } else if (userData[nameType] && changedUserDataForProfile[nameType] !== '') {
+          queryNameArray.push(userData[nameType].toLowerCase());
+      }
+  });
+
+  changedUserDataForProfile[`query.${fieldName}`] = Array.from(new Set(queryNameArray));
+
+  return changedUserDataForProfile;
 };
 
 /**
@@ -469,39 +498,12 @@ export const changeMailingAddress = async (addressLine1, addressLine2, city, sta
     [cId.address2]: addressLine2 ?? '',
     [cId.city]: city,
     [cId.state]: state,
-    [cId.zip]: zip,
+    [cId.zip]: zip.toString(),
   };
 
   const { changedUserDataForProfile, changedUserDataForHistory } = findChangedUserDataValues(newValues, userData);
   const isSuccess = processUserDataUpdate(changedUserDataForProfile, changedUserDataForHistory, userData[cId.userProfileHistory], userData[cId.prefEmail], 'mailingAddress');
   return isSuccess;
-};
-
-/**
- * confirm the user's Firebase Auth email and phone data match the user's Firestore email and phone data.
- * We write these separately, one after another, so there's a chance the first write (Firebase Auth) succeeds and the second wite (Firestore) fails.
- * This only costs an API call if the data is inconsistent since we hava access to both datapoints already.
- * @param {object} firebaseAuthData - the user's Firebase Auth email and phone data 
- * @param {object} firestoreParticipantData - the user's Firestore email and phone data
- */
-export const checkAuthDataConsistency = async (firebaseAuthEmail, firebaseAuthPhoneNumber, firestoreParticipantEmail, firestoreParticipantPhoneNumber) => {
-  const isAuthEmailConsistent = firebaseAuthEmail === firestoreParticipantEmail;
-  const isAuthPhoneConsistent = firebaseAuthPhoneNumber === firestoreParticipantPhoneNumber;
-
-  if (!isAuthEmailConsistent || !isAuthPhoneConsistent) {
-    const authDataToSync = {
-      [cId.firebaseAuthEmail]: firebaseAuthEmail,
-      [cId.firebaseAuthPhone]: firebaseAuthPhoneNumber,
-    };
-    try {
-      await storeResponse(authDataToSync);
-    } catch (error) {
-      console.error('Error updating document (storeResponse): ', error);
-      return false;
-    }
-    return false;
-  }
-  return true;
 };
 
 /**
@@ -511,23 +513,27 @@ export const checkAuthDataConsistency = async (firebaseAuthEmail, firebaseAuthPh
  * @param {string} email - the new email address
  * @param {*} userData - the user profile data
  * @returns {boolean} - true if the email change was successful, false otherwise
+ * Login phone exists if: (the user is updating the phone number or it is in the user's firestoreAuth record) && the user isn't actively removing the phone number.
+ * Login email exists if: (the user is updating the email address && it doesn't start with noreply) or (it is in the user's firestoreAuth record && it doesn't start with noreply.
  */
-export const addOrUpdateAuthenticationMethod = async (firebaseAuthUser, email, phone, userData) => {
+export const addOrUpdateAuthenticationMethod = async (email, phone, userData) => {
   document.getElementById('loginUpdateFail').style.display = 'none';
   document.getElementById('loginUpdateSuccess').style.display = 'none';
-
+  
+  const firebaseAuthUser = firebase.auth().currentUser;
   const valuesForFirebaseAuth = {};
   const newValuesForFirestore = {};
 
   if (email) {
+    email = email.toLowerCase();
     newValuesForFirestore[cId.firebaseAuthEmail] = email;
-    newValuesForFirestore[cId.firebaseSignInMechanism] = 'password';
+    newValuesForFirestore[cId.firebaseSignInMechanism] = email.startsWith('noreply') ? 'phone' : 'password';
     valuesForFirebaseAuth['email'] = email;
     valuesForFirebaseAuth['uid'] = firebaseAuthUser.uid;
     try {
-      await updateFirebaseAuthEmail(firebaseAuthUser, email);
+      await updateFirebaseAuthEmail(email);
     } catch (error) {
-      console.error(`Error: updateFirebaseAuthEmail(): ${error}`);
+      console.error(`Error: updateFirebaseAuthEmail().`, error);
       throw error;
     }
   }
@@ -540,17 +546,21 @@ export const addOrUpdateAuthenticationMethod = async (firebaseAuthUser, email, p
     valuesForFirebaseAuth['phoneNumber'] = phone;
     valuesForFirebaseAuth['uid'] = firebaseAuthUser.uid;
     try {
-      await updateFirebaseAuthPhone(firebaseAuthUser, phone);
+      await updateFirebaseAuthPhone(phone, userData);
     } catch (error) {
       console.error(`Error: updateFirebaseAuthPhone(): ${error}`);
       throw error;
     }
   }
 
-  if ((email && firebaseAuthUser.phoneNumber) || phone && firebaseAuthUser.email) {
+  const isPhoneRemoved = phone === '';
+  const doesLoginPhoneExist = (phone || firebaseAuthUser.phoneNumber) && !isPhoneRemoved;
+  const doesLoginEmailExist = (email && !email.startsWith('noreply')) || (firebaseAuthUser.email && !firebaseAuthUser.email.startsWith('noreply'));
+
+  if (doesLoginPhoneExist && doesLoginEmailExist) {
     newValuesForFirestore[cId.firebaseSignInMechanism] = 'passwordAndPhone';
   }
-  
+
   document.getElementById('changeLoginGroup').style.display = 'none';
   const { changedUserDataForProfile, changedUserDataForHistory } = findChangedUserDataValues(newValuesForFirestore, userData);
   const isSuccess = processUserDataUpdate(changedUserDataForProfile, changedUserDataForHistory, userData[cId.userProfileHistory], userData[cId.prefEmail], 'loginUpdate');
@@ -559,13 +569,13 @@ export const addOrUpdateAuthenticationMethod = async (firebaseAuthUser, email, p
 
 /**
  * Update the user's email address in Firebase Auth.
- * @param {Object<User>} firebaseAuthUser - the firebase auth user object 
  * @param {String} email - the new email address 
- * @returns {boolean} - true if the update was successful, false otherwise
+ * @returns {boolean} - true if the update was successful, false otherwise.
  */
-const updateFirebaseAuthEmail = async (firebaseAuthUser, email) => {
+const updateFirebaseAuthEmail = async (email) => {
   try {
-    await firebaseAuthUser.updateEmail(email);
+    const firebaseAuthUser = firebase.auth().currentUser;
+    await firebaseAuthUser.updateEmail(email.toLowerCase());
     return true;
   } catch (error) {
     throw error;
@@ -577,17 +587,19 @@ const updateFirebaseAuthEmail = async (firebaseAuthUser, email) => {
  * This walks the user through two verification processes:
  *  (1) recaptcha verification in the browser.
  *  (2) phone number verification with a texted code.
- * @param {Object<User>} firebaseAuthUser - the firebase auth user object.
  * @param {String} phone - the new cleaned phone number.
  * @returns {boolean} - true if the update was successful, false otherwise.
  * Note: '+1' has already been prepended to the phone number (format required by Firebase Auth).
- * Note: the user's existing phone number must be unlinked from the user's Firebase Auth account before writing the new phone number.
+ * Note: The user's existing phone number must be unlinked from the user's Firebase Auth account before writing the new phone number.
+ * Note: If firebaseAuthUser.phoneNumber exists, unlink it from the user's Firebase Auth account and return the result. If it doesn't exist, the api call isn't needed. Continue with the success case (true).
+ * 
  */
-const updateFirebaseAuthPhone = async (firebaseAuthUser, phone) => {
+const updateFirebaseAuthPhone = async (phone, userData) => {
+  const changePhoneSubmit = document.getElementById('changePhoneSubmit');
   try {
-      document.getElementById('changePhoneSubmit').style.display = 'none';
+      const firebaseAuthUser = firebase.auth().currentUser;
+      if (changePhoneSubmit) changePhoneSubmit.style.display = 'none';
       window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
-
       const recaptchaVerifier = window.recaptchaVerifier;
       const provider = new firebase.auth.PhoneAuthProvider;
 
@@ -596,19 +608,19 @@ const updateFirebaseAuthPhone = async (firebaseAuthUser, phone) => {
       if (!verificationCode) {
           throw new Error("Verification code not provided");
       }
-
+      
       const phoneCredential = firebase.auth.PhoneAuthProvider.credential(verificationId, verificationCode);
-      const unlinkResult = await unlinkFirebaseAuthProvider('phone');
+      const unlinkResult = firebaseAuthUser.phoneNumber ? await unlinkFirebaseAuthProvider('phone', userData, phone, false) : true;
       if (unlinkResult === true) {
         await firebaseAuthUser.linkWithCredential(phoneCredential);
-        window.recaptchaVerifier.clear();
+        if (window.recaptchaVerifier) window.recaptchaVerifier.clear();
         return true;
       } else {
         throw new Error(`Failed to unlink existing phone number`);
       }
-      
   } catch (error) {
-      document.getElementById('recaptcha-container').style.display = 'none';
+      if (window.recaptchaVerifier) window.recaptchaVerifier.clear();
+      if (changePhoneSubmit) changePhoneSubmit.style.display = 'block';
       console.error('Error updating phone number: ', error);
       hideAnimation();
       throw error;
@@ -621,9 +633,12 @@ const updateFirebaseAuthPhone = async (firebaseAuthUser, phone) => {
  * Important: FirebaseAuth phone number can be unlinked. FirebaseAuth email cannot be unlinked.
  * Workaround: If the user wants to unlink their email, we write a 'noreply' email to the user's auth profile and firestore profile, which effectively disables the prior email login.
  * @param {String} providerType - 'email' or 'phone' 
+ * @param {Object} userData - the user's current userData object
+ * @param {String} newPhone - the new phone number (if applicable)
+ * @param {boolean} isPhoneRemoval - true if the phone number is being removed, false otherwise
  * @returns {boolean} - true if the unlink was successful, false otherwise
  */
-export const unlinkFirebaseAuthProvider = async (providerType, userData) => {
+export const unlinkFirebaseAuthProvider = async (providerType, userData, newPhone, isPhoneRemoval) => {
   try {
     const firebaseAuthUser = firebase.auth().currentUser;
 
@@ -634,27 +649,32 @@ export const unlinkFirebaseAuthProvider = async (providerType, userData) => {
     if (!(providerType === 'email' || providerType === 'phone')) {
       throw new Error('Invalid providerType. Expected "email" or "phone"');
     }
+
     let updateResult;
     let noReplyEmail;
+    
     if (providerType === 'phone') {
       updateResult = await unlinkFirebaseAuthenticationTrigger(providerType);
     } else if (providerType === 'email') {
-      noReplyEmail = `noreply${firebaseAuthUser.uid}@episphere.github.io`;
-      updateResult = await addOrUpdateAuthenticationMethod(firebaseAuthUser, noReplyEmail, null, userData);
+      noReplyEmail = `noreply${firebaseAuthUser.uid}@episphere.github.io`.toLowerCase();
+      updateResult = await updateToNoReplyEmail(firebaseAuthUser.uid, noReplyEmail);
     } else {
       console.error('bad providerType arg in unlinkFirebaseAuthProvider()');
     }
-
     if (updateResult === true) {
       const changedUserDataForProfile = {};
+
       if (providerType === 'email') {
         changedUserDataForProfile[cId.firebaseAuthEmail] = noReplyEmail;
         changedUserDataForProfile[cId.firebaseSignInMechanism] = 'phone';
-      };
-      if (providerType === 'phone') {
+      } else if (providerType === 'phone' && isPhoneRemoval){
         changedUserDataForProfile[cId.firebaseAuthPhone] = '';
         changedUserDataForProfile[cId.firebaseSignInMechanism] = 'password';
-      }
+      } else {
+        if (newPhone?.startsWith('+1')) newPhone = newPhone.substring(2);
+        changedUserDataForProfile[cId.firebaseAuthPhone] = newPhone;
+        userData[cId.firebaseAuthEmail] && !userData[cId.firebaseAuthEmail].startsWith('noreply') ? changedUserDataForProfile[cId.firebaseSignInMechanism] = 'passwordAndPhone' : changedUserDataForProfile[cId.firebaseSignInMechanism] = 'phone';
+      }  
 
       await storeResponse(changedUserDataForProfile)
         .catch(function (error) {
@@ -674,6 +694,19 @@ export const unlinkFirebaseAuthProvider = async (providerType, userData) => {
     hideAnimation();
     return error.message;
   }
+};
+
+export const updateToNoReplyEmail = async (uid, noReplyEmail) => {
+    document.getElementById('loginUpdateFail').style.display = 'none';
+    document.getElementById('loginUpdateSuccess').style.display = 'none';
+    
+    try {
+      await updateFirebaseAuthEmail(noReplyEmail);
+      return true;
+    } catch (error) {
+      console.error(`Error: updateFirebaseAuthEmail(): ${error}`);
+      throw error;
+    }
 };
 
 const handleUpdatePhoneEmailErrorInUI = (functionName, error) => {
@@ -698,55 +731,75 @@ const cleanPhoneNumber = (phoneNumber) => {
  *   if user deletes a number, set canWeVoicemail and canWeText to '' (empty string) --per spec on 05-09-2023
  *   if user updates a number, ensure the canWeVoicemail and canWeText values are set
  *   Update: 05-26-2023 do not include email addresses in user profile archiving. Exclude those keys from the history object.
- * RE: !excludeHistoryKeys.includes(key) -> if the key is not in the excludeHistoryKeys array, then include it in the history object
+ * RE: !excludeHistoryKeys.includes(key) -> if the key is not in the excludeHistoryKeys array, then include it in the history object.
  * RE: existingUserData[key] ?? '' -> if the existingUserData[key] is null/undefined/empty, then write an empty string to the history object. This marks the change as requested by the data team.
+ * Update: 06-27-2023
+ *   (1) Do not tie empty text and voicemail permissions to profile history.
+ *   (2) Use cId.noneOfTheseApply for suffix that had a value and now has no value
+ *   (3) Default phone permissions to cId.no instead of using an empty string.
 */
 const findChangedUserDataValues = (newUserData, existingUserData, type) => {
   const changedUserDataForProfile = {};
   const changedUserDataForHistory = {};
   const excludeHistoryKeys = [cId.prefEmail, cId.additionalEmail1, cId.additionalEmail2, cId.firebaseAuthEmail];
+  const keysToSkipIfNull = [cId.canWeText, cId.canWeVoicemailMobile, cId.canWeVoicemailHome, cId.canWeVoicemailOther];
 
   Object.keys(newUserData).forEach(key => {
     if (newUserData[key] !== existingUserData[key]) {
       changedUserDataForProfile[key] = newUserData[key];
       if (!excludeHistoryKeys.includes(key)) {
-        changedUserDataForHistory[key] = existingUserData[key] ?? '';
+          changedUserDataForHistory[key] = existingUserData[key] ?? '';
       }
     }
   });
-
+  
   if (type === 'changeContactInformation') {
 
     if (cId.cellPhone in changedUserDataForProfile) {
         if (!newUserData[cId.cellPhone]) {
-          changedUserDataForProfile[cId.canWeVoicemailMobile] = '';
-          changedUserDataForProfile[cId.canWeText] = '';
+          changedUserDataForProfile[cId.canWeVoicemailMobile] = cId.no;
+          changedUserDataForProfile[cId.canWeText] = cId.no;
         } else {
           changedUserDataForProfile[cId.canWeVoicemailMobile] = newUserData[cId.canWeVoicemailMobile] ?? existingUserData[cId.canWeVoicemailMobile] ?? cId.no;
           changedUserDataForProfile[cId.canWeText] = newUserData[cId.canWeText] ?? existingUserData[cId.canWeText] ?? cId.no;
         }
-        changedUserDataForHistory[cId.canWeVoicemailMobile] = existingUserData[cId.canWeVoicemailMobile] ?? cId.no;
-        changedUserDataForHistory[cId.canWeText] = existingUserData[cId.canWeText] ?? cId.no;
+
+        if (existingUserData[cId.canWeVoicemailMobile]) changedUserDataForHistory[cId.canWeVoicemailMobile] = existingUserData[cId.canWeVoicemailMobile];
+        if (existingUserData[cId.canWeText]) changedUserDataForHistory[cId.canWeText] = existingUserData[cId.canWeText];
     }
 
     if (cId.homePhone in changedUserDataForProfile) {
       if (!newUserData[cId.homePhone]) {
-        changedUserDataForProfile[cId.canWeVoicemailHome] = '';
+        changedUserDataForProfile[cId.canWeVoicemailHome] = cId.no;
       } else {
         changedUserDataForProfile[cId.canWeVoicemailHome] = newUserData[cId.canWeVoicemailHome] ?? existingUserData[cId.canWeVoicemailMobile] ?? cId.no;
       }
-      changedUserDataForHistory[cId.canWeVoicemailHome] = existingUserData[cId.canWeVoicemailHome] ?? cId.no;
+
+      if (existingUserData[cId.canWeVoicemailHome]) changedUserDataForHistory[cId.canWeVoicemailHome] = existingUserData[cId.canWeVoicemailHome];
     }
 
     if (cId.otherPhone in changedUserDataForProfile) {
       if (!newUserData[cId.otherPhone]) {
-        changedUserDataForProfile[cId.canWeVoicemailOther] = '';
+        changedUserDataForProfile[cId.canWeVoicemailOther] = cId.no;
       } else {
         changedUserDataForProfile[cId.canWeVoicemailOther] = newUserData[cId.canWeVoicemailOther] ?? existingUserData[cId.canWeVoicemailOther] ?? cId.no;
       }
-      changedUserDataForHistory[cId.canWeVoicemailOther] = existingUserData[cId.canWeVoicemailOther] ?? cId.no;
+      
+      if (existingUserData[cId.canWeVoicemailOther]) changedUserDataForHistory[cId.canWeVoicemailOther] = existingUserData[cId.canWeVoicemailOther];
+    }
+  }  
+
+  if (type === 'changeName') {
+    if (cId.suffix in changedUserDataForProfile) {
+      if (!newUserData[cId.suffix]) {
+        changedUserDataForProfile[cId.suffix] = cId.noneOfTheseApply;
+      }
     }
   }
+
+  keysToSkipIfNull.forEach(key => {
+    if (changedUserDataForHistory[key] === '') changedUserDataForHistory[key] = null;
+  });
 
   return { changedUserDataForProfile, changedUserDataForHistory };
 };
@@ -762,7 +815,7 @@ const findChangedUserDataValues = (newUserData, existingUserData, type) => {
 const processUserDataUpdate = async (changedUserDataForProfile, changedUserDataForHistory, userHistory, preferredEmailExisting, type) => {
   const preferredEmail = changedUserDataForProfile[cId.preferredEmail] ?? preferredEmailExisting ?? '';
   if (changedUserDataForProfile && Object.keys(changedUserDataForProfile).length !== 0) {
-    changedUserDataForProfile[cId.userProfileHistory] = updateUserHistory(changedUserDataForHistory, userHistory, preferredEmail);
+    changedUserDataForProfile[cId.userProfileHistory] = updateUserHistory(changedUserDataForHistory, userHistory, preferredEmail, changedUserDataForProfile[cId.suffix]);
     await storeResponse(changedUserDataForProfile)
     .catch(function (error) {
       console.error('Error writing document (storeResponse): ', error);
@@ -788,17 +841,17 @@ const processUserDataUpdate = async (changedUserDataForProfile, changedUserDataF
  * @param {array of objects} userHistory - the user's existing history
  * @returns {userProfileHistoryArray} -the array of objects to write to user profile history, with the new data added to the end of the array
  */
-const updateUserHistory = (existingDataToUpdate, userHistory, preferredEmail) => {
+const updateUserHistory = (existingDataToUpdate, userHistory, preferredEmail, newSuffix) => {
   const userProfileHistoryArray = [];
   if (userHistory && Object.keys(userHistory).length > 0) userProfileHistoryArray.push(...userHistory);
   
-  const newUserHistoryMap = populateUserHistoryMap(existingDataToUpdate, preferredEmail);
+  const newUserHistoryMap = populateUserHistoryMap(existingDataToUpdate, preferredEmail, newSuffix);
   if (newUserHistoryMap && Object.keys(newUserHistoryMap).length > 0) userProfileHistoryArray.push(newUserHistoryMap);
 
   return userProfileHistoryArray;
 };
 
-const populateUserHistoryMap = (existingData, preferredEmail) => {
+const populateUserHistoryMap = (existingData, preferredEmail, newSuffix) => {
   const userHistoryMap = {};
   const keys = [
     cId.fName,
@@ -824,17 +877,21 @@ const populateUserHistoryMap = (existingData, preferredEmail) => {
     existingData[key] != null && (userHistoryMap[key] = existingData[key]);
   });
 
-  if (existingData[cId.cellPhone] != null) {
-    userHistoryMap[cId.canWeVoicemailMobile] = existingData[cId.canWeVoicemailMobile];
-    userHistoryMap[cId.canWeText] = existingData[cId.canWeText];
+  if (existingData[cId.cellPhone]) {
+    userHistoryMap[cId.canWeVoicemailMobile] = existingData[cId.canWeVoicemailMobile] ?? cId.no;
+    userHistoryMap[cId.canWeText] = existingData[cId.canWeText] ?? cId.no;
   }
 
-  if (existingData[cId.homePhone] != null) {
-    userHistoryMap[cId.canWeVoicemailHome] = existingData[cId.canWeVoicemailHome];
+  if (existingData[cId.homePhone]) {
+    userHistoryMap[cId.canWeVoicemailHome] = existingData[cId.canWeVoicemailHome] ?? cId.no;
   }
 
-  if (existingData[cId.otherPhone] != null) {
-    userHistoryMap[cId.canWeVoicemailOther] = existingData[cId.canWeVoicemailOther];
+  if (existingData[cId.otherPhone]) {
+    userHistoryMap[cId.canWeVoicemailOther] = existingData[cId.canWeVoicemailOther] ?? cId.no;
+  }
+
+  if (newSuffix && !existingData[cId.suffix]) {
+    userHistoryMap[cId.suffix] = cId.noneOfTheseApply;
   }
 
   if (Object.keys(userHistoryMap).length > 0) {
@@ -862,7 +919,7 @@ export const unlinkFirebaseAuthenticationTrigger = async (authToUnlink) =>  {
     if (authToUnlink === 'phone') newAuthData['email'] = email;
 
     try {
-      const response = await processUnlinkAuthProviderWithFirebaseAdmin(newAuthData);
+      const response = await processAuthWithFirebaseAdmin(newAuthData);
       hideAnimation();
       return response.code === 200 ? true : response;
     } catch (error) {
@@ -871,4 +928,3 @@ export const unlinkFirebaseAuthenticationTrigger = async (authToUnlink) =>  {
       throw error;
   }
 }
-

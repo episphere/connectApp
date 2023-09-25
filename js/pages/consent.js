@@ -261,7 +261,7 @@ const consentPrivacyPage = () => {
                     <li>Maintain tight security controls. Our information systems, including the MyConnect participant app, are watched closely by security experts.</li>
                     <li>Remove information that can identify you, including your name, date of birth, and social security number (if you shared it), from your survey answers and samples before we share them with researchers. This information is replaced with a unique number (a code) to protect your identity.</li>
                     <li>Limit and keep track of who can access the information and samples you share. Only approved researchers who agree to our privacy rules will be allowed to use study information and samples for valid scientific reasons</li>
-                    <li>Maintain our <a target="_blank" href="https://grants.nih.gov/policy/humansubjects/coc/what-is.htm">Certificate of Confidentiality</a> from the United States government. This will help protect against any legal requests (such as a court order) to give out information that could identify you.</li>                
+                    <li>Maintain our <a target="_blank" href="https://grants.nih.gov/policy/humansubjects/coc.htm">Certificate of Confidentiality</a> from the United States government. This will help protect against any legal requests (such as a court order) to give out information that could identify you.</li>                
                 </ul>   
                 <p class="consentBodyFont2">If you have questions about our privacy safeguards, please <a target="_blank" href="https://norcfedramp.servicenowservices.com/recruit">contact us</a></p>
 
@@ -609,11 +609,12 @@ const consentConsentPage = async () => {
             </div>
             <div class="col-lg-8">
                 <p class="consentHeadersFont">Informed Consent</p>
-                <p class="consentBodyFont1">To join Connect, we need you to review the full informed consent form and electronic health records release (HIPAA Authorization) form below. If you have any questions, contact the Connect Support Center at <a target="_blank" href="https://norcfedramp.servicenowservices.com/recruit">Cancer.gov/connectstudy/support</a> or call 1-866-462-6621. Once you are comfortable with the study and decide to join, please sign the forms electronically by scrolling all the way to the bottom of this screen and clicking, “Yes, I agree to join Connect.” Then, please type your name into the fields that appear and click “Next” to view your signed forms.</p>
+                <p class="consentBodyFont1">To join Connect, we need you to review the full informed consent form and electronic health records release (HIPAA Authorization) form below. If you have any questions, contact the Connect Support Center at <a target="_blank" href="https://norcfedramp.servicenowservices.com/recruit">Cancer.gov/connectstudy/support</a> or call 1-866-462-6621. Once you are comfortable with the study and decide to join, please sign the forms electronically by scrolling all the way to the bottom of this screen and clicking, “Yes, I agree to join Connect.” Then, please type your name into the fields that appear and click “Next” to view and download copies of your signed forms.</p>
             
             <div style="width:80%; margin:auto">
                 <h4 class="consentSubheader" style="margin-top:50px">Informed Consent Form</h4>
-                <p class="consentBodyFont2" style="text-indent:40px">This form explains in detail what it means to take part in Connect.</p>
+                <p class="consentBodyFont2" style="text-indent:40px">This form explains in detail what it means to take part in Connect. You do not need to download and sign this form to join the study. Simply scroll down to the bottom of this screen to electronically consent.</p>
+                <p class="consentBodyFont2" style="text-indent:40px">If you have trouble viewing the consent form in the window at the bottom of this screen, you can download an unsigned copy of the form to review by selecting that option below.</p>
                 <!--
                 <div style="margin-bottom:5px">
                     <button id="prevConsent" class="btn btn-primary">Previous</button>
@@ -629,7 +630,8 @@ const consentConsentPage = async () => {
                 <div class="row"style="margin:auto"><div style="margin:auto"><a href="${'./forms/consent/'  + participantSite + '_Consent_' + versionJSON[participantSite]['Consent'] + '.pdf'}" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf" class="consentBodyFont2" data-file="unsigned-form"> Download an unsigned copy of the informed consent form&nbsp<i class="fas fa-file-download"></i></a></div></div>
                 
                 <h4 class="consentSubheader" style="margin-top:50px">Electronic health records release (HIPAA Authorization) form</h4>
-                <p class="consentBodyFont2" style="text-indent:40px">This allows Connect to access your electronic health records.</p>
+                <p class="consentBodyFont2" style="text-indent:40px">This allows Connect to access your electronic health records. You do not need to download and sign this form to join the study. Simply scroll down to the bottom of this screen to electronically consent.</p>
+                <p class="consentBodyFont2" style="text-indent:40px">If you have trouble viewing the electronic health records release form in the window at the bottom of this screen, you can download an unsigned copy of the form to review by selecting that option below.</p>
                 <!--
                 <div style="margin-bottom:5px">
                     <button id="prevHIPAA" class="btn btn-primary">Previous</button>
@@ -1090,8 +1092,8 @@ const consentSubmit = async e => {
     formData['736251808'] = CSLastName.value.trim();
     formData['480305327'] = CSNameSuffix.value === '' ? undefined : parseInt(CSNameSuffix.value);
     formData['982402227'] = CSDate.split('/')[2]+CSDate.split('/')[0]+CSDate.split('/')[1];
-    formData['query.firstName'] = CSFirstName.value.trim().toLowerCase();
-    formData['query.lastName'] = CSLastName.value.trim().toLowerCase();
+    formData['query.firstName'] = [CSFirstName.value.trim().toLowerCase()];
+    formData['query.lastName'] = [CSLastName.value.trim().toLowerCase()];
     formData['919254129'] = 353358909;
     formData['454445267'] = dateTime();
     formData['262613359'] = dateTime();

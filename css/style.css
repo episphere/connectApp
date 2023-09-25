@@ -194,6 +194,12 @@ a{
     color: rgba(0,0,0,.5) !important;
 }
 
+.nav-item > a.disabled {
+    pointer-events: none;
+    cursor: default;
+    color: grey !important;
+  }
+
 .form-group {
     padding-left: 0px !important;
     margin-bottom:0px !important;
@@ -1088,6 +1094,7 @@ input:checked + .slider:before {
     line-height:27px;
     color: #2E2E2E;
     margin-top:20px;
+
 }
 
 
@@ -1121,22 +1128,23 @@ input:checked + .slider:before {
 }
   
 .tab button {
-    background-color: #f1f1f1;
+    background-color: #ffbf17;
+    opacity: .6;
     cursor: pointer;
     padding: 16px 16px;
     transition: 0.3s;
-    color: #606060;
+    color:#174C70 !important;
+    font-weight: bold;
     font-size: 17px;
     border:none;
 }
   
 .tab button:hover {
-    background-color: #ddd;
+    opacity: 1;
 }
   
 .tab button.active {
-    background-color: #ccc;
-    border: 1px solid #1c5d86;
+    opacity: 1;
 }
 
 .modal-remove-login {
@@ -1310,7 +1318,6 @@ button.connect-secondary {
     list-style-type: disc!important;
 }
 
-
 @media screen and (max-width:700px)
 {
     div.blog-intro-text img {
@@ -1319,5 +1326,13 @@ button.connect-secondary {
         height:200px;
         padding-bottom: 10px;
     }
+}
+
+#bld{
+    color:#000000;
+    font-weight: bold;
+    font-weight:900; 
+    text-decoration:bold; 
+    font-family:Montserrat;
 }
 

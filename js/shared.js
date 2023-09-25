@@ -874,6 +874,7 @@ export const questionnaireModules = () => {
             'Smoking, Alcohol, and Sun Exposure': {path: 'prod/module3.txt', moduleId:"Module3", enabled:false},
             'Where You Live and Work': {path: 'prod/module4.txt', moduleId:"Module4", enabled:false},
             'Enter SSN': {path: 'prod/ssnModule.txt', moduleId:"ModuleSsn", enabled:false},
+            'Covid-19': {path: 'prod/moduleCOVID19.txt', moduleId:"ModuleCovid19", enabled:false},
             'Biospecimen Survey': {path: 'prod/moduleBiospecimen.txt', moduleId:"Biospecimen", enabled:false},
             'Clinical Biospecimen Survey': {path: 'prod/moduleClinicalBloodUrine.txt', moduleId:"ClinicalBiospecimen", enabled:false},
             'Menstrual Cycle': {path: 'prod/moduleMenstrual.txt', moduleId:"MenstrualCycle", enabled:false}
@@ -886,7 +887,7 @@ export const questionnaireModules = () => {
             'Smoking, Alcohol, and Sun Exposure': {path: 'module3Stage.txt', moduleId:"Module3", enabled:false},
             'Where You Live and Work': {path: 'module4Stage.txt', moduleId:"Module4", enabled:false},
             'Enter SSN': {path: 'ssnModule.txt', moduleId:"ModuleSsn", enabled:false},
-            'Covid-19': {path: 'moduleCOVID19Stage.txt', moduleId:"ModuleCovid19", enabled:true},
+            'Covid-19': {path: 'moduleCOVID19Stage.txt', moduleId:"ModuleCovid19", enabled:false},
             'Biospecimen Survey': {path: 'moduleBiospecimenStage.txt', moduleId:"Biospecimen", enabled:false},
             'Clinical Biospecimen Survey': {path: 'moduleClinicalBloodUrineStage.txt', moduleId:"ClinicalBiospecimen", enabled:false},
             'Menstrual Cycle': {path: 'moduleMenstrualStage.txt', moduleId:"MenstrualCycle", enabled:false}
@@ -1249,7 +1250,8 @@ export function openNewTab(url) {
   }
 }
 
-export const processUnlinkAuthProviderWithFirebaseAdmin = async(newAuthData) => {
+export const processAuthWithFirebaseAdmin = async(newAuthData) => {
+
     const authenticationDataPayload = {
         "data": newAuthData
     }
@@ -1268,7 +1270,28 @@ export const processUnlinkAuthProviderWithFirebaseAdmin = async(newAuthData) => 
         
         return await response.json();
     } catch (error) {
-        console.error('An error occurred in processUnlinkAuthProviderWithFirebaseAdmin():', error);
+        console.error('An error occurred in processAuthWithFirebaseAdmin():', error);
         return { message: error.message, status: 'error' };
     }
+};
+
+const isIsoDate = (str) => {
+    if (!/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/.test(str)) return false;
+    const d = new Date(str);
+    return d instanceof Date && !isNaN(d) && d.toISOString() === str; // valid date
+};
+
+export const isParticipantDataDestroyed = (data) => {
+    if (!data) return
+    const millisecondsWait = 5184000000; // 60days
+    const timeDiff = data.hasOwnProperty(fieldMapping.dateRequestedDataDestroy) && isIsoDate(data[fieldMapping.dateRequestedDataDestroy])
+        ? new Date().getTime() -
+          new Date(data[fieldMapping.dateRequestedDataDestroy]).getTime()
+        : 0;
+    return (
+        (data.hasOwnProperty(fieldMapping.dataDestroyCategorical) &&
+            data[fieldMapping.dataDestroyCategorical] ===
+                fieldMapping.requestedDataDestroySigned) ||
+        timeDiff > millisecondsWait
+    );
 };
