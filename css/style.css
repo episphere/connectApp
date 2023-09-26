@@ -1318,22 +1318,23 @@ button.connect-secondary {
     list-style-type: disc!important;
 }
 
-@media screen and (max-width:480x)
+@media screen and (max-width:410px)
 {
     div.blog-intro-text img {
-        float: none;
-        width: 80px;
-        height: 80px;
+        float: none !important;
+        width: 150px;
+        height: 150px;
         padding-bottom: 5px;
+        justify-content: center;
     }
 }
 
-@media(min-width:481px) and (max-width:1024px)
+@media(min-width:410px) and (max-width:700px)
 {
     div.blog-intro-text img {
-        float:none;
-        width:200px;
-        height:200px;
+        float: none !important;
+        width: 250px;
+        height: 250px;
         padding-bottom: 10px;
     }
 }
@@ -1341,8 +1342,8 @@ button.connect-secondary {
 #bld{
     color:#000000;
     font-weight: bold;
-    font-weight:900; 
-    text-decoration:bold; 
-    font-family:Montserrat;
+    font-weight: 900; 
+    text-decoration: bold; 
+    font-family: Montserrat;
 }
 
