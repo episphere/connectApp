@@ -1321,9 +1321,9 @@ button.connect-secondary {
 @media screen and (max-width:480x)
 {
     div.blog-intro-text img {
-        float:none;
-        width:80px;
-        height:80px;
+        float: none;
+        width: 80px;
+        height: 80px;
         padding-bottom: 5px;
     }
 }
