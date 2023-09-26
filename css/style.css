@@ -1324,7 +1324,7 @@ button.connect-secondary {
         float:none;
         width:80px;
         height:80px;
-        padding-bottom: px;
+        padding-bottom: 5px;
     }
 }
 
