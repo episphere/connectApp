@@ -135,13 +135,13 @@ a{
 
 .row {
     padding: 15px;
+    max-width: 100% !important;
 }
 
 .images-col {
     padding-left: 0px !important;
     padding-right: 0px !important;
 }
-
 .join-now-col {
     text-align: center;
     background-color: #aa0201;
@@ -1094,6 +1094,7 @@ input:checked + .slider:before {
     line-height:27px;
     color: #2E2E2E;
     margin-top:20px;
+
 }
 
 
@@ -1312,3 +1313,37 @@ button.connect-secondary {
     border-color: #2a72a5;
     color: #2a72a5;
 }
+
+.list-style { 
+    list-style-type: disc!important;
+}
+
+@media screen and (max-width:410px)
+{
+    div.blog-intro-text img {
+        float: none !important;
+        width: 250px;
+        height: 207px;
+        padding-bottom: 5px;
+        justify-content: center;
+    }
+}
+
+@media(min-width:410px) and (max-width:700px)
+{
+    div.blog-intro-text img {
+        float: none !important;
+        width: 250px;
+        height: 250px;
+        padding-bottom: 10px;
+    }
+}
+
+#bld{
+    color:#000000;
+    font-weight: bold;
+    font-weight: 900; 
+    text-decoration: bold; 
+    font-family: Montserrat;
+}
+
