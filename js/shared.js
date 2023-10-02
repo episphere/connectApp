@@ -327,7 +327,7 @@ export const getParameters = (URL) => {
         array.forEach(value => {
             let split = value.split('=');
 
-            if(!value || split[1].trim() === "") return;
+            if(!value || split[1] === undefined|| split[1].trim() === "") return;
             obj[split[0]] = split[1];
         });
         return obj;
