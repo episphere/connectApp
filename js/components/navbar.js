@@ -1,8 +1,8 @@
 import { urls , isParticipantDataDestroyed } from "../shared.js";
 
-export const userNavBar = (data) => {
-    const disabledClass = isParticipantDataDestroyed(data.data) ? 'disabled': '';
-    const hiddenClass = data.code === 200 && data.data['699625233'] === 353358909 && data.data['919254129'] === 353358909 ? '': 'hidden';
+export const userNavBar = (response) => {
+    const disabledClass = isParticipantDataDestroyed(response.data) ? 'disabled': '';
+    const hiddenClass = response.code === 200 && response.data['699625233'] === 353358909 && response.data['919254129'] === 353358909 ? '': 'hidden';
 
     let template = `
         
