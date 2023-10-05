@@ -325,8 +325,10 @@ export const getParameters = (URL) => {
         const array = query.split('&');
         let obj = {};
         array.forEach(value => {
-            if(value.split('=')[1].trim() === "") return;
-            obj[value.split('=')[0]] = value.split('=')[1];
+            let split = value.split('=');
+
+            if(!value || split[1] === undefined|| split[1].trim() === "") return;
+            obj[split[0]] = split[1];
         });
         return obj;
     }

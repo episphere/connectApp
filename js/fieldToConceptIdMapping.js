@@ -48,6 +48,7 @@ export default
     "noneOfTheseApply": 398561594,
     firstSignInTime: 335767902,
     pinNumber: 379080287,
+    menstrualSurveyEligible: 289750687,
 
     "heardAboutStudyForm" : 142654897,
 
