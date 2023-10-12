@@ -118,6 +118,8 @@ const completeSurvey = async (data, moduleId) => {
     if(data["COMPLETED_TS"]) formData[fieldMapping[moduleName].completeTs] = data["COMPLETED_TS"];
 
     await storeResponse(formData);
+
+    location.reload();
 }
 
 export const storeResponse = async (formData) => {
