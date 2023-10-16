@@ -459,19 +459,45 @@ const u_chicago = {
     concept: '809703864',
     name: 'UChicago Medicine',
     donatingSamples: 'As part of  Connect, we ask you to donate blood, urine, and saliva samples and complete a short survey.',
-    whenToDonate: 'The Connect team will send you an email when it is time to donate your samples. Be sure to check your spam or junk folder. After you receive the email, it is important to donate your samples as soon as you can. It is easy to donate all of your samples in one visit.<br><br><span style="font-weight:900; text-decoration:underline">Note:</span> If you have recently had a blood transfusion or donated blood please wait at least <span style="font-weight:900; text-decoration:underline">eight weeks</span> from your transfusion or donation before donating your samples for Connect. If you have recently donated plasma, please wait at least <span style="font-weight:900; text-decoration:underline">two days</span> from your plasma donation before donating samples for Connect. If you have an upcoming colonoscopy, please be sure that you <span style="font-weight:900; text-decoration:underline">do not</span> donate samples for Connect on the <span style="font-weight:900; text-decoration:underline">same day</span> as your colonoscopy.',
+    whenToDonate: 'The Connect team will send you an email when it is time to donate your samples. Be sure to check your spam or junk folder. After you receive the email, it is important to donate your samples as soon as you can. It is easy to donate all of your samples in one visit.<br><br><span id="bld">Note:</span> If you have recently had a blood transfusion or donated blood please wait at least <span id="bld">eight weeks</span> from your transfusion or donation before donating your samples for Connect. If you have recently donated plasma, please wait at least <span id="bld">two days</span> from your plasma donation before donating samples for Connect. If you have an upcoming colonoscopy, please be sure that you <span id="bld">do not</span> donate samples for Connect on the <span id="bld">same day</span> as your colonoscopy.',
     howToDonate: 'The email we send you will contain a link to schedule an appointment. Simply click the link to schedule a time that is convenient for you to donate your samples. You can also call UChicago at (773) 834-5804  or walk into a clinic location below without scheduling an appointment. Please note that the wait time for a walk-in sample donation may be longer than for a scheduled appointment.',
     howLong: 'If you complete your first Connect survey before your appointment, please expect to spend about 45 minutes at your appointment to donate your samples and complete a short survey',
-    prepareInstructions: '<em>All patients and visitors are required to wear a mask per UChicago Medicine mask policy. If you enter the building without a mask, we will give one to you. If you are unable to wear a mask for the duration of the visit, we ask that you do not schedule your visit at this time.</em><br><br>Hand sanitizer will be available for your use, and staff will check your temperature when you arrive. All patients and visitors are required to practice social distancing while in our clinics and hospitals.<br><br>On the day of your appointment, you do not need to fast. We request you to drink plenty of water to keep hydrated, but <span style="font-weight:900; text-decoration:underline">stop drinking water one hour before your appointment.</span><br><br><span style="font-weight:900; text-decoration:underline">One hour before your appointment:</span> Please <span style="font-weight:900; text-decoration:underline">do not</span> eat, drink any liquids (including water), chew gum, smoke, vape, or chew any products (including tobacco), rinse your mouth, or brush your teeth.<br><br><span style="font-weight:900; text-decoration:underline">Things to bring and remember:</span><br><br><ul><li>Please remember to bring a valid photo ID that is not expired (driver\'s license, passport, Chicago CityKey, school photo ID, or other photo ID)</li><li>Make sure you know your login information for the MyConnect app</li><li>We will ask you to complete a short survey when you donate your samples. It may be helpful to have this information on hand:<ul><li>The last time you ate or drank before your appointment, and the times you went to sleep the night before your appointment and woke up on the day of your appointment.</li><li>If you are menstruating, the start date of your most recent menstrual period in the last 12 months.</li></ul></li></ul>',
-    whatHappens: 'The research team will check you in for your appointment and then collect your samples. At the end of your visit, the research team will check you out of your appointment.<br><br>We will draw a blood sample, collect a urine sample, and collect a saliva sample by asking you to swish with mouthwash.<br><br>We will also ask you to complete a short survey on the MyConnect app using your mobile phone. You will need your MyConnect app login information to complete the survey. If you do not have a mobile phone, we will provide you with a tablet to complete your survey. We strongly encourage you to complete your survey at your appointment. If you choose to complete it after you leave your appointment, it is important to do so as soon as possible.<br><br><span style="text-decoration: underline;">To save time at your appointment, please also complete your first Connect survey on the MyConnect app before donating samples.</span> If you are not able to complete the survey before your appointment, we will ask you to complete the survey during your appointment.',
+    prepareInstructions: '<em>All patients and visitors are required to wear a mask per UChicago Medicine mask policy. If you enter the building without a mask, we will give one to you. If you are unable to wear a mask for the duration of the visit, we ask that you do not schedule your visit at this time.</em><br><br>Hand sanitizer will be available for your use, and staff will check your temperature when you arrive. All patients and visitors are required to practice social distancing while in our clinics and hospitals.<br><br>On the day of your appointment, you do not need to fast. We request you to drink plenty of water to keep hydrated, but <span id="bld">stop drinking water one hour before your appointment.</span><br><br><span id="bld">One hour before your appointment:</span> Please <span id="bld">do not</span> eat, drink any liquids (including water), chew gum, smoke, vape, or chew any products (including tobacco), rinse your mouth, or brush your teeth.<br><br><span id="bld">Things to bring and remember:</span><br><br><ul><li>Please remember to bring a valid photo ID that is not expired (driver\'s license, passport, Chicago CityKey, school photo ID, or other photo ID)</li><li>Make sure you know your login information for the MyConnect app</li><li>We will ask you to complete a short survey when you donate your samples. It may be helpful to have this information on hand:<ul><li>The last time you ate or drank before your appointment, and the times you went to sleep the night before your appointment and woke up on the day of your appointment.</li><li>If you are menstruating, the start date of your most recent menstrual period in the last 12 months.</li></ul></li></ul>',
+    whatHappens: 'The research team will check you in for your appointment and then collect your samples. At the end of your visit, the research team will check you out of your appointment.<br><br>We will draw a blood sample, collect a urine sample, and collect a saliva sample by asking you to swish with mouthwash.<br><br>We will also ask you to complete a short survey on the MyConnect app using your mobile phone. You will need your MyConnect app login information to complete the survey. If you do not have a mobile phone, we will provide you with a tablet to complete your survey. We strongly encourage you to complete your survey at your appointment. If you choose to complete it after you leave your appointment, it is important to do so as soon as possible.<br><br><span id="uln">To save time at your appointment, please also complete your first Connect survey on the MyConnect app before donating samples.</span> If you are not able to complete the survey before your appointment, we will ask you to complete the survey during your appointment.',
     support: 'Call 1-877-505-0253 (8:00 a.m.-10:00 p.m. CT on weekdays and 9:00 a.m.-6:00 p.m. CT on weekends)',
-    locations: [
+    locationNotes: '<p>UChicago currently offers four locations in Chicagoland. For questions and scheduling please call 773-834-5804 or email connect@bsd.uchicago.edu.</p>',
+    locations: 
+    [
         [
-            '<p>UChicago currently offers four locations in Chicagoland. For questions and scheduling please call 773-834-5804 or email connect@bsd.uchicago.edu.</p>',
-            '<span style="text-decoration: underline;">University of Chicago, Duchossois Center for Advanced Medicine (DCAM) in Hyde Park <br></span><p>Address and Directions<br></br>University of Chicago Medicine <br>Duchossois Center for Advanced Medicine (DCAM) #2101 </br>5758 S. Maryland Avenue <br>Chicago, IL 60637</br><br>After entering the DCAM building from the main entrance, look for us at the top of the stairs on the 2nd floor.</br></p>',
-            'Monday - Friday 8:00 a.m.-3:00 p.m.<br><br>',
-            'The University of Chicago Medicine offers valet and self-parking. We will validate your parking pass. Please show your self-parking ticket to research staff.<p><br><b><span style="text-decoration: underline;"class="messagesHeaderFont">UChicago Ingalls Memorial Hospital in Harvey, IL</span> <br><span class="messagesHeaderFont">Address</span></b> <br>Ingalls Outpatient Center, Suite #212</br>71 W. 156th St.<br>Harvey, IL 60426</br> <br><b><span class="messagesHeaderFont">Hours</span></b> </br>Monday - Friday 8:00 a.m.-3:00 p.m.<br><br><b><span class="messagesHeaderFont">Parking Instructions</span></b><br>Ingalls Memorial Hospital offers free valet and self-parking. <br><br><b><span style="text-decoration: underline;"span class="messagesHeaderFont"> UChicago Medicine – South Loop, in Downtown Chicago</span> <br><span class="messagesHeaderFont">Address</span></b></br> Southgate Market P1 <br>1101 S Canal St </br> Chicago, IL 60607 <br><br><b><span class="messagesHeaderFont">Hours</span></b> </br>Tuesday – Wednesday 8:00 a.m.- 3:00 p.m. <br><br><b><span class="messagesHeaderFont">Parking Instructions</span></b> </br>The clinic is located on the P1 level next to the DSW. Entrances are located off of Canal St right beside the Panera Bread and on the P1 level of the parking garage. We will validate your parking pass from the parking garage. Please show your self-parking ticket to research staff. We are unable to validate street parking. <br><br><b><span style="text-decoration: underline;"span class="messagesHeaderFont">UChicago Medicine – River East, in Downtown Chicago</span> <br><span class="messagesHeaderFont">Address</b></span></br>Located in Lucky Strike Downtown Chicago<br> 355 E. Grand Ave </br>Chicago, IL 60611 <br><br><b><span class="messagesHeaderFont">Hours</b></span></br> Mondays 8:00 a.m.-3:00 p.m. <br><br><b><span class="messagesHeaderFont">Parking Instructions</b></span></br> From Lake Shore Drive: Exit at Grand Ave. and proceed west towards McClurg Ct.  An entrance to the parking garage is located past that intersection on your left at 321 E. Grand. From the West: Take Illinois St. east towards Columbus Dr. An entrance to the parking garage is located past that intersection on your left at 300 E. Illinois. <br><br>Once inside the parking garage, follow the signs to LL3 (Fall) for designated UChicago Medicine patient parking.  We will validate your parking pass from the parking garage. Please show your self-parking ticket to research staff. We are unable to validate street parking.</p>',
-        ]
+            '<span id="uln">UChicago, Duchossois Center for Advanced Medicine (DCAM) in Hyde Park</span>',
+            'University of Chicago Medicine <br>Duchossois Center for Advanced Medicine (DCAM) #2101 </br>5758 S. Maryland Avenue <br>Chicago, IL 60637</br><br>After entering the DCAM building from the main entrance, look for us at the top of the stairs on the 2nd floor.</br></p>',
+            '',
+            'The University of Chicago Medicine offers valet and self-parking. We will validate your parking pass. Please show your self-parking ticket to research staff.',
+        ],
+        [
+            '<span id="uln">UChicago Ingalls Memorial Hospital in Harvey, IL</span>',
+            'Ingalls Outpatient Center, Suite #212</br>71 W. 156th St.<br>Harvey, IL 60426</br>',
+            '',
+            'Ingalls Memorial Hospital offers free valet and self-parking.',
+        ],
+        [
+            '<span id="uln">UChicago Medicine – South Loop, in Downtown Chicago</span>',
+            'Southgate Market P1 <br>1101 S Canal St </br> Chicago, IL 60607',
+            '',
+            'The clinic is located on the P1 level next to the DSW. Entrances are located off of Canal St right beside the Panera Bread and on the P1 level of the parking garage. We will validate your parking pass from the parking garage. Please show your self-parking ticket to research staff. We are unable to validate street parking.',
+        ],
+        [
+            '<span id="uln">UChicago Medicine – River East, in Downtown Chicago</span>',
+            'Located in Lucky Strike Downtown Chicago <br>355 E. Grand Ave <br>Chicago, IL 60611',
+            '',
+            'From Lake Shore Drive: Exit at Grand Ave. and proceed west towards McClurg Ct.  An entrance to the parking garage is located past that intersection on your left at 321 E. Grand.<br><br>From the West: Take Illinois St. east towards Columbus Dr. An entrance to the parking garage is located past that intersection on your left at 300 E. Illinois.<br><br>Once inside the parking garage, follow the signs to LL3 (Fall) for designated UChicago Medicine patient parking.  We will validate your parking pass from the parking garage. Please show your self-parking ticket to research staff. We are unable to validate street parking.',
+        ],
+        [
+            '<span id="uln">UChicago Medicine Orland Park in Orland Park, IL</span>',
+            '9661 W 143rd St<br>Orland Park, IL 60462',
+            '',
+            'The clinic building is located across the street from the UChicago Medicine Orland Park building on the southwest corner of 143rd St and S Ravinia Ave. This location offers free parking in front of the building. Once parked, the suite location is through the front doors and the last door on the left down the lefthand hallway.',
+        ],
     ]
 };
 
@@ -588,11 +614,22 @@ const renderLocations = (site) => {
                         </div>
                     </div>
                 </div>`
-            } else {
+            } else if(site==u_chicago && !location[1]){
                 template += `<div class="row" style="width:100%">
                 <div style="width:100%">
                     <div class="messagesHeaderFont">
-                        Address and Directions
+                    </div>
+                    <div class="messagesBodyFont">
+                        ${location[1]}
+                    </div>
+                </div>
+            </div>`
+            }
+            else{
+                template += `<div class="row" style="width:100%">
+                <div style="width:100%">
+                    <div class="messagesHeaderFont">
+                    Address and Directions
                     </div>
                     <div class="messagesBodyFont">
                         ${location[1]}
