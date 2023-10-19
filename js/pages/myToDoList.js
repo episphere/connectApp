@@ -17,9 +17,7 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
     if(data['827220437'] && data['142654897']){
         localStorage.eligibilityQuestionnaire = JSON.stringify({'827220437': data['827220437']})
         if(data['919254129'] === 353358909){
-            //In the future, we will want to just have active recruits passing this check
-            //data['512820379'] && data['512820379'] === 854703046 becomes
-            //data['512820379'] && data['512820379'] !== 486306141
+
             if(data['699625233'] && data['699625233'] === 353358909 && data['512820379'] && data['512820379'] === 854703046 && data['821247024'] && (data['821247024'] == 875007964)/*data['948195369'] && data['948195369'] !== 353358909*//*data['512820379'] && data['512820379'] !== 486306141 && data['821247024'] && data['821247024'] !== 197316935*/){
                 blockParticipant();
                 hideAnimation();
@@ -106,8 +104,6 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                           }
                     }
                     else{
-                        //first seen
-                        //update verifiedSeen to be false
                         topMessage += `
                             Great news! We have confirmed that you are eligible for the Connect for Cancer Prevention Study. You are now an official Connect participant.
                             <br>
@@ -375,6 +371,10 @@ const renderMainBody = (data, collections, tab) => {
             const index = toDisplaySystem.length - 1;
             toDisplaySystem[index].body.push("Covid-19");
         }
+    }
+    
+    if(modules['Mouthwash'].enabled) {
+        toDisplaySystem.unshift({'body':['Mouthwash']})
     }
     
     if(tab === 'todo'){
@@ -718,6 +718,10 @@ const setModuleAttributes = (data, modules, collections) => {
     modules['Menstrual Cycle'].description = 'Questions about the date of your first menstrual period after you donated samples for Connect. ';
     modules['Menstrual Cycle'].estimatedTime = '5 minutes';
 
+    modules['Mouthwash'].header = 'Home Mouthwash Survey';
+    modules['Mouthwash'].description = 'Demo Mouthwash Survey.';
+    modules['Mouthwash'].estimatedTime = '5 minutes';
+
     if(data['331584571']?.['266600170']?.['840048338']) {
         modules['Biospecimen Survey'].enabled = true;
         modules['Covid-19'].enabled = true;
@@ -748,6 +752,8 @@ const setModuleAttributes = (data, modules, collections) => {
             }
         }
     }
+
+    modules['Mouthwash'].enabled = true;
     
     if (data[fieldMapping.Module1.statusFlag] === fieldMapping.moduleStatus.submitted) { 
         modules['Background and Overall Health'].completed = true;
@@ -791,6 +797,10 @@ const setModuleAttributes = (data, modules, collections) => {
 
     if (data[fieldMapping.ClinicalBiospecimen.statusFlag] === fieldMapping.moduleStatus.submitted) { 
         modules['Clinical Biospecimen Survey'].completed = true;
+    };
+
+    if (data[fieldMapping.Mouthwash.statusFlag] === fieldMapping.moduleStatus.submitted) { 
+        modules['Mouthwash'].completed = true;
     };
 
     return modules;
