@@ -91,7 +91,8 @@ export default
         "D_299215535":      "Biospecimen",
         "D_912367929":      "MenstrualCycle",
         "D_826163434":      "ClinicalBiospecimen",
-        "D_793330426":      "ModuleCovid19"
+        "D_793330426":      "ModuleCovid19",
+        "D_390351864":      "Mouthwash"
     },
 
     "Module1_OLD": {
@@ -189,6 +190,15 @@ export default
         "statusFlag":       "253883960", 
         "standaloneSurvey": true,
         "version":          "220355297"
+    },
+
+    "Mouthwash": {
+        "conceptId":        "D_390351864",
+        "startTs":          "286191859", 
+        "completeTs":       "195145666",  
+        "statusFlag":       "547363263", 
+        "standaloneSurvey": true,
+        "version":          "777777778"
     }
 }
 
