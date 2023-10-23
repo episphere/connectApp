@@ -614,7 +614,7 @@ const renderLocations = (site) => {
                         </div>
                     </div>
                 </div>`
-            } else if(site==u_chicago && !location[1]){
+            } else if (site === u_chicago && !location[1]){
                 template += `<div class="row" style="width:100%">
                 <div style="width:100%">
                     <div class="messagesHeaderFont">
