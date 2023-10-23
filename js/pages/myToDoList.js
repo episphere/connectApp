@@ -718,8 +718,8 @@ const setModuleAttributes = (data, modules, collections) => {
     modules['Menstrual Cycle'].description = 'Questions about the date of your first menstrual period after you donated samples for Connect. ';
     modules['Menstrual Cycle'].estimatedTime = '5 minutes';
 
-    modules['Mouthwash'].header = 'Home Mouthwash Survey';
-    modules['Mouthwash'].description = 'Demo Mouthwash Survey.';
+    modules['Mouthwash'].header = 'At-Home Mouthwash Sample Survey';
+    modules['Mouthwash'].description = 'Questions about your oral health and hygiene practices.';
     modules['Mouthwash'].estimatedTime = '5 minutes';
 
     if(data['331584571']?.['266600170']?.['840048338']) {
