@@ -624,8 +624,7 @@ const renderLocations = (site) => {
                     </div>
                 </div>
             </div>`
-            }
-            else{
+            } else {
                 template += `<div class="row" style="width:100%">
                 <div style="width:100%">
                     <div class="messagesHeaderFont">
