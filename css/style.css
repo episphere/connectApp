@@ -1339,7 +1339,7 @@ button.connect-secondary {
     }
 }
 
-#bld{
+.site-info-bold{
     color:#000000;
     font-weight: bold;
     font-weight: 900; 
@@ -1347,6 +1347,6 @@ button.connect-secondary {
     font-family: Montserrat;
 }
 
-#uln{
+.site-info-underline{
     text-decoration: underline ;
 }
