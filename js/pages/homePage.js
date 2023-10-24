@@ -1,4 +1,4 @@
-import { getMyData, hasUserData, renderSyndicate, urls, fragment, checkAccount, validEmailFormat, validPhoneNumberFormat, appState, getCleanSearchString, elementIsLoaded } from "../shared.js";
+import { getMyData, hasUserData, renderSyndicate, urls, fragment, checkAccount, appState, getCleanSearchString, elementIsLoaded } from "../shared.js";
 import { signInConfig, signInConfigDev } from "./signIn.js";
 import { environmentWarningModal, downtimeWarning } from "../event.js";
 
