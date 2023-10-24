@@ -494,9 +494,9 @@ const u_chicago = {
         ],
         [
             '<span class="site-info-underline">UChicago Medicine Orland Park in Orland Park, IL</span>',
-            '9661 W 143rd St<br>Orland Park, IL 60462',
+            '9661 W 143<sup>rd</sup> St<br>Orland Park, IL 60462',
             '',
-            'The clinic building is located across the street from the UChicago Medicine Orland Park building on the southwest corner of 143rd St and S Ravinia Ave. This location offers free parking in front of the building. Once parked, the suite location is through the front doors and the last door on the left down the lefthand hallway.',
+            'The clinic building is located across the street from the UChicago Medicine Orland Park building on the southwest corner of 143<sup>rd</sup> St and S Ravinia Ave. This location offers free parking in front of the building. Once parked, the suite location is through the front doors and the last door on the left down the lefthand hallway.',
         ],
     ]
 };
