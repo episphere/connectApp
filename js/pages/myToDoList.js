@@ -752,8 +752,6 @@ const setModuleAttributes = (data, modules, collections) => {
             }
         }
     }
-
-    modules['Mouthwash'].enabled = true;
     
     if (data[fieldMapping.Module1.statusFlag] === fieldMapping.moduleStatus.submitted) { 
         modules['Background and Overall Health'].completed = true;
