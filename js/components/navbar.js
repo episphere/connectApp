@@ -1,7 +1,8 @@
 import { urls , isParticipantDataDestroyed } from "../shared.js";
 
-export const userNavBar = (data) => {
-    const disabledClass = isParticipantDataDestroyed(data.data) ? 'disabled': '';
+export const userNavBar = (response) => {
+    const disabledClass = isParticipantDataDestroyed(response.data) ? 'disabled': '';
+    const hiddenClass = response.code === 200 && response.data['699625233'] === 353358909 && response.data['919254129'] === 353358909 ? '': 'hidden';
 
     let template = `
         
@@ -33,22 +34,11 @@ export const userNavBar = (data) => {
                 <a class="nav-link ${disabledClass}" href="#payment" id="connectPayment"> My Payment</a>
             </li>
         </div>
-
-    `;
-
-    data.code === 200 && data.data['699625233'] === 353358909 && data.data['919254129'] === 353358909 ? 
-
-        template += `
-        
         <div class="navbar-nav transparent-border">
             <li class="nav-item">
-                <a class="nav-link ${disabledClass}" href="#samples" id="connectSamples"> My Samples</a>
+                <a class="nav-link ${disabledClass}" ${hiddenClass} href="#samples" id="connectSamples"> My Samples</a>
             </li>
         </div>
-
-    `: ``;
-        
-    template += `
         <div class="navbar-nav transparent-border">
             <li class="nav-item">
                 <a class="nav-link ${disabledClass}" href="#support" id="connectSupport"> Support</a>
