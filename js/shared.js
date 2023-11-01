@@ -119,7 +119,7 @@ const completeSurvey = async (data, moduleId) => {
 
     await storeResponse(formData);
 
-    location.reload();
+    // location.reload(); commenting out temporarily 
 }
 
 export const storeResponse = async (formData) => {
