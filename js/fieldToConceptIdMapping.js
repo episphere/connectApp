@@ -199,7 +199,20 @@ export default
         "statusFlag":       "547363263", 
         "standaloneSurvey": true,
         "version":          "850585325"
+    },
+
+    collectionDetails: 173836415,
+    baseline: 266600170,
+    kitType: 379252329,
+    kitTypeValues: {
+        mouthwash: 390351864
+    },
+    kitStatus: 221592017,
+    kitStatusValues: {
+        pending: 517216441,
+        addressPrinted: 849527480,
+        assigned: 241974920,
+        shipped: 277438316,
+        recieved: 375535639
     }
-}
-
-
+};
