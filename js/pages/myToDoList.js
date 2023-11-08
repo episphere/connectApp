@@ -775,11 +775,11 @@ const setModuleAttributes = (data, modules, collections) => {
         modules['Clinical Biospecimen Survey'].completed = true;
     }
 
-    const baselineData = data[fieldMapping.collectionDetails]?.[fieldMapping.baseline];
+    const mouthwashData = data[fieldMapping.collectionDetails]?.[fieldMapping.baseline]?.[fieldMapping.bioKitMouthwash];
     if (
-      baselineData?.[fieldMapping.kitType] === fieldMapping.kitTypeValues.mouthwash &&
-      (baselineData?.[fieldMapping.kitStatus] === fieldMapping.kitStatusValues.shipped ||
-        baselineData?.[fieldMapping.kitStatus] === fieldMapping.kitStatusValues.recieved)
+      mouthwashData?.[fieldMapping.kitType] === fieldMapping.kitTypeValues.mouthwash &&
+      (mouthwashData?.[fieldMapping.kitStatus] === fieldMapping.kitStatusValues.shipped ||
+        mouthwashData?.[fieldMapping.kitStatus] === fieldMapping.kitStatusValues.recieved)
     ) {
       modules.Mouthwash.enabled = true;
     }
