@@ -1,6 +1,7 @@
-import { allStates, showAnimation, hideAnimation, getMyData, hasUserData } from '../shared.js';
+import { allStates, showAnimation, hideAnimation, getMyData, hasUserData, urls, firebaseSignInRender, validEmailFormat, validPhoneNumberFormat, signInAnonymously, checkAccount } from '../shared.js';
 import { attachTabEventListeners, addOrUpdateAuthenticationMethod, changeContactInformation, changeMailingAddress, changeName, formatFirebaseAuthPhoneNumber, FormTypes, getCheckedRadioButtonValue, handleContactInformationRadioButtonPresets, handleOptionalFieldVisibility, hideOptionalElementsOnShowForm, hideSuccessMessage, openUpdateLoginForm, showAndPushElementToArrayIfExists, showEditButtonsOnUserVerified, suffixList, suffixToTextMap, toggleElementVisibility, togglePendingVerificationMessage, unlinkFirebaseAuthProvider, updatePhoneNumberInputFocus, validateContactInformation, validateLoginEmail, validateLoginPhone, validateMailingAddress, validateName } from '../settingsHelpers.js';
 import { addEventAddressAutoComplete } from '../event.js';
+import { signInConfig, signInConfigDev } from "./signIn.js";
 import cId from '../fieldToConceptIdMapping.js';
 
 const nameElementArray = [];
@@ -142,6 +143,7 @@ export const renderSettingsPage = async () => {
                         ${renderSignInInformationHeadingAndButton()}
                         ${renderSignInInformationData()}
                         ${renderChangeSignInInformationGroup()}
+                        ${renderReauthModal()}
                     </div>
                 </div>    
                 <div class="col-lg-3">
@@ -172,6 +174,17 @@ export const renderSettingsPage = async () => {
       handleEditSignInInformationSection();
       attachTabEventListeners();
       attachLoginEditFormButtons();
+    }
+
+    if (localStorage.getItem('signInUpdate') === 'yes') {
+        localStorage.removeItem('signInUpdate');
+        formVisBools.isLoginFormDisplayed = toggleElementVisibility(loginElementArray, formVisBools.isLoginFormDisplayed);
+        if (formVisBools.isLoginFormDisplayed) {
+          hideOptionalElementsOnShowForm([optRowEles.loginEmailRow, optRowEles.loginPhoneRow]);
+          toggleActiveForm(FormTypes.LOGIN);
+          openUpdateLoginForm({ currentTarget: document.getElementsByClassName('tablinks')[0] }, 'form1');
+        }
+        toggleButtonText();
     }
   }
 };
@@ -428,15 +441,62 @@ const loadSignInInformationElements = () => {
 };
 
 const handleEditSignInInformationSection = () => {
-  btnObj.changeLoginButton.addEventListener('click', () => {
+  btnObj.changeLoginButton.addEventListener('click', async () => {
+    
     successMessageElement = hideSuccessMessage(successMessageElement);
-    formVisBools.isLoginFormDisplayed = toggleElementVisibility(loginElementArray, formVisBools.isLoginFormDisplayed);
-    if (formVisBools.isLoginFormDisplayed) {
-      hideOptionalElementsOnShowForm([optRowEles.loginEmailRow, optRowEles.loginPhoneRow]);
-      toggleActiveForm(FormTypes.LOGIN);
-      openUpdateLoginForm({ currentTarget: document.getElementsByClassName('tablinks')[0] }, 'form1');
-    }
-    toggleButtonText();
+    const reauthModal = document.getElementById('reauthModal');
+
+    const signInBtn = reauthModal.querySelector('#signInBtn');
+    const accountInput = reauthModal.querySelector('#accountInput');
+
+    let usGov = '';
+
+    signInBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        window.localStorage.setItem('signInUpdate', 'yes');
+        const inputStr = accountInput.value.trim();
+        const isEmail = !!inputStr.match(validEmailFormat);
+        const isPhone = !!inputStr.match(validPhoneNumberFormat);
+    
+        const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
+        if (isEmail) {
+        //   await signInAnonymously();
+          const emailForQuery = inputStr
+            .replaceAll('%', '%25')
+            .replaceAll('#', '%23')
+            .replaceAll('&', '%26')
+            .replaceAll(`'`, '%27')
+            .replaceAll('+', '%2B');
+    
+          const response = await checkAccount({
+            accountType: 'email',
+            accountValue: emailForQuery,
+          });
+    
+          if (response?.data?.accountExists) {
+            const account = { type: 'email', value: inputStr };
+            firebaseSignInRender({ ui, account, usGov, signInConfig, signInConfigDev });
+          } else {
+            alert('Account Not Found');
+          }
+        } else if (isPhone) {
+        //   await signInAnonymously();
+          const phoneNumberStr = inputStr.match(/\d+/g).join('').slice(-10);
+          const response = await checkAccount({ accountType: 'phone', accountValue: phoneNumberStr });
+    
+          if (response?.data?.accountExists) {
+            const account = { type: 'phone', value: phoneNumberStr };
+            firebaseSignInRender({ ui, account, usGov, signInConfig, signInConfigDev });
+          } else {
+            alert('Account Not Found');
+          }
+        } else {
+          addWarning();
+        }
+      });
+
+      reauthModal.classList.add('show');
+      reauthModal.style.display = 'block';
   });
 
   document.getElementById('changeEmailSubmit').addEventListener('click', e => {
@@ -1379,6 +1439,61 @@ export const renderChangeSignInInformationGroup = () => {
           </div>
       `;
     };
+
+    /**
+     * Renders the reauth modal
+     * 
+     * @param string usGov Governement warning string
+     * @returns string
+     */
+const renderReauthModal = (usGov) => {
+    usGov = usGov || '';
+    return  `
+    <div class="modal fade" id="reauthModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Sign In Verification</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>In order to protect your account it is necessary to verify your identity by signing in.</p>
+                    <div class="signInWrapper" id="signInWrapperDiv">
+                        <p class="loginTitleFont" style="text-align:center;">Sign In</p>
+                        <div id="signInDiv">
+                            <div class="mx-4">
+                                <form ">
+                                    <label for=" accountInput" class="form-label">
+                                    Email or Phone<br />
+                                    <span style="font-size: 0.8rem; color:gray">Phone Format: 123-456-7890</span>
+                                    </label>
+                                    <input type="text" id="accountInput" />
+                                    <div class="alert alert-warning mt-1" id="invalidInputAlert" role="alert"
+                                        style="display:none">
+                                        Please enter a valid email or phone number
+                                    </div>
+                                    <button type="submit" class="connect connect-primary my-3" style="width:100%"
+                                        id="signInBtn">
+                                        Continue
+                                    </button>
+                                </form>
+                                <div style="font-size:8px" class="mt-3">
+                                    ${usGov}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="reauthClose" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    `;
+}
 
 const renderTabbedForm = () => {
     return `

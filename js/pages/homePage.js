@@ -1,4 +1,4 @@
-import { getMyData, hasUserData, renderSyndicate, urls, fragment, checkAccount, validEmailFormat, validPhoneNumberFormat, appState, getCleanSearchString, elementIsLoaded } from "../shared.js";
+import { getMyData, hasUserData, renderSyndicate, urls, fragment, checkAccount, validEmailFormat, validPhoneNumberFormat, appState, getCleanSearchString, firebaseSignInRender, signInAnonymously } from "../shared.js";
 import { signInConfig, signInConfigDev } from "./signIn.js";
 import { environmentWarningModal, downtimeWarning } from "../event.js";
 
@@ -108,7 +108,7 @@ export const homePage = async () => {
         location.search = cleanSearchStr; // Page reload with clean url
       }
       
-        firebaseSignInRender({ui, account:{type:'magicLink', value:''}});
+        firebaseSignInRender({ui, account:{type:'magicLink', value:''}, usGov, signInConfig, signInConfigDev});
     } else {
         // todo: handle participant tokens
         signInSignUpEntryRender({ui});
@@ -601,7 +601,7 @@ export async function signInCheckRender ({ ui }) {
 
       if (response?.data?.accountExists) {
         const account = { type: 'email', value: inputStr };
-        firebaseSignInRender({ ui, account });
+        firebaseSignInRender({ ui, account, usGov, signInConfig, signInConfigDev });
       } else {
         const account = { type: 'email', value: inputStr };
         accountNotFoundRender({ ui, account });
@@ -613,7 +613,7 @@ export async function signInCheckRender ({ ui }) {
 
       if (response?.data?.accountExists) {
         const account = { type: 'phone', value: phoneNumberStr };
-        firebaseSignInRender({ ui, account });
+        firebaseSignInRender({ ui, account, usGov, signInConfig, signInConfigDev });
       } else {
         const account = { type: 'phone number', value: inputStr };
         accountNotFoundRender({ ui, account });
@@ -641,74 +641,6 @@ export async function signInCheckRender ({ ui }) {
     accountInput.style.border = '2px solid red';
   }
 };
-
-export async function firebaseSignInRender({ ui, account = {} }) {
-  const df = fragment`
-  <div class="mx-4">
-    <p class="loginTitleFont" style="text-align:center;">Sign In</p>
-    <div id="signInDiv"></div>
-    <div style="font-size:8px" class="mt-3">
-    ${usGov}
-    </div>
-  </div>`;
-
-  document.getElementById('signInWrapperDiv').replaceChildren(df);
-
-  if (location.host === urls.prod || location.host === urls.stage) {
-    ui.start('#signInDiv', signInConfig());
-  } else {
-    ui.start('#signInDiv', signInConfigDev());
-  }
-
-  const {signInEmail, signInTime} = JSON.parse(window.localStorage.getItem('connectSignIn') || '{}');
-  const timeLimit = 1000 * 60 * 60 ; // 1 hour time limit
-
-  if (account.type === 'magicLink' && signInEmail  && Date.now() - signInTime < timeLimit) {
-    await elementIsLoaded('div[class~="firebaseui-id-page-email-link-sign-in-confirmation"]', 1500);
-    const emailInput =  document.querySelector('input[class~="firebaseui-id-email"]');
-
-    if (emailInput !== null) {
-      emailInput.value = signInEmail;
-      document.querySelector('button[class~="firebaseui-id-submit"]').click();
-      window.localStorage.removeItem('connectSignIn');
-    } 
-
-    return;
-  }
-
-  if (account.type === 'email') {
-    document.querySelector('button[data-provider-id="password"]').click();
-    document.querySelector('input[class~="firebaseui-id-email"]').value = account.value;
-    document.querySelector('label[class~="firebaseui-label"]').remove();
-
-    // Handle 'Cancel' button click
-    document
-      .querySelector('button[class~="firebaseui-id-secondary-link"]')
-      .addEventListener('click', (e) => {
-        signInCheckRender({ ui });
-      });
-
-    // Handle 'Next' button click
-    document
-      .querySelector('button[class~="firebaseui-id-submit"]')
-      .addEventListener('click', (e) => {
-        const signInData={signInEmail:account.value, signInTime: Date.now()}
-        window.localStorage.setItem('connectSignIn', JSON.stringify(signInData) );
-      });
-  } else if (account.type === 'phone') {
-    document.querySelector('button[data-provider-id="phone"]').click();
-    document.querySelector('h1[class~="firebaseui-title"]').innerText = "Sign in with phone number";
-    document.querySelector('input[class~="firebaseui-id-phone-number"]').value = account.value;
-    document.querySelector('label[class~="firebaseui-label"]').remove();
-    
-    // Handle 'Cancel' button click
-    document
-      .querySelector('button[class~="firebaseui-id-secondary-link')
-      .addEventListener('click', (e) => {
-        signInCheckRender({ ui });
-      });
-  }
-}
 
   function signUpRender({ ui }) {
     const df = fragment`
@@ -821,17 +753,3 @@ export async function firebaseSignInRender({ ui, account = {} }) {
     });
   }
   
-/**
- *  Sign in anonymously, and set idToken in appState
- * @returns {Promise<firebase.User>}
- */
-async function signInAnonymously() {
-  const { user } = await firebase.auth().signInAnonymously();
-
-  if (user) {
-    const idToken = await user.getIdToken();
-    appState.setState({ idToken});
-  }
-
-  return user;
-}
