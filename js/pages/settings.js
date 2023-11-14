@@ -444,59 +444,78 @@ const handleEditSignInInformationSection = () => {
   btnObj.changeLoginButton.addEventListener('click', async () => {
     
     successMessageElement = hideSuccessMessage(successMessageElement);
-    const reauthModal = document.getElementById('reauthModal');
-
-    const signInBtn = reauthModal.querySelector('#signInBtn');
-    const accountInput = reauthModal.querySelector('#accountInput');
-
-    let usGov = '';
-
-    signInBtn.addEventListener('click', async (e) => {
-        e.preventDefault();
-        window.localStorage.setItem('signInUpdate', 'yes');
-        const inputStr = accountInput.value.trim();
-        const isEmail = !!inputStr.match(validEmailFormat);
-        const isPhone = !!inputStr.match(validPhoneNumberFormat);
+    if (formVisBools.isLoginFormDisplayed) {
+        //If the form is displayed then this is acting as the cancel button
+        formVisBools.isLoginFormDisplayed = toggleElementVisibility(loginElementArray, formVisBools.isLoginFormDisplayed);
+        toggleButtonText();
+    } else {
+        //Display the reauth dialog
+        const reauthModal = document.getElementById('reauthModal');
     
-        const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
-        if (isEmail) {
-        //   await signInAnonymously();
-          const emailForQuery = inputStr
-            .replaceAll('%', '%25')
-            .replaceAll('#', '%23')
-            .replaceAll('&', '%26')
-            .replaceAll(`'`, '%27')
-            .replaceAll('+', '%2B');
+        const signInBtn = reauthModal.querySelector('#signInBtn');
+        const closeBtn = reauthModal.querySelector('#reauthClose');
+        const headerClose = reauthModal.querySelector('.close');
+        const accountInput = reauthModal.querySelector('#accountInput');
     
-          const response = await checkAccount({
-            accountType: 'email',
-            accountValue: emailForQuery,
-          });
+        let usGov = '';
     
-          if (response?.data?.accountExists) {
-            const account = { type: 'email', value: inputStr };
-            firebaseSignInRender({ ui, account, usGov, signInConfig, signInConfigDev });
-          } else {
-            alert('Account Not Found');
-          }
-        } else if (isPhone) {
-        //   await signInAnonymously();
-          const phoneNumberStr = inputStr.match(/\d+/g).join('').slice(-10);
-          const response = await checkAccount({ accountType: 'phone', accountValue: phoneNumberStr });
-    
-          if (response?.data?.accountExists) {
-            const account = { type: 'phone', value: phoneNumberStr };
-            firebaseSignInRender({ ui, account, usGov, signInConfig, signInConfigDev });
-          } else {
-            alert('Account Not Found');
-          }
-        } else {
-          addWarning();
-        }
-      });
+        const handleSignInBtn = async (e) => {
+            e.preventDefault();
+            window.localStorage.setItem('signInUpdate', 'yes');
+            const inputStr = accountInput.value.trim();
+            const isEmail = !!inputStr.match(validEmailFormat);
+            const isPhone = !!inputStr.match(validPhoneNumberFormat);
+        
+            const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
+            if (isEmail) {
+            //   await signInAnonymously();
+              const emailForQuery = inputStr
+                .replaceAll('%', '%25')
+                .replaceAll('#', '%23')
+                .replaceAll('&', '%26')
+                .replaceAll(`'`, '%27')
+                .replaceAll('+', '%2B');
+        
+              const response = await checkAccount({
+                accountType: 'email',
+                accountValue: emailForQuery,
+              });
+        
+              if (response?.data?.accountExists) {
+                const account = { type: 'email', value: inputStr };
+                firebaseSignInRender({ ui, account, usGov, signInConfig, signInConfigDev });
+              } else {
+                alert('Account Not Found');
+              }
+            } else if (isPhone) {
+            //   await signInAnonymously();
+              const phoneNumberStr = inputStr.match(/\d+/g).join('').slice(-10);
+              const response = await checkAccount({ accountType: 'phone', accountValue: phoneNumberStr });
+        
+              if (response?.data?.accountExists) {
+                const account = { type: 'phone', value: phoneNumberStr };
+                firebaseSignInRender({ ui, account, usGov, signInConfig, signInConfigDev });
+              } else {
+                alert('Account Not Found');
+              }
+            }
+          };
+        signInBtn.addEventListener('click', handleSignInBtn);
 
-      reauthModal.classList.add('show');
-      reauthModal.style.display = 'block';
+        const handleClose = async (e) => {
+            e.preventDefault();
+            signInBtn.removeEventListener('click', handleSignInBtn);
+            closeBtn.removeEventListener('click', handleClose);
+            headerClose.removeEventListener('click', handleClose);
+            reauthModal.classList.remove('show');
+            reauthModal.style.display = 'none';
+        };
+        closeBtn.addEventListener('click', handleClose);
+        headerClose.addEventListener('click', handleClose);
+    
+        reauthModal.classList.add('show');
+        reauthModal.style.display = 'block';
+    }
   });
 
   document.getElementById('changeEmailSubmit').addEventListener('click', e => {
