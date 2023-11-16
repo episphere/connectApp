@@ -111,7 +111,7 @@ export const renderSamplesPage = async () => {
                         </div>
                     </div>
 
-                    ${site.name !== henry_ford.name && site.name !== health_partners.name ?  `
+                    ${site.name !== henry_ford.name || site.name !== health_partners.name ?  `
                     <div class="row" style="width:100%">
                         <div class="consentHeadersFont" style="color:#606060;width:100%">
                             <div>
