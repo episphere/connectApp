@@ -554,6 +554,8 @@ const submitNewLoginMethod = async (email, phone) => {
             case 'auth/requires-recent-login':
                 errorMessage = 'We are not able to update your sign in information at this time. Please sign out and sign back in to your account to make updates to your information.';
                 break;
+            default:
+                errorMessage = 'An error occurred while saving your updated sign in information. Please try again or contact the Connect Support Center at 1-877-505-0253 or <a href="mailto:connectsupport@norc.org">ConnectSupport@norc.org</a>'
         }
     }
         
