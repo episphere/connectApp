@@ -1274,7 +1274,7 @@ export const firebaseSignInRender = async ({ ui, account = {}, usGov, signInConf
       ui.start('#signInDiv', signInConfigDev());
     }
   
-    const {signInEmail, signInTime} = JSON.parse(window.localStorage.getItem('connectSignIn') || '{}');
+    const { signInEmail, signInTime } = JSON.parse(window.localStorage.getItem('connectSignIn') || '{}');
     const timeLimit = 1000 * 60 * 60 ; // 1 hour time limit
   
     if (account.type === 'magicLink' && signInEmail  && Date.now() - signInTime < timeLimit) {
@@ -1306,7 +1306,7 @@ export const firebaseSignInRender = async ({ ui, account = {}, usGov, signInConf
       document
         .querySelector('button[class~="firebaseui-id-submit"]')
         .addEventListener('click', (e) => {
-          const signInData={signInEmail:account.value, signInTime: Date.now()}
+          const signInData = { signInEmail:account.value, signInTime: Date.now() }
           window.localStorage.setItem('connectSignIn', JSON.stringify(signInData) );
         });
     } else if (account.type === 'phone') {
