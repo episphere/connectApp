@@ -1351,7 +1351,7 @@ button.connect-secondary {
     text-decoration: underline ;
 }
 
-th{
+.site-info-align {
     vertical-align: top;
     text-align: left;
 }
