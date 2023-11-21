@@ -1,7 +1,6 @@
 import { allStates, showAnimation, hideAnimation, getMyData, hasUserData, urls, firebaseSignInRender, validEmailFormat, validPhoneNumberFormat, signInAnonymously, checkAccount } from '../shared.js';
 import { attachTabEventListeners, addOrUpdateAuthenticationMethod, changeContactInformation, changeMailingAddress, changeName, formatFirebaseAuthPhoneNumber, FormTypes, getCheckedRadioButtonValue, handleContactInformationRadioButtonPresets, handleOptionalFieldVisibility, hideOptionalElementsOnShowForm, hideSuccessMessage, openUpdateLoginForm, showAndPushElementToArrayIfExists, showEditButtonsOnUserVerified, suffixList, suffixToTextMap, toggleElementVisibility, togglePendingVerificationMessage, unlinkFirebaseAuthProvider, updatePhoneNumberInputFocus, validateContactInformation, validateLoginEmail, validateLoginPhone, validateMailingAddress, validateName } from '../settingsHelpers.js';
 import { addEventAddressAutoComplete } from '../event.js';
-import { signInConfig, signInConfigDev } from "./signIn.js";
 import cId from '../fieldToConceptIdMapping.js';
 
 const nameElementArray = [];
@@ -483,7 +482,7 @@ const handleEditSignInInformationSection = () => {
         
               if (response?.data?.accountExists) {
                 const account = { type: 'email', value: inputStr };
-                firebaseSignInRender({ ui, account, usGov, signInConfig, signInConfigDev });
+                firebaseSignInRender({ ui, account, usGov });
               } else {
                 alert('Account Not Found');
               }
@@ -494,7 +493,7 @@ const handleEditSignInInformationSection = () => {
         
               if (response?.data?.accountExists) {
                 const account = { type: 'phone', value: phoneNumberStr };
-                firebaseSignInRender({ ui, account, usGov, signInConfig, signInConfigDev });
+                firebaseSignInRender({ ui, account, usGov });
               } else {
                 alert('Account Not Found');
               }
@@ -1464,11 +1463,9 @@ export const renderChangeSignInInformationGroup = () => {
     /**
      * Renders the reauth modal
      * 
-     * @param string usGov Governement warning string
      * @returns string
      */
-const renderReauthModal = (usGov) => {
-    usGov = usGov || '';
+const renderReauthModal = () => {
     return  `
     <div class="modal fade" id="reauthModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -1500,9 +1497,7 @@ const renderReauthModal = (usGov) => {
                                         Continue
                                     </button>
                                 </form>
-                                <div style="font-size:8px" class="mt-3">
-                                    ${usGov}
-                                </div>
+                                <div style="font-size:8px" class="mt-3"></div>
                             </div>
                         </div>
                     </div>

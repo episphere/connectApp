@@ -1,5 +1,6 @@
 import { addEventHideNotification } from "./event.js";
 import fieldMapping from './fieldToConceptIdMapping.js'; 
+import { signInConfig, signInConfigDev } from "./pages/signIn.js";
 
 export const urls = {
     'prod': 'myconnect.cancer.gov',
@@ -1256,7 +1257,11 @@ export function openNewTab(url) {
   }
 }
 
-export const firebaseSignInRender = async ({ ui, account = {}, usGov, signInConfig, signInConfigDev }) => {
+export const usGov = `
+You are accessing a U.S. Government web site which may contain information that must be protected under the U.S. Privacy Act or other sensitive information and is intended for Government authorized use only. Unauthorized attempts to upload information, change information, or use of this web site may result in disciplinary action, civil, and/or criminal penalties. Unauthorized users of this web site should have no expectation of privacy regarding any communications or data processed by this web site. Anyone accessing this web site expressly consents to monitoring of their actions and all communication or data transitioning or stored on or related to this web site and is advised that if such monitoring reveals possible evidence of criminal activity, NIH may provide that evidence to law enforcement officials.
+`;
+
+export const firebaseSignInRender = async ({ ui, account = {}, usGov}) => {
     const df = fragment`
     <div class="mx-4">
       <p class="loginTitleFont" style="text-align:center;">Sign In</p>
