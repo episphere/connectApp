@@ -104,7 +104,7 @@ export const homePage = async () => {
         location.search = cleanSearchStr; // Page reload with clean url
       }
       
-        firebaseSignInRender({ui, account:{type:'magicLink', value:''}, usGov});
+        firebaseSignInRender({ui, account:{type:'magicLink', value:''}});
     } else {
         // todo: handle participant tokens
         signInSignUpEntryRender({ui});
@@ -597,7 +597,7 @@ export async function signInCheckRender ({ ui }) {
 
       if (response?.data?.accountExists) {
         const account = { type: 'email', value: inputStr };
-        firebaseSignInRender({ ui, account, usGov });
+        firebaseSignInRender({ ui, account });
       } else {
         const account = { type: 'email', value: inputStr };
         accountNotFoundRender({ ui, account });
@@ -609,7 +609,7 @@ export async function signInCheckRender ({ ui }) {
 
       if (response?.data?.accountExists) {
         const account = { type: 'phone', value: phoneNumberStr };
-        firebaseSignInRender({ ui, account, usGov });
+        firebaseSignInRender({ ui, account });
       } else {
         const account = { type: 'phone number', value: inputStr };
         accountNotFoundRender({ ui, account });

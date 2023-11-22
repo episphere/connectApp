@@ -456,8 +456,6 @@ const handleEditSignInInformationSection = () => {
         const headerClose = reauthModal.querySelector('.close');
         const accountInput = reauthModal.querySelector('#accountInput');
     
-        let usGov = '';
-    
         const handleSignInBtn = async (e) => {
             e.preventDefault();
             window.localStorage.setItem('signInUpdate', 'yes');
@@ -482,7 +480,7 @@ const handleEditSignInInformationSection = () => {
         
               if (response?.data?.accountExists) {
                 const account = { type: 'email', value: inputStr };
-                firebaseSignInRender({ ui, account, usGov });
+                firebaseSignInRender({ ui, account, displayFlag: false });
               } else {
                 alert('Account Not Found');
               }
@@ -493,7 +491,7 @@ const handleEditSignInInformationSection = () => {
         
               if (response?.data?.accountExists) {
                 const account = { type: 'phone', value: phoneNumberStr };
-                firebaseSignInRender({ ui, account, usGov });
+                firebaseSignInRender({ ui, account, displayFlag: false });
               } else {
                 alert('Account Not Found');
               }
