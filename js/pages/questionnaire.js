@@ -10,8 +10,8 @@ const importQuest = async (fileName, functionName) => {
     let url;
 
     if(location.host === urls.prod) url = "https://cdn.jsdelivr.net/gh/episphere/quest@v1.0.15/" + fileName;
-    else if(location.host === urls.stage) url = "https://cdn.jsdelivr.net/gh/episphere/quest@v1.0.15/" + fileName;
-    else url = "https://cdn.jsdelivr.net/gh/episphere/quest@latest/" + fileName;
+    else if(location.host === urls.stage) url = "https://cdn.jsdelivr.net/gh/episphere/quest@latest/" + fileName;
+    else url = "https://episphere.github.io/quest/" + fileName;
 
     const module = await import(url);
     return module[functionName];
