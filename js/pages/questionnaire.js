@@ -1,11 +1,11 @@
 import { storeResponse, getMyData, hasUserData, getMySurveys, urls, questionnaireModules, storeResponseQuest, storeResponseTree, showAnimation, hideAnimation, addEventReturnToDashboard } from "../shared.js";
 import fieldMapping from '../fieldToConceptIdMapping.js'; 
-import { transform } from 'https://cdn.jsdelivr.net/gh/episphere/quest@latest/replace2.js';
-import { rbAndCbClick } from "https://cdn.jsdelivr.net/gh/episphere/quest@latest/questionnaire.js";
 import { SOCcer as SOCcerProd } from "./../../prod/config.js";
 import { SOCcer as SOCcerStage } from "./../../stage/config.js";
 import { SOCcer as SOCcerDev } from "./../../dev/config.js";
 import { Octokit } from "https://cdn.skypack.dev/pin/octokit@v2.0.14-WDHE0c1GgF96ore7BeW1/mode=imports/optimized/octokit.js";
+import { transform } from "https://cdn.jsdelivr.net/gh/episphere/quest@v1.0.15/replace2.js"
+import { rbAndCbClick } from "https://cdn.jsdelivr.net/gh/episphere/quest@v1.0.15/questionnaire.js"
 
 export const questionnaire = async (moduleId) => {
  
