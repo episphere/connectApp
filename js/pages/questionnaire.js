@@ -1,11 +1,21 @@
 import { storeResponse, getMyData, hasUserData, getMySurveys, urls, questionnaireModules, storeResponseQuest, storeResponseTree, showAnimation, hideAnimation, addEventReturnToDashboard } from "../shared.js";
 import fieldMapping from '../fieldToConceptIdMapping.js'; 
-import { transform } from 'https://cdn.jsdelivr.net/gh/episphere/quest@latest/replace2.js';
-import { rbAndCbClick } from "https://cdn.jsdelivr.net/gh/episphere/quest@latest/questionnaire.js";
 import { SOCcer as SOCcerProd } from "./../../prod/config.js";
 import { SOCcer as SOCcerStage } from "./../../stage/config.js";
 import { SOCcer as SOCcerDev } from "./../../dev/config.js";
 import { Octokit } from "https://cdn.skypack.dev/pin/octokit@v2.0.14-WDHE0c1GgF96ore7BeW1/mode=imports/optimized/octokit.js";
+
+const importQuest = async (fileName, functionName) => {
+
+    let url;
+
+    if(location.host === urls.prod) url = "https://cdn.jsdelivr.net/gh/episphere/quest@v1.0.15/" + fileName;
+    else if(location.host === urls.stage) url = "https://cdn.jsdelivr.net/gh/episphere/quest@latest/" + fileName;
+    else url = "https://episphere.github.io/quest/" + fileName;
+
+    const module = await import(url);
+    return module[functionName];
+}
 
 export const questionnaire = async (moduleId) => {
  
@@ -123,6 +133,8 @@ async function startModule(data, modules, moduleId, questDiv) {
 
     window.scrollTo(0, 0);
 
+    let transform = await importQuest('replace2.js', 'transform');
+
     transform.render(questParameters, questDiv, inputData).then(() => {
         
         //Grid fix first
@@ -226,7 +238,9 @@ function soccerFunction(){
                 soccerResults[i]['code'] += '-' + i;
             }
             let responseElement = occ.querySelector("div[class='response']");
-            buildHTML(soccerResults, occ, responseElement);
+
+            let rbAndCbClick = await importQuest('questionnaire.js', 'rbAndCbClick');
+            buildHTML(soccerResults, occ, responseElement, rbAndCbClick);
         });
     }
 
@@ -279,7 +293,7 @@ function soccerFunction(){
     }
 }
 //BUILDING SOCCER
-function buildHTML(soccerResults, question, responseElement) {
+function buildHTML(soccerResults, question, responseElement, rbAndCbClick) {
     if (responseElement) {
       let tmp = responseElement.cloneNode(false);
       question.replaceChild(tmp, responseElement);
