@@ -4,18 +4,8 @@ import { SOCcer as SOCcerProd } from "./../../prod/config.js";
 import { SOCcer as SOCcerStage } from "./../../stage/config.js";
 import { SOCcer as SOCcerDev } from "./../../dev/config.js";
 import { Octokit } from "https://cdn.skypack.dev/pin/octokit@v2.0.14-WDHE0c1GgF96ore7BeW1/mode=imports/optimized/octokit.js";
-
-const importQuest = async (fileName, functionName) => {
-
-    let url;
-
-    if(location.host === urls.prod) url = "https://cdn.jsdelivr.net/gh/episphere/quest@v1.0.15/" + fileName;
-    else if(location.host === urls.stage) url = "https://cdn.jsdelivr.net/gh/episphere/quest@v1.0.15/" + fileName;
-    else url = "https://cdn.jsdelivr.net/gh/episphere/quest@v1.0.15/" + fileName;
-
-    const module = await import(url);
-    return module[functionName];
-}
+import { transform } from "https://cdn.jsdelivr.net/gh/episphere/quest@v1.0.15/replace2.js"
+import { rbAndCbClick } from "https://cdn.jsdelivr.net/gh/episphere/quest@v1.0.15/questionnaire.js"
 
 export const questionnaire = async (moduleId) => {
  
@@ -133,8 +123,6 @@ async function startModule(data, modules, moduleId, questDiv) {
 
     window.scrollTo(0, 0);
 
-    let transform = await importQuest('replace2.js', 'transform');
-
     transform.render(questParameters, questDiv, inputData).then(() => {
         
         //Grid fix first
@@ -238,9 +226,7 @@ function soccerFunction(){
                 soccerResults[i]['code'] += '-' + i;
             }
             let responseElement = occ.querySelector("div[class='response']");
-
-            let rbAndCbClick = await importQuest('questionnaire.js', 'rbAndCbClick');
-            buildHTML(soccerResults, occ, responseElement, rbAndCbClick);
+            buildHTML(soccerResults, occ, responseElement);
         });
     }
 
@@ -293,7 +279,7 @@ function soccerFunction(){
     }
 }
 //BUILDING SOCCER
-function buildHTML(soccerResults, question, responseElement, rbAndCbClick) {
+function buildHTML(soccerResults, question, responseElement) {
     if (responseElement) {
       let tmp = responseElement.cloneNode(false);
       question.replaceChild(tmp, responseElement);
