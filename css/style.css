@@ -1350,8 +1350,3 @@ button.connect-secondary {
 .site-info-underline {
     text-decoration: underline ;
 }
-
-.site-info-align {
-    vertical-align: top;
-    text-align: left;
-}
