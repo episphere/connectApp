@@ -214,6 +214,6 @@ export default
         addressPrinted: 849527480,
         assigned: 241974920,
         shipped: 277438316,
-        recieved: 375535639
+        received: 375535639
     }
 };
