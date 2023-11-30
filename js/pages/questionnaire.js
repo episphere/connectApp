@@ -12,11 +12,10 @@ const importQuest = async () => {
     const versionsUrl = 'https://raw.githubusercontent.com/episphere/questionnaire/main/questVersions.json';
     let questUrl;
 
-    await fetch(versionsUrl)
-        .then(async (response) => {
-            let questObject = await response.json();
-            questUrl = questObject[location.host];
-        });
+    await fetch(versionsUrl).then(async (response) => {
+        let questObject = await response.json();
+        questUrl = questObject[location.host];
+    });
 
     await import(questUrl).then(({ transform }) => {
         quest = transform;
