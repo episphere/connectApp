@@ -4,20 +4,15 @@ import { SOCcer as SOCcerProd } from "./../../prod/config.js";
 import { SOCcer as SOCcerStage } from "./../../stage/config.js";
 import { SOCcer as SOCcerDev } from "./../../dev/config.js";
 import { Octokit } from "https://cdn.skypack.dev/pin/octokit@v2.0.14-WDHE0c1GgF96ore7BeW1/mode=imports/optimized/octokit.js";
+import questConfig from "https://episphere.github.io/questionnaire/questVersions.js";
 
 let quest;
 
 const importQuest = async () => {
 
-    const versionsUrl = 'https://raw.githubusercontent.com/episphere/questionnaire/main/questVersions.json';
-    let questUrl;
+    let url = questConfig[location.host];
 
-    await fetch(versionsUrl).then(async (response) => {
-        let questObject = await response.json();
-        questUrl = questObject[location.host];
-    });
-
-    await import(questUrl).then(({ transform }) => {
+    await import(url).then(({ transform }) => {
         quest = transform;
     });
 }
