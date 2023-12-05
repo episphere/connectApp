@@ -18,7 +18,7 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
         localStorage.eligibilityQuestionnaire = JSON.stringify({'827220437': data['827220437']})
         if(data['919254129'] === 353358909){
 
-            if(data['699625233'] && data['699625233'] === 353358909 && data['512820379'] && data['512820379'] === 854703046 && data['821247024'] && (data['821247024'] == 875007964)/*data['948195369'] && data['948195369'] !== 353358909*//*data['512820379'] && data['512820379'] !== 486306141 && data['821247024'] && data['821247024'] !== 197316935*/){
+            if (data['699625233'] === 353358909 && data['512820379'] === 854703046 && data['821247024'] === 875007964) {
                 blockParticipant();
                 hideAnimation();
                 return;
@@ -148,7 +148,6 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                     return;
                 }
                 else if(data['821247024'] && data['821247024'] == 160161595) {
-                    let siteList = sites();
                     let site =data['827220437']
                     let body = `the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling 1-877-505-0253`;
                     if(site == 531629870){
@@ -319,10 +318,7 @@ const addEventToDoList = () => {
 
 
 const renderMainBody = (data, collections, tab) => {
-    let template = ''
-    template += `
-            <ul class="questionnaire-module-list">`;
-    
+    let template = `<ul class="questionnaire-module-list">`;
     let modules = questionnaireModules();
     modules = setModuleAttributes(data, modules, collections);
     
@@ -338,7 +334,7 @@ const renderMainBody = (data, collections, tab) => {
         },
         { body: ["Enter SSN"] },
     ];
-    if (data["821247024"] && data["821247024"] == 875007964) {
+    if (data["821247024"] === 875007964) {
         toDisplaySystem = [
             {
                 header: "First Survey",
@@ -378,8 +374,6 @@ const renderMainBody = (data, collections, tab) => {
     }
     
     if(tab === 'todo'){
-        let hasModlesRemaining = false;
-
         for(let obj of toDisplaySystem){
             let started = false;
             if(obj.hasOwnProperty('body')){
@@ -387,145 +381,132 @@ const renderMainBody = (data, collections, tab) => {
                 for(let key of obj['body']){
                     if(!modules[key].completed){
                         anyFound = true;
+                        break;
                     }
-                    
                 }
                 
+                if (!anyFound) continue;
+
                 for(let key of obj['body']){
-                    if(anyFound){
-                        if(!started){
-                            if(obj.hasOwnProperty('header')){
-                                let thisKey = obj['header'];
+                    if (!started && obj.hasOwnProperty('header')) {
+                        const thisKey = obj['header'];
+                        started = true;
+                        template += `
+                            <li style="width:100%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
+                                <div class="row">
+                                    ${modules[thisKey]['hasIcon'] === false? `` : `
+                                    <div class="col-md-1">
+                                        <i class="fas fa-clipboard-list d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
+                                    </div>
+                                    `}
+                                    <div class="${modules[thisKey]['hasIcon'] === false? 'col-9':'col-md-8'}">
+                                        <p style="font-style:bold; font-size:24px; margin-left:30px">
+                                            <b style="color:#5c2d93; font-size:18px;">
+                                            ${modules[thisKey]['header'] || thisKey}
+                                            </b>
+                                            <br> 
+                                            ${modules[thisKey].description}
+                                            ${modules[thisKey].estimatedTime ? `
+                                            <em>
+                                            Estimated Time: ${modules[thisKey].estimatedTime}
+                                            </em>
+                                            ` : ''}
+                                        </p>
+                                    </div>
+                                    ${modules[thisKey]['noButton'] === true? '' : `
+                                    <div class="col-md-3">
+                                        <button class="btn survey-list-active btn-agreement questionnaire-module ${(modules[thisKey].enabled && modules[thisKey].unreleased) ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${thisKey}" module_id="${modules[thisKey].moduleId}">
+                                            <b>${modules[thisKey].unreleased  ? 'Coming soon' : data[fieldMapping[modules[key].moduleId].statusFlag] === fieldMapping.moduleStatus.started ? 'Continue' : 'Start'}
+                                            </b>
+                                        </button>
+                                    </div>
+                                    `}
+                                </div>`;
+                    }
+
+                    if (!modules[key].completed) {
+                        template += `
+                            <div style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
+                                <div class="row">
+                                    ${modules[key]['hasIcon'] === false ? `` : `
+                                    <div class="col-md-1">
+                                        <i class="fas fa-clipboard-list d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
+                                    </div>
+                                    `}
+                                    <div class="${modules[key]['hasIcon'] === false ? 'col-9' : 'col-md-8'}">
+                                    <p style="font-style:bold; font-size:24px; margin-left:30px">
+                                        <b style="color:#5c2d93; font-size:18px;">
+                                        ${modules[key]['header'] || key}
+                                        </b>
+                                        <br> 
+                                        ${modules[key].description}
+                                        <br>
+                                        <br>
+                                        ${modules[key].estimatedTime ? `
+                                        <em>
+                                        Estimated Time: ${modules[key].estimatedTime}
+                                        </em>
+                                        ` : ''}
+                                    </p>
+                                    </div>
                                 
-                                started = true;
-                                hasModlesRemaining = true
-                                template += `<li style="width:100%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
-                                                <div class="row">
-                                                    ${modules[thisKey].hasOwnProperty('hasIcon') && modules[thisKey]['hasIcon'] == false? `` : `
-                                                    <div class="col-md-1">
-                                                        <i class="fas fa-clipboard-list d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
-                                                    </div>
-                                                    `}
-        
-                                                    <div class="${modules[thisKey].hasOwnProperty('hasIcon') && modules[thisKey]['hasIcon'] == false? 'col-9':'col-md-8'}">
-                                                    <p class="style="font-style:bold; font-size:24px; margin-left:30px">
-                                                        <b style="color:#5c2d93; font-size:18px;">
-                                                        ${modules[thisKey]['header']?modules[thisKey]['header']:thisKey}
-                                                        </b>
-                                                        <br> 
-                                                        ${modules[thisKey].description}
-                                                        ${modules[thisKey].estimatedTime ? `
-                                                        <em>
-                                                        Estimated Time: ${modules[thisKey].estimatedTime}
-                                                        </em>
-                                                        ` : ''}
-                                                        
-                                                    </p>
-                                                    </div>
-                                                
-                                                    ${modules[thisKey].hasOwnProperty('noButton') && modules[thisKey]['noButton'] == true? '' : `
-                                                    <div class="col-md-3">
-                                                        <button class="btn survey-list-active btn-agreement questionnaire-module ${(modules[thisKey].enabled && modules[thisKey].unreleased) ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${thisKey}" module_id="${modules[thisKey].moduleId}"><b>${modules[thisKey].unreleased  ? 'Coming soon' : data[fieldMapping[modules[key].moduleId].statusFlag] === fieldMapping.moduleStatus.started ? 'Continue' : 'Start'}</b></button>    
-                                                    </div>
-                                                    `}
-                                                </div>
-                                                
-                                              
-                                            `
-                            }
-                        }
-                        if(!modules[key].completed){
-                            hasModlesRemaining = true
-                            template += `<div style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
-                                            <div class="row">
-                                                ${modules[key].hasOwnProperty('hasIcon') && modules[key]['hasIcon'] == false? `` : `
-                                                <div class="col-md-1">
-                                                    <i class="fas fa-clipboard-list d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
-                                                </div>
-                                                `}
+                                    ${modules[key]['noButton'] === true ? '' : `
+                                    <div class="col-md-3">
+                                        <button class="btn survey-list-active btn-agreement questionnaire-module ${(modules[key].enabled && !modules[key].unreleased) ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${key}" module_id="${modules[key].moduleId}"><b>${modules[key].unreleased  ?  'Coming soon' : data[fieldMapping[modules[key].moduleId].statusFlag] === fieldMapping.moduleStatus.started ? 'Continue' : 'Start'}</b></button>    
+                                    </div>
+                                    `}
+                                </div>
+                                
+                            </div>`;
+                    } else {
+                        template += `
+                            <div style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
+                                <div class="row">
+                                    ${modules[key]['hasIcon'] === false? `` : `
+                                    <div class="col-md-1">
+                                        <i class="fas fa-clipboard-list d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
+                                    </div>
+                                    `}
 
-                                                <div class="${modules[key].hasOwnProperty('hasIcon') && modules[key]['hasIcon'] == false? 'col-9':'col-md-8'}">
-                                                <p class="style="font-style:bold; font-size:24px; margin-left:30px">
-                                                    <b style="color:#5c2d93; font-size:18px;">
-                                                    ${modules[key]['header']?modules[key]['header']:key}
-                                                    </b>
-                                                    <br> 
-                                                    ${modules[key].description}
-                                                    <br>
-                                                    <br>
-                                                    ${modules[key].estimatedTime ? `
-                                                    <em>
-                                                    Estimated Time: ${modules[key].estimatedTime}
-                                                    </em>
-                                                    ` : ''}
-                                                    
-                                                </p>
-                                                </div>
-                                            
-                                                ${modules[key].hasOwnProperty('noButton') && modules[key]['noButton'] == true? '' : `
-                                                <div class="col-md-3">
-                                                    <button class="btn survey-list-active btn-agreement questionnaire-module ${(modules[key].enabled && !modules[key].unreleased) ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${key}" module_id="${modules[key].moduleId}"><b>${modules[key].unreleased  ?  'Coming soon' : data[fieldMapping[modules[key].moduleId].statusFlag] === fieldMapping.moduleStatus.started ? 'Continue' : 'Start'}</b></button>    
-                                                </div>
-                                                `}
-                                            </div>
-                                            
-                                        </div>`
-                        }
-                        else{
-                            hasModlesRemaining = true
-                            template += `<div style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
-                                            <div class="row">
-                                                ${modules[key].hasOwnProperty('hasIcon') && modules[key]['hasIcon'] == false? `` : `
-                                                <div class="col-md-1">
-                                                    <i class="fas fa-clipboard-list d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
-                                                </div>
-                                                `}
-
-                                                <div class="${modules[key].hasOwnProperty('hasIcon') && modules[key]['hasIcon'] == false? 'col-9':'col-md-8'}">
-                                                <p class="style="font-style:bold; font-size:24px; margin-left:30px">
-                                                    <b style="color:#5c2d93; font-size:18px;">
-                                                    ${modules[key]['header']?modules[key]['header']:key}
-                                                    </b>
-                                                    <br> 
-                                                    ${modules[key].description}
-                                                    <br>
-                                                    <br>
-                                                    ${modules[key].estimatedTime ? `
-                                                    <em>
-                                                    Completed Time: ${new Date(data[fieldMapping[modules[key].moduleId].completeTs]).toLocaleString()}
-                                                    </em>
-                                                    ` : ''}
-                                                    
-                                                    
-                                                </p>
-                                                </div>
-                                            </div>
-                                        </div>`
-                        }
+                                    <div class="${modules[key]['hasIcon'] === false? 'col-9':'col-md-8'}">
+                                    <p style="font-style:bold; font-size:24px; margin-left:30px">
+                                        <b style="color:#5c2d93; font-size:18px;">
+                                        ${modules[key]['header']?modules[key]['header']:key}
+                                        </b>
+                                        <br> 
+                                        ${modules[key].description}
+                                        <br>
+                                        <br>
+                                        ${modules[key].estimatedTime ? `
+                                        <em>
+                                        Completed Time: ${new Date(data[fieldMapping[modules[key].moduleId].completeTs]).toLocaleString()}
+                                        </em>
+                                        ` : ''}
+                                    </p>
+                                    </div>
+                                </div>
+                            </div>`;
                     }
                 }
-            if(started == true){
-                template += '</li>'            
 
+                if (started === true) {
+                    template += '</li>';
+                }
             }
-            }
-
-            
         }
-    }
-    else{
+    } else {
         for(let obj of toDisplaySystem){
             let started = false;
             if(obj.hasOwnProperty('body')){
+                let anyFound = false;
                 for(let key of obj['body']){
-
-                    let anyFound = false;
-                    for(let key of obj['body']){
-                        if(!modules[key].completed){
-                            anyFound = true;
-                        }
+                    if(!modules[key].completed){
+                        anyFound = true;
+                        break;
                     }
+                }
 
+                for(let key of obj['body']){
                     if(!anyFound){
                         if(!started){
                             if(obj.hasOwnProperty('header')){
@@ -535,14 +516,14 @@ const renderMainBody = (data, collections, tab) => {
                                 
                                 template += `<li style="width:100%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
                                                 <div class="row">
-                                                    ${modules[thisKey].hasOwnProperty('hasIcon') && modules[thisKey]['hasIcon'] == false? `` : `
+                                                    ${modules[thisKey]['hasIcon'] === false? `` : `
                                                     <div class="col-md-1">
                                                         <i class="fas fa-clipboard-list d-md-none d-md-block d-lg-flex" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
                                                     </div>
                                                     `}
 
-                                                    <div class="${modules[thisKey].hasOwnProperty('hasIcon') && modules[thisKey]['hasIcon'] == false? 'col-9':'col-md-8'}">
-                                                    <p class="style="font-style:bold; font-size:24px; margin-left:30px">
+                                                    <div class="${modules[thisKey]['hasIcon'] === false? 'col-9':'col-md-8'}">
+                                                    <p style="font-style:bold; font-size:24px; margin-left:30px">
                                                         <b style="color:#5c2d93; font-size:18px;">
                                                         ${modules[thisKey]['header']?modules[thisKey]['header']:thisKey}
                                                         </b>
@@ -557,15 +538,14 @@ const renderMainBody = (data, collections, tab) => {
                                                     </p>
                                                     </div>
                                                 
-                                                    ${modules[thisKey].hasOwnProperty('noButton') && modules[thisKey]['noButton'] == true? '' : `
+                                                    ${modules[thisKey]['noButton'] === true? '' : `
                                                     <div class="col-md-3">
                                                         <button class="btn survey-list-active btn-agreement questionnaire-module ${modules[thisKey].enabled ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${thisKey}" module_id="${modules[thisKey].moduleId}"><b>Start</b></button>    
                                                     </div>
                                                     `}
                                                 </div>
                                                 </li>
-                                                
-                                            `
+                                            `;
                             }
                         }
                         template += `<div style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
@@ -574,9 +554,9 @@ const renderMainBody = (data, collections, tab) => {
                                 <i class="fas fa-clipboard-list d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
                                 </div>
                                 <div class="col-md-8">
-                                <p class="style="font-style:bold; font-size:24px; margin-left:30px">
+                                <p style="font-style:bold; font-size:24px; margin-left:30px">
                                     <b style="color:#5c2d93; font-size:18px;">
-                                    ${modules[key]['header']?modules[key]['header']:thisKey}
+                                    ${modules[key]['header'] || key}
                                     </b>
                                     <br>
                                     <em>
@@ -589,19 +569,20 @@ const renderMainBody = (data, collections, tab) => {
                                 Completed Time: ${new Date(data[fieldMapping[modules[key].moduleId].completeTs]).toLocaleString()}
                                 </div>
                             </div>
-                        </div>`
+                        </div>`;
                     }
                 }
-                if(started == true){
-                    template += '</li>'                
+                if (started === true) {
+                    template += '</li>';
                 }
             }
         }
     }
-    return template;
-}
 
-const checkIfComplete = (data) =>{
+    return template;
+};
+
+const checkIfComplete = (data) => {
     
     let module1Complete = data[fieldMapping.Module1.statusFlag] === fieldMapping.moduleStatus.submitted;
     let module2Complete = data[fieldMapping.Module2.statusFlag] === fieldMapping.moduleStatus.submitted;
@@ -609,7 +590,7 @@ const checkIfComplete = (data) =>{
     let module4Complete = data[fieldMapping.Module4.statusFlag] === fieldMapping.moduleStatus.submitted;
 
     return module1Complete && module2Complete && module3Complete && module4Complete;
-}
+};
 
 const checkForNewSurveys = async (data, collections) => {
     let template = ``;
@@ -656,21 +637,18 @@ const checkForNewSurveys = async (data, collections) => {
         `;
         }
     }
-    else if (data[677381583] === undefined) {
-
-    }
     else {
-        completedStandaloneSurveys = 0
+        completedStandaloneSurveys = 0;
     }
 
     let obj = {
         566565527: enabledSurveys,
         677381583: completedStandaloneSurveys
-    }
+    };
 
-    storeResponse(obj);
+    await storeResponse(obj);
     return template;
-}
+};
 
 const setModuleAttributes = (data, modules, collections) => {
     modules['First Survey'] = {};
@@ -680,31 +658,31 @@ const setModuleAttributes = (data, modules, collections) => {
     
     modules['Background and Overall Health'].header = 'Background and Overall Health'; 
     modules['Background and Overall Health'].description = 'Questions about you, your medical history, and your family history.';
-    modules['Background and Overall Health'].estimatedTime = '20 to 30 minutes'
+    modules['Background and Overall Health'].estimatedTime = '20 to 30 minutes';
     
     modules['Medications, Reproductive Health, Exercise, and Sleep'].header = 'Medications, Reproductive Health, Exercise, and Sleep'; 
     modules['Medications, Reproductive Health, Exercise, and Sleep'].description = 'Questions about your current and past use of medications, your exercise and sleep habits, and your reproductive health.';
-    modules['Medications, Reproductive Health, Exercise, and Sleep'].estimatedTime = '20 to 30 minutes'
+    modules['Medications, Reproductive Health, Exercise, and Sleep'].estimatedTime = '20 to 30 minutes';
     
     modules['Smoking, Alcohol, and Sun Exposure'].header = 'Smoking, Alcohol, and Sun Exposure'; 
     modules['Smoking, Alcohol, and Sun Exposure'].description = 'Questions about your use of tobacco, nicotine, marijuana, and alcohol, as well as your sun exposure.';
-    modules['Smoking, Alcohol, and Sun Exposure'].estimatedTime = '20 to 30 minutes'
+    modules['Smoking, Alcohol, and Sun Exposure'].estimatedTime = '20 to 30 minutes';
     
     modules["Where You Live and Work"].header = 'Where You Live and Work';
     modules["Where You Live and Work"].description  = 'Questions about places where you have lived and worked, and your commute to school or work.'
-    modules['Where You Live and Work'].estimatedTime = '20 to 30 minutes'
+    modules['Where You Live and Work'].estimatedTime = '20 to 30 minutes';
     
-    modules['Enter SSN'].header = 'Your Social Security Number (SSN)'
+    modules['Enter SSN'].header = 'Your Social Security Number (SSN)';
     modules['Enter SSN'].description = 'We may use your Social Security number when we collect information from important data sources like health registries to match information from these sources to you. We protect your privacy every time we ask for information about you from other sources. Providing your Social Security number is optional.';
     modules['Enter SSN'].hasIcon = false;
     modules['Enter SSN'].noButton = false;
-    modules['Enter SSN'].estimatedTime = 'Less than 5 minutes'
+    modules['Enter SSN'].estimatedTime = 'Less than 5 minutes';
     
-    modules['Covid-19'].header = 'COVID-19 Survey'
-    modules['Covid-19'].description = 'Questions about your history of COVID-19, including any vaccinations you may have received and details about times you may have gotten sick with COVID-19.'
+    modules['Covid-19'].header = 'COVID-19 Survey';
+    modules['Covid-19'].description = 'Questions about your history of COVID-19, including any vaccinations you may have received and details about times you may have gotten sick with COVID-19.';
     modules['Covid-19'].hasIcon = false;
     modules['Covid-19'].noButton = false;
-    modules['Covid-19'].estimatedTime = '10 minutes'
+    modules['Covid-19'].estimatedTime = '10 minutes';
 
     modules['Biospecimen Survey'].header = 'Baseline Blood, Urine, and Mouthwash Sample Survey';
     modules['Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples.';
@@ -735,7 +713,7 @@ const setModuleAttributes = (data, modules, collections) => {
     if(data[fieldMapping.menstrualSurveyEligible] === 353358909) {
         modules['Menstrual Cycle'].enabled = true;
 
-        if(data[fieldMapping.MenstrualCycle.statusFlag] != fieldMapping.moduleStatus.submitted) {
+        if(data[fieldMapping.MenstrualCycle.statusFlag] !== fieldMapping.moduleStatus.submitted) {
 
             const cutoffDate = new Date();
             cutoffDate.setDate(cutoffDate.getDate() - 45);
@@ -759,47 +737,56 @@ const setModuleAttributes = (data, modules, collections) => {
         modules["Smoking, Alcohol, and Sun Exposure"].enabled = true;
         modules["Where You Live and Work"].enabled = true;
         modules['Medications, Reproductive Health, Exercise, and Sleep'].enabled = true;
-    };
+    }
 
     if (data[fieldMapping.Module2.statusFlag] === fieldMapping.moduleStatus.submitted) { 
         modules['Medications, Reproductive Health, Exercise, and Sleep'].completed = true;
-    };
+    }
 
     if (data[fieldMapping.Module3.statusFlag] === fieldMapping.moduleStatus.submitted) { 
         modules['Smoking, Alcohol, and Sun Exposure'].completed = true;
-    };
+    }
 
     if (data[fieldMapping.Module4.statusFlag] === fieldMapping.moduleStatus.submitted) { 
         modules["Where You Live and Work"].completed  = true;
-    };
+    }
 
-    if ((data[fieldMapping.verification] && data[fieldMapping.verification] == fieldMapping.verified)) { 
+    if ((data[fieldMapping.verification] && data[fieldMapping.verification] === fieldMapping.verified)) { 
         modules['Enter SSN'].enabled = true;
-    };
+    }
 
     if (data[fieldMapping.ModuleSsn.statusFlag] === fieldMapping.moduleStatus.submitted) { 
         modules['Enter SSN'].completed = true;
-    };
+    }
     
     if (data[fieldMapping.ModuleCovid19.statusFlag] === fieldMapping.moduleStatus.submitted) { 
         modules['Covid-19'].completed = true;
-    };
+    }
 
     if (data[fieldMapping.Biospecimen.statusFlag] === fieldMapping.moduleStatus.submitted) { 
         modules['Biospecimen Survey'].completed = true;
-    };
+    }
 
     if (data[fieldMapping.MenstrualCycle.statusFlag] === fieldMapping.moduleStatus.submitted) { 
         modules['Menstrual Cycle'].completed = true;
-    };
+    }
 
     if (data[fieldMapping.ClinicalBiospecimen.statusFlag] === fieldMapping.moduleStatus.submitted) { 
         modules['Clinical Biospecimen Survey'].completed = true;
-    };
+    }
+
+    const mouthwashData = data[fieldMapping.collectionDetails]?.[fieldMapping.baseline]?.[fieldMapping.bioKitMouthwash];
+    if (
+      mouthwashData?.[fieldMapping.kitType] === fieldMapping.kitTypeValues.mouthwash &&
+      (mouthwashData?.[fieldMapping.kitStatus] === fieldMapping.kitStatusValues.shipped ||
+        mouthwashData?.[fieldMapping.kitStatus] === fieldMapping.kitStatusValues.received)
+    ) {
+      modules.Mouthwash.enabled = true;
+    }
 
     if (data[fieldMapping.Mouthwash.statusFlag] === fieldMapping.moduleStatus.submitted) { 
         modules['Mouthwash'].completed = true;
-    };
+    }
 
     return modules;
-}
+};
