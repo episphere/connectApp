@@ -779,7 +779,7 @@ const setModuleAttributes = (data, modules, collections) => {
     if (
       mouthwashData?.[fieldMapping.kitType] === fieldMapping.kitTypeValues.mouthwash &&
       (mouthwashData?.[fieldMapping.kitStatus] === fieldMapping.kitStatusValues.shipped ||
-        mouthwashData?.[fieldMapping.kitStatus] === fieldMapping.kitStatusValues.recieved)
+        mouthwashData?.[fieldMapping.kitStatus] === fieldMapping.kitStatusValues.received)
     ) {
       modules.Mouthwash.enabled = true;
     }

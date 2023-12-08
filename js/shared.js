@@ -1,5 +1,6 @@
 import { addEventHideNotification } from "./event.js";
 import fieldMapping from './fieldToConceptIdMapping.js'; 
+import { signInConfig, signInConfigDev } from "./pages/signIn.js";
 
 export const urls = {
     'prod': 'myconnect.cancer.gov',
@@ -1255,6 +1256,93 @@ export function openNewTab(url) {
     urlToNewTabMap[url].focus();
   }
 }
+
+export const usGov = `
+You are accessing a U.S. Government web site which may contain information that must be protected under the U.S. Privacy Act or other sensitive information and is intended for Government authorized use only. Unauthorized attempts to upload information, change information, or use of this web site may result in disciplinary action, civil, and/or criminal penalties. Unauthorized users of this web site should have no expectation of privacy regarding any communications or data processed by this web site. Anyone accessing this web site expressly consents to monitoring of their actions and all communication or data transitioning or stored on or related to this web site and is advised that if such monitoring reveals possible evidence of criminal activity, NIH may provide that evidence to law enforcement officials.
+`;
+
+export const firebaseSignInRender = async ({ ui, account = {}, displayFlag = true}) => {
+    const df = fragment`
+    <div class="mx-4">
+      <p class="loginTitleFont" style="text-align:center;">Sign In</p>
+      <div id="signInDiv"></div>
+      <div style="font-size:8px" class="mt-3">
+      ${displayFlag ? usGov : ''}
+      </div>
+    </div>`;
+  
+    document.getElementById('signInWrapperDiv').replaceChildren(df);
+  
+    if (location.host === urls.prod || location.host === urls.stage) {
+      ui.start('#signInDiv', signInConfig());
+    } else {
+      ui.start('#signInDiv', signInConfigDev());
+    }
+  
+    const { signInEmail, signInTime } = JSON.parse(window.localStorage.getItem('connectSignIn') || '{}');
+    const timeLimit = 1000 * 60 * 60 ; // 1 hour time limit
+  
+    if (account.type === 'magicLink' && signInEmail  && Date.now() - signInTime < timeLimit) {
+      await elementIsLoaded('div[class~="firebaseui-id-page-email-link-sign-in-confirmation"]', 1500);
+      const emailInput =  document.querySelector('input[class~="firebaseui-id-email"]');
+  
+      if (emailInput !== null) {
+        emailInput.value = signInEmail;
+        document.querySelector('button[class~="firebaseui-id-submit"]').click();
+        window.localStorage.removeItem('connectSignIn');
+      } 
+  
+      return;
+    }
+  
+    if (account.type === 'email') {
+      document.querySelector('button[data-provider-id="password"]').click();
+      document.querySelector('input[class~="firebaseui-id-email"]').value = account.value;
+      document.querySelector('label[class~="firebaseui-label"]').remove();
+  
+      // Handle 'Cancel' button click
+      document
+        .querySelector('button[class~="firebaseui-id-secondary-link"]')
+        .addEventListener('click', (e) => {
+          signInCheckRender({ ui });
+        });
+  
+      // Handle 'Next' button click
+      document
+        .querySelector('button[class~="firebaseui-id-submit"]')
+        .addEventListener('click', (e) => {
+          const signInData = { signInEmail:account.value, signInTime: Date.now() }
+          window.localStorage.setItem('connectSignIn', JSON.stringify(signInData) );
+        });
+    } else if (account.type === 'phone') {
+      document.querySelector('button[data-provider-id="phone"]').click();
+      document.querySelector('h1[class~="firebaseui-title"]').innerText = "Sign in with phone number";
+      document.querySelector('input[class~="firebaseui-id-phone-number"]').value = account.value;
+      document.querySelector('label[class~="firebaseui-label"]').remove();
+      
+      // Handle 'Cancel' button click
+      document
+        .querySelector('button[class~="firebaseui-id-secondary-link')
+        .addEventListener('click', (e) => {
+          signInCheckRender({ ui });
+        });
+    }
+  }
+
+/**
+ *  Sign in anonymously, and set idToken in appState
+ * @returns {Promise<firebase.User>}
+ */
+export const signInAnonymously = async () => {
+    const { user } = await firebase.auth().signInAnonymously();
+  
+    if (user) {
+      const idToken = await user.getIdToken();
+      appState.setState({ idToken});
+    }
+  
+    return user;
+  }
 
 export const processAuthWithFirebaseAdmin = async(newAuthData) => {
 

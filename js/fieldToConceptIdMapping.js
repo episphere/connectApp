@@ -206,7 +206,7 @@ export default
     bioKitMouthwash: 8583443674,
     kitType: 379252329,
     kitTypeValues: {
-        mouthwash: 390351864
+        mouthwash: 976461859
     },
     kitStatus: 221592017,
     kitStatusValues: {
@@ -214,6 +214,6 @@ export default
         addressPrinted: 849527480,
         assigned: 241974920,
         shipped: 277438316,
-        recieved: 375535639
+        received: 375535639
     }
 };
