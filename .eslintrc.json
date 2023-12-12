@@ -23,17 +23,5 @@
     "download": "readonly"
   },
   "rules": {
-    "no-unused-vars": "warn",
-    "no-console": "warn",
-    "semi": "warn",
-    "semi-spacing":"warn",
-    "semi-style":"warn",
-    "camelcase":"warn",
-    "eqeqeq":"warn",
-    "no-else-return":"warn",
-    "no-eq-null":"warn",
-    "no-var":"warn",
-    "require-await":"warn",
-    "eol-last":"warn"
   }
 }
