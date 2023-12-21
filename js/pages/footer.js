@@ -1,4 +1,4 @@
-import { urls } from "./../shared.js"
+import { urls } from "./../shared.js";
 
 export const footerTemplate = () => {
     return `
@@ -39,7 +39,7 @@ export const footerTemplate = () => {
                     <li class="menu-item p-0"><a target="__blank" class="footer-links gov-dept-links p-0" href="http://www.usa.gov/">USA.gov</a></li>
                 </ul>
             </div>
-            <div class="row">
+            <div class="row w-100">
                 <div class="col-md-2">
                 </div>
                 <div class="col-md-8">
@@ -54,5 +54,5 @@ export const footerTemplate = () => {
                 </div>
             </div>
         </div>
-    `
-}
+    `;
+};

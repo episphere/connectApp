@@ -135,7 +135,6 @@ a{
 
 .row {
     padding: 15px;
-    max-width: 100% !important;
 }
 
 .images-col {
@@ -1349,4 +1348,9 @@ button.connect-secondary {
 
 .site-info-underline {
     text-decoration: underline ;
+}
+
+.site-info-align {
+    vertical-align: top;
+    text-align: left;
 }

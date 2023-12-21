@@ -1,0 +1,27 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 2020
+  },
+  "extends": [
+    "eslint:recommended"
+  ],
+  "globals": {
+    "firebase": "readonly",
+    "firebaseui": "readonly",
+    "google":"readonly",
+    "workbox": "readonly",
+    "importScripts": "readonly",
+    "localforage": "readonly",
+    "pdfjsLib": "readonly",
+    "PDFLib": "readonly",
+    "download": "readonly"
+  },
+  "rules": {
+  }
+}
