@@ -830,9 +830,9 @@ export const consentFinishedPage = async () => {
 
     template += `
     <div class="row">
-        <div class="col-lg-2">
+        <div class="col-md-2">
         </div>
-        <div class="col-lg-8">
+        <div class="col-md-8">
             <div>
                 <h2>You have completed the consent process</h2>
             </div>
@@ -840,14 +840,18 @@ export const consentFinishedPage = async () => {
                 <div class="row"><div style="margin-left:20px"><i class="fas fa-file-download"></i> <a style="margin-left:10px" title="Download consent form" data-toggle="tooltip" id="consentDownload" download="signed_consent.pdf" data-file="signed-consent" >Download a copy of your signed consent form&nbsp</a></div></div>
                 <div class="row"><div style="margin-left:20px"><i class="fas fa-file-download"></i> <a style="margin-left:10px" title="Download health records release form" data-toggle="tooltip" id="healthRecordsDownload" download="signed_hipaa.pdf" data-file="signed-HIPAA" >Download a copy of your signed health records release form&nbsp</a></div></div>
             </div>
-            
-            <div>
-                <button class="btn btn-primary consentNextButton" type="button" id="toLeaving" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
+            <div class="row">
+            <div class="col-md-2">  
+            </div>
+            <div class="col-md-8">  
+            </div>
+            <div class="col-md-2">  
+            <button class="btn btn-primary consentNextButton" type="button" id="toLeaving" style="width:100%;margin-top:40px;margin-bottom:40px; padding:12px">Next</button>
+            </div>
             </div>
         </div>
-        <div class="col-lg-2">
-        </div>
-    </div>
+        <div class="col-md-2">
+        </div> 
         
     `
     
@@ -879,9 +883,9 @@ export const consentToProfilePage = () => {
     
     template += `
     <div class="row">
-        <div class="col-lg-2">
+        <div class="col-md-2">
         </div>
-        <div class="col">
+        <div class="col-md-8">
             <h2>Thank you for your interest in the Connect for Cancer Prevention Study</h2>
             <div>
                 <p>
@@ -890,13 +894,20 @@ export const consentToProfilePage = () => {
                     <br>
                     If you have any questions, please contact the <a href="https://norcfedramp.servicenowservices.com/recruit" target="_blank">Connect Support Center</a>.
                 </p>
+            </div>   
+            <div class="row">
+            <div class="col-md-2">  
             </div>
-            <div>
-                <button class="btn btn-primary consentNextButton" type="button" id="toLeaving" style="float:right;margin-top:40px;margin-bottom:40px">Next</button>
+            <div class="col-md-8">  
+            </div>
+            <div class="col-md-2">  
+            <button class="btn btn-primary consentNextButton" type="button" id="toLeaving" style="width:100%;margin-top:40px;margin-bottom:40px; padding:12px">Next</button>
+            </div>
             </div>
         </div>
-        <div class="col-lg-2">
-        </div
+        <div class="col-md-2">
+        </div> 
+        
     </div>
 
     `
