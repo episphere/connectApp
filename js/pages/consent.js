@@ -882,7 +882,7 @@ export const consentToProfilePage = () => {
     let template = '';
     
     template += `
-    <div class="row">
+    <div class="row pt-5">
         <div class="col-md-2">
         </div>
         <div class="col-md-8">
