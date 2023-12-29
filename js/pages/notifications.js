@@ -105,8 +105,8 @@ const renderMainBody = (data, tab) => {
             template += `<li style="width:100%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
                 <div>
                     <div class="row">
-                        <div class="col-md-2">
-                            <i class="fas fa-bell d-none d-md-block" title="Survey Icon" style="text-align:center; width:100%;font-size:50px;color:#c2af7f;"></i>
+                        <div class="col-md-2 ">
+                        <div class="SurveyIcon"><i class="fas fa-bell d-none d-md-block" title="Survey Icon" style="text-align:center; width:100%;font-size:30px;color:#ffff;padding-top:5px"></i></div>
                         </div>
                         <div class="col-md-10">
                             <span class="messagesHeaderFont">
