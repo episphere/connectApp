@@ -113,12 +113,12 @@ const consentWelcomePage = () => {
                 <p class="consentBodyFont1">After you have learned about Connect, you will view the full informed consent form and electronic health records release form. These forms provide more details about the study. Then, you can decide if you want to join Connect.</p>
                 <div class="row" style="padding:0;">
                     <div class="col-md-2">
-                        <button class="btn btn-primary consentPrevButton" type="button" id="backToHeardAboutStudyForm" style="min-width:100%; margin-top:100px;margin-bottom:10px;">Previous</button>
+                        <button class="btn btn-primary consentPrevButton" type="button" id="backToHeardAboutStudyForm" style="min-width:100%; margin-top:10px;margin-bottom:10px;">Previous</button>
                     </div>
                     <div class="col-md-8">
                     </div>
                     <div class="col-md-2">
-                        <button class="btn btn-primary consentNextButton" type="button" id="toActivities" style="margin-top:100px; width:100%;"><b>Next<b></button>
+                        <button class="btn btn-primary consentNextButton" type="button" id="toActivities" style="margin-top:10px; width:100%;"><b>Next<b></button>
                     </div>
                 </div>
             </div>
