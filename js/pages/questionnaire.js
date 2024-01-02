@@ -4,8 +4,18 @@ import { SOCcer as SOCcerProd } from "./../../prod/config.js";
 import { SOCcer as SOCcerStage } from "./../../stage/config.js";
 import { SOCcer as SOCcerDev } from "./../../dev/config.js";
 import { Octokit } from "https://cdn.skypack.dev/pin/octokit@v2.0.14-WDHE0c1GgF96ore7BeW1/mode=imports/optimized/octokit.js";
-import { transform } from "https://cdn.jsdelivr.net/gh/episphere/quest@v1.0.15/replace2.js"
-import { rbAndCbClick } from "https://cdn.jsdelivr.net/gh/episphere/quest@v1.0.15/questionnaire.js"
+import questConfig from "https://episphere.github.io/questionnaire/questVersions.js";
+
+let quest;
+
+const importQuest = async () => {
+
+    let url = questConfig[location.host];
+
+    await import(url).then(({ transform }) => {
+        quest = transform;
+    });
+}
 
 export const questionnaire = async (moduleId) => {
  
@@ -33,6 +43,8 @@ export const questionnaire = async (moduleId) => {
 
 async function startModule(data, modules, moduleId, questDiv) {
 
+    await importQuest();
+    
     let inputData = setInputData(data, modules); 
     let moduleConfig = questionnaireModules();
 
@@ -123,7 +135,7 @@ async function startModule(data, modules, moduleId, questDiv) {
 
     window.scrollTo(0, 0);
 
-    transform.render(questParameters, questDiv, inputData).then(() => {
+    quest.render(questParameters, questDiv, inputData).then(() => {
         
         //Grid fix first
         let grids = document.getElementsByClassName('d-lg-block');
@@ -298,7 +310,7 @@ function buildHTML(soccerResults, question, responseElement) {
       resp.id = `${question.id}_${indx}`;
       resp.value = soc.code;
       resp.name = "SOCcerResults";
-      resp.onclick = rbAndCbClick;
+      resp.onclick = quest.rbAndCbClick;
       let label = document.createElement("label");
       label.setAttribute("for", `${question.id}_${indx}`);
       label.innerText = soc.label;
@@ -309,7 +321,7 @@ function buildHTML(soccerResults, question, responseElement) {
     resp.id = `${question.id}_NOTA`;
     resp.value = "NONE_OF_THE_ABOVE";
     resp.name = "SOCcerResults";
-    resp.onclick = rbAndCbClick;
+    resp.onclick = quest.rbAndCbClick;
     let label = document.createElement("label");
     label.setAttribute("for", `${question.id}_NOTA`);
     label.innerText = "NONE OF THE ABOVE";
