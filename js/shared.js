@@ -138,6 +138,21 @@ export const storeResponse = async (formData) => {
     return response.json();
 }
 
+export const storeSocial = async (formData) => {
+        
+    const idToken = await getIdToken();
+    const response = await fetch(`http://localhost:8080/app?api=submitSocial`, {
+        method: "POST",
+        headers:{
+            Authorization: "Bearer " + idToken,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+    });
+
+    return response.json();
+}
+
 export const getMyData = async () => {
 
     const idToken = await getIdToken();
@@ -878,7 +893,7 @@ export const questionnaireModules = () => {
             'Medications, Reproductive Health, Exercise, and Sleep': {path: 'prod/module2.txt', moduleId:"Module2", enabled:false},
             'Smoking, Alcohol, and Sun Exposure': {path: 'prod/module3.txt', moduleId:"Module3", enabled:false},
             'Where You Live and Work': {path: 'prod/module4.txt', moduleId:"Module4", enabled:false},
-            'Enter SSN': {path: 'prod/ssnModule.txt', moduleId:"ModuleSsn", enabled:false},
+            'Enter SSN': {moduleId:"ModuleSsn", enabled:false},
             'Covid-19': {path: 'prod/moduleCOVID19.txt', moduleId:"ModuleCovid19", enabled:false},
             'Biospecimen Survey': {path: 'prod/moduleBiospecimen.txt', moduleId:"Biospecimen", enabled:false},
             'Clinical Biospecimen Survey': {path: 'prod/moduleClinicalBloodUrine.txt', moduleId:"ClinicalBiospecimen", enabled:false},
@@ -892,7 +907,7 @@ export const questionnaireModules = () => {
         'Medications, Reproductive Health, Exercise, and Sleep': {path: 'module2Stage.txt', moduleId:"Module2", enabled:false},
         'Smoking, Alcohol, and Sun Exposure': {path: 'module3Stage.txt', moduleId:"Module3", enabled:false},
         'Where You Live and Work': {path: 'module4Stage.txt', moduleId:"Module4", enabled:false},
-        'Enter SSN': {path: 'ssnModule.txt', moduleId:"ModuleSsn", enabled:false},
+        'Enter SSN': {moduleId:"ModuleSsn", enabled:false},
         'Covid-19': {path: 'moduleCOVID19Stage.txt', moduleId:"ModuleCovid19", enabled:false},
         'Biospecimen Survey': {path: 'moduleBiospecimenStage.txt', moduleId:"Biospecimen", enabled:false},
         'Clinical Biospecimen Survey': {path: 'moduleClinicalBloodUrineStage.txt', moduleId:"ClinicalBiospecimen", enabled:false},

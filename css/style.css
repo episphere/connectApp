@@ -1376,3 +1376,32 @@ button.connect-secondary {
     padding: 5px;
     border-radius: 50%;
 }
+
+#ssn-module-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* This separates the content and button areas */
+    height: 70vh; /* Adjust this value as needed */
+    overflow-y: auto;
+}
+
+.ssn-content-area {
+    flex-grow: 1; /* Takes up all available space */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centers content vertically */
+    align-items: center; /* Centers content horizontally */
+}
+
+.ssn-button-area {
+    /* Ensures it doesn't grow and stays at the bottom */
+    display: flex;
+    justify-content: space-between; /* Adjusts buttons to each side */
+    padding: 10px; /* Adds some spacing */
+}
+
+.ssn-error-message {
+    color: red;
+    font-size: 0.8em;
+    display: none; /* Initially hidden */
+  }
