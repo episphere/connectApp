@@ -223,7 +223,7 @@ function externalListeners(){
     let task7 = module1['D_518387017'] ?? '';
     
     if (work3){
-        work3.addEventListener("submit", async (e) => {
+        work3.addEventListener("submit", (e) => {
             e.preventDefault();
             
             title3 = e.target[0].value;
@@ -242,7 +242,7 @@ function externalListeners(){
     }
 
     if (work7){
-        work7.addEventListener("submit", async (e) => {
+        work7.addEventListener("submit", (e) => {
             e.preventDefault();
             
             title7 = e.target[0].value;
@@ -369,11 +369,10 @@ export const blockParticipant = () => {
 
 const buildSoccerResults = async (title, task) => {
 
-    let soccerURL = '';
+    let soccerURL = SOCcerDev;
 
     if(location.host === urls.prod) soccerURL = SOCcerProd;
     else if(location.host === urls.stage) soccerURL = SOCcerStage;
-    else soccerURL = SOCcerDev;
     
     let soccerResults = await (await fetch(`${soccerURL}title=${title}&task=${task}&n=6`)).json();
     
