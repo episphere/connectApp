@@ -1365,6 +1365,14 @@ button.connect-secondary {
     text-decoration: underline ;
 }
 
+.site-info-bold-italic {
+    color: #000000;
+    font-weight: bold;
+    font-style: italic;
+    font-weight: 900;
+    font-family: Montserrat;
+}
+
 .site-info-align {
     vertical-align: top;
     text-align: left;
