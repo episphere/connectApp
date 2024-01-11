@@ -4,4 +4,4 @@ export const firebaseConfig = {
     authDomain: "nih-nci-dceg-connect-dev.firebaseapp.com"
 };
 
-export const SOCcer = 'https://sitf-raft3imjaq-uc.a.run.app/soccer/code?title='
+export const SOCcer = 'https://sitf-raft3imjaq-uc.a.run.app/soccer/code?'
