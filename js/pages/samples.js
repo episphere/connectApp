@@ -174,7 +174,7 @@ export const renderSamplesPage = async () => {
                     <div class="row" style="width:100%">
                         <div class="consentHeadersFont" style="color:#606060;width:100%">
                             <div>
-                                When Should I Donate My Samples?
+                                When Should I Donate My Blood and Urine Samples?
                             </div>
                         </div>
                         <div class="messagesBodyFont" style="width:100%">
@@ -234,7 +234,7 @@ export const renderSamplesPage = async () => {
                     <div class="row" style="width:100%">
                         <div class="consentHeadersFont" style="color:#606060;width:100%">
                             <div>
-                                How Do I Donate My MouthwashSample?
+                                How Do I Donate My Mouthwash Sample?
                             </div>
                         </div>
                         <div class="messagesBodyFont" style="width:100%">
