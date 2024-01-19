@@ -1,6 +1,5 @@
-import { storeSocial } from '../shared.js';
+import { storeSocial, storeResponse } from '../shared.js';
 import fieldMapping from '../fieldToConceptIdMapping.js';
-import { storeResponse } from '../shared.js';
 
 const hardErrorNineFormat = 'Please enter a valid Social Security Number in this format: 999-99-9999.';
 const hardErrorFourFormat = 'Please enter the last four digits of a valid Social Security Number in this format: 9999.';
@@ -8,7 +7,9 @@ const hardErrorMismatch = 'The numbers entered do not match. Please try again.';
 
 let content;
 let ssnNineDigits;
+let ssnNineDigitsConfirm;
 let ssnFourDigits;
+let ssnFourDigitsConfirm;
 
 export const socialSecurityTemplate = (data) => {
     content = document.getElementById('ssn-module-div');
@@ -28,22 +29,23 @@ export const socialSecurityTemplate = (data) => {
 const socialSecurityIntro = () => {
     
     const template = ` 
-        <div class="row" id="ssn-module-container">
-            <div class="ssn-content-area">
-                <p class="socialHeadersFont"><b>Why Connect collects Social Security Numbers</b></p>
-                <p class="socialBodyFont">In this survey, we ask for your Social Security Number, a unique number used to identify people in the United States that is often recorded in state and national health databases. Social Security Numbers help us link to public health databases and ensure that the information we collect from these sources is correctly matched to you.</p>
-                <p class="socialBodyFont">Your privacy is important to us and there are protections in place to keep your Social Security Number safe. We store your Social Security Number in a secure database separate from other information you share, including survey answers, samples, and personal information such as your name. Only a small number of Connect staff will have access to Social Security Number information. These staff will not be researchers using the data for future studies, but will be responsible for protecting this information and only using it to match data from other public health sources to your Connect participant record. We never share information that can identify you, including your Social Security Number, with researchers.</p>
-            </div>
+        <div class="row ssn-content-header">
+            </p><b>Why Connect collects Social Security Numbers</b></p>
+        </div>
 
-            <div class="ssn-button-area">
-                <div class="col-md-2">
-                    <button class="btn btn-primary socialPreviousButton" type="button" id="backToHeardAboutStudyForm">Previous</button>
-                </div>
-                <div class="col-md-8">
-                </div>
-                <div class="col-md-2">
-                    <button class="btn btn-primary socialNextButton" type="button" id="socialSecurityIntroNext">Next</button>
-                </div>
+        <div class="row ssn-content-body">
+            <p>In this survey, we ask for your Social Security Number, a unique number used to identify people in the United States that is often recorded in state and national health databases. Social Security Numbers help us link to public health databases and ensure that the information we collect from these sources is correctly matched to you.</p>
+            <p>Your privacy is important to us and there are protections in place to keep your Social Security Number safe. We store your Social Security Number in a secure database separate from other information you share, including survey answers, samples, and personal information such as your name. Only a small number of Connect staff will have access to Social Security Number information. These staff will not be researchers using the data for future studies, but will be responsible for protecting this information and only using it to match data from other public health sources to your Connect participant record. We never share information that can identify you, including your Social Security Number, with researchers.</p>
+        </div>
+
+        <div class="row ssn-content-buttons">
+            <div class="col-md-3">
+                <button class="ssn-button" type="button" id="backToHeardAboutStudyForm">Previous</button>
+            </div>
+            <div class="col-md-6">
+            </div>
+            <div class="col-md-3">
+                <button class="ssn-button" type="button" id="socialSecurityIntroNext">Next</button>
             </div>
         </div>
     `;
@@ -58,22 +60,23 @@ const socialSecurityIntro = () => {
 const socialSecurityIntroContinued = () => {
 
     const template = ` 
-        <div class="row" id="ssn-module-container">
-            <div class="ssn-content-area">
-                <p class="socialHeadersFont"><b>How Connect will use this information</b></p>
-                <p class="socialBodyFont">Using information from public health databases like cancer registries makes Connect a better resource to study cancer prevention. The information we get from cancer and other health registries may help us answer research questions and get more accurate study findings that could benefit all communities.</p>
-                <p class="socialBodyFont">You may share all 9 digits of your Social Security Number, the last 4 digits of your Social Security Number, or no digits at all. If you prefer not to share your full Social Security Number, please consider sharing the last 4 digits. This will help us match the information we collect in public health databases to you, which will increase the value of the data we have for research.</p>
-            </div>
+        <div class="row ssn-content-header">
+            </p><b>How Connect will use this information</b></p>
+        </div>
 
-            <div class="ssn-button-area">
-                <div class="col-md-2">
-                    <button class="btn btn-primary socialPreviousButton" type="button" id="socialSecurityIntroContinuedPrevious">Previous</button>
-                </div>
-                <div class="col-md-8">
-                </div>
-                <div class="col-md-2">
-                    <button class="btn btn-primary socialNextButton" type="button" id="socialSecurityIntroContinuedNext">Next</button>
-                </div>
+        <div class="row ssn-content-body">
+            <p>Using information from public health databases like cancer registries makes Connect a better resource to study cancer prevention. The information we get from cancer and other health registries may help us answer research questions and get more accurate study findings that could benefit all communities.</p>
+            <p>You may share all 9 digits of your Social Security Number, the last 4 digits of your Social Security Number, or no digits at all. If you prefer not to share your full Social Security Number, please consider sharing the last 4 digits. This will help us match the information we collect in public health databases to you, which will increase the value of the data we have for research.</p>
+        </div>
+
+        <div class="row ssn-content-buttons">
+            <div class="col-md-3">
+                <button class="ssn-button" type="button" id="socialSecurityIntroContinuedPrevious">Previous</button>
+            </div>
+            <div class="col-md-6">
+            </div>
+            <div class="col-md-3">
+                <button class="ssn-button" type="button" id="socialSecurityIntroContinuedNext">Next</button>
             </div>
         </div>
     `;
@@ -92,48 +95,42 @@ const socialSecurityIntroContinued = () => {
 const socialSecurityNineDigits = () => {
 
     ssnNineDigits = '';
+    ssnNineDigitsConfirm = '';
 
     const template = ` 
-        <div class="row" id="ssn-module-container">
-            <div class="ssn-content-area">
-                <p class="socialBodyFont">Please enter your Social Security Number:</p>
-                <p>
-                    <input type='text' id="SSN_Nine" class="SSN" inputmode="numeric" maxlength="9"</input>
-                    <span class="ssn-error-message" id="errorSSN_Nine"></span>
-                </p>
-                <p class="socialBodyFont">Please confirm your Social Security Number:</p>
-                <p>
-                    <input type='text' id="SSN_Nine_Confirm" class="SSN" inputmode="numeric" maxlength="9" autocomplete="off"</input>
-                    <span class="ssn-error-message" id="errorSSN_Nine_Confirm"></span>
-                </p>
-            </div>
+        <div class="row ssn-content-header">
+        </div>
 
-            <div class="ssn-button-area">
-                <div class="col-md-2">
-                    <button class="btn btn-primary socialPreviousButton" type="button" id="socialSecurityNineDigitsPrevious">Previous</button>
+        <div class="row ssn-content-body">
+            <div class="input-group">
+                <label for="SSN_Nine">Please enter your Social Security Number:</label>
+                <input type="text" id="SSN_Nine" class="SSN" inputmode="numeric" maxlength="9" />
+                <span class="ssn-error-message" id="errorSSN_Nine"></span>
+            </div>
+            <div class="input-group">
+                <label for="SSN_Nine_Confirm">Please confirm your Social Security Number:</label>
+                <input type="text" id="SSN_Nine_Confirm" class="SSN" inputmode="numeric" maxlength="9" autocomplete="off" />
+                <span class="ssn-error-message" id="errorSSN_Nine_Confirm"></span>
                 </div>
-                <div class="col-md-8">
-                </div>
-                <div class="col-md-2">
-                    <button class="btn btn-primary socialNextButton" type="button" id="socialSecurityNineDigitsNext">Next</button>
-                </div>
+            </div>
+        </div>
+
+        <div class="row ssn-content-buttons">
+            <div class="col-md-3">
+                <button class="ssn-button" type="button" id="socialSecurityNineDigitsPrevious">Previous</button>
+            </div>
+            <div class="col-md-6">
+            </div>
+            <div class="col-md-3">
+                <button class="ssn-button" type="button" id="socialSecurityNineDigitsNext">Next</button>
             </div>
         </div>
     `;
 
     content.innerHTML = template;
 
-    const ssnNineInput = document.getElementById('SSN_Nine');
     const ssnNineError = document.getElementById('errorSSN_Nine');
-    const ssnNineConfirmInput = document.getElementById('SSN_Nine_Confirm');
     const ssnNineConfirmError = document.getElementById('errorSSN_Nine_Confirm');
-
-
-    document.querySelectorAll('.SSN').forEach(function(input) {
-        input.addEventListener('input', function() {
-            input.value = input.value.replace(/[^\d]/g, '');
-        });
-    });
 
     document.getElementById('socialSecurityNineDigitsPrevious').addEventListener('click', () => {
         socialSecurityIntroContinued();
@@ -144,12 +141,12 @@ const socialSecurityNineDigits = () => {
         clearError(ssnNineError);
         clearError(ssnNineConfirmError);
 
-        if(!checkMatch(ssnNineInput.value, ssnNineConfirmInput.value)) {
+        if(!checkMatch(ssnNineDigits, ssnNineDigitsConfirm)) {
             displayError(ssnNineConfirmError, hardErrorMismatch);
             return;
         }
 
-        if(ssnNineInput.value.length === 0) {
+        if(ssnNineDigits === 0) {
 
             const onContinue = () => {
                 socialSecurityFourDigits();
@@ -159,53 +156,62 @@ const socialSecurityNineDigits = () => {
             return;
         }
 
-        if(!checkNineDigitValid(ssnNineInput.value)) {
+        if(!checkNineDigitValid(ssnNineDigits)) {
             displayError(ssnNineError, hardErrorNineFormat);
             return;
         }
 
-        ssnNineDigits = ssnNineInput.value;
         endMessageOne();
+    });
+    
+    document.getElementById('SSN_Nine').addEventListener('input', (event) => {
+        ssnNineDigits = digitMask(event, ssnNineDigits);
+    
+    });
+
+    document.getElementById('SSN_Nine_Confirm').addEventListener('input', (event) => {
+        ssnNineDigitsConfirm = digitMask(event, ssnNineDigitsConfirm);
     });
 }
 
 const socialSecurityFourDigits = () => {
 
     ssnFourDigits = '';
+    ssnFourDigitsConfirm = '';
 
     const template = ` 
-        <div class="row" id="ssn-module-container">
-            <div class="ssn-content-area">
-                <p class="socialBodyFont">If you prefer to provide only the last four digits of your Social Security Number, please enter the last four digits here:</p>
-                <p>
-                    <input type='text' id="SSN_Four" class="SSN" inputmode="numeric" maxlength="4"</input>
-                    <span class="ssn-error-message" id="errorSSN_Four"></span>
-                </p>
-                <p class="socialBodyFont">Please confirm the last four digits of your Social Security Number:</p>
-                <p>
-                    <input type='text' id="SSN_Four_Confirm" class="SSN" inputmode="numeric" maxlength="4" autocomplete="off"</input>
-                    <span class="ssn-error-message" id="errorSSN_Four_Confirm"></span>
-                </p>
-            </div>
+        <div class="row ssn-content-header">
+        </div>
 
-            <div class="ssn-button-area">
-                <div class="col-md-2">
-                    <button class="btn btn-primary socialPreviousButton" type="button" id="socialSecurityFourDigitsPrevious">Previous</button>
+        <div class="row ssn-content-body">
+            <div class="input-group">
+                <label for="SSN_Four">If you prefer to provide only the last four digits of your Social Security Number, please enter the last four digits here:</label>
+                <input type="text" id="SSN_Four" class="SSN" inputmode="numeric" maxlength="4" />
+                <span class="ssn-error-message" id="errorSSN_Four"></span>
+            </div>
+            <div class="input-group">
+                <label for="SSN_Four_Confirm">Please confirm the last four digits of your Social Security Number:</label>
+                <input type="text" id="SSN_Four_Confirm" class="SSN" inputmode="numeric" maxlength="4" autocomplete="off" />
+                <span class="ssn-error-message" id="errorSSN_Four_Confirm"></span>
                 </div>
-                <div class="col-md-8">
-                </div>
-                <div class="col-md-2">
-                    <button class="btn btn-primary socialNextButton" type="button" id="socialSecurityFourDigitsNext">Next</button>
-                </div>
+            </div>
+        </div>
+
+        <div class="row ssn-content-buttons">
+            <div class="col-md-3">
+                <button class="ssn-button" type="button" id="socialSecurityFourDigitsPrevious">Previous</button>
+            </div>
+            <div class="col-md-6">
+            </div>
+            <div class="col-md-3">
+                <button class="ssn-button" type="button" id="socialSecurityFourDigitsNext">Next</button>
             </div>
         </div>
     `;
 
     content.innerHTML = template;
 
-    const ssnFourInput = document.getElementById('SSN_Four');
     const ssnFourError = document.getElementById('errorSSN_Four');
-    const ssnFourConfirmInput = document.getElementById('SSN_Four_Confirm');
     const ssnFourConfirmError = document.getElementById('errorSSN_Four_Confirm');
 
     document.getElementById('socialSecurityFourDigitsPrevious').addEventListener('click', () => {
@@ -217,12 +223,12 @@ const socialSecurityFourDigits = () => {
         clearError(ssnFourError);
         clearError(ssnFourConfirmError);
 
-        if(!checkMatch(ssnFourInput.value, ssnFourConfirmInput.value)) {
+        if(!checkMatch(ssnFourDigits, ssnFourDigitsConfirm)) {
             displayError(ssnFourConfirmError, hardErrorMismatch);
             return;
         }
 
-        if(ssnFourInput.value.length === 0) {
+        if(ssnFourDigits.length === 0) {
 
             const onContinue = () => {
                 endMessageTwo();
@@ -232,33 +238,42 @@ const socialSecurityFourDigits = () => {
             return;
         }
 
-        if(!checkFourDigitValid(ssnFourInput.value)) {
+        if(!checkFourDigitValid(ssnFourDigits)) {
             displayError(ssnFourError, hardErrorFourFormat);
             return;
         }
 
-        ssnFourDigits = ssnFourInput.value;
         endMessageOne();
+    });
+
+    document.getElementById('SSN_Four').addEventListener('input', (event) => {
+        ssnFourDigits = digitMask(event, ssnFourDigits);
+    
+    });
+
+    document.getElementById('SSN_Four_Confirm').addEventListener('input', (event) => {
+        ssnFourDigitsConfirm = digitMask(event, ssnFourDigitsConfirm);
     });
 }
 
 const endMessageOne = () => {
 
-    const template = ` 
-        <div class="row" id="ssn-module-container">
-            <div class="ssn-content-area">
-                <p class="socialBodyFont">You have answered all of the questions in this survey. To submit your answers, select the “Submit Survey” button.</p>
-            </div>
+    const template = `   
+        <div class="row ssn-content-header">   
+        </div>
 
-            <div class="ssn-button-area">
-                <div class="col-md-2">
-                    <button class="btn btn-primary socialPreviousButton" type="button" id="endMessageOnePrevious">Previous</button>
-                </div>
-                <div class="col-md-8">
-                </div>
-                <div class="col-md-2">
-                    <button class="btn btn-primary socialNextButton" type="button" id="endMessageOneNext">Submit</button>
-                </div>
+        <div class="row ssn-content-body">
+            <p>You have answered all of the questions in this survey. To submit your answers, select the “Submit Survey” button.</p>
+        </div>
+
+        <div class="row ssn-content-buttons">
+            <div class="col-md-3">
+                <button class="ssn-button" type="button" id="endMessageOnePrevious">Previous</button>
+            </div>
+            <div class="col-md-6">
+            </div>
+            <div class="col-md-3">
+                <button class="ssn-button" type="button" id="endMessageOneNext">Submit</button>
             </div>
         </div>
     `;
@@ -281,21 +296,22 @@ const endMessageOne = () => {
 
 const endMessageTwo = () => {
 
-    const template = ` 
-        <div class="row" id="ssn-module-container">
-            <div class="ssn-content-area">
-                <p class="socialBodyFont">Thank you. This survey will remain available on your MyConnect dashboard in case you decide to provide this information in the future. To exit this survey, select the “Close Survey" button.</p>
-            </div>
+    const template = `   
+        <div class="row ssn-content-header">    
+        </div>
 
-            <div class="ssn-button-area">
-                <div class="col-md-2">
-                    <button class="btn btn-primary socialPreviousButton" type="button" id="endMessageTwoPrevious">Previous</button>
-                </div>
-                <div class="col-md-8">
-                </div>
-                <div class="col-md-2">
-                    <button class="btn btn-primary socialNextButton" type="button" id="endMessageTwoNext">Close</button>
-                </div>
+        <div class="row ssn-content-body">
+            <p>Thank you. This survey will remain available on your MyConnect dashboard in case you decide to provide this information in the future. To exit this survey, select the “Close Survey" button.</p>
+        </div>
+
+        <div class="row ssn-content-buttons">
+            <div class="col-md-3">
+                <button class="ssn-button" type="button" id="endMessageTwoPrevious">Previous</button>
+            </div>
+            <div class="col-md-6">
+            </div>
+            <div class="col-md-3">
+                <button class="ssn-button" type="button" id="endMessageTwoNext">Close</button>
             </div>
         </div>
     `;
@@ -307,19 +323,18 @@ const endMessageTwo = () => {
     });
 
     document.getElementById('endMessageTwoNext').addEventListener('click', () => {
-        
         location.reload();
     });
 }
 
 const clearError = (div) => {
     div.innerHTML = '';
-    div.style.display = 'none';
+    div.style.visibility = 'hidden';
 }
 
 const displayError = (div, message) => {
     div.innerHTML = message;
-    div.style.display = 'block';
+    div.style.visibility = 'visible';
 }
 
 const checkNineDigitValid = (input) => {
@@ -361,4 +376,23 @@ const displayModal = (onContinue) => {
         }
         softModal.hide();
     }
+}
+
+const digitMask = (event, rawInput) => {
+
+    const input = event.data;
+    const position = event.target.selectionStart;
+
+    if (input !== null && /\d/.test(input)) {
+        rawInput = rawInput.slice(0, position - 1) + input + rawInput.slice(position - 1);
+    } else {
+        rawInput = rawInput.slice(0, position) + rawInput.slice(position + 1);
+    }
+
+    const maskedInput = rawInput.replace(/./g, '*');
+    event.target.value = maskedInput;
+
+    event.target.setSelectionRange(position, position);
+
+    return rawInput;
 }

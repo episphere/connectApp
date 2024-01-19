@@ -434,7 +434,7 @@ const renderMainBody = (data, collections, tab) => {
                     if (!modules[key].completed) {
                         template += `
                             <div style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
-                                <div id=${key === 'Enter SSN' ? "ssn-module-div" : "questionnaire-div" } class="row">
+                                <div id=${key === 'Enter SSN' ? "ssn-module-div" : "questionnaire-div" } class="row d-flex justify-content-center">
                                     ${modules[key]['hasIcon'] === false ? `` : `
                                     <div class="col-md-1">
                                         <i class="fas fa-clipboard-list d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
