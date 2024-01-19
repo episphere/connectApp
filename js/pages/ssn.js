@@ -28,7 +28,7 @@ export const socialSecurityTemplate = (data) => {
 
 const socialSecurityIntro = () => {
     
-    const template = ` 
+    content.innerHTML = ` 
         <div class="row ssn-content-header">
             </p><b>Why Connect collects Social Security Numbers</b></p>
         </div>
@@ -50,8 +50,6 @@ const socialSecurityIntro = () => {
         </div>
     `;
 
-    content.innerHTML = template;
-
     document.getElementById('socialSecurityIntroNext').addEventListener('click', () => {
         socialSecurityIntroContinued();
     });
@@ -59,7 +57,7 @@ const socialSecurityIntro = () => {
 
 const socialSecurityIntroContinued = () => {
 
-    const template = ` 
+    content.innerHTML = ` 
         <div class="row ssn-content-header">
             </p><b>How Connect will use this information</b></p>
         </div>
@@ -81,8 +79,6 @@ const socialSecurityIntroContinued = () => {
         </div>
     `;
 
-    content.innerHTML = template;
-
     document.getElementById('socialSecurityIntroContinuedPrevious').addEventListener('click', () => {
         socialSecurityIntro();
     });
@@ -97,7 +93,7 @@ const socialSecurityNineDigits = () => {
     ssnNineDigits = '';
     ssnNineDigitsConfirm = '';
 
-    const template = ` 
+    content.innerHTML = ` 
         <div class="row ssn-content-header">
         </div>
 
@@ -126,8 +122,6 @@ const socialSecurityNineDigits = () => {
             </div>
         </div>
     `;
-
-    content.innerHTML = template;
 
     const ssnNineError = document.getElementById('errorSSN_Nine');
     const ssnNineConfirmError = document.getElementById('errorSSN_Nine_Confirm');
@@ -179,7 +173,7 @@ const socialSecurityFourDigits = () => {
     ssnFourDigits = '';
     ssnFourDigitsConfirm = '';
 
-    const template = ` 
+    content.innerHTML = ` 
         <div class="row ssn-content-header">
         </div>
 
@@ -208,8 +202,6 @@ const socialSecurityFourDigits = () => {
             </div>
         </div>
     `;
-
-    content.innerHTML = template;
 
     const ssnFourError = document.getElementById('errorSSN_Four');
     const ssnFourConfirmError = document.getElementById('errorSSN_Four_Confirm');
@@ -258,7 +250,7 @@ const socialSecurityFourDigits = () => {
 
 const endMessageOne = () => {
 
-    const template = `   
+    content.innerHTML = `   
         <div class="row ssn-content-header">   
         </div>
 
@@ -278,8 +270,6 @@ const endMessageOne = () => {
         </div>
     `;
 
-    content.innerHTML = template;
-
     document.getElementById('endMessageOnePrevious').addEventListener('click', () => {
         if (ssnNineDigits) socialSecurityNineDigits();
         if (ssnFourDigits) socialSecurityFourDigits();
@@ -296,7 +286,7 @@ const endMessageOne = () => {
 
 const endMessageTwo = () => {
 
-    const template = `   
+    content.innerHTML = `   
         <div class="row ssn-content-header">    
         </div>
 
@@ -315,8 +305,6 @@ const endMessageTwo = () => {
             </div>
         </div>
     `;
-
-    content.innerHTML = template;
 
     document.getElementById('endMessageTwoPrevious').addEventListener('click', () => {
         socialSecurityFourDigits();
