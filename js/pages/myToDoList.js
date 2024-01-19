@@ -41,7 +41,7 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                 if (isParticipantDataDestroyed(data)){
                     finalMessage += "At your request, we have deleted your Connect data. If you have any questions, please contact the Connect Support Center by calling 1-877-505-0253 or by emailing  <a href='mailto:ConnectSupport@norc.org'>ConnectSupport@norc.org</a>."
                 }
-                else if (data['831041022'] && data['831041022'] === 353358909){
+                else if (data['831041022'] === 353358909){
                     if (!data['359404406'] || data['359404406'] == 104430631){
                         finalMessage += "You have a new <a href='#forms'>form</a> to sign." + defaultMessage
                     }
@@ -71,7 +71,7 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                     hideAnimation();
                     return;
                 }
-                else if (((data['773707518'] && data['773707518'] === 353358909)) && (!data['153713899'] || data['153713899'] === 104430631)){
+                else if (((data['773707518'] === 353358909)) && (!data['153713899'] || data['153713899'] === 104430631)){
                     topMessage += "You have a new <a href='#forms'>form</a> to sign.<p/><br>"
                 }
                 if(!data['821247024'] || data['821247024'] == 875007964){

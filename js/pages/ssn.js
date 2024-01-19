@@ -14,7 +14,7 @@ let ssnFourDigitsConfirm;
 export const socialSecurityTemplate = (data) => {
     content = document.getElementById('ssn-module-div');
 
-    if(data[fieldMapping.ModuleSsn.statusFlag] === fieldMapping.moduleStatus.notStarted) {
+    if (data[fieldMapping.ModuleSsn.statusFlag] === fieldMapping.moduleStatus.notStarted) {
         const formData = {
             [fieldMapping.ModuleSsn.startTs]: new Date().toISOString(),
             [fieldMapping.ModuleSsn.statusFlag]: fieldMapping.moduleStatus.started
