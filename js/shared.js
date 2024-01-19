@@ -141,7 +141,7 @@ export const storeResponse = async (formData) => {
 export const storeSocial = async (formData) => {
         
     const idToken = await getIdToken();
-    const response = await fetch(`http://localhost:8080/app?api=submitSocial`, {
+    const response = await fetch(`${api}?api=submitSocial`, {
         method: "POST",
         headers:{
             Authorization: "Bearer " + idToken,
