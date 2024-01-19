@@ -350,15 +350,11 @@ const checkNineDigitValid = (input) => {
 
 const checkFourDigitValid = (input) => {
 
-    if (input.length !== 4) return false;
-    if (input === '0000') return false;
-
-    return true;
+    return input.length === 4 && input !== '0000';
 }
 
 const checkMatch = (inputOne, inputTwo) => {
-    if (inputOne === inputTwo) return true;
-    return false;
+    return inputOne === inputTwo;
 }
 
 const displayModal = (onContinue) => {
@@ -389,9 +385,7 @@ const digitMask = (event, rawInput) => {
         rawInput = rawInput.slice(0, position) + rawInput.slice(position + 1);
     }
 
-    const maskedInput = rawInput.replace(/./g, '*');
-    event.target.value = maskedInput;
-
+    event.target.value = rawInput.replace(/./g, '*');
     event.target.setSelectionRange(position, position);
 
     return rawInput;
