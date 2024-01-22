@@ -217,10 +217,10 @@ function externalListeners(){
 
     let module1 = modules[fieldMapping.Module1.conceptId];
 
-    let title3 = module1['D_627122657'] ?? '';
-    let task3 = module1['D_796828094'] ?? '';
-    let title7 = module1['D_118061122'] ?? '';
-    let task7 = module1['D_518387017'] ?? '';
+    let title3 = module1?.['D_627122657'] ?? '';
+    let task3 = module1?.['D_796828094'] ?? '';
+    let title7 = module1?.['D_118061122'] ?? '';
+    let task7 = module1?.['D_518387017'] ?? '';
     
     if (work3){
         work3.addEventListener("submit", (e) => {
