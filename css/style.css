@@ -1384,3 +1384,48 @@ button.connect-secondary {
     padding: 5px;
     border-radius: 50%;
 }
+
+.ssn-content-header {
+    padding: 30px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 23px;
+    color:#000000;
+}
+
+.ssn-content-body {
+    padding: 30px;
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 16px;
+    color:#000000;
+}
+
+.ssn-content-buttons {
+    width: 100%;
+    padding: 30px;
+}
+
+.ssn-button {
+    background-color: rgb(50, 122, 187);
+    color: white;
+    border: solid 3px rgb(50, 122, 187);
+    border-radius: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.ssn-button:hover {
+    background-color: rgb(55, 133, 203);
+    border: solid 3px rgb(55, 133, 203);
+}
+
+
+.ssn-error-message {
+    color: red;
+    font-size: 0.8em;
+    display: block;
+    visibility: hidden;
+}

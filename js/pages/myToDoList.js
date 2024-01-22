@@ -1,10 +1,11 @@
-import { hideAnimation, questionnaireModules, storeResponse, sites , isParticipantDataDestroyed} from "../shared.js";
+import { hideAnimation, questionnaireModules, storeResponse, isParticipantDataDestroyed} from "../shared.js";
 import { blockParticipant, questionnaire } from "./questionnaire.js";
 import { renderUserProfile } from "../components/form.js";
 import { consentTemplate } from "./consent.js";
 import { addEventHeardAboutStudy, addEventRequestPINForm, addEventHealthCareProviderSubmit, addEventPinAutoUpperCase, addEventHealthProviderModalSubmit, addEventToggleSubmit } from "../event.js";
 import { heardAboutStudy, requestPINTemplate, healthCareProvider } from "./healthCareProvider.js";
 import fieldMapping from '../fieldToConceptIdMapping.js';
+import { socialSecurityTemplate } from "./ssn.js";
 
 export const myToDoList = async (data, fromUserProfile, collections) => {
     const mainContent = document.getElementById('root');
@@ -40,7 +41,7 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                 if (isParticipantDataDestroyed(data)){
                     finalMessage += "At your request, we have deleted your Connect data. If you have any questions, please contact the Connect Support Center by calling 1-877-505-0253 or by emailing  <a href='mailto:ConnectSupport@norc.org'>ConnectSupport@norc.org</a>."
                 }
-                else if (data.hasOwnProperty('831041022') && data['831041022'] == 353358909){
+                else if (data['831041022'] === 353358909){
                     if (!data['359404406'] || data['359404406'] == 104430631){
                         finalMessage += "You have a new <a href='#forms'>form</a> to sign." + defaultMessage
                     }
@@ -70,7 +71,7 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                     hideAnimation();
                     return;
                 }
-                else if (((data.hasOwnProperty('773707518') && data['773707518'] == 353358909)) && (!data['153713899'] || data['153713899'] == 104430631)){
+                else if (((data['773707518'] === 353358909)) && (!data['153713899'] || data['153713899'] === 104430631)){
                     topMessage += "You have a new <a href='#forms'>form</a> to sign.<p/><br>"
                 }
                 if(!data['821247024'] || data['821247024'] == 875007964){
@@ -239,7 +240,7 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                         toActive.classList.add('survey-Active-Nav')
                         toInactive.classList.add('survey-Inactive-Nav')
                         toInactive.classList.remove('survey-Active-Nav')
-                        addEventToDoList();
+                        addEventToDoList(data);
                     }
                 })
                 document.getElementById('surveysCompleted').addEventListener('click', () => {
@@ -252,9 +253,9 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                         toInactive.classList.remove('survey-Active-Nav')
                     }
                     document.getElementById('surveyMainBody').innerHTML = renderMainBody(data, collections, 'completed') 
-                    addEventToDoList();
+                    addEventToDoList(data);
                 })
-                addEventToDoList();
+                addEventToDoList(data);
                 hideAnimation();
                 return;
             }
@@ -302,8 +303,9 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
     }
 }
 
-const addEventToDoList = () => {
+const addEventToDoList = (data) => {
     const modules = document.getElementsByClassName('questionnaire-module');
+    const socialSecurityModule = document.getElementsByClassName('ssn-module');
     
     Array.from(modules).forEach(module => {
         module.addEventListener('click',() => {
@@ -314,8 +316,13 @@ const addEventToDoList = () => {
             }
         })
     })
-}
 
+    Array.from(socialSecurityModule).forEach(module => {
+        module.addEventListener('click', () => {
+            socialSecurityTemplate(data);
+        })
+    });
+}
 
 const renderMainBody = (data, collections, tab) => {
     let template = `<ul class="questionnaire-module-list">`;
@@ -376,7 +383,7 @@ const renderMainBody = (data, collections, tab) => {
     if(tab === 'todo'){
         for(let obj of toDisplaySystem){
             let started = false;
-            if(obj.hasOwnProperty('body')){
+            if(obj['body']){
                 let anyFound = false;
                 for(let key of obj['body']){
                     if(!modules[key].completed){
@@ -388,7 +395,7 @@ const renderMainBody = (data, collections, tab) => {
                 if (!anyFound) continue;
 
                 for(let key of obj['body']){
-                    if (!started && obj.hasOwnProperty('header')) {
+                    if (!started && obj['header']) {
                         const thisKey = obj['header'];
                         started = true;
                         template += `
@@ -427,7 +434,7 @@ const renderMainBody = (data, collections, tab) => {
                     if (!modules[key].completed) {
                         template += `
                             <div style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
-                                <div class="row">
+                                <div id=${key === 'Enter SSN' ? "ssn-module-div" : "questionnaire-div" } class="row d-flex justify-content-center">
                                     ${modules[key]['hasIcon'] === false ? `` : `
                                     <div class="col-md-1">
                                         <i class="fas fa-clipboard-list d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
@@ -451,9 +458,9 @@ const renderMainBody = (data, collections, tab) => {
                                     </div>
                                 
                                     ${modules[key]['noButton'] === true ? '' : `
-                                    <div class="col-md-3">
-                                        <button class="btn survey-list-active btn-agreement questionnaire-module ${(modules[key].enabled && !modules[key].unreleased) ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${key}" module_id="${modules[key].moduleId}"><b>${modules[key].unreleased  ?  'Coming soon' : data[fieldMapping[modules[key].moduleId].statusFlag] === fieldMapping.moduleStatus.started ? 'Continue' : 'Start'}</b></button>    
-                                    </div>
+                                        <div class="col-md-3">
+                                            <button class="btn survey-list-active btn-agreement ${key === 'Enter SSN' ? 'ssn-module' : 'questionnaire-module'} ${(modules[key].enabled && !modules[key].unreleased) ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${key}" module_id="${modules[key].moduleId}"><b>${modules[key].unreleased  ?  'Coming soon' : data[fieldMapping[modules[key].moduleId].statusFlag] === fieldMapping.moduleStatus.started ? 'Continue' : 'Start'}</b></button>    
+                                        </div>
                                     `}
                                 </div>
                                 
@@ -497,7 +504,7 @@ const renderMainBody = (data, collections, tab) => {
     } else {
         for(let obj of toDisplaySystem){
             let started = false;
-            if(obj.hasOwnProperty('body')){
+            if(obj['body']){
                 let anyFound = false;
                 for(let key of obj['body']){
                     if(!modules[key].completed){
@@ -509,7 +516,7 @@ const renderMainBody = (data, collections, tab) => {
                 for(let key of obj['body']){
                     if(!anyFound){
                         if(!started){
-                            if(obj.hasOwnProperty('header')){
+                            if(obj['header']){
                                 let thisKey = obj['header'];
                                 
                                 started = true;
