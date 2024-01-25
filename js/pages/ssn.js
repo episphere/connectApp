@@ -1,4 +1,4 @@
-import { storeSocial, storeResponse } from '../shared.js';
+import { storeSocial, storeResponse, hideAnimation } from '../shared.js';
 import fieldMapping from '../fieldToConceptIdMapping.js';
 
 const hardErrorNineFormat = 'Please enter a valid Social Security Number in this format: 999-99-9999.';
@@ -6,13 +6,22 @@ const hardErrorFourFormat = 'Please enter the last four digits of a valid Social
 const hardErrorMismatch = 'The numbers entered do not match. Please try again.';
 
 let content;
+
 let ssnNineDigits;
+let ssnNineDigitsShow;
 let ssnNineDigitsConfirm;
+let ssnNineDigitsConfirmShow;
+
 let ssnFourDigits;
+let ssnFourDigitsShow;
 let ssnFourDigitsConfirm;
+let ssnFourDigitsConfirmShow;
+
+let ignoreBlur = false;
 
 export const socialSecurityTemplate = (data) => {
-    content = document.getElementById('ssn-module-div');
+    content = document.getElementById('questionnaireRoot');
+    content.style.visibility = 'visible';
 
     if (data[fieldMapping.ModuleSsn.statusFlag] === fieldMapping.moduleStatus.notStarted) {
         const formData = {
@@ -23,7 +32,10 @@ export const socialSecurityTemplate = (data) => {
         storeResponse(formData);
     }
 
+    window.scrollTo(0, 0);
+
     socialSecurityIntro();
+    hideAnimation();
 }
 
 const socialSecurityIntro = () => {
@@ -40,7 +52,6 @@ const socialSecurityIntro = () => {
 
         <div class="row ssn-content-buttons">
             <div class="col-md-3">
-                <button class="ssn-button" type="button" id="backToHeardAboutStudyForm">Previous</button>
             </div>
             <div class="col-md-6">
             </div>
@@ -69,7 +80,7 @@ const socialSecurityIntroContinued = () => {
 
         <div class="row ssn-content-buttons">
             <div class="col-md-3">
-                <button class="ssn-button" type="button" id="socialSecurityIntroContinuedPrevious">Previous</button>
+                <button class="ssn-button" type="button" id="socialSecurityIntroContinuedPrevious">Back</button>
             </div>
             <div class="col-md-6">
             </div>
@@ -91,7 +102,10 @@ const socialSecurityIntroContinued = () => {
 const socialSecurityNineDigits = () => {
 
     ssnNineDigits = '';
+    ssnNineDigitsShow = false;
+
     ssnNineDigitsConfirm = '';
+    ssnNineDigitsConfirmShow = false;
 
     content.innerHTML = ` 
         <div class="row ssn-content-header">
@@ -100,12 +114,18 @@ const socialSecurityNineDigits = () => {
         <div class="row ssn-content-body">
             <div class="input-group">
                 <label for="SSN_Nine">Please enter your Social Security Number:</label>
-                <input type="text" id="SSN_Nine" class="SSN" inputmode="numeric" maxlength="9" />
+                <div class="input-with-icon">
+                    <input type="text" id="SSN_Nine" class="SSN" inputmode="numeric" maxlength="11" />
+                    <i class="fa fa-eye" id="togglePassword"></i>
+                </div>
                 <span class="ssn-error-message" id="errorSSN_Nine"></span>
             </div>
             <div class="input-group">
                 <label for="SSN_Nine_Confirm">Please confirm your Social Security Number:</label>
-                <input type="text" id="SSN_Nine_Confirm" class="SSN" inputmode="numeric" maxlength="9" autocomplete="off" />
+                <div class="input-with-icon">
+                    <input type="text" id="SSN_Nine_Confirm" class="SSN" inputmode="numeric" maxlength="11" />
+                    <i class="fa fa-eye" id="togglePasswordConfirm"></i>
+                </div>
                 <span class="ssn-error-message" id="errorSSN_Nine_Confirm"></span>
                 </div>
             </div>
@@ -113,7 +133,7 @@ const socialSecurityNineDigits = () => {
 
         <div class="row ssn-content-buttons">
             <div class="col-md-3">
-                <button class="ssn-button" type="button" id="socialSecurityNineDigitsPrevious">Previous</button>
+                <button class="ssn-button" type="button" id="socialSecurityNineDigitsPrevious">Back</button>
             </div>
             <div class="col-md-6">
             </div>
@@ -123,8 +143,40 @@ const socialSecurityNineDigits = () => {
         </div>
     `;
 
+    const ssnNineDigitsInput = document.getElementById('SSN_Nine');
     const ssnNineError = document.getElementById('errorSSN_Nine');
+    const ssnNineDigitsConfirmInput = document.getElementById('SSN_Nine_Confirm');
     const ssnNineConfirmError = document.getElementById('errorSSN_Nine_Confirm');
+
+    document.getElementById('togglePassword').addEventListener('mousedown', () => {
+
+        ignoreBlur = true;
+
+        ssnNineDigitsInput.value = togglePassword(addHyphens(ssnNineDigits), ssnNineDigitsInput, ssnNineDigitsShow);
+        ssnNineDigitsShow = !ssnNineDigitsShow;
+    });
+
+    document.getElementById('togglePasswordConfirm').addEventListener('click', () => {
+            
+        ssnNineDigitsConfirmInput.value = togglePassword(addHyphens(ssnNineDigitsConfirm), ssnNineDigitsConfirmInput, ssnNineDigitsConfirmShow);
+        ssnNineDigitsConfirmShow = !ssnNineDigitsConfirmShow;
+    });
+
+    ssnNineDigitsInput.addEventListener('focus', () => {
+        ignoreBlur = false;
+    });
+
+    ssnNineDigitsInput.addEventListener('blur', () => {
+        
+        if (ignoreBlur) {
+            ignoreBlur = false;
+            return;
+        }
+
+        clearError(ssnNineError);
+
+        if (ssnNineDigits.length > 0 && !checkNineDigitValid(ssnNineDigits)) displayError(ssnNineError, hardErrorNineFormat);
+    });
 
     document.getElementById('socialSecurityNineDigitsPrevious').addEventListener('click', () => {
         socialSecurityIntroContinued();
@@ -132,7 +184,6 @@ const socialSecurityNineDigits = () => {
 
     document.getElementById('socialSecurityNineDigitsNext').addEventListener('click', () => {
 
-        clearError(ssnNineError);
         clearError(ssnNineConfirmError);
 
         if(!checkMatch(ssnNineDigits, ssnNineDigitsConfirm)) {
@@ -140,7 +191,7 @@ const socialSecurityNineDigits = () => {
             return;
         }
 
-        if(ssnNineDigits === 0) {
+        if(ssnNineDigits.length === 0) {
 
             const onContinue = () => {
                 socialSecurityFourDigits();
@@ -150,28 +201,35 @@ const socialSecurityNineDigits = () => {
             return;
         }
 
-        if(!checkNineDigitValid(ssnNineDigits)) {
-            displayError(ssnNineError, hardErrorNineFormat);
-            return;
-        }
+        if(ssnNineDigits.length > 0 && !checkNineDigitValid(ssnNineDigits)) displayError(ssnNineError, hardErrorNineFormat);
 
         endMessageOne();
     });
     
-    document.getElementById('SSN_Nine').addEventListener('input', (event) => {
-        ssnNineDigits = digitMask(event, ssnNineDigits);
-    
+    ssnNineDigitsInput.addEventListener('input', (event) => {
+
+        let inputUpdates = inputWorkflow(event, ssnNineDigits, ssnNineDigitsInput, ssnNineDigitsShow, true);
+
+        ssnNineDigits = inputUpdates.rawInput;
+        ssnNineDigitsInput.value = inputUpdates.inputElement.value;
     });
 
-    document.getElementById('SSN_Nine_Confirm').addEventListener('input', (event) => {
-        ssnNineDigitsConfirm = digitMask(event, ssnNineDigitsConfirm);
+    ssnNineDigitsConfirmInput.addEventListener('input', (event) => {
+
+        let inputUpdates = inputWorkflow(event, ssnNineDigitsConfirm, ssnNineDigitsConfirmInput, ssnNineDigitsConfirmShow, true);
+
+        ssnNineDigitsConfirm = inputUpdates.rawInput;
+        ssnNineDigitsConfirmInput.value = inputUpdates.inputElement.value;
     });
 }
 
 const socialSecurityFourDigits = () => {
 
     ssnFourDigits = '';
+    ssnFourDigitsShow = false;
+
     ssnFourDigitsConfirm = '';
+    ssnFourDigitsConfirmShow = false;
 
     content.innerHTML = ` 
         <div class="row ssn-content-header">
@@ -179,13 +237,19 @@ const socialSecurityFourDigits = () => {
 
         <div class="row ssn-content-body">
             <div class="input-group">
-                <label for="SSN_Four">If you prefer to provide only the last four digits of your Social Security Number, please enter the last four digits here:</label>
-                <input type="text" id="SSN_Four" class="SSN" inputmode="numeric" maxlength="4" />
+                <label for="SSN_Four">If you prefer to provide only the last 4 digits of your Social Security Number, please enter the last four digits here:</label>
+                <div class="input-with-icon">
+                    <input type="text" id="SSN_Four" class="SSN" inputmode="numeric" maxlength="4" />
+                    <i class="fa fa-eye" id="togglePassword"></i>
+                </div>
                 <span class="ssn-error-message" id="errorSSN_Four"></span>
             </div>
             <div class="input-group">
-                <label for="SSN_Four_Confirm">Please confirm the last four digits of your Social Security Number:</label>
-                <input type="text" id="SSN_Four_Confirm" class="SSN" inputmode="numeric" maxlength="4" autocomplete="off" />
+                <label for="SSN_Four_Confirm">Please confirm the last 4 digits of your Social Security Number:</label>
+                <div class="input-with-icon">
+                    <input type="text" id="SSN_Four_Confirm" class="SSN" inputmode="numeric" maxlength="4" autocomplete="off" />
+                    <i class="fa fa-eye" id="togglePasswordConfirm"></i>
+                    </div>
                 <span class="ssn-error-message" id="errorSSN_Four_Confirm"></span>
                 </div>
             </div>
@@ -193,7 +257,7 @@ const socialSecurityFourDigits = () => {
 
         <div class="row ssn-content-buttons">
             <div class="col-md-3">
-                <button class="ssn-button" type="button" id="socialSecurityFourDigitsPrevious">Previous</button>
+                <button class="ssn-button" type="button" id="socialSecurityFourDigitsPrevious">Back</button>
             </div>
             <div class="col-md-6">
             </div>
@@ -203,8 +267,40 @@ const socialSecurityFourDigits = () => {
         </div>
     `;
 
+    const ssnFourDigitsInput = document.getElementById('SSN_Four');
     const ssnFourError = document.getElementById('errorSSN_Four');
+    const ssnFourDigitsConfirmInput = document.getElementById('SSN_Four_Confirm');
     const ssnFourConfirmError = document.getElementById('errorSSN_Four_Confirm');
+
+    document.getElementById('togglePassword').addEventListener('click', () => {
+
+        ignoreBlur = true;
+        
+        ssnFourDigitsInput.value = togglePassword(ssnFourDigits, ssnFourDigitsInput, ssnFourDigitsShow);
+        ssnFourDigitsShow = !ssnFourDigitsShow;
+    });
+
+    document.getElementById('togglePasswordConfirm').addEventListener('click', () => {
+            
+        ssnFourDigitsConfirmInput.value = togglePassword(ssnFourDigitsConfirm, ssnFourDigitsConfirmInput, ssnFourDigitsConfirmShow);
+        ssnFourDigitsConfirmShow = !ssnFourDigitsConfirmShow;
+    });
+
+    ssnFourDigitsInput.addEventListener('focus', () => {
+        ignoreBlur = false;
+    });
+
+    ssnFourDigitsInput.addEventListener('blur', () => {
+        
+        if(ignoreBlur) {
+            ignoreBlur = false;
+            return;
+        }
+
+        clearError(ssnFourError);
+
+        if(ssnFourDigits.length > 0 && !checkFourDigitValid(ssnFourDigits)) displayError(ssnFourError, hardErrorFourFormat);
+    });
 
     document.getElementById('socialSecurityFourDigitsPrevious').addEventListener('click', () => {
         socialSecurityNineDigits();
@@ -212,7 +308,6 @@ const socialSecurityFourDigits = () => {
 
     document.getElementById('socialSecurityFourDigitsNext').addEventListener('click', () => {
 
-        clearError(ssnFourError);
         clearError(ssnFourConfirmError);
 
         if(!checkMatch(ssnFourDigits, ssnFourDigitsConfirm)) {
@@ -230,21 +325,26 @@ const socialSecurityFourDigits = () => {
             return;
         }
 
-        if(!checkFourDigitValid(ssnFourDigits)) {
-            displayError(ssnFourError, hardErrorFourFormat);
-            return;
-        }
+        if(ssnFourDigits.length > 0 && !checkFourDigitValid(ssnFourDigits)) displayError(ssnFourError, hardErrorFourFormat);
 
         endMessageOne();
     });
 
-    document.getElementById('SSN_Four').addEventListener('input', (event) => {
-        ssnFourDigits = digitMask(event, ssnFourDigits);
+    ssnFourDigitsInput.addEventListener('input', (event) => {
+
+        let inputUpdates = inputWorkflow(event, ssnFourDigits, ssnFourDigitsInput, ssnFourDigitsShow, false);
+
+        ssnFourDigits = inputUpdates.rawInput;
+        ssnFourDigitsInput.value = inputUpdates.inputElement.value;
     
     });
 
-    document.getElementById('SSN_Four_Confirm').addEventListener('input', (event) => {
-        ssnFourDigitsConfirm = digitMask(event, ssnFourDigitsConfirm);
+    ssnFourDigitsConfirmInput.addEventListener('input', (event) => {
+        
+        let inputUpdates = inputWorkflow(event, ssnFourDigitsConfirm, ssnFourDigitsConfirmInput, ssnFourDigitsConfirmShow, false);
+
+        ssnFourDigitsConfirm = inputUpdates.rawInput;
+        ssnFourDigitsConfirmInput.value = inputUpdates.inputElement.value;
     });
 }
 
@@ -260,7 +360,7 @@ const endMessageOne = () => {
 
         <div class="row ssn-content-buttons">
             <div class="col-md-3">
-                <button class="ssn-button" type="button" id="endMessageOnePrevious">Previous</button>
+                <button class="ssn-button" type="button" id="endMessageOnePrevious">Back</button>
             </div>
             <div class="col-md-6">
             </div>
@@ -296,7 +396,7 @@ const endMessageTwo = () => {
 
         <div class="row ssn-content-buttons">
             <div class="col-md-3">
-                <button class="ssn-button" type="button" id="endMessageTwoPrevious">Previous</button>
+                <button class="ssn-button" type="button" id="endMessageTwoPrevious">Back</button>
             </div>
             <div class="col-md-6">
             </div>
@@ -315,16 +415,88 @@ const endMessageTwo = () => {
     });
 }
 
+/**
+ * Handles the input event workflow for an input element. It updates the raw input based on user actions,
+ * applies any necessary transformations (like adding hyphens), masks or unmasks the value, and
+ * calculates and sets the new cursor position.
+ *
+ * @param {Event} event - The input event triggered by the user's interaction with the input field.
+ * @param {string} rawInput - The current raw input string before the event's changes.
+ * @param {HTMLElement} inputElement - The input element being interacted with.
+ * @param {boolean} showFlag - Determines whether to show or mask the input value.
+ * @param {boolean} hyphens - Determines whether to consider hyphens in the input.
+ * 
+ * @return {{ rawInput: string, inputElement: HTMLElement }} An object containing the updated raw input and input element.
+ */
+const inputWorkflow = (event, rawInput, inputElement, showFlag, hyphens) => {
+    
+    let originalPosition = event.target.selectionStart;
+    let isAddingCharacter = event.inputType === 'insertText';
+    let isDeletingCharacter = event.inputType === 'deleteContentBackward';
+
+    rawInput = setRawInput(event, rawInput);
+
+    if(hyphens) inputElement.value = addHyphens(rawInput);
+    
+    inputElement.value = digitMask(inputElement.value, showFlag);
+
+    let newPosition = calculateNewPosition(originalPosition, isAddingCharacter, isDeletingCharacter, hyphens);
+
+    inputElement.setSelectionRange(newPosition, newPosition);
+
+    return { rawInput, inputElement };
+}
+
+/**
+ * Toggles the masking of the given value in an input element. If the show flag is true, it masks the value by
+ * replacing all characters except hyphens with asterisks. Otherwise, it shows the original value.
+ *
+ * @param {string} value - The value to be masked or unmasked.
+ * @param {HTMLElement} inputElement - The input element whose value is to be toggled.
+ * @param {boolean} showFlag - Determines whether to mask or unmask the value.
+ * 
+ * @return {string} The new value of the input element after applying the mask or unmask operation.
+ */
+const togglePassword = (value, inputElement, showFlag) => {
+
+    if(showFlag) {
+        inputElement.value = value.replace(/[^-]/g, '*');
+    }
+    else {
+        inputElement.value = value;
+    }
+
+    return inputElement.value;
+}
+
+/**
+ * Clears the content of the specified div and hides it.
+ *
+ * @param {HTMLElement} div - The div element whose content is to be cleared and hidden.
+ */
 const clearError = (div) => {
     div.innerHTML = '';
     div.style.visibility = 'hidden';
 }
 
+/**
+ * Displays an error message inside the specified div and makes it visible.
+ *
+ * @param {HTMLElement} div - The div element where the error message will be displayed.
+ * @param {string} message - The error message to display.
+ */
 const displayError = (div, message) => {
     div.innerHTML = message;
     div.style.visibility = 'visible';
 }
 
+/**
+ * Checks if the provided SSN input is a valid 9-digit number based on specific criteria.
+ *
+ * @param {string} input - The SSN input string to validate.
+ * 
+ * @return {boolean} True if the input is a valid 9-digit SSN, otherwise false.
+ */
 const checkNineDigitValid = (input) => {
 
     if (input.length !== 9) return false;
@@ -336,15 +508,37 @@ const checkNineDigitValid = (input) => {
     return true;
 }
 
+/**
+ * Checks if the provided input is a valid 4-digit number, ensuring it is not '0000'.
+ *
+ * @param {string} input - The 4-digit input string to validate.
+ * 
+ * @return {boolean} True if the input is a valid 4-digit number and not '0000', otherwise false.
+ */
 const checkFourDigitValid = (input) => {
 
     return input.length === 4 && input !== '0000';
 }
 
+/**
+ * Checks if two input strings match.
+ *
+ * @param {string} inputOne - The first input string to compare.
+ * @param {string} inputTwo - The second input string to compare.
+ * 
+ * @return {boolean} True if both inputs match, otherwise false.
+ */
 const checkMatch = (inputOne, inputTwo) => {
     return inputOne === inputTwo;
 }
 
+/**
+ * Displays a modal and sets up a callback function to be executed when the modal's continue button is clicked.
+ * It initializes and shows a bootstrap modal, and attaches an event listener to the modal's continue button.
+ * When the continue button is clicked, it checks if `onContinue` is a function and calls it.
+ *
+ * @param {Function} onContinue - A callback function to be executed when the modal's continue button is clicked.
+ */
 const displayModal = (onContinue) => {
     const softModal = new bootstrap.Modal(document.getElementById('ssnSoftModal'));
     softModal.show();
@@ -362,10 +556,27 @@ const displayModal = (onContinue) => {
     }
 }
 
-const digitMask = (event, rawInput) => {
-
+/**
+ * Updates the raw input string based on the user's interaction with an input field.
+ * This function adjusts the raw input by adding or removing characters based on the user's input
+ * and manages the positioning of characters considering any hyphens present in the value.
+ *
+ * @param {Event} event - The input event triggered by the user's interaction with the input field.
+ * @param {string} rawInput - The current raw input string before the event's changes.
+ * 
+ * @return {string} The updated raw input string after applying the changes from the input event.
+ */
+const setRawInput = (event, rawInput) => {
+    
     const input = event.data;
-    const position = event.target.selectionStart;
+    const value = event.target.value;
+    let position = event.target.selectionStart;
+    
+    for (let i = 0; i < event.target.selectionStart; i++) {
+        if (value[i] === '-') {
+            position--;
+        }
+    }
 
     if (input !== null && /\d/.test(input)) {
         rawInput = rawInput.slice(0, position - 1) + input + rawInput.slice(position - 1);
@@ -373,8 +584,69 @@ const digitMask = (event, rawInput) => {
         rawInput = rawInput.slice(0, position) + rawInput.slice(position + 1);
     }
 
-    event.target.value = rawInput.replace(/./g, '*');
-    event.target.setSelectionRange(position, position);
-
     return rawInput;
+}
+
+/**
+ * Inserts hyphens into a string at specific positions.
+ * Hyphens are inserted after the third and fifth characters of the input string.
+ *
+ * @param {string} rawInput - The original string where hyphens are to be added.
+ * 
+ * @return {string} The modified string with hyphens inserted after the third and fifth characters.
+ */
+const addHyphens = (rawInput) => {
+
+    let value = '';
+
+    for(let i = 0; i < rawInput.length; i++) {
+        if(i === 3 || i === 5) {
+            value += '-';
+        }
+        value += rawInput[i];
+    }
+
+    return value;
+}
+
+/**
+ * Masks the given value by replacing all characters except hyphens with asterisks, based on the specified condition.
+ *
+ * @param {string} value - The string value to be masked.
+ * @param {boolean} show - Determines whether to show the original value or the masked value.
+ *                         If true, the original value is returned. If false, all characters
+ *                         except hyphens are replaced with asterisks.
+ * 
+ * @return {string} The original value if `show` is true; otherwise, a masked string with 
+ *                  all characters except hyphens replaced by asterisks.
+ */
+const digitMask = (value, show) => {
+    return show ? value : value.replace(/[^-]/g, '*');
+}
+
+/**
+ * Calculates the new cursor position within an input field, considering the addition or deletion
+ * of characters and the presence of hyphens.
+ *
+ * @param {number} originalPosition - The original position of the cursor before the input change.
+ * @param {boolean} isAdding - Indicates whether a character is being added to the input.
+ * @param {boolean} isDeleting - Indicates whether a character is being deleted from the input.
+ * @param {boolean} considerHyphens - Indicates whether hyphens in the input should affect the calculation.
+ * 
+ * @return {number} The new position of the cursor after the input change.
+ */
+const calculateNewPosition = (originalPosition, isAdding, isDeleting, considerHyphens) => {
+
+    let newPosition = originalPosition;
+
+    if(considerHyphens) {
+        if (isAdding && (originalPosition === 4 || originalPosition === 7)) {
+            newPosition++;
+        } 
+        else if (isDeleting && (originalPosition === 4 || originalPosition === 7)) {
+            newPosition--;
+        }
+    }
+
+    return newPosition;
 }

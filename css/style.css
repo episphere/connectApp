@@ -1429,3 +1429,27 @@ button.connect-secondary {
     display: block;
     visibility: hidden;
 }
+
+.input-group label {
+    display: block;
+    width: 100%;
+    margin-top: 5%;
+}
+
+.input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%
+}
+
+.input-with-icon .SSN {
+    flex-grow: 1;
+    padding-right: 30px;
+}
+
+.input-with-icon .fa {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+}

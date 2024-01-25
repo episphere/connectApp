@@ -240,7 +240,7 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                         toActive.classList.add('survey-Active-Nav')
                         toInactive.classList.add('survey-Inactive-Nav')
                         toInactive.classList.remove('survey-Active-Nav')
-                        addEventToDoList(data);
+                        addEventToDoList();
                     }
                 })
                 document.getElementById('surveysCompleted').addEventListener('click', () => {
@@ -253,9 +253,9 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                         toInactive.classList.remove('survey-Active-Nav')
                     }
                     document.getElementById('surveyMainBody').innerHTML = renderMainBody(data, collections, 'completed') 
-                    addEventToDoList(data);
+                    addEventToDoList();
                 })
-                addEventToDoList(data);
+                addEventToDoList();
                 hideAnimation();
                 return;
             }
@@ -303,24 +303,17 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
     }
 }
 
-const addEventToDoList = (data) => {
+const addEventToDoList = () => {
     const modules = document.getElementsByClassName('questionnaire-module');
-    const socialSecurityModule = document.getElementsByClassName('ssn-module');
     
     Array.from(modules).forEach(module => {
         module.addEventListener('click',() => {
             
-            if (!module.classList.contains("btn-disbaled")){
+            if (!module.classList.contains("btn-disbaled")) {
                 const moduleId = module.getAttribute("module_id");
                 questionnaire(moduleId);
             }
-        })
-    })
-
-    Array.from(socialSecurityModule).forEach(module => {
-        module.addEventListener('click', () => {
-            socialSecurityTemplate(data);
-        })
+        });
     });
 }
 
@@ -434,7 +427,7 @@ const renderMainBody = (data, collections, tab) => {
                     if (!modules[key].completed) {
                         template += `
                             <div style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
-                                <div id=${key === 'Enter SSN' ? "ssn-module-div" : "questionnaire-div" } class="row d-flex justify-content-center">
+                                <div class="row">
                                     ${modules[key]['hasIcon'] === false ? `` : `
                                     <div class="col-md-1">
                                         <i class="fas fa-clipboard-list d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
@@ -459,7 +452,7 @@ const renderMainBody = (data, collections, tab) => {
                                 
                                     ${modules[key]['noButton'] === true ? '' : `
                                         <div class="col-md-3">
-                                            <button class="btn survey-list-active btn-agreement ${key === 'Enter SSN' ? 'ssn-module' : 'questionnaire-module'} ${(modules[key].enabled && !modules[key].unreleased) ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${key}" module_id="${modules[key].moduleId}"><b>${modules[key].unreleased  ?  'Coming soon' : data[fieldMapping[modules[key].moduleId].statusFlag] === fieldMapping.moduleStatus.started ? 'Continue' : 'Start'}</b></button>    
+                                            <button class="btn survey-list-active btn-agreement questionnaire-module ${(modules[key].enabled && !modules[key].unreleased) ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${key}" module_id="${modules[key].moduleId}"><b>${modules[key].unreleased  ?  'Coming soon' : data[fieldMapping[modules[key].moduleId].statusFlag] === fieldMapping.moduleStatus.started ? 'Continue' : 'Start'}</b></button>    
                                         </div>
                                     `}
                                 </div>
@@ -680,7 +673,7 @@ const setModuleAttributes = (data, modules, collections) => {
     modules['Where You Live and Work'].estimatedTime = '20 to 30 minutes';
     
     modules['Enter SSN'].header = 'Your Social Security Number (SSN)';
-    modules['Enter SSN'].description = 'We may use your Social Security number when we collect information from important data sources like health registries to match information from these sources to you. We protect your privacy every time we ask for information about you from other sources. Providing your Social Security number is optional.';
+    modules['Enter SSN'].description = 'We may use your Social Security Number when we collect information from important data sources like health registries to match information from these sources to you. We protect your privacy every time we ask for information about you from other sources. Providing your Social Security Number is optional.';
     modules['Enter SSN'].hasIcon = false;
     modules['Enter SSN'].noButton = false;
     modules['Enter SSN'].estimatedTime = 'Less than 5 minutes';

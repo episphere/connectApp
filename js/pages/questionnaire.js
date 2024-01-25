@@ -1,5 +1,6 @@
 import { storeResponse, getMyData, hasUserData, getMySurveys, urls, questionnaireModules, storeResponseQuest, storeResponseTree, showAnimation, hideAnimation, addEventReturnToDashboard } from "../shared.js";
 import fieldMapping from '../fieldToConceptIdMapping.js'; 
+import { socialSecurityTemplate } from "./ssn.js";
 import { SOCcer as SOCcerProd } from "./../../prod/config.js";
 import { SOCcer as SOCcerStage } from "./../../stage/config.js";
 import { SOCcer as SOCcerDev } from "./../../dev/config.js";
@@ -9,6 +10,8 @@ import questConfig from "https://episphere.github.io/questionnaire/questVersions
 let quest;
 let data;
 let modules;
+
+const questDiv = "questionnaireRoot";
 
 const importQuest = async () => {
 
@@ -23,19 +26,24 @@ export const questionnaire = async (moduleId) => {
  
     showAnimation();
 
-    const questDiv = "questionnaireRoot";
-
-    displayQuest(questDiv);
-
     let responseData = await getMyData();
+
     if(hasUserData(responseData)) {
         data = responseData.data;
 
-        let responseModules = await getMySurveys([...new Set([fieldMapping.Module1.conceptId, fieldMapping.Module1_OLD.conceptId, fieldMapping.Biospecimen.conceptId, fieldMapping.ClinicalBiospecimen.conceptId, fieldMapping[moduleId].conceptId])]);
-        if(responseModules.code === 200) {
-            modules = responseModules.data;
+        displayQuestionnaire(questDiv, moduleId !== 'ModuleSsn');
 
-            await startModule(data, modules, moduleId, questDiv);
+        if(moduleId === 'ModuleSsn') {
+            socialSecurityTemplate(data);
+        }
+        else {
+
+            let responseModules = await getMySurveys([...new Set([fieldMapping.Module1.conceptId, fieldMapping.Module1_OLD.conceptId, fieldMapping.Biospecimen.conceptId, fieldMapping.ClinicalBiospecimen.conceptId, fieldMapping[moduleId].conceptId])]);
+            if(responseModules.code === 200) {
+                modules = responseModules.data;
+
+                await startModule(data, modules, moduleId, questDiv);
+            }
         }
     }
 }
@@ -442,11 +450,10 @@ const setInputData = (data, modules) => {
     return inputData;
 }
 
-const displayQuest = (id) => {
-    
+const displayQuestionnaire = (id, progressBar) => {
     let rootElement = document.getElementById('root');
     rootElement.innerHTML = `
-    
+        ${progressBar ? `
         <div class="row" style="margin-top:50px">
             <div class = "col-md-1">
             </div>
@@ -457,7 +464,7 @@ const displayQuest = (id) => {
             </div>
             <div class = "col-md-1">
             </div>
-        </div>
+        </div>` : ''}
         <div class="row">
             <div class = "col-md-1">
             </div>
@@ -466,7 +473,6 @@ const displayQuest = (id) => {
             <div class = "col-md-1">
             </div>
         </div>
-    
     `;
 
     document.getElementById(id).style.visibility = 'hidden';
