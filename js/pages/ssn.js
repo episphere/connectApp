@@ -168,14 +168,14 @@ const socialSecurityNineDigits = () => {
 
     ssnNineDigitsInput.addEventListener('blur', () => {
         
-        if(ignoreBlur) {
+        if (ignoreBlur) {
             ignoreBlur = false;
             return;
         }
 
         clearError(ssnNineError);
 
-        if(ssnNineDigits.length > 0 && !checkNineDigitValid(ssnNineDigits)) displayError(ssnNineError, hardErrorNineFormat);
+        if (ssnNineDigits.length > 0 && !checkNineDigitValid(ssnNineDigits)) displayError(ssnNineError, hardErrorNineFormat);
     });
 
     document.getElementById('socialSecurityNineDigitsPrevious').addEventListener('click', () => {
@@ -640,15 +640,11 @@ const calculateNewPosition = (originalPosition, isAdding, isDeleting, considerHy
     let newPosition = originalPosition;
 
     if(considerHyphens) {
-        if (isAdding) {
-            if(originalPosition === 4 || originalPosition === 7) {
-                newPosition++;
-            }
+        if (isAdding && (originalPosition === 4 || originalPosition === 7)) {
+            newPosition++;
         } 
-        else if (isDeleting) {
-            if(originalPosition === 4 || originalPosition === 7) {
-                newPosition--;
-            }
+        else if (isDeleting && (originalPosition === 4 || originalPosition === 7)) {
+            newPosition--;
         }
     }
 
