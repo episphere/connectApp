@@ -237,7 +237,7 @@ const socialSecurityFourDigits = () => {
 
         <div class="row ssn-content-body">
             <div class="input-group">
-                <label for="SSN_Four">If you prefer to provide only the last 4 digits of your Social Security Number, please enter the last four digits here:</label>
+                <label for="SSN_Four">If you prefer to provide only the last <b>4 digits</b> of your Social Security Number, please enter the last <b>4 digits</b> here:</label>
                 <div class="input-with-icon">
                     <input type="text" id="SSN_Four" class="SSN" inputmode="numeric" maxlength="4" />
                     <i class="fa fa-eye" id="togglePassword"></i>
@@ -245,7 +245,7 @@ const socialSecurityFourDigits = () => {
                 <span class="ssn-error-message" id="errorSSN_Four"></span>
             </div>
             <div class="input-group">
-                <label for="SSN_Four_Confirm">Please confirm the last 4 digits of your Social Security Number:</label>
+                <label for="SSN_Four_Confirm">Please confirm the last <b>4 digits</b> of your Social Security Number:</label>
                 <div class="input-with-icon">
                     <input type="text" id="SSN_Four_Confirm" class="SSN" inputmode="numeric" maxlength="4" autocomplete="off" />
                     <i class="fa fa-eye" id="togglePasswordConfirm"></i>
@@ -365,7 +365,7 @@ const endMessageOne = () => {
             <div class="col-md-6">
             </div>
             <div class="col-md-3">
-                <button class="ssn-button" type="button" id="endMessageOneNext">Submit</button>
+                <button class="ssn-button" type="button" id="endMessageOneNext">Submit Survey</button>
             </div>
         </div>
     `;
@@ -401,7 +401,7 @@ const endMessageTwo = () => {
             <div class="col-md-6">
             </div>
             <div class="col-md-3">
-                <button class="ssn-button" type="button" id="endMessageTwoNext">Close</button>
+                <button class="ssn-button" type="button" id="endMessageTwoNext">Close Survey</button>
             </div>
         </div>
     `;
@@ -436,7 +436,7 @@ const inputWorkflow = (event, rawInput, inputElement, showFlag, hyphens) => {
 
     rawInput = setRawInput(event, rawInput);
 
-    if(hyphens) inputElement.value = addHyphens(rawInput);
+    inputElement.value = hyphens ? addHyphens(rawInput) : rawInput;
     
     inputElement.value = digitMask(inputElement.value, showFlag);
 
