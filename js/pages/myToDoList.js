@@ -1,10 +1,11 @@
-import { hideAnimation, questionnaireModules, storeResponse, sites , isParticipantDataDestroyed} from "../shared.js";
+import { hideAnimation, questionnaireModules, storeResponse, isParticipantDataDestroyed} from "../shared.js";
 import { blockParticipant, questionnaire } from "./questionnaire.js";
 import { renderUserProfile } from "../components/form.js";
 import { consentTemplate } from "./consent.js";
 import { addEventHeardAboutStudy, addEventRequestPINForm, addEventHealthCareProviderSubmit, addEventPinAutoUpperCase, addEventHealthProviderModalSubmit, addEventToggleSubmit } from "../event.js";
 import { heardAboutStudy, requestPINTemplate, healthCareProvider } from "./healthCareProvider.js";
 import fieldMapping from '../fieldToConceptIdMapping.js';
+import { socialSecurityTemplate } from "./ssn.js";
 
 export const myToDoList = async (data, fromUserProfile, collections) => {
     const mainContent = document.getElementById('root');
@@ -40,7 +41,7 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                 if (isParticipantDataDestroyed(data)){
                     finalMessage += "At your request, we have deleted your Connect data. If you have any questions, please contact the Connect Support Center by calling 1-877-505-0253 or by emailing  <a href='mailto:ConnectSupport@norc.org'>ConnectSupport@norc.org</a>."
                 }
-                else if (data.hasOwnProperty('831041022') && data['831041022'] == 353358909){
+                else if (data['831041022'] === 353358909){
                     if (!data['359404406'] || data['359404406'] == 104430631){
                         finalMessage += "You have a new <a href='#forms'>form</a> to sign." + defaultMessage
                     }
@@ -70,7 +71,7 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                     hideAnimation();
                     return;
                 }
-                else if (((data.hasOwnProperty('773707518') && data['773707518'] == 353358909)) && (!data['153713899'] || data['153713899'] == 104430631)){
+                else if (((data['773707518'] === 353358909)) && (!data['153713899'] || data['153713899'] === 104430631)){
                     topMessage += "You have a new <a href='#forms'>form</a> to sign.<p/><br>"
                 }
                 if(!data['821247024'] || data['821247024'] == 875007964){
@@ -308,14 +309,13 @@ const addEventToDoList = () => {
     Array.from(modules).forEach(module => {
         module.addEventListener('click',() => {
             
-            if (!module.classList.contains("btn-disbaled")){
+            if (!module.classList.contains("btn-disbaled")) {
                 const moduleId = module.getAttribute("module_id");
                 questionnaire(moduleId);
             }
-        })
-    })
+        });
+    });
 }
-
 
 const renderMainBody = (data, collections, tab) => {
     let template = `<ul class="questionnaire-module-list">`;
@@ -348,6 +348,10 @@ const renderMainBody = (data, collections, tab) => {
         ];
     }
 
+    if(modules['Covid-19'].enabled) {
+        toDisplaySystem.unshift({'body':['Covid-19']});
+    }
+
     if(modules['Biospecimen Survey'].enabled) {
         toDisplaySystem.unshift({'body':['Biospecimen Survey']});
     }
@@ -359,15 +363,6 @@ const renderMainBody = (data, collections, tab) => {
     if(modules['Menstrual Cycle'].enabled) {
         toDisplaySystem.unshift({'body':['Menstrual Cycle']})
     }
-
-    if(modules['Covid-19'].enabled) {
-        if (toDisplaySystem.length <= 1) {
-            toDisplaySystem.push({ 'body': ["Covid-19"] });
-        } else {
-            const index = toDisplaySystem.length - 1;
-            toDisplaySystem[index].body.push("Covid-19");
-        }
-    }
     
     if(modules['Mouthwash'].enabled) {
         toDisplaySystem.unshift({'body':['Mouthwash']})
@@ -376,7 +371,7 @@ const renderMainBody = (data, collections, tab) => {
     if(tab === 'todo'){
         for(let obj of toDisplaySystem){
             let started = false;
-            if(obj.hasOwnProperty('body')){
+            if(obj['body']){
                 let anyFound = false;
                 for(let key of obj['body']){
                     if(!modules[key].completed){
@@ -388,7 +383,7 @@ const renderMainBody = (data, collections, tab) => {
                 if (!anyFound) continue;
 
                 for(let key of obj['body']){
-                    if (!started && obj.hasOwnProperty('header')) {
+                    if (!started && obj['header']) {
                         const thisKey = obj['header'];
                         started = true;
                         template += `
@@ -451,9 +446,9 @@ const renderMainBody = (data, collections, tab) => {
                                     </div>
                                 
                                     ${modules[key]['noButton'] === true ? '' : `
-                                    <div class="col-md-3">
-                                        <button class="btn survey-list-active btn-agreement questionnaire-module ${(modules[key].enabled && !modules[key].unreleased) ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${key}" module_id="${modules[key].moduleId}"><b>${modules[key].unreleased  ?  'Coming soon' : data[fieldMapping[modules[key].moduleId].statusFlag] === fieldMapping.moduleStatus.started ? 'Continue' : 'Start'}</b></button>    
-                                    </div>
+                                        <div class="col-md-3">
+                                            <button class="btn survey-list-active btn-agreement questionnaire-module ${(modules[key].enabled && !modules[key].unreleased) ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${key}" module_id="${modules[key].moduleId}"><b>${modules[key].unreleased  ?  'Coming soon' : data[fieldMapping[modules[key].moduleId].statusFlag] === fieldMapping.moduleStatus.started ? 'Continue' : 'Start'}</b></button>    
+                                        </div>
                                     `}
                                 </div>
                                 
@@ -497,7 +492,7 @@ const renderMainBody = (data, collections, tab) => {
     } else {
         for(let obj of toDisplaySystem){
             let started = false;
-            if(obj.hasOwnProperty('body')){
+            if(obj['body']){
                 let anyFound = false;
                 for(let key of obj['body']){
                     if(!modules[key].completed){
@@ -509,7 +504,7 @@ const renderMainBody = (data, collections, tab) => {
                 for(let key of obj['body']){
                     if(!anyFound){
                         if(!started){
-                            if(obj.hasOwnProperty('header')){
+                            if(obj['header']){
                                 let thisKey = obj['header'];
                                 
                                 started = true;
@@ -673,7 +668,7 @@ const setModuleAttributes = (data, modules, collections) => {
     modules['Where You Live and Work'].estimatedTime = '20 to 30 minutes';
     
     modules['Enter SSN'].header = 'Your Social Security Number (SSN)';
-    modules['Enter SSN'].description = 'We may use your Social Security number when we collect information from important data sources like health registries to match information from these sources to you. We protect your privacy every time we ask for information about you from other sources. Providing your Social Security number is optional.';
+    modules['Enter SSN'].description = 'We may use your Social Security Number when we collect information from important data sources like health registries to match information from these sources to you. We protect your privacy every time we ask for information about you from other sources. Providing your Social Security Number is optional.';
     modules['Enter SSN'].hasIcon = false;
     modules['Enter SSN'].noButton = false;
     modules['Enter SSN'].estimatedTime = 'Less than 5 minutes';

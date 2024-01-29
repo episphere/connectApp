@@ -1,38 +1,57 @@
 import { storeResponse, getMyData, hasUserData, getMySurveys, urls, questionnaireModules, storeResponseQuest, storeResponseTree, showAnimation, hideAnimation, addEventReturnToDashboard } from "../shared.js";
 import fieldMapping from '../fieldToConceptIdMapping.js'; 
+import { socialSecurityTemplate } from "./ssn.js";
 import { SOCcer as SOCcerProd } from "./../../prod/config.js";
 import { SOCcer as SOCcerStage } from "./../../stage/config.js";
 import { SOCcer as SOCcerDev } from "./../../dev/config.js";
 import { Octokit } from "https://cdn.skypack.dev/pin/octokit@v2.0.14-WDHE0c1GgF96ore7BeW1/mode=imports/optimized/octokit.js";
-import { transform } from "https://cdn.jsdelivr.net/gh/episphere/quest@v1.0.15/replace2.js"
-import { rbAndCbClick } from "https://cdn.jsdelivr.net/gh/episphere/quest@v1.0.15/questionnaire.js"
+import questConfig from "https://episphere.github.io/questionnaire/questVersions.js";
+
+let quest;
+let data;
+let modules;
+
+const questDiv = "questionnaireRoot";
+
+const importQuest = async () => {
+
+    let url = questConfig[location.host];
+
+    await import(url).then(({ transform }) => {
+        quest = transform;
+    });
+}
 
 export const questionnaire = async (moduleId) => {
  
     showAnimation();
 
-    const questDiv = "questionnaireRoot";
-
-    displayQuest(questDiv);
-
-    let data;
-    let modules;
-
     let responseData = await getMyData();
+
     if(hasUserData(responseData)) {
         data = responseData.data;
 
-        let responseModules = await getMySurveys([...new Set([fieldMapping.Module1.conceptId, fieldMapping.Module1_OLD.conceptId, fieldMapping.Biospecimen.conceptId, fieldMapping.ClinicalBiospecimen.conceptId, fieldMapping[moduleId].conceptId])]);
-        if(responseModules.code === 200) {
-            modules = responseModules.data;
+        displayQuestionnaire(questDiv, moduleId !== 'ModuleSsn');
 
-            await startModule(data, modules, moduleId, questDiv);
+        if(moduleId === 'ModuleSsn') {
+            socialSecurityTemplate(data);
+        }
+        else {
+
+            let responseModules = await getMySurveys([...new Set([fieldMapping.Module1.conceptId, fieldMapping.Module1_OLD.conceptId, fieldMapping.Biospecimen.conceptId, fieldMapping.ClinicalBiospecimen.conceptId, fieldMapping[moduleId].conceptId])]);
+            if(responseModules.code === 200) {
+                modules = responseModules.data;
+
+                await startModule(data, modules, moduleId, questDiv);
+            }
         }
     }
 }
 
 async function startModule(data, modules, moduleId, questDiv) {
 
+    await importQuest();
+    
     let inputData = setInputData(data, modules); 
     let moduleConfig = questionnaireModules();
 
@@ -116,14 +135,14 @@ async function startModule(data, modules, moduleId, questDiv) {
         activate: true,
         store: storeResponseQuest,
         retrieve: function(){return getMySurveys([fieldMapping[moduleId].conceptId])},
-        soccer: soccerFunction,
+        soccer: externalListeners,
         updateTree: storeResponseTree,
         treeJSON: tJSON
     }
 
     window.scrollTo(0, 0);
 
-    transform.render(questParameters, questDiv, inputData).then(() => {
+    quest.render(questParameters, questDiv, inputData).then(() => {
         
         //Grid fix first
         let grids = document.getElementsByClassName('d-lg-block');
@@ -177,7 +196,7 @@ async function startModule(data, modules, moduleId, questDiv) {
             
         });
         let elemId = document.getElementById('questionnaireRoot');
-        console.log(elemId)
+        
         observer.observe(elemId, {
             childList: true, // observe direct children
             subtree: true, // lower descendants too
@@ -191,46 +210,64 @@ async function startModule(data, modules, moduleId, questDiv) {
     });
 }
 
-function soccerFunction(){
-    let soccerURL = '';
-    if(location.host === urls.prod) soccerURL = SOCcerProd;
-    else if(location.host === urls.stage) soccerURL = SOCcerStage;
-    else soccerURL = SOCcerDev;
-    let work3 = document.getElementById("D_627122657");
+function externalListeners(){
+    
+    const work3 = document.getElementById("D_627122657");
+    const work3b = document.getElementById("D_796828094");
+
+    const work7 = document.getElementById("D_118061122");
+    const work7b = document.getElementById("D_518387017");
+
+    const occuptn1 = document.getElementById("D_761310265");
+    const occuptn2 = document.getElementById("D_279637054");
+
+    const menstrualCycle = document.getElementById("D_951357171");
+
+    let module1 = modules[fieldMapping.Module1.conceptId];
+
+    let title3 = module1?.['D_627122657'] ?? '';
+    let task3 = module1?.['D_796828094'] ?? '';
+    let title7 = module1?.['D_118061122'] ?? '';
+    let task7 = module1?.['D_518387017'] ?? '';
+    
     if (work3){
-        work3.addEventListener("submit", async (e) => {
+        work3.addEventListener("submit", (e) => {
+            e.preventDefault();
             
-            e.preventDefault();
-            const jobtitle = e.target[0].value;
-            const occ = document.getElementById("D_761310265");
-    
-            // call soccer... follow up with Daniel Russ for questions
-            let soccerResults = await (await fetch(`${soccerURL}${jobtitle}`)).json();
-            for(let i = 0; i < soccerResults.length; i++){
-                soccerResults[i]['code'] += '-' + i;
-            }
-            let responseElement = occ.querySelector("div[class='response']");
-            buildHTML(soccerResults, occ, responseElement);
-        });
-    }
-    let work7 = document.getElementById("D_118061122");
-    if (work7){
-        work7.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const jobtitle = e.target[0].value;
-            const occ = document.getElementById("D_279637054");
-    
-            // call soccer...
-            let soccerResults = await (await fetch(`${soccerURL}${jobtitle}`)).json();
-            for(let i = 0; i < soccerResults.length; i++){
-                soccerResults[i]['code'] += '-' + i;
-            }
-            let responseElement = occ.querySelector("div[class='response']");
-            buildHTML(soccerResults, occ, responseElement);
+            title3 = e.target[0].value;
         });
     }
 
-    let menstrualCycle = document.getElementById("D_951357171");
+    if (work3b){
+        work3b.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            task3 = e.target[0].value;
+            const soccerResults = await buildSoccerResults(title3, task3);
+
+            buildHTML(soccerResults, occuptn1);
+        });
+    }
+
+    if (work7){
+        work7.addEventListener("submit", (e) => {
+            e.preventDefault();
+            
+            title7 = e.target[0].value;
+        });
+    }
+
+    if (work7b){
+        work7b.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            task7 = e.target[0].value;
+            const soccerResults = await buildSoccerResults(title7, task7);
+
+            buildHTML(soccerResults, occuptn2);
+        });
+    }
+
     if (menstrualCycle) {
         menstrualCycle.addEventListener("submit", async (e) => {
             if(e.target.value == 104430631) {
@@ -279,7 +316,10 @@ function soccerFunction(){
     }
 }
 //BUILDING SOCCER
-function buildHTML(soccerResults, question, responseElement) {
+function buildHTML(soccerResults, question) {
+    
+    let responseElement = question.querySelector("div[class='response']");
+    
     if (responseElement) {
       let tmp = responseElement.cloneNode(false);
       question.replaceChild(tmp, responseElement);
@@ -298,7 +338,7 @@ function buildHTML(soccerResults, question, responseElement) {
       resp.id = `${question.id}_${indx}`;
       resp.value = soc.code;
       resp.name = "SOCcerResults";
-      resp.onclick = rbAndCbClick;
+      resp.onclick = quest.rbAndCbClick;
       let label = document.createElement("label");
       label.setAttribute("for", `${question.id}_${indx}`);
       label.innerText = soc.label;
@@ -309,7 +349,7 @@ function buildHTML(soccerResults, question, responseElement) {
     resp.id = `${question.id}_NOTA`;
     resp.value = "NONE_OF_THE_ABOVE";
     resp.name = "SOCcerResults";
-    resp.onclick = rbAndCbClick;
+    resp.onclick = quest.rbAndCbClick;
     let label = document.createElement("label");
     label.setAttribute("for", `${question.id}_NOTA`);
     label.innerText = "NONE OF THE ABOVE";
@@ -333,6 +373,22 @@ export const blockParticipant = () => {
     `
     window.scrollTo(0, 0);
 
+}
+
+const buildSoccerResults = async (title, task) => {
+
+    let soccerURL = SOCcerDev;
+
+    if(location.host === urls.prod) soccerURL = SOCcerProd;
+    else if(location.host === urls.stage) soccerURL = SOCcerStage;
+    
+    let soccerResults = await (await fetch(`${soccerURL}title=${title}&task=${task}&n=6`)).json();
+    
+    for(let i = 0; i < soccerResults.length; i++){
+        soccerResults[i]['code'] += '-' + i;
+    }
+
+    return soccerResults;
 }
 
 const setInputData = (data, modules) => {
@@ -394,11 +450,10 @@ const setInputData = (data, modules) => {
     return inputData;
 }
 
-const displayQuest = (id) => {
-    
+const displayQuestionnaire = (id, progressBar) => {
     let rootElement = document.getElementById('root');
     rootElement.innerHTML = `
-    
+        ${progressBar ? `
         <div class="row" style="margin-top:50px">
             <div class = "col-md-1">
             </div>
@@ -409,7 +464,7 @@ const displayQuest = (id) => {
             </div>
             <div class = "col-md-1">
             </div>
-        </div>
+        </div>` : ''}
         <div class="row">
             <div class = "col-md-1">
             </div>
@@ -418,7 +473,6 @@ const displayQuest = (id) => {
             <div class = "col-md-1">
             </div>
         </div>
-    
     `;
 
     document.getElementById(id).style.visibility = 'hidden';

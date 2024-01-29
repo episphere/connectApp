@@ -4,4 +4,4 @@ export const firebaseConfig = {
     authDomain: "nih-nci-dceg-connect-stg-5519.firebaseapp.com"
 };
 
-export const SOCcer = 'https://soccer-myconnect-stage.cancer.gov/soccer/code?title='
+export const SOCcer = 'https://soccer-myconnect-stage.cancer.gov/soccer/code?'

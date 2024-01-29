@@ -132,6 +132,23 @@
                     </div>
                 </div>
 
+                <div class="modal" id="ssnSoftModal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Response Requested</h5>
+                        </div>
+                        <div id="ssnSoftModalBody" class="modal-body">
+                            <p id="ssnSoftModalBodyText">There is 1 unanswered question on this page. Would you like to continue?</p>
+                        </div>
+                        <div id="ssnSoftModalFooter" class="modal-footer">
+                            <button type="button" id=ssnSoftModalContinueButton class="btn btn-light" data-dismiss="modal" data-bs-dismiss="modal">Continue Without Answering</button>
+                            <button type="button" id=ssnSoftModalCloseButton class="btn btn-light" data-dismiss="modal" data-bs-dismiss="modal">Answer the Question</button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div id="loadingAnimation" role="status" style="display: none;"></div>
             </div>
         </main>
