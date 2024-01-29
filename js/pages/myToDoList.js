@@ -348,6 +348,10 @@ const renderMainBody = (data, collections, tab) => {
         ];
     }
 
+    if(modules['Covid-19'].enabled) {
+        toDisplaySystem.unshift({'body':['Covid-19']});
+    }
+
     if(modules['Biospecimen Survey'].enabled) {
         toDisplaySystem.unshift({'body':['Biospecimen Survey']});
     }
@@ -358,15 +362,6 @@ const renderMainBody = (data, collections, tab) => {
 
     if(modules['Menstrual Cycle'].enabled) {
         toDisplaySystem.unshift({'body':['Menstrual Cycle']})
-    }
-
-    if(modules['Covid-19'].enabled) {
-        if (toDisplaySystem.length <= 1) {
-            toDisplaySystem.push({ 'body': ["Covid-19"] });
-        } else {
-            const index = toDisplaySystem.length - 1;
-            toDisplaySystem[index].body.push("Covid-19");
-        }
     }
     
     if(modules['Mouthwash'].enabled) {
