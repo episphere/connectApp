@@ -231,41 +231,61 @@ function externalListeners(){
     let task7 = module1?.['D_518387017'] ?? '';
     
     if (work3){
-        work3.addEventListener("submit", (e) => {
-            e.preventDefault();
-            
-            title3 = e.target[0].value;
-        });
-    }
+        if (work3b) {
+            work3.addEventListener("submit", (e) => {
+                e.preventDefault();
+                
+                title3 = e.target[0].value;
+            });
 
-    if (work3b){
-        work3b.addEventListener("submit", async (e) => {
-            e.preventDefault();
-
-            task3 = e.target[0].value;
-            const soccerResults = await buildSoccerResults(title3, task3);
-
-            buildHTML(soccerResults, occuptn1);
-        });
+            work3b.addEventListener("submit", async (e) => {
+                e.preventDefault();
+    
+                task3 = e.target[0].value;
+                const soccerResults = await buildSoccerResults(title3, task3);
+    
+                buildHTML(soccerResults, occuptn1);
+            });
+        }
+        else {
+            work3.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                
+                title3 = e.target[0].value;
+                const soccerResults = await buildSoccerResults(title3, '');
+    
+                buildHTML(soccerResults, occuptn1);
+            });
+        }
     }
 
     if (work7){
-        work7.addEventListener("submit", (e) => {
-            e.preventDefault();
-            
-            title7 = e.target[0].value;
-        });
-    }
+        if (work7b) {
+            work7.addEventListener("submit", (e) => {
+                e.preventDefault();
+                
+                title7 = e.target[0].value;
+            });
 
-    if (work7b){
-        work7b.addEventListener("submit", async (e) => {
-            e.preventDefault();
-
-            task7 = e.target[0].value;
-            const soccerResults = await buildSoccerResults(title7, task7);
-
-            buildHTML(soccerResults, occuptn2);
-        });
+            work7b.addEventListener("submit", async (e) => {
+                e.preventDefault();
+    
+                task7 = e.target[0].value;
+                const soccerResults = await buildSoccerResults(title7, task7);
+    
+                buildHTML(soccerResults, occuptn2);
+            });
+        }
+        else {
+            work7.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                
+                title7 = e.target[0].value;
+                const soccerResults = await buildSoccerResults(title7, '');
+    
+                buildHTML(soccerResults, occuptn2);
+            });
+        }
     }
 
     if (menstrualCycle) {
@@ -381,8 +401,11 @@ const buildSoccerResults = async (title, task) => {
 
     if(location.host === urls.prod) soccerURL = SOCcerProd;
     else if(location.host === urls.stage) soccerURL = SOCcerStage;
+
+    console.log(`${soccerURL}title=${title}&task=${task}&n=6`);
     
     let soccerResults = await (await fetch(`${soccerURL}title=${title}&task=${task}&n=6`)).json();
+
     
     for(let i = 0; i < soccerResults.length; i++){
         soccerResults[i]['code'] += '-' + i;
