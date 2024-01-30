@@ -401,12 +401,9 @@ const buildSoccerResults = async (title, task) => {
 
     if(location.host === urls.prod) soccerURL = SOCcerProd;
     else if(location.host === urls.stage) soccerURL = SOCcerStage;
-
-    console.log(`${soccerURL}title=${title}&task=${task}&n=6`);
     
     let soccerResults = await (await fetch(`${soccerURL}title=${title}&task=${task}&n=6`)).json();
 
-    
     for(let i = 0; i < soccerResults.length; i++){
         soccerResults[i]['code'] += '-' + i;
     }
