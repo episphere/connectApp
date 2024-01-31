@@ -835,6 +835,8 @@ input:checked + .slider:before {
 
 .nci-connect-logo {
     padding-left: 0px !important;
+    padding-top: 22px;
+    padding-bottom: 22px;
 }
 
 .nci-connect-logo-width {
@@ -899,11 +901,14 @@ input:checked + .slider:before {
     color:white;
     font-size: 46px;
     margin-right:auto;
+    line-height: 1;
+    font-weight: bold;
 }
 
 .homeTitleText em{
     font-style: normal;
     color:#FFBF17;
+    font-weight: lighter;
 }
 .homeTitleTextMobile{
     font-size: 21px;
@@ -911,6 +916,7 @@ input:checked + .slider:before {
     letter-spacing: 0.07px;
     text-align: center;
     line-height: 25px;
+    font-family: Montserrat-Bold;
 
 }
 
@@ -935,14 +941,19 @@ input:checked + .slider:before {
 }
 
 .consentNextButton{
-    color:#174C70 !important;
     background-color:#FFBF17 !important;
     border-color:#FFBF17 !important;
     font-weight:bold !important;
-    font-size:16px;
-
+    font-size:18px;
+    text-align: left;
+    line-height: 27px;
+    font-family: NotoSans;
+    color: #2E2E2E !important;
+    padding: 6px 12px !important;
 }
-
+consentNextButton:hover{
+    background-color: #f9a921 !important;
+}
 .userProfileHeader{
     font-size:28px;
     font-family: 'Montserrat', sans-serif;
@@ -987,6 +998,10 @@ input:checked + .slider:before {
     border-color:#2A72A5 !important;
     border-width:2px !important;
     color:#2A72A5 !important;
+}
+.consentPrevButton:hover{
+    background-color: #2A72A5 !important;
+    color: white !important;
 }
 .connectBody1{
     background-color:#2a72a5; 
@@ -1350,7 +1365,91 @@ button.connect-secondary {
     text-decoration: underline ;
 }
 
+.site-info-bold-italic {
+    color: #000000;
+    font-weight: bold;
+    font-style: italic;
+    font-weight: 900;
+    font-family: Montserrat;
+}
+
 .site-info-align {
     vertical-align: top;
     text-align: left;
+}
+.SurveyIcon {
+    height: 55px;
+    width: 55px;
+    background-color: #2a72a5;
+    padding: 5px;
+    border-radius: 50%;
+}
+
+.ssn-content-header {
+    padding: 30px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 23px;
+    color:#000000;
+}
+
+.ssn-content-body {
+    padding: 30px;
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 16px;
+    color:#000000;
+}
+
+.ssn-content-buttons {
+    width: 100%;
+    padding: 30px;
+}
+
+.ssn-button {
+    background-color: rgb(50, 122, 187);
+    color: white;
+    border: solid 3px rgb(50, 122, 187);
+    border-radius: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.ssn-button:hover {
+    background-color: rgb(55, 133, 203);
+    border: solid 3px rgb(55, 133, 203);
+}
+
+
+.ssn-error-message {
+    color: red;
+    font-size: 0.8em;
+    display: block;
+    visibility: hidden;
+}
+
+.input-group label {
+    display: block;
+    width: 100%;
+    margin-top: 5%;
+}
+
+.input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%
+}
+
+.input-with-icon .SSN {
+    flex-grow: 1;
+    padding-right: 30px;
+}
+
+.input-with-icon .fa {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
 }
