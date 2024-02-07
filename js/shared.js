@@ -33,7 +33,20 @@ let api = '';
 
 if(location.host === urls.prod) api = 'https://api-myconnect.cancer.gov/app';
 else if(location.host === urls.stage) api = 'https://api-myconnect-stage.cancer.gov/app';
-else api = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app';
+// else api = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app';
+else api = ' http://localhost:8080/app';
+
+export const sendMagicLink = async (params) => {
+  const response = await fetch(`${api}?api=sendMagicLink`, {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json"
+      },
+      body: JSON.stringify(params)
+  })
+
+  return response.json();
+}
 
 export const validateToken = async (token) => {
     const idToken = await getIdToken();
@@ -1296,8 +1309,8 @@ export const firebaseSignInRender = async ({ ui, account = {}, displayFlag = tru
   
     const { signInEmail, signInTime } = JSON.parse(window.localStorage.getItem('connectSignIn') || '{}');
     const timeLimit = 1000 * 60 * 60 ; // 1 hour time limit
-  
     if (account.type === 'magicLink' && signInEmail  && Date.now() - signInTime < timeLimit) {
+        console.log('signInsignInsignInsignInsignInsignInsignIn')
       await elementIsLoaded('div[class~="firebaseui-id-page-email-link-sign-in-confirmation"]', 1500);
       const emailInput =  document.querySelector('input[class~="firebaseui-id-email"]');
   
@@ -1328,6 +1341,7 @@ export const firebaseSignInRender = async ({ ui, account = {}, displayFlag = tru
         .addEventListener('click', (e) => {
           const signInData = { signInEmail:account.value, signInTime: Date.now() }
           window.localStorage.setItem('connectSignIn', JSON.stringify(signInData) );
+          window.localStorage.setItem('signInEmail', account.value );
         });
     } else if (account.type === 'phone') {
       document.querySelector('button[data-provider-id="phone"]').click();

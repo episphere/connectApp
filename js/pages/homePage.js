@@ -695,6 +695,8 @@ export async function signInCheckRender ({ ui }) {
               const pEle = document.querySelector('p[class~="firebaseui-text-input-error"]');
               if (pEle?.innerText !== '') {
                 pEle.innerText = 'Enter a valid email address';
+              } else {
+                window.localStorage.setItem('signInEmail', document.querySelector('input[class~="firebaseui-id-email"]').value );
               }
             });
       });
