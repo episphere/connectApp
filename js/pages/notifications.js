@@ -4,36 +4,33 @@ import { retrieveNotifications, showAnimation, hideAnimation } from "../shared.j
 export const renderNotificationsPage = async () => {
     document.title = 'My Connect - Messages';
     showAnimation();
-    let notifs = await retrieveNotifications()
+    const notifs = await retrieveNotifications();
 
     let template = `
         <div class="row">
             <div class="col-lg-2">
             </div>
             <div class="col-lg-8">
-            
     `;
     let read = [];
     let unread = [];
     
-    for(let i = 0; i < notifs.data.length; i++){
-        if(notifs.data[i].read){
-            read.push(notifs.data[i])
+    for (let i = 0; i < notifs.data.length; i++) {
+        if (notifs.data[i].read) {
+            read.push(notifs.data[i]);
 
-        }
-        else{
-            unread.push(notifs.data[i])
+        } else {
+            unread.push(notifs.data[i]);
         }
     }
-    if(unread.length == 0){
+    if (unread.length === 0) {
         template += `
                 <ul class="nav nav-tabs" style="border-bottom:none; margin-top:20px">
                     <li class="nav-item">
                         <button class="nav-link navbar-btn messages-Active-Nav" id="readNotiifs">Read</button>
                     </li>
-                </ul>`
-    }
-    else{
+                </ul>`;
+    } else {
         template += `
                 <ul class="nav nav-tabs" style="border-bottom:none; margin-top:20px">
                     <li class="nav-item" >
@@ -42,66 +39,68 @@ export const renderNotificationsPage = async () => {
                     <li class="nav-item">
                         <button class="nav-link navbar-btn messages-Inactive-Nav" id="readNotifs">Read</button>
                     </li>
-                </ul>`
+                </ul>`;
     }
 
     
     template += `
     <div style="border: 1px solid #dee2e6; padding: 20px; border-radius:0px 10px 10px 10px;" id="surveyMainBody">
     `;
-    if(unread.length == 0){
-        template += renderMainBody(notifs.data, 'read')
-    }
-    else{
-        template += renderMainBody(notifs.data, 'unread')
+    if (unread.length === 0) {
+        template += renderMainBody(notifs.data, 'read');
+    } else {
+        template += renderMainBody(notifs.data, 'unread');
     }
     
-    template += `</ul>`
+    template += `</ul>`;
     template += `
         </div>
         <div class="col-lg-2">
         </div>
     </div>
-    `
+    `;
     
     const mainContent = document.getElementById('root');
     mainContent.innerHTML = template;
-    if(unread.length > 0){
+    if (unread.length > 0) {
         document.getElementById('readNotifs').addEventListener('click', () => {
-            document.getElementById('surveyMainBody').innerHTML = renderMainBody(notifs.data, 'read') 
-            if(!document.getElementById('readNotifs').classList.contains('messages-Active-Nav')){
+            document.getElementById('surveyMainBody').innerHTML = renderMainBody(notifs.data, 'read');
+            if (!document.getElementById('readNotifs').classList.contains('messages-Active-Nav')) {
                 let toActive = document.getElementById('readNotifs');   
                 let toInactive = document.getElementById('unreadNotifs');
-                toActive.classList.remove('messages-Inactive-Nav')
-                toActive.classList.add('messages-Active-Nav')
-                toInactive.classList.add('messages-Inactive-Nav')
-                toInactive.classList.remove('messages-Active-Nav')
+                toActive.classList.remove('messages-Inactive-Nav');
+                toActive.classList.add('messages-Active-Nav');
+                toInactive.classList.add('messages-Inactive-Nav');
+                toInactive.classList.remove('messages-Active-Nav');
             }
-        })
+        });
         document.getElementById('unreadNotifs').addEventListener('click', () => {
-            if(!document.getElementById('unreadNotifs').classList.contains('messages-Active-Nav')){
+            if (!document.getElementById('unreadNotifs').classList.contains('messages-Active-Nav')) {
                 let toInactive = document.getElementById('readNotifs');   
                 let toActive = document.getElementById('unreadNotifs');
-                toActive.classList.remove('messages-Inactive-Nav')
-                toActive.classList.add('messages-Active-Nav')
-                toInactive.classList.add('messages-Inactive-Nav')
-                toInactive.classList.remove('messages-Active-Nav')
+                toActive.classList.remove('messages-Inactive-Nav');
+                toActive.classList.add('messages-Active-Nav');
+                toInactive.classList.add('messages-Inactive-Nav');
+                toInactive.classList.remove('messages-Active-Nav');
             }
-            document.getElementById('surveyMainBody').innerHTML = renderMainBody(notifs.data, 'unread') 
-        })
+            document.getElementById('surveyMainBody').innerHTML = renderMainBody(notifs.data, 'unread');
+        });
     }
     hideAnimation();
-}
-
+};
 
 
 const renderMainBody = (data, tab) => {
     let template = `<ul class="questionnaire-module-list">`;
     let hasNotification = false;
-    for(let i = 0; i < data.length; i++){
-
-        //${notif.notification.body}
-        if((tab == 'read' && data[i].read == true) || (tab == 'unread' && data[i].read == false)){
+    for (let i = 0; i < data.length; i++) {
+        if ((tab === 'read' && data[i].read === true) || (tab === 'unread' && data[i].read === false)) {
+            let notificationTitle = `Email (${data[i].notification.title})`;
+            if (data[i].notificationType === "sms") {
+                notificationTitle = "SMS Message";
+              }
+            
+            const notificationBody = data[i].notification.body.replace(/<style[^>]*>.*?<\/style>/gs, "");
             template += `<li style="width:100%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
                 <div>
                     <div class="row">
@@ -110,7 +109,7 @@ const renderMainBody = (data, tab) => {
                         </div>
                         <div class="col-md-10">
                             <span class="messagesHeaderFont">
-                                ${data[i].notification.title}
+                                ${notificationTitle}
                             </span>
                         </div>
                     </div>
@@ -118,25 +117,25 @@ const renderMainBody = (data, tab) => {
                         <div class="col-md-2">
                         </div>
                         <div class="col-md-10 messagesBodyFont">
-                        ${data[i].notification.body}
+                        ${notificationBody}
                         </div>
                     </div>
                 </div>
             </li>
-            `
+            `;
             hasNotification = true;
         }
         
     }
-    if(!hasNotification){
+    if (!hasNotification) {
         template += `
             <div class="row">
                 <span class="messagesHeaderFont" style="text-align:center; margin:auto;">
                     You have no messages.
                 </span>
             </div>
-            `
+            `;
     }
     
     return template;
-}
+};

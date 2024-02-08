@@ -762,15 +762,16 @@ export const subscribeForNotifications = async (data) => {
 }
 
 export const retrieveNotifications = async () => {
-    const idToken = await getIdToken();
-    const response = await fetch(`${api}?api=retrieveNotifications`, {
-        method: "GET",
-        headers: {
-            Authorization:"Bearer "+idToken
-        }
-    });
-    return await response.json();
-}
+  const idToken = await getIdToken();
+  const response = await fetch(`${api}?api=retrieveNotifications`, {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + idToken
+    },
+  });
+
+  return await response.json();
+};
 
 /**
  * Check if account exists
