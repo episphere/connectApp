@@ -75,7 +75,7 @@ export default
     },
 
     moduleStatus: {
-        notYetEligible: 789789789, // This is a placeholder value
+        notYetEligible: 789467219,
         notStarted:     972455046,
         started:        615768760,
         submitted:      231311385 
