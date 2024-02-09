@@ -1,6 +1,7 @@
 import { addEventHideNotification } from "./event.js";
 import fieldMapping from './fieldToConceptIdMapping.js'; 
 import { signInConfig, signInConfigDev } from "./pages/signIn.js";
+import { signInCheckRender, signUpRender } from "./pages/homePage.js";
 
 export const urls = {
     'prod': 'myconnect.cancer.gov',
@@ -36,17 +37,204 @@ else if(location.host === urls.stage) api = 'https://api-myconnect-stage.cancer.
 // else api = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app';
 else api = ' http://localhost:8080/app';
 
-export const sendMagicLink = async (params) => {
-  const response = await fetch(`${api}?api=sendMagicLink`, {
-      method: "POST",
-      headers: {
-          "Content-Type": "application/json"
-      },
-      body: JSON.stringify(params)
-  })
+const afterEmailLinkRender = (email, type) => {
+    return fragment`
+    <div class="mx-4">
+    <p class="loginTitleFont" style="text-align:center;">Sign In</p>
+    <div id="sign${type}Div" lang="en">
+      <div class="mdl-card mdl-shadow--2dp firebaseui-container firebaseui-id-page-email-link-sign-in-sent">
+        <form onsubmit="return false;">
+          <div class="firebaseui-card-header">
+            <h1 class="firebaseui-title">Sign-in email sent</h1>
+          </div>
+          <div class="firebaseui-card-content">
+            <div class="firebaseui-email-sent"></div>
+            <p class="firebaseui-text">A sign-in email with additional instructions was sent to <strong>${email}</strong>. Check your email to complete sign-in. </p>
+          </div>
+          <div class="firebaseui-card-actions">
+            <div class="firebaseui-form-links">
+              <a class="firebaseui-link firebaseui-id-trouble-getting-email-link" href="javascript:void(0)">Trouble getting email?</a>
+            </div>
+            <div class="firebaseui-form-actions">
+              <button class="firebaseui-id-secondary-link firebaseui-button mdl-button mdl-js-button mdl-button--primary" data-upgraded=",MaterialButton">Back</button>
+            </div>
+          </div>
+          <div class="firebaseui-card-footer"></div>
+        </form>
+      </div>
+    </div>
+    <div style="font-size:8px" class="mt-3"> ${usGov} </div>
+    </div>
+    `;
+};
 
-  return response.json();
+const troubleGettingEmailRender = (type) => {
+    return fragment`
+    <div class="mx-4">
+    <p class="loginTitleFont" style="text-align:center;">Sign In</p>
+    <div id="sign${type}Div" lang="en">
+        <div class="mdl-card mdl-shadow--2dp firebaseui-container firebaseui-id-page-email-not-received">
+        <form onsubmit="return false;">
+            <div class="firebaseui-card-header">
+            <h1 class="firebaseui-title">Trouble getting email?</h1>
+            </div>
+            <div class="firebaseui-card-content">
+            <p class="firebaseui-text">Try these common fixes:</p>
+            <ul>
+                <li>Check if the email was marked as spam or filtered.</li>
+                <li>Check your internet connection.</li>
+                <li>Check that you did not misspell your email.</li>
+                <li>Check that your inbox space is not running out or other inbox settings related issues.</li>
+            </ul>
+            <p></p>
+            <p class="firebaseui-text">If the steps above didn't work, you can resend the email. Note that this will deactivate the link in the older email.</p>
+            </div>
+            <div class="firebaseui-card-actions">
+            <div class="firebaseui-form-links">
+                <a class="firebaseui-link firebaseui-id-resend-email-link" href="javascript:void(0)">Resend</a>
+            </div>
+            <div class="firebaseui-form-actions">
+                <button class="firebaseui-id-secondary-link firebaseui-button mdl-button mdl-js-button mdl-button--primary" data-upgraded=",MaterialButton">Back</button>
+            </div>
+            </div>
+            <div class="firebaseui-card-footer"></div>
+        </form>
+        </div>
+    </div>
+    <div style="font-size:8px" class="mt-3"> ${usGov} </div>
+    </div>
+    `;
 }
+
+const signInFlowRender = (signInEmail) => {
+    const type = document.getElementById("signInDiv") ? "In" : "Up";
+    document
+        .getElementById("signInWrapperDiv")
+        .replaceChildren(afterEmailLinkRender(signInEmail, type));
+
+    document
+        .querySelector('a[class~="firebaseui-id-trouble-getting-email-link"]')
+        .addEventListener("click", () => {
+            document
+                .getElementById("signInWrapperDiv")
+                .replaceChildren(troubleGettingEmailRender(type));
+
+            document
+                .querySelector('a[class~="firebaseui-id-resend-email-link"]')
+                .addEventListener("click", () => sendEmailLink());
+
+            document
+                .querySelector('button[class~="firebaseui-id-secondary-link"]')
+                .addEventListener("click", () => {
+                    const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
+
+                    if (type  === "In") {
+                        const df = fragment`
+                            <div class="mx-4">
+                            <p class="loginTitleFont" style="text-align:center;">Sign In</p>
+                            <div id="signInDiv"></div>
+                            <div style="font-size:8px" class="mt-3">
+                            ${usGov}
+                            </div>
+                            </div>
+                        `;
+    
+                        document.getElementById('signInWrapperDiv').replaceChildren(df);
+
+                        if (location.host === urls.prod) {
+                            ui.start("#signInDiv", signInConfig());
+                        } else if (location.host === urls.stage) {
+                            ui.start("#signInDiv", signInConfig());
+                        } else {
+                            ui.start("#signInDiv", signInConfigDev());
+                        }
+                    } else {
+                        signUpRender({ ui });
+                    }
+                    
+                });
+        });
+
+    document
+        .querySelector('button[class~="firebaseui-id-secondary-link"]')
+        .addEventListener("click", async (e) => {
+            e.preventDefault();
+            const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
+            window.localStorage.setItem("signInUpdate", "yes");
+            const inputStr = window.localStorage.getItem("signInEmail").trim();
+            const isEmail = !!inputStr.match(validEmailFormat);
+            const isPhone = !!inputStr.match(validPhoneNumberFormat);
+            
+            if (type === 'Up'){
+                signUpRender({ ui });
+            } else {
+                if (isEmail) {
+                    const emailForQuery = inputStr
+                        .replaceAll("%", "%25")
+                        .replaceAll("#", "%23")
+                        .replaceAll("&", "%26")
+                        .replaceAll(`'`, "%27")
+                        .replaceAll("+", "%2B");
+
+                    const response = await checkAccount({
+                        accountType: "email",
+                        accountValue: emailForQuery,
+                    });
+
+                    if (response?.data?.accountExists) {
+                        const account = { type: "email", value: inputStr };
+                        firebaseSignInRender({
+                            ui,
+                            account,
+                            usGov,
+                            signInConfig,
+                            signInConfigDev,
+                        });
+                    } else {
+                        alert("Account Not Found");
+                    }
+                } else if (isPhone) {
+                    //   await signInAnonymously();
+                    const phoneNumberStr = inputStr
+                        .match(/\d+/g)
+                        .join("")
+                        .slice(-10);
+                    const response = await checkAccount({
+                        accountType: "phone",
+                        accountValue: phoneNumberStr,
+                    });
+
+                    if (response?.data?.accountExists) {
+                        const account = { type: "phone", value: phoneNumberStr };
+                        firebaseSignInRender({
+                            ui,
+                            account,
+                            usGov,
+                            signInConfig,
+                            signInConfigDev,
+                        });
+                    } else {
+                        alert("Account Not Found");
+                    }
+                }
+            }
+        });
+};
+
+export const sendEmailLink = () => {
+    const signInEmail = window.localStorage.getItem("signInEmail");
+    const continueUrl = window.location.href;
+
+    fetch(`${api}?api=sendEmailLink`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: signInEmail, continueUrl }),
+    }).then(() => {
+        signInFlowRender(signInEmail)
+    });
+};
 
 export const validateToken = async (token) => {
     const idToken = await getIdToken();
@@ -1310,7 +1498,6 @@ export const firebaseSignInRender = async ({ ui, account = {}, displayFlag = tru
     const { signInEmail, signInTime } = JSON.parse(window.localStorage.getItem('connectSignIn') || '{}');
     const timeLimit = 1000 * 60 * 60 ; // 1 hour time limit
     if (account.type === 'magicLink' && signInEmail  && Date.now() - signInTime < timeLimit) {
-        console.log('signInsignInsignInsignInsignInsignInsignIn')
       await elementIsLoaded('div[class~="firebaseui-id-page-email-link-sign-in-confirmation"]', 1500);
       const emailInput =  document.querySelector('input[class~="firebaseui-id-email"]');
   

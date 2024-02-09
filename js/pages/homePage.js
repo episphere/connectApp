@@ -638,7 +638,7 @@ export async function signInCheckRender ({ ui }) {
   }
 };
 
-  function signUpRender({ ui }) {
+  export function signUpRender({ ui }) {
     const df = fragment`
     <div class="mx-4">
       <p class="loginTitleFont" style="text-align:center;">Create an Account</p>
