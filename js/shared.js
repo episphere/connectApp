@@ -34,8 +34,7 @@ let api = '';
 
 if(location.host === urls.prod) api = 'https://api-myconnect.cancer.gov/app';
 else if(location.host === urls.stage) api = 'https://api-myconnect-stage.cancer.gov/app';
-// else api = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app';
-else api = ' http://localhost:8080/app';
+else api = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app';
 
 const afterEmailLinkRender = (email, type) => {
     return fragment`
