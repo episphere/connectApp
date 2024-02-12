@@ -5,7 +5,6 @@ import { consentTemplate } from "./consent.js";
 import { addEventHeardAboutStudy, addEventRequestPINForm, addEventHealthCareProviderSubmit, addEventPinAutoUpperCase, addEventHealthProviderModalSubmit, addEventToggleSubmit } from "../event.js";
 import { heardAboutStudy, requestPINTemplate, healthCareProvider } from "./healthCareProvider.js";
 import fieldMapping from '../fieldToConceptIdMapping.js';
-import { socialSecurityTemplate } from "./ssn.js";
 
 export const myToDoList = async (data, fromUserProfile, collections) => {
     const mainContent = document.getElementById('root');
@@ -361,11 +360,15 @@ const renderMainBody = (data, collections, tab) => {
     }
 
     if(modules['Menstrual Cycle'].enabled) {
-        toDisplaySystem.unshift({'body':['Menstrual Cycle']})
+        toDisplaySystem.unshift({'body':['Menstrual Cycle']});
     }
     
     if(modules['Mouthwash'].enabled) {
-        toDisplaySystem.unshift({'body':['Mouthwash']})
+        toDisplaySystem.unshift({'body':['Mouthwash']});
+    }
+
+    if(modules['PROMIS'].enabled) {
+        toDisplaySystem.unshift({'body':['PROMIS']});
     }
     
     if(tab === 'todo'){
@@ -695,6 +698,10 @@ const setModuleAttributes = (data, modules, collections) => {
     modules['Mouthwash'].description = 'Questions about your oral health and hygiene practices.';
     modules['Mouthwash'].estimatedTime = '5 minutes';
 
+    modules['PROMIS'].header = 'Quality of Life Survey';
+    modules['PROMIS'].description = 'Questions about your physical, social, and mental health.';
+    modules['PROMIS'].estimatedTime = '10 to 15 minutes';
+
     if(data['331584571']?.['266600170']?.['840048338']) {
         modules['Biospecimen Survey'].enabled = true;
         modules['Covid-19'].enabled = true;
@@ -724,6 +731,10 @@ const setModuleAttributes = (data, modules, collections) => {
                 }
             }
         }
+    }
+
+    if (data[fieldMapping.PROMIS.statusFlag] !== fieldMapping.moduleStatus.notYetEligible) {
+        modules['PROMIS'].enabled = true;
     }
     
     if (data[fieldMapping.Module1.statusFlag] === fieldMapping.moduleStatus.submitted) { 
@@ -781,6 +792,10 @@ const setModuleAttributes = (data, modules, collections) => {
 
     if (data[fieldMapping.Mouthwash.statusFlag] === fieldMapping.moduleStatus.submitted) { 
         modules['Mouthwash'].completed = true;
+    }
+
+    if (data[fieldMapping.PROMIS.statusFlag] === fieldMapping.moduleStatus.submitted) { 
+        modules['PROMIS'].completed = true;
     }
 
     return modules;

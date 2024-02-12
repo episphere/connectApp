@@ -898,7 +898,8 @@ export const questionnaireModules = () => {
             'Biospecimen Survey': {path: 'prod/moduleBiospecimen.txt', moduleId:"Biospecimen", enabled:false},
             'Clinical Biospecimen Survey': {path: 'prod/moduleClinicalBloodUrine.txt', moduleId:"ClinicalBiospecimen", enabled:false},
             'Menstrual Cycle': {path: 'prod/moduleMenstrual.txt', moduleId:"MenstrualCycle", enabled:false},
-            'Mouthwash': {path: 'prod/moduleMouthwash.txt', moduleId:"Mouthwash", enabled:false}
+            'Mouthwash': {path: 'prod/moduleMouthwash.txt', moduleId:"Mouthwash", enabled:false},
+            'PROMIS': {path: 'prod/modulePROMIS.txt', moduleId:"PROMIS", enabled:false}
         }
     }
 
@@ -912,7 +913,8 @@ export const questionnaireModules = () => {
         'Biospecimen Survey': {path: 'moduleBiospecimenStage.txt', moduleId:"Biospecimen", enabled:false},
         'Clinical Biospecimen Survey': {path: 'moduleClinicalBloodUrineStage.txt', moduleId:"ClinicalBiospecimen", enabled:false},
         'Menstrual Cycle': {path: 'moduleMenstrualStage.txt', moduleId:"MenstrualCycle", enabled:false},
-        'Mouthwash': {path: 'moduleMouthwash.txt', moduleId:"Mouthwash", enabled:false}
+        'Mouthwash': {path: 'moduleMouthwash.txt', moduleId:"Mouthwash", enabled:false},
+        'PROMIS': {path: 'modulePROMIS.txt', moduleId:"PROMIS", enabled:false}
     };
 }
 
@@ -1104,7 +1106,7 @@ const resetMenstrualCycleSurvey = async () => {
     await storeResponse(formData);
 }
 
-const removeMenstrualCycleData = (formData) => {
+const removeMenstrualCycleData = () => {
 
     localforage.removeItem("D_912367929");
     localforage.removeItem("D_912367929.treeJSON");
@@ -1121,7 +1123,7 @@ const removeMenstrualCycleData = (formData) => {
 const clientFilterData = async (formData) => {
 
     if(formData["D_912367929"]?.["D_951357171"] == 104430631) {
-        formData = removeMenstrualCycleData(formData);
+        formData = removeMenstrualCycleData();
 
         await resetMenstrualCycleSurvey();
     }
