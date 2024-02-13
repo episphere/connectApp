@@ -2,6 +2,7 @@ import { getMyData, hasUserData, hideAnimation, showAnimation, siteAcronyms, dat
 import { initializeCanvas } from './consent.js'
 import fieldMapping from '../fieldToConceptIdMapping.js';
 import {suffixToTextMap} from '../settingsHelpers.js'
+import consentVersions from "../../forms/formVersions.js";
 
 const { PDFDocument, StandardFonts } = PDFLib;
 
@@ -347,8 +348,6 @@ const renderDownloadDestroy = async (data) => {
 }
 
 const renderSignDataDestroy = async () =>{
-    let consentVersions = await fetch('./forms/Consent_versioning.json').then(res => res.json());
-
     document.getElementById('root').innerHTML = `
     <div class="row">
         <div class="col-lg-2">
@@ -394,8 +393,6 @@ const renderSignDataDestroy = async () =>{
 }
 
 const renderSignHIPAARevoke = async () =>{
-    let consentVersions = await fetch('./forms/Consent_versioning.json').then(res => res.json());
-
     document.getElementById('root').innerHTML = `
     <div class="row">
         <div class="col-lg-2">
