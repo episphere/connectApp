@@ -899,7 +899,7 @@ export const questionnaireModules = () => {
             'Clinical Biospecimen Survey': {path: 'prod/moduleClinicalBloodUrine.txt', moduleId:"ClinicalBiospecimen", enabled:false},
             'Menstrual Cycle': {path: 'prod/moduleMenstrual.txt', moduleId:"MenstrualCycle", enabled:false},
             'Mouthwash': {path: 'prod/moduleMouthwash.txt', moduleId:"Mouthwash", enabled:false},
-            'PROMIS': {path: 'prod/modulePROMIS.txt', moduleId:"PROMIS", enabled:false}
+            'PROMIS': {path: 'prod/moduleQoL.txt', moduleId:"PROMIS", enabled:false}
         }
     }
 
@@ -914,7 +914,7 @@ export const questionnaireModules = () => {
         'Clinical Biospecimen Survey': {path: 'moduleClinicalBloodUrineStage.txt', moduleId:"ClinicalBiospecimen", enabled:false},
         'Menstrual Cycle': {path: 'moduleMenstrualStage.txt', moduleId:"MenstrualCycle", enabled:false},
         'Mouthwash': {path: 'moduleMouthwash.txt', moduleId:"Mouthwash", enabled:false},
-        'PROMIS': {path: 'modulePROMIS.txt', moduleId:"PROMIS", enabled:false}
+        'PROMIS': {path: 'moduleQoL.txt', moduleId:"PROMIS", enabled:false}
     };
 }
 
