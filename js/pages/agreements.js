@@ -7,34 +7,70 @@ import consentVersions from "../../forms/formVersions.js";
 const { PDFDocument, StandardFonts } = PDFLib;
 
 const siteToHipaaSignPosMap = {
-    "Sanford":{nameX:100,nameY:410,signatureX:100,signatureY:450,dateX:100,dateY:370},
-    "HP":{nameX:100,nameY:415,signatureX:100,signatureY:465,dateX:100,dateY:365},
-    "Marshfield":{nameX:100,nameY:425,signatureX:100,signatureY:465,dateX:100,dateY:385},
-    "HFHS":{nameX:100,nameY:440,signatureX:110,signatureY:480,dateX:100,dateY:400},
-    "UChicago":{nameX:100,nameY:425,signatureX:110,signatureY:465,dateX:100,dateY:385},
-    "KPCO": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
-    "KPGA": {nameX:110,nameY:345,signatureX:110,signatureY:385,dateX:110,dateY:305},
-    "KPHI": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
-    "KPNW": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
+    "Sanford": {
+        "default": {nameX:100,nameY:410,signatureX:100,signatureY:450,dateX:100,dateY:370},
+    },
+    "HP": {
+        "default": {nameX:100,nameY:415,signatureX:100,signatureY:465,dateX:100,dateY:365},
+    },
+    "Marshfield": {
+        "default": {nameX:100,nameY:425,signatureX:100,signatureY:465,dateX:100,dateY:385},
+    },
+    "HFHS": {
+        "V0.02": {nameX:100,nameY:425,signatureX:110,signatureY:465,dateX:100,dateY:385},
+        "default": {nameX:100,nameY:440,signatureX:110,signatureY:480,dateX:100,dateY:400},
+    },
+    "UChicago": {
+        "default": {nameX:100,nameY:425,signatureX:110,signatureY:465,dateX:100,dateY:385},
+    },
+    "KPCO": {
+        "default": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
+    },
+    "KPGA": {
+        "default": {nameX:110,nameY:345,signatureX:110,signatureY:385,dateX:110,dateY:305},
+    },
+    "KPHI": {
+        "default": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
+    },
+    "KPNW": {
+        "default": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
+    },
     "default": { nameX: 200, nameY: 275, signatureX: 200, signatureY: 225, dateX: 200, dateY: 325}
 }
 
 const siteToConsentSignPosMap = {
-    "Sanford":{nameX:120,nameY:405,signatureX:120,signatureY:325,dateX:120,dateY:365},
-    "HP":{nameX:90,nameY:415,signatureX:110,signatureY:340,dateX:90,dateY:380},
-    "Marshfield":{nameX:110,nameY:415,signatureX:115,signatureY:340,dateX:110,dateY:380},
-    "HFHS":{nameX:110,nameY:380,signatureX:115,signatureY:300,dateX:110,dateY:340},
-    "UChicago":{nameX:110,nameY:380,signatureX:115,signatureY:300,dateX:110,dateY:340},
-    "KPCO": {nameX:110,nameY:395,signatureX:110,signatureY:315,dateX:110,dateY:355},
-    "KPGA": {nameX:110,nameY:395,signatureX:110,signatureY:315,dateX:110,dateY:355},
-    "KPHI": {nameX:110,nameY:365,signatureX:110,signatureY:285,dateX:110,dateY:325},
-    "KPNW": {nameX:110,nameY:390,signatureX:110,signatureY:310,dateX:110,dateY:345},
+    "Sanford": {
+        "default": {nameX:120,nameY:405,signatureX:120,signatureY:325,dateX:120,dateY:365},
+    },
+    "HP": {
+        "default": {nameX:90,nameY:415,signatureX:110,signatureY:340,dateX:90,dateY:380},
+    },
+    "Marshfield": {
+        "default": {nameX:110,nameY:415,signatureX:115,signatureY:340,dateX:110,dateY:380},
+    },
+    "HFHS":{
+        "V0.03":  {nameX:90,nameY:410,signatureX:110,signatureY:330,dateX:90,dateY:370},
+        "default": {nameX:110,nameY:380,signatureX:115,signatureY:300,dateX:110,dateY:340},
+    },
+    "UChicago": {
+        "default": {nameX:110,nameY:380,signatureX:115,signatureY:300,dateX:110,dateY:340},
+    },
+    "KPCO": {
+        "default": {nameX:110,nameY:395,signatureX:110,signatureY:315,dateX:110,dateY:355},
+    },
+    "KPGA": {
+        "default": {nameX:110,nameY:395,signatureX:110,signatureY:315,dateX:110,dateY:355},
+    },
+    "KPHI": {
+        "default": {nameX:110,nameY:365,signatureX:110,signatureY:285,dateX:110,dateY:325},
+    },
+    "KPNW": {
+        "default": {nameX:110,nameY:390,signatureX:110,signatureY:310,dateX:110,dateY:345},
+    },
+    "NCI": {
+        "default": {nameX:90,nameY:410,signatureX:110,signatureY:335,dateX:90,dateY:375},
+    },
     "default": {nameX: 110, nameY: 400, signatureX: 110, signatureY: 330, dateX: 110, dateY: 370}
-}
-
-
-const siteToHipaaSignPosMapV2 = {
-    "HFHS":{nameX:100,nameY:425,signatureX:110,signatureY:465,dateX:100,dateY:385}
 }
 
 const defaultNameDateSignatureSize = {
@@ -547,16 +583,28 @@ async function generateSignedPdf(data, file) {
   const fontSize = siteToSignFontSizeMap[participantSite] ?? siteToSignFontSizeMap['default'];
 
   if (file === 'signed-consent') {
-    sourcePdfLocation = './forms/consent/' + data[454205108] + '.pdf';
+    sourcePdfLocation = './forms/consent/' + data[fieldMapping.consentVersion] + '.pdf';
     dateStr = new Date(data[454445267]).toLocaleDateString();
-    coords = siteToConsentSignPosMap[participantSite] ?? siteToConsentSignPosMap['default'];
+    const version = data[fieldMapping.consentVersion].split('_')[2];
+    if (siteToConsentSignPosMap[participantSite] && siteToConsentSignPosMap[participantSite][version]) {
+        coords = siteToConsentSignPosMap[participantSite][version];
+    } else if (siteToConsentSignPosMap[participantSite] && siteToConsentSignPosMap[participantSite]['default']) {
+        coords = siteToConsentSignPosMap[participantSite]['default'];
+    } else {
+        coords = siteToConsentSignPosMap['default'];
+    }
   } 
   else if (file === 'signed-HIPAA') {
-    sourcePdfLocation = './forms/HIPAA/' + data[412000022] + '.pdf';
+    sourcePdfLocation = './forms/HIPAA/' + data[fieldMapping.hipaaVersion] + '.pdf';
     dateStr = new Date(data[262613359]).toLocaleDateString();
-    const version = data[fieldMapping.hipaaVersion].split('_')[2]
-    if(version === `V0.02` && participantSite === `HFHS`) coords = siteToHipaaSignPosMapV2[participantSite]
-    else coords = siteToHipaaSignPosMap[participantSite] ?? siteToHipaaSignPosMap['default'];
+    const version = data[fieldMapping.hipaaVersion].split('_')[2];
+    if (siteToHipaaSignPosMap[participantSite] && siteToHipaaSignPosMap[participantSite][version]) {
+        coords = siteToHipaaSignPosMap[participantSite][version];
+    } else if (siteToHipaaSignPosMap[participantSite] && siteToHipaaSignPosMap[participantSite]['default']) {
+        coords = siteToHipaaSignPosMap[participantSite]['default'];
+    } else {
+        coords = siteToHipaaSignPosMap['default'];
+    }
   }
 
   // adjust existing position data becaused of position shift
