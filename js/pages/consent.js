@@ -3,8 +3,9 @@ import { renderUserProfile } from "../components/form.js";
 import { removeAllErrors, addEventsConsentSign } from "../event.js";
 import { downloadSignedPdf } from "./agreements.js";
 import { heardAboutStudy } from "./healthCareProvider.js";
-import {addEventHeardAboutStudy} from "../event.js"
+import {addEventHeardAboutStudy} from "../event.js";
 import fieldMapping from "../fieldToConceptIdMapping.js";
+import formVersions from "../../forms/formVersions.js";
 
 export const consentTemplate = () => {
     consentWelcomePage();
@@ -109,8 +110,8 @@ const consentWelcomePage = () => {
             </div>
             <div class="col-lg-8">
                 <p class="consentHeadersFont"><b>Welcome</b></p>
-                <p class="consentBodyFont1">Thank you for your interest in the <b>Connect for Cancer Prevention Study!</b> First, we will tell you about Connect and what it means to take part in this research study.</p>
-                <p class="consentBodyFont1">After you have learned about Connect, you will view the full informed consent form and electronic health records release form. These forms provide more details about the study. Then, you can decide if you want to join Connect.</p>
+                <p class="consentBodyFont1">Thank you for your interest in the <b>Connect for Cancer Prevention Study!</b> In the following screens, we will tell you about Connect and what it means to take part in this research study.</p>
+                <p class="consentBodyFont1">Then, you will view the full informed consent form and electronic health records release form. These forms provide more details about the study. After you view these forms, you can decide if you want to join Connect.</p>
                 <div class="row" style="padding:0;">
                     <div class="col-md-2">
                         <button class="btn btn-primary consentPrevButton" type="button" id="backToHeardAboutStudyForm" style="min-width:100%; margin-top:10px;margin-bottom:10px;">Previous</button>
@@ -151,9 +152,9 @@ const consentAboutPage = () => {
             </div>
             <div class="col-lg-8">
                 <p class="consentHeadersFont"><b>What is the Connect for Cancer Prevention Study?</b></p>
-                <p class="consentBodyFont1">This research study will explore causes of cancer and learn how to better prevent cancer in adults. Since it takes time to understand what causes cancer, Connect will go on for many years. The longer you participate, the more we may learn.</p>
-                <p class="consentBodyFont2">Researchers will study things like habits, behaviors, and the environment you and others live in that can help us learn how cancer may form. Researchers hope to learn new ways to stop cancer from forming in the first place.</p>
-                <p class="consentBodyFont2">Connect is studying cancer prevention. Researchers will not look for treatments for cancer, give medical care, or share medical advice.</p>
+                <p class="consentBodyFont1">This research study explores causes of cancer with the goal of learning about new ways to prevent cancer in adults. Since it takes time to understand what may cause cancer, Connect will go on for many years. The longer you participate, the more we may learn.</p>
+                <p class="consentBodyFont1">Researchers will study things like habits, behaviors, and the environment where you and others live. By looking at these factors, researchers hope to learn new ways to stop cancer from forming in the first place.</p>
+                <p class="consentBodyFont1">Connect will study cancer prevention. Researchers will not look for treatments for cancer, give medical care, or share medical advice. Instead, Connect will study the causes of cancer and new ways to prevent it.</p>
                 <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
                     <div class="col-md-2">
                         <button class="btn btn-primary consentPrevButton" type="button" id="backToAbout" style="min-width:100%; margin-top:10px;margin-bottom:10px;">Previous</button>
@@ -188,37 +189,28 @@ const consentActivitiesPage = () => {
             </div>
             <div class="col-lg-8">
                 <p class="consentHeadersFont">What Will I Do If I Join?</p>
-                <p class="consentBodyFont1">Cancer can be caused by many things, so we will collect different kinds of information to give us a better picture of your whole health.</p>
-                <p class="consentBodyFont1">Share some information about yourself</p>
-                <p class="consentBodyFont2" style="margin-left:32px">
-                    To keep in touch, we ask for your contact information. We also ask for personal information such as your name, birth date, and social security number (sharing this is optional), to identify you. This information helps us gather other information about you—like where you live, how close you live to a park, or if there is pollution in your neighborhood.
-                </p>
-                <p class="consentBodyFont1">Allow us to access your health records</p>
-                <p class="consentBodyFont2" style="margin-left:32px">
-                    We ask to use information from your electronic health records. Your health records have information about your health history, health status, test results, medical procedures, images (such as x-rays), and medicines you take. Your health records may have sensitive information. For example, they may tell us about your use of medications for depression and sexual or other infections (including HIV status). With your signed electronic health records release form, your health care system will safely provide access to your health records following the rules under the Health Insurance Portability and Accountability Act (HIPAA).
-                </p>
-                <p class="consentBodyFont1">Take surveys about your health</p>
-                <p class="consentBodyFont2" style="margin-left:32px">
-                    We will ask you to complete online surveys that we will send when you join the study and then again a few times each year. The surveys will cover basic information about you and about your health history, family, home, and work. The first survey can take one to two hours to complete. This survey is broken into sections, so you can pause and return to complete it at a later time. Most follow up surveys will take 20 to 30 minutes or less to complete. You can choose to skip any survey questions that you do not want to answer.
-                </p>
-                <p class="consentBodyFont1">Donate samples (biological specimens)</p>
-                <p class="consentBodyFont2" style="margin-left:32px">
-                    We will ask you to donate blood, urine, and saliva when you join the study, and every two to three years after. Some samples will be collected where you get your health care and others at home. We may also collect samples that are left over from health care visits and procedures. You will not need to do anything for us to collect these leftover samples. Your samples will be safely stored at the Connect Central Repository.
-                </p>
-                <p class="consentBodyFont2" style="margin-left:32px">
-                    The samples you donate will be used to study how cancer may form, which may include looking at the genes in your DNA.
-                </p>
-                <p class="consentBodyFont1">Take part in future activities</p>
-                <p class="consentBodyFont2" style="margin-left:32px">
-                    In the future, we may invite you to take part in other study activities. These are not required, so you can say no and still be in Connect.
-                </p>
+                <p class="consentBodyFont1">Cancer can be caused by many things, so we will collect different kinds of information to give us a better picture of your overall health.</p>
+                <p class="consentBodyFont1">If you join this study, we will ask you to:</p>
+                <p class="consentBodyFont1">1. Share some information about yourself</p>
+                <p class="consentBodyFont2" style="margin-left:32px">To keep in touch, we ask for your contact information. We also ask for personal information such as your name, birth date, and address, to identify you. These details help us gather information about you—like whether you live close to a park, or how much pollution is in your neighborhood. We also ask you to share your social security number. This is optional. Sharing your social security number will help us collect information from other sources, such as state and national public health databases.</p>
+                <p class="consentBodyFont1">2. Allow us to access your health records</p>
+                <p class="consentBodyFont2" style="margin-left:32px">We ask your permission to use information from your electronic health records. Your health records have information about your health history, health status, test results, medical procedures, images (such as x-rays), and any medicines you may take. Your health records may have sensitive information. For example, they may tell us about your use of medicines for depression and infections (including HIV status). If you sign the electronic health records release form, your health care system will safely give us access to your health records following the rules under the Health Insurance Portability and Accountability Act (HIPAA).</p>
+                <p class="consentBodyFont1">3. Take surveys about your health</p>
+                <p class="consentBodyFont2" style="margin-left:32px">We will ask you to complete online surveys when you join the study and a few times each year. The surveys will cover information about you and about your health history, family, home, and work. The first survey may take one to two hours to complete. This survey is made of sections, which you can pause and complete at a later time. Follow up surveys will usually take 20 to 30 minutes or less to complete. You can choose to skip any survey questions that you do not want to answer. </p>
+                <p class="consentBodyFont1">4. Donate samples</p>
+                <p class="consentBodyFont2" style="margin-left:32px"><b>Samples are like time capsules of information about your current health status.</b> We collect samples throughout your time in Connect to study how your health may change. Studying these changes is important to understanding how cancer and other health outcomes may develop.</p>
+                <p class="consentBodyFont2" style="margin-left:32px">We will ask you to donate blood, urine, and mouthwash samples when you join the study, and every two to three years after. Some samples will be collected at your health care system and others at home. We may also collect samples that are left over from health care visits and procedures, like tissue samples after a surgery, if they are available. You will not need to do anything for us to collect these leftover samples. Your samples will be stored at the Connect Central Repository, which is a secure storage facility with limited access.</p>
+                <p class="consentBodyFont2" style="margin-left:32px">We will save most of the samples for study in the future, as new tests become available for research over time. When new tests are available, researchers may study things like proteins or genetic material (DNA). Saving the samples for tests that have not been developed yet could help us understand more about cancer prevention and early detection.</p>
+                <p class="consentBodyFont2" style="margin-left:32px">Tests that we run as part of Connect do not take the place of routine medical care.</p>
+                <p class="consentBodyFont1">5. Take part in future activities</p>
+                <p class="consentBodyFont2" style="margin-left:32px">In the future, we may invite you to take part in other study activities. These other activities are not required, so you can skip them and still be in Connect.</p>
                 <p class="consentBodyFont2" style="margin-left:32px">
                     These activities may include:
                 </p>
                 <ul class="consentBodyFont2" style="margin-left:32px">
-                    <li>Donating other samples (like stool, nails, and hair) or samples from your home (like dust or dryer lint)</li>
+                    <li>Donating other samples (like nails and hair) or samples from your home (like dust or dryer lint)</li>
                     <li>Having measurements taken (like height, weight, and blood pressure)</li>
-                    <li>Sharing information from wearable electronic health trackers or apps that measure things like diet, sleep, or air quality in your environment</li>
+                    <li>Sharing information from wearable devices or phone apps that measure things like diet, sleep, or air quality in your environment</li>
                 </ul>  
                 <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
                     <div class="col-md-2">
@@ -254,16 +246,16 @@ const consentPrivacyPage = () => {
             </div>
             <div class="col-lg-8">
                 <p class="consentHeadersFont">Your Privacy is Important to Us</p>
-                <p class="consentBodyFont2">As part of the study, we ask you to share information that can identify you, like your name, address, and social security number (optional), and health information. Our team values the important information you share with us, and will protect this information with the highest privacy standards.</p>
-                <p class="consentBodyFont2">To protect your information, we:</p>
-                <ul class="consentBodyFont2" style="margin-left:32px">
+                <p class="consentBodyFont1">As part of the study, we ask you to share information that can identify you, like your name, address, social security number, and health information. Our team values the important information you share with us, and will protect this information with the highest privacy standards.</p>
+                <p class="consentBodyFont1">To protect your information, we:</p>
+                <ul class="consentBodyFont1" style="margin-left:32px">
                     <li>Follow federal privacy rules, including the <a target="_blank" href="https://www.justice.gov/archives/opcl/overview-privacy-act-1974-2015-edition">Privacy Act</a> and the <a target="_blank" href="https://grants.nih.gov/grants/guide/notice-files/NOT-OD-19-050.html">Common Rule</a>.</li>
-                    <li>Maintain tight security controls. Our information systems, including the MyConnect participant app, are watched closely by security experts.</li>
-                    <li>Remove information that can identify you, including your name, date of birth, and social security number (if you shared it), from your survey answers and samples before we share them with researchers. This information is replaced with a unique number (a code) to protect your identity.</li>
-                    <li>Limit and keep track of who can access the information and samples you share. Only approved researchers who agree to our privacy rules will be allowed to use study information and samples for valid scientific reasons</li>
+                    <li>Maintain tight security controls. Our information systems, including MyConnect, are watched closely by security experts.</li>
+                    <li>Remove information that can identify you, including your name and date of birth, from your survey answers and samples before we share them with researchers. This information is replaced with a unique number to protect your identity.</li>
+                    <li>Limit and keep track of who can access the information and samples you share. Only approved researchers who agree to our privacy rules may use study information and samples for valid scientific research.</li>
                     <li>Maintain our <a target="_blank" href="https://grants.nih.gov/policy/humansubjects/coc.htm">Certificate of Confidentiality</a> from the United States government. This will help protect against any legal requests (such as a court order) to give out information that could identify you.</li>                
                 </ul>   
-                <p class="consentBodyFont2">If you have questions about our privacy safeguards, please <a target="_blank" href="https://norcfedramp.servicenowservices.com/recruit">contact us</a></p>
+                <p class="consentBodyFont1">If you have questions about privacy, please <a target="_blank" href="https://norcfedramp.servicenowservices.com/recruit">contact us</a></p>
 
                 <div class="row" style="padding:0;">
                     <div class="col-md-2">
@@ -300,8 +292,8 @@ const consentBenefitsPage = () => {
             </div>
             <div class="col-lg-8">
                 <p class="consentHeadersFont">If You Leave the Study or Change Health Systems</p>
-                <p class="consentBodyFont1">We hope that Connect participants will take part in the study throughout their lives. While we hope you stay in Connect for years to come, you can leave at any time. Choosing to leave the study will not change your health care or health benefits. If you have shared any information or samples before you leave, we may still use them for research.</p>
-                <p class="consentBodyFont1">If you leave your health care system, we hope you will stay in Connect. If you leave your current health care system and join a different system (even one that is not taking part in Connect), we will continue to work with you and value your participation in the study.</p>
+                <p class="consentBodyFont1">We hope that you will take part in Connect throughout your life. While we hope you stay involved in the study for years to come, you may choose to leave at any time. Choosing to leave the study will not change your health care or health benefits. If you shared any information or samples before you leave, we may still use them for research.</p>
+                <p class="consentBodyFont1">If you leave your health care system, you are allowed to continue your study participation and we hope you will stay in Connect. If you leave your current health care system and join a different system (even one that is not taking part in Connect), we will continue to work with you and value your study participation.</p>
 
                 <div class="row" style="padding:0;">
                     <div class="col-md-2">
@@ -337,11 +329,11 @@ const consentResultsPage = () => {
             <div class="col-lg-2">
             </div>
             <div class="col-lg-8">
-                <p class="consentHeadersFont">Receiving Study Results</p>
-                <p class="consentBodyFont1">We will be sharing some of the things we learn with you. You can choose which results you want to receive. These may include results from your surveys and results from your samples, which could include ancestry information.</p>
-                <p class="consentBodyFont2">You can also choose to receive general findings about cancer or other health information from all the people taking part in the study and updates about Connect.</p>
-                <p class="consentBodyFont2">We will alert you when results are available and share them securely if you choose to receive them.</p>
-                <p class="consentBodyFont2">We will not add information about Connect to your health record or share your information with your health care provider, but you are free to do so with any results you receive.</p>
+                <p class="consentHeadersFont">When Will I Get Information and Results from Connect?</p>
+                <p class="consentBodyFont1">From time to time, you will receive information grouped from all the people taking part in Connect. For example, you may receive information about the percentage of current Connect participants who report sleep difficulties, or who drink coffee.</p>
+                <p class="consentBodyFont1">We will also offer to share with you some of the things that we learn specifically about you. The information we share may include results from your surveys or from tests of your samples. These tests may be run at different time points. Because of the types of research questions we will be asking through Connect, and since we are always going to be looking for new ideas to explore, it may be years before we run some tests and get information to share back with you. Other tests may be run sooner. We carefully save samples at the Connect lab for future studies to be sure we will be able to make the most out of every sample you donate as part of Connect.</p>
+                <p class="consentBodyFont1">When we have information or results about you to share, we will let you know. At that time, we will share background information on the results and how they could be used. You may then decide if you want to receive them. If you choose to receive results, we will share them securely on MyConnect.</p>
+                <p class="consentBodyFont1">We will never add results or information from Connect to your health record or share your information with your health care providers. You may choose to share any results or information you receive with your health care providers or others.</p>
                 
                 <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
                     <div class="col-md-2">
@@ -378,8 +370,8 @@ const consentLeavingPage = () => {
             </div>
             <div class="col-lg-8">
                 <p class="consentHeadersFont">Benefits and Payment</p>
-                <p class="consentBodyFont1">Connect is a low-risk study. The main risk of joining is to your privacy. We follow federal privacy rules to protect your identity and the information you share. There is no health benefit to you for taking part in the study.</p>
-                <p class="consentBodyFont1">You will receive $25 in cash or as a gift card after you complete the first online survey and donate your first blood sample.</p>
+                <p class="consentBodyFont1">Connect is a low-risk study. The main risk of joining is to your privacy. To minimize this risk, we follow federal privacy rules to protect your identity and the information you share. There is no health benefit to you for taking part in the study.</p>
+                <p class="consentBodyFont1">You will receive $25 in cash or as a gift card after you complete all sections of the first online survey and donate your first blood sample.</p>
                 
                 <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
                     <div class="col-md-2">
@@ -417,8 +409,9 @@ const consentIndigenousPage = () => {
             </div>
             <div class="col-lg-8">
                 <p class="consentHeadersFont">Why is Connect interested in engaging Indigenous Peoples?</p>
-                <p class="consentBodyFont2">Our goal as a Connect team is to be inclusive. We want to include people from many places and backgrounds throughout the United States so our findings may benefit all communities. It is important for Connect to include people and communities that have been left out of research in the past, such as Indigenous Peoples. Indigenous populations native to the U.S. may include people who identify as American Indian, Alaska Native, Native Hawaiian, and/or Pacific Islander and their communities.</p>
-                <p class="consentBodyFont2">Would you like to learn more about what it means to take part in Connect for anyone who identifies as an Indigenous Person? There are three screens left in this series.</p>
+                <p class="consentBodyFont1">Our goal as a Connect team is to be inclusive. We want to include people from many places and backgrounds throughout the United States so our findings may benefit all communities.
+                Connect aims to include people and communities that have been left out of research in the past, such as Indigenous Peoples. Indigenous populations native to the U.S. may include people who identify as American Indian, Alaska Native, Native Hawaiian, and/or Pacific Islander and their communities. If people from many backgrounds, such as Indigenous Peoples, are left out of research, we cannot learn if research findings apply to them, their communities, or their future generations.</p>
+                <p class="consentBodyFont1">Would you like to learn more about what it means to take part in Connect for anyone who identifies as an Indigenous Person?</p>
                 <form id="consentIndigenousInfo" method="POST">
                     <input type="radio" name="choice" value="yes" id="consentIndigenousYes"> Yes, tell me more</input>
                     <br>
@@ -467,9 +460,9 @@ const consentIndigenousAffectPage = () => {
             </div>
             <div class="col-lg-8">
                 <p class="consentHeadersFont">How might my participation in Connect affect Indigenous communities?</p>
-                <p class="consentBodyFont2">Some Indigenous Peoples and their communities have emphasized the need to learn more about certain risks and benefits to participating in research studies. Community members may be concerned that research practices will not follow traditional customs, or that conclusions made about Indigenous participants might harm Indigenous communities. Learning about the health of Indigenous participants may help us make medical discoveries that benefit other people in their communities. The representation of all communities in research is an important part of advancing medicine and extending benefits to all people.</p>
-                <p class="consentBodyFont2">We acknowledge past transgressions and abuses of Indigenous Peoples in research studies, and the harms these have caused Indigenous communities. We are opposed to any research that harms Indigenous Peoples and we do not support any research or researcher that has harmed any community. We respect and appreciate your willingness to work with us and know that your trust must be earned. We are committed to protecting your privacy, safeguarding your information, and maintaining the integrity of our research. We want our research to respect the cultures and practices of all Indigenous Peoples.</p>
-                <p class="consentBodyFont2">We may not understand the barriers that Indigenous Peoples face when it comes to participating in research studies. However, we hope to work with you to learn more about the considerations and concerns of your communities and advance our understanding of health and disease together. As a Connect team, we hope to make medical discoveries that will benefit all people.</p>
+                <p class="consentBodyFont1">Some Indigenous Peoples and their communities have emphasized the need to learn more about certain risks and benefits to participating in research studies. Community members may be concerned that research practices will not follow traditional customs, or that conclusions made about Indigenous participants might harm Indigenous communities. However, learning about the health of Indigenous participants may help us make medical discoveries that benefit other people from these communities. Including all communities in research is an important part of advancing medicine and extending benefits to all people.</p>
+                <p class="consentBodyFont1">We acknowledge past transgressions and abuses of Indigenous Peoples in research studies, and the harms these have caused Indigenous communities. We oppose any research that harms Indigenous Peoples and we do not support any research or researcher that has harmed any community. We respect and appreciate your willingness to work with us and know your trust must be earned. We are committed to protecting your privacy, keeping your information safe, and maintaining the integrity of our research. We want our research to respect the cultures and practices of all Indigenous Peoples.</p>
+                <p class="consentBodyFont1">We may not understand the barriers that Indigenous Peoples face when it comes to participating in research studies. However, we hope to work with you to learn more about the considerations and concerns of your communities and advance our understanding of health and disease together. As a Connect team, we hope to make medical discoveries that will benefit all people.</p>
 
                 <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
                     <div class="col-md-2">
@@ -507,13 +500,13 @@ const consentIndigenousProtectPage = () => {
             </div>
             <div class="col-lg-8">
                 <p class="consentHeadersFont">How is my information protected?</p>
-                <p class="consentBodyFont2">If you join the study, we will remove your personal information, like your name, date of birth, address, and social security number (sharing your social security number is optional) from your survey answers and samples before we share them with researchers. Only researchers who agree to our privacy rules will be able to use your survey answers and samples for their research. These researchers will not have access to personal information that identifies you.</p>
+                <p class="consentBodyFont2">If you join the study, we will remove your personal information, like your name, date of birth, and health information, from your survey answers and samples before we share them with researchers. Only researchers who agree to our privacy rules may use your survey answers and samples for their research. These researchers will not have access to information that identifies you.</p>
                 <p class="consentBodyFont2">As part of our research, we look for patterns to learn more about health and disease. Your self-identified race will be linked to your information and samples and can help us study these patterns.</p>
                 <p class="consentBodyFont2">It is possible that when members of small populations (such as some Indigenous populations) take part in research, it may be easier to identify them from other information they share. This also means it may be easier to connect someone back to their community. Connect prohibits researchers from attempting to re-identify individual participants or link them to their communities.</p>
-                <p class="consentBodyFont2">It is possible that research findings could be associated with people who share your race identity. Connect is opposed to the publication of research findings that stigmatize Indigenous communities or any racial or ethnic group.</p>
+                <p class="consentBodyFont2">It is possible that research findings could be associated with people who share your race identity. Connect opposes publishing research findings that stigmatize Indigenous communities or any racial or ethnic group.</p>
                 <p class="consentBodyFont1">Samples</p>
-                <p class="consentBodyFont2">If you decide to leave the study, we will work with you to determine a plan for return or destruction of your samples, if requested. We may not be able to return or destroy samples that have already been used for research. </p>
-                <p class="consentBodyFont2">If a participant from an Indigenous community passes away during their time in the study, we will work with the participant’s family or other community members to determine a plan for return or destruction of their samples, if requested.</p>
+                <p class="consentBodyFont2">If you decide to leave the study, we will work with you to determine a plan for the return or destruction of your samples, if requested. We may not be able to return or destroy samples that have already been used for research.</p>
+                <p class="consentBodyFont2">If a participant passes away during their time in the study, we will work with the participant’s family or other community members to determine a plan for return or destruction of their samples, if requested.</p>
 
                 <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
                     <div class="col-md-2">
@@ -557,8 +550,8 @@ const consentIndigenousOtherPage = () => {
                     <li>Speaking with your community members, leaders, and family about participating in Connect.</li>
                     <li>Contacting the Connect Support Center with any questions you have. Our team is happy to speak with you and discuss any concerns you may have about taking part in the study. (<a target="__blank" href="https://norcfedramp.servicenowservices.com/recruit">Cancer.gov/connectstudy/support</a>, or call 1-866-462-6621 8:00 a.m.-10:00 p.m. CT on weekdays, and 9:00 a.m.-6:00 p.m. CT on weekends).</li>
                 </ul>
-                <p class="consentBodyFont2">If you join now and later decide you want to leave the study, you can do so at any time, for any reason.</p>
-                <p class="consentBodyFont2">The decision to join Connect is yours to make. Please choose what you are most comfortable with. We respect your decision and your privacy, and welcome any feedback or thoughts that you would like to share with us. Please call us at 1-866-462-6621 8:00 a.m.-10:00 p.m. CT on weekdays, and 9:00 a.m.-6:00 p.m. CT on weekends, or write to us at ConnectStudy@norc.org.</p>
+                <p class="consentBodyFont2">If you join now and later decide to leave the study, you can do so at any time, for any reason.</p>
+                <p class="consentBodyFont2">The decision to join Connect is yours to make. Please choose what you are most comfortable with. We respect your decision and your privacy, and welcome any feedback that you would like to share with us. Please call us at 1-866-462-6621 8:00 a.m.-10:00 p.m. CT on weekdays, and 9:00 a.m.-6:00 p.m. CT on weekends, or write to us at ConnectStudy@norc.org.</p>
                 <p class="consentBodyFont2">Thank you for learning about how Connect will engage with Indigenous Peoples. On the next screen, you can view the full consent form and electronic health records release form to continue the consent process.</p>
 
                 <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
@@ -596,7 +589,6 @@ const consentConsentPage = async () => {
     if(!hasUserData(myData)) return;
 
     let siteDict = siteAcronyms();
-    let versionJSON = await fetch('./forms/Consent_versioning.json').then(res => res.json());
     let participantSite = siteDict[myData.data['827220437']];
     
     if(participantSite == 'NCI'){
@@ -609,43 +601,21 @@ const consentConsentPage = async () => {
             </div>
             <div class="col-lg-8">
                 <p class="consentHeadersFont">Informed Consent</p>
-                <p class="consentBodyFont1">To join Connect, we need you to review the full informed consent form and electronic health records release (HIPAA Authorization) form below. If you have any questions, contact the Connect Support Center at <a target="_blank" href="https://norcfedramp.servicenowservices.com/recruit">Cancer.gov/connectstudy/support</a> or call 1-866-462-6621. Once you are comfortable with the study and decide to join, please sign the forms electronically by scrolling all the way to the bottom of this screen and clicking, “Yes, I agree to join Connect.” Then, please type your name into the fields that appear and click “Next” to view and download copies of your signed forms.</p>
+                <p class="consentBodyFont1">To join Connect, we need you to review the full informed consent form and electronic health records release (HIPAA Authorization) form below. If you have any questions, contact the Connect Support Center at <a target="_blank" href="https://norcfedramp.servicenowservices.com/recruit">Cancer.gov/connectstudy/support</a> or call 1-866-462-6621. Once you are comfortable with the study and decide to join, please sign the forms electronically by scrolling to the bottom of this screen and clicking, “Yes, I agree to join Connect.” Then, please type your name into the fields that appear and click “Next” to view and download copies of your signed forms.</p>
             
             <div style="width:80%; margin:auto">
                 <h4 class="consentSubheader" style="margin-top:50px">Informed Consent Form</h4>
-                <p class="consentBodyFont2" style="text-indent:40px">This form explains in detail what it means to take part in Connect. You do not need to download and sign this form to join the study. Simply scroll down to the bottom of this screen to electronically consent.</p>
-                <p class="consentBodyFont2" style="text-indent:40px">If you have trouble viewing the consent form in the window at the bottom of this screen, you can download an unsigned copy of the form to review by selecting that option below.</p>
-                <!--
-                <div style="margin-bottom:5px">
-                    <button id="prevConsent" class="btn btn-primary">Previous</button>
-                    <button id="nextConsent" class="btn btn-primary">Next</button>
-                    &nbsp; &nbsp;
-                    <span>Page: <span id="page_num_Consent"></span> / <span id="page_count_Consent"></span></span>
-                </div>
-                -->
-                <!--<div id="canvasContainer">-->
-                <iframe id="pdfIframeContainer" src="${'./forms/consent/'  + participantSite + '_Consent_' + versionJSON[participantSite]['Consent'] + '.html'}" style="width:100%; height:500px; overflow:scroll;" frameborder="1px"><span class="loader">Please wait...</span></iframe>
-                <!--<object id="pdfContainer" data="https://storage.googleapis.com/myconnect_app_stage/forms/consent/HP_Consent_V1.0.pdf" style="height:500px; width:100%"></object>-->
-                <!--</div>-->
-                <div class="row"style="margin:auto"><div style="margin:auto"><a href="${'./forms/consent/'  + participantSite + '_Consent_' + versionJSON[participantSite]['Consent'] + '.pdf'}" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf" class="consentBodyFont2" data-file="unsigned-form"> Download an unsigned copy of the informed consent form&nbsp<i class="fas fa-file-download"></i></a></div></div>
+                <p class="consentBodyFont2" style="text-indent:40px">This form explains in detail what it means to take part in Connect. To join the study, please scroll down to the bottom of this screen to electronically consent. You do not need to download and sign the form the join the study.</p>
+                <p class="consentBodyFont2" style="text-indent:40px">If you have trouble viewing the consent form in the window at the bottom of this screen, you can download an unsigned copy by scrolling down and selecting that option below.</p>
+
+                <iframe id="pdfIframeContainer" src="${'./forms/consent/'  + participantSite + '_Consent_' + formVersions[participantSite]['Consent'] + '.html'}" style="width:100%; height:500px; overflow:scroll;" frameborder="1px"><span class="loader">Please wait...</span></iframe>
+                <div class="row"style="margin:auto"><div style="margin:auto"><a href="${'./forms/consent/'  + participantSite + '_Consent_' + formVersions[participantSite]['Consent'] + '.pdf'}" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf" class="consentBodyFont2" data-file="unsigned-form"> Download an unsigned copy of the informed consent form&nbsp<i class="fas fa-file-download"></i></a></div></div>
                 
                 <h4 class="consentSubheader" style="margin-top:50px">Electronic health records release (HIPAA Authorization) form</h4>
-                <p class="consentBodyFont2" style="text-indent:40px">This allows Connect to access your electronic health records. You do not need to download and sign this form to join the study. Simply scroll down to the bottom of this screen to electronically consent.</p>
-                <p class="consentBodyFont2" style="text-indent:40px">If you have trouble viewing the electronic health records release form in the window at the bottom of this screen, you can download an unsigned copy of the form to review by selecting that option below.</p>
-                <!--
-                <div style="margin-bottom:5px">
-                    <button id="prevHIPAA" class="btn btn-primary">Previous</button>
-                    <button id="nextHIPAA" class="btn btn-primary">Next</button>
-                    &nbsp; &nbsp;
-                    <span>Page: <span id="page_num_HIPAA"></span> / <span id="page_count_HIPAA"></span></span>
-                </div>
-                -->
-                <!--<div id="canvasContainer1">-->
-                <iframe id="pdfIframeContainer1" src="${'./forms/HIPAA/'  + participantSite + '_HIPAA_' + versionJSON[participantSite]['HIPAA'] + '.html'}" style="width:100%; height:500px; overflow:scroll;" frameborder="1px"><span class="loader">Please wait...</span></iframe>
-                <!--<object id="pdfContainer1" style="height:500px; width:100%"></object>-->
-                <!--</div>-->
-                <div class="row" style="margin:auto"><div style="margin:auto"><a href="${'./forms/HIPAA/'  + participantSite + '_HIPAA_' + versionJSON[participantSite]['HIPAA'] + '.pdf'}" title="Download health records release form" data-toggle="tooltip" download="connect_hipaa.pdf" class="consentBodyFont2" data-file="unsigned-form">Download an unsigned copy of the release form&nbsp<i class="fas fa-file-download"></i></a></div></div>
-                
+                <p class="consentBodyFont2" style="text-indent:40px">This allows Connect to access your electronic health records. To join the study, please scroll down to the bottom of this screen to electronically consent. You do not need to download and sign the form to join the study.</p>
+                <p class="consentBodyFont2" style="text-indent:40px">If you have trouble viewing the electronic health records release form in the window at the bottom of this screen, you can download an unsigned copy by scrolling down and selecting that option below.</p>
+                <iframe id="pdfIframeContainer1" src="${'./forms/HIPAA/'  + participantSite + '_HIPAA_' + formVersions[participantSite]['HIPAA'] + '.html'}" style="width:100%; height:500px; overflow:scroll;" frameborder="1px"><span class="loader">Please wait...</span></iframe>
+                <div class="row" style="margin:auto"><div style="margin:auto"><a href="${'./forms/HIPAA/'  + participantSite + '_HIPAA_' + formVersions[participantSite]['HIPAA'] + '.pdf'}" title="Download health records release form" data-toggle="tooltip" download="connect_hipaa.pdf" class="consentBodyFont2" data-file="unsigned-form">Download an unsigned copy of the release form&nbsp<i class="fas fa-file-download"></i></a></div></div>
                 
                 <p class="consentBodyFont2" style="margin-top:50px">By clicking “Yes, I agree to join Connect” and typing your name, you confirm the following:</p>
                 <ol class="consentBodyFont2">
@@ -692,7 +662,6 @@ const consentConsentPage = async () => {
                                 <option value="959021713">III</option>
                                 <option value="643664527">2nd</option>
                                 <option value="537892528">3rd</option>
-
                             </select>
                         </div>
                     </div>
@@ -701,57 +670,7 @@ const consentConsentPage = async () => {
                             Please enter your legal name. If you are a member of Kaiser Permanente, please enter your first and last name exactly as it appears on your Kaiser Permanente ID card.
                         </p>
                     </div>
-                
-                    <!--
-                    <div class="row" style="width:80%; margin:auto;">
-                        <div class="col form-group consent-form">
-                            <label class="consent-form-label">
-                                Digital signature<span class="required">*</span>
-                                <input disabled required type="text" id="CSSign" class="form-control consentSign">
-                            </label>
-                        </div>
-                        <div class="col form-group consent-form">
-                            <label class="consent-form-label">
-                                Today's date: 
-                            </label>
-                            <span id="CSDate">${todaysDate()}</span>
-                        </div>
-                    </div>
-                    -->
                 </div>
-                <!--
-                ${localStorage.eligibilityQuestionnaire ? JSON.parse(localStorage.eligibilityQuestionnaire)['827220437'] === 809703864 ? `
-                    <div class="row">
-                        <div class="col form-group consent-form">
-                            <label class="consent-form-label">
-                                Witness first name<span class="required">*</span>
-                                <input required type="text" autocomplete="off" id="CSWFirstName" class="form-control" placeholder="Enter first name">
-                            </label>
-                        </div>
-                        <div class="col form-group consent-form">
-                            <label class="consent-form-label">
-                                Witness last name<span class="required">*</span>
-                                <input required type="text" autocomplete="off" id="CSWLastName" class="form-control" placeholder="Enter last name">
-                            </label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col form-group consent-form">
-                            <label class="consent-form-label">
-                                Witness digital signature<span class="required">*</span>
-                                <input disabled required type="text" id="CSWSign" class="form-control consentSign">
-                            </label>
-                        </div>
-                        <div class="col form-group consent-form">
-                            <label class="consent-form-label">
-                                Today's date: 
-                            </label>
-                            <span id="CSWDate">${todaysDate()}</span>
-                        </div>
-                    </div>
-                ` : '' : ''}
-                -->
-                
                 <div class="row" style="padding:0; margin-top:40px;margin-bottom:40px">
                     <div class="col-md-2">
                         <button class="btn btn-primary consentPrevButton" type="button" id="backToConsent" style="min-width:100%; margin-top:10px;margin-bottom:10px;">Previous</button>
@@ -767,7 +686,7 @@ const consentConsentPage = async () => {
             <div class="col-lg-2">
             </div>
         </div>
-    `
+    `;
     
     mainContent.innerHTML =  template;
     let checkbox = document.getElementById('CSConsentYesCheck')
@@ -1110,15 +1029,14 @@ const consentSubmit = async e => {
     formData['262613359'] = dateTime();
     formData['558435199'] = 353358909;
     //consent and hipaa forms
-    let versionJSON = await fetch('./forms/Consent_versioning.json').then(res => res.json());
     let siteDict = siteAcronyms();
     
     const myData = await getMyData();
     if(!hasUserData(myData)) return;
 
     let participantSite = siteDict[myData.data['827220437']];
-    formData['454205108'] = participantSite + '_Consent_' + versionJSON[participantSite]['Consent'];
-    formData['412000022'] = participantSite + '_HIPAA_' + versionJSON[participantSite]['HIPAA']
+    formData['454205108'] = participantSite + '_Consent_' + formVersions[participantSite]['Consent'];
+    formData['412000022'] = participantSite + '_HIPAA_' + formVersions[participantSite]['HIPAA']
 
     // Adding sign in info provided by firebase
     if(firebase.auth().currentUser) {
