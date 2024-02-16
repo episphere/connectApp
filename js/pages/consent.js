@@ -780,7 +780,6 @@ const consentConsentPage = async () => {
     });
     
     let frame1 = document.getElementById("pdfIframeContainer")
-    frame1.sandbox = "allow-same-origin allow-scripts";
     frame1.onload = function(){
         frame1.contentWindow.document.body.style.padding = '10px'
         frame1.contentWindow.document.body.querySelectorAll('p').forEach( pItem => {
