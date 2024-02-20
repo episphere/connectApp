@@ -8,20 +8,20 @@ const { PDFDocument, StandardFonts } = PDFLib;
 
 const siteToHipaaSignPosMap = {
     "Sanford": {
-        "default": {nameX:100,nameY:410,signatureX:100,signatureY:450,dateX:100,dateY:370},
+        "default": {nameX:100,nameY:415,signatureX:100,signatureY:455,dateX:100,dateY:375},
     },
     "HP": {
-        "default": {nameX:100,nameY:415,signatureX:100,signatureY:465,dateX:100,dateY:365},
+        "default": {nameX:100,nameY:420,signatureX:100,signatureY:465,dateX:100,dateY:370},
     },
     "Marshfield": {
         "default": {nameX:100,nameY:425,signatureX:100,signatureY:465,dateX:100,dateY:385},
     },
     "HFHS": {
-        "V0.02": {nameX:100,nameY:425,signatureX:110,signatureY:465,dateX:100,dateY:385},
-        "default": {nameX:100,nameY:440,signatureX:110,signatureY:480,dateX:100,dateY:400},
+        "V0.02": {nameX:100,nameY:425,signatureX:100,signatureY:465,dateX:100,dateY:385},
+        "default": {nameX:110,nameY:440,signatureX:110,signatureY:480,dateX:110,dateY:400},
     },
     "UChicago": {
-        "default": {nameX:100,nameY:425,signatureX:110,signatureY:465,dateX:100,dateY:385},
+        "default": {nameX:110,nameY:425,signatureX:110,signatureY:465,dateX:110,dateY:385},
     },
     "KPCO": {
         "default": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
@@ -33,39 +33,52 @@ const siteToHipaaSignPosMap = {
         "default": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
     },
     "KPNW": {
-        "default": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
+        "default": {nameX:110,nameY:415,signatureX:110,signatureY:455,dateX:110,dateY:375},
+    },
+    "NCI": {
+        "default": {nameX:110,nameY:427,signatureX:110,signatureY:467,dateX:110,dateY:387},
     },
     "default": { nameX: 200, nameY: 275, signatureX: 200, signatureY: 225, dateX: 200, dateY: 325}
 }
 
 const siteToConsentSignPosMap = {
     "Sanford": {
-        "default": {nameX:120,nameY:405,signatureX:120,signatureY:325,dateX:120,dateY:365},
+        "V0.03": {nameX:120,nameY:730,signatureX:120,signatureY:655,dateX:120,dateY:690},
+        "default": {nameX:120,nameY:407,signatureX:120,signatureY:330,dateX:120,dateY:367},
     },
     "HP": {
-        "default": {nameX:90,nameY:415,signatureX:110,signatureY:340,dateX:90,dateY:380},
+        "V0.02": {nameX:90,nameY:425,signatureX:110,signatureY:345,dateX:90,dateY:385},
+        "V0.04": {nameX:90,nameY:405,signatureX:110,signatureY:325,dateX:90,dateY:365},
+        "default": {nameX:90,nameY:420,signatureX:110,signatureY:340,dateX:90,dateY:380},
     },
     "Marshfield": {
-        "default": {nameX:110,nameY:415,signatureX:115,signatureY:340,dateX:110,dateY:380},
+        "V0.02": {nameX:110,nameY:425,signatureX:115,signatureY:345,dateX:110,dateY:385},
+        "V0.03": {nameX:110,nameY:405,signatureX:115,signatureY:325,dateX:110,dateY:365},
+        "default": {nameX:110,nameY:420,signatureX:115,signatureY:345,dateX:110,dateY:380},
     },
     "HFHS":{
         "V0.03":  {nameX:90,nameY:410,signatureX:110,signatureY:330,dateX:90,dateY:370},
         "default": {nameX:110,nameY:380,signatureX:115,signatureY:300,dateX:110,dateY:340},
     },
     "UChicago": {
-        "default": {nameX:110,nameY:380,signatureX:115,signatureY:300,dateX:110,dateY:340},
+        "V0.05": {nameX:110,nameY:410,signatureX:115,signatureY:330,dateX:110,dateY:370},
+        "default": {nameX:110,nameY:380,signatureX:115,signatureY:305,dateX:110,dateY:342},
     },
     "KPCO": {
-        "default": {nameX:110,nameY:395,signatureX:110,signatureY:315,dateX:110,dateY:355},
+        "V0.03": {nameX:110,nameY:395,signatureX:110,signatureY:315,dateX:110,dateY:355},
+        "default": {nameX:110,nameY:400,signatureX:110,signatureY:320,dateX:110,dateY:360},
     },
     "KPGA": {
-        "default": {nameX:110,nameY:395,signatureX:110,signatureY:315,dateX:110,dateY:355},
+        "V0.03": {nameX:110,nameY:375,signatureX:110,signatureY:295,dateX:110,dateY:335},
+        "default": {nameX:110,nameY:400,signatureX:110,signatureY:320,dateX:110,dateY:360},
     },
     "KPHI": {
-        "default": {nameX:110,nameY:365,signatureX:110,signatureY:285,dateX:110,dateY:325},
+        "V0.03": {nameX:110,nameY:395,signatureX:110,signatureY:315,dateX:110,dateY:355},
+        "default": {nameX:110,nameY:370,signatureX:110,signatureY:290,dateX:110,dateY:330},
     },
     "KPNW": {
-        "default": {nameX:110,nameY:390,signatureX:110,signatureY:310,dateX:110,dateY:345},
+        "V0.02": {nameX:110,nameY:395,signatureX:110,signatureY:315,dateX:110,dateY:355},
+        "default": {nameX:110,nameY:390,signatureX:110,signatureY:310,dateX:110,dateY:350},
     },
     "NCI": {
         "default": {nameX:90,nameY:410,signatureX:110,signatureY:335,dateX:90,dateY:375},
