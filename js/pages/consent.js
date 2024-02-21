@@ -1,6 +1,6 @@
 import { todaysDate, storeResponse, dataSavingBtn, dateTime, errorMessageConsent, siteAcronyms, getMyData, hasUserData, isMobile, openNewTab} from "../shared.js";
 import { renderUserProfile } from "../components/form.js";
-import { removeAllErrors, addEventsConsentSign } from "../event.js";
+import { removeAllErrors } from "../event.js";
 import { downloadSignedPdf } from "./agreements.js";
 import { heardAboutStudy } from "./healthCareProvider.js";
 import {addEventHeardAboutStudy} from "../event.js";
@@ -255,7 +255,7 @@ const consentPrivacyPage = () => {
                     <li>Limit and keep track of who can access the information and samples you share. Only approved researchers who agree to our privacy rules may use study information and samples for valid scientific research.</li>
                     <li>Maintain our <a target="_blank" href="https://grants.nih.gov/policy/humansubjects/coc.htm">Certificate of Confidentiality</a> from the United States government. This will help protect against any legal requests (such as a court order) to give out information that could identify you.</li>                
                 </ul>   
-                <p class="consentBodyFont1">If you have questions about privacy, please <a target="_blank" href="https://norcfedramp.servicenowservices.com/recruit">contact us</a></p>
+                <p class="consentBodyFont1">If you have questions about privacy, please <a target="_blank" href="https://norcfedramp.servicenowservices.com/recruit">contact us</a>.</p>
 
                 <div class="row" style="padding:0;">
                     <div class="col-md-2">
@@ -590,10 +590,6 @@ const consentConsentPage = async () => {
 
     let siteDict = siteAcronyms();
     let participantSite = siteDict[myData.data['827220437']];
-    
-    if(participantSite == 'NCI'){
-        participantSite = 'HP'
-    }
     
     template += `
         <div class="row">
