@@ -48,7 +48,7 @@ const siteToConsentSignPosMap = {
     },
     "HP": {
         "V0.02": {nameX:90,nameY:425,signatureX:110,signatureY:345,dateX:90,dateY:385},
-        "V0.04": {nameX:90,nameY:405,signatureX:110,signatureY:325,dateX:90,dateY:365},
+        "V0.04": {nameX:90,nameY:402,signatureX:110,signatureY:322,dateX:90,dateY:362},
         "default": {nameX:90,nameY:420,signatureX:110,signatureY:340,dateX:90,dateY:380},
     },
     "Marshfield": {
@@ -81,6 +81,7 @@ const siteToConsentSignPosMap = {
         "default": {nameX:110,nameY:390,signatureX:110,signatureY:310,dateX:110,dateY:350},
     },
     "NCI": {
+        "V0.05": {nameX:90,nameY:407,signatureX:110,signatureY:330,dateX:90,dateY:370},
         "default": {nameX:90,nameY:410,signatureX:110,signatureY:335,dateX:90,dateY:375},
     },
     "default": {nameX: 110, nameY: 400, signatureX: 110, signatureY: 330, dateX: 110, dateY: 370}
