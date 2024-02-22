@@ -168,13 +168,6 @@ async function startModule(data, modules, moduleId, questDiv) {
             url += sha + "/" + path;
         }
 
-        console.log('inputData:', inputData);
-        console.log('moduleConfig:', moduleConfig);
-        console.log('key:', key);
-        console.log('path:', path);
-        console.log('tJSON:', tJSON);
-        console.log('sha:', sha);
-
         const questParameters = {
             url: url,
             activate: true,

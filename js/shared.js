@@ -34,8 +34,6 @@ let api = '';
 
 if(location.host === urls.prod) api = 'https://api-myconnect.cancer.gov/app';
 else if(location.host === urls.stage) api = 'https://api-myconnect-stage.cancer.gov/app';
-// TODO: remove this
-else if(location.host.startsWith('localhost')) api = 'http://localhost:5001/nih-nci-dceg-connect-dev/us-central1/app';
 else api = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app';
 
 const afterEmailLinkRender = (email, type) => {
@@ -1640,10 +1638,10 @@ export const fetchDataWithRetry = async (fetchFunction, maxRetries = 5, retryInt
 
 /**
  * Fetch module sha from GitHub.
- * @param {string} path - Path to the module file in the GitHub repository.
- * @param {string} connectID - Connect ID of the logged in participant.
- * @param {string} moduleID - Module ID of the module the participant is accessing.
- * @returns {string} - sha value.
+ * @param {String} path - Path to the module file in the GitHub repository.
+ * @param {String} connectID - Connect ID of the logged in participant.
+ * @param {String} moduleID - Module ID of the module the participant is accessing.
+ * @returns {String} - sha value.
  */
 export const getModuleSHA = async (path, connectID, moduleID) => {
     let sha;
@@ -1684,9 +1682,9 @@ export const getModuleSHA = async (path, connectID, moduleID) => {
 };
 
 /**
- * Log error to Datadog RUM. By default, Datadog RUM logs unhandled errors only. This function can be used to log handled errors.
+ * Force-Log detailed error to Datadog RUM (and console).
  * @param {Error} error - The error object to log.
- * @param {string} errorType - Categorize the type of the error for datadog.
+ * @param {String} errorType - Categorize the type of the error for datadog.
  * @param {Object} additionalContext - Optional. Additional context to include with the error. Example: { userAction: 'click', timestamp: new Date().toISOString(), connectID: '1234567890' }
  */
 export const logDDRumError = (error, errorType = 'CustomError', additionalContext = {}) => {
