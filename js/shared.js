@@ -1612,7 +1612,6 @@ export const isParticipantDataDestroyed = (data) => {
 /**
  * Generic function to fetch data with retry & backoff.
  * @param {function} fetchFunction - function to fetch data.
- * @param {array} fetchArgs - arguments to pass to fetchFunction.
  * @param {number} maxRetries - maximum number of retries.
  * @param {number} retryInterval - interval between retries.
  * @param {number} backoffFactor - for exponential backoff.
