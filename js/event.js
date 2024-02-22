@@ -42,7 +42,7 @@ export const addEventAddressAutoComplete = (id, country) => {
         let addressCountry = '';
         autocomplete.addListener('place_changed', () => {
             const address = autocomplete.getPlace();
-            const addressComponents = address['address_components'];
+            const addressComponents = address['address_components']; // TODO: datadog error -- TypeError: undefined is not an object (evaluating 'address['address_components']')
             addressComponents.forEach(value => {
                 if(value.types.indexOf('street_number') !== -1) addressLine1 = value.long_name;
                 if(value.types.indexOf('route') !== -1) addressLine1 += ' '+value.long_name;

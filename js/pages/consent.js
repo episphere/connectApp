@@ -1044,7 +1044,7 @@ const consentSubmit = async e => {
         if(user.email) formData['421823980'] = user.email;
         if(user.displayName) formData['756862764'] = user.displayName;
         if(user.phoneNumber) formData['348474836'] = user.phoneNumber;
-        if(user.providerData) formData['995036844'] = user.providerData[0].providerId;
+        if(user.providerData) formData['995036844'] = user.providerData[0].providerId; // TODO: datadog Error: TypeError: undefined is not an object (evaluating 'user.providerData[0].providerId')
     }
     
     const CSWFirstName = document.getElementById('CSWFirstName');
