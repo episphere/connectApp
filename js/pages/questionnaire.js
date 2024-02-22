@@ -19,7 +19,7 @@ const importQuest = async () => {
         const { transform } = await import(url);
 
         if (!transform) {
-            throw new Error('Transform error while importing quest');
+            throw new Error('Error loading transform module from Quest.');
         }
 
         quest = transform;
@@ -102,7 +102,7 @@ async function startModule(data, modules, moduleId, questDiv) {
         await fetchDataWithRetry(() => importQuest());
 
         if (!quest) {
-            throw new Error('Error importing quest.');
+            throw new Error('Error importing Quest.');
         }
 
         inputData = setInputData(data, modules); 
@@ -160,7 +160,7 @@ async function startModule(data, modules, moduleId, questDiv) {
             
         } else {
             if (!modules[fieldMapping[moduleId].conceptId]?.['sha']) {
-                throw new Error('Error: EXISTING MODULE - No SHA found.');
+                throw new Error(`Error: EXISTING MODULE - No SHA found for module ${moduleId}.`);
             }
 
             sha = modules[fieldMapping[moduleId].conceptId]['sha'];
