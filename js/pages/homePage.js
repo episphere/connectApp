@@ -248,6 +248,7 @@ export const renderHomeAboutPage =  () => {
                          <p style="margin-bottom: 0.5rem">The Connect for Cancer Prevention Study is being led by our team of federal government researchers at the National Cancer Institute (NCI), part of the National Institutes of Health (NIH), and researchers at partner health care systems. Study teams at partner health care systems have experience conducting research studies like Connect, and many have particular expertise in research related to cancer.</p>
                          </div>
                          <p style="margin-bottom: 0.5rem">Our team at NCI is part of the largest cancer research group in the world that studies the causes of disease, or epidemiology. Our team and other researchers at NCI have long histories of studying cancer and have made important discoveries. For example, in another cohort study, we found that drinking coffee was associated with lower risk of death from cancer and other causes. This was good news for coffee drinkers! NCI research informs public health policy in the United States and around the world. Connect will contribute evidence that can impact public health policy far into the future.</p>
+                         <p style="margin-bottom: 0.5rem">See the full <a href="https://dceg.cancer.gov/research/who-we-study/cohorts/connect#study-team" >Connect team</a> information page to learn about the people leading this research.</p>
                       </section>
                       <section>
                          <h2 id="a-resource-for-science">
@@ -329,13 +330,8 @@ export const renderHomeExpectationsPage = () => {
                     </h2>
                     <p class="paragraph">You can sign up for Connect through MyConnect, where you can complete the online informed consent process, agree to share your electronic health records, and create a profile. Then, the Connect team at your health care system will check that you are eligible to join the study.</p>
                     <p>To sign up for Connect:</p>
-                    <h3>1.	Visit MyConnect.</h3>
-                    <p>You can access MyConnect by clicking the “Join Now” button at the top or bottom of this page.</p>
-                    <p>
-                      MyConnect is not a standalone app for a smartphone and cannot be accessed by downloading from an App Store, such as Google Play or Apple App Store. You can access MyConnect by visiting 
-                      <a href="https://myconnect.cancer.gov">MyConnect.cancer.gov</a>
-                      on any of these supported internet browsers: Google Chrome, Safari, Microsoft Edge, and Firefox.
-                    </p>
+                    <h3>1.	Visit MyConnect</h3>
+                    <p>Click the Home button at the top of this page to sign up for Connect. MyConnect is supported on Google Chrome, Safari, Microsoft Edge, and Firefox internet browsers.</p>
                     <h3>2. Complete the Online Informed Consent Process</h3>
                     <p>
                       The online informed consent process will tell you what it means to take part in Connect and how we will protect your privacy. We will guide you through a series of web pages about the study. Please read the full 
