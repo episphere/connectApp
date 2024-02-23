@@ -335,7 +335,7 @@ export const storeResponse = async (formData) => {
         body: JSON.stringify(formData)
     });
 
-    return response.json();
+    return await response.json();
 }
 
 export const storeSocial = async (formData) => {
@@ -350,7 +350,7 @@ export const storeSocial = async (formData) => {
         body: JSON.stringify(formData)
     });
 
-    return response.json();
+    return await response.json();
 }
 
 export const getMyData = async () => {
@@ -362,7 +362,7 @@ export const getMyData = async () => {
         },
     });
 
-    return response.json();
+    return await response.json();
 };
 
 export const hasUserData = (response) => {
@@ -420,7 +420,7 @@ export const getMyCollections = async () => {
         }
     })
 
-    return response.json();
+    return await response.json();
 }
 
 const allIHCS = {
@@ -1177,6 +1177,7 @@ export const inactivityTime = (user) => {
 
             console.log("initial timeout has been reached!");
 
+            // TODO: datadog error: TypeError: Cannot read properties of null (reading 'addEventListener')
             Array.from(document.getElementsByClassName('log-out-user')).forEach(e => {
                 e.addEventListener('click', () => {
                     clearTimeout(time)
@@ -1606,4 +1607,99 @@ export const isParticipantDataDestroyed = (data) => {
                 fieldMapping.requestedDataDestroySigned) ||
         timeDiff > millisecondsWait
     );
+};
+
+/**
+ * Generic function to fetch data with retry & backoff.
+ * @param {function} fetchFunction - function to fetch data.
+ * @param {number} maxRetries - maximum number of retries.
+ * @param {number} retryInterval - interval between retries.
+ * @param {number} backoffFactor - for exponential backoff.
+ */
+export const fetchDataWithRetry = async (fetchFunction, maxRetries = 5, retryInterval = 250, backoffFactor = 2) => {
+    let fetchAttempt = 0;
+    
+    while (fetchAttempt < maxRetries) {
+        try {
+            return await fetchFunction();
+        } catch (e) {
+            fetchAttempt++;
+            if (fetchAttempt < maxRetries) {
+                console.error(`Error fetching data, attempt ${fetchAttempt}: ${e.message}`);
+                await new Promise(resolve => setTimeout(resolve, retryInterval));
+                retryInterval *= backoffFactor;
+            } else {
+                throw e;
+            }
+        }
+    }
+};
+
+/**
+ * Fetch module sha from GitHub.
+ * @param {String} path - Path to the module file in the GitHub repository.
+ * @param {String} connectID - Connect ID of the logged in participant.
+ * @param {String} moduleID - Module ID of the module the participant is accessing.
+ * @returns {String} - sha value.
+ */
+export const getModuleSHA = async (path, connectID, moduleID) => {
+    let sha;
+
+    try {
+        const idToken = await getIdToken();
+        const encodedPath = encodeURIComponent(path);
+        const response = await fetch(`${api}?api=getModuleSHA&path=${encodedPath}`, {
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + idToken,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`Server responded with: ${response.status}`);
+        }
+
+        const jsonResponse = await response.json();
+        sha = jsonResponse.data;
+
+        if (jsonResponse.code === 200 && sha) {
+            return sha;
+        } else {
+            throw new Error('Failed to retrieve SHA', jsonResponse.message);
+        }
+    } catch (error) {
+        logDDRumError(new Error(`SHA Fetch Error: + ${error.message}`), 'StartModuleError', {
+                userAction: 'click start survey',
+                timestamp: new Date().toISOString(),
+                connectID: connectID,
+                questionnaire: moduleID,
+                fetchedSHA: sha || 'Failed to fetch SHA',
+        });
+
+        throw new Error('Error: getModuleSHA():', error);
+    }
+};
+
+/**
+ * Force-Log detailed error to Datadog RUM (and console).
+ * @param {Error} error - The error object to log.
+ * @param {String} errorType - Categorize the type of the error for datadog.
+ * @param {Object} additionalContext - Optional. Additional context to include with the error. Example: { userAction: 'click', timestamp: new Date().toISOString(), connectID: '1234567890' }
+ */
+export const logDDRumError = (error, errorType = 'CustomError', additionalContext = {}) => {
+
+    console.error('ERROR', error, 'Additional context:', additionalContext);
+
+    if (window.DD_RUM) {
+        window.DD_RUM.addError(
+            error.message || 'An error occurred',
+            {
+                error: {
+                    stack: error.stack,
+                    ...additionalContext,
+                }
+            },
+            errorType,
+        );
+    }
 };

@@ -59,7 +59,6 @@ window.onload = async () => {
     else {
         script.src = `https://maps.googleapis.com/maps/api/js?key=${devFirebaseConfig.apiKey}&libraries=places&callback=Function.prototype`
         !firebase.apps.length ? firebase.initializeApp(devFirebaseConfig) : firebase.app();
-
         !isLocalDev && window.DD_RUM && window.DD_RUM.init({ ...datadogConfig, env: 'dev' });
     }
 
@@ -100,6 +99,7 @@ window.onload = async () => {
     router();
 }
 
+// TODO: 'google is not defined' datadog error - inspect loading sequence/timing.
 const googleTranslateElementInit = () => {
     if(google) new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
 }
