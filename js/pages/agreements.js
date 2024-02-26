@@ -2,38 +2,89 @@ import { getMyData, hasUserData, hideAnimation, showAnimation, siteAcronyms, dat
 import { initializeCanvas } from './consent.js'
 import fieldMapping from '../fieldToConceptIdMapping.js';
 import {suffixToTextMap} from '../settingsHelpers.js'
+import consentVersions from "../../forms/formVersions.js";
 
 const { PDFDocument, StandardFonts } = PDFLib;
 
 const siteToHipaaSignPosMap = {
-    "Sanford":{nameX:100,nameY:410,signatureX:100,signatureY:450,dateX:100,dateY:370},
-    "HP":{nameX:100,nameY:415,signatureX:100,signatureY:465,dateX:100,dateY:365},
-    "Marshfield":{nameX:100,nameY:425,signatureX:100,signatureY:465,dateX:100,dateY:385},
-    "HFHS":{nameX:100,nameY:440,signatureX:110,signatureY:480,dateX:100,dateY:400},
-    "UChicago":{nameX:100,nameY:425,signatureX:110,signatureY:465,dateX:100,dateY:385},
-    "KPCO": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
-    "KPGA": {nameX:110,nameY:345,signatureX:110,signatureY:385,dateX:110,dateY:305},
-    "KPHI": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
-    "KPNW": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
+    "Sanford": {
+        "default": {nameX:100,nameY:415,signatureX:100,signatureY:455,dateX:100,dateY:375},
+    },
+    "HP": {
+        "default": {nameX:100,nameY:420,signatureX:100,signatureY:465,dateX:100,dateY:370},
+    },
+    "Marshfield": {
+        "default": {nameX:100,nameY:425,signatureX:100,signatureY:465,dateX:100,dateY:385},
+    },
+    "HFHS": {
+        "V0.02": {nameX:100,nameY:425,signatureX:100,signatureY:465,dateX:100,dateY:385},
+        "default": {nameX:110,nameY:440,signatureX:110,signatureY:480,dateX:110,dateY:400},
+    },
+    "UChicago": {
+        "default": {nameX:110,nameY:425,signatureX:110,signatureY:465,dateX:110,dateY:385},
+    },
+    "KPCO": {
+        "default": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
+    },
+    "KPGA": {
+        "default": {nameX:110,nameY:345,signatureX:110,signatureY:385,dateX:110,dateY:305},
+    },
+    "KPHI": {
+        "default": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
+    },
+    "KPNW": {
+        "default": {nameX:110,nameY:415,signatureX:110,signatureY:455,dateX:110,dateY:375},
+    },
+    "NCI": {
+        "default": {nameX:110,nameY:427,signatureX:110,signatureY:467,dateX:110,dateY:387},
+    },
     "default": { nameX: 200, nameY: 275, signatureX: 200, signatureY: 225, dateX: 200, dateY: 325}
 }
 
 const siteToConsentSignPosMap = {
-    "Sanford":{nameX:120,nameY:405,signatureX:120,signatureY:325,dateX:120,dateY:365},
-    "HP":{nameX:90,nameY:415,signatureX:110,signatureY:340,dateX:90,dateY:380},
-    "Marshfield":{nameX:110,nameY:415,signatureX:115,signatureY:340,dateX:110,dateY:380},
-    "HFHS":{nameX:110,nameY:380,signatureX:115,signatureY:300,dateX:110,dateY:340},
-    "UChicago":{nameX:110,nameY:380,signatureX:115,signatureY:300,dateX:110,dateY:340},
-    "KPCO": {nameX:110,nameY:395,signatureX:110,signatureY:315,dateX:110,dateY:355},
-    "KPGA": {nameX:110,nameY:395,signatureX:110,signatureY:315,dateX:110,dateY:355},
-    "KPHI": {nameX:110,nameY:365,signatureX:110,signatureY:285,dateX:110,dateY:325},
-    "KPNW": {nameX:110,nameY:390,signatureX:110,signatureY:310,dateX:110,dateY:345},
+    "Sanford": {
+        "V0.03": {nameX:120,nameY:730,signatureX:120,signatureY:655,dateX:120,dateY:690},
+        "default": {nameX:120,nameY:407,signatureX:120,signatureY:330,dateX:120,dateY:367},
+    },
+    "HP": {
+        "V0.02": {nameX:90,nameY:425,signatureX:110,signatureY:345,dateX:90,dateY:385},
+        "V0.04": {nameX:90,nameY:402,signatureX:110,signatureY:322,dateX:90,dateY:362},
+        "default": {nameX:90,nameY:420,signatureX:110,signatureY:340,dateX:90,dateY:380},
+    },
+    "Marshfield": {
+        "V0.02": {nameX:110,nameY:425,signatureX:115,signatureY:345,dateX:110,dateY:385},
+        "V0.03": {nameX:110,nameY:405,signatureX:115,signatureY:325,dateX:110,dateY:365},
+        "default": {nameX:110,nameY:420,signatureX:115,signatureY:345,dateX:110,dateY:380},
+    },
+    "HFHS":{
+        "V0.03":  {nameX:90,nameY:410,signatureX:110,signatureY:330,dateX:90,dateY:370},
+        "default": {nameX:110,nameY:380,signatureX:115,signatureY:300,dateX:110,dateY:340},
+    },
+    "UChicago": {
+        "V0.05": {nameX:110,nameY:410,signatureX:115,signatureY:330,dateX:110,dateY:370},
+        "default": {nameX:110,nameY:380,signatureX:115,signatureY:305,dateX:110,dateY:342},
+    },
+    "KPCO": {
+        "V0.03": {nameX:110,nameY:395,signatureX:110,signatureY:315,dateX:110,dateY:355},
+        "default": {nameX:110,nameY:400,signatureX:110,signatureY:320,dateX:110,dateY:360},
+    },
+    "KPGA": {
+        "V0.03": {nameX:110,nameY:375,signatureX:110,signatureY:295,dateX:110,dateY:335},
+        "default": {nameX:110,nameY:400,signatureX:110,signatureY:320,dateX:110,dateY:360},
+    },
+    "KPHI": {
+        "V0.03": {nameX:110,nameY:395,signatureX:110,signatureY:315,dateX:110,dateY:355},
+        "default": {nameX:110,nameY:370,signatureX:110,signatureY:290,dateX:110,dateY:330},
+    },
+    "KPNW": {
+        "V0.02": {nameX:110,nameY:395,signatureX:110,signatureY:315,dateX:110,dateY:355},
+        "default": {nameX:110,nameY:390,signatureX:110,signatureY:310,dateX:110,dateY:350},
+    },
+    "NCI": {
+        "V0.05": {nameX:90,nameY:407,signatureX:110,signatureY:330,dateX:90,dateY:370},
+        "default": {nameX:90,nameY:410,signatureX:110,signatureY:335,dateX:90,dateY:375},
+    },
     "default": {nameX: 110, nameY: 400, signatureX: 110, signatureY: 330, dateX: 110, dateY: 370}
-}
-
-
-const siteToHipaaSignPosMapV2 = {
-    "HFHS":{nameX:100,nameY:425,signatureX:110,signatureY:465,dateX:100,dateY:385}
 }
 
 const defaultNameDateSignatureSize = {
@@ -347,8 +398,6 @@ const renderDownloadDestroy = async (data) => {
 }
 
 const renderSignDataDestroy = async () =>{
-    let consentVersions = await fetch('./forms/Consent_versioning.json').then(res => res.json());
-
     document.getElementById('root').innerHTML = `
     <div class="row">
         <div class="col-lg-2">
@@ -394,8 +443,6 @@ const renderSignDataDestroy = async () =>{
 }
 
 const renderSignHIPAARevoke = async () =>{
-    let consentVersions = await fetch('./forms/Consent_versioning.json').then(res => res.json());
-
     document.getElementById('root').innerHTML = `
     <div class="row">
         <div class="col-lg-2">
@@ -550,16 +597,28 @@ async function generateSignedPdf(data, file) {
   const fontSize = siteToSignFontSizeMap[participantSite] ?? siteToSignFontSizeMap['default'];
 
   if (file === 'signed-consent') {
-    sourcePdfLocation = './forms/consent/' + data[454205108] + '.pdf';
+    sourcePdfLocation = './forms/consent/' + data[fieldMapping.consentVersion] + '.pdf';
     dateStr = new Date(data[454445267]).toLocaleDateString();
-    coords = siteToConsentSignPosMap[participantSite] ?? siteToConsentSignPosMap['default'];
+    const version = data[fieldMapping.consentVersion].split('_')[2];
+    if (siteToConsentSignPosMap[participantSite] && siteToConsentSignPosMap[participantSite][version]) {
+        coords = siteToConsentSignPosMap[participantSite][version];
+    } else if (siteToConsentSignPosMap[participantSite] && siteToConsentSignPosMap[participantSite]['default']) {
+        coords = siteToConsentSignPosMap[participantSite]['default'];
+    } else {
+        coords = siteToConsentSignPosMap['default'];
+    }
   } 
   else if (file === 'signed-HIPAA') {
-    sourcePdfLocation = './forms/HIPAA/' + data[412000022] + '.pdf';
+    sourcePdfLocation = './forms/HIPAA/' + data[fieldMapping.hipaaVersion] + '.pdf';
     dateStr = new Date(data[262613359]).toLocaleDateString();
-    const version = data[fieldMapping.hipaaVersion].split('_')[2]
-    if(version === `V0.02` && participantSite === `HFHS`) coords = siteToHipaaSignPosMapV2[participantSite]
-    else coords = siteToHipaaSignPosMap[participantSite] ?? siteToHipaaSignPosMap['default'];
+    const version = data[fieldMapping.hipaaVersion].split('_')[2];
+    if (siteToHipaaSignPosMap[participantSite] && siteToHipaaSignPosMap[participantSite][version]) {
+        coords = siteToHipaaSignPosMap[participantSite][version];
+    } else if (siteToHipaaSignPosMap[participantSite] && siteToHipaaSignPosMap[participantSite]['default']) {
+        coords = siteToHipaaSignPosMap[participantSite]['default'];
+    } else {
+        coords = siteToHipaaSignPosMap['default'];
+    }
   }
 
   // adjust existing position data becaused of position shift

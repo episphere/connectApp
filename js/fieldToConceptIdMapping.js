@@ -75,6 +75,7 @@ export default
     },
 
     moduleStatus: {
+        notYetEligible: 789467219,
         notStarted:     972455046,
         started:        615768760,
         submitted:      231311385 
@@ -92,7 +93,8 @@ export default
         "D_912367929":      "MenstrualCycle",
         "D_826163434":      "ClinicalBiospecimen",
         "D_793330426":      "ModuleCovid19",
-        "D_390351864":      "Mouthwash"
+        "D_390351864":      "Mouthwash",
+        "D_601305072":      "PROMIS"
     },
 
     "Module1_OLD": {
@@ -199,6 +201,15 @@ export default
         "statusFlag":       "547363263", 
         "standaloneSurvey": true,
         "version":          "850585325"
+    },
+
+    "PROMIS": {
+        "conceptId":        "D_601305072",
+        "startTs":          "870643066", 
+        "completeTs":       "843688458",  
+        "statusFlag":       "320303124", 
+        "standaloneSurvey": true,
+        "version":          "490327747"
     },
 
     collectionDetails: 173836415,
