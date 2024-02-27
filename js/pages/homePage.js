@@ -335,8 +335,7 @@ export const renderHomeExpectationsPage = () => {
                     <h3>2. Complete the Online Informed Consent Process</h3>
                     <p>
                       The online informed consent process will tell you what it means to take part in Connect and how we will protect your privacy. We will guide you through a series of web pages about the study. Please read the full 
-                      <a data-entity-substitution="canonical" data-entity-type="media" data-entity-uuid="78c89167-2c80-46e8-945c-953229718faf" href="https://www.cancer.gov/connect-prevention-study/what-to-expect/sample-consent">informed consent form</a>
-                      . 
+                      <a data-entity-substitution="canonical" data-entity-type="media" data-entity-uuid="78c89167-2c80-46e8-945c-953229718faf" href="https://www.cancer.gov/connect-prevention-study/what-to-expect/sample-consent">informed consent form</a>. 
                       <a href="https://norcfedramp.servicenowservices.com/recruit">Connect Support Center</a>
                       staff can answer any questions you have about the study before you decide to join.
                     </p>
@@ -450,8 +449,7 @@ export const renderHomeExpectationsPage = () => {
                     <p>We will update you about study progress and what we learn over time.</p>
                     <p>
                       Still have questions about Connect? 
-                      <a href="https://norcfedramp.servicenowservices.com/recruit">Contact us</a>
-                      .
+                      <a href="https://norcfedramp.servicenowservices.com/recruit">Contact us</a>.
                     </p>
                 </section>
               </div>
