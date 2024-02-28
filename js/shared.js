@@ -1138,6 +1138,7 @@ export const isBrowserCompatible = () => {
     return isValidBrowser;
 }
 
+// TODO: refactor -- multiple issues in datadog
 export const inactivityTime = (user) => {
     let time;
     
@@ -1184,6 +1185,7 @@ export const inactivityTime = (user) => {
                     signOut();
                 })
             })
+            // TODO: datadog error: TypeError: Cannot read properties of null (reading 'addEventListener')
             document.getElementById('signOut').addEventListener('click', () =>{
                 clearTimeout(time)
             })
@@ -1198,7 +1200,7 @@ export const inactivityTime = (user) => {
     //resetTimer();
     window.onload = resetTimer;
     document.onmousemove = resetTimer;
-    document.onkeypress = resetTimer;
+    document.addEventListener('keydown', resetTimer);
 };
 
 const signOut = () => {
@@ -1679,6 +1681,112 @@ export const getModuleSHA = async (path, connectID, moduleID) => {
         throw new Error('Error: getModuleSHA():', error);
     }
 };
+
+/**
+ * Determine module sha from GitHub commit history on the module's file (compare startSurveyTimestamp with commit history timestamps).
+ * @param {String} surveyStartTimestamp - Timestamp of when the participant started the survey module.
+ * @param {String} path - Path to the module file in the GitHub repository.
+ * @param {String} connectID - Connect ID of the logged in participant.
+ * @param {String} moduleID - Module ID of the module the participant is accessing.
+ * @returns {String} - sha value.
+ */
+export const getShaFromGitHubCommitData = async (surveyStartTimestamp, path, connectID, moduleID) => {
+    let sha;
+    let surveyVersion;
+
+    try {
+        const idToken = await getIdToken();
+        const encodedPath = encodeURIComponent(path);
+        const encodedTimestamp = encodeURIComponent(surveyStartTimestamp);
+        const response = await fetch(`${api}?api=getSHAFromGitHubCommitData&path=${encodedPath}&surveyStartTimestamp=${encodedTimestamp}`, {
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + idToken,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`Server responded with: ${response.status}`);
+        }
+
+        const jsonResponse = await response.json();
+        sha = jsonResponse.data.sha;
+        surveyVersion = jsonResponse.data.surveyVersion || '1.0';
+
+        if (jsonResponse.code === 200 && sha) {
+            return [sha, surveyVersion];
+        } else {
+            throw new Error('Failed to retrieve SHA based on surveyStartTimestamp ' + jsonResponse.message); 
+        }
+    } catch (error) {
+        logDDRumError(new Error(`SHA Retrieval Error (fetch by timestamp): + ${error.message}`), 'StartModuleError', {
+                userAction: 'click start survey',
+                timestamp: new Date().toISOString(),
+                connectID: connectID,
+                startSurveyTimestamp: surveyStartTimestamp,
+                questionnaire: moduleID,
+                fetchedSHA: sha || 'Failed to fetch SHA by timestamp',
+                fetchedVersion: surveyVersion || 'Failed to fetch version by timestamp',
+        });
+
+        throw new Error('Error: getShaFromGitHubCommitData. ' +  error.message);
+    }
+};
+
+/**
+ * Update participant and survey data when the participant starts a survey module.
+ * Also used to repair the SHA value when the participant continues a survey and the SHA value is missing.
+ * @param {String} sha - SHA value of the module file. 
+ * @param {String} version - Version of the module file.
+ * @param {String} moduleId - Module ID of the module the participant is accessing.
+ * @param {String} repairShaVersionString - Version string to use when repairing the SHA value (fetched from GitHub raw API).
+ * @param {Boolean} repairShaValue - Flag to indicate if the SHA is being repaired (retain the original survey start timestamp when true).
+ */
+export const updateStartSurveyParticipantData = async (sha, url, moduleId, repairShaVersionString, repairShaValue = false) => {
+    try {
+        const version = repairShaValue ? repairShaVersionString : await fetchDataWithRetry(() => getModuleText(url));
+        let questData = {};
+        let formData = {};
+
+        questData[fieldMapping[moduleId].conceptId + ".sha"] = sha;
+        questData[fieldMapping[moduleId].conceptId + "." + fieldMapping[moduleId].version] = version;
+
+        // Do not update startTs if the sha is being repaired. Retain the original startTs, which coincides with the fetched survey.
+        if (!repairShaValue) formData[fieldMapping[moduleId].startTs] = new Date().toISOString();
+        formData[fieldMapping[moduleId].statusFlag] = fieldMapping.moduleStatus.started;
+    
+        // TODO: turn this into a single call or a transaction to ensure db consistency.
+        // Caution on refactor: both calls are complex. Both transform the data objects.
+        await storeResponseQuest(questData);
+        await storeResponse(formData);
+    } catch (error) {
+        throw error;
+    }
+}
+
+/**
+ * Get the version number from the module file. Executes for new surveys only.
+ * Some of the oldest survey files don't have version numbers. In that case, default to 1.0 for recordkeeping.
+ * @param {String} url - URL of the module file.
+ * @returns {String} - Version number (ex: 2.2).
+ */
+// TODO: monitor this. Raw access to GitHub data doesn't appear to be rate limited. If we see errors, authenticate this request.
+const getModuleText = async (url) => {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const moduleText = await response.text();
+        const match = moduleText.match("{\"version\":\\s*\"([0-9]{1,2}\\.[0-9]{1,3})\"}");
+        
+        return match ? match[1] : '1.0';
+
+    } catch (error) {
+        throw new Error(`Error: Fetching module text failed. ${error.message}`);
+    }
+}
 
 /**
  * Force-Log detailed error to Datadog RUM (and console).

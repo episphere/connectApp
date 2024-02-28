@@ -1,16 +1,27 @@
-import { storeResponse, getModuleSHA, getMyData, hasUserData, getMySurveys, logDDRumError, urls, questionnaireModules, storeResponseQuest, storeResponseTree, showAnimation, hideAnimation, addEventReturnToDashboard, fetchDataWithRetry } from "../shared.js";
+import { getModuleSHA, getMyData, getShaFromGitHubCommitData, hasUserData, getMySurveys, logDDRumError, urls, questionnaireModules, storeResponseQuest, storeResponseTree, showAnimation, hideAnimation, addEventReturnToDashboard, fetchDataWithRetry, updateStartSurveyParticipantData } from "../shared.js";
 import fieldMapping from '../fieldToConceptIdMapping.js'; 
 import { socialSecurityTemplate } from "./ssn.js";
 import { SOCcer as SOCcerProd } from "./../../prod/config.js";
 import { SOCcer as SOCcerStage } from "./../../stage/config.js";
 import { SOCcer as SOCcerDev } from "./../../dev/config.js";
-import questConfig from "https://episphere.github.io/questionnaire/questVersions.js";
 
+let questConfig;
 let quest;
 let data;
 let modules;
 
 const questDiv = "questionnaireRoot";
+
+async function loadQuestConfig() {
+    try {
+        if (!questConfig) {
+            const importedModule = await import("https://episphere.github.io/questionnaire/questVersions.js");
+            questConfig = importedModule.default;
+        }
+    } catch (error) {
+        throw new Error(`Error loading questConfig: ${error.message}`);
+    }
+}
 
 const importQuest = async () => {
     const url = questConfig[location.host];
@@ -24,7 +35,7 @@ const importQuest = async () => {
 
         quest = transform;
     } catch (e) {
-        throw new Error(`Error importing quest from ${url}: ${e.message}`)
+        throw new Error(`Error importing quest from ${url}: ${e.message}`);
     }
 }
 
@@ -40,8 +51,11 @@ export const questionnaire = async (moduleId) => {
         if (!moduleId) {
             throw new Error('No module ID on start survey click.');
         }
-
-        const responseData = await fetchDataWithRetry(() => getMyData());
+        
+        const [responseData] = await Promise.all([
+            fetchDataWithRetry(() => getMyData()),
+            fetchDataWithRetry(() => loadQuestConfig()),
+        ]);
 
         if(!hasUserData(responseData)) {
             throw new Error('No user data found.');
@@ -54,13 +68,20 @@ export const questionnaire = async (moduleId) => {
         if(moduleId === 'ModuleSsn') {
             socialSecurityTemplate(data);
         } else {
-            const responseModules = await fetchDataWithRetry(() => getMySurveys([...new Set([
-                fieldMapping.Module1.conceptId,
-                fieldMapping.Module1_OLD.conceptId,
-                fieldMapping.Biospecimen.conceptId,
-                fieldMapping.ClinicalBiospecimen.conceptId,
-                fieldMapping[moduleId].conceptId
-            ])]));
+            const [responseModules] = await Promise.all([
+                fetchDataWithRetry(() => getMySurveys([...new Set([
+                    fieldMapping.Module1.conceptId,
+                    fieldMapping.Module1_OLD.conceptId,
+                    fieldMapping.Biospecimen.conceptId,
+                    fieldMapping.ClinicalBiospecimen.conceptId,
+                    fieldMapping[moduleId].conceptId
+                ])])),
+                fetchDataWithRetry(() => importQuest())
+            ]);
+
+            if (!quest) {
+                throw new Error('Error importing Quest.');
+            }
             
             modules = responseModules.data;
 
@@ -99,12 +120,6 @@ async function startModule(data, modules, moduleId, questDiv) {
     let key;
 
     try {
-        await fetchDataWithRetry(() => importQuest());
-
-        if (!quest) {
-            throw new Error('Error importing Quest.');
-        }
-
         inputData = setInputData(data, modules); 
         moduleConfig = questionnaireModules();
 
@@ -122,50 +137,47 @@ async function startModule(data, modules, moduleId, questDiv) {
             await localforage.clear();
         }
 
+        // Module has not been started.
         if (data[fieldMapping[moduleId].statusFlag] === fieldMapping.moduleStatus.notStarted) {
             try {
                 sha = await fetchDataWithRetry(() => getModuleSHA(path));
+                url += sha + "/" + path;
             } catch (error) {
                 throw new Error('Error: No SHA found for module.');
             }
-
-            url += sha + "/" + path;
-            
-            const moduleText = await (await fetch(url)).text();
-            const match = moduleText.match("{\"version\":\s*\"([0-9]{1,2}[\.]{1}[0-9]{1,3})\"}");
-
-            if (!match) {
-                throw new Error('Error: No match found for version in module file.');
-            }
-
-            const version = match[1]; // version number (ex: 2.2)
-            
-            let questData = {};
-            let formData = {};
-
-            questData[fieldMapping[moduleId].conceptId + ".sha"] = sha;
-            questData[fieldMapping[moduleId].conceptId + "." + fieldMapping[moduleId].version] = version;
-
-            formData[fieldMapping[moduleId].startTs] = new Date().toISOString();
-            formData[fieldMapping[moduleId].statusFlag] = fieldMapping.moduleStatus.started;
             
             try {
-                // TODO: turn this into a single call or a transaction to ensure db consistency.
-                // Caution on refactor: both calls are complex. Both transform the data object.
-                await storeResponseQuest(questData);
-                await storeResponse(formData);
+                await updateStartSurveyParticipantData(sha, url, moduleId);
             } catch (error) {
                 throw new Error('Error: Storing questData and formData failed.');
             }
-            
+
+        // Module has been started and has a SHA value.
+        } else if (modules[fieldMapping[moduleId].conceptId]?.['sha']) {
+            sha = modules[fieldMapping[moduleId].conceptId]['sha'];
+            url += sha + "/" + path;
+
+        // Module has been started but SHA is not found. 'Fix' the case where the SHA is not found for the module.
         } else {
-            if (!modules[fieldMapping[moduleId].conceptId]?.['sha']) {
-                throw new Error(`Error: EXISTING MODULE - No SHA found for module ${moduleId}.`);
+            const startSurveyTimestamp = data[fieldMapping[moduleId].startTs] || '';
+
+            // Get the SHA from the GitHub API. The correct SHA is the SHA for the active survey commit when the participant started the survey.
+            let surveyVersion;
+            try {
+                [sha, surveyVersion] = await getShaFromGitHubCommitData(startSurveyTimestamp, path, data['Connect_ID'], moduleId);
+                url += sha + "/" + path;
+
+            } catch (error) {
+                throw new Error('Error: SHA not retrieved for module (API lookup).');
             }
 
-            sha = modules[fieldMapping[moduleId].conceptId]['sha'];
-
-            url += sha + "/" + path;
+            // Repair the SHA value in the module data. Do not update the start timestamp (found in participant data) for the module.
+            try {
+                const repairShaValue = true;
+                await updateStartSurveyParticipantData(sha, url, moduleId, surveyVersion, repairShaValue);
+            } catch (error) {
+                throw new Error('Error: Updating participant data failed after EXISTING MODULE: SHA not found.');
+            }   
         }
 
         const questParameters = {
