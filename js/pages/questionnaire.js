@@ -52,7 +52,7 @@ export const questionnaire = async (moduleId) => {
             throw new Error('No module ID on start survey click.');
         }
         
-        const [responseData, _ ] = await Promise.all([
+        const [responseData] = await Promise.all([
             fetchDataWithRetry(() => getMyData()),
             fetchDataWithRetry(() => loadQuestConfig()),
         ]);
@@ -68,7 +68,7 @@ export const questionnaire = async (moduleId) => {
         if(moduleId === 'ModuleSsn') {
             socialSecurityTemplate(data);
         } else {
-            const [responseModules, _ ] = await Promise.all([
+            const [responseModules] = await Promise.all([
                 fetchDataWithRetry(() => getMySurveys([...new Set([
                     fieldMapping.Module1.conceptId,
                     fieldMapping.Module1_OLD.conceptId,

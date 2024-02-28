@@ -1716,7 +1716,7 @@ export const getShaFromGitHubCommitData = async (surveyStartTimestamp, path, con
         if (jsonResponse.code === 200 && sha) {
             return [sha, surveyVersion];
         } else {
-            throw new Error('Failed to retrieve SHA based on surveyStartTimestamp', jsonResponse.message);
+            throw new Error('Failed to retrieve SHA based on surveyStartTimestamp ' + jsonResponse.message); 
         }
     } catch (error) {
         logDDRumError(new Error(`SHA Retrieval Error (fetch by timestamp): + ${error.message}`), 'StartModuleError', {
@@ -1729,7 +1729,7 @@ export const getShaFromGitHubCommitData = async (surveyStartTimestamp, path, con
                 fetchedVersion: surveyVersion || 'Failed to fetch version by timestamp',
         });
 
-        throw new Error('Error: getShaFromGitHubCommitData:', error);
+        throw new Error('Error: getShaFromGitHubCommitData. ' +  error.message);
     }
 };
 
