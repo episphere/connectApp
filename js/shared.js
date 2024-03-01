@@ -1,6 +1,7 @@
 import { addEventHideNotification } from "./event.js";
 import fieldMapping from './fieldToConceptIdMapping.js'; 
 import { signInConfig, signInConfigDev } from "./pages/signIn.js";
+import { signInCheckRender, signUpRender } from "./pages/homePage.js";
 
 export const urls = {
     'prod': 'myconnect.cancer.gov',
@@ -34,6 +35,205 @@ let api = '';
 if(location.host === urls.prod) api = 'https://api-myconnect.cancer.gov/app';
 else if(location.host === urls.stage) api = 'https://api-myconnect-stage.cancer.gov/app';
 else api = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app';
+
+const afterEmailLinkRender = (email, type) => {
+    return fragment`
+    <div class="mx-4">
+    <p class="loginTitleFont" style="text-align:center;">Sign In</p>
+    <div id="sign${type}Div" lang="en">
+      <div class="mdl-card mdl-shadow--2dp firebaseui-container firebaseui-id-page-email-link-sign-in-sent">
+        <form onsubmit="return false;">
+          <div class="firebaseui-card-header">
+            <h1 class="firebaseui-title">Sign-in email sent</h1>
+          </div>
+          <div class="firebaseui-card-content">
+            <div class="firebaseui-email-sent"></div>
+            <p class="firebaseui-text">A sign-in email with additional instructions was sent to <strong>${email}</strong>. Check your email to complete sign-in. </p>
+          </div>
+          <div class="firebaseui-card-actions">
+            <div class="firebaseui-form-links">
+              <a class="firebaseui-link firebaseui-id-trouble-getting-email-link" href="javascript:void(0)">Trouble getting email?</a>
+            </div>
+            <div class="firebaseui-form-actions">
+              <button class="firebaseui-id-secondary-link firebaseui-button mdl-button mdl-js-button mdl-button--primary" data-upgraded=",MaterialButton">Back</button>
+            </div>
+          </div>
+          <div class="firebaseui-card-footer"></div>
+        </form>
+      </div>
+    </div>
+    <div style="font-size:8px" class="mt-3"> ${usGov} </div>
+    </div>
+    `;
+};
+
+const troubleGettingEmailRender = (type) => {
+    return fragment`
+    <div class="mx-4">
+    <p class="loginTitleFont" style="text-align:center;">Sign In</p>
+    <div id="sign${type}Div" lang="en">
+        <div class="mdl-card mdl-shadow--2dp firebaseui-container firebaseui-id-page-email-not-received">
+        <form onsubmit="return false;">
+            <div class="firebaseui-card-header">
+            <h1 class="firebaseui-title">Trouble getting email?</h1>
+            </div>
+            <div class="firebaseui-card-content">
+            <p class="firebaseui-text">Try these common fixes:</p>
+            <ul>
+                <li>Check if the email was marked as spam or filtered.</li>
+                <li>Check your internet connection.</li>
+                <li>Check that you did not misspell your email.</li>
+                <li>Check that your inbox space is not running out or other inbox settings related issues.</li>
+            </ul>
+            <p></p>
+            <p class="firebaseui-text">If the steps above didn't work, you can resend the email. Note that this will deactivate the link in the older email.</p>
+            </div>
+            <div class="firebaseui-card-actions">
+            <div class="firebaseui-form-links">
+                <a class="firebaseui-link firebaseui-id-resend-email-link" href="javascript:void(0)">Resend</a>
+            </div>
+            <div class="firebaseui-form-actions">
+                <button class="firebaseui-id-secondary-link firebaseui-button mdl-button mdl-js-button mdl-button--primary" data-upgraded=",MaterialButton">Back</button>
+            </div>
+            </div>
+            <div class="firebaseui-card-footer"></div>
+        </form>
+        </div>
+    </div>
+    <div style="font-size:8px" class="mt-3"> ${usGov} </div>
+    </div>
+    `;
+}
+
+const signInFlowRender = (signInEmail) => {
+    const type = document.getElementById("signInDiv") ? "In" : "Up";
+    document
+        .getElementById("signInWrapperDiv")
+        .replaceChildren(afterEmailLinkRender(signInEmail, type));
+
+    document
+        .querySelector('a[class~="firebaseui-id-trouble-getting-email-link"]')
+        .addEventListener("click", () => {
+            document
+                .getElementById("signInWrapperDiv")
+                .replaceChildren(troubleGettingEmailRender(type));
+
+            document
+                .querySelector('a[class~="firebaseui-id-resend-email-link"]')
+                .addEventListener("click", () => sendEmailLink());
+
+            document
+                .querySelector('button[class~="firebaseui-id-secondary-link"]')
+                .addEventListener("click", () => {
+                    const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
+
+                    if (type  === "In") {
+                        const df = fragment`
+                            <div class="mx-4">
+                            <p class="loginTitleFont" style="text-align:center;">Sign In</p>
+                            <div id="signInDiv"></div>
+                            <div style="font-size:8px" class="mt-3">
+                            ${usGov}
+                            </div>
+                            </div>
+                        `;
+    
+                        document.getElementById('signInWrapperDiv').replaceChildren(df);
+
+                        if (location.host === urls.prod) {
+                            ui.start("#signInDiv", signInConfig());
+                        } else if (location.host === urls.stage) {
+                            ui.start("#signInDiv", signInConfig());
+                        } else {
+                            ui.start("#signInDiv", signInConfigDev());
+                        }
+                    } else {
+                        signUpRender({ ui });
+                    }
+                    
+                });
+        });
+
+    document
+        .querySelector('button[class~="firebaseui-id-secondary-link"]')
+        .addEventListener("click", async (e) => {
+            e.preventDefault();
+            const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
+            window.localStorage.setItem("signInUpdate", "yes");
+            const inputStr = window.localStorage.getItem("signInEmail").trim();
+            const isEmail = !!inputStr.match(validEmailFormat);
+            const isPhone = !!inputStr.match(validPhoneNumberFormat);
+            
+            if (type === 'Up'){
+                signUpRender({ ui });
+            } else {
+                if (isEmail) {
+                    const emailForQuery = inputStr
+                        .replaceAll("%", "%25")
+                        .replaceAll("#", "%23")
+                        .replaceAll("&", "%26")
+                        .replaceAll(`'`, "%27")
+                        .replaceAll("+", "%2B");
+
+                    const response = await checkAccount({
+                        accountType: "email",
+                        accountValue: emailForQuery,
+                    });
+
+                    if (response?.data?.accountExists) {
+                        const account = { type: "email", value: inputStr };
+                        firebaseSignInRender({
+                            ui,
+                            account,
+                            usGov,
+                            signInConfig,
+                            signInConfigDev,
+                        });
+                    } else {
+                        alert("Account Not Found");
+                    }
+                } else if (isPhone) {
+                    //   await signInAnonymously();
+                    const phoneNumberStr = inputStr
+                        .match(/\d+/g)
+                        .join("")
+                        .slice(-10);
+                    const response = await checkAccount({
+                        accountType: "phone",
+                        accountValue: phoneNumberStr,
+                    });
+
+                    if (response?.data?.accountExists) {
+                        const account = { type: "phone", value: phoneNumberStr };
+                        firebaseSignInRender({
+                            ui,
+                            account,
+                            usGov,
+                            signInConfig,
+                            signInConfigDev,
+                        });
+                    } else {
+                        alert("Account Not Found");
+                    }
+                }
+            }
+        });
+};
+
+export const sendEmailLink = () => {
+    const signInEmail = window.localStorage.getItem("signInEmail");
+    const continueUrl = window.location.href;
+
+    fetch(`${api}?api=sendEmailLink`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: signInEmail, continueUrl }),
+    }).then(() => {
+        signInFlowRender(signInEmail)
+    });
+};
 
 export const validateToken = async (token) => {
     const idToken = await getIdToken();
@@ -135,7 +335,7 @@ export const storeResponse = async (formData) => {
         body: JSON.stringify(formData)
     });
 
-    return response.json();
+    return await response.json();
 }
 
 export const storeSocial = async (formData) => {
@@ -150,7 +350,7 @@ export const storeSocial = async (formData) => {
         body: JSON.stringify(formData)
     });
 
-    return response.json();
+    return await response.json();
 }
 
 export const getMyData = async () => {
@@ -162,7 +362,7 @@ export const getMyData = async () => {
         },
     });
 
-    return response.json();
+    return await response.json();
 };
 
 export const hasUserData = (response) => {
@@ -220,7 +420,7 @@ export const getMyCollections = async () => {
         }
     })
 
-    return response.json();
+    return await response.json();
 }
 
 const allIHCS = {
@@ -762,15 +962,16 @@ export const subscribeForNotifications = async (data) => {
 }
 
 export const retrieveNotifications = async () => {
-    const idToken = await getIdToken();
-    const response = await fetch(`${api}?api=retrieveNotifications`, {
-        method: "GET",
-        headers: {
-            Authorization:"Bearer "+idToken
-        }
-    });
-    return await response.json();
-}
+  const idToken = await getIdToken();
+  const response = await fetch(`${api}?api=retrieveNotifications`, {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + idToken
+    },
+  });
+
+  return await response.json();
+};
 
 /**
  * Check if account exists
@@ -898,7 +1099,8 @@ export const questionnaireModules = () => {
             'Biospecimen Survey': {path: 'prod/moduleBiospecimen.txt', moduleId:"Biospecimen", enabled:false},
             'Clinical Biospecimen Survey': {path: 'prod/moduleClinicalBloodUrine.txt', moduleId:"ClinicalBiospecimen", enabled:false},
             'Menstrual Cycle': {path: 'prod/moduleMenstrual.txt', moduleId:"MenstrualCycle", enabled:false},
-            'Mouthwash': {path: 'prod/moduleMouthwash.txt', moduleId:"Mouthwash", enabled:false}
+            'Mouthwash': {path: 'prod/moduleMouthwash.txt', moduleId:"Mouthwash", enabled:false},
+            'PROMIS': {path: 'prod/moduleQoL.txt', moduleId:"PROMIS", enabled:false}
         }
     }
 
@@ -912,7 +1114,8 @@ export const questionnaireModules = () => {
         'Biospecimen Survey': {path: 'moduleBiospecimenStage.txt', moduleId:"Biospecimen", enabled:false},
         'Clinical Biospecimen Survey': {path: 'moduleClinicalBloodUrineStage.txt', moduleId:"ClinicalBiospecimen", enabled:false},
         'Menstrual Cycle': {path: 'moduleMenstrualStage.txt', moduleId:"MenstrualCycle", enabled:false},
-        'Mouthwash': {path: 'moduleMouthwash.txt', moduleId:"Mouthwash", enabled:false}
+        'Mouthwash': {path: 'moduleMouthwash.txt', moduleId:"Mouthwash", enabled:false},
+        'PROMIS': {path: 'moduleQoL.txt', moduleId:"PROMIS", enabled:false}
     };
 }
 
@@ -935,6 +1138,7 @@ export const isBrowserCompatible = () => {
     return isValidBrowser;
 }
 
+// TODO: refactor -- multiple issues in datadog
 export const inactivityTime = (user) => {
     let time;
     
@@ -974,12 +1178,14 @@ export const inactivityTime = (user) => {
 
             console.log("initial timeout has been reached!");
 
+            // TODO: datadog error: TypeError: Cannot read properties of null (reading 'addEventListener')
             Array.from(document.getElementsByClassName('log-out-user')).forEach(e => {
                 e.addEventListener('click', () => {
                     clearTimeout(time)
                     signOut();
                 })
             })
+            // TODO: datadog error: TypeError: Cannot read properties of null (reading 'addEventListener')
             document.getElementById('signOut').addEventListener('click', () =>{
                 clearTimeout(time)
             })
@@ -994,7 +1200,7 @@ export const inactivityTime = (user) => {
     //resetTimer();
     window.onload = resetTimer;
     document.onmousemove = resetTimer;
-    document.onkeypress = resetTimer;
+    document.addEventListener('keydown', resetTimer);
 };
 
 const signOut = () => {
@@ -1104,7 +1310,7 @@ const resetMenstrualCycleSurvey = async () => {
     await storeResponse(formData);
 }
 
-const removeMenstrualCycleData = (formData) => {
+const removeMenstrualCycleData = () => {
 
     localforage.removeItem("D_912367929");
     localforage.removeItem("D_912367929.treeJSON");
@@ -1121,7 +1327,7 @@ const removeMenstrualCycleData = (formData) => {
 const clientFilterData = async (formData) => {
 
     if(formData["D_912367929"]?.["D_951357171"] == 104430631) {
-        formData = removeMenstrualCycleData(formData);
+        formData = removeMenstrualCycleData();
 
         await resetMenstrualCycleSurvey();
     }
@@ -1296,7 +1502,6 @@ export const firebaseSignInRender = async ({ ui, account = {}, displayFlag = tru
   
     const { signInEmail, signInTime } = JSON.parse(window.localStorage.getItem('connectSignIn') || '{}');
     const timeLimit = 1000 * 60 * 60 ; // 1 hour time limit
-  
     if (account.type === 'magicLink' && signInEmail  && Date.now() - signInTime < timeLimit) {
       await elementIsLoaded('div[class~="firebaseui-id-page-email-link-sign-in-confirmation"]', 1500);
       const emailInput =  document.querySelector('input[class~="firebaseui-id-email"]');
@@ -1328,6 +1533,7 @@ export const firebaseSignInRender = async ({ ui, account = {}, displayFlag = tru
         .addEventListener('click', (e) => {
           const signInData = { signInEmail:account.value, signInTime: Date.now() }
           window.localStorage.setItem('connectSignIn', JSON.stringify(signInData) );
+          window.localStorage.setItem('signInEmail', account.value );
         });
     } else if (account.type === 'phone') {
       document.querySelector('button[data-provider-id="phone"]').click();
@@ -1403,4 +1609,205 @@ export const isParticipantDataDestroyed = (data) => {
                 fieldMapping.requestedDataDestroySigned) ||
         timeDiff > millisecondsWait
     );
+};
+
+/**
+ * Generic function to fetch data with retry & backoff.
+ * @param {function} fetchFunction - function to fetch data.
+ * @param {number} maxRetries - maximum number of retries.
+ * @param {number} retryInterval - interval between retries.
+ * @param {number} backoffFactor - for exponential backoff.
+ */
+export const fetchDataWithRetry = async (fetchFunction, maxRetries = 5, retryInterval = 250, backoffFactor = 2) => {
+    let fetchAttempt = 0;
+    
+    while (fetchAttempt < maxRetries) {
+        try {
+            return await fetchFunction();
+        } catch (e) {
+            fetchAttempt++;
+            if (fetchAttempt < maxRetries) {
+                console.error(`Error fetching data, attempt ${fetchAttempt}: ${e.message}`);
+                await new Promise(resolve => setTimeout(resolve, retryInterval));
+                retryInterval *= backoffFactor;
+            } else {
+                throw e;
+            }
+        }
+    }
+};
+
+/**
+ * Fetch module sha from GitHub.
+ * @param {String} path - Path to the module file in the GitHub repository.
+ * @param {String} connectID - Connect ID of the logged in participant.
+ * @param {String} moduleID - Module ID of the module the participant is accessing.
+ * @returns {String} - sha value.
+ */
+export const getModuleSHA = async (path, connectID, moduleID) => {
+    let sha;
+
+    try {
+        const idToken = await getIdToken();
+        const encodedPath = encodeURIComponent(path);
+        const response = await fetch(`${api}?api=getModuleSHA&path=${encodedPath}`, {
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + idToken,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`Server responded with: ${response.status}`);
+        }
+
+        const jsonResponse = await response.json();
+        sha = jsonResponse.data;
+
+        if (jsonResponse.code === 200 && sha) {
+            return sha;
+        } else {
+            throw new Error('Failed to retrieve SHA', jsonResponse.message);
+        }
+    } catch (error) {
+        logDDRumError(new Error(`SHA Fetch Error: + ${error.message}`), 'StartModuleError', {
+                userAction: 'click start survey',
+                timestamp: new Date().toISOString(),
+                connectID: connectID,
+                questionnaire: moduleID,
+                fetchedSHA: sha || 'Failed to fetch SHA',
+        });
+
+        throw new Error('Error: getModuleSHA():', error);
+    }
+};
+
+/**
+ * Determine module sha from GitHub commit history on the module's file (compare startSurveyTimestamp with commit history timestamps).
+ * @param {String} surveyStartTimestamp - Timestamp of when the participant started the survey module.
+ * @param {String} path - Path to the module file in the GitHub repository.
+ * @param {String} connectID - Connect ID of the logged in participant.
+ * @param {String} moduleID - Module ID of the module the participant is accessing.
+ * @returns {String} - sha value.
+ */
+export const getShaFromGitHubCommitData = async (surveyStartTimestamp, path, connectID, moduleID) => {
+    let sha;
+    let surveyVersion;
+
+    try {
+        const idToken = await getIdToken();
+        const encodedPath = encodeURIComponent(path);
+        const encodedTimestamp = encodeURIComponent(surveyStartTimestamp);
+        const response = await fetch(`${api}?api=getSHAFromGitHubCommitData&path=${encodedPath}&surveyStartTimestamp=${encodedTimestamp}`, {
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + idToken,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`Server responded with: ${response.status}`);
+        }
+
+        const jsonResponse = await response.json();
+        sha = jsonResponse.data.sha;
+        surveyVersion = jsonResponse.data.surveyVersion || '1.0';
+
+        if (jsonResponse.code === 200 && sha) {
+            return [sha, surveyVersion];
+        } else {
+            throw new Error('Failed to retrieve SHA based on surveyStartTimestamp ' + jsonResponse.message); 
+        }
+    } catch (error) {
+        logDDRumError(new Error(`SHA Retrieval Error (fetch by timestamp): + ${error.message}`), 'StartModuleError', {
+                userAction: 'click start survey',
+                timestamp: new Date().toISOString(),
+                connectID: connectID,
+                startSurveyTimestamp: surveyStartTimestamp,
+                questionnaire: moduleID,
+                fetchedSHA: sha || 'Failed to fetch SHA by timestamp',
+                fetchedVersion: surveyVersion || 'Failed to fetch version by timestamp',
+        });
+
+        throw new Error('Error: getShaFromGitHubCommitData. ' +  error.message);
+    }
+};
+
+/**
+ * Update participant and survey data when the participant starts a survey module.
+ * Also used to repair the SHA value when the participant continues a survey and the SHA value is missing.
+ * @param {String} sha - SHA value of the module file. 
+ * @param {String} version - Version of the module file.
+ * @param {String} moduleId - Module ID of the module the participant is accessing.
+ * @param {String} repairShaVersionString - Version string to use when repairing the SHA value (fetched from GitHub raw API).
+ * @param {Boolean} repairShaValue - Flag to indicate if the SHA is being repaired (retain the original survey start timestamp when true).
+ */
+export const updateStartSurveyParticipantData = async (sha, url, moduleId, repairShaVersionString, repairShaValue = false) => {
+    try {
+        const version = repairShaValue ? repairShaVersionString : await fetchDataWithRetry(() => getModuleText(url));
+        let questData = {};
+        let formData = {};
+
+        questData[fieldMapping[moduleId].conceptId + ".sha"] = sha;
+        questData[fieldMapping[moduleId].conceptId + "." + fieldMapping[moduleId].version] = version;
+
+        // Do not update startTs if the sha is being repaired. Retain the original startTs, which coincides with the fetched survey.
+        if (!repairShaValue) formData[fieldMapping[moduleId].startTs] = new Date().toISOString();
+        formData[fieldMapping[moduleId].statusFlag] = fieldMapping.moduleStatus.started;
+    
+        // TODO: turn this into a single call or a transaction to ensure db consistency.
+        // Caution on refactor: both calls are complex. Both transform the data objects.
+        await storeResponseQuest(questData);
+        await storeResponse(formData);
+    } catch (error) {
+        throw error;
+    }
+}
+
+/**
+ * Get the version number from the module file. Executes for new surveys only.
+ * Some of the oldest survey files don't have version numbers. In that case, default to 1.0 for recordkeeping.
+ * @param {String} url - URL of the module file.
+ * @returns {String} - Version number (ex: 2.2).
+ */
+// TODO: monitor this. Raw access to GitHub data doesn't appear to be rate limited. If we see errors, authenticate this request.
+const getModuleText = async (url) => {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const moduleText = await response.text();
+        const match = moduleText.match("{\"version\":\\s*\"([0-9]{1,2}\\.[0-9]{1,3})\"}");
+        
+        return match ? match[1] : '1.0';
+
+    } catch (error) {
+        throw new Error(`Error: Fetching module text failed. ${error.message}`);
+    }
+}
+
+/**
+ * Force-Log detailed error to Datadog RUM (and console).
+ * @param {Error} error - The error object to log.
+ * @param {String} errorType - Categorize the type of the error for datadog.
+ * @param {Object} additionalContext - Optional. Additional context to include with the error. Example: { userAction: 'click', timestamp: new Date().toISOString(), connectID: '1234567890' }
+ */
+export const logDDRumError = (error, errorType = 'CustomError', additionalContext = {}) => {
+
+    console.error('ERROR', error, 'Additional context:', additionalContext);
+
+    if (window.DD_RUM) {
+        window.DD_RUM.addError(
+            error.message || 'An error occurred',
+            {
+                error: {
+                    stack: error.stack,
+                    ...additionalContext,
+                }
+            },
+            errorType,
+        );
+    }
 };

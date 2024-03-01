@@ -1,213 +1,218 @@
-import { storeResponse, getMyData, hasUserData, getMySurveys, urls, questionnaireModules, storeResponseQuest, storeResponseTree, showAnimation, hideAnimation, addEventReturnToDashboard } from "../shared.js";
+import { getModuleSHA, getMyData, getShaFromGitHubCommitData, hasUserData, getMySurveys, logDDRumError, urls, questionnaireModules, storeResponseQuest, storeResponseTree, showAnimation, hideAnimation, addEventReturnToDashboard, fetchDataWithRetry, updateStartSurveyParticipantData } from "../shared.js";
 import fieldMapping from '../fieldToConceptIdMapping.js'; 
 import { socialSecurityTemplate } from "./ssn.js";
 import { SOCcer as SOCcerProd } from "./../../prod/config.js";
 import { SOCcer as SOCcerStage } from "./../../stage/config.js";
 import { SOCcer as SOCcerDev } from "./../../dev/config.js";
-import { Octokit } from "https://cdn.skypack.dev/pin/octokit@v2.0.14-WDHE0c1GgF96ore7BeW1/mode=imports/optimized/octokit.js";
-import questConfig from "https://episphere.github.io/questionnaire/questVersions.js";
 
+let questConfig;
 let quest;
 let data;
 let modules;
 
 const questDiv = "questionnaireRoot";
 
-const importQuest = async () => {
-
-    let url = questConfig[location.host];
-
-    await import(url).then(({ transform }) => {
-        quest = transform;
-    });
+async function loadQuestConfig() {
+    try {
+        if (!questConfig) {
+            const importedModule = await import("https://episphere.github.io/questionnaire/questVersions.js");
+            questConfig = importedModule.default;
+        }
+    } catch (error) {
+        throw new Error(`Error loading questConfig: ${error.message}`);
+    }
 }
 
+const importQuest = async () => {
+    const url = questConfig[location.host];
+    
+    try {    
+        const { transform } = await import(url);
+
+        if (!transform) {
+            throw new Error('Error loading transform module from Quest.');
+        }
+
+        quest = transform;
+    } catch (e) {
+        throw new Error(`Error importing quest from ${url}: ${e.message}`);
+    }
+}
+
+/**
+ * Questionnaire directs the survey module handling throughout the survey loading process.
+ * Errors from children are caught here. The loading animation is shown and hidden here.
+ * @param {string} moduleId - The ID of the survey module the participant clicked to start.
+ */
 export const questionnaire = async (moduleId) => {
- 
-    showAnimation();
+    try {
+        showAnimation();
 
-    let responseData = await getMyData();
+        if (!moduleId) {
+            throw new Error('No module ID on start survey click.');
+        }
+        
+        const [responseData] = await Promise.all([
+            fetchDataWithRetry(() => getMyData()),
+            fetchDataWithRetry(() => loadQuestConfig()),
+        ]);
 
-    if(hasUserData(responseData)) {
+        if(!hasUserData(responseData)) {
+            throw new Error('No user data found.');
+        }
+
         data = responseData.data;
 
         displayQuestionnaire(questDiv, moduleId !== 'ModuleSsn');
 
         if(moduleId === 'ModuleSsn') {
             socialSecurityTemplate(data);
-        }
-        else {
+        } else {
+            const [responseModules] = await Promise.all([
+                fetchDataWithRetry(() => getMySurveys([...new Set([
+                    fieldMapping.Module1.conceptId,
+                    fieldMapping.Module1_OLD.conceptId,
+                    fieldMapping.Biospecimen.conceptId,
+                    fieldMapping.ClinicalBiospecimen.conceptId,
+                    fieldMapping[moduleId].conceptId
+                ])])),
+                fetchDataWithRetry(() => importQuest())
+            ]);
 
-            let responseModules = await getMySurveys([...new Set([fieldMapping.Module1.conceptId, fieldMapping.Module1_OLD.conceptId, fieldMapping.Biospecimen.conceptId, fieldMapping.ClinicalBiospecimen.conceptId, fieldMapping[moduleId].conceptId])]);
-            if(responseModules.code === 200) {
-                modules = responseModules.data;
-
-                await startModule(data, modules, moduleId, questDiv);
+            if (!quest) {
+                throw new Error('Error importing Quest.');
             }
+            
+            modules = responseModules.data;
+
+            if (!modules) {
+                throw new Error('No modules found.');
+            }
+
+            await startModule(data, modules, moduleId, questDiv);
         }
+    } catch (error) {
+        const errorContext = {
+            userAction: 'click start survey',
+            timestamp: new Date().toISOString(),
+            ...(data?.['Connect_ID'] && { connectID: data['Connect_ID'] }),
+            ...(moduleId && { moduleId }),
+            ...(modules && { modules }),
+            ...(error.context && { ...error.context }),
+        };
+
+        logDDRumError(error, 'StartModuleError', errorContext);
+        displayError();
+    } finally {
+        hideAnimation();
     }
 }
 
+
+// Questionnaire handles loading animations and receives thrown errors.
 async function startModule(data, modules, moduleId, questDiv) {
-
-    await importQuest();
-    
-    let inputData = setInputData(data, modules); 
-    let moduleConfig = questionnaireModules();
-
     let tJSON = undefined;
     let url = "https://raw.githubusercontent.com/episphere/questionnaire/";
+    let inputData;
+    let moduleConfig;
     let path;
     let sha;
+    let key;
 
-    let key = Object.keys(moduleConfig).find(key => moduleConfig[key].moduleId === moduleId);
-    
-    if(key) {
-        path = moduleConfig[key].path;
-    }
-    else {
-        displayError();
-        return;
-    }
+    try {
+        inputData = setInputData(data, modules); 
+        moduleConfig = questionnaireModules();
 
-    if (modules[fieldMapping[moduleId].conceptId]?.['treeJSON']) {
-        tJSON = modules[fieldMapping[moduleId].conceptId]['treeJSON'];
-    }
-    else {
-        await localforage.clear();
-    }
-
-
-    if (data[fieldMapping[moduleId].statusFlag] === fieldMapping.moduleStatus.notStarted){
+        key = Object.keys(moduleConfig).find(key => moduleConfig[key].moduleId === moduleId);
         
-        const octokit = new Octokit({ });
-        let response = await octokit.request("GET https://api.github.com/repos/episphere/questionnaire/commits?path=" + path + "&sha=main&per_page=1");
+        if (key) {
+            path = moduleConfig[key].path;
+        } else {
+            throw new Error('Error: No path found for module (null key).');
+        }
 
-        if(response.status === 200 && response.data) {
-            sha = response.data[0].sha;
+        if (modules[fieldMapping[moduleId].conceptId]?.['treeJSON']) {
+            tJSON = modules[fieldMapping[moduleId].conceptId]['treeJSON'];
+        } else {
+            await localforage.clear();
+        }
 
-            url += sha + "/" + path;
+        // Module has not been started.
+        if (data[fieldMapping[moduleId].statusFlag] === fieldMapping.moduleStatus.notStarted) {
+            try {
+                sha = await fetchDataWithRetry(() => getModuleSHA(path));
+                url += sha + "/" + path;
+            } catch (error) {
+                throw new Error('Error: No SHA found for module.');
+            }
             
-            let moduleText = await (await fetch(url)).text();
-            let match = moduleText.match("{\"version\":\s*\"([0-9]{1,2}[\.]{1}[0-9]{1,3})\"}");
-
-            if(match) {
-                let version = match[1];
-                let questData = {};
-                let formData = {};
-
-                questData[fieldMapping[moduleId].conceptId + ".sha"] = sha;
-                questData[fieldMapping[moduleId].conceptId + "." + fieldMapping[moduleId].version] = version;
-
-                formData[fieldMapping[moduleId].startTs] = new Date().toISOString();
-                formData[fieldMapping[moduleId].statusFlag] = fieldMapping.moduleStatus.started;
-
-                await storeResponseQuest(questData);
-                storeResponse(formData);
+            try {
+                await updateStartSurveyParticipantData(sha, url, moduleId);
+            } catch (error) {
+                throw new Error('Error: Storing questData and formData failed.');
             }
-            else {
-                console.log("Error: No match found for version in module file.");
-                displayError();
-                return;
-            }
-        }
-        else {
-            console.log("Error: Bad response from GitHub.");
-            displayError();
-            return;
-        }
-    }
-    else {
-        if (modules[fieldMapping[moduleId].conceptId]['sha']) {
+
+        // Module has been started and has a SHA value.
+        } else if (modules[fieldMapping[moduleId].conceptId]?.['sha']) {
             sha = modules[fieldMapping[moduleId].conceptId]['sha'];
-
             url += sha + "/" + path;
-        }
-        else {
-            console.log("Error: No SHA found for module.");
-            displayError();
-            return;
-        }
-    }
 
-    const questParameters = {
-        url: url,
-        activate: true,
-        store: storeResponseQuest,
-        retrieve: function(){return getMySurveys([fieldMapping[moduleId].conceptId])},
-        soccer: externalListeners,
-        updateTree: storeResponseTree,
-        treeJSON: tJSON
-    }
+        // Module has been started but SHA is not found. 'Fix' the case where the SHA is not found for the module.
+        } else {
+            const startSurveyTimestamp = data[fieldMapping[moduleId].startTs] || '';
 
-    window.scrollTo(0, 0);
+            // Get the SHA from the GitHub API. The correct SHA is the SHA for the active survey commit when the participant started the survey.
+            let surveyVersion;
+            try {
+                [sha, surveyVersion] = await getShaFromGitHubCommitData(startSurveyTimestamp, path, data['Connect_ID'], moduleId);
+                url += sha + "/" + path;
 
-    quest.render(questParameters, questDiv, inputData).then(() => {
-        
-        //Grid fix first
-        let grids = document.getElementsByClassName('d-lg-block');
-        let max = grids.length;
-        for(let i = 0; i < max; i++){
-            let curr = grids[0]
-            curr.classList.add('d-xxl-block')
-            curr.classList.remove('d-lg-block')
-        }
-        let ungrid = document.getElementsByClassName('d-lg-none');
-        max = ungrid.length
-        for(let i = 0; i < max; i++){
-            ungrid[0].classList.add('d-xxl-none')
-            ungrid[0].classList.remove('d-lg-none')
-
-        }
-
-        //Add progress bar
-        let formsFound = document.getElementsByTagName('form')
-        let totalForms = formsFound.length;
-        let currFound = 0
-        for(let i = 0; i < formsFound.length; i++){
-            let currForm = formsFound[i]
-            if(currForm.classList.contains('active')){
-                currFound = i;
-                i = formsFound.length;
+            } catch (error) {
+                throw new Error('Error: SHA not retrieved for module (API lookup).');
             }
-        }
-        let pBar = document.getElementById('questProgBar')
-        pBar.style.width = (parseInt(currFound/(totalForms-1) * 100)).toString() + '%'
 
-        let observer = new MutationObserver( mutations =>{
-            let forms = document.getElementsByTagName('form')
-            let numForms = forms.length;
+            // Repair the SHA value in the module data. Do not update the start timestamp (found in participant data) for the module.
+            try {
+                const repairShaValue = true;
+                await updateStartSurveyParticipantData(sha, url, moduleId, surveyVersion, repairShaValue);
+            } catch (error) {
+                throw new Error('Error: Updating participant data failed after EXISTING MODULE: SHA not found.');
+            }   
+        }
+
+        const questParameters = {
+            url: url,
+            activate: true,
+            store: storeResponseQuest,
+            retrieve: function(){return getMySurveys([fieldMapping[moduleId].conceptId])},
+            soccer: externalListeners,
+            updateTree: storeResponseTree,
+            treeJSON: tJSON
+        }
+
+        window.scrollTo(0, 0);
+
+        await quest.render(questParameters, questDiv, inputData);
             
-            mutations.forEach(function(mutation) {
-                if(mutation.attributeName == "class"){
-                    if(mutation.target.classList.contains('active')){
-                        let found = 0;
-                        for(let i = 0; i < forms.length; i++){
-                            if(forms[i].id == mutation.target.id){
-                                found = i
-                            }
-                        }
-                        let progBar = document.getElementById('questProgBar')
-                        progBar.style.width = (parseInt(found/(numForms-1) * 100)).toString() + '%'
-                    }
-                    
-                }
-            });
-            
+        //Grid fix first
+        Array.from(document.getElementsByClassName('d-lg-block')).forEach(element => {
+            element.classList.replace('d-lg-block', 'd-xxl-block');
         });
-        let elemId = document.getElementById('questionnaireRoot');
+
+        Array.from(document.getElementsByClassName('d-lg-none')).forEach(element => {
+            element.classList.replace('d-lg-none', 'd-xxl-none');
+        });
+
+        updateProgressBar();
+        setUpMutationObserver();
         
-        observer.observe(elemId, {
-            childList: true, // observe direct children
-            subtree: true, // lower descendants too
-            //characterDataOldValue: true, // pass old data to callback
-            attributes:true,
-            });
-    })
-    .then(() => {
         document.getElementById(questDiv).style.visibility = 'visible';
-        hideAnimation();
-    });
+
+    } catch (error) {
+        const errorContext = { moduleId, modules, inputData, moduleConfig, key, path, sha };
+        error.context = errorContext;
+        throw error;
+    }
 }
 
 function externalListeners(){
@@ -335,6 +340,7 @@ function externalListeners(){
         });
     }
 }
+
 //BUILDING SOCCER
 function buildHTML(soccerResults, question) {
     
@@ -375,7 +381,7 @@ function buildHTML(soccerResults, question) {
     label.innerText = "NONE OF THE ABOVE";
   
     responseElement.append(resp, label);
-  }
+}
 
 export const blockParticipant = () => {
     
@@ -395,20 +401,31 @@ export const blockParticipant = () => {
 
 }
 
-const buildSoccerResults = async (title, task) => {
-
+const buildSoccerResults = async (title, task) => { 
     let soccerURL = SOCcerDev;
 
     if(location.host === urls.prod) soccerURL = SOCcerProd;
     else if(location.host === urls.stage) soccerURL = SOCcerStage;
+        
+    try {    
+        let soccerResults = await (await fetch(`${soccerURL}title=${title}&task=${task}&n=6`)).json();
     
-    let soccerResults = await (await fetch(`${soccerURL}title=${title}&task=${task}&n=6`)).json();
-
-    for(let i = 0; i < soccerResults.length; i++){
-        soccerResults[i]['code'] += '-' + i;
-    }
-
-    return soccerResults;
+        for(let i = 0; i < soccerResults.length; i++){
+            soccerResults[i]['code'] += '-' + i;
+        }
+    
+        return soccerResults;
+    } catch (error) {
+        logDDRumError(error, 'SOCcerError', {
+            userAction: 'click start survey',
+            timestamp: new Date().toISOString(),
+            title: title,
+            task: task,
+            soccerResults: soccerResults,
+            ...(data?.['Connect_ID'] && { connectID: data['Connect_ID'] }),
+        });
+        return [];
+    }  
 }
 
 const setInputData = (data, modules) => {
@@ -470,48 +487,84 @@ const setInputData = (data, modules) => {
     return inputData;
 }
 
+function updateProgressBar() {
+    const forms = Array.from(document.getElementsByTagName('form'));
+    const activeFormIndex = forms.findIndex(form => form.classList.contains('active'));
+    const progressPercentage = activeFormIndex >= 0 ? (activeFormIndex / (forms.length - 1)) * 100 : 0;
+
+    const progressBar = document.getElementById('questProgBar');
+    if (progressBar) {
+        progressBar.style.width = `${progressPercentage}%`;
+    }
+}
+
+function setUpMutationObserver() {
+    const observer = new MutationObserver(mutations => {
+        mutations.forEach(mutation => {
+            if (mutation.attributeName === "class" && mutation.target.classList.contains('active')) {
+                updateProgressBar();
+            }
+        });
+    });
+
+    const elemId = document.getElementById('questionnaireRoot');
+    if (elemId) {
+        observer.observe(elemId, {
+            childList: true,
+            subtree: true,
+            attributes: true,
+        });
+    }
+}
+
 const displayQuestionnaire = (id, progressBar) => {
-    let rootElement = document.getElementById('root');
-    rootElement.innerHTML = `
-        ${progressBar ? `
-        <div class="row" style="margin-top:50px">
-            <div class = "col-md-1">
-            </div>
-            <div class = "col-md-10">
-                <div class="progress">
-                    <div id="questProgBar" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+    const rootElement = document.getElementById('root');
+    if (rootElement) {
+        rootElement.innerHTML = `
+            ${progressBar ? `
+            <div class="row" style="margin-top:50px">
+                <div class = "col-md-1">
+                </div>
+                <div class = "col-md-10">
+                    <div class="progress">
+                        <div id="questProgBar" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+                <div class = "col-md-1">
+                </div>
+            </div>` : ''}
+            <div class="row">
+                <div class = "col-md-1">
+                </div>
+                <div class = "col-md-10" id="${id}">
+                </div>
+                <div class = "col-md-1">
                 </div>
             </div>
-            <div class = "col-md-1">
-            </div>
-        </div>` : ''}
-        <div class="row">
-            <div class = "col-md-1">
-            </div>
-            <div class = "col-md-10" id="${id}">
-            </div>
-            <div class = "col-md-1">
-            </div>
-        </div>
-    `;
-
-    document.getElementById(id).style.visibility = 'hidden';
+        `;
+    }
+    
+    const idElement = document.getElementById(id);
+    if (idElement) {
+        idElement.style.visibility = 'hidden';
+    }
 }
 
 const displayError = () => {
     
     const mainContent = document.getElementById('root');
-    mainContent.innerHTML = `
-        <div class = "row" style="margin-top:25px">
-        <div class = "col-lg-2">
-        </div>
-        <div class = "col">
-            Something went wrong. Please try again. Contact the <a href= "https://norcfedramp.servicenowservices.com/participant" target="_blank">Connect Support Center.</a> if you continue to experience this problem.
-        </div>
-        <div class="col-lg-2">
-        </div>
-    `;
-
+    if (mainContent) {
+        mainContent.innerHTML = `
+            <div class = "row" style="margin-top:25px">
+            <div class = "col-lg-2">
+            </div>
+            <div class = "col">
+                Something went wrong. Please try again. Contact the <a href= "https://norcfedramp.servicenowservices.com/participant" target="_blank">Connect Support Center.</a> if you continue to experience this problem.
+            </div>
+            <div class="col-lg-2">
+            </div>
+        `;
+    }
     window.scrollTo(0, 0);
 
     hideAnimation();
