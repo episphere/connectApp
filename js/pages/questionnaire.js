@@ -140,7 +140,7 @@ async function startModule(data, modules, moduleId, questDiv) {
         // Module has not been started.
         if (data[fieldMapping[moduleId].statusFlag] === fieldMapping.moduleStatus.notStarted) {
             try {
-                sha = await fetchDataWithRetry(() => getModuleSHA(path));
+                sha = await fetchDataWithRetry(() => getModuleSHA(path, data['Connect_ID'], moduleId));
                 url += sha + "/" + path;
             } catch (error) {
                 throw new Error('Error: No SHA found for module.');
