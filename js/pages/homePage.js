@@ -610,7 +610,7 @@ export function signInCheckRender ({ ui }) {
   });
 
   signUpAnchor.addEventListener('click', () => {
-  signUpRender({ ui, signUpType: "phone" });
+    signUpRender({ ui, signUpType: "phone" });
   });
 
   invalidInputAlertDiv.addEventListener('click', () => {
@@ -628,107 +628,107 @@ export function signInCheckRender ({ ui }) {
   }
 }
 
-  export function signUpRender({ ui, signUpType = "phone" }) {
-    const df = fragment`
-    <div class="mx-4">
-      <p class="loginTitleFont" style="text-align:center;">Create an Account</p>
-      <div id="signUpDiv"></div>
-      <p>
-        ${
-          signUpType === "phone"
-            ? `<div style="font-size:12px" class="mb-2">
-            <a href="#" id="emailSignUp">Click here</a> if you want to sign up with email.
-          </div>`
-            : ""
-        }
-        <div style="font-size:12px">
-          If you have an account, please <a href="#" id="signIn">sign in </a> with the email or phone number you used to create your account.
-        </div>
-      </p>
-      <div style="font-size:8px" class="mt-3">
-      ${usGov}
+export function signUpRender({ ui, signUpType = "phone" }) {
+  const df = fragment`
+  <div class="mx-4">
+    <p class="loginTitleFont" style="text-align:center;">Create an Account</p>
+    <div id="signUpDiv"></div>
+    <p>
+      ${
+        signUpType === "phone"
+          ? `<div style="font-size:12px" class="mb-2">
+          <a href="#" id="emailSignUp">Click here</a> if you want to sign up with email.
+        </div>`
+          : ""
+      }
+      <div style="font-size:12px">
+        If you have an account, please <a href="#" id="signIn">sign in </a> with the email or phone number you used to create your account.
       </div>
-    </div>`;
+    </p>
+    <div style="font-size:8px" class="mt-3">
+    ${usGov}
+    </div>
+  </div>`;
 
-    const signInLink = df.querySelector("#signIn");
-    const emailSignUpLink = df.querySelector("#emailSignUp");
-    document.getElementById("signInWrapperDiv").replaceChildren(df);
+  const signInLink = df.querySelector("#signIn");
+  const emailSignUpLink = df.querySelector("#emailSignUp");
+  document.getElementById("signInWrapperDiv").replaceChildren(df);
 
-    ui.start("#signUpDiv", signInConfig(signUpType));
+  ui.start("#signUpDiv", signInConfig(signUpType));
 
-    if (signUpType === "phone") {
-      document.querySelector("div.firebaseui-card-header > h1").innerText = "Create an account with your phone number";
-      const verifyButton = document.querySelector('button[class~="firebaseui-id-submit"]');
-      verifyButton && verifyButton.addEventListener("click", () => {
-          const cancelButton = document.querySelector('button[class~="firebaseui-id-secondary-link"]');
-          cancelButton && cancelButton.addEventListener("click", () => {
-            signUpRender({ ui, signUpType: "phone" });
-          });
-        });
-    } else if (signUpType === "email") {
-      document.querySelector("div.firebaseui-card-header > h1").innerText = "Create an account with your email";
-      const firebaseUiCardContentWrapper = document.querySelector('div[class~="firebaseui-relative-wrapper"]');
-      const pElement = document.createElement("p");
-      pElement.innerText =
-        "Connect is a long-term study. Please use an email that you will be able to access in the future. Avoid using a work email if possible.";
-      firebaseUiCardContentWrapper.appendChild(pElement);
-      const submitButton = document.querySelector('button[class~="firebaseui-id-submit"]');
-      submitButton && submitButton.addEventListener("click", () => {
-        const pEle = document.querySelector('p[class~="firebaseui-text-input-error"]');
-        if (pEle?.innerText !== "") {
-          pEle.innerText = "Enter a valid email address";
-        } else {
-          window.localStorage.setItem(
-            "signInEmail",
-            document.querySelector('input[class~="firebaseui-id-email"]').value
-          );
-        }
-
-        const backButton = document.querySelector('button[class~="firebaseui-id-secondary-link"]');
-        backButton && backButton.addEventListener("click", () => {
-          signUpRender({ ui, signUpType: "email" });
+  if (signUpType === "phone") {
+    document.querySelector("div.firebaseui-card-header > h1").innerText = "Create an account with your phone number";
+    const verifyButton = document.querySelector('button[class~="firebaseui-id-submit"]');
+    verifyButton && verifyButton.addEventListener("click", () => {
+        const cancelButton = document.querySelector('button[class~="firebaseui-id-secondary-link"]');
+        cancelButton && cancelButton.addEventListener("click", () => {
+          signUpRender({ ui, signUpType: "phone" });
         });
       });
-    }
+  } else if (signUpType === "email") {
+    document.querySelector("div.firebaseui-card-header > h1").innerText = "Create an account with your email";
+    const firebaseUiCardContentWrapper = document.querySelector('div[class~="firebaseui-relative-wrapper"]');
+    const pElement = document.createElement("p");
+    pElement.innerText =
+      "Connect is a long-term study. Please use an email that you will be able to access in the future. Avoid using a work email if possible.";
+    firebaseUiCardContentWrapper.appendChild(pElement);
+    const submitButton = document.querySelector('button[class~="firebaseui-id-submit"]');
+    submitButton && submitButton.addEventListener("click", () => {
+      const pEle = document.querySelector('p[class~="firebaseui-text-input-error"]');
+      if (pEle?.innerText !== "") {
+        pEle.innerText = "Enter a valid email address";
+      } else {
+        window.localStorage.setItem(
+          "signInEmail",
+          document.querySelector('input[class~="firebaseui-id-email"]').value
+        );
+      }
 
-    signInLink.addEventListener("click", () => {
-      signInCheckRender({ ui });
-    });
-
-    emailSignUpLink && emailSignUpLink.addEventListener("click", () => {
-      signUpRender({ ui, signUpType: "email" });
-    });
-  }
-
-
-
-  function accountNotFoundRender({ ui, account }) {
-    const df = fragment`
-    <div class="mx-4 d-flex flex-column justify-content-center align-items-center">
-      <h5>Not Found</h5>
-      <div class="d-flex flex-column justify-content-left ">
-        <p>Your ${account.type} (${account.value}) cannot be found.</p>
-        <p>If you’re having trouble signing in or don’t remember your account information, please contact the Connect Support Center at 
-          <a href="tel:+18664626621">1-866-462-6621</a> or 
-          <a href="mailto:ConnectStudy@norc.org">ConnectStudy@norc.org</a> before creating a new account.
-        </p>
-        <p>Use another account? <a href="#" id="useAnotherAccount">Click here</a> </p>
-        <p>Don't have an account? <a href="#" id="createNewAccount">Create one here</a> </p>
-      <div>
-    </div>
-    `;
-
-    const useAnotherAccountBtn = df.querySelector('#useAnotherAccount');
-    const createNewAccountBtn = df.querySelector('#createNewAccount');
-
-    document.getElementById('signInWrapperDiv').replaceChildren(df);
-
-    useAnotherAccountBtn.addEventListener('click', () => {
-      signInCheckRender({ ui });
-    });
-
-    createNewAccountBtn.addEventListener('click', () => {
-      signUpRender({ ui, signUpType: "phone" });
+      const backButton = document.querySelector('button[class~="firebaseui-id-secondary-link"]');
+      backButton && backButton.addEventListener("click", () => {
+        signUpRender({ ui, signUpType: "email" });
+      });
     });
   }
+
+  signInLink.addEventListener("click", () => {
+    signInCheckRender({ ui });
+  });
+
+  emailSignUpLink && emailSignUpLink.addEventListener("click", () => {
+    signUpRender({ ui, signUpType: "email" });
+  });
+}
+
+
+
+function accountNotFoundRender({ ui, account }) {
+  const df = fragment`
+  <div class="mx-4 d-flex flex-column justify-content-center align-items-center">
+    <h5>Not Found</h5>
+    <div class="d-flex flex-column justify-content-left ">
+      <p>Your ${account.type} (${account.value}) cannot be found.</p>
+      <p>If you’re having trouble signing in or don’t remember your account information, please contact the Connect Support Center at 
+        <a href="tel:+18664626621">1-866-462-6621</a> or 
+        <a href="mailto:ConnectStudy@norc.org">ConnectStudy@norc.org</a> before creating a new account.
+      </p>
+      <p>Use another account? <a href="#" id="useAnotherAccount">Click here</a> </p>
+      <p>Don't have an account? <a href="#" id="createNewAccount">Create one here</a> </p>
+    <div>
+  </div>
+  `;
+
+  const useAnotherAccountBtn = df.querySelector('#useAnotherAccount');
+  const createNewAccountBtn = df.querySelector('#createNewAccount');
+
+  document.getElementById('signInWrapperDiv').replaceChildren(df);
+
+  useAnotherAccountBtn.addEventListener('click', () => {
+    signInCheckRender({ ui });
+  });
+
+  createNewAccountBtn.addEventListener('click', () => {
+    signUpRender({ ui, signUpType: "phone" });
+  });
+}
   
