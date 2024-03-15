@@ -214,7 +214,7 @@ export default
 
     collectionDetails: 173836415,
     baseline: 266600170,
-    bioKitMouthwash: 8583443674,
+    bioKitMouthwash: 319972665,
     kitType: 379252329,
     kitTypeValues: {
         mouthwash: 976461859
