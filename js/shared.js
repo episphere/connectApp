@@ -119,7 +119,7 @@ const signInFlowRender = (signInEmail) => {
 
     document.querySelector('button[class~="firebaseui-id-secondary-link"]').addEventListener("click", () => {
       if (type === "In") {
-        firebaseSignInRender({ ui, account: { type: "email", value: signInEmail } });
+        signInCheckRender({ ui });
       } else {
         signUpRender({ ui, signUpType: "email" });
       }
@@ -133,7 +133,7 @@ const signInFlowRender = (signInEmail) => {
     if (type === "Up") {
       signUpRender({ ui, signUpType: "email" });
     } else {
-      firebaseSignInRender({ ui, account: { type: "email", value: signInEmail } });
+        signInCheckRender({ ui });
     }
   });
 };
@@ -1429,31 +1429,20 @@ export const firebaseSignInRender = async ({ ui, account = {}, displayFlag = tru
   }
 
   if (account.type === "email") {
-    document.querySelector('button[data-provider-id="password"]').click();
+    window.localStorage.setItem("signInEmail", account.value);
     document.querySelector('input[class~="firebaseui-id-email"]').value = account.value;
     document.querySelector('label[class~="firebaseui-label"]').remove();
-
-    // Handle 'Cancel' button click
-    document.querySelector('button[class~="firebaseui-id-secondary-link"]').addEventListener("click", () => {
-      signInCheckRender({ ui });
-    });
 
     // Handle 'Next' button click
     document.querySelector('button[class~="firebaseui-id-submit"]').addEventListener("click", () => {
       const signInData = { signInEmail: account.value, signInTime: Date.now() };
       window.localStorage.setItem("connectSignIn", JSON.stringify(signInData));
-      window.localStorage.setItem("signInEmail", account.value);
     });
+
   } else if (account.type === "phone") {
-    document.querySelector('button[data-provider-id="phone"]').click();
-    document.querySelector('h1[class~="firebaseui-title"]').innerText = "Sign in with phone number";
     document.querySelector('input[class~="firebaseui-id-phone-number"]').value = account.value;
     document.querySelector('label[class~="firebaseui-label"]').remove();
-
-    // Handle 'Cancel' button click
-    document.querySelector('button[class~="firebaseui-id-secondary-link').addEventListener("click", () => {
-      signInCheckRender({ ui });
-    });
+    document.querySelector('h1[class~="firebaseui-title"]').innerText = "Sign in with phone number";
   }
 };
 
