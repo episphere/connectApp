@@ -691,13 +691,15 @@ export function signUpRender({ ui, signUpType = "phone" }) {
     });
   }
 
-  signInLink.addEventListener("click", () => {
+  signInLink.addEventListener("click", (e) => {
+    e.preventDefault();
     signInCheckRender({ ui });
   });
 
-  emailSignUpLink && emailSignUpLink.addEventListener("click", () => {
-    signUpRender({ ui, signUpType: "email" });
-  });
+  emailSignUpLink && emailSignUpLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      signUpRender({ ui, signUpType: "email" });
+    });
 }
 
 

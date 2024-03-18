@@ -1430,15 +1430,11 @@ export const firebaseSignInRender = async ({ ui, account = {}, displayFlag = tru
 
   if (account.type === "email") {
     window.localStorage.setItem("signInEmail", account.value);
+    const signInData = { signInEmail: account.value, signInTime: Date.now() };
+    window.localStorage.setItem("connectSignIn", JSON.stringify(signInData));
     document.querySelector('input[class~="firebaseui-id-email"]').value = account.value;
     document.querySelector('label[class~="firebaseui-label"]').remove();
-
-    // Handle 'Next' button click
-    document.querySelector('button[class~="firebaseui-id-submit"]').addEventListener("click", () => {
-      const signInData = { signInEmail: account.value, signInTime: Date.now() };
-      window.localStorage.setItem("connectSignIn", JSON.stringify(signInData));
-    });
-
+    document.querySelector('button[class~="firebaseui-id-submit"]').click();
   } else if (account.type === "phone") {
     document.querySelector('input[class~="firebaseui-id-phone-number"]').value = account.value;
     document.querySelector('label[class~="firebaseui-label"]').remove();
