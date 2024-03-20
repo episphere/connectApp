@@ -1434,8 +1434,6 @@ export const firebaseSignInRender = async ({ ui, account = {}, displayFlag = tru
     document.querySelector('input[class~="firebaseui-id-phone-number"]').value = account.value;
     document.querySelector('label[class~="firebaseui-label"]').remove();
     document.querySelector('h1[class~="firebaseui-title"]').innerText = "Sign in with phone number";
-  } else {
-    signInSignUpEntryRender({ ui });
   }
 };
 
