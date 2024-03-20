@@ -48,7 +48,7 @@ const afterEmailLinkRender = (email, type) => {
           </div>
           <div class="firebaseui-card-content">
             <div class="firebaseui-email-sent"></div>
-            <p class="firebaseui-text">A sign-in email with additional instructions was sent to <strong>${email}</strong>. Check your email to complete sign-in. </p>
+            <p class="firebaseui-text">We sent a verification email to <strong>${email}</strong>. Please check your email and click the link we sent to finish signing in. Our email may take a few minutes to arrive in your inbox.</p>
           </div>
           <div class="firebaseui-card-actions">
             <div class="firebaseui-form-links">
@@ -1413,22 +1413,17 @@ export const firebaseSignInRender = async ({ ui, account = {}, displayFlag = tru
   document.getElementById("signInWrapperDiv").replaceChildren(df);
   ui.start("#signInDiv", signInConfig(account.type));
 
-  const { signInEmail, signInTime } = JSON.parse(window.localStorage.getItem("connectSignIn") || "{}");
-  const timeLimit = 1000 * 60 * 60; // 1 hour time limit
-  if (account.type === "magicLink" && signInEmail && Date.now() - signInTime < timeLimit) {
-    await elementIsLoaded('div[class~="firebaseui-id-page-email-link-sign-in-confirmation"]', 1500);
+  if (account.type === "magicLink") {
+    const { signInEmail, signInTime } = JSON.parse(window.localStorage.getItem("connectSignIn") || "{}");
+    const timeLimit = 1000 * 60 * 60; // 1 hour time limit
     const emailInput = document.querySelector('input[class~="firebaseui-id-email"]');
-
-    if (emailInput !== null) {
+    await elementIsLoaded('div[class~="firebaseui-id-page-email-link-sign-in-confirmation"]', 1500);
+    if (emailInput !== null && signInEmail && Date.now() - signInTime < timeLimit) {
       emailInput.value = signInEmail;
       document.querySelector('button[class~="firebaseui-id-submit"]').click();
       window.localStorage.removeItem("connectSignIn");
     }
-
-    return;
-  }
-
-  if (account.type === "email") {
+  } else if (account.type === "email") {
     window.localStorage.setItem("signInEmail", account.value);
     const signInData = { signInEmail: account.value, signInTime: Date.now() };
     window.localStorage.setItem("connectSignIn", JSON.stringify(signInData));
