@@ -1,7 +1,7 @@
 import { addEventHideNotification } from "./event.js";
 import fieldMapping from './fieldToConceptIdMapping.js'; 
 import { signInConfig } from "./pages/signIn.js";
-import { signInCheckRender, signUpRender, signInSignUpEntryRender } from "./pages/homePage.js";
+import { signInCheckRender, signUpRender } from "./pages/homePage.js";
 
 export const urls = {
     'prod': 'myconnect.cancer.gov',
