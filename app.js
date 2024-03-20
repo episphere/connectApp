@@ -259,6 +259,9 @@ const userProfile = () => {
                     return;
                 } else if (response.code === 200) {
                     const firstSignInTime = new Date(user.metadata.creationTime).toISOString();
+                    if (!firstSignInTime) {
+                        console.error('Empty firstSignInTime', new Error('Invalid firstSignInTime'));
+                    }
                     await storeResponse({[conceptIdMap.firstSignInTime]: firstSignInTime});
                 }
             }

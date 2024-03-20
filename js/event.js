@@ -1078,6 +1078,9 @@ export const addEventRequestPINForm = () => {
         const mainContent = document.getElementById('root');
         let formData = {};
         formData[fieldMapping.firstSignInTime] = appState.getState().participantData.firstSignInTime;
+        if (!formData[fieldMapping.firstSignInTime]) {
+            console.error('Empty firstSignInTime', new Error('Invalid firstSignInTime'));
+        }
 
         if (pin !== "") {
             const response = await validatePin(pin);
