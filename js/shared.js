@@ -129,12 +129,7 @@ const signInFlowRender = (signInEmail) => {
   document.querySelector('button[class~="firebaseui-id-secondary-link"]').addEventListener("click", (e) => {
     e.preventDefault();
     window.localStorage.setItem("signInUpdate", "yes");
-
-    if (type === "Up") {
-      signUpRender({ ui, signUpType: "email" });
-    } else {
-        signInCheckRender({ ui });
-    }
+    signInCheckRender({ ui });
   });
 };
 
