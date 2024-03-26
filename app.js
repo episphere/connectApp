@@ -1,4 +1,4 @@
-import { getParameters, validateToken, userLoggedIn, getMyData, hasUserData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, appState, processAuthWithFirebaseAdmin, successResponse } from "./js/shared.js";
+import { getParameters, validateToken, userLoggedIn, getMyData, hasUserData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, appState, processAuthWithFirebaseAdmin, successResponse, logDDRumError } from "./js/shared.js";
 import { userNavBar, homeNavBar } from "./js/components/navbar.js";
 import { homePage, joinNowBtn, whereAmIInDashboard, renderHomeAboutPage, renderHomeExpectationsPage, renderHomePrivacyPage } from "./js/pages/homePage.js";
 import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser, addEventToggleSubmit } from "./js/event.js";
@@ -259,6 +259,15 @@ const userProfile = () => {
                     return;
                 } else if (response.code === 200) {
                     const firstSignInTime = new Date(user.metadata.creationTime).toISOString();
+                    if (!firstSignInTime) {
+                        let myErrorData = await getMyData();
+                        logDDRumError(new Error(`Invalid firstSignInTime`), 'InvalidFirstSignInTimeError', {
+                            userAction: 'PWA sign in',
+                            timestamp: new Date().toISOString(),
+                            connectID: myErrorData.data['Connect_ID'],
+                            function: 'addEventRequestPINForm'
+                        });
+                    }
                     await storeResponse({[conceptIdMap.firstSignInTime]: firstSignInTime});
                 }
             }
