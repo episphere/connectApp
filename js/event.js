@@ -1,4 +1,5 @@
-import { allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, BirthMonths, getAge, getMyData, hasUserData, retrieveNotifications, removeActiveClass, toggleNavbarMobileView, appState } from "./shared.js";
+import { allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, BirthMonths, getAge, getMyData, 
+    hasUserData, retrieveNotifications, removeActiveClass, toggleNavbarMobileView, appState, logDDRumError } from "./shared.js";
 import { consentTemplate } from "./pages/consent.js";
 import { heardAboutStudy, healthCareProvider, duplicateAccountReminderRender } from "./pages/healthCareProvider.js";
 import { myToDoList } from "./pages/myToDoList.js";
@@ -1078,6 +1079,15 @@ export const addEventRequestPINForm = () => {
         const mainContent = document.getElementById('root');
         let formData = {};
         formData[fieldMapping.firstSignInTime] = appState.getState().participantData.firstSignInTime;
+        if (!formData[fieldMapping.firstSignInTime]) {
+            const myData = await getMyData();
+            logDDRumError(new Error(`Invalid firstSignInTime`), 'InvalidFirstSignInTimeError', {
+                userAction: 'PWA sign in',
+                timestamp: new Date().toISOString(),
+                connectID: myData.data['Connect_ID'],
+                function: 'addEventRequestPINForm'
+            });
+        }
 
         if (pin !== "") {
             const response = await validatePin(pin);

@@ -76,22 +76,5 @@ export const homeNavBar = () => {
                 <a class="nav-link" href="#privacy" id="privacy" title="Privacy"> Privacy</a>
             </li>
         </div>
-        ${location.host !== urls.prod && location.host !== urls.stage ? `
-            <div class="navbar-nav transparent-border">
-                <li class="nav-item">
-                    <a target="_blank" class="nav-link" href="https://github.com/episphere/connect/issues" title="Please create an issue if you encounter any"> Report issue</a>
-                </li>
-            </div>
-            <div class="navbar-nav transparent-border">
-                <li class="nav-item">
-                    <a target="_blank" class="nav-link" href="https://github.com/episphere/connect/projects/1" title="GitHub Projects page"> GitHub Projects</a>
-                </li>
-            </div>
-            <div class="navbar-nav transparent-border">
-                <li class="nav-item">
-                    <a target="_blank" class="nav-link" href="https://gitter.im/episphere/connect" title="Chat with us"> Chat with us</a>
-                </li>
-            </div>
-        `: ``}
     `;
 }

@@ -1,5 +1,5 @@
 import { getMyData, hasUserData, urls, fragment, checkAccount, validEmailFormat, validPhoneNumberFormat, getCleanSearchString, firebaseSignInRender, signInAnonymously, usGov } from "../shared.js";
-import { signInConfig, signInConfigDev } from "./signIn.js";
+import { signInConfig } from "./signIn.js";
 import { environmentWarningModal, downtimeWarning } from "../event.js";
 
 /**
@@ -106,7 +106,6 @@ export const homePage = async () => {
       
         firebaseSignInRender({ui, account:{type:'magicLink', value:''}});
     } else {
-        // todo: handle participant tokens
         signInSignUpEntryRender({ui});
     }
     
@@ -530,16 +529,15 @@ export function signInSignUpEntryRender({ ui }) {
     await signInCheckRender({ ui });
   });
   signUpBtn.addEventListener('click', () => {
-    signUpRender({ ui });
+    signUpRender({ ui, signUpType: "phone" });
   });
 }
 
-export async function signInCheckRender ({ ui }) {
+export function signInCheckRender ({ ui }) {
   const df = fragment`
   <div class="mx-4">
     <form ">
-      <label for="accountInput" class="form-label">
-        Email or Phone<br />
+      <label for="accountInput" class="form-label">Phone or Email<br />
         <span style="font-size: 0.8rem; color:gray">Phone Format: 123-456-7890</span>
       </label>
       <input type="text" id="accountInput" />
@@ -612,7 +610,7 @@ export async function signInCheckRender ({ ui }) {
   });
 
   signUpAnchor.addEventListener('click', () => {
-  signUpRender({ ui });
+    signUpRender({ ui, signUpType: "phone" });
   });
 
   invalidInputAlertDiv.addEventListener('click', () => {
@@ -628,118 +626,111 @@ export async function signInCheckRender ({ ui }) {
     invalidInputAlertDiv.style.display = 'block';
     accountInput.style.border = '2px solid red';
   }
-};
+}
 
-  export function signUpRender({ ui }) {
-    const df = fragment`
-    <div class="mx-4">
-      <p class="loginTitleFont" style="text-align:center;">Create an Account</p>
-      <div id="signUpDiv"></div>
-      <p>
-          <div style="font-size:12px">
-          If you have an account, please <a href="#" id="signIn">sign in </a> with the email or phone number you used to create your account.
-          </div>
-      </p>
-      <div style="font-size:8px" class="mt-3">
-      ${usGov}
+export function signUpRender({ ui, signUpType = "phone" }) {
+  const df = fragment`
+  <div class="mx-4">
+    <p class="loginTitleFont" style="text-align:center;">Create an Account</p>
+    <div id="signUpDiv"></div>
+    <p>
+      ${
+        signUpType === "phone"
+          ? `<div style="font-size:12px" class="mb-2">
+          <a href="#" id="emailSignUp">Click here</a> if you want to sign up with email.
+        </div>`
+          : ""
+      }
+      <div style="font-size:12px">
+        If you have an account, please <a href="#" id="signIn">sign in </a> with the email or phone number you used to create your account.
       </div>
-    </div>`;
-
-    const signInAnchor = df.querySelector('#signIn');
-    document.getElementById('signInWrapperDiv').replaceChildren(df);
-
-    if (location.host === urls.prod) {
-      ui.start('#signUpDiv', signInConfig());
-    } else if (location.host === urls.stage) {
-      ui.start('#signUpDiv', signInConfig());
-    } else {
-      ui.start('#signUpDiv', signInConfigDev());
-    }
-
-    const spanEleList = document.querySelectorAll(
-      'span[class~="firebaseui-idp-text-long"]'
-    );
-
-    for (const span of spanEleList) {
-      span.innerText = span.innerText.replace('Sign in', 'Sign up');
-    }
-
-    document
-      .querySelector('button[class~="firebaseui-idp-password"]')
-      .addEventListener('click', (e) => {
-        document.querySelector('h1[class~="firebaseui-title"]').innerText =
-          'Create an account with your email';
-
-        document
-          .querySelector('button[class~="firebaseui-id-secondary-link"]')
-          .addEventListener('click', (e) => {
-            signUpRender({ ui });
-          });
-
-          const firebaseUiCardContentWrapper = document.querySelector('div[class~="firebaseui-relative-wrapper"]')
-          const pElement = document.createElement("p")
-          pElement.innerText = "Connect is a long-term study. Please use an email that you will be able to access in the future. Avoid using a work email if possible."
-          firebaseUiCardContentWrapper.appendChild(pElement)
-
-          document
-            .querySelector('button[class~="firebaseui-id-submit"]')
-            .addEventListener('click', (e) => {
-              const pEle = document.querySelector('p[class~="firebaseui-text-input-error"]');
-              if (pEle?.innerText !== '') {
-                pEle.innerText = 'Enter a valid email address';
-              } else {
-                window.localStorage.setItem('signInEmail', document.querySelector('input[class~="firebaseui-id-email"]').value );
-              }
-            });
-      });
-
-    document
-      .querySelector('button[class~="firebaseui-idp-phone"]')
-      .addEventListener('click', (e) => {
-        document.querySelector('h1[class~="firebaseui-title"]').innerText =
-        'Create an account with your phone number';
-
-        document
-          .querySelector('button[class~="firebaseui-id-secondary-link"]')
-          .addEventListener('click', (e) => {
-            signUpRender({ ui });
-          });
-      });
-
-    signInAnchor.addEventListener('click', (e) => {
-      signInCheckRender({ ui });
-    });
-  }
-
-
-
-  function accountNotFoundRender({ ui, account }) {
-    const df = fragment`
-    <div class="mx-4 d-flex flex-column justify-content-center align-items-center">
-      <h5>Not Found</h5>
-      <div class="d-flex flex-column justify-content-left ">
-        <p>Your ${account.type} (${account.value}) cannot be found.</p>
-        <p>If you’re having trouble signing in or don’t remember your account information, please contact the Connect Support Center at 
-          <a href="tel:+18664626621">1-866-462-6621</a> or 
-          <a href="mailto:ConnectStudy@norc.org">ConnectStudy@norc.org</a> before creating a new account.
-        </p>
-        <p>Use another account? <a href="#" id="useAnotherAccount">Click here</a> </p>
-        <p>Don't have an account? <a href="#" id="createNewAccount">Create one here</a> </p>
-      <div>
+    </p>
+    <div style="font-size:8px" class="mt-3">
+    ${usGov}
     </div>
-    `;
+  </div>`;
 
-    const useAnotherAccountBtn = df.querySelector('#useAnotherAccount');
-    const createNewAccountBtn = df.querySelector('#createNewAccount');
+  const signInLink = df.querySelector("#signIn");
+  const emailSignUpLink = df.querySelector("#emailSignUp");
+  document.getElementById("signInWrapperDiv").replaceChildren(df);
 
-    document.getElementById('signInWrapperDiv').replaceChildren(df);
+  ui.start("#signUpDiv", signInConfig(signUpType));
 
-    useAnotherAccountBtn.addEventListener('click', (e) => {
-      signInCheckRender({ ui });
-    });
+  if (signUpType === "phone") {
+    document.querySelector("div.firebaseui-card-header > h1").innerText = "Create an account with your phone number";
+    const verifyButton = document.querySelector('button[class~="firebaseui-id-submit"]');
+    verifyButton && verifyButton.addEventListener("click", () => {
+        const cancelButton = document.querySelector('button[class~="firebaseui-id-secondary-link"]');
+        cancelButton && cancelButton.addEventListener("click", () => {
+          signUpRender({ ui, signUpType: "phone" });
+        });
+      });
+  } else if (signUpType === "email") {
+    document.querySelector("div.firebaseui-card-header > h1").innerText = "Create an account with your email";
+    const firebaseUiCardContentWrapper = document.querySelector('div[class~="firebaseui-relative-wrapper"]');
+    const pElement = document.createElement("p");
+    pElement.innerText =
+      "Connect is a long-term study. Please use an email that you will be able to access in the future. Avoid using a work email if possible.";
+    firebaseUiCardContentWrapper.appendChild(pElement);
+    const submitButton = document.querySelector('button[class~="firebaseui-id-submit"]');
+    submitButton && submitButton.addEventListener("click", () => {
+      const pEle = document.querySelector('p[class~="firebaseui-text-input-error"]');
+      if (pEle?.innerText !== "") {
+        pEle.innerText = "Enter a valid email address";
+      } else {
+        window.localStorage.setItem(
+          "signInEmail",
+          document.querySelector('input[class~="firebaseui-id-email"]').value
+        );
+      }
 
-    createNewAccountBtn.addEventListener('click', (e) => {
-      signUpRender({ ui });
+      const backButton = document.querySelector('button[class~="firebaseui-id-secondary-link"]');
+      backButton && backButton.addEventListener("click", () => {
+        signUpRender({ ui, signUpType: "email" });
+      });
     });
   }
+
+  signInLink.addEventListener("click", (e) => {
+    e.preventDefault();
+    signInCheckRender({ ui });
+  });
+
+  emailSignUpLink && emailSignUpLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      signUpRender({ ui, signUpType: "email" });
+    });
+}
+
+
+
+function accountNotFoundRender({ ui, account }) {
+  const df = fragment`
+  <div class="mx-4 d-flex flex-column justify-content-center align-items-center">
+    <h5>Not Found</h5>
+    <div class="d-flex flex-column justify-content-left ">
+      <p>Your ${account.type} (${account.value}) cannot be found.</p>
+      <p>If you’re having trouble signing in or don’t remember your account information, please contact the Connect Support Center at 
+        <a href="tel:+18664626621">1-866-462-6621</a> or 
+        <a href="mailto:ConnectStudy@norc.org">ConnectStudy@norc.org</a> before creating a new account.
+      </p>
+      <p>Use another account? <a href="#" id="useAnotherAccount">Click here</a> </p>
+      <p>Don't have an account? <a href="#" id="createNewAccount">Create one here</a> </p>
+    <div>
+  </div>
+  `;
+
+  const useAnotherAccountBtn = df.querySelector('#useAnotherAccount');
+  const createNewAccountBtn = df.querySelector('#createNewAccount');
+
+  document.getElementById('signInWrapperDiv').replaceChildren(df);
+
+  useAnotherAccountBtn.addEventListener('click', () => {
+    signInCheckRender({ ui });
+  });
+
+  createNewAccountBtn.addEventListener('click', () => {
+    signUpRender({ ui, signUpType: "phone" });
+  });
+}
   
