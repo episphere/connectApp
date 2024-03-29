@@ -1,6 +1,6 @@
 import { addEventHideNotification } from "./event.js";
 import fieldMapping from './fieldToConceptIdMapping.js'; 
-import { signInConfig, signInConfigDev } from "./pages/signIn.js";
+import { signInConfig } from "./pages/signIn.js";
 import { signInCheckRender, signUpRender } from "./pages/homePage.js";
 
 export const urls = {
@@ -48,7 +48,7 @@ const afterEmailLinkRender = (email, type) => {
           </div>
           <div class="firebaseui-card-content">
             <div class="firebaseui-email-sent"></div>
-            <p class="firebaseui-text">A sign-in email with additional instructions was sent to <strong>${email}</strong>. Check your email to complete sign-in. </p>
+            <p class="firebaseui-text">We sent a verification email to <strong>${email}</strong>. Please check your email and click the link we sent to finish signing in. Our email may take a few minutes to arrive in your inbox.</p>
           </div>
           <div class="firebaseui-card-actions">
             <div class="firebaseui-form-links">
@@ -106,118 +106,31 @@ const troubleGettingEmailRender = (type) => {
 }
 
 const signInFlowRender = (signInEmail) => {
-    const type = document.getElementById("signInDiv") ? "In" : "Up";
-    document
-        .getElementById("signInWrapperDiv")
-        .replaceChildren(afterEmailLinkRender(signInEmail, type));
+  const type = document.getElementById("signInDiv") ? "In" : "Up";
+  const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
+  document.getElementById("signInWrapperDiv").replaceChildren(afterEmailLinkRender(signInEmail, type));
+
+  document.querySelector('a[class~="firebaseui-id-trouble-getting-email-link"]').addEventListener("click", () => {
+    document.getElementById("signInWrapperDiv").replaceChildren(troubleGettingEmailRender(type));
 
     document
-        .querySelector('a[class~="firebaseui-id-trouble-getting-email-link"]')
-        .addEventListener("click", () => {
-            document
-                .getElementById("signInWrapperDiv")
-                .replaceChildren(troubleGettingEmailRender(type));
+      .querySelector('a[class~="firebaseui-id-resend-email-link"]')
+      .addEventListener("click", () => sendEmailLink());
 
-            document
-                .querySelector('a[class~="firebaseui-id-resend-email-link"]')
-                .addEventListener("click", () => sendEmailLink());
+    document.querySelector('button[class~="firebaseui-id-secondary-link"]').addEventListener("click", () => {
+      if (type === "In") {
+        signInCheckRender({ ui });
+      } else {
+        signUpRender({ ui, signUpType: "email" });
+      }
+    });
+  });
 
-            document
-                .querySelector('button[class~="firebaseui-id-secondary-link"]')
-                .addEventListener("click", () => {
-                    const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
-
-                    if (type  === "In") {
-                        const df = fragment`
-                            <div class="mx-4">
-                            <p class="loginTitleFont" style="text-align:center;">Sign In</p>
-                            <div id="signInDiv"></div>
-                            <div style="font-size:8px" class="mt-3">
-                            ${usGov}
-                            </div>
-                            </div>
-                        `;
-    
-                        document.getElementById('signInWrapperDiv').replaceChildren(df);
-
-                        if (location.host === urls.prod) {
-                            ui.start("#signInDiv", signInConfig());
-                        } else if (location.host === urls.stage) {
-                            ui.start("#signInDiv", signInConfig());
-                        } else {
-                            ui.start("#signInDiv", signInConfigDev());
-                        }
-                    } else {
-                        signUpRender({ ui });
-                    }
-                    
-                });
-        });
-
-    document
-        .querySelector('button[class~="firebaseui-id-secondary-link"]')
-        .addEventListener("click", async (e) => {
-            e.preventDefault();
-            const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
-            window.localStorage.setItem("signInUpdate", "yes");
-            const inputStr = window.localStorage.getItem("signInEmail").trim();
-            const isEmail = !!inputStr.match(validEmailFormat);
-            const isPhone = !!inputStr.match(validPhoneNumberFormat);
-            
-            if (type === 'Up'){
-                signUpRender({ ui });
-            } else {
-                if (isEmail) {
-                    const emailForQuery = inputStr
-                        .replaceAll("%", "%25")
-                        .replaceAll("#", "%23")
-                        .replaceAll("&", "%26")
-                        .replaceAll(`'`, "%27")
-                        .replaceAll("+", "%2B");
-
-                    const response = await checkAccount({
-                        accountType: "email",
-                        accountValue: emailForQuery,
-                    });
-
-                    if (response?.data?.accountExists) {
-                        const account = { type: "email", value: inputStr };
-                        firebaseSignInRender({
-                            ui,
-                            account,
-                            usGov,
-                            signInConfig,
-                            signInConfigDev,
-                        });
-                    } else {
-                        alert("Account Not Found");
-                    }
-                } else if (isPhone) {
-                    //   await signInAnonymously();
-                    const phoneNumberStr = inputStr
-                        .match(/\d+/g)
-                        .join("")
-                        .slice(-10);
-                    const response = await checkAccount({
-                        accountType: "phone",
-                        accountValue: phoneNumberStr,
-                    });
-
-                    if (response?.data?.accountExists) {
-                        const account = { type: "phone", value: phoneNumberStr };
-                        firebaseSignInRender({
-                            ui,
-                            account,
-                            usGov,
-                            signInConfig,
-                            signInConfigDev,
-                        });
-                    } else {
-                        alert("Account Not Found");
-                    }
-                }
-            }
-        });
+  document.querySelector('button[class~="firebaseui-id-secondary-link"]').addEventListener("click", (e) => {
+    e.preventDefault();
+    window.localStorage.setItem("signInUpdate", "yes");
+    signInCheckRender({ ui });
+  });
 };
 
 export const sendEmailLink = () => {
@@ -231,7 +144,7 @@ export const sendEmailLink = () => {
         },
         body: JSON.stringify({ email: signInEmail, continueUrl }),
     }).then(() => {
-        signInFlowRender(signInEmail)
+        signInFlowRender(signInEmail);
     });
 };
 
@@ -1482,73 +1395,42 @@ export const usGov = `
 You are accessing a U.S. Government web site which may contain information that must be protected under the U.S. Privacy Act or other sensitive information and is intended for Government authorized use only. Unauthorized attempts to upload information, change information, or use of this web site may result in disciplinary action, civil, and/or criminal penalties. Unauthorized users of this web site should have no expectation of privacy regarding any communications or data processed by this web site. Anyone accessing this web site expressly consents to monitoring of their actions and all communication or data transitioning or stored on or related to this web site and is advised that if such monitoring reveals possible evidence of criminal activity, NIH may provide that evidence to law enforcement officials.
 `;
 
-export const firebaseSignInRender = async ({ ui, account = {}, displayFlag = true}) => {
-    const df = fragment`
+export const firebaseSignInRender = async ({ ui, account = {}, displayFlag = true }) => {
+  const df = fragment`
     <div class="mx-4">
       <p class="loginTitleFont" style="text-align:center;">Sign In</p>
       <div id="signInDiv"></div>
       <div style="font-size:8px" class="mt-3">
-      ${displayFlag ? usGov : ''}
+      ${displayFlag ? usGov : ""}
       </div>
     </div>`;
-  
-    document.getElementById('signInWrapperDiv').replaceChildren(df);
-  
-    if (location.host === urls.prod || location.host === urls.stage) {
-      ui.start('#signInDiv', signInConfig());
-    } else {
-      ui.start('#signInDiv', signInConfigDev());
+
+  document.getElementById("signInWrapperDiv").replaceChildren(df);
+  ui.start("#signInDiv", signInConfig(account.type));
+
+  if (account.type === "magicLink") {
+    const { signInEmail, signInTime } = JSON.parse(window.localStorage.getItem("connectSignIn") || "{}");
+    const timeLimit = 1000 * 60 * 60; // 1 hour time limit
+    const emailInput = document.querySelector('input[class~="firebaseui-id-email"]');
+    await elementIsLoaded('div[class~="firebaseui-id-page-email-link-sign-in-confirmation"]', 1500);
+    if (emailInput !== null && signInEmail && Date.now() - signInTime < timeLimit) {
+      emailInput.value = signInEmail;
+      document.querySelector('button[class~="firebaseui-id-submit"]').click();
+      window.localStorage.removeItem("connectSignIn");
     }
-  
-    const { signInEmail, signInTime } = JSON.parse(window.localStorage.getItem('connectSignIn') || '{}');
-    const timeLimit = 1000 * 60 * 60 ; // 1 hour time limit
-    if (account.type === 'magicLink' && signInEmail  && Date.now() - signInTime < timeLimit) {
-      await elementIsLoaded('div[class~="firebaseui-id-page-email-link-sign-in-confirmation"]', 1500);
-      const emailInput =  document.querySelector('input[class~="firebaseui-id-email"]');
-  
-      if (emailInput !== null) {
-        emailInput.value = signInEmail;
-        document.querySelector('button[class~="firebaseui-id-submit"]').click();
-        window.localStorage.removeItem('connectSignIn');
-      } 
-  
-      return;
-    }
-  
-    if (account.type === 'email') {
-      document.querySelector('button[data-provider-id="password"]').click();
-      document.querySelector('input[class~="firebaseui-id-email"]').value = account.value;
-      document.querySelector('label[class~="firebaseui-label"]').remove();
-  
-      // Handle 'Cancel' button click
-      document
-        .querySelector('button[class~="firebaseui-id-secondary-link"]')
-        .addEventListener('click', (e) => {
-          signInCheckRender({ ui });
-        });
-  
-      // Handle 'Next' button click
-      document
-        .querySelector('button[class~="firebaseui-id-submit"]')
-        .addEventListener('click', (e) => {
-          const signInData = { signInEmail:account.value, signInTime: Date.now() }
-          window.localStorage.setItem('connectSignIn', JSON.stringify(signInData) );
-          window.localStorage.setItem('signInEmail', account.value );
-        });
-    } else if (account.type === 'phone') {
-      document.querySelector('button[data-provider-id="phone"]').click();
-      document.querySelector('h1[class~="firebaseui-title"]').innerText = "Sign in with phone number";
-      document.querySelector('input[class~="firebaseui-id-phone-number"]').value = account.value;
-      document.querySelector('label[class~="firebaseui-label"]').remove();
-      
-      // Handle 'Cancel' button click
-      document
-        .querySelector('button[class~="firebaseui-id-secondary-link')
-        .addEventListener('click', (e) => {
-          signInCheckRender({ ui });
-        });
-    }
+  } else if (account.type === "email") {
+    window.localStorage.setItem("signInEmail", account.value);
+    const signInData = { signInEmail: account.value, signInTime: Date.now() };
+    window.localStorage.setItem("connectSignIn", JSON.stringify(signInData));
+    document.querySelector('input[class~="firebaseui-id-email"]').value = account.value;
+    document.querySelector('label[class~="firebaseui-label"]').remove();
+    document.querySelector('button[class~="firebaseui-id-submit"]').click();
+  } else if (account.type === "phone") {
+    document.querySelector('input[class~="firebaseui-id-phone-number"]').value = account.value;
+    document.querySelector('label[class~="firebaseui-label"]').remove();
+    document.querySelector('h1[class~="firebaseui-title"]').innerText = "Sign in with phone number";
   }
+};
 
 /**
  *  Sign in anonymously, and set idToken in appState

@@ -140,7 +140,7 @@ async function startModule(data, modules, moduleId, questDiv) {
         // Module has not been started.
         if (data[fieldMapping[moduleId].statusFlag] === fieldMapping.moduleStatus.notStarted) {
             try {
-                sha = await fetchDataWithRetry(() => getModuleSHA(path));
+                sha = await fetchDataWithRetry(() => getModuleSHA(path, data['Connect_ID'], moduleId));
                 url += sha + "/" + path;
             } catch (error) {
                 throw new Error('Error: No SHA found for module.');
@@ -472,16 +472,25 @@ const setInputData = (data, modules) => {
         if (moduleClinical["D_644459734"]) inputData["D_644459734"] = moduleClinical["D_644459734"];
     }
     
-    let birthMonth =  data[fieldMapping.birthMonth];
-    let birthDay =  data[fieldMapping.birthDay];
-    let birthYear =  data[fieldMapping.birthYear];
+    const birthMonth = parseInt(data[fieldMapping.birthMonth], 10);
+    const birthDay = parseInt(data[fieldMapping.birthDay], 10);
+    const birthYear = parseInt(data[fieldMapping.birthYear], 10);
 
-    if (birthMonth && birthDay && birthYear){
-        let birthDate = new Date(birthYear, birthMonth, birthDay);
-        var ageDifMs = Date.now() - birthDate.getTime();
-        var ageDate = new Date(ageDifMs); // miliseconds from epoch
-        inputData["age"] = Math.abs(ageDate.getUTCFullYear() - 1970);
-        inputData["AGE"] = Math.abs(ageDate.getUTCFullYear() - 1970);
+    // Note: Date() in JS vs our Firestore data model - Our Firestore model has 1-indexed months and days.
+    // In JS: months are 0-indexed and days are 1-indexed. So, we need to align the month values for the off-by-one issue.
+    if (birthMonth && birthDay && birthYear) {
+        const today = new Date();
+        const currentYear = today.getFullYear();
+        const currentMonth = today.getMonth() + 1; // adjust for Firestore's 1-indexed value
+        const currentDay = today.getDate();
+
+        // If the participant's birthday hasn't happened yet this year, subtract 1 from the age.
+        const isBirthDayAfterToday = currentMonth < birthMonth || (currentMonth === birthMonth && currentDay < birthDay);
+        const ageAdjustment = isBirthDayAfterToday ? -1 : 0;
+        const age = currentYear - birthYear + ageAdjustment;
+    
+        inputData["age"] = age;
+        inputData["AGE"] = age;
     }
 
     return inputData;
