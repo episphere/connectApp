@@ -2,6 +2,12 @@ import { addEventHideNotification } from "./event.js";
 import fieldMapping from './fieldToConceptIdMapping.js'; 
 import { signInConfig } from "./pages/signIn.js";
 import { signInCheckRender, signUpRender } from "./pages/homePage.js";
+import en from "../i18n/en.json" assert {type: 'json'};
+import es from "../i18n/es.json" assert {type: 'json'};
+
+const i18n = {
+    es, en
+};
 
 export const urls = {
     'prod': 'myconnect.cancer.gov',
@@ -1693,3 +1699,58 @@ export const logDDRumError = (error, errorType = 'CustomError', additionalContex
         );
     }
 };
+
+export const translate = (source, language) => {
+    if (!language) {
+        language = 'en';
+    }
+
+    let sourceElement;
+    if (typeof source === "string") {
+        const sourceDOM = new DocumentFragment;
+        sourceDOM.append(document.createElement('div'));
+        sourceElement = sourceDOM.children[0];
+        sourceElement.innerHTML = source;
+    } else {
+        sourceElement = source;
+    }
+
+    // console.log(source, language, i18n, sourceElement, sourceElement.dataset);
+    if (sourceElement.dataset.i18n) {
+        let keys = sourceElement.dataset.i18n.split('.');
+        sourceElement.innerHTML = lookupTranslation(keys, language);
+    } else {
+        const translationNodes = sourceElement.querySelectorAll("[data-i18n]");
+        translationNodes.forEach(node => {
+            translate(node, language);
+        })
+    }
+    
+    if (typeof source === "string") {
+        console.log('INNER', sourceElement.innerHTML);
+        return sourceElement.innerHTML;
+    } else {
+       return sourceElement;
+    }
+}
+
+
+const lookupTranslation = (keys, language, translationObj) => { 
+    // console.log('lookupTrans', keys, language, translationObj);
+    if (!translationObj) {
+        //Fallback to english if the language doesn't exist
+        translationObj = i18n[language] ? i18n[language] : i18n['en'];
+    }
+    if (keys.length === 1) {
+        if (!translationObj[keys[0]]) {
+            return null;
+        } else {
+            return translationObj[keys[0]];
+        }
+    } else {
+        if (translationObj[keys[0]]) {
+            let currentKey = keys.shift();
+            return lookupTranslation(keys, language, translationObj[currentKey]);
+        }
+    }
+}

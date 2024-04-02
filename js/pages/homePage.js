@@ -1,4 +1,4 @@
-import { getMyData, hasUserData, urls, fragment, checkAccount, validEmailFormat, validPhoneNumberFormat, getCleanSearchString, firebaseSignInRender, signInAnonymously, usGov } from "../shared.js";
+import { getMyData, hasUserData, urls, fragment, checkAccount, validEmailFormat, validPhoneNumberFormat, getCleanSearchString, firebaseSignInRender, signInAnonymously, usGov, translate } from "../shared.js";
 import { signInConfig } from "./signIn.js";
 import { environmentWarningModal, downtimeWarning } from "../event.js";
 
@@ -10,25 +10,18 @@ export const homePage = async () => {
   let downtime = false;
 
     const mainContent = document.getElementById('root');
-    mainContent.innerHTML = `
+    mainContent.innerHTML = translate(`
         <div class="row connectBody1">
             <div class="col-lg-2 o">
             </div>
             <div class="col-lg-4 d-none d-sm-flex text-lg-left text-center" style="text-align:center;">
-                <p class = "homeTitleText" style="text-align:left; font-family: 'Montserrat', sans-serif;">
+                <p class = "homeTitleText" style="text-align:left; font-family: 'Montserrat', sans-serif;" data-i18n="home.titleText">
                 
-                    Connect <em>today.</em>
-                    <br>Prevent cancer
-                    <br><em>tomorrow.</em>
-                    <br>
-                    <br>
-                    <img src="./images/newImages/ConnectLogo.png" alt="Connect logo">
-                    <br><br>
-                    
+                   
                 </p>
             </div>
             <div class="col-lg-4 d-sm-none text-lg-left text-center" style="text-align:center;">
-                <p class = "homeTitleTextMobile " style="text-align:center; font-family: 'Montserrat', sans-serif;">
+                <p class = "homeTitleTextMobile " style="text-align:center; font-family: 'Montserrat', sans-serif;" data-i18n="home.titleText">
                 
                     Connect <em>today.</em>
                     <br>Prevent cancer
@@ -92,7 +85,7 @@ export const homePage = async () => {
             <div class="col-lg-1">
             </div>
         </div>
-    `;
+    `, 'es');
     
     const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
     const cleanSearchStr = getCleanSearchString(location.search);
