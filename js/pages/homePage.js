@@ -1,4 +1,4 @@
-import { getMyData, hasUserData, urls, fragment, checkAccount, validEmailFormat, validPhoneNumberFormat, getCleanSearchString, firebaseSignInRender, signInAnonymously, usGov, translate } from "../shared.js";
+import { getMyData, hasUserData, urls, fragment, checkAccount, validEmailFormat, validPhoneNumberFormat, getCleanSearchString, firebaseSignInRender, signInAnonymously, usGov, translateHTML, translateText } from "../shared.js";
 import { signInConfig } from "./signIn.js";
 import { environmentWarningModal, downtimeWarning } from "../event.js";
 
@@ -10,7 +10,7 @@ export const homePage = async () => {
   let downtime = false;
 
     const mainContent = document.getElementById('root');
-    mainContent.innerHTML = translate(`
+    mainContent.innerHTML = translateHTML(`
         <div class="row connectBody1">
             <div class="col-lg-2 o">
             </div>
@@ -91,7 +91,7 @@ export const homePage = async () => {
             <div class="col-lg-1">
             </div>
         </div>
-    `, 'es');
+    `);
     
     const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
     const cleanSearchStr = getCleanSearchString(location.search);

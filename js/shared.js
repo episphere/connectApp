@@ -1700,7 +1700,7 @@ export const logDDRumError = (error, errorType = 'CustomError', additionalContex
     }
 };
 
-export const translate = (source, language) => {
+export const translateHTML = (source, language) => {
     if (!language) {
         language = appState.getState().language;
         if (!language) {
@@ -1721,13 +1721,12 @@ export const translate = (source, language) => {
     // console.log(source, language, i18n, sourceElement, sourceElement.dataset);
     if (sourceElement.dataset.i18n) {
         let keys = sourceElement.dataset.i18n.split('.');
-        let translation = lookupTranslation(keys, language);
-        console.log('Translation for '+language, translation);
+        let translation = translateText(keys, language);
         sourceElement.innerHTML = translation ? translation : '';
     } else {
         const translationNodes = sourceElement.querySelectorAll("[data-i18n]");
         translationNodes.forEach(node => {
-            translate(node, language);
+            translateHTML(node, language);
         })
     }
     
@@ -1747,23 +1746,31 @@ export const translate = (source, language) => {
  * @param {Object} translationObj 
  * @returns String
  */
-const lookupTranslation = (keys, language, keyIndex, translationObj) => { 
-    // console.log('lookupTrans', keys, language, translationObj);
+export const translateText = (keys, language, keyIndex, translationObj) => { 
+    if (!language) {
+        language = appState.getState().language;
+        if (!language) {
+            language = 'en';
+        }
+    }
+
+    if (typeof keys === 'string') {
+        keys = keys.split('.');
+    }
+
     if (!keyIndex) {
         keyIndex = 0;
     }
-    console.log(translationObj);
+
     if (!translationObj) {
         //Fallback to english if the language doesn't exist
         translationObj = i18n[language] ? i18n[language] : i18n['en'];
     }
-    console.log(keyIndex, (keyIndex + 1) === keys.length)
     if ((keyIndex + 1) === keys.length) {
-        console.log(translationObj);
         if (!translationObj[keys[keyIndex]]) {
             if (language !== 'en') {
                 //If the languange is not English then return english as the fallback
-                return lookupTranslation(keys, 'en');
+                return translateText(keys, 'en');
             } else {
                 return null;
             }
@@ -1771,14 +1778,13 @@ const lookupTranslation = (keys, language, keyIndex, translationObj) => {
             return translationObj[keys[keyIndex]];
         }
     } else {
-        console.log(translationObj, keys[keyIndex]);
         if (translationObj[keys[keyIndex]]) {
             let nextIndexKey = keyIndex + 1;
-            return lookupTranslation(keys, language, nextIndexKey, translationObj[keys[keyIndex]]);
+            return translateText(keys, language, nextIndexKey, translationObj[keys[keyIndex]]);
         } else {
             if (language !== 'en') {
                 //If the language is not english then return english as the fallback
-                return lookupTranslation(keys, 'en');
+                return translateText(keys, 'en');
             } else {
                 //IF the langauge is already english then retun null because there is no matching translation  
                 return null;
