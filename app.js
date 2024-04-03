@@ -95,14 +95,14 @@ window.onload = async () => {
     
     const footer = document.getElementById('footer');
     footer.innerHTML = footerTemplate();
-    googleTranslateElementInit();
+    // googleTranslateElementInit();
     router();
 }
 
 // TODO: 'google is not defined' datadog error - inspect loading sequence/timing.
-const googleTranslateElementInit = () => {
-    if(google) new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
-}
+// const googleTranslateElementInit = () => {
+//     if(google) new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+// }
 
 const handleVerifyEmail = (auth, actionCode) => {
     auth.applyActionCode(actionCode).then(function(resp) {

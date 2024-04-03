@@ -16,7 +16,13 @@ export const homePage = async () => {
             </div>
             <div class="col-lg-4 d-none d-sm-flex text-lg-left text-center" style="text-align:center;">
                 <p class = "homeTitleText" style="text-align:left; font-family: 'Montserrat', sans-serif;" data-i18n="home.titleText">
-                
+                  Connect <em>today.</em>
+                  <br>Prevent cancer
+                  <br><em>tomorrow.</em>
+                  <br>
+                  <br>
+                  <img src="./images/newImages/ConnectLogo.png" alt="Connect logo">
+                  <br><br>
                    
                 </p>
             </div>
@@ -66,10 +72,10 @@ export const homePage = async () => {
             <div class="col-lg-2">
             </div>
             <div class="col-lg-4" style="text-align:left;">
-                <p class="MonteserratFont" style = "color:#606060; font-size: 28px;">
-                    <b>
-                    Are you age 30 to 70 with no history of certain cancers?*    
-                    </b>
+                <p class="MonteserratFont" style = "color:#606060; font-size: 28px;" data-i18n="home.ageQuestion">
+                  <b>
+                  Are you age 30 to 70 with no history of certain cancers?*    
+                  </b>
                 </p>
                 <p class="NotoSansFont" style="color:#606060; font-size: 18px;">
                     We need your help. We invite you to join a research study from the National Cancer Institute, part of the National Institutes of Health, to help understand what causes cancer and how to prevent it.
