@@ -574,7 +574,7 @@ const displayError = () => {
                 <div class = "col-lg-2">
                 </div>
                 <div class = "col">
-                    <h2 class="visually-hidden-for-screen-reader">Error Message. Something went wrong. Please try again. Contact the Connect Support Center at 1-877-505-0253 if you continue to experience this problem.</h2>
+                    <h2 class="screen-reader-only">Error Message. Something went wrong. Please try again. Contact the Connect Support Center at 1-877-505-0253 if you continue to experience this problem.</h2>
                     <p>Something went wrong. Please try again. Contact the 
                         <a href="https://norcfedramp.servicenowservices.com/participant" target="_blank" rel="noopener noreferrer">Connect Support Center</a> 
                         if you continue to experience this problem.

@@ -388,14 +388,15 @@ const renderMainBody = (data, collections, tab) => {
                 for(let key of obj['body']){
                     if (!started && obj['header']) {
                         const thisKey = obj['header'];
+                        const moduleTitle = modules[thisKey]['header'] || thisKey;
                         const isEnabled = modules[thisKey].enabled && !modules[thisKey].unreleased;
                         const buttonAction = modules[thisKey].unreleased ? 'Coming soon' : data[fieldMapping[modules[thisKey].moduleId]?.statusFlag] === fieldMapping.moduleStatus.started ? 'Continue' : 'Start';
-                        const ariaLabelButton = `${buttonAction} ${modules[thisKey]['header'] || thisKey}`;
+                        const ariaLabelButton = `${buttonAction} ${moduleTitle}`;
 
                         started = true;
                         template += `
-                            <li style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
-                                <div class="row" role="region" aria-label="${modules[thisKey]['header'] || thisKey} information">
+                            <li style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;" role="listitem" aria-label="${moduleTitle}">
+                                <div class="row" role="region" aria-label="${moduleTitle} information">
                                     ${modules[thisKey]['hasIcon'] === false? `` : `
                                     <div class="col-md-1" aria-hidden="true">
                                         <i class="fas fa-clipboard-list d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
@@ -404,7 +405,7 @@ const renderMainBody = (data, collections, tab) => {
                                     <div class="${modules[thisKey]['hasIcon'] === false? 'col-9':'col-md-8'}">
                                         <p style="font-style:bold; font-size:24px; margin-left:30px">
                                             <b style="color:#5c2d93; font-size:18px;">
-                                            ${modules[thisKey]['header'] || thisKey}
+                                            ${moduleTitle}
                                             </b>
                                             <br> 
                                             ${modules[thisKey].description}
@@ -417,7 +418,7 @@ const renderMainBody = (data, collections, tab) => {
                                     </div>
                                     ${modules[thisKey]['noButton'] === true? '' : `
                                     <div class="col-md-3">
-                                        <button class="btn survey-list-active btn-agreement questionnaire-module ${isEnabled ? 'list-item-active' : 'btn-disabled survey-list-inactive disabled'}" ${isEnabled ? '': 'aria-disabled="true"'} title="${thisKey}" module_id="${modules[thisKey].moduleId}" aria-label="${ariaLabelButton}">
+                                        <button class="btn survey-list-active btn-agreement questionnaire-module ${isEnabled ? 'list-item-active' : 'btn-disabled survey-list-inactive disabled'}" ${isEnabled ? '': 'aria-disabled="true"'} title="${moduleTitle}" module_id="${modules[thisKey].moduleId}" aria-label="${ariaLabelButton}">
                                             <b>${buttonAction}
                                             </b>
                                         </button>
@@ -555,7 +556,7 @@ const renderMainBody = (data, collections, tab) => {
                                                     </div>
                                                     `}
                                                 </div>
-                                                </li>
+                                            </li>
                                             `;
                             }
                         }
