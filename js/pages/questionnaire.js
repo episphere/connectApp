@@ -303,8 +303,10 @@ function externalListeners(){
                     <div class = "col-md-1">
                     </div>
                     <div class = "col-md-10">
-                        <div class="progress">
-                            <div id="questProgBar" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress" aria-label="Questionnaire Progress">
+                            <div id="questProgBar" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                <span class="screen-reader-only" id="progressText">0% Complete</span>
+                            </div>
                         </div>
                     </div>
                     <div class = "col-md-1">
@@ -499,11 +501,14 @@ const setInputData = (data, modules) => {
 function updateProgressBar() {
     const forms = Array.from(document.getElementsByTagName('form'));
     const activeFormIndex = forms.findIndex(form => form.classList.contains('active'));
-    const progressPercentage = activeFormIndex >= 0 ? (activeFormIndex / (forms.length - 1)) * 100 : 0;
+    const progressPercentage = activeFormIndex >= 0 ? Math.round((activeFormIndex / (forms.length - 1)) * 100) : 0;
 
     const progressBar = document.getElementById('questProgBar');
-    if (progressBar) {
+    const progressText = document.getElementById('progressText');
+    if (progressBar && progressText) {
         progressBar.style.width = `${progressPercentage}%`;
+        progressBar.setAttribute('aria-valuenow', progressPercentage);
+        progressText.textContent = `${progressPercentage}% Complete`;
     }
 }
 
@@ -535,8 +540,10 @@ const displayQuestionnaire = (id, progressBar) => {
                 <div class = "col-md-1">
                 </div>
                 <div class = "col-md-10">
-                    <div class="progress">
-                        <div id="questProgBar" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress" aria-label="Questionnaire Progress">
+                        <div id="questProgBar" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                            <span class="screen-reader-only" id="progressText">0% Complete</span>
+                        </div>
                     </div>
                 </div>
                 <div class = "col-md-1">
@@ -560,17 +567,19 @@ const displayQuestionnaire = (id, progressBar) => {
 }
 
 const displayError = () => {
-    
     const mainContent = document.getElementById('root');
     if (mainContent) {
         mainContent.innerHTML = `
-            <div class = "row" style="margin-top:25px">
-            <div class = "col-lg-2">
-            </div>
-            <div class = "col">
-                Something went wrong. Please try again. Contact the <a href= "https://norcfedramp.servicenowservices.com/participant" target="_blank">Connect Support Center.</a> if you continue to experience this problem.
-            </div>
-            <div class="col-lg-2">
+            <div class="row" role="alert" aria-live="assertive" style="margin-top:25px">
+                <div class = "col-lg-2">
+                </div>
+                <div class = "col">
+                    <h2 class="visually-hidden-for-screen-reader">Error Message. Something went wrong. Please try again. Contact the Connect Support Center at 1-877-505-0253 if you continue to experience this problem.</h2>
+                    <p>Something went wrong. Please try again. Contact the 
+                        <a href="https://norcfedramp.servicenowservices.com/participant" target="_blank" rel="noopener noreferrer">Connect Support Center</a> 
+                        if you continue to experience this problem.
+                    </p>
+                </div>
             </div>
         `;
     }
