@@ -253,11 +253,7 @@ const userProfile = () => {
 
             if (parameters?.token) {
                 const response = await validateToken(parameters.token); // Add uid and sign in flag if token is valid
-                if (response.code === 202) {
-                    duplicateAccountReminderRender();
-                    hideAnimation();
-                    return;
-                } else if (response.code === 200) {
+                if (response.code === 200 || response.code === 202) {
                     const firstSignInTime = new Date(user.metadata.creationTime).toISOString();
                     if (!firstSignInTime) {
                         let myErrorData = await getMyData();
@@ -269,6 +265,20 @@ const userProfile = () => {
                         });
                     }
                     await storeResponse({[conceptIdMap.firstSignInTime]: firstSignInTime});
+                }
+
+                if (response.code === 202) {
+                    let myErrorData = await getMyData();
+                    logDDRumError(new Error(`Duplicate Account Found`), 'duplicateAccountError', {
+                        userAction: 'PWA sign in',
+                        timestamp: new Date().toISOString(),
+                        connectID: myErrorData.data['Connect_ID'],
+                        function: 'addEventRequestPINForm'
+                    });
+
+                    duplicateAccountReminderRender();
+                    hideAnimation();
+                    return;
                 }
             }
 
