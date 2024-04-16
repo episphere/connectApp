@@ -366,7 +366,7 @@ canvas {
     text-align: center;
 }
 
-.btn-disbaled {
+.btn-disabled {
     cursor: not-allowed !important;
 }
 
@@ -1452,4 +1452,15 @@ button.connect-secondary {
     position: absolute;
     right: 10px;
     cursor: pointer;
+}
+
+.screen-reader-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
 }
