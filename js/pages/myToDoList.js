@@ -668,19 +668,19 @@ const setModuleAttributes = (data, modules, collections) => {
     modules['First Survey'].hasIcon = false;
     modules['First Survey'].noButton = true;
     
-    modules['Background and Overall Health'].header = 'Background and Overall Health Survey';
+    modules['Background and Overall Health'].header = 'Background and Overall Health Survey Section';
     modules['Background and Overall Health'].description = 'Questions about you, your medical history, and your family history.';
     modules['Background and Overall Health'].estimatedTime = '20 to 30 minutes';
     
-    modules['Medications, Reproductive Health, Exercise, and Sleep'].header = 'Medications, Reproductive Health, Exercise, and Sleep Survey';
+    modules['Medications, Reproductive Health, Exercise, and Sleep'].header = 'Medications, Reproductive Health, Exercise, and Sleep Survey Section';
     modules['Medications, Reproductive Health, Exercise, and Sleep'].description = 'Questions about your current and past use of medications, your exercise and sleep habits, and your reproductive health.';
     modules['Medications, Reproductive Health, Exercise, and Sleep'].estimatedTime = '20 to 30 minutes';
     
-    modules['Smoking, Alcohol, and Sun Exposure'].header = 'Smoking, Alcohol, and Sun Exposure Survey';
+    modules['Smoking, Alcohol, and Sun Exposure'].header = 'Smoking, Alcohol, and Sun Exposure Survey Section';
     modules['Smoking, Alcohol, and Sun Exposure'].description = 'Questions about your use of tobacco, nicotine, marijuana, and alcohol, as well as your sun exposure.';
     modules['Smoking, Alcohol, and Sun Exposure'].estimatedTime = '20 to 30 minutes';
     
-    modules["Where You Live and Work"].header = 'Where You Live and Work Survey';
+    modules["Where You Live and Work"].header = 'Where You Live and Work Survey Section';
     modules["Where You Live and Work"].description  = 'Questions about places where you have lived and worked, and your commute to school or work.'
     modules['Where You Live and Work'].estimatedTime = '20 to 30 minutes';
     
