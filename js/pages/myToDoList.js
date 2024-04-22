@@ -308,7 +308,7 @@ const addEventToDoList = () => {
     Array.from(modules).forEach(module => {
         module.addEventListener('click',() => {
             
-            if (!module.classList.contains("btn-disbaled")) {
+            if (!module.classList.contains("btn-disabled")) {
                 const moduleId = module.getAttribute("module_id");
                 questionnaire(moduleId);
             }
@@ -317,7 +317,7 @@ const addEventToDoList = () => {
 }
 
 const renderMainBody = (data, collections, tab) => {
-    let template = `<ul class="questionnaire-module-list">`;
+    let template = `<ul class="questionnaire-module-list" role="list">`;
     let modules = questionnaireModules();
     modules = setModuleAttributes(data, modules, collections);
     
@@ -388,19 +388,24 @@ const renderMainBody = (data, collections, tab) => {
                 for(let key of obj['body']){
                     if (!started && obj['header']) {
                         const thisKey = obj['header'];
+                        const moduleTitle = modules[thisKey]['header'] || thisKey;
+                        const isEnabled = modules[thisKey].enabled && !modules[thisKey].unreleased;
+                        const buttonAction = modules[thisKey].unreleased ? 'Coming soon' : data[fieldMapping[modules[thisKey].moduleId]?.statusFlag] === fieldMapping.moduleStatus.started ? 'Continue' : 'Start';
+                        const ariaLabelButton = `${buttonAction} ${moduleTitle}`;
+
                         started = true;
                         template += `
-                            <li style="width:100%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
-                                <div class="row">
+                            <li style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;" role="listitem" aria-label="${moduleTitle}">
+                                <div class="row" role="region" aria-label="${moduleTitle} information">
                                     ${modules[thisKey]['hasIcon'] === false? `` : `
-                                    <div class="col-md-1">
+                                    <div class="col-md-1" aria-hidden="true">
                                         <i class="fas fa-clipboard-list d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
                                     </div>
                                     `}
                                     <div class="${modules[thisKey]['hasIcon'] === false? 'col-9':'col-md-8'}">
                                         <p style="font-style:bold; font-size:24px; margin-left:30px">
                                             <b style="color:#5c2d93; font-size:18px;">
-                                            ${modules[thisKey]['header'] || thisKey}
+                                            ${moduleTitle}
                                             </b>
                                             <br> 
                                             ${modules[thisKey].description}
@@ -413,28 +418,33 @@ const renderMainBody = (data, collections, tab) => {
                                     </div>
                                     ${modules[thisKey]['noButton'] === true? '' : `
                                     <div class="col-md-3">
-                                        <button class="btn survey-list-active btn-agreement questionnaire-module ${(modules[thisKey].enabled && modules[thisKey].unreleased) ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${thisKey}" module_id="${modules[thisKey].moduleId}">
-                                            <b>${modules[thisKey].unreleased  ? 'Coming soon' : data[fieldMapping[modules[key].moduleId].statusFlag] === fieldMapping.moduleStatus.started ? 'Continue' : 'Start'}
+                                        <button class="btn survey-list-active btn-agreement questionnaire-module ${isEnabled ? 'list-item-active' : 'btn-disabled survey-list-inactive disabled'}" ${isEnabled ? '': 'aria-disabled="true"'} title="${moduleTitle}" module_id="${modules[thisKey].moduleId}" aria-label="${ariaLabelButton}">
+                                            <b>${buttonAction}
                                             </b>
                                         </button>
                                     </div>
                                     `}
-                                </div>`;
+                                </div>
+                            `;
                     }
 
                     if (!modules[key].completed) {
+                        const moduleTitle = modules[key]['header'] || key;
+                        const isEnabled = modules[key].enabled && !modules[key].unreleased;
+                        const buttonAction = modules[key].unreleased ? 'Coming soon' : (data[fieldMapping[modules[key].moduleId].statusFlag] === fieldMapping.moduleStatus.started ? 'Continue' : 'Start');
+                        const ariaLabelButton = `${buttonAction} ${moduleTitle}`;
                         template += `
-                            <div style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
+                            <div style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;" role="listitem" aria-label="${moduleTitle} details">
                                 <div class="row">
                                     ${modules[key]['hasIcon'] === false ? `` : `
-                                    <div class="col-md-1">
+                                    <div class="col-md-1" aria-hidden="true">
                                         <i class="fas fa-clipboard-list d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
                                     </div>
                                     `}
                                     <div class="${modules[key]['hasIcon'] === false ? 'col-9' : 'col-md-8'}">
                                     <p style="font-style:bold; font-size:24px; margin-left:30px">
                                         <b style="color:#5c2d93; font-size:18px;">
-                                        ${modules[key]['header'] || key}
+                                        ${moduleTitle}
                                         </b>
                                         <br> 
                                         ${modules[key].description}
@@ -450,18 +460,22 @@ const renderMainBody = (data, collections, tab) => {
                                 
                                     ${modules[key]['noButton'] === true ? '' : `
                                         <div class="col-md-3">
-                                            <button class="btn survey-list-active btn-agreement questionnaire-module ${(modules[key].enabled && !modules[key].unreleased) ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${key}" module_id="${modules[key].moduleId}"><b>${modules[key].unreleased  ?  'Coming soon' : data[fieldMapping[modules[key].moduleId].statusFlag] === fieldMapping.moduleStatus.started ? 'Continue' : 'Start'}</b></button>    
+                                            <button class="btn survey-list-active btn-agreement questionnaire-module ${isEnabled ? 'list-item-active' : 'btn-disabled survey-list-inactive disabled'}" ${isEnabled ? '': 'aria-disabled="true"'} title="${key}" module_id="${modules[key].moduleId}" aria-label="${ariaLabelButton}">
+                                                <b>${buttonAction}</b>
+                                            </button> 
                                         </div>
                                     `}
                                 </div>
                                 
                             </div>`;
                     } else {
+                        const moduleTitle = modules[key]['header'] || key; // Use the module's header or key as the title
+                        const ariaLabelModule = `${moduleTitle} completed details`;
                         template += `
-                            <div style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
+                            <div style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;" role="listitem" aria-label="${ariaLabelModule}">
                                 <div class="row">
                                     ${modules[key]['hasIcon'] === false? `` : `
-                                    <div class="col-md-1">
+                                    <div class="col-md-1" aria-hidden="true">
                                         <i class="fas fa-clipboard-list d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
                                     </div>
                                     `}
@@ -512,17 +526,17 @@ const renderMainBody = (data, collections, tab) => {
                                 
                                 started = true;
                                 
-                                template += `<li style="width:100%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
-                                                <div class="row">
+                                template += `<li role="listitem" style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
+                                                <div class="row" aria-labelledby="header-${thisKey}">
                                                     ${modules[thisKey]['hasIcon'] === false? `` : `
-                                                    <div class="col-md-1">
+                                                    <div class="col-md-1" aria-hidden="true">
                                                         <i class="fas fa-clipboard-list d-md-none d-md-block d-lg-flex" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
                                                     </div>
                                                     `}
 
                                                     <div class="${modules[thisKey]['hasIcon'] === false? 'col-9':'col-md-8'}">
                                                     <p style="font-style:bold; font-size:24px; margin-left:30px">
-                                                        <b style="color:#5c2d93; font-size:18px;">
+                                                        <b id="header-${thisKey}" style="color:#5c2d93; font-size:18px;">
                                                         ${modules[thisKey]['header']?modules[thisKey]['header']:thisKey}
                                                         </b>
                                                         <br> 
@@ -538,22 +552,22 @@ const renderMainBody = (data, collections, tab) => {
                                                 
                                                     ${modules[thisKey]['noButton'] === true? '' : `
                                                     <div class="col-md-3">
-                                                        <button class="btn survey-list-active btn-agreement questionnaire-module ${modules[thisKey].enabled ? 'list-item-active' : 'btn-disbaled survey-list-inactive'}" title="${thisKey}" module_id="${modules[thisKey].moduleId}"><b>Start</b></button>    
+                                                        <button class="btn survey-list-active btn-agreement questionnaire-module ${modules[thisKey].enabled ? 'list-item-active' : 'btn-disabled survey-list-inactive disabled'}" ${modules[thisKey].enabled ? '': 'aria-disabled="true"'} title="${thisKey}" module_id="${modules[thisKey].moduleId}"><b>Start</b></button>    
                                                     </div>
                                                     `}
                                                 </div>
-                                                </li>
+                                            </li>
                                             `;
                             }
                         }
-                        template += `<div style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
-                            <div class="row">
-                                <div class="col-md-1">
+                        template += `<div role="listitem" style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
+                            <div class="row" aria-labelledby="completed-header-${key}">
+                                <div class="col-md-1" aria-hidden="true">
                                 <i class="fas fa-clipboard-list d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
                                 </div>
                                 <div class="col-md-8">
                                 <p style="font-style:bold; font-size:24px; margin-left:30px">
-                                    <b style="color:#5c2d93; font-size:18px;">
+                                    <b id="completed-header-${key} style="color:#5c2d93; font-size:18px;">
                                     ${modules[key]['header'] || key}
                                     </b>
                                     <br>
@@ -654,19 +668,19 @@ const setModuleAttributes = (data, modules, collections) => {
     modules['First Survey'].hasIcon = false;
     modules['First Survey'].noButton = true;
     
-    modules['Background and Overall Health'].header = 'Background and Overall Health'; 
+    modules['Background and Overall Health'].header = 'Background and Overall Health Survey Section';
     modules['Background and Overall Health'].description = 'Questions about you, your medical history, and your family history.';
     modules['Background and Overall Health'].estimatedTime = '20 to 30 minutes';
     
-    modules['Medications, Reproductive Health, Exercise, and Sleep'].header = 'Medications, Reproductive Health, Exercise, and Sleep'; 
+    modules['Medications, Reproductive Health, Exercise, and Sleep'].header = 'Medications, Reproductive Health, Exercise, and Sleep Survey Section';
     modules['Medications, Reproductive Health, Exercise, and Sleep'].description = 'Questions about your current and past use of medications, your exercise and sleep habits, and your reproductive health.';
     modules['Medications, Reproductive Health, Exercise, and Sleep'].estimatedTime = '20 to 30 minutes';
     
-    modules['Smoking, Alcohol, and Sun Exposure'].header = 'Smoking, Alcohol, and Sun Exposure'; 
+    modules['Smoking, Alcohol, and Sun Exposure'].header = 'Smoking, Alcohol, and Sun Exposure Survey Section';
     modules['Smoking, Alcohol, and Sun Exposure'].description = 'Questions about your use of tobacco, nicotine, marijuana, and alcohol, as well as your sun exposure.';
     modules['Smoking, Alcohol, and Sun Exposure'].estimatedTime = '20 to 30 minutes';
     
-    modules["Where You Live and Work"].header = 'Where You Live and Work';
+    modules["Where You Live and Work"].header = 'Where You Live and Work Survey Section';
     modules["Where You Live and Work"].description  = 'Questions about places where you have lived and worked, and your commute to school or work.'
     modules['Where You Live and Work'].estimatedTime = '20 to 30 minutes';
     
