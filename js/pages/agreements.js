@@ -38,6 +38,9 @@ const siteToHipaaSignPosMap = {
     "NCI": {
         "default": {nameX:110,nameY:427,signatureX:110,signatureY:467,dateX:110,dateY:387},
     },
+    "BSWH": {
+        "default": { nameX:100, nameY:425, signatureX:100, signatureY:465, dateX:100, dateY:385 }, // BSWH COMMENT~ - Adjust later if needed
+    },
     "default": { nameX: 200, nameY: 275, signatureX: 200, signatureY: 225, dateX: 200, dateY: 325}
 }
 
@@ -84,6 +87,10 @@ const siteToConsentSignPosMap = {
         "V0.05": {nameX:90,nameY:407,signatureX:110,signatureY:330,dateX:90,dateY:370},
         "default": {nameX:90,nameY:410,signatureX:110,signatureY:335,dateX:90,dateY:375},
     },
+    "BSWH": { // BSWH COMMENT~ - Adjust later if needed
+        "V0.02": { nameX:100, nameY:425, signatureX:100, signatureY:345, dateX:100, dateY:385 },
+        "default": { nameX:100, nameY:425, signatureX:100, signatureY:345, dateX:100, dateY:385 },
+    },
     "default": {nameX: 110, nameY: 400, signatureX: 110, signatureY: 330, dateX: 110, dateY: 370}
 }
 
@@ -104,6 +111,7 @@ const siteToSignFontSizeMap = {
   KPGA: defaultNameDateSignatureSize,
   KPHI: defaultNameDateSignatureSize,
   KPNW: defaultNameDateSignatureSize,
+  BSWH: defaultNameDateSignatureSize,
   default: defaultNameDateSignatureSize,
 };
 

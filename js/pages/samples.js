@@ -591,6 +591,10 @@ const kpnw = {
     support: 'Call 1-877-505-0253 (6:00 a.m-8:00 p.m. PT on weekdays and 7:00 a.m.-4:00 p.m. PT on weekends)'
 };
 
+const bswh = {  /* BSWH COMMENT~ - my connect samples information  */
+
+}
+
 const locations = [
     health_partners,
     sanford,
@@ -601,7 +605,8 @@ const locations = [
     kpga,
     kphi,
     kpco,
-    kpnw
+    kpnw,
+    bswh,
 ];
 
 
