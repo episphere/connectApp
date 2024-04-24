@@ -19,7 +19,21 @@ async function loadQuestConfig() {
             questConfig = importedModule.default;
         }
     } catch (error) {
-        throw new Error(`Error loading questConfig: ${error.message}`);
+        // questConfig fallback (emerging issue happening in Chrome 123+)
+        // Monitor this in DataDog. Temporary fallback. Consider maintenance-free ways of storing config backup when import fails.
+        console.error(`Error: QuestConfig - error dynamically loading questConfig. Using fallback: ${error.message}`);
+        logDDRumError(error, 'QuestConfigError', {
+            userAction: 'click start survey',
+            timestamp: new Date().toISOString(),
+            ...(data?.['Connect_ID'] && { connectID: data['Connect_ID'] }),
+        });
+
+        questConfig = {
+            "myconnect.cancer.gov": "https://cdn.jsdelivr.net/gh/episphere/quest@v1.1.4/replace2.js",
+            "myconnect-stage.cancer.gov": "https://cdn.jsdelivr.net/gh/episphere/quest@v1.1.4/replace2.js",
+            "episphere.github.io": "https://episphere.github.io/quest/replace2.js",
+            "localhost:5000": "https://cdn.jsdelivr.net/gh/episphere/quest@v1.1.4/replace2.js"
+        }
     }
 }
 
