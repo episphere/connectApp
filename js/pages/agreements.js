@@ -69,6 +69,7 @@ const siteToConsentSignPosMap = {
         "default": {nameX:110,nameY:400,signatureX:110,signatureY:320,dateX:110,dateY:360},
     },
     "KPGA": {
+        "V0.04": {nameX:110,nameY:375,signatureX:110,signatureY:295,dateX:110,dateY:335},
         "V0.03": {nameX:110,nameY:375,signatureX:110,signatureY:295,dateX:110,dateY:335},
         "default": {nameX:110,nameY:400,signatureX:110,signatureY:320,dateX:110,dateY:360},
     },

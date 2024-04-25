@@ -12,8 +12,8 @@ export default {
     HIPAA: "V0.02",
   },
   KPGA: {
-    Consent: "V0.03",
-    HIPAA: "V0.02",
+    Consent: "V0.04",
+    HIPAA: "V0.03",
   },
   KPHI: {
     Consent: "V0.03",
