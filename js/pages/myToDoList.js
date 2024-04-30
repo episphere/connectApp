@@ -370,6 +370,10 @@ const renderMainBody = (data, collections, tab) => {
     if(modules['PROMIS'].enabled) {
         toDisplaySystem.unshift({'body':['PROMIS']});
     }
+
+    if(modules['Spanish1'].enabled) {
+        toDisplaySystem.unshift({'body':['Spanish1']});
+    }
     
     if(tab === 'todo'){
         for(let obj of toDisplaySystem){
@@ -377,6 +381,7 @@ const renderMainBody = (data, collections, tab) => {
             if(obj['body']){
                 let anyFound = false;
                 for(let key of obj['body']){
+                    console.log(key);
                     if(!modules[key].completed){
                         anyFound = true;
                         break;
@@ -431,6 +436,7 @@ const renderMainBody = (data, collections, tab) => {
                     if (!modules[key].completed) {
                         const moduleTitle = modules[key]['header'] || key;
                         const isEnabled = modules[key].enabled && !modules[key].unreleased;
+                        console.log(key, modules[key], modules[key].moduleId, fieldMapping[modules[key].moduleId]);
                         const buttonAction = modules[key].unreleased ? 'Coming soon' : (data[fieldMapping[modules[key].moduleId].statusFlag] === fieldMapping.moduleStatus.started ? 'Continue' : 'Start');
                         const ariaLabelButton = `${buttonAction} ${moduleTitle}`;
                         template += `
@@ -715,6 +721,12 @@ const setModuleAttributes = (data, modules, collections) => {
     modules['PROMIS'].header = 'Quality of Life Survey';
     modules['PROMIS'].description = 'Questions about your physical, social, and mental health.';
     modules['PROMIS'].estimatedTime = '10 to 15 minutes';
+   
+    modules['Spanish1'].header = 'Spanish Survey 1';
+    modules['Spanish1'].description = 'This survey is to test Spanish';
+    modules['Spanish1'].estimatedTime = '5 to 15 minutes';
+    modules['Spanish1'].enabled = true;
+    modules['Spanish1'].completed = false;
 
     if(data['331584571']?.['266600170']?.['840048338']) {
         modules['Biospecimen Survey'].enabled = true;

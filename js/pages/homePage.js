@@ -510,10 +510,10 @@ export const renderHomePrivacyPage = () => {
 export function signInSignUpEntryRender({ ui }) {
   const df = fragment`
   <div class="mx-4">
-    <p class="loginTitleFont" style="text-align:center;">Sign Into Your Account</p>
+    <p class="loginTitleFont" style="text-align:center;" data-i18n="home.signInTitle">Sign Into Your Account</p>
     <button type="button" class="connect connect-primary" style="width:100%" id="signInBtn">Sign In</button>
     <hr/>
-    <p class="loginTitleFont" style="text-align:center;">Sign Up</p>
+    <p class="loginTitleFont" style="text-align:center;" data-i18n="home.signUpTitle">Sign Up</p>
     <button type="button" class = "connect connect-secondary" style="width:100%" id="signUpBtn">Create Account</button>
     <div style="font-size:8px" class="mt-3">
     ${usGov}
@@ -524,6 +524,9 @@ export function signInSignUpEntryRender({ ui }) {
   const signUpBtn = df.querySelector('#signUpBtn');
 
   document.getElementById('signInWrapperDiv').replaceChildren(df);
+  // The following line of code has been added to translate the text
+  translateHTML(document.getElementById('signInWrapperDiv'));
+
   signInBtn.addEventListener('click', async () => {
     await signInCheckRender({ ui });
   });
