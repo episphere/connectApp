@@ -590,6 +590,10 @@ const consentConsentPage = async () => {
 
     let siteDict = siteAcronyms();
     let participantSite = siteDict[myData.data['827220437']];
+
+    // BSWH reassignment testing 
+    participantSite = 'BSWH'
+    console.log("participantSite: ", participantSite)
     
     template += `
         <div class="row">
