@@ -7,8 +7,7 @@ export const renderSamplesPage = async () => {
 
         if(!hasUserData(res)) return;
         
-        let site = locations.filter(location => location.concept == res.data['827220437'])[0]; // change back to const
-        site = bswh;
+        let site = locations.filter(location => location.concept == res.data['827220437'])[0];
         let template;
 
         if(site && site !== kpga && site !==  kphi && site !==  kpco && site !==  kpnw) {
@@ -66,7 +65,7 @@ export const renderSamplesPage = async () => {
 
                         ${site.locationNotes ? `
                         <div class="row" style="width:100%;">
-                            <div class="messagesHeaderFont">
+                            <div class="messagesBodyFont">
                                 ${site.locationNotes}
                             </div>
                         </div>`
@@ -135,10 +134,7 @@ export const renderSamplesPage = async () => {
                         </div>
                         <div class="messagesBodyFont" style="width:100%">
                             <div>
-                                <a href="https://myconnect.cancer.gov/support">MyConnect.cancer.gov/support</a>
-                                <br>
-                                <br>
-                                <a href="mailto: ConnectSupport@norc.org">ConnectSupport@norc.org</a>
+                                <a href="https://myconnect.cancer.gov/support">MyConnect.cancer.gov/support</a> or <a href="mailto: ConnectSupport@norc.org">ConnectSupport@norc.org</a>
                                 <br>
                                 <br>
                                 ${site.support}
@@ -521,14 +517,17 @@ const bswh = {  /* BSWH COMMENT~ - my connect samples information  */
     donatingSamples: 'As part of Connect, we ask you to donate blood, urine, and mouthwash samples and complete a short surveys.',
     whenToDonate: '<p>The Connect team will send you an email when it is time to donate your samples. Be sure to check your spam or junk folder. After you receive the email, it is important to donate your samples as soon as you can. It is easy to donate all of your samples in one visit.<p/><p> <span class="site-info-bold">Note:</span> If you have recently had a blood transfusion or donated blood, please wait at least <span class="site-info-bold">eight weeks</span> from your donation or transfusion before donating your samples for Connect. If you have recently donated plasma, please wait at least <span class="site-info-bold">two days</span> from your plasma donation before donating samples for Connect. If you have an upcoming colonoscopy, please be sure that you <span class="site-info-bold">do not</span> donate samples for Connect on the <span class="site-info-bold">same day</span> as your colonoscopy.<p/>',
     howToDonate: 'Please call the BSW Connect Study at 214-865-2427 to schedule your appointment. You may also email the BSW Connect Study team at ConnectStudy@bswhealth.org',
-    howToDonateBloodAndUrine: 'You may visit any KP medical office with lab near you to donate samples. We are not able to collect samples for Connect at any of KP’s affiliated locations (such as LabCorp and Quest). For locations, hours and directions, please visit <a style="text-decoration:underline" href="https://healthy.kaiserpermanente.org/oregon-washington/community-providers/laboratory">kp.org/locations.</a> <br></br><span class="site-info-bold">You do not need an appointment</span> and there is no co-pay involved. You do not need to fast before you donate samples for Connect, so you may eat and drink before your visit.',
     prepInstructionsHeader: 'What Should I Bring to the Visit?',
     prepInstructionsText: '<ul><li>Please bring your Kaiser Permanente member ID card and a picture ID.</li><li>KPNW Infectious Disease and Infection Prevention & Control recommends members, patients, and visitors wear a mask in ambulatory care including labs and hospital settings. </li></ul><span class="site-info-bold-italic">Note: Hand sanitizer will be available for your use.</span>',
     whatHappensDuring: 'Donating your research blood and urine samples is just like providing a clinical sample requested by your health care provider. When you arrive at the clinic, you may go directly to the lab, get a ticket with a number, and follow the instructions. When it is your turn, the lab staff will call your number and collect your samples similarly to a clinical sample collection for medical care. Tell the lab techs that you are donating samples for NCI Connect. The techs will be able to see your blood draw and urine collection orders and instructions for Connect in their system.',
     whatHappensAfter: 'Within a day of your blood and urine collection, we will send you an email asking you to complete a short survey on MyConnect. The survey will ask about recent actions, such as:<br></br><ul  style="list-style-type:circle;"><li>The last time you ate or drank before your lab visit, and the times you went to sleep the night before your visit and woke up on the day of your visit.</li><li>If you are menstruating, the start date of your most recent menstrual period in the last 12 months.</li></ul><span class="site-info-bold-italic">When you receive our email, it is important that you complete the survey as soon as possible.</span>',
     howToDonateMouthwash: 'We will send you an email as soon as your mouthwash home collection kit is on its way.  Once you receive the kit, you can collect your mouthwash sample in the comfort of your own home. The kit we mail you will include instructions and all of the items you need to collect your sample, including a return shipping box with a pre-paid shipping label to return your sample to us.<br></br>When you collect your mouthwash sample, we will ask you to complete a short survey on MyConnect. <span class="site-info-bold-italic">It is important to complete this survey on the same day that you collect your mouthwash sample.</span>',
     support: 'Call 1-877-505-0253 (6:00 a.m-8:00 p.m. PT on weekdays and 7:00 a.m.-4:00 p.m. PT on weekends)',
-    locationNotes: `<p style="font-weight:300; font-size:18px; line-height:revert; color:#2E2E2E;">Your samples may be donate at the following location(s): BSW health and wellness Center 4500 Spring Ave, Dallas, TX 75210</p>`,
+    locationNotes: '<div style="margin-bottom:2rem;"> <p class="samples-page-text">Your samples may be donated at the following location(s):</p> <p class="samples-page-text"> BSW health and wellness Center</p> <p class="samples-page-text">4500 Spring Ave, Dallas, TX 75210</p></div> <p style="font-size:1.2rem;" class="site-info-bold">Parking Instructions</p> <p>The BSW Health and Wellness Center offers free surface level parking.</p>',
+    howLong: 'If you complete your first Connect survey before your appointment, please expect to spend about 45 minutes at your appointment to donate your samples and complete a short survey.',
+    prepareInstructions: '<p>On the day of your appointment, you do not need to fast. We request you drink plenty of water to keep hydrated, but <span class="site-info-bold">stop drinking water one hour before your appointment.</span></p> <p><span class="site-info-bold";>One hour before your appointment:</span> Please <span class="site-info-bold;">do not</span> eat, drink any liquids (including water), chew gum, smoke, vape, or chew any products (including tobacco), rinse your mouth, or brush your teeth.</p> <p class="site-info-bold">Things to bring and remember</p><ul><li>Please remember to bring a valid photo ID that is not expired (driver’s license, passport, school photo ID, or other photo ID)</li><li>Make sure you know your login information for the MyConnect app</li><li>We will ask you to complete a short survey when you donate your samples. It may be helpful to have this information on hand:</li><ul><li>The last time you ate or drank before your appointment, and the times you went to sleep the night before your appointment and woke up on the day of your appointment.</li><li>If you are menstruating, the start date of your most recent menstrual period in the last 12 months.</li></ul></li></ul>',
+    whatHappens:'<p>The research team will check you in for your appointment and then collect your samples. At the end of your visit, the research team will check you out of your appointment.</p><p>We will draw a blood sample, collect a urine sample, and collect a saliva sample by asking you to swish with mouthwash.</p><p>We will also ask you to complete a short survey on the MyConnect app using your mobile phone. You will need your MyConnect app login information to complete the survey. If you do not have a mobile phone, we will provide you with a tablet to complete your survey. We strongly encourage you to complete your survey at your appointment. If you choose to complete it after you leave your appointment, it is important to do so as soon as possible.</p><p><span class="site-info-underline">To save time at your appointment, please also complete your first Connect survey on the MyConnect app before donating samples.</span> If you are not able to complete the survey before your appointment, we will ask you to complete the survey during your appointment.</p>',
+    support: '<p>Call 1-877-505-0253 (8:00 a.m.-10:00 p.m. CT on weekdays and 9:00 a.m.-6:00 p.m. CT on weekends.</p>'
 }
 
 const nci = {
