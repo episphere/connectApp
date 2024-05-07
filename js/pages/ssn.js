@@ -113,7 +113,7 @@ const socialSecurityNineDigits = () => {
 
         <div class="row ssn-content-body">
 
-            <p>To provide all 9 digits of your Social Security Number, please enter them here. If you prefer to provide only the last 4 digits or no digits, select the ‘Next’ button.</p>
+            <p>To provide all <b>9 digits</b> of your Social Security Number, please enter them here. If you prefer to provide only the last 4 digits or no digits, select the ‘Next’ button.</p>
 
             <div class="input-group">
                 <label for="SSN_Nine">Please enter your Social Security Number:</label>
@@ -240,7 +240,7 @@ const socialSecurityFourDigits = () => {
 
         <div class="row ssn-content-body">
             <div class="input-group">
-                <label for="SSN_Four">If you prefer to provide only the last 4 digits of your Social Security Number, please enter the last <b>4 digits</b> here. If you don’t want to provide your Social Security Number, select the “Next” button.</label>
+                <label for="SSN_Four">If you prefer to provide only the last <u>4 digits</u> of your Social Security Number, please enter the last <b>4 digits</b> here. If you don’t want to provide your Social Security Number, select the “Next” button.</label>
                 <div class="input-with-icon">
                     <input type="text" id="SSN_Four" class="SSN" inputmode="numeric" maxlength="4" />
                     <i class="fa fa-eye" id="togglePassword"></i>
