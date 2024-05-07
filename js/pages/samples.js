@@ -545,7 +545,7 @@ const nci = {
         [
             'National Cancer Institute Sample Location',
             'Rockville, MD',
-            'Monday - Friday: 8:00 a.m.-2:00 p.m.',
+            'Monday - Friday: 8:00 a.m.- 2:00 p.m.',
             'General parking available.'
         ]
     ]

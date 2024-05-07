@@ -177,8 +177,8 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                     if (site === fieldMapping.uChicagoMedicine){
                         body = `the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling 1-877-505-0253`
                     }
-                    if (site === fieldMapping.baylorScottAndWhiteHealth) { // BSWH COMMENT~ - Need body information, confirm information
-                        body = ``
+                    if (site === fieldMapping.baylorScottAndWhiteHealth) {
+                        body = `Baylor Scott & White Health by emailing <a href = "mailto:ConnectStudy@bswhealth.org">ConnectStudy@bswhealth.org</a> or calling 214-865-2427`
                     }
 
                     template += `
