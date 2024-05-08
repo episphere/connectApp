@@ -709,7 +709,7 @@ const setModuleAttributes = (data, modules, collections) => {
     modules['Menstrual Cycle'].estimatedTime = '5 minutes';
 
     modules['Mouthwash'].header = 'At-Home Mouthwash Sample Survey';
-    modules['Mouthwash'].description = 'Questions about your oral health and hygiene practices.';
+    modules['Mouthwash'].description = 'Questions about your oral health and hygiene practices that are related to your sample. Complete this survey <b>on the day you collect your mouthwash sample at home</b>.';
     modules['Mouthwash'].estimatedTime = '5 minutes';
 
     modules['PROMIS'].header = 'Quality of Life Survey';
