@@ -371,23 +371,23 @@ const renderMainBody = (data, collections, tab) => {
         toDisplaySystem.unshift({'body':['PROMIS']});
     }
 
-    if(modules['Spanish Covid-19'].enabled) {
+    if(modules['Spanish Covid-19']?.enabled) {
         toDisplaySystem.unshift({'body':['Spanish Covid-19']});
     }
 
-    if(modules['Spanish Biospecimen Survey'].enabled) {
+    if(modules['Spanish Biospecimen Survey']?.enabled) {
         toDisplaySystem.unshift({'body':['Spanish Biospecimen Survey']});
     }
 
-    if(modules['Spanish Clinical Biospecimen Survey'].enabled) {
+    if(modules['Spanish Clinical Biospecimen Survey']?.enabled) {
         toDisplaySystem.unshift({'body':['Spanish Clinical Biospecimen Survey']});
     }
 
-    if(modules['Spanish Menstrual Cycle'].enabled) {
+    if(modules['Spanish Menstrual Cycle']?.enabled) {
         toDisplaySystem.unshift({'body':['Spanish Menstrual Cycle']});
     }
     
-    if(modules['Spanish Mouthwash'].enabled) {
+    if(modules['Spanish Mouthwash']?.enabled) {
         toDisplaySystem.unshift({'body':['Spanish Mouthwash']});
     }
     
