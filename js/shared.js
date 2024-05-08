@@ -1028,7 +1028,12 @@ export const questionnaireModules = () => {
         'Clinical Biospecimen Survey': {path: 'moduleClinicalBloodUrineStage.txt', moduleId:"ClinicalBiospecimen", enabled:false},
         'Menstrual Cycle': {path: 'moduleMenstrualStage.txt', moduleId:"MenstrualCycle", enabled:false},
         'Mouthwash': {path: 'moduleMouthwash.txt', moduleId:"Mouthwash", enabled:false},
-        'PROMIS': {path: 'moduleQoL.txt', moduleId:"PROMIS", enabled:false}
+        'PROMIS': {path: 'moduleQoL.txt', moduleId:"PROMIS", enabled:false},
+        'Spanish Covid-19': {path: 'moduleCOVID19StageSpanish.txt', moduleId:"ModuleCovid19Spanish", enabled:true},
+        'Spanish Biospecimen Survey': {path: 'moduleBiospecimenStageSpanish.txt', moduleId:"BiospecimenSpanish", enabled:true},
+        'Spanish Clinical Biospecimen Survey': {path: 'moduleClinicalBloodUrineStageSpanish.txt', moduleId:"ClinicalBiospecimenSpanish", enabled:true},
+        'Spanish Menstrual Cycle': {path: 'moduleMenstrualStageSpanish.txt', moduleId:"MenstrualCycleSpanish", enabled:true},
+        'Spanish Mouthwash': {path: 'moduleMouthwashSpanish.txt', moduleId:"MouthwashSpanish", enabled:true}
     };
 }
 
