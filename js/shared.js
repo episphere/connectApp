@@ -34,8 +34,6 @@ let api = '';
 
 if(location.host === urls.prod) api = 'https://api-myconnect.cancer.gov/app';
 else if(location.host === urls.stage) api = 'https://api-myconnect-stage.cancer.gov/app';
-// TODO: remove this
-// else if(location.host.startsWith('localhost')) api = 'http://localhost:5001/nih-nci-dceg-connect-dev/us-central1/app';
 else api = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app';
 
 const afterEmailLinkRender = (email, type) => {

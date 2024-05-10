@@ -590,10 +590,6 @@ const consentConsentPage = async () => {
 
     let siteDict = siteAcronyms();
     let participantSite = siteDict[myData.data['827220437']];
-
-    // BSWH reassignment testing 
-    participantSite = 'BSWH'
-    console.log("participantSite: ", participantSite)
     
     template += `
         <div class="row">
@@ -1034,7 +1030,7 @@ const consentSubmit = async e => {
     const myData = await getMyData();
     if(!hasUserData(myData)) return;
 
-    let participantSite = siteDict[myData.data['827220437']]; 
+    let participantSite = siteDict[myData.data['827220437']];
     formData['454205108'] = participantSite + '_Consent_' + formVersions[participantSite]['Consent'];
     formData['412000022'] = participantSite + '_HIPAA_' + formVersions[participantSite]['HIPAA']
 
