@@ -20,17 +20,48 @@ export const toggleElementVisibility = (elementArray, isFormdisplayed) => {
   return isFormdisplayed;
 };
 
-export const suffixList = { 612166858: 0, 255907182: 1, 226924545: 2, 270793412: 3, 959021713: 4, 643664527: 5, 537892528: 6 };
+export const suffixList = { 612166858: 0, 
+  255907182: 1, 
+  226924545: 2, 
+  270793412: 3, 
+  959021713: 4,
+  611945488: 5,
+  773963342: 6,
+  911299066: 7,
+  528373182: 8,
+  233284019: 9, 
+  643664527: 10, 
+  537892528: 11 };
 
 export const suffixToTextMap = new Map([
-  [612166858, 'Jr.'],
-  [255907182, 'Sr.'],
-  [226924545, 'I'],
-  [270793412, 'II'],
-  [959021713, 'III'],
-  [643664527, '2nd'],
-  [537892528, '3rd'],
-]);
+    [612166858, 'Jr.'],
+    [255907182, 'Sr.'],
+    [226924545, 'I'],
+    [270793412, 'II'],
+    [959021713, 'III'],
+    [611945488, 'IV'],
+    [773963342, 'V'],
+    [911299066, 'VI'],
+    [528373182, 'VII'],
+    [233284019, 'VIII'],
+    [643664527, '2nd'],
+    [537892528, '3rd'],
+  ]);
+
+export const suffixToTextMapDropdown = new Map([
+    [612166858, 'Jr.'],
+    [255907182, 'Sr.'],
+    [226924545, 'I, 1st'],
+    [270793412, 'II, 2nd'],
+    [959021713, 'III, 3rd'],
+    [611945488, 'IV, 4th'],
+    [773963342, 'V, 5th'],
+    [911299066, 'VI, 6th'],
+    [528373182, 'VII, 7th'],
+    [233284019, 'VIII, 8th'],
+    [643664527, '2nd'],
+    [537892528, '3rd'],
+  ]);
 
 export const togglePendingVerificationMessage = userData => {
   if (userData) {
@@ -54,7 +85,7 @@ export const handleOptionalFieldVisibility = (value, text, element, matcher, typ
     if (type === 'text') {
       updateElementContentAndDisplay(element, text, value, displayValue);
     } else if (type === 'suffix') {
-      updateElementContentAndDisplay(element, text, suffixToTextMap.get(parseInt(value)), displayValue);
+      updateElementContentAndDisplay(element, text, suffixToTextMapDropdown.get(parseInt(value)), displayValue);
     } else if (type === 'phone') {
       const formattedPhone = `${value.substring(0, 3)} - ${value.substring(3, 6)} - ${value.substring(6, 10)}`;
       updateElementContentAndDisplay(element, text, formattedPhone, displayValue);

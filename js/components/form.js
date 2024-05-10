@@ -6,7 +6,18 @@ export const renderUserProfile = async () => {
     if(!hasUserData(myData)) return;
     
     const mainContent = document.getElementById('root');
-    let suffixList = {612166858: 0,255907182: 1,226924545: 2,270793412: 3,959021713: 4,643664527: 5,537892528: 6};
+    let suffixList = { 612166858: 0, 
+        255907182: 1, 
+        226924545: 2, 
+        270793412: 3, 
+        959021713: 4,
+        611945488: 5,
+        773963342: 6,
+        911299066: 7,
+        528373182: 8,
+        233284019: 9, 
+        643664527: 10, 
+        537892528: 11 };
     mainContent.innerHTML = `
         </br>
         <div class="row">
@@ -40,11 +51,14 @@ export const renderUserProfile = async () => {
                         <option value="">-- Select --</option>
                         <option value="612166858" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 0 ? 'selected':'') : ''}>Jr.</option>
                         <option value="255907182" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 1 ? 'selected':'') : ''}>Sr.</option>
-                        <option value="226924545" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 2 ? 'selected':'') : ''}>I</option>
-                        <option value="270793412" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 3 ? 'selected':'') : ''}>II</option>
-                        <option value="959021713" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 4 ? 'selected':'') : ''}>III</option>
-                        <option value="643664527" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 5 ? 'selected':'') : ''}>2nd</option>
-                        <option value="537892528" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 6 ? 'selected':'') : ''}>3rd</option>
+                        <option value="226924545" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 2 ? 'selected':'') : ''}>I, 1st</option>
+                        <option value="270793412" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 3 || suffixList[myData.data['480305327']] == 10 ? 'selected':'') : ''}>II, 2nd</option>
+                        <option value="959021713" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 4 || suffixList[myData.data['480305327']] == 11 ? 'selected':'') : ''}>III, 3rd</option>
+                        <option value="611945488" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 5 ? 'selected':'') : ''}>IV, 4th</option>
+                        <option value="773963342" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 6 ? 'selected':'') : ''}>V, 5th</option>
+                        <option value="911299066" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 7 ? 'selected':'') : ''}>VI, 6th</option>
+                        <option value="528373182" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 8 ? 'selected':'') : ''}>VII, 7th</option>
+                        <option value="233284019" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 9 ? 'selected':'') : ''}>VIII, 8th</option>
                     </select>
                 </div>
             </div>

@@ -1,5 +1,5 @@
 import { allStates, showAnimation, hideAnimation, getMyData, hasUserData, urls, firebaseSignInRender, validEmailFormat, validPhoneNumberFormat, signInAnonymously, checkAccount } from '../shared.js';
-import { attachTabEventListeners, addOrUpdateAuthenticationMethod, changeContactInformation, changeMailingAddress, changeName, formatFirebaseAuthPhoneNumber, FormTypes, getCheckedRadioButtonValue, handleContactInformationRadioButtonPresets, handleOptionalFieldVisibility, hideOptionalElementsOnShowForm, hideSuccessMessage, openUpdateLoginForm, showAndPushElementToArrayIfExists, showEditButtonsOnUserVerified, suffixList, suffixToTextMap, toggleElementVisibility, togglePendingVerificationMessage, unlinkFirebaseAuthProvider, updatePhoneNumberInputFocus, validateContactInformation, validateLoginEmail, validateLoginPhone, validateMailingAddress, validateName } from '../settingsHelpers.js';
+import { attachTabEventListeners, addOrUpdateAuthenticationMethod, changeContactInformation, changeMailingAddress, changeName, formatFirebaseAuthPhoneNumber, FormTypes, getCheckedRadioButtonValue, handleContactInformationRadioButtonPresets, handleOptionalFieldVisibility, hideOptionalElementsOnShowForm, hideSuccessMessage, openUpdateLoginForm, showAndPushElementToArrayIfExists, showEditButtonsOnUserVerified, suffixList, suffixToTextMapDropdown, toggleElementVisibility, togglePendingVerificationMessage, unlinkFirebaseAuthProvider, updatePhoneNumberInputFocus, validateContactInformation, validateLoginEmail, validateLoginPhone, validateMailingAddress, validateName } from '../settingsHelpers.js';
 import { addEventAddressAutoComplete } from '../event.js';
 import cId from '../fieldToConceptIdMapping.js';
 
@@ -882,7 +882,7 @@ export const renderUserNameData = () => {
               <br>
                   <b>
                   <div id="profileSuffix">
-                      ${suffixToTextMap.get(parseInt(optVars.suffix))}
+                      ${suffixToTextMapDropdown.get(parseInt(optVars.suffix))}
                     </div>
                   </b>
               </span>
@@ -929,11 +929,14 @@ export const renderChangeNameGroup = () => {
                         <option value="">-- Select --</option>
                         <option value="612166858" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 0 ? 'selected' : '') : ''}>Jr.</option>
                         <option value="255907182" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 1 ? 'selected' : '') : ''}>Sr.</option>
-                        <option value="226924545" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 2 ? 'selected' : '') : ''}>I</option>
-                        <option value="270793412" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 3 ? 'selected' : '') : ''}>II</option>
-                        <option value="959021713" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 4 ? 'selected' : '') : ''}>III</option>
-                        <option value="643664527" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 5 ? 'selected' : '') : ''}>2nd</option>
-                        <option value="537892528" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 6 ? 'selected' : '') : ''}>3rd</option>
+                        <option value="226924545" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 2 ? 'selected':'') : ''}>I, 1st</option>
+                        <option value="270793412" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 3 || suffixList[userData[cId.suffix]] == 10 ? 'selected':'') : ''}>II, 2nd</option>
+                        <option value="959021713" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 4 || suffixList[userData[cId.suffix]] == 11 ? 'selected':'') : ''}>III, 3rd</option>
+                        <option value="611945488" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 5 ? 'selected':'') : ''}>IV, 4th</option>
+                        <option value="773963342" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 6 ? 'selected':'') : ''}>V, 5th</option>
+                        <option value="911299066" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 7 ? 'selected':'') : ''}>VI, 6th</option>
+                        <option value="528373182" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 8 ? 'selected':'') : ''}>VII, 7th</option>
+                        <option value="233284019" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 9 ? 'selected':'') : ''}>VIII, 8th</option>
                     </select>
             </div>
             <br>
