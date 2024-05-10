@@ -551,16 +551,16 @@ const displayQuestionnaire = (id, progressBar) => {
         rootElement.innerHTML = `
             ${progressBar ? `
             <div class="row" style="margin-top:50px">
-                <div class = "col-md-1">
+                <div class="col-md-1">
                 </div>
-                <div class = "col-md-10">
-                    <div class="progress" aria-label="Questionnaire Progress">
+                <div class="col-md-10">
+                    <div class="progress">
                         <div id="questProgBar" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
                             <span class="screen-reader-only" id="progressText">0% Complete</span>
                         </div>
                     </div>
                 </div>
-                <div class = "col-md-1">
+                <div class="col-md-1">
                 </div>
             </div>` : ''}
             <div class="row">
