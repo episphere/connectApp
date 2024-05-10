@@ -87,8 +87,8 @@ const siteToConsentSignPosMap = {
         "V0.05": {nameX:90,nameY:407,signatureX:110,signatureY:330,dateX:90,dateY:370},
         "default": {nameX:90,nameY:410,signatureX:110,signatureY:335,dateX:90,dateY:375},
     },
-    "BSWH": { // BSWH COMMENT~ - Adjust later if needed
-        "V0.02": { nameX:100, nameY:407, signatureX:100, signatureY:329, dateX:100, dateY:367 },
+    "BSWH": {
+        "default": { nameX:105, nameY:407, signatureX:105, signatureY:329, dateX:105, dateY:367 },
     },
     "default": {nameX: 110, nameY: 400, signatureX: 110, signatureY: 330, dateX: 110, dateY: 370}
 }
