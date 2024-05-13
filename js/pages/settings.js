@@ -1,5 +1,5 @@
 import { allStates, showAnimation, hideAnimation, getMyData, hasUserData, urls, firebaseSignInRender, validEmailFormat, validPhoneNumberFormat, signInAnonymously, checkAccount } from '../shared.js';
-import { attachTabEventListeners, addOrUpdateAuthenticationMethod, changeContactInformation, changeMailingAddress, changeName, formatFirebaseAuthPhoneNumber, FormTypes, getCheckedRadioButtonValue, handleContactInformationRadioButtonPresets, handleOptionalFieldVisibility, hideOptionalElementsOnShowForm, hideSuccessMessage, openUpdateLoginForm, showAndPushElementToArrayIfExists, showEditButtonsOnUserVerified, suffixList, suffixToTextMap, toggleElementVisibility, togglePendingVerificationMessage, unlinkFirebaseAuthProvider, updatePhoneNumberInputFocus, validateContactInformation, validateLoginEmail, validateLoginPhone, validateMailingAddress, validateName } from '../settingsHelpers.js';
+import { attachTabEventListeners, addOrUpdateAuthenticationMethod, changeContactInformation, changeMailingAddress, changeName, formatFirebaseAuthPhoneNumber, FormTypes, getCheckedRadioButtonValue, handleContactInformationRadioButtonPresets, handleOptionalFieldVisibility, hideOptionalElementsOnShowForm, hideSuccessMessage, openUpdateLoginForm, showAndPushElementToArrayIfExists, showEditButtonsOnUserVerified, suffixList, suffixToTextMapDropdown, toggleElementVisibility, togglePendingVerificationMessage, unlinkFirebaseAuthProvider, updatePhoneNumberInputFocus, validateContactInformation, validateLoginEmail, validateLoginPhone, validateMailingAddress, validateName } from '../settingsHelpers.js';
 import { addEventAddressAutoComplete } from '../event.js';
 import cId from '../fieldToConceptIdMapping.js';
 
@@ -882,7 +882,7 @@ export const renderUserNameData = () => {
               <br>
                   <b>
                   <div id="profileSuffix">
-                      ${suffixToTextMap.get(parseInt(optVars.suffix))}
+                      ${suffixToTextMapDropdown.get(parseInt(optVars.suffix, 10))}
                     </div>
                   </b>
               </span>
@@ -927,13 +927,16 @@ export const renderChangeNameGroup = () => {
                 <label for="newSuffixNameField" class="custom-form-label">Suffix </label> (optional)
                     <select class="form-control  ml-1" style="max-width:152px;" id="newSuffixNameField">
                         <option value="">-- Select --</option>
-                        <option value="612166858" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 0 ? 'selected' : '') : ''}>Jr.</option>
-                        <option value="255907182" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 1 ? 'selected' : '') : ''}>Sr.</option>
-                        <option value="226924545" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 2 ? 'selected' : '') : ''}>I</option>
-                        <option value="270793412" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 3 ? 'selected' : '') : ''}>II</option>
-                        <option value="959021713" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 4 ? 'selected' : '') : ''}>III</option>
-                        <option value="643664527" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 5 ? 'selected' : '') : ''}>2nd</option>
-                        <option value="537892528" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 6 ? 'selected' : '') : ''}>3rd</option>
+                        <option value="${cId.suffixValue.jr}" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 0 ? 'selected' : '') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.jr)}</option>
+                        <option value="${cId.suffixValue.sr}" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 1 ? 'selected' : '') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.sr)}</option>
+                        <option value="${cId.suffixValue.first}" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 2 ? 'selected':'') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.first)}</option>
+                        <option value="${cId.suffixValue.second}" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 3 || suffixList[userData[cId.suffix]] == 10 ? 'selected':'') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.second)}</option>
+                        <option value="${cId.suffixValue.third}" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 4 || suffixList[userData[cId.suffix]] == 11 ? 'selected':'') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.third)}</option>
+                        <option value="${cId.suffixValue.fourth}" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 5 ? 'selected':'') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.fourth)}</option>
+                        <option value="${cId.suffixValue.fifth}" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 6 ? 'selected':'') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.fifth)}</option>
+                        <option value="${cId.suffixValue.sixth}" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 7 ? 'selected':'') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.sixth)}</option>
+                        <option value="${cId.suffixValue.seventh}" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 8 ? 'selected':'') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.seventh)}</option>
+                        <option value="${cId.suffixValue.eighth}" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 9 ? 'selected':'') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.eighth)}</option>
                     </select>
             </div>
             <br>
