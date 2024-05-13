@@ -397,7 +397,6 @@ const renderMainBody = (data, collections, tab) => {
             if(obj['body']){
                 let anyFound = false;
                 for(let key of obj['body']){
-                    console.log(key);
                     if(!modules[key].completed){
                         anyFound = true;
                         break;
@@ -452,7 +451,6 @@ const renderMainBody = (data, collections, tab) => {
                     if (!modules[key].completed) {
                         const moduleTitle = modules[key]['header'] || key;
                         const isEnabled = modules[key].enabled && !modules[key].unreleased;
-                        console.log(key, modules[key], modules[key].moduleId, fieldMapping[modules[key].moduleId]);
                         const buttonAction = modules[key].unreleased ? 'Coming soon' : (data[fieldMapping[modules[key].moduleId].statusFlag] === fieldMapping.moduleStatus.started ? 'Continue' : 'Start');
                         const ariaLabelButton = `${buttonAction} ${moduleTitle}`;
                         template += `
