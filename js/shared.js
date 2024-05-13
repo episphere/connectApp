@@ -1056,8 +1056,7 @@ export const questionnaireModules = () => {
         'Clinical Biospecimen Survey': {path: 'moduleClinicalBloodUrineStage.txt', moduleId:"ClinicalBiospecimen", enabled:false},
         'Menstrual Cycle': {path: 'moduleMenstrualStage.txt', moduleId:"MenstrualCycle", enabled:false},
         'Mouthwash': {path: 'moduleMouthwash.txt', moduleId:"Mouthwash", enabled:false},
-        'PROMIS': {path: 'moduleQoL.txt', moduleId:"PROMIS", enabled:false},
-        'Spanish1': {path: 'moduleQoL.txt', moduleId:"Spanish1", enabled:false}
+        'PROMIS': {path: 'moduleQoL.txt', moduleId:"PROMIS", enabled:false}
     };
 }
 
