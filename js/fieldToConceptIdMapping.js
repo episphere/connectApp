@@ -109,8 +109,7 @@ export default
         "D_826163434":      "ClinicalBiospecimen",
         "D_793330426":      "ModuleCovid19",
         "D_390351864":      "Mouthwash",
-        "D_601305072":      "PROMIS",
-        "D_601305072":      "Spanish1",
+        "D_601305072":      "PROMIS"
     },
 
     "Module1_OLD": {
@@ -265,15 +264,6 @@ export default
     },
 
     "PROMIS": {
-        "conceptId":        "D_601305072",
-        "startTs":          "870643066", 
-        "completeTs":       "843688458",  
-        "statusFlag":       "320303124", 
-        "standaloneSurvey": true,
-        "version":          "490327747"
-    },
-
-    "Spanish1": {
         "conceptId":        "D_601305072",
         "startTs":          "870643066", 
         "completeTs":       "843688458",  
