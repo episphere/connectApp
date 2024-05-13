@@ -8,7 +8,7 @@ a{
 
 .container {
     min-height: calc(100vh - 128px);
-    padding-top: 5rem;
+    padding-top: 3rem;
 }
 
 #root {
@@ -1041,6 +1041,9 @@ consentNextButton:hover{
     .connectBodyPicture{
         text-align:center;
         height:150px;
+    }
+    .container {
+        padding-top: 1rem;
     }
 }
 @media (max-width:992px) and (min-width:521px){

@@ -11,7 +11,8 @@ const i18n = {
 
 export const urls = {
     'prod': 'myconnect.cancer.gov',
-    'stage': 'myconnect-stage.cancer.gov'
+    'stage': 'myconnect-stage.cancer.gov',
+    'dev': 'episphere.github.io'
 }
 
 function createStore(initialState = {}) {
@@ -1021,6 +1022,27 @@ export const questionnaireModules = () => {
             'Mouthwash': {path: 'prod/moduleMouthwash.txt', moduleId:"Mouthwash", enabled:false},
             'PROMIS': {path: 'prod/moduleQoL.txt', moduleId:"PROMIS", enabled:false}
         }
+    }
+
+    if (location.host === urls.dev || location.host === 'localhost:5000') {
+        return {
+            'Background and Overall Health': {path: 'module1Stage.txt', moduleId:"Module1", enabled:true},
+            'Medications, Reproductive Health, Exercise, and Sleep': {path: 'module2Stage.txt', moduleId:"Module2", enabled:false},
+            'Smoking, Alcohol, and Sun Exposure': {path: 'module3Stage.txt', moduleId:"Module3", enabled:false},
+            'Where You Live and Work': {path: 'module4Stage.txt', moduleId:"Module4", enabled:false},
+            'Enter SSN': {moduleId:"ModuleSsn", enabled:false},
+            'Covid-19': {path: 'moduleCOVID19Stage.txt', moduleId:"ModuleCovid19", enabled:false},
+            'Biospecimen Survey': {path: 'moduleBiospecimenStage.txt', moduleId:"Biospecimen", enabled:false},
+            'Clinical Biospecimen Survey': {path: 'moduleClinicalBloodUrineStage.txt', moduleId:"ClinicalBiospecimen", enabled:false},
+            'Menstrual Cycle': {path: 'moduleMenstrualStage.txt', moduleId:"MenstrualCycle", enabled:false},
+            'Mouthwash': {path: 'moduleMouthwash.txt', moduleId:"Mouthwash", enabled:false},
+            'PROMIS': {path: 'moduleQoL.txt', moduleId:"PROMIS", enabled:false},
+            'Spanish Covid-19': {path: 'moduleCOVID19StageSpanish.txt', moduleId:"ModuleCovid19Spanish", enabled:true},
+            'Spanish Biospecimen Survey': {path: 'moduleBiospecimenStageSpanish.txt', moduleId:"BiospecimenSpanish", enabled:true},
+            'Spanish Clinical Biospecimen Survey': {path: 'moduleClinicalBloodUrineStageSpanish.txt', moduleId:"ClinicalBiospecimenSpanish", enabled:true},
+            'Spanish Menstrual Cycle': {path: 'moduleMenstrualStageSpanish.txt', moduleId:"MenstrualCycleSpanish", enabled:true},
+            'Spanish Mouthwash': {path: 'moduleMouthwashSpanish.txt', moduleId:"MouthwashSpanish", enabled:true}
+        };
     }
 
     return {
