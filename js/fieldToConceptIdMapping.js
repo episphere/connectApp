@@ -229,7 +229,7 @@ export default
         received: 375535639
     },
     
-    // healthcare proividers
+    // Healthcare providers
 
     healthPartners: 531629870,
     henryFordHealth: 548392715,
