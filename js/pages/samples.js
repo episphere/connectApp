@@ -1,13 +1,13 @@
 import { getMyData, hasUserData } from "../shared.js";
+import { conceptId } from '../fieldToConceptIdMapping.js';
 
 export const renderSamplesPage = async () => {
     document.title = 'My Connect - Samples';
     getMyData().then(res => {
-        console.log("🚀 ~ getMyData ~ res:", res)
 
         if(!hasUserData(res)) return;
         
-        let site = locations.filter(location => location.concept == res.data['827220437'])[0];
+        let site = locations.filter(location => location.concept == res.data[conceptId.healthcareProvider])[0];
         let template;
 
         if(site && site !== kpga && site !==  kphi && site !==  kpco && site !==  kpnw) {
@@ -511,7 +511,7 @@ const u_chicago = {
     ]
 };
 
-const bswh = {  /* BSWH COMMENT~ - my connect samples information  */
+const bswh = {
     concept: '472940358',
     name: 'Baylor Scott & White (BSW)',
     donatingSamples: 'As part of Connect, we ask you to donate blood, urine, and mouthwash samples and complete a short surveys.',

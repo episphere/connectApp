@@ -241,5 +241,4 @@ export default
     sanfordHealth: 657167265,
     uChicagoMedicine: 809703864,
     baylorScottAndWhiteHealth: 976883292,
-
 };
