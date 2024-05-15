@@ -197,6 +197,7 @@ async function startModule(data, modules, moduleId, questDiv) {
         const questParameters = {
             url: url,
             activate: true,
+            delayedParameterArray: fieldMapping.delayedParameterArray, // Delayed parameters (external questions that require extra processing time)
             store: storeResponseQuest,
             retrieve: function(){return getMySurveys([fieldMapping[moduleId].conceptId])},
             soccer: externalListeners,
