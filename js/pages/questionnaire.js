@@ -317,7 +317,7 @@ function externalListeners(){
                     <div class = "col-md-1">
                     </div>
                     <div class = "col-md-10">
-                        <div class="progress" aria-label="Questionnaire Progress">
+                        <div class="progress">
                             <div id="questProgBar" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
                                 <span class="screen-reader-only" id="progressText">0% Complete</span>
                             </div>
@@ -359,17 +359,17 @@ function externalListeners(){
 
 //BUILDING SOCCER
 function buildHTML(soccerResults, question) {
-    
-    let responseElement = question.querySelector("div[class='response']");
+    let fieldset = question.querySelector('fieldset');
+    let responseElement = fieldset.querySelector("div[class='response']");
     
     if (responseElement) {
       let tmp = responseElement.cloneNode(false);
-      question.replaceChild(tmp, responseElement);
+      fieldset.replaceChild(tmp, responseElement);
       responseElement = tmp;
     } else {
       responseElement = document.createElement("div");
       responseElement.classList.add("response");
-      question.insertBefore(responseElement, question.childNodes[0]);
+      fieldset.insertBefore(responseElement, fieldset.childNodes[0]);
     }
     let questionText = document.createTextNode("Please identify the occupation category that best describes this job.");
     responseElement.append(questionText);
