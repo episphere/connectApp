@@ -340,7 +340,7 @@ const sanford = {
         '</tr>' +
         '<tr style="border: 1px solid">' +
         '<td style="border: 1px solid; text-align: center">Connect samples collected </td>' +
-        '<td style="border: 1px solid; text-align: center">Blood Urine Mouthwash home collection kit <br> mailed to you to complete your saliva sample at home </td>' + 
+        '<td style="border: 1px solid; text-align: center">Blood <br> Urine <br> Mouthwash home collection kit <br> mailed to you to complete your saliva sample at home </td>' + 
         '<td style="border: 1px solid; text-align: center">Blood<br>Urine<br>Saliva</td>' +
         '</tr>' +
         '<tr style="border: 1px solid">' +
