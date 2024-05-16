@@ -272,6 +272,17 @@ export default
         "version":          "490327747"
     },
 
+    // external variables passed into Quest that require extra async/await handling.
+    delayedParameterArray: [
+        "D_627122657",
+        "D_796828094",
+        "D_118061122",
+        "D_518387017",
+        "D_761310265",
+        "D_279637054",
+        "D_951357171",
+    ],
+
     collectionDetails: 173836415,
     baseline: 266600170,
     bioKitMouthwash: 319972665,
