@@ -363,17 +363,14 @@ function buildHTML(soccerResults, question) {
     let fieldset = question.querySelector('fieldset');
     let responseElement = fieldset.querySelector("div[class='response']");
     
-    if (responseElement) {
-      let tmp = responseElement.cloneNode(false);
-      fieldset.replaceChild(tmp, responseElement);
-      responseElement = tmp;
-    } else {
-      responseElement = document.createElement("div");
-      responseElement.classList.add("response");
-      fieldset.insertBefore(responseElement, fieldset.childNodes[0]);
+    // Ensure responseElement exists
+    if (!responseElement) {
+        responseElement = document.createElement("div");
+        responseElement.classList.add("response");
+        fieldset.insertBefore(responseElement, fieldset.firstChild);
     }
-    let questionText = document.createTextNode("Please identify the occupation category that best describes this job.");
-    responseElement.append(questionText);
+
+    responseElement.innerHTML = "Please identify the occupation category that best describes this job.";
   
     soccerResults.forEach((soc, indx) => {
       let resp = document.createElement("input");
