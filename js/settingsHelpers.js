@@ -20,17 +20,49 @@ export const toggleElementVisibility = (elementArray, isFormdisplayed) => {
   return isFormdisplayed;
 };
 
-export const suffixList = { 612166858: 0, 255907182: 1, 226924545: 2, 270793412: 3, 959021713: 4, 643664527: 5, 537892528: 6 };
+export const suffixList = { 
+  [cId.suffixValue.jr]: 0, 
+  [cId.suffixValue.sr]: 1, 
+  [cId.suffixValue.first]: 2, 
+  [cId.suffixValue.second]: 3, 
+  [cId.suffixValue.third]: 4,
+  [cId.suffixValue.fourth]: 5,
+  [cId.suffixValue.fifth]: 6,
+  [cId.suffixValue.sixth]: 7,
+  [cId.suffixValue.seventh]: 8,
+  [cId.suffixValue.eighth]: 9, 
+  [cId.suffixValue.secondDepricated]: 10, 
+  [cId.suffixValue.thirdDepricated]: 11 };
 
 export const suffixToTextMap = new Map([
-  [612166858, 'Jr.'],
-  [255907182, 'Sr.'],
-  [226924545, 'I'],
-  [270793412, 'II'],
-  [959021713, 'III'],
-  [643664527, '2nd'],
-  [537892528, '3rd'],
-]);
+    [cId.suffixValue.jr, 'Jr.'],
+    [cId.suffixValue.sr, 'Sr.'],
+    [cId.suffixValue.first, 'I'],
+    [cId.suffixValue.second, 'II'],
+    [cId.suffixValue.third, 'III'],
+    [cId.suffixValue.fourth, 'IV'],
+    [cId.suffixValue.fifth, 'V'],
+    [cId.suffixValue.sixth, 'VI'],
+    [cId.suffixValue.seventh, 'VII'],
+    [cId.suffixValue.eighth, 'VIII'],
+    [cId.suffixValue.secondDepricated, '2nd'],
+    [cId.suffixValue.thirdDepricated, '3rd'],
+  ]);
+
+export const suffixToTextMapDropdown = new Map([
+    [cId.suffixValue.jr, 'Jr.'],
+    [cId.suffixValue.sr, 'Sr.'],
+    [cId.suffixValue.first, 'I, 1st'],
+    [cId.suffixValue.second, 'II, 2nd'],
+    [cId.suffixValue.third, 'III, 3rd'],
+    [cId.suffixValue.fourth, 'IV, 4th'],
+    [cId.suffixValue.fifth, 'V, 5th'],
+    [cId.suffixValue.sixth, 'VI, 6th'],
+    [cId.suffixValue.seventh, 'VII, 7th'],
+    [cId.suffixValue.eighth, 'VIII, 8th'],
+    [cId.suffixValue.secondDepricated, '2nd'],
+    [cId.suffixValue.thirdDepricated, '3rd'],
+  ]);
 
 export const togglePendingVerificationMessage = userData => {
   if (userData) {
@@ -54,7 +86,7 @@ export const handleOptionalFieldVisibility = (value, text, element, matcher, typ
     if (type === 'text') {
       updateElementContentAndDisplay(element, text, value, displayValue);
     } else if (type === 'suffix') {
-      updateElementContentAndDisplay(element, text, suffixToTextMap.get(parseInt(value)), displayValue);
+      updateElementContentAndDisplay(element, text, suffixToTextMapDropdown.get(parseInt(value)), displayValue);
     } else if (type === 'phone') {
       const formattedPhone = `${value.substring(0, 3)} - ${value.substring(3, 6)} - ${value.substring(6, 10)}`;
       updateElementContentAndDisplay(element, text, formattedPhone, displayValue);

@@ -3,6 +3,7 @@ import { allCountries, dataSavingBtn, storeResponse, validatePin, generateNewTok
 import { consentTemplate } from "./pages/consent.js";
 import { heardAboutStudy, healthCareProvider, duplicateAccountReminderRender } from "./pages/healthCareProvider.js";
 import { myToDoList } from "./pages/myToDoList.js";
+import { suffixToTextMapDropdown } from "./settingsHelpers.js";
 import fieldMapping from "./fieldToConceptIdMapping.js";
 
 export const addEventsConsentSign = () => {
@@ -780,8 +781,6 @@ const verifyUserDetails = (formData) => {
         <span aria-hidden="true">&times;</span>
     </button>
     `;
-    
-    let suffixMap = {612166858: 'Jr.',255907182: 'Sr.',226924545: 'I',270793412: 'II',959021713: 'III',643664527: '2nd',537892528: '3rd'};
 
     document.getElementById('connectModalBody').innerHTML = `
         <div class="row">
@@ -801,7 +800,7 @@ const verifyUserDetails = (formData) => {
         ${formData['506826178'] ? `
         <div class="row">
             <div class="col">Suffix</div>
-            <div class="col">${suffixMap[formData['506826178']]}</div>
+            <div class="col">${formData['506826178'] ? suffixToTextMapDropdown.get(parseInt(formData['506826178'], 10)) : ''}</div>
         </div>
         `: ``}
         ${formData['153211406'] ? `

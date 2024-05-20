@@ -370,6 +370,26 @@ const renderMainBody = (data, collections, tab) => {
     if(modules['PROMIS'].enabled) {
         toDisplaySystem.unshift({'body':['PROMIS']});
     }
+
+    if(modules['Spanish Covid-19']?.enabled) {
+        toDisplaySystem.unshift({'body':['Spanish Covid-19']});
+    }
+
+    if(modules['Spanish Biospecimen Survey']?.enabled) {
+        toDisplaySystem.unshift({'body':['Spanish Biospecimen Survey']});
+    }
+
+    if(modules['Spanish Clinical Biospecimen Survey']?.enabled) {
+        toDisplaySystem.unshift({'body':['Spanish Clinical Biospecimen Survey']});
+    }
+
+    if(modules['Spanish Menstrual Cycle']?.enabled) {
+        toDisplaySystem.unshift({'body':['Spanish Menstrual Cycle']});
+    }
+    
+    if(modules['Spanish Mouthwash']?.enabled) {
+        toDisplaySystem.unshift({'body':['Spanish Mouthwash']});
+    }
     
     if(tab === 'todo'){
         for(let obj of toDisplaySystem){
@@ -709,12 +729,44 @@ const setModuleAttributes = (data, modules, collections) => {
     modules['Menstrual Cycle'].estimatedTime = '5 minutes';
 
     modules['Mouthwash'].header = 'At-Home Mouthwash Sample Survey';
-    modules['Mouthwash'].description = 'Questions about your oral health and hygiene practices.';
+    modules['Mouthwash'].description = 'Questions about your oral health and hygiene practices that are related to your sample. Complete this survey <b>on the day you collect your mouthwash sample at home</b>.';
     modules['Mouthwash'].estimatedTime = '5 minutes';
 
     modules['PROMIS'].header = 'Quality of Life Survey';
     modules['PROMIS'].description = 'Questions about your physical, social, and mental health.';
     modules['PROMIS'].estimatedTime = '10 to 15 minutes';
+
+    if (modules['Spanish Covid-19']) {
+        modules['Spanish Covid-19'].header = 'SPANISH COVID-19 Survey';
+        modules['Spanish Covid-19'].description = 'SPANISH Questions about your history of COVID-19, including any vaccinations you may have received and details about times you may have gotten sick with COVID-19.';
+        modules['Spanish Covid-19'].hasIcon = false;
+        modules['Spanish Covid-19'].noButton = false;
+        modules['Spanish Covid-19'].estimatedTime = '10 minutes';
+    }
+    
+    if (modules['Spanish Biospecimen Survey']) {
+        modules['Spanish Biospecimen Survey'].header = 'SPANISH Baseline Blood, Urine, and Mouthwash Sample Survey';
+        modules['Spanish Biospecimen Survey'].description = 'SPANISH Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples.';
+        modules['Spanish Biospecimen Survey'].estimatedTime = '5 minutes';
+    }
+    
+    if (modules['Spanish Clinical Biospecimen Survey']) {
+        modules['Spanish Clinical Biospecimen Survey'].header = 'SPANISH Baseline Blood and Urine Sample Survey';
+        modules['Spanish Clinical Biospecimen Survey'].description = 'SPANISH Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples.';
+        modules['Spanish Clinical Biospecimen Survey'].estimatedTime = '5 minutes';
+    }
+    
+    if (modules['Spanish Menstrual Cycle']) {
+        modules['Spanish Menstrual Cycle'].header = 'SPANISH Menstrual Cycle Survey';
+        modules['Spanish Menstrual Cycle'].description = 'SPANISH Questions about the date of your first menstrual period after you donated samples for Connect. ';
+        modules['Spanish Menstrual Cycle'].estimatedTime = '5 minutes';
+    }
+    
+    if (modules['Spanish Mouthwash']) {
+        modules['Spanish Mouthwash'].header = 'SPANISH At-Home Mouthwash Sample Survey';
+        modules['Spanish Mouthwash'].description = 'SPANISH Questions about your oral health and hygiene practices.';
+        modules['Spanish Mouthwash'].estimatedTime = '5 minutes';
+    }
 
     if(data['331584571']?.['266600170']?.['840048338']) {
         modules['Biospecimen Survey'].enabled = true;

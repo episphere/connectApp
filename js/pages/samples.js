@@ -325,25 +325,60 @@ const sanford = {
     concept: '657167265',
     name: 'Sanford',
     donatingSamples: 'As part of Connect, we ask you to donate blood, urine, and saliva samples and complete a short survey.',
-    whenToDonate: 'The Connect team will send a MyChart message when it is time to donate your samples. If you do not have a MyChart account, we will send you an email. Be sure to check your spam or junk folder. After you receive the MyChart message or email, it is important to donate your samples as soon as you can. It is easy to donate all of your samples in one visit.<br><br><span style="font-weight:900; text-decoration:underline">Note:</span> If you have recently had a blood transfusion or donated blood, please wait at least <span style="font-weight:900; text-decoration:underline">eight weeks</span> from your donation or transfusion before donating your samples for Connect. If you have recently donated plasma, please wait at least <span style="font-weight:900; text-decoration:underline">two days</span> from your plasma donation before donating samples for Connect. If you have an upcoming colonoscopy, please be sure that you <span style="font-weight:900; text-decoration:underline">do not</span> donate samples for Connect on the <span style="font-weight:900; text-decoration:underline">same day</span> as your colonoscopy.',
-    howToDonate: 'The MyChart message or email we send you will contain a link to schedule an appointment. Simply click the link to schedule an appointment at a time and location that is convenient for you. Be sure you are scheduling an appointment in the city you are closest to.',
-    scheduling: 'Scheduling information will be sent by the Connect team at Sanford via your MyChart or email.<br><br>For questions, please call 605-312-6100 or email <a href="mailto: connectstudy@sanfordhealth.org">connectstudy@sanfordhealth.org</a>.',
-    howLong: 'Please expect to spend about 30 minutes at your appointment to donate your samples and complete a short survey.',
-    prepareInstructions: 'On the day of your appointment, please drink plenty of water, but <span style="font-weight:900; text-decoration:underline">stop drinking water one hour before your appointment.</span><br><br><span style="font-weight:900; text-decoration:underline">One hour before your appointment:</span> Please <span style="font-weight:900; text-decoration:underline">do not</span> eat, drink any liquids (including water), chew gum, smoke, vape, or chew any products (including tobacco), rinse your mouth, or brush your teeth.<br><br><span style="font-weight:900; text-decoration:underline">Things to bring and remember:</span><br><br><ul><li>Make sure you know your login information for MyConnect.</li><li>We will ask you to complete a short survey when you donate your samples. It may also be helpful to have this information on hand:<ul><li>The last time you ate or drank before your appointment, and the times you went to sleep the night before your appointment and woke up on the day of your appointment.</li><li>If you are menstruating, the start date of your most recent menstrual period in the last 12 months.</li></ul></li></ul>',
-    whatHappens: 'Check in at the registration desk. The registration team will direct you where to go next in order to get your samples collected.  At the end of your visit, the Connect team will check you out of your appointment.<br><br>We will draw a blood sample, collect a urine sample, and collect a saliva sample by asking you to swish with mouthwash.<br><br>We will also ask you to complete a short survey on MyConnect using your mobile phone. You will need your MyConnect login information to complete the survey. If you do not have a mobile phone, we may be able to provide you with a tablet to complete your survey.<br><br>We strongly encourage you to complete your survey at your appointment. If you choose to complete it after you leave your appointment, it is important to do so as soon as possible.',
+    whenToDonate: 'The Connect team will send a MyChart message when it is time to donate your samples. If you do not have a MyChart account, we will send you an email. Be sure to check your spam or junk folder. After you receive the MyChart message or email, it is important to donate your samples as soon as you can.<br><br><span style="font-weight:900; text-decoration:underline">Note:</span> If you have recently had a blood transfusion or donated blood, please wait at least <span class="site-info-bold">eight weeks</span> from your donation or transfusion before donating your samples for Connect. If you have recently donated plasma, please wait at least <span class="site-info-bold">two days</span> from your plasma donation before donating samples for Connect. If you have an upcoming colonoscopy, please be sure that you <span class="site-info-bold">do not</span> donate samples for Connect on the <span class="site-info-bold">same day</span> as your colonoscopy.',
+    howToDonate: 'Connect participants at Sanford Health have two options for donating samples. You can choose the most convenient option for you.<br><br> Option 1: Sanford Health Lab Location <br><br> Once you receive our message, you may walk in to donate samples at any participating <span class="site-info-bold">Sanford Health Lab Location</span> during normal hours of operation*. <span class="site-info-bold">You do not need to schedule an appointment</span>. You are welcome to donate your samples for Connect at the same time as any prescheduled medical appointments to save you a trip to the lab. <br><br> <span style="font-weight:900; text-decoration:underline">*Note:</span>  If you live in the Bismarck region, the Sanford lab team prefers you pre-schedule an appointment. You can do this within your MyChart or by calling the lab directly.<br><br> Option 2: Connect Research Lab <br><br>  <span class="site-info-bold">Make an appointment</span> to come into one of our <span class="site-info-bold">Connect Research Labs</span> to donate your samples. <br><br> The table below includes more information about these options. <br><br>' +
+        '<table style="border: 1px solid">' +
+        '<tr style="border: 1px solid">' +
+        '<td style="border: 1px solid; text-align: center"></td>' +
+        '<td style="border: 1px solid; text-align: center">Option 1: Sanford Health Lab Location </td>' +
+        '<td style="border: 1px solid; text-align: center">Option 2: Connect Research Lab </td>' +
+        '</tr>' +
+        '<tr style="border: 1px solid">' +
+        '<td style="border: 1px solid; text-align: center">Will I see a Connect staff member at the clinic?</td>' +
+        '<td style="border: 1px solid; text-align: center">No</td>' +
+        '<td style="border: 1px solid; text-align: center">Yes</td>' +
+        '</tr>' +
+        '<tr style="border: 1px solid">' +
+        '<td style="border: 1px solid; text-align: center">Connect samples collected </td>' +
+        '<td style="border: 1px solid; text-align: center">Blood <br> Urine <br> Mouthwash home collection kit <br> mailed to you to complete your saliva sample at home </td>' + 
+        '<td style="border: 1px solid; text-align: center">Blood<br>Urine<br>Saliva</td>' +
+        '</tr>' +
+        '<tr style="border: 1px solid">' +
+        '<td style="border: 1px solid; text-align: center">Do I need to schedule an appointment ahead of time?</td>' +
+        '<td style="border: 1px solid; text-align: center">Fargo, Sioux Falls, and Bemidji regions: No <br><br>Bismarck region: Preferred, but not required</td>' +
+        '<td style="border: 1px solid; text-align: center">Yes</td>' +
+        '</tr>' +
+        '</table>' +
+        '',
+    scheduling: 'We will send scheduling information through your MyChart or by email.<br><br>For questions, please call 605-312-6100 or email <a href="mailto: connectstudy@sanfordhealth.org">ConnectStudy@sanfordhealth.org</a>.',
+    howLong: 'Option 1: Sanford Health Lab Location<br><br> Wait times to donate samples may vary by location. You may walk in any time the lab is open; however, please note that walking in outside of normal business hours (Monday – Friday 8:00am to 5:00pm) may lead to longer wait times.<br><br> Please expect to spend about 10-15 minutes at your visit to donate your blood and urine samples. <br><br> Option 2: Connect Research Lab<br><br> Please expect to spend about 30 minutes at your appointment to donate your samples and complete a short survey.  ',
+    prepareInstructions: 'Option 1: Sanford Health Lab Location <br><br> On the day of your appointment, you do not need to fast. Please drink plenty of water to keep hydrated.<br><br><span class="site-info-bold">Things to bring and remember:</span><br><br><ul><li>Please bring a valid government-issued photo ID, such as a driver\'s license. </li><li>After your appointment: <ul><li>Be sure to check your email for a link to a survey to complete on MyConnect. The survey asks questions about the day you donated samples, so it is important to complete it as soon as you can. </li><li>We will email you when we ship your mouthwash home collection kit. Please use this kit and included instructions to collect your mouthwash sample at home. </li></ul></li></ul><br> Option 2: Connect Research Lab <br><br> On the day of your appointment, you do not need to fast. <span class="site-info-bold"> One hour before your appointment</span>: Please <span class="site-info-bold">do not</span> eat, drink any liquids (including water), chew gum, smoke, vape, or chew any products (including tobacco), rinse your mouth, or brush your teeth. <br><br><span class="site-info-bold">Things to bring and remember:</span><br><br><ul><li>Make sure you know your login information for MyConnect. </li><li>We will ask you to complete a short survey when you donate your samples. It may be helpful to have this information on hand:  <ul><li>The last time you ate or drank before your appointment, and the times you went to sleep the night before your appointment and woke up on the day of your appointment. </li><li>If you are menstruating, the start date of your most recent menstrual period in the last 12 months.  </li></ul></li></ul>',
+    whatHappens: 'Option 1: Sanford Health Lab Location <br><br> Check in at the registration desk when you arrive. Lab staff will collect blood and urine samples during your visit.<br><br> After your visit, please remember to check your email for a survey to complete on MyConnect. The survey asks questions about the day you donated samples, so please complete it as soon as you can. <br><br> Option 2: Connect Research Lab <br><br> Check in at the registration desk. The registration team will direct you where to go next to get your samples collected. At the end of your visit, the Connect team will check you out of your appointment. <br><br> We will draw a blood sample, collect a urine sample, and collect a saliva sample by asking you to swish with mouthwash.<br><br> We will also ask you to complete a short survey on MyConnect using your mobile phone. You will need your MyConnect login information to complete the survey. If you do not have a mobile phone, we may be able to provide you with a tablet to complete your survey.<br><br> We strongly encourage you to complete your survey at your appointment. If you choose to complete it after you leave your appointment, it is important to do so as soon as possible.<br><br> <div class="consentHeadersFont" style="color:#606060;width:100%">When Will I Receive My $25 Payment?</div><br>You will receive your $25 gift card  after you donate a blood sample and complete <span class="site-info-bold">all four sections</span> of your first Connect survey.<br><br>You can find the four sections of your first survey on your MyConnect Dashboard. These sections are:<ol><li>Background and Overall Health</li><li>Medications, Reproductive Health, Exercise, and Sleep</li><li>Smoking, Alcohol, and Sun Exposure</li><li>Where you Live and Work</li> ',
     support: 'Call 1-877-505-0253 (8:00 a.m.-10:00 p.m. CT on weekdays and 9:00 a.m.-6:00 p.m. CT on weekends)',
     locations: [
         [
-            'Sioux Falls: Sanford Imagenetics',
-            '1321 W. 22nd St.<br>Sioux Falls, SD 57104',
+            '<span>Option 1: Sanford Health Lab Location</span><br><br><span style=" font-family: \'Noto Sans\', sans-serif; font-size: 18px; font-weight: 400; line-height: 27px; color: #2E2E2E; margin-top: 20px;"> To find a Sanford Health Lab Location  and its operating hours, please visit <a href="https://www.sanfordhealth.org/locations" target="_blank">https://www.sanfordhealth.org/locations</a> <br><br>  Exact hours may vary by location. Walking in outside of normal business hours may lead to longer wait times. <br><br> Note: If you live in the Bismarck region, the Sanford lab team prefers you pre-schedule an appointment. You can do this within your MyChart or by calling the lab directly.</span> ',
             '',
-            'Free patient parking available is available in the lot near the front entrance--Door JJ. No parking validation needed.'
+            '',
+            ''
         ],
         [
-            'Fargo: South University Urgent Care/Orthopedic Walk-In Clinic',
-            '1720 University Drive S<br>Fargo, ND 58102<br>Enter Through Door #8',
+            '<span>Option 2: Connect Research Lab</span> <br><br> <span style=" font-family: \'Noto Sans\', sans-serif; font-size: 18px; font-weight: 400; color: #2E2E2E; margin-top: 20px;">Use the link in the message we send to your MyChart or email to schedule an appointment at one of the below locations. You may also schedule an appointment by calling the Connect team at 605-312-6100. <br><br>  Connect Research Lab appointments are available Monday – Thursday 7:00am – 4:00pm and Friday 7:00am – 2:00pm. If you would like to schedule outside of these hours, please contact the Connect team at 605-312-6100 or ConnectStudy@sanfordhealth.org. <span style=" font-family: \'Noto Sans\', sans-serif; font-size: 18px; line-height: 27px; color: #2E2E2E; margin-top: 20px;">',
             '',
-            'Free patient parking available is available in the lot near the Urgent Care entrance—Door #8. No parking validation needed.',
+            '',
+            ''
+        ],
+        [
+            'Sioux Falls, SD: Sanford Imagenetics',
+            '1321 W. 22nd St.<br>Sioux Falls, SD 57104',
+            '',
+            'Free patient parking is available in the lot near the front entrance--Door JJ. No parking validation needed.'
+        ],
+        [
+            'Fargo, ND: South University Urgent Care/Orthopedic Walk-In Clinic',
+            '1720 University Drive S<br>Fargo, ND 58102<br><i>Enter Through Door #8</i>',
+            '',
+            'Free patient parking is available in the lot near the Urgent Care entrance—Door #8. No parking validation needed.',
         ]
     ]
 };
@@ -472,15 +507,42 @@ const u_chicago = {
     concept: '809703864',
     name: 'UChicago Medicine',
     donatingSamples: 'As part of  Connect, we ask you to donate blood, urine, and saliva samples and complete a short survey.',
-    whenToDonate: 'The Connect team will send you an email when it is time to donate your samples. Be sure to check your spam or junk folder. After you receive the email, it is important to donate your samples as soon as you can. It is easy to donate all of your samples in one visit.<br><br><span class="site-info-bold">Note:</span> If you have recently had a blood transfusion or donated blood please wait at least <span class="site-info-bold">eight weeks</span> from your transfusion or donation before donating your samples for Connect. If you have recently donated plasma, please wait at least <span class="site-info-bold">two days</span> from your plasma donation before donating samples for Connect. If you have an upcoming colonoscopy, please be sure that you <span class="site-info-bold">do not</span> donate samples for Connect on the <span class="site-info-bold">same day</span> as your colonoscopy.',
-    howToDonate: 'The email we send you will contain a link to schedule an appointment. Simply click the link to schedule a time that is convenient for you to donate your samples. You can also call UChicago at (773) 834-5804  or walk into a clinic location below without scheduling an appointment. Please note that the wait time for a walk-in sample donation may be longer than for a scheduled appointment.',
-    howLong: 'If you complete your first Connect survey before your appointment, please expect to spend about 45 minutes at your appointment to donate your samples and complete a short survey',
-    prepareInstructions: '<em>All patients and visitors are required to wear a mask per UChicago Medicine mask policy. If you enter the building without a mask, we will give one to you. If you are unable to wear a mask for the duration of the visit, we ask that you do not schedule your visit at this time.</em><br><br>Hand sanitizer will be available for your use, and staff will check your temperature when you arrive. All patients and visitors are required to practice social distancing while in our clinics and hospitals.<br><br>On the day of your appointment, you do not need to fast. We request you to drink plenty of water to keep hydrated, but <span class="site-info-bold">stop drinking water one hour before your appointment.</span><br><br><span class="site-info-bold">One hour before your appointment:</span> Please <span class="site-info-bold">do not</span> eat, drink any liquids (including water), chew gum, smoke, vape, or chew any products (including tobacco), rinse your mouth, or brush your teeth.<br><br><span class="site-info-bold">Things to bring and remember:</span><br><br><ul><li>Please remember to bring a valid photo ID that is not expired (driver\'s license, passport, Chicago CityKey, school photo ID, or other photo ID)</li><li>Make sure you know your login information for MyConnect</li><li>We will ask you to complete a short survey when you donate your samples. It may be helpful to have this information on hand:<ul><li>The last time you ate or drank before your appointment, and the times you went to sleep the night before your appointment and woke up on the day of your appointment.</li><li>If you are menstruating, the start date of your most recent menstrual period in the last 12 months.</li></ul></li></ul>',
-    whatHappens: 'The research team will check you in for your appointment and then collect your samples. At the end of your visit, the research team will check you out of your appointment.<br><br>We will draw a blood sample, collect a urine sample, and collect a saliva sample by asking you to swish with mouthwash.<br><br>We will also ask you to complete a short survey on MyConnect using your mobile phone. You will need your MyConnect login information to complete the survey. If you do not have a mobile phone, we will provide you with a tablet to complete your survey. We strongly encourage you to complete your survey at your appointment. If you choose to complete it after you leave your appointment, it is important to do so as soon as possible.<br><br><span class="site-info-underline">To save time at your appointment, please also complete your first Connect survey on MyConnect before donating samples.</span> If you are not able to complete the survey before your appointment, we will ask you to complete the survey during your appointment.',
+    whenToDonate: 'The Connect team will send you an email when it is time to donate your samples. Be sure to check your spam or junk folder. After you receive the email, it is important to donate your samples as soon as you can.<br><br><span class="site-info-bold">Note:</span> If you have recently had a blood transfusion or donated blood please wait at least <span class="site-info-bold">eight weeks</span> from your transfusion or donation before donating your samples for Connect. If you have recently donated plasma, please wait at least <span class="site-info-bold">two days</span> from your plasma donation before donating samples for Connect. If you have an upcoming colonoscopy, please be sure that you <span class="site-info-bold">do not</span> donate samples for Connect on the <span class="site-info-bold">same day</span> as your colonoscopy.',
+    howToDonate: 'Connect participants at UChicago have two options for donating samples. You can choose the most convenient option for you. For questions and assistance with transportation, please call UChicago at (773) 834-5804 or email Connect@bsd.uchhicago.edu.<br><br> Option 1: Make an appointment to come into one of our Connect Research Labs to donate your samples.<br><br> Option 2: A study team member can request a lab order be placed for you. After you receive the order confirmation email, you can donate samples by visiting a participating UChicago Medicine (UCM) Outpatient Clinical Lab Location during normal hours of operation.<br><br> The table below includes more information about these options.<br><br> ' +
+        '<table style="border: 1px solid">' +
+        '<tr style="border: 1px solid">' +
+        '<td style="border: 1px solid; padding-left: 10px">Option 1: Connect Research Lab</td>' +
+        '<td style="border: 1px solid; padding-left: 10px">Option 2: UCM Outpatient Clinical Lab Location</td>' +
+        '</tr>' +
+        '<tr style="border: 1px solid">' +
+        '<td style="border: 1px solid; padding-left: 10px">Connect team will greet you and walk you through your visit. </td>' +
+        '<td style="border: 1px solid; padding-left: 10px">More hours and more locations, no need to schedule an appointment.</td>' +
+        '</tr>' +
+        '<tr style="border: 1px solid">' +
+        '<td style="border: 1px solid; padding-left: 10px">The team will draw blood, collect urine, and collect a saliva sample by asking you to swish with mouthwash.  </td>' +
+        '<td style="border: 1px solid; padding-left: 10px">Lab staff will collect blood and urine samples at your visit. \n' +
+        'We will send a mouthwash collection kit and instructions to you to complete your saliva sample at home.\n</td>' +
+        '</tr>' +
+        '<tr style="border: 1px solid">' +
+        '<td style="border: 1px solid; padding-left: 10px">Schedule your appointment using the link in the email we send or schedule with Connect staff by calling 773-834-5804.</td>' +
+        '<td style="border: 1px solid; padding-left: 10px">Request a lab order using the link in the email we send.  \n' +
+        'The order will be placed by Connect staff. <span class="site-info-bold">Please allow up to 48 hours to receive order confirmation via email</span>.  Once you receive the confirmation email, visit a participating UCM Outpatient Clinical Lab Location.\n' +
+        'Orders expire after 180 days.\n</td>' +
+        '</tr>' +
+        '</table>',
+    howLong: 'Option 1: UChicago Connect Research Lab Location:<br> Please expect to spend about 30-45 minutes at your appointment to donate your samples. During your appointment, we will ask you to complete a short survey related to the samples we collect.<br><br> Option 2: UCM Outpatient Clinical Lab  Location:<br> Wait times to donate samples may vary by location. Please expect to spend about 10-15 minutes at your appointment to donate your blood and urine samples.',
+    prepareInstructions: 'Option 1: UChicago Connect Research Lab Location:<br><br>On the day of your visit, you do not need to fast. Please drink plenty of water to keep hydrated, but <span class="site-info-bold">stop drinking water one hour before your visit</span>. Please <span class="site-info-bold">do not</span> eat, drink any liquids (including water), chew gum, smoke, vape, or chew any products (including tobacco), rinse your mouth, or brush your teeth.<br><br><span class="site-info-bold">Things to bring and remember:</span><br><br><ul><li>Please remember to bring a valid photo ID that is not expired (driver\'s license, passport, Chicago CityKey, school photo ID, or other photo ID)</li><li>Make sure you know your login information for MyConnect</li><li>We will ask you to complete a short survey when you donate your samples. It may be helpful to have this information on hand:<ul><li>The last time you ate or drank before your appointment, and the times you went to sleep the night before your appointment and woke up on the day of your appointment.</li><li>If you are menstruating, the start date of your most recent menstrual period in the last 12 months.</li></ul></li></ul> Option 2: UCM Outpatient Clinical Lab Location:<br><br> On the day of your appointment, you do not need to fast. Please drink plenty of water to keep hydrated.<br><br><span class="site-info-bold">Things to bring and remember:</span><br><br><ul><li>Please remember to bring a valid photo ID that is not expired (driver\'s license, passport, Chicago CityKey, school photo ID, or other photo ID)</li><li>After your appointment:<ul><li>Be sure to check your email for a link to a survey to complete on MyConnect. The survey asks questions about the day you donated samples, so it is important to complete it as soon as you can.</li><li>We will email you when we ship your mouthwash home collection kit. Please use this kit and included instructions to collect your mouthwash sample at home.</li></ul></li></ul>',
+    whatHappens: 'Option 1: UChicago Connect Research Lab Location:<br><br> The research team will check you in for your appointment and then collect your samples. At the end of your visit, the research team will check you out of your appointment.<br><br>We will draw a blood sample, collect a urine sample, and collect a saliva sample by asking you to swish with mouthwash.<br><br> <span class="site-info-underline">To save time at your appointment, please complete your first Connect survey on MyConnect before donating samples. If you are not able to complete the survey before your appointment, we will ask you to complete the survey during your appointment.</span><br><br> We will also ask you to complete a short survey about your samples on MyConnect using your mobile phone. You will need your MyConnect login information to complete the survey. If you do not have a mobile phone, we will provide you with a tablet to complete your survey. We strongly encourage you to complete your survey at your appointment. If you choose to complete it after you leave your appointment, it is important to do so as soon as possible.<br><br> Option 2: UCM Outpatient Clinical Services Lab Location:<br><br> Lab staff will collect blood and urine samples at your visit. You may donate Connect samples and complete any labs ordered by your provider in the same visit. After your visit, please remember to check your email for a survey to complete on MyConnect. The survey asks questions about the day you donated samples, so please complete it as soon as you can.<br><br><div class="consentHeadersFont" style="color:#606060;width:100%"> When Will I Receive My $25 Payment?</div><br> You will receive your $25 payment after you donate a blood sample and complete all four sections of your first Connect survey.<br><br> You can find the four sections of your first survey on your MyConnect Dashboard. These sections are:<br> 1. Background and Overall Health<br>2. Medications, Reproductive Health, Exercise, and Sleep<br>3. Smoking, Alcohol, and Sun Exposure<br>4. Where you Live and Work',
     support: 'Call 1-877-505-0253 (8:00 a.m.-10:00 p.m. CT on weekdays and 9:00 a.m.-6:00 p.m. CT on weekends)',
-    locationNotes: '<p>UChicago currently offers four locations in Chicagoland. For questions and scheduling please call 773-834-5804 or email connect@bsd.uchicago.edu.</p>',
+    locationNotes: '',
     locations: 
     [
+        [
+            '<span>Option 1: UChicago Connect Research Lab Locations:<br><br></span><span style=" font-family: \'Noto Sans\', sans-serif; font-size: 18px; line-height: 27px; color: #2E2E2E; margin-top: 20px;">Use the link in the email we send to schedule an appointment at one of the below locations, or schedule an appointment with Connect staff by calling 773-834-5804.</span>',
+            '',
+            '',
+            '',
+        ],
         [
             '<span class="site-info-underline">UChicago, Duchossois Center for Advanced Medicine (DCAM) in Hyde Park</span>',
             'University of Chicago Medicine <br>Duchossois Center for Advanced Medicine (DCAM) #2101 </br>5758 S. Maryland Avenue <br>Chicago, IL 60637</br><br>After entering the DCAM building from the main entrance, look for us at the top of the stairs on the 2nd floor.</br></p>',
@@ -494,22 +556,46 @@ const u_chicago = {
             'Ingalls Memorial Hospital offers free valet and self-parking.',
         ],
         [
-            '<span class="site-info-underline">UChicago Medicine – South Loop, in Downtown Chicago</span>',
-            'Southgate Market P1 <br>1101 S Canal St </br> Chicago, IL 60607',
+            '<span class="site-info-underline">UChicago Medicine Orland Park in Orland Park, IL</span>',
+            '9661 W 143rd St </br> Orland Park, IL 60462',
             '',
-            'The clinic is located on the P1 level next to the DSW. Entrances are located off of Canal St right beside the Panera Bread and on the P1 level of the parking garage. We will validate your parking pass from the parking garage. Please show your self-parking ticket to research staff. We are unable to validate street parking.',
+            'The clinic building is located across the street from the UChicago Medicine Orland Park building on the southwest corner of 143rd St and S Ravinia Ave. This location offers free parking in front of the building. Once parked, the suite location is through the front doors and the last door on the left down the lefthand hallway.',
         ],
         [
-            '<span class="site-info-underline">UChicago Medicine – River East, in Downtown Chicago</span>',
+            '<span>Option 2: UCM Outpatient Clinical Lab Locations:<br><br></span><span style=" font-family: \'Noto Sans\', sans-serif; font-size: 18px; line-height: 27px; color: #2E2E2E; margin-top: 20px;">You may walk into any of the following lab locations to donate samples for Connect during normal hours of operation (check the links below for location and hour information):</span>',
+            '',
+            '',
+            '',
+        ],
+        [
+            '<span class="site-info-underline"><a href="https://www.uchicagomedicine.org/find-a-location/uchicago-medicine-river-east" target="_blank">UChicago Medicine River East</a></span>',
             'Located in Lucky Strike Downtown Chicago <br>355 E. Grand Ave <br>Chicago, IL 60611',
             '',
             'From Lake Shore Drive: Exit at Grand Ave. and proceed west towards McClurg Ct.  An entrance to the parking garage is located past that intersection on your left at 321 E. Grand.<br><br>From the West: Take Illinois St. east towards Columbus Dr. An entrance to the parking garage is located past that intersection on your left at 300 E. Illinois.<br><br>Once inside the parking garage, follow the signs to LL3 (Fall) for designated UChicago Medicine patient parking.  We will validate your parking pass from the parking garage. Please show your self-parking ticket to research staff. We are unable to validate street parking.',
         ],
         [
-            '<span class="site-info-underline">UChicago Medicine Orland Park in Orland Park, IL</span>',
-            '9661 W 143<sup>rd</sup> St<br>Orland Park, IL 60462',
+            '<span class="site-info-underline"><a href="https://www.uchicagomedicine.org/find-a-location/uchicago-medicine-south-loop" target="_blank">UChicago Medicine – South Loop, in Downtown Chicago</a></span>',
+            'Southgate Market P1 <br> 1101 S Canal St<br>Chicago, IL 60607',
             '',
-            'The clinic building is located across the street from the UChicago Medicine Orland Park building on the southwest corner of 143<sup>rd</sup> St and S Ravinia Ave. This location offers free parking in front of the building. Once parked, the suite location is through the front doors and the last door on the left down the lefthand hallway.',
+            'The clinic is located on the P1 level next to the DSW. Entrances are located off of Canal St right beside the Panera Bread and on the P1 level of the parking garage. We will validate your parking pass from the parking garage. Please show your self-parking ticket to research staff. We are unable to validate street parking.',
+        ],
+        [
+            '<span class="site-info-underline"><a href="https://www.uchicagomedicine.org/find-a-location/uchicago-medicine-orland-park" target="_blank">UChicago Medicine Orland Park</a></span>',
+            '14290 S. La Grange Rd.<br> Orland Park, IL 60462',
+            '',
+            '',
+        ],
+        [
+            '<span class="site-info-underline"><a href="https://www.uchicagomedicine.org/find-a-location/uchicago-medicine-dearborn-station" target="_blank">UChicago Medicine Dearborn Station</a></span>',
+            '47 W. Polk St., Suite G1<br> Chicago, IL 60605',
+            '',
+            '',
+        ],
+        [
+            '<span class="site-info-underline"><a href="https://www.uchicagomedicine.org/find-a-location/uchicago-medicine-kenwood" target="_blank">UChicago Medicine Kenwood</a></span>',
+            '4646 S. Drexel Blvd<br> Chicago, IL 60653',
+            '',
+            '',
         ],
     ]
 };
@@ -627,6 +713,16 @@ const renderLocations = (site) => {
                         </div>
                     </div>
                 </div>`
+            } else if (site === sanford) {
+                template += !location[1] ? '' : `<div class="row" style="width:100%">
+                <div style="width:100%">
+                    <div class="messagesHeaderFont">
+                        Address and Directions
+                    </div>
+                    <div class="messagesBodyFont">
+                        ${location[1]}
+                    </div>
+                </div>`
             } else if (site === u_chicago && !location[1]){
                 template += `<div class="row" style="width:100%">
                 <div style="width:100%">
@@ -639,7 +735,7 @@ const renderLocations = (site) => {
                 template += `<div class="row" style="width:100%">
                 <div style="width:100%">
                     <div class="messagesHeaderFont">
-                        Address and Directions
+                        Address ${site === u_chicago ? '':'and Directions'} 
                     </div>
                     <div class="messagesBodyFont">
                         ${location[1]}

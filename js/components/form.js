@@ -1,12 +1,14 @@
 import { allStates, allCountries, getMyData, hasUserData } from "../shared.js";
 import { addEventMonthSelection, addEventUPSubmit, addEventCancerFollowUp, addEventChangeFocus, addEventAddressAutoComplete, addEventAdditionalEmail, addEventCheckCanText, addEventDisableCopyPaste } from "../event.js";
+import cId from '../fieldToConceptIdMapping.js';
+import { suffixList, suffixToTextMapDropdown } from "../settingsHelpers.js";
 
 export const renderUserProfile = async () => {
     const myData = await getMyData();
     if(!hasUserData(myData)) return;
     
     const mainContent = document.getElementById('root');
-    let suffixList = {612166858: 0,255907182: 1,226924545: 2,270793412: 3,959021713: 4,643664527: 5,537892528: 6};
+    const consentSuffixKey = cId.consentSuffix.toString();
     mainContent.innerHTML = `
         </br>
         <div class="row">
@@ -38,13 +40,16 @@ export const renderUserProfile = async () => {
                     <label class="col-form-label">Suffix</label>
                     <select class="form-control" style="max-width:152px; margin-left:0px;" id="UPSuffix">
                         <option value="">-- Select --</option>
-                        <option value="612166858" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 0 ? 'selected':'') : ''}>Jr.</option>
-                        <option value="255907182" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 1 ? 'selected':'') : ''}>Sr.</option>
-                        <option value="226924545" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 2 ? 'selected':'') : ''}>I</option>
-                        <option value="270793412" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 3 ? 'selected':'') : ''}>II</option>
-                        <option value="959021713" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 4 ? 'selected':'') : ''}>III</option>
-                        <option value="643664527" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 5 ? 'selected':'') : ''}>2nd</option>
-                        <option value="537892528" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 6 ? 'selected':'') : ''}>3rd</option>
+                        <option value="${cId.suffixValue.jr}" ${myData.data[consentSuffixKey] ? (suffixList[myData.data[consentSuffixKey]] == 0 ? 'selected':'') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.jr)}</option>
+                        <option value="${cId.suffixValue.sr}" ${myData.data[consentSuffixKey] ? (suffixList[myData.data[consentSuffixKey]] == 1 ? 'selected':'') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.sr)}</option>
+                        <option value="${cId.suffixValue.first}" ${myData.data[consentSuffixKey] ? (suffixList[myData.data[consentSuffixKey]] == 2 ? 'selected':'') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.first)}</option>
+                        <option value="${cId.suffixValue.second}" ${myData.data[consentSuffixKey] ? (suffixList[myData.data[consentSuffixKey]] == 3 || suffixList[myData.data[consentSuffixKey]] == 10 ? 'selected':'') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.second)}</option>
+                        <option value="${cId.suffixValue.third}" ${myData.data[consentSuffixKey] ? (suffixList[myData.data[consentSuffixKey]] == 4 || suffixList[myData.data[consentSuffixKey]] == 11 ? 'selected':'') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.third)}</option>
+                        <option value="${cId.suffixValue.fourth}" ${myData.data[consentSuffixKey] ? (suffixList[myData.data[consentSuffixKey]] == 5 ? 'selected':'') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.fourth)}</option>
+                        <option value="${cId.suffixValue.fifth}" ${myData.data[consentSuffixKey] ? (suffixList[myData.data[consentSuffixKey]] == 6 ? 'selected':'') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.fifth)}</option>
+                        <option value="${cId.suffixValue.sixth}" ${myData.data[consentSuffixKey] ? (suffixList[myData.data[consentSuffixKey]] == 7 ? 'selected':'') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.sixth)}</option>
+                        <option value="${cId.suffixValue.seventh}" ${myData.data[consentSuffixKey] ? (suffixList[myData.data[consentSuffixKey]] == 8 ? 'selected':'') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.seventh)}</option>
+                        <option value="${cId.suffixValue.eighth}" ${myData.data[consentSuffixKey] ? (suffixList[myData.data[consentSuffixKey]] == 9 ? 'selected':'') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.eighth)}</option>
                     </select>
                 </div>
             </div>

@@ -1,7 +1,7 @@
 import { getMyData, hasUserData, hideAnimation, showAnimation, siteAcronyms, dateTime, storeResponse, isMobile, openNewTab } from "../shared.js";
 import { initializeCanvas } from './consent.js'
 import fieldMapping from '../fieldToConceptIdMapping.js';
-import {suffixToTextMap} from '../settingsHelpers.js'
+import {suffixToTextMap, suffixToTextMapDropdown} from '../settingsHelpers.js'
 import consentVersions from "../../forms/formVersions.js";
 
 const { PDFDocument, StandardFonts } = PDFLib;
@@ -557,14 +557,16 @@ const consentSignTemplate = () => {
                     </label>
                     <select name="NameSuffix" class="form-control col-md-10" id="CSNameSuffix" style="margin-left:0px;">
                         <option value="">-Select-</option>
-                        <option value="612166858">Jr.</option>
-                        <option value="255907182">Sr.</option>
-                        <option value="226924545">I</option>
-                        <option value="270793412">II</option>
-                        <option value="959021713">III</option>
-                        <option value="643664527">2nd</option>
-                        <option value="537892528">3rd</option>
-
+                        <option value="${fieldMapping.suffixValue.jr}">${suffixToTextMapDropdown.get(fieldMapping.suffixValue.jr)}</option>
+                        <option value="${fieldMapping.suffixValue.sr}">${suffixToTextMapDropdown.get(fieldMapping.suffixValue.sr)}</option>
+                        <option value="${fieldMapping.suffixValue.first}">${suffixToTextMapDropdown.get(fieldMapping.suffixValue.first)}</option>
+                        <option value="${fieldMapping.suffixValue.second}">${suffixToTextMapDropdown.get(fieldMapping.suffixValue.second)}</option>
+                        <option value="${fieldMapping.suffixValue.third}">${suffixToTextMapDropdown.get(fieldMapping.suffixValue.third)}</option>
+                        <option value="${fieldMapping.suffixValue.fourth}">${suffixToTextMapDropdown.get(fieldMapping.suffixValue.fourth)}</option>
+                        <option value="${fieldMapping.suffixValue.fifth}">${suffixToTextMapDropdown.get(fieldMapping.suffixValue.fifth)}</option>
+                        <option value="${fieldMapping.suffixValue.sixth}">${suffixToTextMapDropdown.get(fieldMapping.suffixValue.sixth)}</option>
+                        <option value="${fieldMapping.suffixValue.seventh}">${suffixToTextMapDropdown.get(fieldMapping.suffixValue.seventh)}</option>
+                        <option value="${fieldMapping.suffixValue.eighth}">${suffixToTextMapDropdown.get(fieldMapping.suffixValue.eighth)}</option>
                     </select>
                     <br>
                 </div>

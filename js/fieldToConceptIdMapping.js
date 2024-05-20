@@ -9,8 +9,23 @@ export default
     "birthYear":544150384,
     "consentFirstName": 471168198,
     "consentLastName": 736251808,
+    "consentSuffix": 480305327,
     "consentDate":454445267,
     "suffix":506826178,
+    "suffixValue": {
+        "jr": 612166858,
+        "sr": 255907182,
+        "first": 226924545,
+        "second": 270793412,
+        "third": 959021713,
+        "fourth": 611945488,
+        "fifth": 773963342,
+        "sixth": 911299066,
+        "seventh": 528373182,
+        "eighth": 233284019,
+        "secondDepricated": 643664527,
+        "thirdDepricated": 537892528
+    },
     "homePhone":438643922,
     "prefEmail":869588347,
     "additionalEmail1":849786503,
@@ -202,6 +217,51 @@ export default
         "standaloneSurvey": true,
         "version":          "850585325"
     },
+    
+    "ModuleCovid19Spanish": {
+        "conceptId":        "D_793330426", 
+        "startTs":          "268176409", 
+        "completeTs":       "784810139",  
+        "statusFlag":       "220186468", 
+        "standaloneSurvey": true,
+        "version":          "931332817"
+    },
+
+    "BiospecimenSpanish": {
+        "conceptId":        "D_299215535",
+        "startTs":          "822499427", 
+        "completeTs":       "222161762",  
+        "statusFlag":       "265193023", 
+        "standaloneSurvey": true,
+        "version":          "227848247"
+    },
+
+    "MenstrualCycleSpanish": {
+        "conceptId":        "D_912367929",
+        "startTs":          "844088537", 
+        "completeTs":       "217640691",  
+        "statusFlag":       "459098666", 
+        "standaloneSurvey": true,
+        "version":          "901199566"
+    },
+
+    "ClinicalBiospecimenSpanish": {
+        "conceptId":        "D_826163434",
+        "startTs":          "534669573", 
+        "completeTs":       "764863765", 
+        "statusFlag":       "253883960", 
+        "standaloneSurvey": true,
+        "version":          "220355297"
+    },
+
+    "MouthwashSpanish": {
+        "conceptId":        "D_390351864",
+        "startTs":          "286191859", 
+        "completeTs":       "195145666",  
+        "statusFlag":       "547363263", 
+        "standaloneSurvey": true,
+        "version":          "850585325"
+    },
 
     "PROMIS": {
         "conceptId":        "D_601305072",
@@ -211,6 +271,17 @@ export default
         "standaloneSurvey": true,
         "version":          "490327747"
     },
+
+    // external variables passed into Quest that require extra async/await handling.
+    delayedParameterArray: [
+        "D_627122657",
+        "D_796828094",
+        "D_118061122",
+        "D_518387017",
+        "D_761310265",
+        "D_279637054",
+        "D_951357171",
+    ],
 
     collectionDetails: 173836415,
     baseline: 266600170,
