@@ -8,17 +8,22 @@ import fieldMapping from '../fieldToConceptIdMapping.js';
 
 export const myToDoList = async (data, fromUserProfile, collections) => {
     const mainContent = document.getElementById('root');
+    // No idea what these are, can't find either CID
     if(!data['507120821']){
         let formData = {
             '507120821':845979108
         }
         storeResponse(formData);
     }
-    if(data['827220437'] && data['142654897']){
-        localStorage.eligibilityQuestionnaire = JSON.stringify({'827220437': data['827220437']})
-        if(data['919254129'] === 353358909){
+    if(data[fieldMapping.healthcareProvider] && data[fieldMapping.heardAboutStudyForm]){
+        console.log('Case 1');
+        localStorage.eligibilityQuestionnaire = JSON.stringify({[fieldMapping.healthcareProvider]: data[fieldMapping.healthcareProvider]})
+        if(data[fieldMapping.consentSubmitted] === fieldMapping.yes){
 
-            if (data['699625233'] === 353358909 && data['512820379'] === 854703046 && data['821247024'] === 875007964) {
+            if (
+                data[fieldMapping.userProfileSubmittedAutogen] === fieldMapping.yes && 
+                data[fieldMapping.recruitmentType] === fieldMapping.recruitmentTypes.passive && data[fieldMapping.verification] === fieldMapping.notYetVerified
+            ) {
                 blockParticipant();
                 hideAnimation();
                 return;
@@ -26,7 +31,10 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
             
             let topMessage = "";
             
-            if(data['699625233'] && data['699625233'] === 353358909){
+            if(
+                data[fieldMapping.userProfileSubmittedAutogen] &&
+                data[fieldMapping.userProfileSubmittedAutogen] === fieldMapping.yes
+            ){
                 let template = `
                     <div class="row">
                         <div class="col-lg-2">
@@ -40,20 +48,24 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                 if (isParticipantDataDestroyed(data)){
                     finalMessage += "At your request, we have deleted your Connect data. If you have any questions, please contact the Connect Support Center by calling 1-877-505-0253 or by emailing  <a href='mailto:ConnectSupport@norc.org'>ConnectSupport@norc.org</a>."
                 }
-                else if (data['831041022'] === 353358909){
-                    if (!data['359404406'] || data['359404406'] == 104430631){
+                else if (data[fieldMapping.destroyData] === fieldMapping.yes){
+                    if (!data[fieldMapping.dataDestructionRequestSigned] || data[fieldMapping.dataDestructionRequestSigned] == fieldMapping.no){
                         finalMessage += "You have a new <a href='#forms'>form</a> to sign." + defaultMessage
                     }
-                    else if((data['747006172'] && data['747006172'] !== 104430631) && (!data['153713899'] || data['153713899'] == 104430631)){
+                    else if(
+                        (data[fieldMapping.withdrawConsent] &&
+                            data[fieldMapping.withdrawConsent] !== fieldMapping.no) &&
+                        (!data[fieldMapping.hipaaRevocationSigned] || data[fieldMapping.hipaaRevocationSigned] == fieldMapping.no)
+                    ){
                         finalMessage += "You have a new <a href='#forms'>form</a> to sign." + defaultMessage
                     }
                     else{
                         finalMessage += defaultMessage
                     }
                 }
-                else if ((data['747006172'] && data['747006172'] !== 104430631)){
+                else if ((data[fieldMapping.withdrawConsent] && data[fieldMapping.withdrawConsent] !== fieldMapping.no)){
                     
-                    if (!data['153713899'] || data['153713899'] == 104430631){
+                    if (!data[fieldMapping.hipaaRevocationSigned] || data[fieldMapping.hipaaRevocationSigned] == fieldMapping.no){
                         finalMessage += "You have a new <a href='#forms'>form</a> to sign." + defaultMessage
                     }
                     else{
@@ -70,10 +82,10 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                     hideAnimation();
                     return;
                 }
-                else if (((data['773707518'] === 353358909)) && (!data['153713899'] || data['153713899'] === 104430631)){
+                else if (((data[fieldMapping.revokeHipaa] === fieldMapping.yes)) && (!data[fieldMapping.hipaaRevocationSigned] || data[fieldMapping.hipaaRevocationSigned] === fieldMapping.no)){
                     topMessage += "You have a new <a href='#forms'>form</a> to sign.<p/><br>"
                 }
-                if(!data['821247024'] || data['821247024'] == 875007964){
+                if(!data[fieldMapping.verification] || data[fieldMapping.verification] == fieldMapping.notYetVerified){
                     if(data['unverifiedSeen'] && data['unverifiedSeen'] === true){
                         topMessage += '';
                     }
@@ -89,7 +101,7 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                             ${checkIfComplete(data) ? 'Thank you for completing your first Connect survey! We will be in touch with next steps.': 'In the meantime, please begin by completing your first Connect survey.'}`}
                     `
                 }
-                else if(data['821247024'] && data['821247024'] == 197316935) {
+                else if(data[fieldMapping.verification] && data[fieldMapping.verification] == fieldMapping.verified) {
                     if(data['verifiedSeen'] && data['verifiedSeen'] === true){
                         if(checkIfComplete(data)) {
                             if(!data['firstSurveyCompletedSeen']) {
@@ -117,7 +129,7 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                         storeResponse(formData);
                     }
                 }
-                else if(data['821247024'] && data['821247024'] == 219863910) {
+                else if(data[fieldMapping.verification] && data[fieldMapping.verification] == fieldMapping.cannotBeVerified) {
                     template += `
                     <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
                         Based on our records you are not eligible for the Connect for Cancer Prevention Study. Thank you for your interest. Any information that you have already provided will remain private. We will not use any information you shared for our research.
@@ -133,7 +145,7 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                     hideAnimation();
                     return;
                 }
-                else if(data['821247024'] && data['821247024'] == 922622075) {
+                else if(data[fieldMapping.verification] && data[fieldMapping.verification] == fieldMapping.duplicate) {
                     template += `
                     <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
                         Our records show that you already have another account with a different email or phone number. Please try signing in again. Contact the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling <span style="white-space:nowrap;overflow:hidden">1-877-505-0253</span> if you need help accessing your account.
@@ -147,34 +159,34 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                     hideAnimation();
                     return;
                 }
-                else if(data['821247024'] && data['821247024'] == 160161595) {
-                    let site =data['827220437']
+                else if(data[fieldMapping.verification] && data[fieldMapping.verification] == fieldMapping.outreachTimedOut) {
+                    let site = data[fieldMapping.healthcareProvider]
                     let body = `the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling 1-877-505-0253`;
-                    if(site == 531629870){
+                    if(site == fieldMapping.healthPartners){
                         body = `HealthPartners by emailing <a href = "mailto:ConnectStudy@healthpartners.com">ConnectStudy@healthpartners.com</a> or calling 952-967-5067`
                     }
-                    if(site == 548392715){
+                    if(site == fieldMapping.hfhs){
                         body = `Henry Ford Health System by emailing <a href = "mailto:ConnectStudy@hfhs.org">ConnectStudy@hfhs.org</a>`
                     }
-                    if(site == 125001209){
+                    if(site == fieldMapping.kpColorado){
                         body = `KP Colorado by emailing <a href = "mailto:Connect-Study-KPCO@kp.org">Connect-Study-KPCO@kp.org</a> or calling 303-636-3126`
                     }
-                    if(site == 327912200){
+                    if(site == fieldMapping.kpGeorgia){
                         body = `KP Georgia by emailing <a href = "mailto:Connect-Study-KPGA@kp.org">Connect-Study-KPGA@kp.org</a> or calling 404-745-5115`
                     }
-                    if(site == 300267574){
+                    if(site == fieldMapping.kpHawaii){
                         body = `KP Hawaii by emailing <a href = "mailto:Connect-Study-KPHI@kp.org">Connect-Study-KPHI@kp.org</a> or calling 833-417-0846`
                     }
-                    if(site == 452412599){
+                    if(site == fieldMapping.kpNorthwest){
                         body = `KP Northwest by emailing <a href = "mailto:Connect-Study-KPNW@kp.org">Connect-Study-KPNW@kp.org</a> or calling 1-866-554-6039 (toll-free) or 503-528-3985`
                     }
-                    if(site == 303349821){
+                    if(site == fieldMapping.marshfield){
                         body = `the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling 1-877-505-0253`
                     }
-                    if(site == 657167265){
+                    if(site == fieldMapping.sanfordHealth){
                         body = `Sanford Health by emailing <a href = "mailto:ConnectStudy@sanfordhealth.org">ConnectStudy@sanfordhealth.org</a> or calling 605-312-6100`
                     }
-                    if(site == 809703864){
+                    if(site == fieldMapping.ucm){
                         body = `the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling 1-877-505-0253`
                     }
 
@@ -267,12 +279,14 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
         hideAnimation();
         return;
     }
-    else if(data['827220437'] && !data['142654897'] && !isParticipantDataDestroyed(data)){
+    else if(data[fieldMapping.healthcareProvider] && !data[fieldMapping.heardAboutStudyForm] && !isParticipantDataDestroyed(data)){
+        console.log('Case 2')
         mainContent.innerHTML =  heardAboutStudy();
         addEventHeardAboutStudy();
         hideAnimation();
     }
-    else if(data['379080287']){
+    else if(data[fieldMapping.pinNumber]){
+        console.log('PIN number case triggered');
         mainContent.innerHTML = requestPINTemplate();
         addEventPinAutoUpperCase();
         addEventRequestPINForm();
@@ -280,6 +294,7 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
         hideAnimation();
     }
     else{
+        console.log('Final else case')
         if (isParticipantDataDestroyed(data)) {
             mainContent.innerHTML = `
                 <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
@@ -333,7 +348,7 @@ const renderMainBody = (data, collections, tab) => {
         },
         { body: ["Enter SSN"] },
     ];
-    if (data["821247024"] === 875007964) {
+    if (data[fieldMapping.verification] === fieldMapping.notYetVerified) {
         toDisplaySystem = [
             {
                 header: "First Survey",
@@ -773,12 +788,12 @@ const setModuleAttributes = (data, modules, collections) => {
         modules['Covid-19'].enabled = true;
     }
 
-    if(collections && collections.filter(collection => collection['650516960'] === 664882224).length > 0) {
+    if(collections && collections.filter(collection => collection[fieldMapping.collectionSetting] === fieldMapping.clinical).length > 0) {
         modules['Clinical Biospecimen Survey'].enabled = true;
         modules['Covid-19'].enabled = true;
     }
 
-    if(data[fieldMapping.menstrualSurveyEligible] === 353358909) {
+    if(data[fieldMapping.menstrualSurveyEligible] === fieldMapping.yes) {
         modules['Menstrual Cycle'].enabled = true;
 
         if(data[fieldMapping.MenstrualCycle.statusFlag] !== fieldMapping.moduleStatus.submitted) {

@@ -109,6 +109,7 @@ const troubleGettingEmailRender = (type) => {
 const signInFlowRender = (signInEmail) => {
   const type = document.getElementById("signInDiv") ? "In" : "Up";
   const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
+  console.log('ui', ui);
   document.getElementById("signInWrapperDiv").replaceChildren(afterEmailLinkRender(signInEmail, type));
 
   document.querySelector('a[class~="firebaseui-id-trouble-getting-email-link"]').addEventListener("click", () => {
@@ -270,13 +271,25 @@ export const storeSocial = async (formData) => {
 export const getMyData = async () => {
 
     const idToken = await getIdToken();
-    const response = await fetch(`${api}?api=getUserProfile`, {
-        headers: {
-            Authorization: 'Bearer ' + idToken,
-        },
-    });
-
-    return await response.json();
+    console.log('idToken', idToken);
+    console.error(new Error('getMyData stacktrace'));
+    console.log('Fetching against "%s"', `${api}?api=getUserProfile`);
+    try {
+        const response = await fetch(`${api}?api=getUserProfile`, {
+            headers: {
+                Authorization: 'Bearer ' + idToken,
+                'x-custom-flag': 'customFlag'
+            }
+        });
+    
+        const json = await response.json();
+        console.log('Resulting json', JSON.parse(JSON.stringify(json)));
+    
+        return json;
+    } catch(err) {
+        console.error('Error in fetch', err);
+    }
+    
 };
 
 export const hasUserData = (response) => {
@@ -437,6 +450,7 @@ export const getIdToken = () => {
 export const userLoggedIn = () => {
     return new Promise((resolve, reject) => {
         const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+            console.log('user', user);
             unsubscribe();
             if (user && !user.isAnonymous) {
                 resolve(true);
@@ -894,6 +908,7 @@ export const retrieveNotifications = async () => {
  */
 export const checkAccount = async (data) => {
     const idToken = appState.getState().idToken;
+    console.log(`Fetching against ${api}?api=validateEmailOrPhone&${data.accountType}=${data.accountValue}`)
     const response = await fetch(`${api}?api=validateEmailOrPhone&${data.accountType}=${data.accountValue}`, {
         method: "GET",
         headers: {
@@ -1418,6 +1433,7 @@ You are accessing a U.S. Government web site which may contain information that 
 `;
 
 export const firebaseSignInRender = async ({ ui, account = {}, displayFlag = true }) => {
+    console.log('account', account);
   const df = fragment`
     <div class="mx-4">
       <p class="loginTitleFont" style="text-align:center;">Sign In</p>
@@ -1478,6 +1494,7 @@ export const processAuthWithFirebaseAdmin = async(newAuthData) => {
     const idToken = await getIdToken();
   
     try {
+        console.log('Attempting to processAuthWithFirebaseAdmin with api %s', api);
         const response = await fetch(`${api}?api=updateParticipantFirebaseAuthentication`,{
             method:'POST',
             body: JSON.stringify(authenticationDataPayload),

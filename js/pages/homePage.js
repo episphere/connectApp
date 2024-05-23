@@ -585,6 +585,8 @@ export function signInCheckRender ({ ui }) {
         accountValue: emailForQuery,
       });
 
+      console.log('response?.data', response?.data);
+
       if (response?.data?.accountExists) {
         const account = { type: 'email', value: inputStr };
         firebaseSignInRender({ ui, account });

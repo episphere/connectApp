@@ -1,0 +1,20 @@
+{
+  "name": "connectapp",
+  "version": "1.0.0",
+  "description": "Participant-facing progressive web app for the Connect project - https://episphere.github.io/connectApp/",
+  "main": "app.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test-chrome": "npx playwright test --headed -g \"UI tests\" --project=chromium"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.42.1",
+    "@types/node": "^20.11.30",
+    "dotenv": "^16.4.5"
+  }
+}
