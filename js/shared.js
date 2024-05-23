@@ -346,7 +346,8 @@ const allIHCS = {
     452412599: 'Kaiser Permanente Northwest',
     303349821: 'Marshfield Clinic Health System',
     657167265: 'Sanford Health',
-    809703864: 'University of Chicago Medicine'
+    809703864: 'University of Chicago Medicine',
+    472940358: 'Baylor Scott & White Health'
 }
 
 export const sites = () => {
@@ -360,7 +361,8 @@ export const sites = () => {
             125001209: 'Kaiser Permanente Colorado',
             452412599: 'Kaiser Permanente Northwest',
             327912200: 'Kaiser Permanente Georgia',
-            300267574: 'Kaiser Permanente Hawaii'
+            300267574: 'Kaiser Permanente Hawaii',
+            472940358: 'Baylor Scott & White Health'
         }
     }
     else if (location.host === urls.stage) {
@@ -374,6 +376,7 @@ export const sites = () => {
             327912200: 'Kaiser Permanente Georgia',
             300267574: 'Kaiser Permanente Hawaii',
             452412599: 'Kaiser Permanente Northwest',
+            472940358: 'Baylor Scott & White Health'
         }
         //return allIHCS
     }
@@ -393,6 +396,7 @@ export const siteAcronyms = () => {
         303349821: 'Marshfield',
         657167265: 'Sanford',
         809703864: 'UChicago',
+        472940358: 'BSWH',
         13: 'NCI'
     }
 }

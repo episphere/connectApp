@@ -147,35 +147,38 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                     hideAnimation();
                     return;
                 }
-                else if(data['821247024'] && data['821247024'] == 160161595) {
-                    let site =data['827220437']
+                else if (data[fieldMapping.verification] && data[fieldMapping.verification] == fieldMapping.outreachTimedOut) {
+                    let site = data[fieldMapping.healthcareProvider]
                     let body = `the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling 1-877-505-0253`;
-                    if(site == 531629870){
+                    if (site === fieldMapping.healthPartners){
                         body = `HealthPartners by emailing <a href = "mailto:ConnectStudy@healthpartners.com">ConnectStudy@healthpartners.com</a> or calling 952-967-5067`
                     }
-                    if(site == 548392715){
+                    if (site === fieldMapping.henryFordHealth){
                         body = `Henry Ford Health System by emailing <a href = "mailto:ConnectStudy@hfhs.org">ConnectStudy@hfhs.org</a>`
                     }
-                    if(site == 125001209){
+                    if(site === fieldMapping.kaiserPermanenteCO){
                         body = `KP Colorado by emailing <a href = "mailto:Connect-Study-KPCO@kp.org">Connect-Study-KPCO@kp.org</a> or calling 303-636-3126`
                     }
-                    if(site == 327912200){
+                    if (site === fieldMapping.kaiserPermanenteGA){
                         body = `KP Georgia by emailing <a href = "mailto:Connect-Study-KPGA@kp.org">Connect-Study-KPGA@kp.org</a> or calling 404-745-5115`
                     }
-                    if(site == 300267574){
+                    if (site === fieldMapping.kaiserPermanenteHI){
                         body = `KP Hawaii by emailing <a href = "mailto:Connect-Study-KPHI@kp.org">Connect-Study-KPHI@kp.org</a> or calling 833-417-0846`
                     }
-                    if(site == 452412599){
+                    if (site === fieldMapping.kaiserPermanenteNW){
                         body = `KP Northwest by emailing <a href = "mailto:Connect-Study-KPNW@kp.org">Connect-Study-KPNW@kp.org</a> or calling 1-866-554-6039 (toll-free) or 503-528-3985`
                     }
-                    if(site == 303349821){
+                    if (site === fieldMapping.marshfieldClinical){
                         body = `the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling 1-877-505-0253`
                     }
-                    if(site == 657167265){
+                    if (site === fieldMapping.sanfordHealth){
                         body = `Sanford Health by emailing <a href = "mailto:ConnectStudy@sanfordhealth.org">ConnectStudy@sanfordhealth.org</a> or calling 605-312-6100`
                     }
-                    if(site == 809703864){
+                    if (site === fieldMapping.uChicagoMedicine){
                         body = `the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling 1-877-505-0253`
+                    }
+                    if (site === fieldMapping.baylorScottAndWhiteHealth) {
+                        body = `Baylor Scott & White Health by emailing <a href = "mailto:ConnectStudy@bswhealth.org">ConnectStudy@bswhealth.org</a> or calling 214-865-2427`
                     }
 
                     template += `

@@ -1380,6 +1380,14 @@ button.connect-secondary {
     vertical-align: top;
     text-align: left;
 }
+
+.messagesHeaderFont .samples-page-text {
+    font-size: 1.125rem; 
+    color: #2E2E2E;
+    font-family: 'Noto Sans', sans-serif;
+}
+
+.site-info
 .SurveyIcon {
     height: 55px;
     width: 55px;
