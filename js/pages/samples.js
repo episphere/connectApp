@@ -1,5 +1,5 @@
 import { getMyData, hasUserData } from "../shared.js";
-import { conceptId } from '../fieldToConceptIdMapping.js';
+import conceptId from '../fieldToConceptIdMapping.js';
 
 export const renderSamplesPage = async () => {
     document.title = 'My Connect - Samples';
