@@ -1,4 +1,4 @@
-import { todaysDate, storeResponse, dataSavingBtn, dateTime, errorMessageConsent, siteAcronyms, getMyData, hasUserData, isMobile, openNewTab} from "../shared.js";
+import { todaysDate, storeResponse, dataSavingBtn, dateTime, errorMessageConsent, siteAcronyms, getMyData, hasUserData, isMobile, openNewTab, appState, languageAcronyms} from "../shared.js";
 import { renderUserProfile } from "../components/form.js";
 import { removeAllErrors } from "../event.js";
 import { downloadSignedPdf } from "./agreements.js";
@@ -973,12 +973,13 @@ const consentSubmit = async e => {
     removeAllErrors();
     let formData = {};
     const CSFirstName = document.getElementById('CSFirstName');
-    const CSMiddleName = document.getElementById('CSMiddleName')
+    const CSMiddleName = document.getElementById('CSMiddleName');
     const CSLastName = document.getElementById('CSLastName');
-    const CSNameSuffix = document.getElementById('CSNameSuffix')
+    const CSNameSuffix = document.getElementById('CSNameSuffix');
     let hasError = false;
     let focus = true;
     var radios = document.getElementsByName('consentAnswer');
+    let selectedLanguage = appState.getState().language;
     if(!radios[0].checked){
         
         const msg = 'You must check yes to continue.';
@@ -1030,6 +1031,7 @@ const consentSubmit = async e => {
     formData['558435199'] = 353358909;
     //consent and hipaa forms
     let siteDict = siteAcronyms();
+    let langDict = languageAcronyms();
     
     const myData = await getMyData();
     if(!hasUserData(myData)) return;
@@ -1058,6 +1060,9 @@ const consentSubmit = async e => {
         formData['430184574'] = CSWDate.split('/')[2] + CSWDate.split('/')[1] + CSWDate.split('/')[0]
     }
     formData['507120821'] = 596523216;
+
+    //set the prefered language
+    formData[fieldMapping.preferredLanguage] = selectedLanguage ? selectedLanguage : fieldMapping.language.en;
     
     const response = await storeResponse(formData);
     if(response.code === 200) consentFinishedPage ();

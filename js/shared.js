@@ -1727,6 +1727,8 @@ export const translateHTML = (source, language) => {
         language = appState.getState().language;
         if (!language) {
             language = 'en';
+        } else {
+            language = languageAcronyms()[language];
         }
     }
 
@@ -1744,7 +1746,19 @@ export const translateHTML = (source, language) => {
     if (sourceElement.dataset.i18n) {
         let keys = sourceElement.dataset.i18n.split('.');
         let translation = translateText(keys, language);
-        sourceElement.innerHTML = translation ? translation : '';
+        if (translation) {
+            if (typeof translation === 'object') {
+                Object.keys(translation).forEach((key) => {
+                    if (key === 'innerHtml') {
+                        sourceElement.innerHTML = translation[key];
+                    } else {
+                        sourceElement.setAttribute(key, translation[key]);
+                    }
+                });
+            } else {
+                sourceElement.innerHTML = translation ? translation : '';
+            }
+        }
     } else {
         const translationNodes = sourceElement.querySelectorAll("[data-i18n]");
         translationNodes.forEach(node => {
@@ -1813,4 +1827,12 @@ export const translateText = (keys, language, keyIndex, translationObj) => {
             }
         }
     }
+}
+
+export const languageAcronyms = () => {
+    return {
+        [fieldMapping.language.en]: 'en',
+        [fieldMapping.language.es]: 'es'
+    }
+
 }

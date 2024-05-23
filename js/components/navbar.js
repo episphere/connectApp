@@ -1,4 +1,5 @@
-import { urls , isParticipantDataDestroyed } from "../shared.js";
+import { urls , isParticipantDataDestroyed, appState } from "../shared.js";
+import fieldMapping from '../fieldToConceptIdMapping.js';
 
 export const userNavBar = (response) => {
     const disabledClass = isParticipantDataDestroyed(response.data) ? 'disabled': '';
@@ -76,5 +77,16 @@ export const homeNavBar = () => {
                 <a class="nav-link" href="#privacy" id="privacy" title="Privacy"> Privacy</a>
             </li>
         </div>
+    `;
+}
+
+export const languageSelector = () => {
+    const selectedLanguage = appState.getState().language;
+    return `
+        <div id="languageSelectorTitle" data-i18n="languageSelector.title">Preferred Language</div>
+        <select  id="languageSelector">
+            <option value="${fieldMapping.language.en}" ${selectedLanguage === fieldMapping.language.en ? 'selected' : ''} data-i18n="languageSelector.englishOption">English</option>
+            <option value="${fieldMapping.language.es}" ${selectedLanguage === fieldMapping.language.es ? 'selected' : ''} data-i18n="languageSelector.spanishOption">Spanish</option>
+        </select>
     `;
 }

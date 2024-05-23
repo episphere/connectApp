@@ -1,5 +1,5 @@
 import { allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, BirthMonths, getAge, getMyData, 
-    hasUserData, retrieveNotifications, removeActiveClass, toggleNavbarMobileView, appState, logDDRumError } from "./shared.js";
+    hasUserData, retrieveNotifications, removeActiveClass, toggleNavbarMobileView, appState, logDDRumError, translateHTML } from "./shared.js";
 import { consentTemplate } from "./pages/consent.js";
 import { heardAboutStudy, healthCareProvider, duplicateAccountReminderRender } from "./pages/healthCareProvider.js";
 import { myToDoList } from "./pages/myToDoList.js";
@@ -1292,4 +1292,18 @@ export const addEventCheckCanText = () => {
 export const addEventDisableCopyPaste = () =>{
     const myInput = document.getElementById('confirmUPEmail');
     myInput.onpaste = e => e.preventDefault();
+}
+
+export const addEventLanguageSelection = () => {
+    const selector = document.getElementById('languageSelector');
+    if(!selector) {
+        console.warn('Language Selector Not Found');
+        return;
+    }
+    selector.addEventListener('change', (e) => { 
+        const selectedLanguage = e.target.value;
+        window.localStorage.setItem('preferredLanguage', selectedLanguage);
+        appState.setState({"language": selectedLanguage});
+        translateHTML(document.body);
+    });
 }

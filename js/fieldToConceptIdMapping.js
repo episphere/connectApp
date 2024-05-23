@@ -64,6 +64,11 @@ export default
     firstSignInTime: 335767902,
     pinNumber: 379080287,
     menstrualSurveyEligible: 289750687,
+    "preferredLanguage": 255077064,
+    "language": {
+        "en": 163149180,
+        "es": 773342525
+    },
 
     "heardAboutStudyForm" : 142654897,
 

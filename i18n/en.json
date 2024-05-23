@@ -2,8 +2,15 @@
     "home": {
         "titleText": "Connect <em>today.</em><br>Prevent cancer<br><em>tomorrow.</em><br /><br /><img src=\"./images/newImages/ConnectLogo.png\" alt=\"\"><br><br>",
         "ageQuestion": "<b>Are you age 30 to 70 with no history of certain cancers?*</b>",
-        "testMessage": "Hello Friends",
+        "joinStudy": "We need your help. We invite you to join a research study from the National Cancer Institute, part of the National Institutes of Health, to help understand what causes cancer and how to prevent it.",
+        "joinConnect": "*If you have or once had non-melanoma skin cancer (like basal cell or squamous cell carcinoma), or a condition that raises the risk of getting cancer (like DCIS, or stage 0 breast cancer), you can still join Connect.",
+        "groupPicture": {"alt": "Group Photo"},
         "signInTitle": "Sign Into Your Account",
         "signUpTitle": "Sign Up"
+    },
+    "languageSelector": {
+        "title": "Preferred Language",
+        "englishOption": "English",
+        "spanishOption": "Spanish"
     }
 }

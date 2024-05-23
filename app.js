@@ -1,7 +1,7 @@
-import { getParameters, validateToken, userLoggedIn, getMyData, hasUserData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, appState, processAuthWithFirebaseAdmin, successResponse, logDDRumError } from "./js/shared.js";
-import { userNavBar, homeNavBar } from "./js/components/navbar.js";
+import { getParameters, validateToken, userLoggedIn, getMyData, hasUserData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, appState, processAuthWithFirebaseAdmin, successResponse, logDDRumError, translateHTML } from "./js/shared.js";
+import { userNavBar, homeNavBar, languageSelector } from "./js/components/navbar.js";
 import { homePage, joinNowBtn, whereAmIInDashboard, renderHomeAboutPage, renderHomeExpectationsPage, renderHomePrivacyPage } from "./js/pages/homePage.js";
-import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser, addEventToggleSubmit } from "./js/event.js";
+import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser, addEventToggleSubmit, addEventLanguageSelection } from "./js/event.js";
 import { requestPINTemplate, duplicateAccountReminderRender } from "./js/pages/healthCareProvider.js";
 import { myToDoList } from "./js/pages/myToDoList.js";
 import {renderNotificationsPage} from "./js/pages/notifications.js"
@@ -96,6 +96,12 @@ window.onload = async () => {
     const footer = document.getElementById('footer');
     footer.innerHTML = footerTemplate();
     // googleTranslateElementInit();
+    //Check for language storage
+    let preferredLanguage = window.localStorage.getItem('preferredLanguage');
+    if (!preferredLanguage) {
+        preferredLanguage = conceptIdMap.language.en;
+    }
+    appState.setState({"language": preferredLanguage});
     router();
 }
 
@@ -198,7 +204,10 @@ const router = async () => {
     let exceptions = ['#joining-connect','#after-you-join','#long-term-study-activities','#what-connect-will-do','#how-your-information-will-help-prevent-cancer','#why-connect-is-important','#what-to-expect-if-you-decide-to-join','#where-this-study-takes-place','#about-our-researchers','#a-resource-for-science']
     if (loggedIn === false) {
         toggleNavBar(route, {}); // If not logged in, pass no data to toggleNavBar
-
+        const languageSelectorContainer = document.getElementById('languageSelectorContainer');
+        languageSelectorContainer.innerHTML = languageSelector();
+        translateHTML(languageSelectorContainer);
+        addEventLanguageSelection();
         if (route === '#') {
             homePage();
         } else if (route === '#about') {
@@ -219,7 +228,8 @@ const router = async () => {
     }
     else{
         const data = await getMyData();
-
+        document.getElementById('languageSelectorContainer').innerHTML = languageSelector(data);
+        addEventLanguageSelection();
         if(successResponse(data)) {
             const firebaseAuthUser = firebase.auth().currentUser;
             await checkAuthDataConsistency(firebaseAuthUser.email ?? '', firebaseAuthUser.phoneNumber ?? '', data.data[conceptIdMap.firebaseAuthEmail] ?? '', data.data[conceptIdMap.firebaseAuthPhone] ?? '');

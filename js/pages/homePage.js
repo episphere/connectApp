@@ -41,7 +41,7 @@ export const homePage = async () => {
             </div>
             <div class="col-md-8 col-lg-4">
                 <div class="signInWrapper" id="signInWrapperDiv">
-                  <p class="loginTitleFont" style="text-align:center;">Sign In</p>
+                  <p class="loginTitleFont" style="text-align:center;" data-i18n="home.loginTitle">Sign In</p>
                   <div id="signInDiv">
                   </div>
                   <p>
@@ -77,16 +77,16 @@ export const homePage = async () => {
                   Are you age 30 to 70 with no history of certain cancers?*    
                   </b>
                 </p>
-                <p class="NotoSansFont" style="color:#606060; font-size: 18px;">
+                <p class="NotoSansFont" style="color:#606060; font-size: 18px;" data-i18n="home.joinStudy">
                     We need your help. We invite you to join a research study from the National Cancer Institute, part of the National Institutes of Health, to help understand what causes cancer and how to prevent it.
                 </p>
-                <p class="NotoSansFont" style="color:#606060; font-size: 15px;">
+                <p class="NotoSansFont" style="color:#606060; font-size: 15px;" data-i18n="home.joinConnect">
                     *If you have or once had non-melanoma skin cancer (like basal cell or squamous cell carcinoma), or a condition that raises the risk of getting cancer (like DCIS, or stage 0 breast cancer), you can still join Connect.
                 </p>
                 
             </div>
             <div class="col-lg-4">
-                <img src="./images/newImages/Group2.png" alt="Group Picture" style="width:100%">
+                <img src="./images/newImages/Group2.png" alt="Group Picture" style="width:100%" data-i18n="home.groupPicture">
             </div>
             <div class="col-lg-1">
             </div>
