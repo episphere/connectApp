@@ -49,6 +49,7 @@ const siteToConsentSignPosMap = {
     "HP": {
         "V0.02": {nameX:90,nameY:425,signatureX:110,signatureY:345,dateX:90,dateY:385},
         "V0.04": {nameX:90,nameY:402,signatureX:110,signatureY:322,dateX:90,dateY:362},
+        "V0.05": {nameX:90,nameY:402,signatureX:110,signatureY:322,dateX:90,dateY:362},
         "default": {nameX:90,nameY:420,signatureX:110,signatureY:340,dateX:90,dateY:380},
     },
     "Marshfield": {
