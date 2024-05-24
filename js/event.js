@@ -1301,7 +1301,7 @@ export const addEventLanguageSelection = () => {
         return;
     }
     selector.addEventListener('change', (e) => { 
-        const selectedLanguage = e.target.value;
+        const selectedLanguage = parseInt(e.target.value, 10);
         window.localStorage.setItem('preferredLanguage', selectedLanguage);
         appState.setState({"language": selectedLanguage});
         translateHTML(document.body);
