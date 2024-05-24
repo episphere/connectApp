@@ -1836,3 +1836,20 @@ export const languageAcronyms = () => {
     }
 
 }
+
+export const languageSuffix = () => {
+    return {
+        [fieldMapping.language.en]: '',
+        [fieldMapping.language.es]: 'Span'
+    }
+
+}
+
+export const getSelectedLanguage = () => {
+    let selectedLanguage = appState.getState().language;
+    if (!selectedLanguage) {
+        selectedLanguage = fieldMapping.language.en;
+    }
+
+    return selectedLanguage;
+}

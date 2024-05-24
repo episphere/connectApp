@@ -1,4 +1,4 @@
-import { todaysDate, storeResponse, dataSavingBtn, dateTime, errorMessageConsent, siteAcronyms, getMyData, hasUserData, isMobile, openNewTab, appState, languageAcronyms} from "../shared.js";
+import { todaysDate, storeResponse, dataSavingBtn, dateTime, errorMessageConsent, siteAcronyms, getMyData, hasUserData, isMobile, openNewTab, languageSuffix, getSelectedLanguage} from "../shared.js";
 import { renderUserProfile } from "../components/form.js";
 import { removeAllErrors } from "../event.js";
 import { downloadSignedPdf } from "./agreements.js";
@@ -591,6 +591,9 @@ const consentConsentPage = async () => {
 
     let siteDict = siteAcronyms();
     let participantSite = siteDict[myData.data['827220437']];
+
+    let selectedLanguage = getSelectedLanguage();
+    let langSuffix = languageSuffix();
     
     template += `
         <div class="row">
@@ -605,14 +608,14 @@ const consentConsentPage = async () => {
                 <p class="consentBodyFont2" style="text-indent:40px">This form explains in detail what it means to take part in Connect. To join the study, please scroll down to the bottom of this screen to electronically consent. You do not need to download and sign the form the join the study.</p>
                 <p class="consentBodyFont2" style="text-indent:40px">If you have trouble viewing the consent form in the window at the bottom of this screen, you can download an unsigned copy by scrolling down and selecting that option below.</p>
 
-                <iframe id="pdfIframeContainer" src="${'./forms/consent/' + participantSite + '_Consent_' + formVersions[participantSite]['Consent'] + '.html'}" style="width:100%; height:500px; overflow:scroll;" frameborder="1px"><span class="loader">Please wait...</span></iframe>
-                <div class="row"style="margin:auto"><div style="margin:auto"><a href="${'./forms/consent/'  + participantSite + '_Consent_' + formVersions[participantSite]['Consent'] + '.pdf'}" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf" class="consentBodyFont2" data-file="unsigned-form"> Download an unsigned copy of the informed consent form&nbsp<i class="fas fa-file-download"></i></a></div></div>
+                <iframe id="pdfIframeContainer" src="${'./forms/consent/' + participantSite + '_Consent_' + formVersions[participantSite]['Consent'] + (langSuffix[selectedLanguage] ? '_' + langSuffix[selectedLanguage] : '') + '.html'}" style="width:100%; height:500px; overflow:scroll;" frameborder="1px"><span class="loader">Please wait...</span></iframe>
+                <div class="row"style="margin:auto"><div style="margin:auto"><a href="${'./forms/consent/'  + participantSite + '_Consent_' + formVersions[participantSite]['Consent'] + (langSuffix[selectedLanguage] ? '_' + langSuffix[selectedLanguage] : '') + '.pdf'}" title="Download consent form" data-toggle="tooltip" download="connect_consent.pdf" class="consentBodyFont2" data-file="unsigned-form"> Download an unsigned copy of the informed consent form&nbsp<i class="fas fa-file-download"></i></a></div></div>
                 
                 <h4 class="consentSubheader" style="margin-top:50px">Electronic health records release (HIPAA Authorization) form</h4>
                 <p class="consentBodyFont2" style="text-indent:40px">This allows Connect to access your electronic health records. To join the study, please scroll down to the bottom of this screen to electronically consent. You do not need to download and sign the form to join the study.</p>
                 <p class="consentBodyFont2" style="text-indent:40px">If you have trouble viewing the electronic health records release form in the window at the bottom of this screen, you can download an unsigned copy by scrolling down and selecting that option below.</p>
-                <iframe id="pdfIframeContainer1" src="${'./forms/HIPAA/' + participantSite + '_HIPAA_' + formVersions[participantSite]['HIPAA'] + '.html'}" style="width:100%; height:500px; overflow:scroll;" frameborder="1px"><span class="loader">Please wait...</span></iframe>
-                <div class="row" style="margin:auto"><div style="margin:auto"><a href="${'./forms/HIPAA/'  + participantSite + '_HIPAA_' + formVersions[participantSite]['HIPAA'] + '.pdf'}" title="Download health records release form" data-toggle="tooltip" download="connect_hipaa.pdf" class="consentBodyFont2" data-file="unsigned-form">Download an unsigned copy of the release form&nbsp<i class="fas fa-file-download"></i></a></div></div>
+                <iframe id="pdfIframeContainer1" src="${'./forms/HIPAA/' + participantSite + '_HIPAA_' + formVersions[participantSite]['HIPAA'] + langDict[selectedLanguage] + '.html'}" style="width:100%; height:500px; overflow:scroll;" frameborder="1px"><span class="loader">Please wait...</span></iframe>
+                <div class="row" style="margin:auto"><div style="margin:auto"><a href="${'./forms/HIPAA/'  + participantSite + '_HIPAA_' + formVersions[participantSite]['HIPAA'] + langDict[selectedLanguage] + '.pdf'}" title="Download health records release form" data-toggle="tooltip" download="connect_hipaa.pdf" class="consentBodyFont2" data-file="unsigned-form">Download an unsigned copy of the release form&nbsp<i class="fas fa-file-download"></i></a></div></div>
                 
                 <p class="consentBodyFont2" style="margin-top:50px">By clicking “Yes, I agree to join Connect” and typing your name, you confirm the following:</p>
                 <ol class="consentBodyFont2">
@@ -979,7 +982,7 @@ const consentSubmit = async e => {
     let hasError = false;
     let focus = true;
     var radios = document.getElementsByName('consentAnswer');
-    let selectedLanguage = appState.getState().language;
+    let selectedLanguage = getSelectedLanguage();
     if(!radios[0].checked){
         
         const msg = 'You must check yes to continue.';
@@ -1031,14 +1034,14 @@ const consentSubmit = async e => {
     formData['558435199'] = 353358909;
     //consent and hipaa forms
     let siteDict = siteAcronyms();
-    let langDict = languageAcronyms();
+    let langSuffix = languageSuffix();
     
     const myData = await getMyData();
     if(!hasUserData(myData)) return;
 
     let participantSite = siteDict[myData.data['827220437']];
-    formData['454205108'] = participantSite + '_Consent_' + formVersions[participantSite]['Consent'];
-    formData['412000022'] = participantSite + '_HIPAA_' + formVersions[participantSite]['HIPAA']
+    formData['454205108'] = participantSite + '_Consent_' + formVersions[participantSite]['Consent'] + (langSuffix[selectedLanguage] ? '_' + langSuffix[selectedLanguage] : '');
+    formData['412000022'] = participantSite + '_HIPAA_' + formVersions[participantSite]['HIPAA'] + (langSuffix[selectedLanguage] ? '_' + langSuffix[selectedLanguage] : '');
 
     // Adding sign in info provided by firebase
     if(firebase.auth().currentUser) {
@@ -1062,7 +1065,7 @@ const consentSubmit = async e => {
     formData['507120821'] = 596523216;
 
     //set the prefered language
-    formData[fieldMapping.preferredLanguage] = selectedLanguage ? selectedLanguage : fieldMapping.language.en;
+    formData[fieldMapping.preferredLanguage] = selectedLanguage;
     
     const response = await storeResponse(formData);
     if(response.code === 200) consentFinishedPage ();
