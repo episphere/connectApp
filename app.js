@@ -42,6 +42,13 @@ window.onload = async () => {
         return;
     }
 
+    //Check for language storage
+    let preferredLanguage = window.localStorage.getItem('preferredLanguage');
+    if (!preferredLanguage) {
+        preferredLanguage = conceptIdMap.language.en;
+    }
+    appState.setState({"language": parseInt(preferredLanguage, 10)});
+
     const script = document.createElement('script');
     
     if(location.host === urls.prod) {
@@ -96,12 +103,7 @@ window.onload = async () => {
     const footer = document.getElementById('footer');
     footer.innerHTML = footerTemplate();
     // googleTranslateElementInit();
-    //Check for language storage
-    let preferredLanguage = window.localStorage.getItem('preferredLanguage');
-    if (!preferredLanguage) {
-        preferredLanguage = conceptIdMap.language.en;
-    }
-    appState.setState({"language": preferredLanguage});
+    
     router();
 }
 
