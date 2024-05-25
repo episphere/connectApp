@@ -1,5 +1,5 @@
-import { allStates, showAnimation, hideAnimation, getMyData, hasUserData, urls, firebaseSignInRender, validEmailFormat, validPhoneNumberFormat, signInAnonymously, checkAccount } from '../shared.js';
-import { attachTabEventListeners, addOrUpdateAuthenticationMethod, changeContactInformation, changeMailingAddress, changeName, formatFirebaseAuthPhoneNumber, FormTypes, getCheckedRadioButtonValue, handleContactInformationRadioButtonPresets, handleOptionalFieldVisibility, hideOptionalElementsOnShowForm, hideSuccessMessage, openUpdateLoginForm, showAndPushElementToArrayIfExists, showEditButtonsOnUserVerified, suffixList, suffixToTextMapDropdown, toggleElementVisibility, togglePendingVerificationMessage, unlinkFirebaseAuthProvider, updatePhoneNumberInputFocus, validateContactInformation, validateLoginEmail, validateLoginPhone, validateMailingAddress, validateName } from '../settingsHelpers.js';
+import { allStates, showAnimation, hideAnimation, getMyData, hasUserData, urls, firebaseSignInRender, validEmailFormat, validPhoneNumberFormat, signInAnonymously, checkAccount, translateHTML, translateText } from '../shared.js';
+import { attachTabEventListeners, addOrUpdateAuthenticationMethod, changeContactInformation, changeMailingAddress, changeName, formatFirebaseAuthPhoneNumber, FormTypes, getCheckedRadioButtonValue, handleContactInformationRadioButtonPresets, handleOptionalFieldVisibility, hideOptionalElementsOnShowForm, hideSuccessMessage, openUpdateLoginForm, showAndPushElementToArrayIfExists, showEditButtonsOnUserVerified, suffixList, suffixToTextMap, toggleElementVisibility, togglePendingVerificationMessage, unlinkFirebaseAuthProvider, updatePhoneNumberInputFocus, validateContactInformation, validateLoginEmail, validateLoginPhone, validateMailingAddress, validateName } from '../settingsHelpers.js';
 import { addEventAddressAutoComplete } from '../event.js';
 import cId from '../fieldToConceptIdMapping.js';
 
@@ -68,7 +68,7 @@ let template = '';
  * if data exists and profile is verified, then render the user's data and edit functionality
  */
 export const renderSettingsPage = async () => {
-  document.title = 'My Connect - My Profile';
+  document.title = translateText('settings.title');
   showAnimation();
   const myData = await getMyData();
   template = '';
@@ -103,10 +103,10 @@ export const renderSettingsPage = async () => {
       let headerMessage = '';
       if (!isParticipantDataDestroyed) {
         if (userData[cId.verification] !== cId.verified) {
-            headerMessage = "Thank you for joining the National Cancer Institute's Connect for Cancer Prevention Study. Your involvement is very important. We are currently verifying your profile, which may take up to 3 business days.";
+            headerMessage = translateText('settings.joinMessage');
         }
       } else {
-        headerMessage = `We have deleted your information based on the data destruction request we received from you. If you have any questions, please contact the <a href="#support">Connect Support Center</a>.`;
+        headerMessage = translateText('settings.deleteInfoMessage');
       }
 
       template += `
@@ -119,7 +119,7 @@ export const renderSettingsPage = async () => {
                     <br>
                     </p>
                     <p class="consentHeadersFont" id="myProfileTextContainer" style="color:#606060; display:none;">
-                        My Profile
+                        ${translateText('settings.myProfile')}
                     </p>
                 
                     <div class="userProfileBox" id="nameDiv" style="display:none">
@@ -482,7 +482,7 @@ const handleEditSignInInformationSection = () => {
                 const account = { type: 'email', value: inputStr };
                 firebaseSignInRender({ ui, account, displayFlag: false });
               } else {
-                alert('Account Not Found');
+                alert(translateText('settings.accountNotFound'));
               }
             } else if (isPhone) {
             //   await signInAnonymously();
@@ -493,7 +493,7 @@ const handleEditSignInInformationSection = () => {
                 const account = { type: 'phone', value: phoneNumberStr };
                 firebaseSignInRender({ ui, account, displayFlag: false });
               } else {
-                alert('Account Not Found');
+                alert(translateText('settings.accountNotFound'));
               }
             }
           };
@@ -543,16 +543,16 @@ const submitNewLoginMethod = async (email, phone) => {
         switch (error.code) {
             case 'auth/credential-already-in-use':
             case 'auth/email-already-in-use':
-                errorMessage = 'This '+(email ? 'email' : 'phone number')+' is already linked to a MyConnect account. Please check your entry. If you think this is a mistake, please contact the Connect Support Center at 1-877-505-0253 or <a href="mailto:connectsupport@norc.org">ConnectSupport@norc.org</a>';
+                errorMessage = translateText(`settings.error${email ? 'Email' : 'Phone'}Used`);
                 break;
             case 'auth/invalid-verification-code':
-                errorMessage = 'The verification code you entered does not match what we sent. Please check the code we sent to your mobile device and enter the verification code again. If you didn\'t get a code, click "Submit new sign in phone number" again to receive a new code.';
+                errorMessage = translateText('settings.errorInvalidCode');
                 break;
             case 'auth/requires-recent-login':
-                errorMessage = 'We are not able to update your sign in information at this time. Please sign out and sign back in to your account to make updates to your information.';
+                errorMessage = translateText('settings.errorRequiresLogin');
                 break;
             default:
-                errorMessage = 'An error occurred while saving your updated sign in information. Please try again or contact the Connect Support Center at 1-877-505-0253 or <a href="mailto:connectsupport@norc.org">ConnectSupport@norc.org</a>'
+                errorMessage = translateText('settings.errorWhileSaving')
         }
     }
         
@@ -636,10 +636,14 @@ const toggleActiveForm = clickedFormType => {
 };
 
 export const toggleButtonText = () => {
-  btnObj.changeNameButton.textContent = formVisBools.isNameFormDisplayed ? 'Cancel' : 'Update Name';
-  btnObj.changeContactInformationButton.textContent = formVisBools.isContactInformationFormDisplayed ? 'Cancel' : 'Update Contact Info';
-  btnObj.changeMailingAddressButton.textContent = formVisBools.isMailingAddressFormDisplayed ? 'Cancel' : 'Update Address';
-  btnObj.changeLoginButton.textContent = formVisBools.isLoginFormDisplayed ? 'Cancel' : 'Update Sign In';
+  btnObj.changeNameButton.textContent = formVisBools.isNameFormDisplayed ? translateText('settings.cancel') : translateText('settings.updateName');
+  btnObj.changeNameButton.setAttribute('data-i18n', formVisBools.isNameFormDisplayed ? 'settings.cancel' : 'settings.updateName');
+  btnObj.changeContactInformationButton.textContent = formVisBools.isContactInformationFormDisplayed ? translateText('settings.cancel') : translateText('settings.updateContact');
+  btnObj.changeContactInformationButton.setAttribute('data-i18n',formVisBools.isContactInformationFormDisplayed ? 'settings.cancel' : 'settings.updateContact');
+  btnObj.changeMailingAddressButton.textContent = formVisBools.isMailingAddressFormDisplayed ? translateText('settings.cancel') : translateText('settings.updateAddress');
+  btnObj.changeMailingAddressButton.setAttribute('data-i18n',formVisBools.isMailingAddressFormDisplayed ? 'settings.cancel' : 'settings.updateAddress');
+  btnObj.changeLoginButton.textContent = formVisBools.isLoginFormDisplayed ? translateText('settings.cancel') : translateText('settings.updateSignIn');
+  btnObj.changeLoginButton.setAttribute('data-i18n', formVisBools.isLoginFormDisplayed ? 'settings.cancel' : 'settings.updateSignIn');
 };
 
 const refreshUserDataAfterEdit = async () => {
@@ -715,12 +719,12 @@ const attachLoginEditFormButtons = async () => {
                             updateUIAfterUnlink(isSuccess, type, isSuccess ? null : result);
                         } else {
                             closeModal(type);
-                            const otherLoginType = type === 'Email' ? 'phone number' : 'email';
-                            const activeLoginType = otherLoginType === 'email' ? 'phone number' : 'email';
-                            alert(`At least one login method is required.\n\nPlease add a new ${otherLoginType} login method before removing this ${activeLoginType} login.`);
+                            //const otherLoginType = type === 'Email' ? 'phone number' : 'email';
+                            //const activeLoginType = otherLoginType === 'email' ? 'phone number' : 'email';
+                            alert(translateText(`settings.oneLoginRequired${type}`));
                         }
                     } catch (error) {
-                        const errorMessage = error.message ? error.message : "An error occurred";
+                        const errorMessage = error.message ? error.message : translateText('settings.errorOccurred');
                         closeModal(type);
                         updateUIAfterUnlink(false, type, errorMessage);
                     }
@@ -798,28 +802,28 @@ const clearLoginFormFields = () => {
  * Start: HTML rendering functions
  */
 export const profileIsIncomplete = () => {
-  return `
+  return translateHTML(`
         <div class="row align-center">
-            <span class="consentBodyFont1 w-100">
+            <span class="consentBodyFont1 w-100" data-i18n="settings.profileNotCompleted">
                 You have not completed your profile yet.
             </span>
         </div>
-    `;
+    `);
 };
 
 export const renderNameHeadingAndButton = () => {
-  return `
+  return translateHTML(`
     <div class="row">
       <div class="col">
         <span class="userProfileLabels">Name</span>
       </div>
       <div class="col">
-        <button id="changeNameButton" class="btn btn-primary save-data consentNextButton" style="float:right; display:none;">
+        <button id="changeNameButton" class="btn btn-primary save-data consentNextButton" style="float:right; display:none;" data-i18n="settings.updateName">
           Update Name
         </button>
       </div>
     </div>
-    `;
+    `);
 };
 
 export const renderUserNameData = () => {
@@ -830,7 +834,7 @@ export const renderUserNameData = () => {
           <div class="row userProfileLinePaddings" id="firstNameRow">
               <div class="col">
                   <span class="userProfileBodyFonts">
-                      First Name
+                      <span data-i18n="settings.firstName">${translateText('settings.firstName')}</span>
                   <br>
                       <b>
                       <div id="profileFirstName">
@@ -846,7 +850,7 @@ export const renderUserNameData = () => {
       <div class="row userProfileLinePaddings" id="middleNameRow" style="display:none">
           <div class="col">
               <span class="userProfileBodyFonts">
-                  Middle Name
+                <span data-i18n="settings.middleName">${translateText('settings.middleName')}</span>
               <br>
                   <b>
                   <div id="profileMiddleName">
@@ -862,7 +866,7 @@ export const renderUserNameData = () => {
       <div class="row userProfileLinePaddings" id="lastNameRow">
           <div class="col">
               <span class="userProfileBodyFonts">
-                  Last Name
+              <span data-i18n="settings.lastName">${translateText('settings.lastName')}</span>
               <br>
                   <b>
                   <div id="profileLastName">
@@ -878,11 +882,11 @@ export const renderUserNameData = () => {
       <div class="row userProfileLinePaddings" id="suffixRow" style="display:none">
           <div class="col">
               <span class="userProfileBodyFonts">
-                  Suffix
+              <span data-i18n="settings.suffix">${translateText('settings.suffix')}</span>
               <br>
                   <b>
-                  <div id="profileSuffix">
-                      ${suffixToTextMapDropdown.get(parseInt(optVars.suffix, 10))}
+                  <div id="profileSuffix" data-i18n="${'settingsHelpers.suffix'+suffixToTextMap.get(parseInt(optVars.suffix, 10)).replace('.', '')}">
+                      ${translateText('settingsHelpers.suffix'+suffixToTextMap.get(parseInt(optVars.suffix, 10)).replace('.', ''))}
                     </div>
                   </b>
               </span>
@@ -892,7 +896,7 @@ export const renderUserNameData = () => {
       <div class="row userProfileLinePaddings" id="preferredFirstNameRow" style="display:none">
           <div class="col">
               <span class="userProfileBodyFonts">
-                  Preferred First Name
+              <span data-i18n="settings.preferredFirstName">${translateText('settings.preferredFirstName')}</span>
               <br>
                   <b>
                   <div id="profilePreferredFirstName">
@@ -906,64 +910,64 @@ export const renderUserNameData = () => {
 };
 
 export const renderChangeNameGroup = () => {
-  return `
+  return eval('`'+translateHTML(`
       <div class="row userProfileLinePaddings" id="changeNameGroup" style="display:none;">
             <div class="col">
-                <label for="newFirstNameField" class="custom-form-label">First name <span class="required">*</span></label>
-                <input type="text" value="${userData[cId.fName]}" class="form-control input-validation row ml-1" data-validation-pattern="alphabets" data-error-validation="Your first name should contain only uppercase and lowercase letters and can contain some special characters." id="newFirstNameField" placeholder="Enter first name" style="margin-left:0px; max-width:215px; !important;">
+                <label for="newFirstNameField" class="custom-form-label" data-i18n="settings.firstNameFieldLabel">First name <span class="required">*</span></label>
+                <input type="text" value="${userData[cId.fName]}" class="form-control input-validation row ml-1" data-validation-pattern="alphabets" data-error-validation="Your first name should contain only uppercase and lowercase letters and can contain some special characters." id="newFirstNameField" placeholder="Enter first name" style="margin-left:0px; max-width:215px; !important;" data-i18n="settings.firstNameField">
             </div>
             <br>
             <div class="col">
-                <label for="newMiddleNameField" class="custom-form-label">Middle name </label> (optional)
-                <input type="text" value="${userData[cId.mName] ? userData[cId.mName] : ''}" class="form-control input-validation row ml-1" data-validation-pattern="alphabets" data-error-validation="Your middle name should contain only uppercase and lowercase letters and can contain some special characters." id="newMiddleNameField" placeholder="Enter middle name (optional)" style="margin-left:0px; max-width:215px; !important;">
+                <label  data-i18n="settings.middleNameFieldLabel" for="newMiddleNameField" class="custom-form-label">Middle name </label><span data-i18n="settings.optional"> (optional)</span>
+                <input  data-i18n="settings.middleNameField" type="text" value="${userData[cId.mName] ? userData[cId.mName] : ''}" class="form-control input-validation row ml-1" data-validation-pattern="alphabets" data-error-validation="Your middle name should contain only uppercase and lowercase letters and can contain some special characters." id="newMiddleNameField" placeholder="Enter middle name (optional)" style="margin-left:0px; max-width:215px; !important;">
             </div>
             <br>
             <div class="col">
-                <label for="newLastNameField" class="custom-form-label">Last name <span class="required">*</span></label>
-                <input type="text" value="${userData[cId.lName]}" class="form-control input-validation row  ml-1" data-validation-pattern="alphabets" data-error-validation="Your last name should contain only uppercase and lowercase letters and can contain some special characters." id="newLastNameField" placeholder="Enter last name" style="margin-left:0px; max-width:304px; !important;">
+                <label for="newLastNameField" class="custom-form-label" data-i18n="settings.lastNameFieldLabel">Last name <span class="required">*</span></label>
+                <input type="text" value="${userData[cId.lName]}" class="form-control input-validation row  ml-1" data-validation-pattern="alphabets" data-error-validation="${translateText("settings.lastNameFieldValidation")}" id="newLastNameField" placeholder="${translateText("settings.lastNameFieldPlaceholder")}" style="margin-left:0px; max-width:304px; !important;">
             </div>
             <br>
             <div class="col">
-                <label for="newSuffixNameField" class="custom-form-label">Suffix </label> (optional)
+                <label data-i18n="settings.suffixFieldLabel" for="newSuffixNameField" class="custom-form-label">Suffix </label><span data-i18n="settings.optional"> (optional)</span>
                     <select class="form-control  ml-1" style="max-width:152px;" id="newSuffixNameField">
                         <option value="">-- Select --</option>
-                        <option value="${cId.suffixValue.jr}" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 0 ? 'selected' : '') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.jr)}</option>
-                        <option value="${cId.suffixValue.sr}" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 1 ? 'selected' : '') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.sr)}</option>
-                        <option value="${cId.suffixValue.first}" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 2 ? 'selected':'') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.first)}</option>
-                        <option value="${cId.suffixValue.second}" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 3 || suffixList[userData[cId.suffix]] == 10 ? 'selected':'') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.second)}</option>
-                        <option value="${cId.suffixValue.third}" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 4 || suffixList[userData[cId.suffix]] == 11 ? 'selected':'') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.third)}</option>
-                        <option value="${cId.suffixValue.fourth}" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 5 ? 'selected':'') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.fourth)}</option>
-                        <option value="${cId.suffixValue.fifth}" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 6 ? 'selected':'') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.fifth)}</option>
-                        <option value="${cId.suffixValue.sixth}" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 7 ? 'selected':'') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.sixth)}</option>
-                        <option value="${cId.suffixValue.seventh}" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 8 ? 'selected':'') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.seventh)}</option>
-                        <option value="${cId.suffixValue.eighth}" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 9 ? 'selected':'') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.eighth)}</option>
+                        <option value="${cId.suffixValue.jr}" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 0 ? 'selected' : '') : ''} data-i18n="${'settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.jr).replace('.', '')}">${translateText('settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.jr).replace('.', ''))}</option>
+                        <option value="${cId.suffixValue.sr}" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 1 ? 'selected' : '') : ''} data-i18n="${'settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.sr).replace('.', '')}">${translateText('settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.sr).replace('.', ''))}</option>
+                        <option value="${cId.suffixValue.first}" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 2 ? 'selected':'') : ''} data-i18n="${'settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.first).replace('.', '')}">${translateText('settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.first).replace('.', ''))}</option>
+                        <option value="${cId.suffixValue.second}" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 3 || suffixList[userData[cId.suffix]] == 10 ? 'selected':'') : ''} data-i18n="${'settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.second).replace('.', '')}">${translateText('settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.second).replace('.', ''))}</option>
+                        <option value="${cId.suffixValue.third}" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 4 || suffixList[userData[cId.suffix]] == 11 ? 'selected':'') : ''} data-i18n="${'settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.third).replace('.', '')}">${translateText('settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.third).replace('.', ''))}</option>
+                        <option value="${cId.suffixValue.fourth}" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 5 ? 'selected':'') : ''} data-i18n="${'settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.fourth).replace('.', '')}">${translateText('settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.fourth).replace('.', ''))}</option>
+                        <option value="${cId.suffixValue.fifth}" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 6 ? 'selected':'') : ''} data-i18n="${'settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.fifth).replace('.', '')}">${translateText('settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.fifth).replace('.', ''))}</option>
+                        <option value="${cId.suffixValue.sixth}" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 7 ? 'selected':'') : ''} data-i18n="${'settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.sixth).replace('.', '')}">${translateText('settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.sixth).replace('.', ''))}</option>
+                        <option value="${cId.suffixValue.seventh}" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 8 ? 'selected':'') : ''} data-i18n="${'settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.seventh).replace('.', '')}">${translateText('settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.seventh).replace('.', ''))}</option>
+                        <option value="${cId.suffixValue.eighth}" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 9 ? 'selected':'') : ''} data-i18n="${'settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.eighth).replace('.', '')}">${translateText('settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.eighth).replace('.', ''))}</option>
                     </select>
             </div>
             <br>
             <div class="col">
-                <label for="newPreferredFirstNameField" class="custom-form-label">Preferred First Name </label> (optional)
-                <input type="text" value="${userData[cId.prefName] ? userData[cId.prefName] : ''}" class="form-control input-validation row  ml-1" data-validation-pattern="alphabets" data-error-validation="Your middle name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters." id="newPreferredFirstNameField" placeholder="Enter preferred first name (optional)" style="margin-left:0px; max-width:215px; !important;">
+                <label data-i18n="settings.preferredFirstNameFieldLabel" for="newPreferredFirstNameField" class="custom-form-label">Preferred First Name </label><span data-i18n="settings.optional"> (optional)</span>
+                <input data-i18n="settings.preferredFirstNameField" type="text" value="${userData[cId.prefName] ? userData[cId.prefName] : ''}" class="form-control input-validation row  ml-1" data-validation-pattern="alphabets" data-error-validation="${translateText("settings.preferredFirstNameFieldValidation")}" id="newPreferredFirstNameField" placeholder="${translateText("settings.preferredFirstNameFieldPlaceholder")}" style="margin-left:0px; max-width:215px; !important;">
             </div>
             <br>
             <div class="col">
-                <button id="changeNameSubmit" class="btn btn-primary save-data consentNextButton">Submit Name Update</button>
+                <button id="changeNameSubmit" class="btn btn-primary save-data consentNextButton" data-i18n="settings.submitNameUpdate">Submit Name Update</button>
             </div>
       </div>
       <div class="row userProfileLinePaddings" id="changeNameSuccess" style="display:none;">
           <div class="col">
-              <span class="userProfileBodyFonts">
+              <span class="userProfileBodyFonts" data-i18n="settings.successNameUpdate">
                   Success! Your name has been updated.
               </span>
           </div>
       </div>
       <div class="row userProfileLinePaddings" id="changeNameFail" style="display:none;">
           <div class="col">
-              <span id="changeNameError" class="userProfileBodyFonts" style="color:red;">
+              <span id="changeNameError" class="userProfileBodyFonts" style="color:red;" data-i18n="settings.failNameUpdate">
                   Name Change Failed!
               </span>
           </div>
       </div>
-      `;
+      `)+'`');
 };
 
 export const renderContactInformationHeadingAndButton = () => {

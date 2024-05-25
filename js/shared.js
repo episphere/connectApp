@@ -1787,6 +1787,8 @@ export const translateText = (keys, language, keyIndex, translationObj) => {
         language = appState.getState().language;
         if (!language) {
             language = 'en';
+        } else {
+            language = languageAcronyms()[language];
         }
     }
 
