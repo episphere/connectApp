@@ -439,7 +439,7 @@
     },
     "samples": {
         "title": "My Connect - Samples",
-        "donatingSamples": "Donating Your Samples at ${site.name}",
+        "donatingSamples": "Donating Your Samples at ",
         "whenToDonate": "When Should I Donate My Samples?",
         "howToDonate": "How Do I Donate My Samples?",
         "whereToDonate": "Where Do I Donate My Samples?",
@@ -714,6 +714,10 @@
         "additionalEmail1": "Additional Email 1",
         "additionalEmail2": "Additional Email 2",
         "onlyNumbers": "Only numbers are allowed.",
+        "onlyNumbersField": {
+            "title": "Only numbers are allowed.",
+            "data-error-validation": "Only numbers are allowed."
+        },
         "otherPhone": "Other phone",
         "preferredEmailLabel": "Preferred Email <span class=\"required\">*</span>",
         "additionalEmail1Label": "Additional Email 1 (optional)",

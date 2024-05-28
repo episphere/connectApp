@@ -1,7 +1,7 @@
-import { getMyData, hasUserData } from "../shared.js";
+import { getMyData, hasUserData, translateHTML, translateText } from "../shared.js";
 
 export const renderSupportPage = async () => {
-    document.title = 'My Connect - Support';
+    document.title = translateText('support.title');
     const myData = await getMyData();
     let site = 0;
     let link="https://norcfedramp.servicenowservices.com/recruit"
@@ -16,12 +16,12 @@ export const renderSupportPage = async () => {
         }
     }
     
-    let paymentInfo = `
-        <p>
+    let paymentInfo = translateHTML(`
+        <p data-i18n="support.infoBody1">
             After you complete some initial study activities, we will send you a $25 gift card as a thank you.You become eligible for the $25 gift card after you:
         </p>
         <ol>
-            <li>
+            <li data-i18n="support.infoBodyList1">
                 Donate a blood sample
                 <br>
                 <br>
@@ -29,7 +29,7 @@ export const renderSupportPage = async () => {
                 <br>
                 <br>
             </li>
-            <li>
+            <li data-i18n="support.infoBodyList2">
                 Complete the following survey sections on your dashboard (before or during your Connect study visit): 
                 <ul>
                     <li>
@@ -47,21 +47,21 @@ export const renderSupportPage = async () => {
                 </ul>
             </li>
         </ol>
-        <p>
+        <p data-i18n="support.infoBody2">
             Once you complete these activities, you will receive an email from ConnectSupport@norc.org with instructions on how to claim your gift card. You will be asked to select which store you would like to receive your gift card from (for example, select from Target, Walmart, Amazon, and others). We will then send you an email with your gift card code. All emails will be sent to the email address you have on file with Connect. 
         </p>
-        <p>
+        <p data-i18n="support.infoBody3">
             Questions? Please contact the Connect Support Center.
         </p>
 
-    `
+    `)
     if(site == 809703864){
-        paymentInfo = `
-            <p>
+        paymentInfo = translateHTML(`
+            <p data-i18n="support.infoBody4">
                 After you complete some initial study activities, you will receive $25 as a thank you.You become eligible for the $25 after you:
             </p>
             <ol>
-                <li>
+                <li data-i18n="support.infoBodyList3">
                     Donate a blood sample at your Connect study visit
                     <br>
                     <br>
@@ -69,7 +69,7 @@ export const renderSupportPage = async () => {
                     <br>
                     <br>
                 </li>
-                <li>
+                <li data-i18n="support.infoBodyList4">
                     Complete the following survey sections on your dashboard (before or during your Connect study visit): 
                     <ul>
                         <li>
@@ -87,35 +87,35 @@ export const renderSupportPage = async () => {
                     </ul>
                 </li>
             </ol>
-            <p>
+            <p data-i18n="support.infoBody5">
                 A research coordinator will give you the $25 cash payment at the end of your Connect study visit. Questions? Please contact the Connect Support Center.
             </p>
-        `
+        `)
     }
-    let template =  `
+    let template =  translateHTML(`
     <div class="row">
         <div class="col-lg-2">
         </div>
         <div class="col-lg-8">
         <div class="row">
             
-            <h3>Connect Support Center</h3>
+            <h3 data-i18n="support.infoTitle">Connect Support Center</h3>
         </div>
         <!--
         <div class="row">
             <div class="col-md-12">
                 <button class="btn faq-btn" type="button" data-toggle="collapse" data-target="#faq1" aria-expanded="false" aria-controls="faq1">
-                    <span class="faq-text">MyConnect Support</span> <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                    <span class="faq-text" data-i18n="support.supportText">MyConnect Support</span> <span class="faq-icon"><i class="fas fa-plus"></i></span>
                 </button>
             </div>
         </div>
         -->
         <div class="row">
             <div>
-                <p>
+                <p data-i18n="support.question">
                     Have a question or problem?
                 </p>
-                <p>
+                <p data-i18n="support.visitPortal">
                     Visit the Connect Support Center portal to search frequently asked questions or to submit a question.
                 </p>
                     <a href="${link}" target="_blank">MyConnect.cancer.gov/support</a>
@@ -130,10 +130,10 @@ export const renderSupportPage = async () => {
             <div class="col-md-12">
                 <div class="collapse show" id="faq1">
                     <div class="card card-body">
-                        <p>
+                        <p data-i18n="support.question">
                         Have a question or problem?
                         </p>
-                        <p>
+                        <p data-i18n="support.visitPortal">
                         Visit the Connect Support Center portal to search frequently asked questions or to submit a question.
                         </p>
                         <a href="${link}" target="_blank">MyConnect.cancer.gov/support</a>
@@ -155,7 +155,7 @@ export const renderSupportPage = async () => {
         <div class="row">
             <div class="col-md-12">
                 <button class="btn faq-btn" type="button" data-toggle="collapse" data-target="#faq2" aria-expanded="false" aria-controls="faq2">
-                    <span class="faq-text">Payments</span> <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                    <span class="faq-text" data-i18n="support.payments">Payments</span> <span class="faq-icon"><i class="fas fa-plus"></i></span>
                 </button>
             </div>
         </div>
@@ -172,7 +172,7 @@ export const renderSupportPage = async () => {
         <div class="row">
             <div class="col-md-12">
                 <button class="btn faq-btn" type="button" data-toggle="collapse" data-target="#faq3" aria-expanded="false" aria-controls="faq3">
-                    <span class="faq-text">Biological Samples</span> <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                    <span class="faq-text" data-i18n="support.bioSamples">Biological Samples</span> <span class="faq-icon"><i class="fas fa-plus"></i></span>
                 </button>
             </div>
         </div>
@@ -189,7 +189,7 @@ export const renderSupportPage = async () => {
         <div class="row">
             <div class="col-md-12">
                 <button class="btn faq-btn" type="button" data-toggle="collapse" data-target="#faq4" aria-expanded="false" aria-controls="faq4">
-                    <span class="faq-text">Policy and Confidentiality</span> <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                    <span class="faq-text" data-i18n="support.policyConfidential">Policy and Confidentiality</span> <span class="faq-icon"><i class="fas fa-plus"></i></span>
                 </button>
             </div>
         </div>
@@ -206,17 +206,17 @@ export const renderSupportPage = async () => {
         <!--
         <div class="row align-center">
             <div class="col-md-12">
-                <strong>Can't find the answer?</strong>
+                <strong data-i18n="support.noAnswer">Can't find the answer?</strong>
             </div>
         </div>
         <div class="row align-center">
             <div class="col-md-12">
-                <button class="btn btn-primary btn-disabled">Help Form</button>
+                <button class="btn btn-primary btn-disbaled" data-i18n="support.helpForm">Help Form</button>
             </div>
         </div>
         <div class="row align-center">
             <div class="col-md-12">
-                <strong>You can also contant our support line at</strong>
+                <strong data-i18n="support.contactSupportLine">You can also contact our support line at</strong>
             </div>
         </div>
         <div class="row align-center">
@@ -226,7 +226,7 @@ export const renderSupportPage = async () => {
             </div>
         </div>
         -->
-    `;
+    `);
     
     document.getElementById('root').innerHTML = template;
     const btns = document.getElementsByClassName('faq-btn');

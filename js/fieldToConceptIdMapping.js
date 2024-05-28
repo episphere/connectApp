@@ -61,6 +61,7 @@ export default
     "requestedDataDestroyNotSigned": 111959410,
     "requestedDataDestroySigned": 704529432,
     "noneOfTheseApply": 398561594,
+    "outreachTimedOut": 160161595,
     firstSignInTime: 335767902,
     pinNumber: 379080287,
     menstrualSurveyEligible: 289750687,
@@ -277,6 +278,17 @@ export default
         "version":          "490327747"
     },
 
+    // external variables passed into Quest that require extra async/await handling.
+    delayedParameterArray: [
+        "D_627122657",
+        "D_796828094",
+        "D_118061122",
+        "D_518387017",
+        "D_761310265",
+        "D_279637054",
+        "D_951357171",
+    ],
+
     collectionDetails: 173836415,
     baseline: 266600170,
     bioKitMouthwash: 319972665,
@@ -291,5 +303,18 @@ export default
         assigned: 241974920,
         shipped: 277438316,
         received: 375535639
-    }
+    },
+    
+    // Healthcare providers
+
+    healthPartners: 531629870,
+    henryFordHealth: 548392715,
+    kaiserPermanenteCO: 125001209,
+    kaiserPermanenteGA: 327912200,
+    kaiserPermanenteHI: 300267574,
+    kaiserPermanenteNW: 452412599,
+    marshfieldClinical: 303349821,
+    sanfordHealth: 657167265,
+    uChicagoMedicine: 809703864,
+    baylorScottAndWhiteHealth: 976883292,
 };
