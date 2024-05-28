@@ -1750,6 +1750,7 @@ export const translateHTML = (source, language) => {
     if (sourceElement.dataset.i18n) {
         let keys = sourceElement.dataset.i18n.split('.');
         let translation = translateText(keys, language);
+        console.log(keys, language, translation);
         if (translation) {
             if (typeof translation === 'object') {
                 Object.keys(translation).forEach((key) => {

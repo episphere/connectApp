@@ -729,17 +729,33 @@
         "mailAddress": "Mailing Address",
         "updateAddressText": "Update Address",
         "mailAddressLine1": "Line 1 (street, PO box, rural route) <span class=\"required\">*</span>",
+        "mailAddressLine1Field": {
+            "data-error-required": "Please enter the first line of your mailing address.",
+            "placeholder": "Enter street, PO box, rural route"
+        },
         "mailAddressLine1Validator": "Please enter the first line of your mailing address.",
         "mailAddressLine1Placeholder": "Enter street, PO box, rural route",
         "mailAddressLine2": "Line 2 (apartment, suite, unit, building)",
+        "mailAddressLine2Field": {
+            "placeholder": "Enter apartment, suite, unit, building"
+        },
         "mailAddressLine2Placeholder": "Enter apartment, suite, unit, building",
         "city": "City <span class=\"required\">*</span>",
+        "cityField": {
+            "data-error-required": "Please enter the city field of your mailing address.",
+            "placeholder": "Enter City"
+        },
         "cityValidator": "Please enter the city field of your mailing address.",
         "cityPlaceholder": "Enter City",
         "state": "State <span class=\"required\">*</span>",
         "stateValidator": "Please select the state field of your mailing address.",
         "selectText": "-- Select --",
         "zip": "Zip <span class=\"required\">*</span>",
+        "zipField": {
+            "title": "5 characters long, numeric-only value.",
+            "data-error-validation": "Please enter a 5 digit zip code in this format: 12345.",
+            "data-error-required": "Please enter the zip field of your mailing address."
+        },
         "zipValidator": "Please enter a 5 digit zip code in this format: 12345.",
         "zipTitle": "5 characters long, numeric-only value.",
         "zipRequired": "Please enter the zip field of your mailing address.",
@@ -763,10 +779,10 @@
         "addEmail": "Add email",
         "updateMobile": "Update mobile phone",
         "addMobile": "Add mobile phone",
-        "currentEmail": "Current sign in email:",
+        "currentEmail": "Current sign in email: ",
         "removeEmail": "Remove this email address",
         "submitNewEmail": "Submit new sign in email",
-        "currentPhone": "Current sign in phone:",
+        "currentPhone": "Current sign in phone: ",
         "removePhone": "Remove this phone number",
         "afterClicking": "After you click, “Submit”, a pop-up box will display and ask you to enter the verification code sent to your mobile device. Please enter this code and click “OK” to verify your phone number.",
         "submitNewPhone": "Submit new sign in phone number",
@@ -774,10 +790,18 @@
         "placeholderEmail": "email address",
         "headingLabelPhone": "New Mobile Phone Number <span class=\"required\">*</span>",
         "placeholderPhone": "mobile phone number",
-        "confirmNewEmail": "Confirm new email address <span class=\"required\">*</span>",
-        "confirmNewPhone": "Confirm new mobile phone number <span class=\"required\">*</span>",
-        "enterNewEmail": "Enter new email address",
-        "enterNewPhone": "Enter new mobile phone number",
+        "confirmNewEmail": {
+            "placeholder": "Confirm new email address"
+        },
+        "confirmNewPhone": {
+            "placeholder": "Confirm new mobile phone number"
+        },
+        "enterNewEmail": {
+            "placeholder": "Enter new email address"
+        },
+        "enterNewPhone": {
+            "placeholder": "Enter new mobile phone number"
+        },
         "confirmHeadingLabelEmail": "Confirm New Email Address",
         "confirmHeadingLabelPhone": "Confirm New Mobile Phone Number",
         "sureToRemoveEmail": "<strong><i>Important</i></strong>: Are you sure you want to remove this email sign in method?",
