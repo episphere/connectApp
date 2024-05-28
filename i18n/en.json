@@ -714,6 +714,10 @@
         "additionalEmail1": "Additional Email 1",
         "additionalEmail2": "Additional Email 2",
         "onlyNumbers": "Only numbers are allowed.",
+        "onlyNumbersField": {
+            "title": "Only numbers are allowed.",
+            "data-error-validation": "Only numbers are allowed."
+        },
         "otherPhone": "Other phone",
         "preferredEmailLabel": "Preferred Email <span class=\"required\">*</span>",
         "additionalEmail1Label": "Additional Email 1 (optional)",

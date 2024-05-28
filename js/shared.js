@@ -1847,6 +1847,13 @@ export const languageSuffix = () => {
 
 }
 
+export const languageTranslations = () => {
+    return {
+        [fieldMapping.language.en]: 'languageSelector.englishOption',
+        [fieldMapping.language.es]: 'languageSelector.spanishOption'
+    }
+}
+
 export const getSelectedLanguage = () => {
     let selectedLanguage = appState.getState().language;
     if (!selectedLanguage) {

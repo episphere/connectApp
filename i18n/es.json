@@ -714,6 +714,10 @@
         "additionalEmail1": "Correo electrónico adicional 1",
         "additionalEmail2": "Correo electrónico adicional 2",
         "onlyNumbers": "Solo se permiten números.",
+        "onlyNumbersField": {
+            "title": "Solo se permiten números.",
+            "data-error-validation": "Solo se permiten números."
+        },
         "otherPhone": "Otro teléfono",
         "preferredEmailLabel": "Dirección de correo electrónico preferida <span class=\"required\">*</span>",
         "additionalEmail1Label": "Correo electrónico adicional 1 (opcional)",

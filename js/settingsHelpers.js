@@ -1,4 +1,4 @@
-import { hideAnimation, errorMessage, processAuthWithFirebaseAdmin, showAnimation, storeResponse, validEmailFormat, validNameFormat, validPhoneNumberFormat, translateText } from './shared.js';
+import { hideAnimation, errorMessage, processAuthWithFirebaseAdmin, showAnimation, storeResponse, validEmailFormat, validNameFormat, validPhoneNumberFormat, translateText, languageTranslations } from './shared.js';
 import { removeAllErrors } from './event.js';
 import cId from './fieldToConceptIdMapping.js';
 
@@ -87,6 +87,8 @@ export const handleOptionalFieldVisibility = (value, text, element, matcher, typ
       updateElementContentAndDisplay(element, text, value, displayValue);
     } else if (type === 'suffix') {
       updateElementContentAndDisplay(element, text, translateText(`settingsHelpers.suffix${suffixToTextMap.get(parseInt(value)).replace('.','')}`), displayValue);
+    }  else if (type === 'languageSelector') {
+      updateElementContentAndDisplay(element, text, translateText(languageTranslations()[parseInt(value)]), displayValue);
     } else if (type === 'phone') {
       const formattedPhone = `${value.substring(0, 3)} - ${value.substring(3, 6)} - ${value.substring(6, 10)}`;
       updateElementContentAndDisplay(element, text, formattedPhone, displayValue);
@@ -402,7 +404,7 @@ export const changeName = async (firstName, lastName, middleName, suffix, prefer
   return isSuccess;
 };
 
-export const changeContactInformation = async (mobilePhoneNumberComplete, homePhoneNumberComplete, canWeVoicemailMobile, canWeText, canWeVoicemailHome, preferredEmail, otherPhoneNumberComplete, canWeVoicemailOther, additionalEmail1, additionalEmail2, userData) => {
+export const changeContactInformation = async (mobilePhoneNumberComplete, homePhoneNumberComplete, canWeVoicemailMobile, canWeText, canWeVoicemailHome, preferredEmail, otherPhoneNumberComplete, canWeVoicemailOther, additionalEmail1, additionalEmail2, preferredLanguage, userData) => {
   document.getElementById('changeContactInformationFail').style.display = 'none';
   document.getElementById('changeContactInformationGroup').style.display = 'none';
 
@@ -428,6 +430,7 @@ export const changeContactInformation = async (mobilePhoneNumberComplete, homePh
     [cId.canWeVoicemailOther]: parseInt(canWeVoicemailOther),
     [cId.additionalEmail1]: additionalEmail1,
     [cId.additionalEmail2]: additionalEmail2,
+    [cId.preferredLanguage]: parseInt(preferredLanguage)
   };
 
   let { changedUserDataForProfile, changedUserDataForHistory } = findChangedUserDataValues(newValues, userData, 'changeContactInformation');
