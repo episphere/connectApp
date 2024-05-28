@@ -79,6 +79,10 @@ const siteToHipaaSignPosMap = {
         "default": {nameX:110,nameY:427,signatureX:110,signatureY:467,dateX:110,dateY:387},
     },
     "BSWH": {
+        "V0.01": {
+            "Eng": { nameX:100, nameY:440, signatureX:100, signatureY:479, dateX: 100, dateY: 399 },
+            "Span": { nameX:100, nameY:440, signatureX:100, signatureY:479, dateX: 100, dateY: 399 },
+        },
         "default": { nameX:100, nameY:440, signatureX:100, signatureY:479, dateX: 100, dateY: 399 },
     },
     "default": { nameX: 200, nameY: 275, signatureX: 200, signatureY: 225, dateX: 200, dateY: 325}
