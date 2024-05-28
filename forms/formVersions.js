@@ -35,6 +35,10 @@ export default {
     Consent: "V0.05",
     HIPAA: "V0.02",
   },
+  BSWH: {
+    Consent: "V0.02",
+    HIPAA: "V0.01",
+  },
   NCI: {
     Consent: "V0.05",
     HIPAA: "V0.02",
