@@ -27,7 +27,7 @@ export const homePage = async () => {
                 </p>
             </div>
             <div class="col-lg-4 d-sm-none text-lg-left text-center" style="text-align:center;">
-                <p class = "homeTitleTextMobile " style="text-align:center; font-family: 'Montserrat', sans-serif;" data-i18n="home.titleText">
+                <p class = "homeTitleTextMobile" style="text-align:center; font-family: 'Montserrat', sans-serif;" data-i18n="home.titleText">
                 
                     Connect <em>today.</em>
                     <br>Prevent cancer
@@ -486,7 +486,6 @@ export const renderHomePrivacyPage = () => {
                 <div class="blog-intro-text" data-i18n="home.privacyPageIntro">
               <img loading="lazy" src="https://www.cancer.gov/connect-prevention-study/sites/g/files/xnrzdm246/files/styles/cgov_article/public/cgov_image/media_image/2021-06/your-privacy-lead.jpg?h=becdecf7&amp;itok=iygf7OKL" width="350" height="300" style="float:right; padding-left:20px; " alt="A man in a wheelchair looking at information on a tablet" />
                 <p style="margin-top:16px">As part of the study, we ask you to share information that can identify you, like your name, address, and social security number (optional), and health information. Our team values the important information you share with us, and will protect this information with the highest privacy standards.</p>
-                </div>
                 <p>To protect your information, we: </p>
                 <ul>
                   <li class="list-style">Follow federal privacy rules, including the <a href="https://www.justice.gov/opcl/overview-privacy-act-1974-2020-edition">Privacy Act</a> and the <a href="https://grants.nih.gov/grants/guide/notice-files/NOT-OD-19-050.html">Common Rule</a>.</li>
@@ -497,6 +496,7 @@ export const renderHomePrivacyPage = () => {
                 </ul>
                 <p>If you have questions about our privacy safeguards, please <a href="https://norcfedramp.servicenowservices.com/recruit">contact us</a>.</p>
                 <!-- End Contents -->
+              </div>
             </div>
           </article>
       </div>
