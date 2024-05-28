@@ -815,7 +815,7 @@ export const renderNameHeadingAndButton = () => {
   return translateHTML(`
     <div class="row">
       <div class="col">
-        <span class="userProfileLabels">Name</span>
+        <span class="userProfileLabels" data-i18n="form.nameSubheader">Name</span>
       </div>
       <div class="col">
         <button id="changeNameButton" class="btn btn-primary save-data consentNextButton" style="float:right; display:none;" data-i18n="settings.updateName">
@@ -971,26 +971,28 @@ export const renderChangeNameGroup = () => {
 };
 
 export const renderContactInformationHeadingAndButton = () => {
-  return `
+  return translateHTML(`
           <div class="row">
               <div class="col">
-                  <span class="userProfileLabels">
+                  <span class="userProfileLabels" data-i18n="settings.contactInfo">
                       Contact Information
                   </span>
               </div>
               <div class="col">
-                  <button id="changeContactInformationButton" class="btn btn-primary save-data consentNextButton" style="float:right; display:none;">Update Contact Info</button>
+                  <button id="changeContactInformationButton" class="btn btn-primary save-data consentNextButton" style="float:right; display:none;" data-i18n="settings.updateContactText">Update Contact Info</button>
               </div>
           </div>
-      `;
+      `);
 };
 
 export const renderContactInformationData = () => {
-  return `
+  return translateHTML(`
         <div class="row userProfileLinePaddings" id="mobilePhoneRow" style="display:none;">
             <div class="col">
-                <span class="userProfileBodyFonts">
+                <span class="userProfileBodyFonts"> 
+                <span data-i18n="settings.mobilePhone">
                     Mobile Phone
+                </span>
                 <br>
                     <b>
                     <div id="profileMobilePhoneNumber">
@@ -1003,11 +1005,13 @@ export const renderContactInformationData = () => {
         <div class="row userProfileLinePaddings" id="mobilePhoneVoicemailRow" style="display:none;">
             <div class="col">
                 <span class="userProfileBodyFonts">
+                <span data-i18n="settings.leaveVoicemail">
                     Can we leave a voicemail at this number?
+                </span>
                 <br>
                     <b>
-                    <div id="profileMobileVoicemailPermission">
-                        ${optVars.canWeVoicemailMobile ? 'Yes' : 'No'}
+                    <div id="profileMobileVoicemailPermission" data-i18n="${optVars.canWeVoicemailMobile ? 'settings.optYes' : 'settings.optNo'}">
+                        ${optVars.canWeVoicemailMobile ? translateText('settings.optYes') : translateText('settings.optNo')}
                     </div>    
                     </b>
                 </span>
@@ -1016,11 +1020,13 @@ export const renderContactInformationData = () => {
         <div class="row userProfileLinePaddings" id="mobilePhoneTextRow"  style="display:none;">
             <div class="col">
                 <span class="userProfileBodyFonts">
+                <span data-i18n="settings.textNumber">
                     Can we text this number?
+                </span>
                 <br>
                     <b>
-                    <div id="profileMobileTextPermission">
-                        ${optVars.canWeText ? 'Yes' : 'No'}
+                    <div id="profileMobileTextPermission" data-i18n="${optVars.canWeText ? 'settings.optYes' : 'settings.optNo'}">
+                        ${optVars.canWeText ? translateText('settings.optYes') : translateText('settings.optNo')}
                     </div>    
                     </b>
                 </span>
@@ -1029,7 +1035,9 @@ export const renderContactInformationData = () => {
         <div class="row userProfileLinePaddings" id="homePhoneRow" style="display:none;">
             <div class="col">
                 <span class="userProfileBodyFonts">
+                <span data-i18n="settings.homePhone">
                     Home Phone
+                </span>
                 <br>
                     <b>
                     <div id="profileHomePhoneNumber">
@@ -1042,11 +1050,13 @@ export const renderContactInformationData = () => {
         <div class="row userProfileLinePaddings" id="homePhoneVoicemailRow" style="display:none;">
             <div class="col">
                 <span class="userProfileBodyFonts">
+                <span data-i18n="settings.leaveVoicemail">
                     Can we leave a voicemail at this number?
+                </span>
                 <br>
                     <b>
-                    <div id="profileHomeVoicemailPermission">
-                        ${optVars.canWeVoicemailHome ? 'Yes' : 'No'}
+                    <div id="profileHomeVoicemailPermission" data-i18n="${optVars.canWeVoicemailHome ? 'settings.optYes' : 'settings.optNo'}">
+                        ${optVars.canWeVoicemailHome ? translateText('settings.optYes') : translateText('settings.optNo')}
                     </div>    
                     </b>
                 </span>
@@ -1055,7 +1065,9 @@ export const renderContactInformationData = () => {
         <div class="row userProfileLinePaddings" id="otherPhoneRow" style="display:none;">
             <div class="col">
                 <span class="userProfileBodyFonts">
+                <span data-i18n="settings.otherNumber">
                     Other Phone Number
+                </span>
                 <br>
                     <b>
                     <div id="profileOtherPhoneNumber">
@@ -1069,11 +1081,13 @@ export const renderContactInformationData = () => {
         <div class="row userProfileLinePaddings" id="otherPhoneVoicemailRow" style="display:none">
             <div class="col">
                 <span class="userProfileBodyFonts">
+                <span data-i18n="settings.leaveVoicemail">
                     Can we leave a voicemail at this number?
+                </span>
                 <br>
                     <b>
-                    <div id="profileOtherVoicemailPermission">
-                        ${optVars.canWeVoicemailOther ? 'Yes' : 'No'}
+                    <div id="profileOtherVoicemailPermission" data-i18n="${optVars.canWeVoicemailOther ? 'settings.optYes' : 'settings.optNo'}">
+                        ${optVars.canWeVoicemailOther ? translateText('settings.optYes') : translateText('settings.optNo')}
                     </div>    
                     </b>
                 </span>
@@ -1083,11 +1097,13 @@ export const renderContactInformationData = () => {
         <div class="row userProfileLinePaddings" id="preferredEmailRow">
             <div class="col">
                 <span class="userProfileBodyFonts">
+                <span data-i18n="settings.preferredEmail">
                     Preferred Email
+                </span>
                 <br>
                     <b>
-                    <div id="profilePreferredEmail">
-                        ${!isParticipantDataDestroyed ? userData[cId.prefEmail] : 'data deleted'}
+                    <div id="profilePreferredEmail"  ${!isParticipantDataDestroyed ? '' : 'data-i18n="settings.dataDeleted"'}>
+                        ${!isParticipantDataDestroyed ? userData[cId.prefEmail] : translateText('settings.dataDeleted')}
                     </div>
                     </b>
                 </span>
@@ -1096,7 +1112,9 @@ export const renderContactInformationData = () => {
         <div class="row userProfileLinePaddings" id="additionalEmail1Row" style="display:none">
             <div class="col">
                 <span class="userProfileBodyFonts">
+                <span data-i18n="settings.additionalEmail1">
                     Additional Email 1
+                </span>
                 <br>
                     <b>
                     <div id="profileadditionalEmail1">
@@ -1109,7 +1127,9 @@ export const renderContactInformationData = () => {
         <div class="row userProfileLinePaddings" id="additionalEmail2Row" style="display:none">
             <div class="col">
                 <span class="userProfileBodyFonts">
+                <span data-i18n="settings.additionalEmail2">
                     Additional Email 2
+                </span>
                 <br>
                     <b>
                     <div id="profileadditionalEmail2">
@@ -1119,7 +1139,7 @@ export const renderContactInformationData = () => {
                 </span>
             </div>
         </div>         
-      `;
+      `);
 };
 
 export const renderChangeContactInformationGroup = () => {

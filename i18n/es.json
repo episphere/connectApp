@@ -439,7 +439,7 @@
     },
     "samples": {
         "title": "My Connect - Muestras",
-        "donatingSamples": "Donación de sus muestras en ${site.name}",
+        "donatingSamples": "Donación de sus muestras en ",
         "whenToDonate": "¿Cuándo debo donar mis muestras?",
         "howToDonate": "¿Cómo dono mis muestras?",
         "whereToDonate": "¿Dónde dono mis muestras?",

@@ -1,19 +1,19 @@
-import { getMyData, hasUserData } from "../shared.js";
+import { getMyData, hasUserData, translateHTML, translateText } from "../shared.js";
 
 export const renderSamplesPage = async () => {
-    document.title = 'My Connect - Samples';
+    document.title = translateText('samples.title');
     getMyData().then(res => {
 
-        if(!hasUserData(res)) return;
+        if (!hasUserData(res)) return;
         
         const site = locations.filter(location => location.concept == res.data['827220437'])[0];
         
         let template; 
 
-        if(site && site !== kpga && site !==  kphi && site !==  kpco && site !==  kpnw) {
+        if (site && site !== kpga && site !== kphi && site !== kpco && site !== kpnw) {
             const locationTemplate = renderLocations(site);
 
-            template = `
+            template = eval('`' + translateHTML(`
             <br>
             
             <div class="row">
@@ -22,7 +22,7 @@ export const renderSamplesPage = async () => {
                 <div class="col-md-8">
                     <div class="row" style="width:100%">
                         <div class="consentHeadersFont" style="color:#606060;width:100%">
-                            <div>
+                            <div data-i18n="samples.donatingSamples">
                                 Donating Your Samples at ${site.name}
                             </div>
                         </div>
@@ -34,7 +34,7 @@ export const renderSamplesPage = async () => {
                     </div>
                     <div class="row" style="width:100%">
                         <div class="consentHeadersFont" style="color:#606060;width:100%">
-                            <div>
+                            <div data-i18n="samples.whenToDonate">
                                 When Should I Donate My Samples?
                             </div>
                         </div>
@@ -46,7 +46,7 @@ export const renderSamplesPage = async () => {
                     </div>
                     <div class="row" style="width:100%">
                         <div class="consentHeadersFont" style="color:#606060;width:100%">
-                            <div>
+                            <div data-i18n="samples.howToDonate">
                                 How Do I Donate My Samples?
                             </div>
                         </div>
@@ -58,7 +58,7 @@ export const renderSamplesPage = async () => {
                     </div>
                     <div class="row" style="width:100%">
                         <div class="consentHeadersFont" style="color:#606060;width:100%">
-                            <div>
+                            <div data-i18n="samples.whereToDonate">
                                 Where Do I Donate My Samples?
                             </div>
                         </div>
@@ -76,7 +76,7 @@ export const renderSamplesPage = async () => {
                         ${site.scheduling ? `
                         <div class="row" style="width:100%">
                             <div style="width:100%">
-                                <div class="messagesHeaderFont">
+                                <div class="messagesHeaderFont" data-i18n="samples.schedule">
                                     Scheduling Information
                                 </div>
                                 <div class="messagesBodyFont">
@@ -88,7 +88,7 @@ export const renderSamplesPage = async () => {
                     </div>
                     <div class="row" style="width:100%">
                         <div class="consentHeadersFont" style="color:#606060;width:100%">
-                            <div>
+                            <div data-i18n="samples.howLongAppt">
                                 How Long Will My Appointment Take?
                             </div>
                         </div>
@@ -100,7 +100,7 @@ export const renderSamplesPage = async () => {
                     </div>
                     <div class="row" style="width:100%">
                         <div class="consentHeadersFont" style="color:#606060;width:100%">
-                            <div>
+                            <div data-i18n="samples.prepareAppt">
                                 How Should I Prepare On the Day of My Appointment?
                             </div>
                         </div>
@@ -114,7 +114,7 @@ export const renderSamplesPage = async () => {
                     ${site.name !== henry_ford.name && site.name !== health_partners.name ?  `
                     <div class="row" style="width:100%">
                         <div class="consentHeadersFont" style="color:#606060;width:100%">
-                            <div>
+                            <div data-i18n="samples.duringAppt">
                                 What Will Happen During My Appointment?
                             </div>
                         </div>
@@ -128,7 +128,7 @@ export const renderSamplesPage = async () => {
                     }
                     <div class="row" style="width:100%">
                         <div class="consentHeadersFont" style="color:#606060;width:100%">
-                            <div>
+                            <div data-i18n="samples.questions">
                                 Questions? Contact the Connect Support Center
                             </div>
                         </div>
@@ -148,11 +148,11 @@ export const renderSamplesPage = async () => {
                 <div class="col-md-2">
                 </div>
             </div>    
-            `;
+            `) + '`');
         }
         else if (site && (site === kpga || site ===  kphi || site ===  kpco || site ===  kpnw)) {
             const locationTemplate = renderLocations(site);
-            template = `
+            template = eval('`' + translateHTML(`
             <br>
             
             <div class="row">
@@ -162,7 +162,7 @@ export const renderSamplesPage = async () => {
                     <div class="row" style="width:100%">
                         <div class="consentHeadersFont" style="color:#606060;width:100%">
                             <div>
-                                Donating Your Samples at ${site.name}
+                                <span data-i18n="samples.donatingSamples">Donating Your Samples at </span>${site.name}
                             </div>
                         </div>
                         <div class="messagesBodyFont" style="width:100%">
@@ -265,7 +265,7 @@ export const renderSamplesPage = async () => {
                 <div class="col-md-2">
                 </div>
             </div>     
-            `;
+            `) + '`');
         }
         else {
             template = `
