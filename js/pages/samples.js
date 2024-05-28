@@ -1,4 +1,4 @@
-import { getMyData, hasUserData, translateHTML, translateTex } from "../shared.js";
+import { getMyData, hasUserData, translateHTML, translateText } from "../shared.js";
 import conceptId from '../fieldToConceptIdMapping.js';
 
 export const renderSamplesPage = async () => {
