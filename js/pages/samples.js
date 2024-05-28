@@ -1,5 +1,5 @@
 import { getMyData, hasUserData } from "../shared.js";
-import { conceptId } from '../fieldToConceptIdMapping.js';
+import conceptId from '../fieldToConceptIdMapping.js';
 
 export const renderSamplesPage = async () => {
     document.title = 'My Connect - Samples';
@@ -599,10 +599,10 @@ const u_chicago = {
 
 const bswh = {
     concept: '472940358',
-    name: 'Baylor Scott & White (BSW)',
+    name: 'Baylor Scott & White (BSWH)',
     donatingSamples: 'As part of Connect, we ask you to donate blood, urine, and mouthwash samples and complete a short surveys.',
     whenToDonate: '<p>The Connect team will send you an email when it is time to donate your samples. Be sure to check your spam or junk folder. After you receive the email, it is important to donate your samples as soon as you can. It is easy to donate all of your samples in one visit.<p/><p> <span class="site-info-bold">Note:</span> If you have recently had a blood transfusion or donated blood, please wait at least <span class="site-info-bold">eight weeks</span> from your donation or transfusion before donating your samples for Connect. If you have recently donated plasma, please wait at least <span class="site-info-bold">two days</span> from your plasma donation before donating samples for Connect. If you have an upcoming colonoscopy, please be sure that you <span class="site-info-bold">do not</span> donate samples for Connect on the <span class="site-info-bold">same day</span> as your colonoscopy.<p/>',
-    howToDonate: 'Please call the BSW Connect Study at 214-865-2427 to schedule your appointment. You may also email the BSW Connect Study team at ConnectStudy@bswhealth.org',
+    howToDonate: 'Please call the BSWH Connect Study at 214-865-2427 to schedule your appointment. You may also email the BSW Connect Study team at ConnectStudy@bswhealth.org',
     prepInstructionsHeader: 'What Should I Bring to the Visit?',
     prepInstructionsText: '<ul><li>Please bring your Kaiser Permanente member ID card and a picture ID.</li><li>KPNW Infectious Disease and Infection Prevention & Control recommends members, patients, and visitors wear a mask in ambulatory care including labs and hospital settings. </li></ul><span class="site-info-bold-italic">Note: Hand sanitizer will be available for your use.</span>',
     whatHappensDuring: 'Donating your research blood and urine samples is just like providing a clinical sample requested by your health care provider. When you arrive at the clinic, you may go directly to the lab, get a ticket with a number, and follow the instructions. When it is your turn, the lab staff will call your number and collect your samples similarly to a clinical sample collection for medical care. Tell the lab techs that you are donating samples for NCI Connect. The techs will be able to see your blood draw and urine collection orders and instructions for Connect in their system.',
