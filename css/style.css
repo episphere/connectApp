@@ -1358,19 +1358,21 @@ button.connect-secondary {
 
 .site-info-bold {
     color:#000000;
-    font-weight: bold;
     font-weight: 900; 
-    text-decoration: bold; 
     font-family: Montserrat;
 }
 
 .site-info-underline {
-    text-decoration: underline ;
+    text-decoration: underline;
+}
+
+.site-info-underline-italic {
+    text-decoration: underline;
+    font-style: italic;
 }
 
 .site-info-bold-italic {
     color: #000000;
-    font-weight: bold;
     font-style: italic;
     font-weight: 900;
     font-family: Montserrat;
@@ -1379,6 +1381,10 @@ button.connect-secondary {
 .site-info-align {
     vertical-align: top;
     text-align: left;
+}
+
+.site-list-item-spacing {
+    margin-bottom: 1rem;
 }
 
 .messagesHeaderFont .samples-page-text {
