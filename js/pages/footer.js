@@ -17,7 +17,7 @@ export const footerTemplate = () => {
                 </div>
                 <div class="col-lg-4 pt-3 content-wrapper text-center text-sm-left">
                     <div class="footer-heading" data-i18n="footer.policies">POLICIES</div>
-                    <div class="footer-sub-heading pt-3" data-i18n="footer.accessibility"><a class="footer-links" target="__blank" href="https://www.cancer.gov/global/web/policies/accessibility">Accessibilit</a></div>
+                    <div class="footer-sub-heading pt-3" data-i18n="footer.accessibility"><a class="footer-links" target="__blank" href="https://www.cancer.gov/global/web/policies/accessibility">Accessibility</a></div>
                     <div class="footer-sub-heading pt-3" data-i18n="footer.disclaimer"><a class="footer-links" target="__blank" href="https://www.cancer.gov/policies/disclaimer">Disclaimer</a></div>
                     <div class="footer-sub-heading pt-3" data-i18n="footer.foia"><a class="footer-links" target="__blank" href="https://www.cancer.gov/global/web/policies/foia">FOIA</a></div>
                     <div class="footer-sub-heading pt-3" data-i18n="footer.privacySecurity"><a class="footer-links" target="__blank" href="https://www.cancer.gov/policies/privacy-security">Privacy & Security</a></div>
