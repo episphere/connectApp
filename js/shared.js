@@ -1759,6 +1759,8 @@ export const translateHTML = (source, language) => {
                 Object.keys(translation).forEach((key) => {
                     if (key === 'innerHTML') {
                         sourceElement.innerHTML = translation[key];
+                    } else if (key === 'innerText') {
+                        sourceElement.innerText = translation[key];
                     } else {
                         sourceElement.setAttribute(key, translation[key]);
                     }
