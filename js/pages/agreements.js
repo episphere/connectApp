@@ -1,4 +1,4 @@
-import { getMyData, hasUserData, hideAnimation, showAnimation, siteAcronyms, dateTime, storeResponse, isMobile, openNewTab, languageSuffix, getSelectedLanguage } from "../shared.js";
+import { getMyData, hasUserData, hideAnimation, showAnimation, siteAcronyms, dateTime, storeResponse, isMobile, openNewTab, languageSuffix, getSelectedLanguage, translateHTML, translateText } from "../shared.js";
 import { initializeCanvas } from './consent.js'
 import fieldMapping from '../fieldToConceptIdMapping.js';
 import {suffixToTextMap, suffixToTextMapDropdown} from '../settingsHelpers.js'
@@ -11,77 +11,77 @@ const siteToHipaaSignPosMap = {
     "Sanford": {
         "V0.02": {
             "Eng": {nameX:100,nameY:415,signatureX:100,signatureY:455,dateX:100,dateY:375},
-            "Span": {nameX:100,nameY:415,signatureX:100,signatureY:455,dateX:100,dateY:375}
+            "Span": { nameX:188, nameY:419, signatureX:80, signatureY:457, dateX: 80, dateY: 377 },
         },
         "default": {nameX:100,nameY:415,signatureX:100,signatureY:455,dateX:100,dateY:375},
     },
     "HP": {
         "V0.03": {
             "Eng": {nameX:100,nameY:420,signatureX:100,signatureY:465,dateX:100,dateY:370},
-            "Span": {nameX:100,nameY:420,signatureX:100,signatureY:465,dateX:100,dateY:370}
+            "Span": { nameX:188, nameY:424, signatureX:80, signatureY:470, dateX: 80, dateY: 375 },
         },
         "default": {nameX:100,nameY:420,signatureX:100,signatureY:465,dateX:100,dateY:370},
     },
     "Marshfield": {
         "V0.02": {
             "Eng": {nameX:100,nameY:425,signatureX:100,signatureY:465,dateX:100,dateY:385},
-            "Span": {nameX:100,nameY:425,signatureX:100,signatureY:465,dateX:100,dateY:385}
+            "Span": { nameX:188, nameY:429, signatureX:80, signatureY:467, dateX: 80, dateY: 387 },
         },
         "default": {nameX:100,nameY:425,signatureX:100,signatureY:465,dateX:100,dateY:385},
     },
     "HFHS": {
         "V0.02": {
             "Eng": {nameX:100,nameY:425,signatureX:100,signatureY:465,dateX:100,dateY:385},
-            "Span": {nameX:100,nameY:425,signatureX:100,signatureY:465,dateX:100,dateY:385},
+            "Span": { nameX:188, nameY:429, signatureX:80, signatureY:467, dateX: 80, dateY: 387 },
         },
         "default": {nameX:110,nameY:440,signatureX:110,signatureY:480,dateX:110,dateY:400},
     },
     "UChicago": {
         "V0.02": {
             "Eng": {nameX:110,nameY:425,signatureX:110,signatureY:465,dateX:110,dateY:385},
-            "Span": {nameX:110,nameY:425,signatureX:110,signatureY:465,dateX:110,dateY:385},
+            "Span": { nameX:188, nameY:429, signatureX:80, signatureY:467, dateX: 80, dateY: 387 },
         },
         "default": {nameX:110,nameY:425,signatureX:110,signatureY:465,dateX:110,dateY:385},
     },
     "KPCO": {
         "V0.02": {
             "Eng": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
-            "Span": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
+            "Span": {nameX:188,nameY:415,signatureX:80,signatureY:455,dateX:80,dateY:375},
         },
         "default": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
     },
     "KPGA": {
         "V0.03": {
             "Eng": {nameX:110,nameY:345,signatureX:110,signatureY:385,dateX:110,dateY:305},
-            "Span": {nameX:110,nameY:345,signatureX:110,signatureY:385,dateX:110,dateY:305},
+            "Span": {nameX:188,nameY:198,signatureX:80,signatureY:238,dateX:80,dateY:158},
         },
         "default": {nameX:110,nameY:345,signatureX:110,signatureY:385,dateX:110,dateY:305},
     },
     "KPHI": {
         "V0.02": {
             "Eng": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
-            "Span": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
+            "Span": {nameX:188,nameY:415,signatureX:80,signatureY:455,dateX:80,dateY:375},
         },
         "default": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
     },
     "KPNW": {
         "V0.02": {
             "Eng": {nameX:110,nameY:415,signatureX:110,signatureY:455,dateX:110,dateY:375},
-            "Span": {nameX:110,nameY:415,signatureX:110,signatureY:455,dateX:110,dateY:375},
+            "Span": {nameX:188,nameY:415,signatureX:80,signatureY:455,dateX:80,dateY:375},
         },
         "default": {nameX:110,nameY:415,signatureX:110,signatureY:455,dateX:110,dateY:375},
     },
     "NCI": {
         "V0.02": {
             "Eng": {nameX:110,nameY:427,signatureX:110,signatureY:467,dateX:110,dateY:387},
-            "Span": {nameX:110,nameY:427,signatureX:110,signatureY:467,dateX:110,dateY:387},
+            "Span": { nameX:188, nameY:419, signatureX:80, signatureY:457, dateX: 80, dateY: 377 },
         },
         "default": {nameX:110,nameY:427,signatureX:110,signatureY:467,dateX:110,dateY:387},
     },
     "BSWH": {
         "V0.01": {
             "Eng": { nameX:100, nameY:440, signatureX:100, signatureY:479, dateX: 100, dateY: 399 },
-            "Span": { nameX:100, nameY:440, signatureX:100, signatureY:479, dateX: 100, dateY: 399 },
+            "Span": { nameX:188, nameY:414, signatureX:80, signatureY:452, dateX: 80, dateY: 372 },
         },
         "default": { nameX:100, nameY:440, signatureX:100, signatureY:479, dateX: 100, dateY: 399 },
     },
@@ -161,19 +161,19 @@ const siteToSignFontSizeMap = {
 };
 
 export const renderAgreements = async () => {
-    document.title = 'My Connect - Forms';
+    document.title = translateText('agreements.formsTitle');
     showAnimation();
     const myData = await getMyData();
     let template = '';
     if(hasUserData(myData) && myData.data['919254129'] !== undefined && myData.data['919254129'] === 353358909){
-        template += `
+        template += translateHTML(`
             <div class="row">
                 <div class="col-lg-2">
                 </div>
                 <div class="col-lg-8">    
                     <div class="row">
                         <div class="col">
-                            <p class="userProfileHeader">Forms</p>
+                            <p class="userProfileHeader" data-i18n="agreements.formsText">Forms</p>
                         </div>
                     </div>
 
@@ -182,7 +182,7 @@ export const renderAgreements = async () => {
                         <div class="userProfileBox" style="width:100%">
                             <div class="row">
                                 <div class="col">
-                                <span class="userProfileHeader">
+                                <span class="userProfileHeader" data-i18n="agreements.formsToSign">
                                     Forms To Sign
                                 </span>
                                 <br>
@@ -192,10 +192,10 @@ export const renderAgreements = async () => {
                                 <div class="row">
                                     <div class="col" style="padding-left: 30px; padding-right:30px;">
                                         <div class="row"  style="border:1px solid lightgrey; border-radius:5px;">
-                                            <div class="col-md-2">
+                                            <div class="col-md-2" data-i18n="agreements.surveyIcon">
                                                 <i class="fab fa-wpforms d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
                                             </div>
-                                            <div class="col-md-10 cnnsentBodyFont2">
+                                            <div class="col-md-10 cnnsentBodyFont2" data-i18n="agreements.destroyForm">
                                                 <span class = "consentHeadersFont" style="color:#5c2d93">
                                                     <b>Sign data destruction request form</b>
                                                 </span>
@@ -215,10 +215,10 @@ export const renderAgreements = async () => {
                                 <div class="row">
                                     <div class="col" style="padding-left: 30px; padding-right:30px;">
                                         <div class="row"  style="border:1px solid lightgrey; border-radius:5px;">
-                                            <div class="col-md-2">
+                                            <div class="col-md-2" data-i18n="agreements.surveyIcon">
                                                 <i class="fab fa-wpforms d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
                                             </div>
-                                            <div class="col-md-10 cnnsentBodyFont2">
+                                            <div class="col-md-10 cnnsentBodyFont2" data-i18n="agreements.revocateShare">
                                                 <span class = "consentHeadersFont" style="color:#5c2d93">
                                                     <b>Sign revocation of electronic health records release (HIPAA Revocation) form</b>
                                                 </span>
@@ -241,7 +241,7 @@ export const renderAgreements = async () => {
                         <div class="userProfileBox" style="width:100%">
                             <div class="row">
                                 <div class="col">
-                                <span class="userProfileHeader">
+                                <span class="userProfileHeader" data-i18n="agreements.signedFormsText">
                                     Signed Forms
                                 </span>
                                 <br>
@@ -251,10 +251,10 @@ export const renderAgreements = async () => {
                                 <div class="row">
                                         <div class="col" style="padding-left: 30px; padding-right:30px;">
                                             <div class="row"  style="border:1px solid lightgrey; border-radius:5px;">
-                                                <div class="col-md-2">
+                                                <div class="col-md-2" data-i18n="agreements.surveyIcon">
                                                     <i class="fab fa-wpforms d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
                                                 </div>
-                                                <div class="col-md-10 cnnsentBodyFont2">
+                                                <div class="col-md-10 cnnsentBodyFont2" data-i18n="agreements.samplesDestruction">
                                                     <span class = "consentHeadersFont" style="color:#5c2d93">
                                                         <b>Data destruction request form</b>
                                                     </span>
@@ -280,10 +280,10 @@ export const renderAgreements = async () => {
                                 <div class="row">
                                     <div class="col" style="padding-left: 30px; padding-right:30px;">
                                         <div class="row"  style="border:1px solid lightgrey; border-radius:5px;">
-                                            <div class="col-md-2">
+                                            <div class="col-md-2" data-i18n="agreements.surveyIcon">
                                                 <i class="fab fa-wpforms d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
                                             </div>
-                                            <div class="col-md-10 cnnsentBodyFont2">
+                                            <div class="col-md-10 cnnsentBodyFont2" data-i18n="agreements.stopSharingRecords">
                                                 <span class = "consentHeadersFont" style="color:#5c2d93">
                                                     <b>Revocation of electronic health records release (HIPAA Revocation) form</b>
                                                 </span>
@@ -309,10 +309,10 @@ export const renderAgreements = async () => {
                                 <div class="row">
                                     <div class="col" style="padding-left: 30px; padding-right:30px;">
                                         <div class="row"  style="border:1px solid lightgrey; border-radius:5px;">
-                                            <div class="col-md-2">
+                                            <div class="col-md-2" data-i18n="agreements.surveyIcon">
                                                 <i class="fab fa-wpforms d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
                                             </div>
-                                            <div class="col-md-10 cnnsentBodyFont2">
+                                            <div class="col-md-10 cnnsentBodyFont2" data-i18n="agreements.consentForm">
                                                 <span class = "consentHeadersFont" style="color:#5c2d93">
                                                     <b>Consent form to participate in Connect</b>
                                                 </span>
@@ -337,10 +337,10 @@ export const renderAgreements = async () => {
                                 <div class="row">
                                     <div class="col" style="padding-left: 30px; padding-right:30px;">
                                         <div class="row"  style="border:1px solid lightgrey; border-radius:5px;">
-                                            <div class="col-md-2">
+                                            <div class="col-md-2" data-i18n="agreements.surveyIcon">
                                                 <i class="fab fa-wpforms d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
                                             </div>
-                                            <div class="col-md-10 cnnsentBodyFont2">
+                                            <div class="col-md-10 cnnsentBodyFont2" data-i18n="agreements.releaseForm">
                                                 <span class = "consentHeadersFont" style="color:#5c2d93">
                                                     <b>Electronic health records release (HIPAA Authorization) form </b>
                                                 </span>
@@ -367,14 +367,14 @@ export const renderAgreements = async () => {
                 <div class="col-lg-2">
                 </div>
             </div>
-        `
+        `);
     }
     else{
-        template += `<div class="row align-center">
-        <span class="consentBodyFont1 w-100">
+        template += translateHTML(`<div class="row align-center">
+        <span class="consentBodyFont1 w-100" data-i18n="agreements.noFormsText">
             You have no forms available to view.
         </span>
-    </div>`;
+    </div>`);
     }
     
     document.getElementById('root').innerHTML = template;
@@ -455,21 +455,21 @@ const renderDownloadDestroy = async (data) => {
 }
 
 const renderSignDataDestroy = async () =>{
-    document.getElementById('root').innerHTML = `
+    document.getElementById('root').innerHTML = translateHTML(`
     <div class="row">
         <div class="col-lg-2">
         </div>
         <div class="col-lg-8">
             <div style="width:80%; margin:auto">
-            <h4 class="consentSubheader" style="margin-top:50px">Data destruction request form</h4>
+            <h4 class="consentSubheader" style="margin-top:50px" data-i18n="agreements.destructionFormTitle">Data destruction request form</h4>
             <div id="canvasContainer"></div>
-            <div class="row" style="margin:auto"><div style="margin:auto"><a href="./forms/Data_Destruction_${consentVersions['DataDestruction']}.pdf" title="Download Data destruction request form" data-toggle="tooltip" download="DataDestruction_${consentVersions['DataDestruction']}.pdf" class="consentBodyFont2"> Download an unsigned copy of the Data destruction request form&nbsp<i class="fas fa-file-download"></i></a></div></div>
+            <div class="row" style="margin:auto"><div style="margin:auto" data-i18n="agreements.downloadDestructionForm"><a href="./forms/Data_Destruction_${consentVersions['DataDestruction']}.pdf" title="Download Data destruction request form" data-toggle="tooltip" download="DataDestruction_${consentVersions['DataDestruction']}.pdf" class="consentBodyFont2"> Download an unsigned copy of the Data destruction request form&nbsp<i class="fas fa-file-download"></i></a></div></div>
             </div>` + consentSignTemplate() + 
         `</div>
         <div class="col-lg-2">
         </div>
     </div>
-    `;
+    `);
     
     initializeCanvas(`./forms/Data_Destruction_${consentVersions['DataDestruction']}.pdf`, 1, 'canvasContainer');
     document.getElementById('backToAgreements').addEventListener('click', async () =>{
@@ -582,32 +582,32 @@ const renderDownload = async (participant, timeStamp, fileLocation, nameCoordina
 }
 
 const consentSignTemplate = () => {
-    return `
+    return translateHTML(`
     <form id="consentForm" style="margin-top:20px; margin-bottom:50px;" method="POST">
         <div id="CSConsentNameSignContainer" style="">
             <div class="row" style="width:80%; margin:auto; padding-left:0px; padding-right:0px">
-                <div class="col-md-4 form-group consent-form">
+                <div class="col-md-4 form-group consent-form" data-i18n="agreements.firstName">
                     <label class="consent-form-label">
                         First name<span class="required">*</span>
                     </label>
                     <input required type="text" autocomplete="off" id="CSFirstName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
                     <br>
                 </div>
-                <div class="col-md-2 form-group consent-form">
+                <div class="col-md-2 form-group consent-form" data-i18n="agreements.middleName">
                     <label class="consent-form-label">
                         Middle name<span></span>
                     </label>
                     <input type="text" autocomplete="off" id="CSMiddleName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
                     <br>
                 </div>
-                <div class="col-md-4 form-group consent-form">
+                <div class="col-md-4 form-group consent-form" data-i18n="agreements.lastName">
                     <label class="consent-form-label">
                         Last name<span class="required">*</span>
                     </label>
                     <input required type="text" autocomplete="off" id="CSLastName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
                     <br>
                 </div>
-                <div class="col-md-2 form-group consent-form">
+                <div class="col-md-2 form-group consent-form" data-i18n="agreements.suffixList">
                     <label class="consent-form-label">
                         Suffix<span></span>
                     </label>
@@ -627,7 +627,7 @@ const consentSignTemplate = () => {
                     <br>
                 </div>
             </div>
-            <div class="row" style="width:80%; margin:auto; padding-left:0px; padding-right:0px">
+            <div class="row" style="width:80%; margin:auto; padding-left:0px; padding-right:0px" data-i18n="agreements.navButtons">
                 <button class="btn btn-primary consentPrevButton" type="button" id="backToAgreements" style="float:left;">Back</button>
                 <div class="ml-auto">
                     <button type="submit" class="btn btn-primary save-data consentNextButton">Sign and Submit</button>
@@ -635,7 +635,7 @@ const consentSignTemplate = () => {
             </div>
         </div>
     </form>
-    `;
+    `);
 }
 
 /**
@@ -654,7 +654,7 @@ async function generateSignedPdf(data, file) {
   const suffix = data[480305327] ? suffixToTextMap.get(parseInt(data[480305327])) : '';
   const participantFullName = `${data[471168198]}${middleName}${data[736251808]} ${suffix}`.trim();
   const fontSize = siteToSignFontSizeMap[participantSite] ?? siteToSignFontSizeMap['default'];
-
+  
   if (file === 'signed-consent') {
     sourcePdfLocation = './forms/consent/' + data[fieldMapping.consentVersion] + '.pdf';
     dateStr = new Date(data[454445267]).toLocaleDateString();

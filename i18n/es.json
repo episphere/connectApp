@@ -162,7 +162,7 @@
         "revocateShare": "<span class=\"consentHeadersFont\" style=\"color:#5c2d93\"><b>Firme el formulario de revocación de la divulgación de registros electrónicos de salud (Revocación de la HIPAA)</b></span><br/><span class=\"consentBodyFont2\">Su solicitud para que su proveedor de atención médica deje de compartir sus registros electrónicos de salud y su historia clínica con Connect.</span><br/><br/><button class=\"btn btn-agreement consentNextButton\" style=\"\" id=\"signHIPAARevoke\">Firmar formulario</button>",
         "signedFormsText": "Formularios firmados",
         "samplesDestruction": "<span class=\"consentHeadersFont\" style=\"color:#5c2d93\"><b>Formulario de solicitud de destrucción de datos</b></span><br/><span class=\"consentBodyFont2\">Su solicitud para que Connect destruya la información y las muestras que donó al estudio, cuando sea posible </span><br/><br/><span>Firmado: ${new Date(myData.data['119449326']).toDateString()}</span><br/><br/><button class=\"btn btn-agreement consentNextButton\" style=\"\" id=\"downloadDestroy\"><i class=\"fas fa-file-download\"></i> Descargar formulario firmado</button>",
-        "stopSharinRecords": "<span class=\"consentHeadersFont\" style=\"color:#5c2d93\"><b>Formulario de revocación de la divulgación de registros electrónicos de salud (Revocación de la HIPAA)</b></span><br/><span class=\"consentBodyFont2\">Su solicitud para que su proveedor de atención médica deje de compartir sus registros electrónicos de salud y su historia clínica con Connect. </span><br/><br/><span>Firmado: ${new Date(myData.data['613641698']).toDateString()}</span><br/><br/><button class=\"btn btn-agreement consentNextButton\" style=\"\" id=\"downloadRevoke\"><i class=\"fas fa-file-download\"></i> Descargar formulario firmado</button>",
+        "stopSharingRecords": "<span class=\"consentHeadersFont\" style=\"color:#5c2d93\"><b>Formulario de revocación de la divulgación de registros electrónicos de salud (Revocación de la HIPAA)</b></span><br/><span class=\"consentBodyFont2\">Su solicitud para que su proveedor de atención médica deje de compartir sus registros electrónicos de salud y su historia clínica con Connect. </span><br/><br/><span>Firmado: ${new Date(myData.data['613641698']).toDateString()}</span><br/><br/><button class=\"btn btn-agreement consentNextButton\" style=\"\" id=\"downloadRevoke\"><i class=\"fas fa-file-download\"></i> Descargar formulario firmado</button>",
         "consentForm": "<span class=\"consentHeadersFont\" style=\"color:#5c2d93\"><b>Formulario de consentimiento para participar en Connect</b></span><br/><span class=\"consentBodyFont2\">Su acuerdo firmado para participar en el Estudio Connect para la Prevención del Cáncer. Este formulario contiene información importante sobre la confidencialidad de sus datos y lo que se le pedirá que haga como participante de Connect</span><br/><br/><span>Firmado: ${new Date(myData.data['454445267']).toDateString()}</span><br/><br/><a class=\"btn btn-agreement consentNextButton\" id=\"downloadConsent\" download=\"signed_consent.pdf\" data-file=\"signed-consent\"><i class=\"fas fa-file-download\"></i> Descargue el formulario firmado</a>",
         "releaseForm": "<span class=\"consentHeadersFont\" style=\"color:#5c2d93\"><b>Formulario de divulgación de registros electrónicos de salud (Autorización de la HIPAA) </b></span><br/><span class=\"consentBodyFont2\">Su acuerdo firmado para permitir que su proveedor de atención médica comparta su historia clínica y registros de salud electrónicos con Connect. </span><br/><br/><span>Firmado: ${new Date(myData.data['262613359']).toDateString()}</span><br/><br/><a class=\"btn btn-agreement consentNextButton\" id=\"downloadHIPAA\" download=\"signed_hipaa.pdf\" data-file=\"signed-HIPAA\"><i class=\"fas fa-file-download\"></i> Descargar formulario firmado</a>",
         "noFormsText": "No tiene formularios disponibles para ver.",
@@ -384,7 +384,7 @@
         "mainHeaderFirstSurveyDescription": "Esta encuesta se divide en cuatro secciones en las que se le pregunta sobre una amplia variedad de temas, como información sobre sus antecedentes médicos, su familia, su trabajo y sus hábitos de salud. Puede responder todas las preguntas en una sola sesión o hacer una pausa y volver para completar la encuesta más tarde. Si hace una pausa, sus respuestas se guardarán para que pueda continuar donde dejó. Puede omitir cualquier pregunta que no desee responder.",
         "mainBodyBackgroundDescription": "Preguntas sobre usted, sus antecedentes médicos y sus antecedentes familiares.",
         "20_30minutes": "De 20 a 30 minutos",
-        "Less5minutes": "Menos de 5 minutos",
+        "less5minutes": "Menos de 5 minutos",
         "10minutes": "10 minutos",
         "5minutes": "5 minutos",
         "10_15minutes": "De 10 a 15 minutos",
@@ -412,7 +412,9 @@
         "title": "My Connect - Mensajes",
         "email": "Correo electrónico",
         "sms": "SMS",
-        "surveyIcon": "Ícono de encuesta",
+        "surveyIcon": {
+            "title": "Ícono de encuesta"
+        },
         "noMessages": "No tiene ningún mensaje."
     },
     "payment": {

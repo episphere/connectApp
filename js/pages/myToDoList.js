@@ -1,4 +1,4 @@
-import { hideAnimation, questionnaireModules, storeResponse, isParticipantDataDestroyed} from "../shared.js";
+import { hideAnimation, questionnaireModules, storeResponse, isParticipantDataDestroyed, translateHTML} from "../shared.js";
 import { blockParticipant, questionnaire } from "./questionnaire.js";
 import { renderUserProfile } from "../components/form.js";
 import { consentTemplate } from "./consent.js";
@@ -413,28 +413,28 @@ const renderMainBody = (data, collections, tab) => {
                         const thisKey = obj['header'];
                         const moduleTitle = modules[thisKey]['header'] || thisKey;
                         const isEnabled = modules[thisKey].enabled && !modules[thisKey].unreleased;
-                        const buttonAction = modules[thisKey].unreleased ? 'Coming soon' : data[fieldMapping[modules[thisKey].moduleId]?.statusFlag] === fieldMapping.moduleStatus.started ? 'Continue' : 'Start';
+                        const buttonAction = modules[thisKey].unreleased ? 'mytodolist.comingSoon' : data[fieldMapping[modules[thisKey].moduleId]?.statusFlag] === fieldMapping.moduleStatus.started ? 'mytodolist.continue' : 'mytodolist.start';
                         const ariaLabelButton = `${buttonAction} ${moduleTitle}`;
 
                         started = true;
-                        template += `
+                        template += translateHTML(`
                             <li style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;" role="listitem" aria-label="${moduleTitle}">
                                 <div class="row" role="region" aria-label="${moduleTitle} information">
                                     ${modules[thisKey]['hasIcon'] === false? `` : `
                                     <div class="col-md-1" aria-hidden="true">
-                                        <i class="fas fa-clipboard-list d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
+                                        <i class="fas fa-clipboard-list d-none d-md-block" data-i18n="mytodolist.surveyIcon" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
                                     </div>
                                     `}
                                     <div class="${modules[thisKey]['hasIcon'] === false? 'col-9':'col-md-8'}">
                                         <p style="font-style:bold; font-size:24px; margin-left:30px">
                                             <b style="color:#5c2d93; font-size:18px;">
-                                            ${moduleTitle}
+                                            <span data-i18n="${`shared.mod${modules[thisKey]['header']}`}">${moduleTitle}</span>
                                             </b>
                                             <br> 
-                                            ${modules[thisKey].description}
+                                            <span data-i18n="${modules[thisKey].description}"></span>
                                             ${modules[thisKey].estimatedTime ? `
                                             <em>
-                                            Estimated Time: ${modules[thisKey].estimatedTime}
+                                            <span data-i18n="mytodolist.estimatedTime">Estimated Time:</span> <span data-i18n="${modules[thisKey].estimatedTime}"></span>
                                             </em>
                                             ` : ''}
                                         </p>
@@ -442,21 +442,20 @@ const renderMainBody = (data, collections, tab) => {
                                     ${modules[thisKey]['noButton'] === true? '' : `
                                     <div class="col-md-3">
                                         <button class="btn survey-list-active btn-agreement questionnaire-module ${isEnabled ? 'list-item-active' : 'btn-disabled survey-list-inactive disabled'}" ${isEnabled ? '': 'aria-disabled="true"'} title="${moduleTitle}" module_id="${modules[thisKey].moduleId}" aria-label="${ariaLabelButton}">
-                                            <b>${buttonAction}
-                                            </b>
+                                            <b data-i18n="${buttonAction}"></b>
                                         </button>
                                     </div>
                                     `}
                                 </div>
-                            `;
+                            `);
                     }
 
                     if (!modules[key].completed) {
                         const moduleTitle = modules[key]['header'] || key;
                         const isEnabled = modules[key].enabled && !modules[key].unreleased;
-                        const buttonAction = modules[key].unreleased ? 'Coming soon' : (data[fieldMapping[modules[key].moduleId].statusFlag] === fieldMapping.moduleStatus.started ? 'Continue' : 'Start');
+                        const buttonAction = modules[key].unreleased ? 'mytodolist.comingSoon' : (data[fieldMapping[modules[key].moduleId].statusFlag] === fieldMapping.moduleStatus.started ? 'mytodolist.continue' : 'mytodolist.start');
                         const ariaLabelButton = `${buttonAction} ${moduleTitle}`;
-                        template += `
+                        template += translateHTML(`
                             <div style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;" role="listitem" aria-label="${moduleTitle} details">
                                 <div class="row">
                                     ${modules[key]['hasIcon'] === false ? `` : `
@@ -470,12 +469,12 @@ const renderMainBody = (data, collections, tab) => {
                                         ${moduleTitle}
                                         </b>
                                         <br> 
-                                        ${modules[key].description}
+                                        <span data-i18n="${modules[key].description}"></span>
                                         <br>
                                         <br>
                                         ${modules[key].estimatedTime ? `
                                         <em>
-                                        Estimated Time: ${modules[key].estimatedTime}
+                                        <span data-i18n="mytodolist.estimatedTime">Estimated Time:</span> <span data-i18n="${modules[key].estimatedTime}"></span>
                                         </em>
                                         ` : ''}
                                     </p>
@@ -484,13 +483,13 @@ const renderMainBody = (data, collections, tab) => {
                                     ${modules[key]['noButton'] === true ? '' : `
                                         <div class="col-md-3">
                                             <button class="btn survey-list-active btn-agreement questionnaire-module ${isEnabled ? 'list-item-active' : 'btn-disabled survey-list-inactive disabled'}" ${isEnabled ? '': 'aria-disabled="true"'} title="${key}" module_id="${modules[key].moduleId}" aria-label="${ariaLabelButton}">
-                                                <b>${buttonAction}</b>
+                                            <b data-i18n="${buttonAction}"></b>
                                             </button> 
                                         </div>
                                     `}
                                 </div>
                                 
-                            </div>`;
+                            </div>`);
                     } else {
                         const moduleTitle = modules[key]['header'] || key; // Use the module's header or key as the title
                         const ariaLabelModule = `${moduleTitle} completed details`;
@@ -687,90 +686,88 @@ const checkForNewSurveys = async (data, collections) => {
 
 const setModuleAttributes = (data, modules, collections) => {
     modules['First Survey'] = {};
-    modules['First Survey'].description = 'This survey is split into four sections that ask about a wide range of topics, including information about your medical history, family, work, and health behaviors. You can answer all of the questions at one time, or pause and return to complete the survey later. If you pause, your answers will be saved so you can pick up where you left off. You can skip any questions that you do not want to answer.';
+    modules['First Survey'].description = 'mytodolist.mainHeaderFirstSurveyDescription';
     modules['First Survey'].hasIcon = false;
     modules['First Survey'].noButton = true;
     
-    modules['Background and Overall Health'].header = 'Background and Overall Health Survey Section';
-    modules['Background and Overall Health'].description = 'Questions about you, your medical history, and your family history.';
-    modules['Background and Overall Health'].estimatedTime = '20 to 30 minutes';
+    modules['Background and Overall Health'].header = 'Background and Overall Health'; 
+    modules['Background and Overall Health'].description = 'mytodolist.mainBodyBackgroundDescription';
+    modules['Background and Overall Health'].estimatedTime = 'mytodolist.20_30minutes';
     
-    modules['Medications, Reproductive Health, Exercise, and Sleep'].header = 'Medications, Reproductive Health, Exercise, and Sleep Survey Section';
-    modules['Medications, Reproductive Health, Exercise, and Sleep'].description = 'Questions about your current and past use of medications, your exercise and sleep habits, and your reproductive health.';
-    modules['Medications, Reproductive Health, Exercise, and Sleep'].estimatedTime = '20 to 30 minutes';
+    modules['Medications, Reproductive Health, Exercise, and Sleep'].header = 'Medications, Reproductive Health, Exercise, and Sleep'; 
+    modules['Medications, Reproductive Health, Exercise, and Sleep'].description = 'mytodolist.mainBodyMedicationsDescription';
+    modules['Medications, Reproductive Health, Exercise, and Sleep'].estimatedTime = 'mytodolist.20_30minutes';
     
-    modules['Smoking, Alcohol, and Sun Exposure'].header = 'Smoking, Alcohol, and Sun Exposure Survey Section';
-    modules['Smoking, Alcohol, and Sun Exposure'].description = 'Questions about your use of tobacco, nicotine, marijuana, and alcohol, as well as your sun exposure.';
-    modules['Smoking, Alcohol, and Sun Exposure'].estimatedTime = '20 to 30 minutes';
+    modules['Smoking, Alcohol, and Sun Exposure'].header = 'Smoking, Alcohol, and Sun Exposure'; 
+    modules['Smoking, Alcohol, and Sun Exposure'].description = 'mytodolist.mainBodySmokingDescription';
+    modules['Smoking, Alcohol, and Sun Exposure'].estimatedTime = 'mytodolist.20_30minutes';
     
-    modules["Where You Live and Work"].header = 'Where You Live and Work Survey Section';
-    modules["Where You Live and Work"].description  = 'Questions about places where you have lived and worked, and your commute to school or work.'
-    modules['Where You Live and Work'].estimatedTime = '20 to 30 minutes';
+    modules["Where You Live and Work"].header = 'Where You Live and Work';
+    modules["Where You Live and Work"].description  = 'mytodolist.mainBodyLiveWorkDescription';
+    modules["Where You Live and Work"].estimatedTime = 'mytodolist.20_30minutes';
     
     modules['Enter SSN'].header = 'Your Social Security Number (SSN)';
-    modules['Enter SSN'].description = 'We may use your Social Security Number when we collect information from important data sources like health registries to match information from these sources to you. We protect your privacy every time we ask for information about you from other sources. Providing your Social Security Number is optional.';
+    modules['Enter SSN'].description = 'mytodolist.mainBodySSNDescription';
     modules['Enter SSN'].hasIcon = false;
     modules['Enter SSN'].noButton = false;
-    modules['Enter SSN'].estimatedTime = 'Less than 5 minutes';
+    modules['Enter SSN'].estimatedTime = 'mytodolist.less5minutes';
     
     modules['Covid-19'].header = 'COVID-19 Survey';
-    modules['Covid-19'].description = 'Questions about your history of COVID-19, including any vaccinations you may have received and details about times you may have gotten sick with COVID-19.';
+    modules['Covid-19'].description = 'mytodolist.mainBodyCovid19Description';
     modules['Covid-19'].hasIcon = false;
     modules['Covid-19'].noButton = false;
-    modules['Covid-19'].estimatedTime = '10 minutes';
+    modules['Covid-19'].estimatedTime = 'mytodolist.10minutes';
 
     modules['Biospecimen Survey'].header = 'Baseline Blood, Urine, and Mouthwash Sample Survey';
-    modules['Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples.';
-    modules['Biospecimen Survey'].estimatedTime = '5 minutes';
+    modules['Biospecimen Survey'].description = 'mytodolist.mainBodyBiospecimenDescription';
+    modules['Biospecimen Survey'].estimatedTime = 'mytodolist.5minutes';
     
     modules['Clinical Biospecimen Survey'].header = 'Baseline Blood and Urine Sample Survey';
-    modules['Clinical Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples.';
-    modules['Clinical Biospecimen Survey'].estimatedTime = '5 minutes';
+    modules['Clinical Biospecimen Survey'].description = 'mytodolist.mainBodyClinicalBiospecimenDescription';
+    modules['Clinical Biospecimen Survey'].estimatedTime = 'mytodolist.5minutes';
 
     modules['Menstrual Cycle'].header = 'Menstrual Cycle Survey';
-    modules['Menstrual Cycle'].description = 'Questions about the date of your first menstrual period after you donated samples for Connect. ';
-    modules['Menstrual Cycle'].estimatedTime = '5 minutes';
+    modules['Menstrual Cycle'].description = 'mytodolist.mainBodyMenstrualDescription';
+    modules['Menstrual Cycle'].estimatedTime = 'mytodolist.5minutes';
 
     modules['Mouthwash'].header = 'At-Home Mouthwash Sample Survey';
-    modules['Mouthwash'].description = 'Questions about your oral health and hygiene practices that are related to your sample. Complete this survey <b>on the day you collect your mouthwash sample at home</b>.';
-    modules['Mouthwash'].estimatedTime = '5 minutes';
+    modules['Mouthwash'].description = 'mytodolist.mainBodyMouthwashDescription';
+    modules['Mouthwash'].estimatedTime = 'mytodolist.5minutes';
 
     modules['PROMIS'].header = 'Quality of Life Survey';
-    modules['PROMIS'].description = 'Questions about your physical, social, and mental health.';
-    modules['PROMIS'].estimatedTime = '10 to 15 minutes';
-
+    modules['PROMIS'].description = 'mytodolist.mainBodyPROMISDescription';
+    modules['PROMIS'].estimatedTime = 'mytodolist.10_15minutes';
     if (modules['Spanish Covid-19']) {
         modules['Spanish Covid-19'].header = 'SPANISH COVID-19 Survey';
-        modules['Spanish Covid-19'].description = 'SPANISH Questions about your history of COVID-19, including any vaccinations you may have received and details about times you may have gotten sick with COVID-19.';
+        modules['Spanish Covid-19'].description = 'mytodolist.mainBodyCovid19Description';
         modules['Spanish Covid-19'].hasIcon = false;
         modules['Spanish Covid-19'].noButton = false;
-        modules['Spanish Covid-19'].estimatedTime = '10 minutes';
+        modules['Spanish Covid-19'].estimatedTime = 'mytodolist.10minutes';
     }
     
     if (modules['Spanish Biospecimen Survey']) {
         modules['Spanish Biospecimen Survey'].header = 'SPANISH Baseline Blood, Urine, and Mouthwash Sample Survey';
-        modules['Spanish Biospecimen Survey'].description = 'SPANISH Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples.';
-        modules['Spanish Biospecimen Survey'].estimatedTime = '5 minutes';
+        modules['Spanish Biospecimen Survey'].description = 'mytodolist.mainBodyBiospecimenDescription';
+        modules['Spanish Biospecimen Survey'].estimatedTime = 'mytodolist.5minutes';
     }
     
     if (modules['Spanish Clinical Biospecimen Survey']) {
-        modules['Spanish Clinical Biospecimen Survey'].header = 'SPANISH Baseline Blood and Urine Sample Survey';
-        modules['Spanish Clinical Biospecimen Survey'].description = 'SPANISH Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples.';
-        modules['Spanish Clinical Biospecimen Survey'].estimatedTime = '5 minutes';
+        modules['Spanish Clinical Biospecimen Survey'].header = 'SPANISH Clinical Baseline Blood and Urine Sample Survey';
+        modules['Spanish Clinical Biospecimen Survey'].description = 'mytodolist.mainBodyClinicalBiospecimenDescription';
+        modules['Spanish Clinical Biospecimen Survey'].estimatedTime = 'mytodolist.5minutes';
     }
     
     if (modules['Spanish Menstrual Cycle']) {
         modules['Spanish Menstrual Cycle'].header = 'SPANISH Menstrual Cycle Survey';
-        modules['Spanish Menstrual Cycle'].description = 'SPANISH Questions about the date of your first menstrual period after you donated samples for Connect. ';
-        modules['Spanish Menstrual Cycle'].estimatedTime = '5 minutes';
+        modules['Spanish Menstrual Cycle'].description = 'mytodolist.mainBodyMenstrualDescription';
+        modules['Spanish Menstrual Cycle'].estimatedTime = 'mytodolist.5minutes';
     }
     
     if (modules['Spanish Mouthwash']) {
         modules['Spanish Mouthwash'].header = 'SPANISH At-Home Mouthwash Sample Survey';
-        modules['Spanish Mouthwash'].description = 'SPANISH Questions about your oral health and hygiene practices.';
-        modules['Spanish Mouthwash'].estimatedTime = '5 minutes';
+        modules['Spanish Mouthwash'].description = 'mytodolist.mainBodyMouthwashDescription';
+        modules['Spanish Mouthwash'].estimatedTime = 'mytodolist.5minutes';
     }
-
     if(data['331584571']?.['266600170']?.['840048338']) {
         modules['Biospecimen Survey'].enabled = true;
         modules['Covid-19'].enabled = true;
