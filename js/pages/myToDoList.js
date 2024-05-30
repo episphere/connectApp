@@ -397,7 +397,6 @@ const renderMainBody = (data, collections, tab) => {
     if(tab === 'todo'){
         for(let obj of toDisplaySystem){
             let started = false;
-            console.log(obj);
             if(obj['body']){
                 let anyFound = false;
                 for(let key of obj['body']){
