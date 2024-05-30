@@ -51,19 +51,27 @@
         "phoneEmailLabel": "Phone or Email<br /><span style=\"font-size: 0.8rem; color:gray\">Phone Format: 123-456-7890</span>",
         "emailPhoneAlert": "Please enter a valid email or phone number",
         "continueButton": "Continue",
-        "dontHaveAccount": "Don't have an account? <a href=\"#\" id=\"signUpAnchor\">Create one here</a>",
+        "dontHaveAccount": "Don't have an account?",
+        "signUpHere": "Create one here",
         "createAccountTitle": "Create an Account",
-        "signUpEmail": "<a href=\"#\" id=\"emailSignUp\">Click here</a> if you want to sign up with email.",
-        "signInAccount": "If you have an account, please <a href=\"#\" id=\"signIn\">sign in </a> with the email or phone number you used to create your account.",
+        "signUpEmail": "If you want to sign up with email, ",
+        "clickHere": "click here.",
+        "signInAccount": "If you have an account, please ",
+        "signInAccountLink": "sign in ",
+        "signInAccountEnd": " with the email or phone number you used to create your account.",
         "createAccountPhone": "Create an account with your phone number",
         "createAccountEmail": "Create an account with your email",
         "personalEmail": "Connect is a long-term study. Please use an email that you will be able to access in the future. Avoid using a work email if possible.",
         "validEmail": "Enter a valid email address",
         "notFoundTitle": "Not Found",
-        "accountNotFound": "Your ${account.type} (${account.value}) cannot be found.",
+        "accountNotFoundemail": "Your email (",
+        "accountNotFoundphonenumber": "Your phone (",
+        "accountNotFoundEnd": ") cannot be found.",
         "signInTrouble": "If you’re having trouble signing in or don’t remember your account information, please contact the Connect Support Center at <a href=\"tel:+18664626621\">1-866-462-6621</a> or <a href=\"mailto:ConnectStudy@norc.org\">ConnectStudy@norc.org</a> before creating a new account.",
-        "anotherAccount": "Use another account? <a href=\"#\" id=\"useAnotherAccount\">Click here</a>",
-        "noAccount": "Don't have an account? <a href=\"#\" id=\"createNewAccount\">Create one here</a>"
+        "anotherAccount": "Use another account? ",
+        "anotherAccountClick": "Click here",
+        "noAccount": "Don't have an account?",
+        "noAccountCreate": "Create one here"
     },
     "form": {
         "profileHeader": "My Profile",
@@ -136,7 +144,10 @@
         "paymentLink": " My Payment",
         "samplesLink": " My Samples",
         "supportLink": " Support",
-        "signOutLink": "<a class=\"nav-link\" href=\"#sign_out\" id=\"signOut\" title=\"Sign Out\"><i class=\"fas fa-sign-out-alt\"></i> Sign Out</a>",
+        "signOutLink": {
+            "title": "Sign Out",
+            "innerHTML": "<i class=\"fas fa-sign-out-alt\"></i> Sign Out"
+        },
         "homeLink": "<a class=\"nav-link\" href=\"#\" id=\"home\" title=\"Home\"> Home</a>",
         "aboutLink": "<a class=\"nav-link\" href=\"#about\" id=\"about\" title=\"About\"> About</a>",
         "expectationsLink": "<a class=\"nav-link\" href=\"#expectations\" id=\"expectations\" title=\"Expectations\"> What to expect</a>",
@@ -360,7 +371,9 @@
         "mainBodyMouthwash": "Mouthwash",
         "mainBodyPROMIS": "PROMIS",
         "mainBodySSN": "Enter SSN",
-        "surveyIcon": "Survey Icon",
+        "surveyIcon": {
+            "title": "Survey Icon"
+        },
         "estimatedTime": "Estimated Time:",
         "comingSoon": "Coming soon",
         "continue": "Continue",
@@ -970,7 +983,8 @@
     "shared": {
         "signIn": "Sign In",
         "emailSent": "Sign-in email sent",
-        "emailSentMessage": "We sent a verification email to <strong>${email}</strong>. Please check your email and click the link we sent to finish signing in. Our email may take a few minutes to arrive in your inbox.",
+        "emailSentMessageStart": "We sent a verification email to ",
+        "emailSentMessageEnd": ". Please check your email and click the link we sent to finish signing in. Our email may take a few minutes to arrive in your inbox.",
         "troubleGettingEmail": "Trouble getting email?",
         "backText": "Back",
         "usGov": "You are accessing a U.S. Government web site which may contain information that must be protected under the U.S. Privacy Act or other sensitive information and is intended for Government authorized use only. Unauthorized attempts to upload information, change information, or use of this web site may result in disciplinary action, civil, and/or criminal penalties. Unauthorized users of this web site should have no expectation of privacy regarding any communications or data processed by this web site. Anyone accessing this web site expressly consents to monitoring of their actions and all communication or data transitioning or stored on or related to this web site and is advised that if such monitoring reveals possible evidence of criminal activity, NIH may provide that evidence to law enforcement officials.",
@@ -1296,6 +1310,9 @@
         "modMouthwash": "Mouthwash",
         "modPROMIS": "PROMIS",
         "modFirstSurvey": "First Survey",
+        "modFirstSurveyReader": {
+            "aria-label": "First Survey Information"
+        },
         "modYourSocialSecurityNumberSSN": "Your Social Security Number (SSN)",
         "modCOVID19Survey": "COVID-19 Survey",
         "modBaselineBloodUrineandMouthwashSampleSurvey": "Baseline Blood, Urine, and Mouthwash Sample Survey",

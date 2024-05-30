@@ -51,19 +51,27 @@
         "phoneEmailLabel": "Teléfono o correo electrónico<br/><span style=\"font-size: 0.8rem; color:gray\">Formato de número de teléfono: 123-456-7890</span>",
         "emailPhoneAlert": "Ingrese una dirección de correo electrónico o un número de teléfono válidos",
         "continueButton": "Continuar",
-        "dontHaveAccount": "¿No tiene cuenta? <a href=\"#\" id=\"signUpAnchor\">Cree una aquí</a>",
+        "dontHaveAccount": "¿No tiene cuenta?",
+        "signUpHere": "Cree una aquí",
         "createAccountTitle": "Crear una cuenta",
-        "signUpEmail": "Si quiere inscribirse con una dirección de correo electrónico, <a href=\"#\" id=\"emailSignUp\">haga clic aquí</a>.",
-        "signInAccount": "Si tiene cuenta, <a href=\"#\" id=\"signIn\">inicie sesión</a> con la dirección de correo electrónico o el número de teléfono que usó para crearla.",
+        "signUpEmail": "Si quiere inscribirse con una dirección de correo electrónico, ",
+        "clickHere": "haga clic aquí.",
+        "signInAccount": "Si tiene cuenta, ",
+        "signInAccountLink": "inicie sesión",
+        "signInAccountEnd": " con la dirección de correo electrónico o el número de teléfono que usó para crearla.",
         "createAccountPhone": "Cree una cuenta con su número de teléfono",
         "createAccountEmail": "Cree una cuenta con su dirección de correo electrónico",
         "personalEmail": "Connect es un estudio a largo plazo. Utilice una dirección de correo electrónico a la que pueda acceder en el futuro. Si es posible, evite usar una dirección de correo electrónico de su trabajo.",
         "validEmail": "Ingrese una dirección de correo electrónico válida",
         "notFoundTitle": "No se ha encontrado",
-        "accountNotFound": "No se puede encontrar su ${account.type} (${account.value}) .",
+        "accountNotFoundemail": "No se puede encontrar su la dirección de correo electrónico (",
+        "accountNotFoundphonenumber": "No se puede encontrar su el número de teléfono (",
+        "accountNotFoundEnd": ")",
         "signInTrouble": "Si tiene problemas para iniciar sesión o no recuerda la información de su cuenta, antes de crear una cuenta nueva llame al Centro de Asistencia de Connect al <a href=\"tel:+18664626621\">1-866-462-6621</a> o escriba a <a href=\"mailto:ConnectStudy@norc.org\">ConnectStudy@norc.org</a>.",
-        "anotherAccount": "¿Desea usar otra cuenta? <a href=\"#\" id=\"useAnotherAccount\">Haga clic aquí</a>",
-        "noAccount": "¿No tiene cuenta? <a href=\"#\" id=\"createNewAccount\">Cree una aquí</a>"
+        "anotherAccount": "¿Desea usar otra cuenta? ",
+        "anotherAccountClick": "Haga clic aquí",
+        "noAccount": "¿No tiene cuenta? ",
+        "noAccountCreate": "Cree una aquí"
     },
     "form": {
         "profileHeader": "Mi perfil",
@@ -136,7 +144,10 @@
         "paymentLink": " Mi pago",
         "samplesLink": " Mis muestras",
         "supportLink": " Asistencia",
-        "signOutLink": "<a class=\"nav-link\" href=\"#sign_out\" id=\"signOut\" title=\"Cerrar sesión\"><i class=\"fas fa-sign-out-alt\"></i> Cerrar sesión</a>",
+        "signOutLink": {
+            "title": "Cerrar sesión",
+            "innerHTML": "<i class=\"fas fa-sign-out-alt\"></i> Cerrar sesión"
+        },
         "homeLink": "<a class=\"nav-link\" href=\"#\" id=\"home\" title=\"Inicio\"> Inicio</a>",
         "aboutLink": "<a class=\"nav-link\" href=\"#about\" id=\"about\" title=\"Acerca de\"> Acerca de</a>",
         "expectationsLink": "<a class=\"nav-link\" href=\"#expectations\" id=\"expectations\" title=\"Expectativas\"> Qué esperar</a>",
@@ -360,7 +371,9 @@
         "mainBodyMouthwash": "Enjuague bucal",
         "mainBodyPROMIS": "PROMIS",
         "mainBodySSN": "Ingrese su SSN",
-        "surveyIcon": "Ícono de encuesta",
+        "surveyIcon": {
+            "title": "Ícono de encuesta"
+        },
         "estimatedTime": "Tiempo estimado:",
         "comingSoon": "En breve",
         "continue": "Continuar",
@@ -970,7 +983,8 @@
     "shared": {
         "signIn": "Iniciar sesión",
         "emailSent": "Correo electrónico para inicio de sesión enviado",
-        "emailSentMessage": "Hemos enviado un mensaje de verificación a <strong>${email}</strong>. Revise su casilla de correo electrónico y haga clic en el enlace que le enviamos para terminar de iniciar sesión. Es posible que nuestro mensaje tarde unos minutos en llegar a su bandeja de entrada.",
+        "emailSentMessageStart": "Hemos enviado un mensaje de verificación a ,",
+        "emailSentMessageEnd": ". Revise su casilla de correo electrónico y haga clic en el enlace que le enviamos para terminar de iniciar sesión. Es posible que nuestro mensaje tarde unos minutos en llegar a su bandeja de entrada.",
         "troubleGettingEmail": "¿Tiene problemas para recibir el mensaje?",
         "backText": "Atrás",
         "usGov": "Está accediendo a un sitio web del Gobierno de los Estados Unidos que puede contener información que debe protegerse de conformidad con la Ley de Privacidad de los Estados Unidos u otra información confidencial, y solo puede utilizarse con autorización del Gobierno. Los intentos no autorizados de cargar información, modificar información o usar este sitio web pueden tener como consecuencia la aplicación de medidas disciplinarias y sanciones civiles o penales. Los usuarios no autorizados de este sitio web no deben tener expectativas de privacidad con respecto a las comunicaciones o datos que procese este sitio web. Toda persona que accede a este sitio web acepta expresamente que se controlen sus acciones y todas las comunicaciones o datos en transición o almacenados en este sitio web o relacionados con él, y se le informa que si dicho control revela posibles pruebas de actividad delictiva, los NIH pueden proporcionar esa evidencia a las autoridades del orden público.",
@@ -1296,6 +1310,9 @@
         "modMouthwash": "Enjuague bucal",
         "modPROMIS": "PROMIS",
         "modFirstSurvey": "Primera encuesta",
+        "modFirstSurveyReader": {
+            "aria-label": "Información de la primera encuesta"
+        },
         "modYourSocialSecurityNumberSSN": "Su número de Seguro Social (SSN)",
         "modCOVID19Survey": "Encuesta sobre COVID-19",
         "modBaselineBloodUrineandMouthwashSampleSurvey": "Encuesta inicial de muestras de sangre, orina y enjuague bucal",

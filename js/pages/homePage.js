@@ -549,9 +549,9 @@ export function signInCheckRender ({ ui }) {
       <button type="submit" class="connect connect-primary my-3" style="width:100%" id="signInBtn" data-i18n="home.continueButton">
       Continue
       </button>
-      <p data-i18n="home.dontHaveAccount">
-          Don't have an account?
-          <a href="#" id="signUpAnchor">Create one here</a>
+      <p>
+          <span data-i18n="home.dontHaveAccount">Don't have an account?</span> 
+          <a href="#" id="signUpAnchor" data-i18n="home.signUpHere">Create one here</a>
       </p>
     </form>
     <div style="font-size:8px" class="mt-3" data-i18n="shared.usGov">
@@ -639,13 +639,13 @@ export function signUpRender({ ui, signUpType = "phone" }) {
     <p>
       ${
         signUpType === "phone"
-          ? `<div style="font-size:12px" class="mb-2" data-i18n="home.signUpEmail">
-          <a href="#" id="emailSignUp">Click here</a> if you want to sign up with email.
+          ? `<div style="font-size:12px" class="mb-2">
+          <span data-i18n="home.signUpEmail"></span><a href="#" id="emailSignUp" data-i18n="home.clickHere">Click here</a>
         </div>`
           : ""
       }
-      <div style="font-size:12px" data-i18n="home.signInAccount">
-        If you have an account, please <a href="#" id="signIn">sign in </a> with the email or phone number you used to create your account.
+      <div style="font-size:12px">
+        <span data-i18n="home.signInAccount">If you have an account, please </span><a href="#" id="signIn" data-i18n="home.signInAccountLink">sign in </a><span data-i18n="home.signInAccountEnd"> with the email or phone number you used to create your account.</span>
       </div>
     </p>
     <div style="font-size:8px" class="mt-3" data-i18n="shared.usGov">
@@ -663,6 +663,7 @@ export function signUpRender({ ui, signUpType = "phone" }) {
 
   if (signUpType === "phone") {
     document.querySelector("div.firebaseui-card-header > h1").innerText = translateText('home.createAccountPhone');
+    document.querySelector("div.firebaseui-card-header > h1").setAttribute('data-i18n', 'home.createAccountPhone');
     const verifyButton = document.querySelector('button[class~="firebaseui-id-submit"]');
     verifyButton && verifyButton.addEventListener("click", () => {
         const cancelButton = document.querySelector('button[class~="firebaseui-id-secondary-link"]');
@@ -672,15 +673,18 @@ export function signUpRender({ ui, signUpType = "phone" }) {
       });
   } else if (signUpType === "email") {
     document.querySelector("div.firebaseui-card-header > h1").innerText = translateText('home.createAccountEmail');
+    document.querySelector("div.firebaseui-card-header > h1").setAttribute('data-i18n', 'home.createAccountEmail');
     const firebaseUiCardContentWrapper = document.querySelector('div[class~="firebaseui-relative-wrapper"]');
     const pElement = document.createElement("p");
     pElement.innerText = translateText('home.personalEmail');
+    pElement.setAttribute('data-i18n', 'home.personalEmail');
     firebaseUiCardContentWrapper.appendChild(pElement);
     const submitButton = document.querySelector('button[class~="firebaseui-id-submit"]');
     submitButton && submitButton.addEventListener("click", () => {
       const pEle = document.querySelector('p[class~="firebaseui-text-input-error"]');
       if (pEle?.innerText !== "") {
         pEle.innerText = translateText('home.validEmail');
+        pEle.setAttribute('data-i18n', 'home.validEmail');
       } else {
         window.localStorage.setItem(
           "signInEmail",
@@ -713,13 +717,13 @@ function accountNotFoundRender({ ui, account }) {
   <div class="mx-4 d-flex flex-column justify-content-center align-items-center">
     <h5 data-i18n="home.notFoundTitle">Not Found</h5>
     <div class="d-flex flex-column justify-content-left ">
-      <p data-i18n="home.accountNotFound">Your ${account.type} (${account.value}) cannot be found.</p>
+      <p><span data-i18n="home.accountNotFound${account.type.replace(/\s/g,'')}"></span>${account.value}<span data-i18n="home.accountNotFoundEnd"></span></p>
       <p data-i18n="home.signInTrouble">If you’re having trouble signing in or don’t remember your account information, please contact the Connect Support Center at 
         <a href="tel:+18664626621">1-866-462-6621</a> or 
         <a href="mailto:ConnectStudy@norc.org">ConnectStudy@norc.org</a> before creating a new account.
       </p>
-      <p data-i18n="home.anotherAccount">Use another account? <a href="#" id="useAnotherAccount">Click here</a> </p>
-      <p data-i18n="home.noAccount">Don't have an account? <a href="#" id="createNewAccount">Create one here</a> </p>
+      <p><span data-i18n="home.anotherAccount">Use another account? </span><a href="#" id="useAnotherAccount" data-i18n="home.anotherAccountClick">Click here</a> </p>
+      <p><span  data-i18n="home.noAccount">Don't have an account? </span><a href="#" id="createNewAccount" data-i18n="home.noAccountCreate">Create one here</a> </p>
     <div>
   </div>
   `;

@@ -46,8 +46,8 @@ export const userNavBar = (response) => {
             </li>
         </div>
         <div class="navbar-nav transparent-border ml-auto">
-            <li class="nav-item" data-i18n="navbar.signOutLink">
-                <a class="nav-link" href="#sign_out" id="signOut" title="Sign Out"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
+            <li class="nav-item">
+                <a class="nav-link" href="#sign_out" id="signOut" title="Sign Out" data-i18n="navbar.signOutLink"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
             </li>
         </div>
     `);

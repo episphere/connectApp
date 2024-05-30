@@ -44,72 +44,78 @@ else if(location.host === urls.stage) api = 'https://api-myconnect-stage.cancer.
 else api = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app';
 
 const afterEmailLinkRender = (email, type) => {
-    return fragment`
+    const df = fragment`
     <div class="mx-4">
-    <p class="loginTitleFont" style="text-align:center;">Sign In</p>
+    <p class="loginTitleFont" style="text-align:center;" data-i18n="shared.signIn">Sign In</p>
     <div id="sign${type}Div" lang="en">
       <div class="mdl-card mdl-shadow--2dp firebaseui-container firebaseui-id-page-email-link-sign-in-sent">
         <form onsubmit="return false;">
           <div class="firebaseui-card-header">
-            <h1 class="firebaseui-title">Sign-in email sent</h1>
+            <h1 class="firebaseui-title" data-i18n="shared.emailSent">Sign-in email sent</h1>
           </div>
           <div class="firebaseui-card-content">
             <div class="firebaseui-email-sent"></div>
-            <p class="firebaseui-text">We sent a verification email to <strong>${email}</strong>. Please check your email and click the link we sent to finish signing in. Our email may take a few minutes to arrive in your inbox.</p>
+            <p class="firebaseui-text"><span data-i18n="shared.emailSentMessageStart">We sent a verification email to </span><strong>${email}</strong><span data-i18n="shared.emailSentMessageEnd">. Please check your email and click the link we sent to finish signing in. Our email may take a few minutes to arrive in your inbox.</span></p>
           </div>
           <div class="firebaseui-card-actions">
             <div class="firebaseui-form-links">
-              <a class="firebaseui-link firebaseui-id-trouble-getting-email-link" href="javascript:void(0)">Trouble getting email?</a>
+              <a class="firebaseui-link firebaseui-id-trouble-getting-email-link" href="javascript:void(0)" data-i18n="shared.troubleGettingEmail">Trouble getting email?</a>
             </div>
             <div class="firebaseui-form-actions">
-              <button class="firebaseui-id-secondary-link firebaseui-button mdl-button mdl-js-button mdl-button--primary" data-upgraded=",MaterialButton">Back</button>
+              <button class="firebaseui-id-secondary-link firebaseui-button mdl-button mdl-js-button mdl-button--primary" data-upgraded=",MaterialButton" data-i18n="shared.backText">Back</button>
             </div>
           </div>
           <div class="firebaseui-card-footer"></div>
         </form>
       </div>
     </div>
-    <div style="font-size:8px" class="mt-3"> ${usGov} </div>
+    <div style="font-size:8px" class="mt-3" data-i18n="shared.usGov"> ${usGov} </div>
     </div>
     `;
+    // Added this code to properly translate the string
+    translateHTML(df.children[0]);
+    return df;
 };
 
 const troubleGettingEmailRender = (type) => {
-    return fragment`
+    const df = fragment`
     <div class="mx-4">
-    <p class="loginTitleFont" style="text-align:center;">Sign In</p>
+    <p class="loginTitleFont" style="text-align:center;" data-i18n="shared.signIn">Sign In</p>
     <div id="sign${type}Div" lang="en">
         <div class="mdl-card mdl-shadow--2dp firebaseui-container firebaseui-id-page-email-not-received">
         <form onsubmit="return false;">
             <div class="firebaseui-card-header">
-            <h1 class="firebaseui-title">Trouble getting email?</h1>
+            <h1 class="firebaseui-title" data-i18n="shared.troubleGettingEmail">Trouble getting email?</h1>
             </div>
             <div class="firebaseui-card-content">
-            <p class="firebaseui-text">Try these common fixes:</p>
-            <ul>
+            <p class="firebaseui-text" data-i18n="shared.tryFixes">Try these common fixes:</p>
+            <ul data-i18n="shared.fixesList">
                 <li>Check if the email was marked as spam or filtered.</li>
                 <li>Check your internet connection.</li>
                 <li>Check that you did not misspell your email.</li>
                 <li>Check that your inbox space is not running out or other inbox settings related issues.</li>
             </ul>
             <p></p>
-            <p class="firebaseui-text">If the steps above didn't work, you can resend the email. Note that this will deactivate the link in the older email.</p>
+            <p class="firebaseui-text" data-i18n="shared.resendEmail">If the steps above didn't work, you can resend the email. Note that this will deactivate the link in the older email.</p>
             </div>
             <div class="firebaseui-card-actions">
             <div class="firebaseui-form-links">
-                <a class="firebaseui-link firebaseui-id-resend-email-link" href="javascript:void(0)">Resend</a>
+                <a class="firebaseui-link firebaseui-id-resend-email-link" href="javascript:void(0)" data-i18n="shared.resendText">Resend</a>
             </div>
             <div class="firebaseui-form-actions">
-                <button class="firebaseui-id-secondary-link firebaseui-button mdl-button mdl-js-button mdl-button--primary" data-upgraded=",MaterialButton">Back</button>
+                <button class="firebaseui-id-secondary-link firebaseui-button mdl-button mdl-js-button mdl-button--primary" data-upgraded=",MaterialButton" data-i18n="shared.backText">Back</button>
             </div>
             </div>
             <div class="firebaseui-card-footer"></div>
         </form>
         </div>
     </div>
-    <div style="font-size:8px" class="mt-3"> ${usGov} </div>
+    <div style="font-size:8px" class="mt-3" data-i18n="shared.usGov"> ${usGov} </div>
     </div>
     `;
+    // Added this code to properly translate the string
+    translateHTML(df.children[0]);
+    return df;
 }
 
 const signInFlowRender = (signInEmail) => {
@@ -481,7 +487,7 @@ export const getParameters = (URL) => {
 
 export const dataSavingBtn = (className) => {
     const btn = document.getElementsByClassName(className)[0];
-    btn.innerHTML = `<div class="spinner-border spinner-saving" role="status"><span class="sr-only">Loading...</span></div> Saving`;
+    btn.innerHTML = translateText('shared.savingSpin');
 }
 
 export const errorMessage = (id, msg, focus) => {
@@ -946,7 +952,7 @@ export const connectPushNotification = () => {
                     <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
                         <div class="toast-header">
                             <strong class="mr-auto">${payload.notification.title}</strong>
-                            <button type="button" class="ml-2 mb-1 close hideNotification" data-dismiss="toast" aria-label="Close">&times;</button>
+                            <button type="button" class="ml-2 mb-1 close hideNotification" data-dismiss="toast" aria-label="${translateText('shared.closeText')}">&times;</button>
                         </div>
                         <div class="toast-body">
                             ${payload.notification.body}
@@ -1114,11 +1120,7 @@ export const inactivityTime = (user) => {
             document.getElementById('connectModalFooter').style.display = "none";
             header.innerHTML = `<h5 class="modal-title">Inactive</h5>`;
 
-            body.innerHTML = `You were inactive for 20 minutes, would you like to extend your session?
-                            <div class="modal-footer">
-                                <button type="button" title="Close" class="btn btn-dark log-out-user" data-dismiss="modal">Log Out</button>
-                                <button type="button" title="Continue" class="btn btn-primary extend-user-session" data-dismiss="modal">Continue</button>
-                            </div>`
+            body.innerHTML = translateText('shared.sessionInactive');
             document.body.removeChild(button);
 
             console.log("initial timeout has been reached!");
@@ -1154,7 +1156,7 @@ const signOut = () => {
     localforage.clear();
     firebase.auth().signOut();
     window.location.hash = '#';
-    document.title = 'My Connect - Home';
+    document.title = translateText('shared.homeTitle');
 }
 
 export const renderSyndicate = (url, element, page) => {
@@ -1430,12 +1432,13 @@ You are accessing a U.S. Government web site which may contain information that 
 export const firebaseSignInRender = async ({ ui, account = {}, displayFlag = true }) => {
   const df = fragment`
     <div class="mx-4">
-      <p class="loginTitleFont" style="text-align:center;">Sign In</p>
+      <p class="loginTitleFont" style="text-align:center;" data-i18n="shared.signIn">Sign In</p>
       <div id="signInDiv"></div>
-      <div style="font-size:8px" class="mt-3">
-      ${displayFlag ? usGov : ""}
+      <div style="font-size:8px" class="mt-3" ${displayFlag ? 'data-i18n="shared.usGov"' : ''}>
       </div>
     </div>`;
+
+  translateHTML(df.children[0]);
 
   document.getElementById("signInWrapperDiv").replaceChildren(df);
   ui.start("#signInDiv", signInConfig(account.type));
@@ -1460,7 +1463,8 @@ export const firebaseSignInRender = async ({ ui, account = {}, displayFlag = tru
   } else if (account.type === "phone") {
     document.querySelector('input[class~="firebaseui-id-phone-number"]').value = account.value;
     document.querySelector('label[class~="firebaseui-label"]').remove();
-    document.querySelector('h1[class~="firebaseui-title"]').innerText = "Sign in with phone number";
+    document.querySelector('h1[class~="firebaseui-title"]').innerText = translateText('shared.signInPhone');
+    document.querySelector('h1[class~="firebaseui-title"]').setAttribute('data-i18n', 'shared.signInPhone');
   }
 };
 
@@ -1750,11 +1754,10 @@ export const translateHTML = (source, language) => {
     if (sourceElement.dataset.i18n) {
         let keys = sourceElement.dataset.i18n.split('.');
         let translation = translateText(keys, language);
-        console.log(keys, language, translation);
         if (translation) {
             if (typeof translation === 'object') {
                 Object.keys(translation).forEach((key) => {
-                    if (key === 'innerHtml') {
+                    if (key === 'innerHTML') {
                         sourceElement.innerHTML = translation[key];
                     } else {
                         sourceElement.setAttribute(key, translation[key]);
