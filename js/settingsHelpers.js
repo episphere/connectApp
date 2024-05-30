@@ -1,4 +1,4 @@
-import { hideAnimation, errorMessage, processAuthWithFirebaseAdmin, showAnimation, storeResponse, validEmailFormat, validNameFormat, validPhoneNumberFormat } from './shared.js';
+import { hideAnimation, errorMessage, processAuthWithFirebaseAdmin, showAnimation, storeResponse, validEmailFormat, validNameFormat, validPhoneNumberFormat, translateText, languageTranslations } from './shared.js';
 import { removeAllErrors } from './event.js';
 import cId from './fieldToConceptIdMapping.js';
 
@@ -86,7 +86,9 @@ export const handleOptionalFieldVisibility = (value, text, element, matcher, typ
     if (type === 'text') {
       updateElementContentAndDisplay(element, text, value, displayValue);
     } else if (type === 'suffix') {
-      updateElementContentAndDisplay(element, text, suffixToTextMapDropdown.get(parseInt(value)), displayValue);
+      updateElementContentAndDisplay(element, text, translateText(`settingsHelpers.suffix${suffixToTextMap.get(parseInt(value)).replace('.','')}`), displayValue);
+    }  else if (type === 'languageSelector') {
+      updateElementContentAndDisplay(element, text, translateText(languageTranslations()[parseInt(value)]), displayValue);
     } else if (type === 'phone') {
       const formattedPhone = `${value.substring(0, 3)} - ${value.substring(3, 6)} - ${value.substring(6, 10)}`;
       updateElementContentAndDisplay(element, text, formattedPhone, displayValue);
@@ -228,13 +230,13 @@ export const validateName = (firstNameField, lastNameField, middleNameField) => 
   });
 
   if (!firstNameField.value) {
-    errorMessage('newFirstNameField', 'Please enter a first name', focus);
+    errorMessage('newFirstNameField', translateText('settingsHelpers.enterFirstName'), focus);
     focus = false;
     hasError = true;
   }
 
   if (!lastNameField.value) {
-    errorMessage('newLastNameField', 'Please enter a last name', focus);
+    errorMessage('newLastNameField', translateText('settingsHelpers.enterLastName'), focus);
     focus = false;
     hasError = true;
   }
@@ -254,51 +256,51 @@ export const validateContactInformation = (mobilePhoneNumberComplete, homePhoneN
   let focus = true;
 
   if (!mobilePhoneNumberComplete && !homePhoneNumberComplete && !otherPhoneNumberComplete) {
-    errorMessage('editMobilePhone', 'At least one phone number is required. Please enter at least one 10-digit phone number in this format: 999-999-9999.');
-    errorMessage('editHomePhone', 'At least one phone number is required. Please enter at least one 10-digit phone number in this format: 999-999-9999.');
-    errorMessage('editOtherPhone', 'At least one phone number is required. Please enter at least one 10-digit phone number in this format: 999-999-9999.');
+    errorMessage('editMobilePhone', translateText('settingsHelpers.phoneRequired'));
+    errorMessage('editHomePhone', translateText('settingsHelpers.phoneRequired'));
+    errorMessage('editOtherPhone', translateText('settingsHelpers.phoneRequired'));
     if (focus) document.getElementById('editMobilePhone').focus();
     focus = false;
     hasError = true;
   }
 
   if (mobilePhoneNumberComplete && !validPhoneNumberFormat.test(mobilePhoneNumberComplete)) {
-    errorMessage('editMobilePhone', 'Please enter a 10-digit phone number in this format: 999-999-9999.');
+    errorMessage('editMobilePhone', translateText('settingsHelpers.phoneFormat'));
     if (focus) document.getElementById('editMobilePhone').focus();
     focus = false;
     hasError = true;
   }
 
   if (homePhoneNumberComplete && !validPhoneNumberFormat.test(homePhoneNumberComplete)) {
-    errorMessage('editHomePhone', 'Please enter a 10-digit phone number in this format: 999-999-9999.');
+    errorMessage('editHomePhone', translateText('settingsHelpers.phoneFormat'));
     if (focus) document.getElementById('editHomePhone').focus();
     focus = false;
     hasError = true;
   }
 
   if (otherPhoneNumberComplete && !validPhoneNumberFormat.test(otherPhoneNumberComplete)) {
-    errorMessage('editOtherPhone', 'Please enter a 10-digit phone number in this format: 999-999-9999.');
+    errorMessage('editOtherPhone', translateText('settingsHelpers.phoneFormat'));
     if (focus) document.getElementById('editOtherPhone').focus();
     focus = false;
     hasError = true;
   }
 
   if (!preferredEmail || !validEmailFormat.test(preferredEmail)) {
-    errorMessage('newPreferredEmail', 'Please enter an email address in this format: name@example.com.', focus);
+    errorMessage('newPreferredEmail', translateText('settingsHelpers.emailFormat'), focus);
     if (focus) document.getElementById('newPreferredEmail').focus();
     focus = false;
     hasError = true;
   }
 
   if (additionalEmail1 && !validEmailFormat.test(additionalEmail1)) {
-    errorMessage('newadditionalEmail1', 'Please enter an email address in this format: name@example.com.', focus);
+    errorMessage('newadditionalEmail1', translateText('settingsHelpers.emailFormat'), focus);
     if (focus) document.getElementById('newadditionalEmail1').focus();
     focus = false;
     hasError = true;
   }
 
   if (additionalEmail2 && !validEmailFormat.test(additionalEmail2)) {
-    errorMessage('newadditionalEmail2', 'Please enter an email address in this format: name@example.com.', focus);
+    errorMessage('newadditionalEmail2', translateText('settingsHelpers.emailFormat'), focus);
     if (focus) document.getElementById('newadditionalEmail2').focus();
     focus = false;
     hasError = true;
@@ -319,28 +321,28 @@ export const validateMailingAddress = (addressLine1, city, state, zip) => {
   const zipRegExp = /[0-9]{5}/;
 
   if (!addressLine1) {
-    errorMessage('UPAddress1Line1', 'Address cannot be blank. Please enter your address.');
+    errorMessage('UPAddress1Line1', translateText('settingsHelpers.addressNotEmpty'));
     if (focus) document.getElementById('UPAddress1Line1').focus();
     focus = false;
     hasError = true;
   }
 
   if (!city) {
-    errorMessage('UPAddress1City', 'City must not be empty. Please select a City.');
+    errorMessage('UPAddress1City', translateText('settingsHelpers.cityNotEmpty'));
     if (focus) document.getElementById('UPAddress1City').focus();
     focus = false;
     hasError = true;
   }
 
   if (!state) {
-    errorMessage('UPAddress1State', 'State must not be empty. Please select a state.');
+    errorMessage('UPAddress1State', translateText('settingsHelpers.stateNotEmpty'));
     if (focus) document.getElementById('UPAddress1State').focus();
     focus = false;
     hasError = true;
   }
 
   if (!zip || !zipRegExp.test(zip)) {
-    errorMessage('UPAddress1Zip', 'Zip code must not be blank. It can only contain numbers.');
+    errorMessage('UPAddress1Zip', translateText('settingsHelpers.zipNotEmpty'));
     if (focus) document.getElementById('UPAddress1Zip').focus();
     focus = false;
     hasError = true;
@@ -360,11 +362,11 @@ export const validateLoginEmail = (email, emailConfirm) => {
     if (validEmailFormat.test(email)) {
       return true;
     } else {
-      alert('Error: The email address format is not valid. Please enter an email address in this format: name@example.com.');
+      alert(translateText('settingsHelpers.errorEmailFormat'));
       return false;
     }
   } else {
-    alert('Error - the email addresses do not match. Please make sure the email addresses match, then resubmit the form.');
+    alert(translateText('settingsHelpers.errorEmailsDoNotMatch'));
     return false;
   }
 };
@@ -374,11 +376,11 @@ export const validateLoginPhone = (phone, phoneConfirm) => {
     if (validPhoneNumberFormat.test(phone)) {
       return true;
     } else {
-      alert('Error: The phone number format is not valid. Please enter a phone number in this format: 999-999-9999');
+      alert(translateText('settingsHelpers.errorPhoneFormat'));
       return false;
     }
   } else {
-    alert('Error - the phone numbers do not match. Please make sure the phone numbers match, then resubmit the form.');
+    alert(translateText('settingsHelpers.errorPhonesDoNotMatch'));
     return false;
   }
 };
@@ -402,7 +404,7 @@ export const changeName = async (firstName, lastName, middleName, suffix, prefer
   return isSuccess;
 };
 
-export const changeContactInformation = async (mobilePhoneNumberComplete, homePhoneNumberComplete, canWeVoicemailMobile, canWeText, canWeVoicemailHome, preferredEmail, otherPhoneNumberComplete, canWeVoicemailOther, additionalEmail1, additionalEmail2, userData) => {
+export const changeContactInformation = async (mobilePhoneNumberComplete, homePhoneNumberComplete, canWeVoicemailMobile, canWeText, canWeVoicemailHome, preferredEmail, otherPhoneNumberComplete, canWeVoicemailOther, additionalEmail1, additionalEmail2, preferredLanguage, userData) => {
   document.getElementById('changeContactInformationFail').style.display = 'none';
   document.getElementById('changeContactInformationGroup').style.display = 'none';
 
@@ -428,6 +430,7 @@ export const changeContactInformation = async (mobilePhoneNumberComplete, homePh
     [cId.canWeVoicemailOther]: parseInt(canWeVoicemailOther),
     [cId.additionalEmail1]: additionalEmail1,
     [cId.additionalEmail2]: additionalEmail2,
+    [cId.preferredLanguage]: parseInt(preferredLanguage)
   };
 
   let { changedUserDataForProfile, changedUserDataForHistory } = findChangedUserDataValues(newValues, userData, 'changeContactInformation');
@@ -636,7 +639,7 @@ const updateFirebaseAuthPhone = async (phone, userData) => {
       const provider = new firebase.auth.PhoneAuthProvider;
 
       const verificationId = await provider.verifyPhoneNumber(phone, recaptchaVerifier);
-      const verificationCode = window.prompt('Please enter the verification code that was sent to your mobile device.');
+      const verificationCode = window.prompt(translateText('settingsHelpers.mobileVerificationCode'));
       if (!verificationCode) {
           throw new Error("Verification code not provided");
       }
@@ -858,7 +861,7 @@ const processUserDataUpdate = async (changedUserDataForProfile, changedUserDataF
     return true;
   } else {
     document.getElementById(`${type}Fail`).style.display = 'block';
-    document.getElementById(`${type}Error`).innerHTML = 'This is the information we already have. If you meant to update your existing information, please make a change and try again.';
+    document.getElementById(`${type}Error`).innerHTML = translateText('settingsHelpers.makeChangesToUpdate');
     return false;
   }
 };

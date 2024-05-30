@@ -1,44 +1,88 @@
-import { getMyData, hasUserData, hideAnimation, showAnimation, siteAcronyms, dateTime, storeResponse, isMobile, openNewTab } from "../shared.js";
+import { getMyData, hasUserData, hideAnimation, showAnimation, siteAcronyms, dateTime, storeResponse, isMobile, openNewTab, languageSuffix, getSelectedLanguage } from "../shared.js";
 import { initializeCanvas } from './consent.js'
 import fieldMapping from '../fieldToConceptIdMapping.js';
 import {suffixToTextMap, suffixToTextMapDropdown} from '../settingsHelpers.js'
 import consentVersions from "../../forms/formVersions.js";
+import formVersions from "../../forms/formVersions.js";
 
 const { PDFDocument, StandardFonts } = PDFLib;
 
 const siteToHipaaSignPosMap = {
     "Sanford": {
+        "V0.02": {
+            "Eng": {nameX:100,nameY:415,signatureX:100,signatureY:455,dateX:100,dateY:375},
+            "Span": {nameX:100,nameY:415,signatureX:100,signatureY:455,dateX:100,dateY:375}
+        },
         "default": {nameX:100,nameY:415,signatureX:100,signatureY:455,dateX:100,dateY:375},
     },
     "HP": {
+        "V0.03": {
+            "Eng": {nameX:100,nameY:420,signatureX:100,signatureY:465,dateX:100,dateY:370},
+            "Span": {nameX:100,nameY:420,signatureX:100,signatureY:465,dateX:100,dateY:370}
+        },
         "default": {nameX:100,nameY:420,signatureX:100,signatureY:465,dateX:100,dateY:370},
     },
     "Marshfield": {
+        "V0.02": {
+            "Eng": {nameX:100,nameY:425,signatureX:100,signatureY:465,dateX:100,dateY:385},
+            "Span": {nameX:100,nameY:425,signatureX:100,signatureY:465,dateX:100,dateY:385}
+        },
         "default": {nameX:100,nameY:425,signatureX:100,signatureY:465,dateX:100,dateY:385},
     },
     "HFHS": {
-        "V0.02": {nameX:100,nameY:425,signatureX:100,signatureY:465,dateX:100,dateY:385},
+        "V0.02": {
+            "Eng": {nameX:100,nameY:425,signatureX:100,signatureY:465,dateX:100,dateY:385},
+            "Span": {nameX:100,nameY:425,signatureX:100,signatureY:465,dateX:100,dateY:385},
+        },
         "default": {nameX:110,nameY:440,signatureX:110,signatureY:480,dateX:110,dateY:400},
     },
     "UChicago": {
+        "V0.02": {
+            "Eng": {nameX:110,nameY:425,signatureX:110,signatureY:465,dateX:110,dateY:385},
+            "Span": {nameX:110,nameY:425,signatureX:110,signatureY:465,dateX:110,dateY:385},
+        },
         "default": {nameX:110,nameY:425,signatureX:110,signatureY:465,dateX:110,dateY:385},
     },
     "KPCO": {
+        "V0.02": {
+            "Eng": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
+            "Span": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
+        },
         "default": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
     },
     "KPGA": {
+        "V0.03": {
+            "Eng": {nameX:110,nameY:345,signatureX:110,signatureY:385,dateX:110,dateY:305},
+            "Span": {nameX:110,nameY:345,signatureX:110,signatureY:385,dateX:110,dateY:305},
+        },
         "default": {nameX:110,nameY:345,signatureX:110,signatureY:385,dateX:110,dateY:305},
     },
     "KPHI": {
+        "V0.02": {
+            "Eng": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
+            "Span": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
+        },
         "default": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
     },
     "KPNW": {
+        "V0.02": {
+            "Eng": {nameX:110,nameY:415,signatureX:110,signatureY:455,dateX:110,dateY:375},
+            "Span": {nameX:110,nameY:415,signatureX:110,signatureY:455,dateX:110,dateY:375},
+        },
         "default": {nameX:110,nameY:415,signatureX:110,signatureY:455,dateX:110,dateY:375},
     },
     "NCI": {
+        "V0.02": {
+            "Eng": {nameX:110,nameY:427,signatureX:110,signatureY:467,dateX:110,dateY:387},
+            "Span": {nameX:110,nameY:427,signatureX:110,signatureY:467,dateX:110,dateY:387},
+        },
         "default": {nameX:110,nameY:427,signatureX:110,signatureY:467,dateX:110,dateY:387},
     },
     "BSWH": {
+        "V0.01": {
+            "Eng": { nameX:100, nameY:440, signatureX:100, signatureY:479, dateX: 100, dateY: 399 },
+            "Span": { nameX:100, nameY:440, signatureX:100, signatureY:479, dateX: 100, dateY: 399 },
+        },
         "default": { nameX:100, nameY:440, signatureX:100, signatureY:479, dateX: 100, dateY: 399 },
     },
     "default": { nameX: 200, nameY: 275, signatureX: 200, signatureY: 225, dateX: 200, dateY: 325}
@@ -52,6 +96,7 @@ const siteToConsentSignPosMap = {
     "HP": {
         "V0.02": {nameX:90,nameY:425,signatureX:110,signatureY:345,dateX:90,dateY:385},
         "V0.04": {nameX:90,nameY:402,signatureX:110,signatureY:322,dateX:90,dateY:362},
+        "V0.05": {nameX:90,nameY:402,signatureX:110,signatureY:322,dateX:90,dateY:362},
         "default": {nameX:90,nameY:420,signatureX:110,signatureY:340,dateX:90,dateY:380},
     },
     "Marshfield": {
@@ -388,7 +433,9 @@ const renderDownloadRevoke = async (data) => {
     const middleName = data[826240317] ? ` ${data[826240317]} ` : ' ';
     const suffix = data[693626233] ? suffixToTextMap.get(parseInt(data[693626233])) : '';
     const participantSignature = `${data[765336427]}${middleName}${data[479278368]} ${suffix}`.trim();
-    const pdfLocation = './forms/HIPAA_Revocation_V1.0.pdf';
+    const langSuffix = languageSuffix();
+    const selectedLanguage = getSelectedLanguage();
+    const pdfLocation = './forms/HIPAA_Revocation_'+formVersions['Revocation']+(langSuffix[selectedLanguage] ? '_' + langSuffix[selectedLanguage] : '')+'.pdf';
     const currentTime = new Date(data[613641698]).toLocaleDateString();
 
     renderDownload(participantSignature, currentTime, pdfLocation, {x:150,y:420},{x1:150,y1:400},{x:155,y:380},20,15,20);
@@ -399,7 +446,9 @@ const renderDownloadDestroy = async (data) => {
     const middleName = data[268665918] ? ` ${data[268665918]} ` : ' ';
     const suffix = data[592227431] ? suffixToTextMap.get(parseInt(data[592227431])) : '';
     const participantSignature = `${data[104278817]}${middleName}${data[744604255]} ${suffix}`.trim();
-    const pdfLocation = './forms/Data_Destruction_V1.0.pdf';
+    const langSuffix = languageSuffix();
+    const selectedLanguage = getSelectedLanguage();
+    const pdfLocation = './forms/Data_Destruction_'+formVersions['DataDestruction']+(langSuffix[selectedLanguage] ? '_' + langSuffix[selectedLanguage] : '')+'.pdf';
     const currentTime = new Date(data[119449326]).toLocaleDateString();
 
     renderDownload(participantSignature, currentTime, pdfLocation, {x:150,y:420},{x1:150,y1:400},{x:155,y:380},20,15,20);
@@ -609,7 +658,9 @@ async function generateSignedPdf(data, file) {
   if (file === 'signed-consent') {
     sourcePdfLocation = './forms/consent/' + data[fieldMapping.consentVersion] + '.pdf';
     dateStr = new Date(data[454445267]).toLocaleDateString();
-    const version = data[fieldMapping.consentVersion].split('_')[2];
+    const versionArray = data[fieldMapping.consentVersion].split('_');
+    const version = versionArray[2];
+    const lang = versionArray[3] ? versionArray[3] : 'Eng';
     if (siteToConsentSignPosMap[participantSite] && siteToConsentSignPosMap[participantSite][version]) {
         coords = siteToConsentSignPosMap[participantSite][version];
     } else if (siteToConsentSignPosMap[participantSite] && siteToConsentSignPosMap[participantSite]['default']) {
@@ -621,9 +672,11 @@ async function generateSignedPdf(data, file) {
   else if (file === 'signed-HIPAA') {
     sourcePdfLocation = './forms/HIPAA/' + data[fieldMapping.hipaaVersion] + '.pdf';
     dateStr = new Date(data[262613359]).toLocaleDateString();
-    const version = data[fieldMapping.hipaaVersion].split('_')[2];
-    if (siteToHipaaSignPosMap[participantSite] && siteToHipaaSignPosMap[participantSite][version]) {
-        coords = siteToHipaaSignPosMap[participantSite][version];
+    const versionArray  = data[fieldMapping.hipaaVersion].split('_');
+    const version = versionArray[2];
+    const lang = versionArray[3] ? versionArray[3] : 'Eng';
+    if (siteToHipaaSignPosMap[participantSite] && siteToHipaaSignPosMap[participantSite][version] && siteToHipaaSignPosMap[participantSite][version][lang]) {
+        coords = siteToHipaaSignPosMap[participantSite][version][lang];
     } else if (siteToHipaaSignPosMap[participantSite] && siteToHipaaSignPosMap[participantSite]['default']) {
         coords = siteToHipaaSignPosMap[participantSite]['default'];
     } else {
