@@ -384,7 +384,7 @@
         "mainHeaderFirstSurveyDescription": "This survey is split into four sections that ask about a wide range of topics, including information about your medical history, family, work, and health behaviors. You can answer all of the questions at one time, or pause and return to complete the survey later. If you pause, your answers will be saved so you can pick up where you left off. You can skip any questions that you do not want to answer.",
         "mainBodyBackgroundDescription": "Questions about you, your medical history, and your family history.",
         "20_30minutes": "20 to 30 minutes",
-        "Less5minutes": "Less than 5 minutes",
+        "less5minutes": "Less than 5 minutes",
         "10minutes": "10 minutes",
         "5minutes": "5 minutes",
         "10_15minutes": "10 to 15 minutes",

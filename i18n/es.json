@@ -384,7 +384,7 @@
         "mainHeaderFirstSurveyDescription": "Esta encuesta se divide en cuatro secciones en las que se le pregunta sobre una amplia variedad de temas, como información sobre sus antecedentes médicos, su familia, su trabajo y sus hábitos de salud. Puede responder todas las preguntas en una sola sesión o hacer una pausa y volver para completar la encuesta más tarde. Si hace una pausa, sus respuestas se guardarán para que pueda continuar donde dejó. Puede omitir cualquier pregunta que no desee responder.",
         "mainBodyBackgroundDescription": "Preguntas sobre usted, sus antecedentes médicos y sus antecedentes familiares.",
         "20_30minutes": "De 20 a 30 minutos",
-        "Less5minutes": "Menos de 5 minutos",
+        "less5minutes": "Menos de 5 minutos",
         "10minutes": "10 minutos",
         "5minutes": "5 minutos",
         "10_15minutes": "De 10 a 15 minutos",

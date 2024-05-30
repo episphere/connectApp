@@ -710,7 +710,7 @@ const setModuleAttributes = (data, modules, collections) => {
     modules['Enter SSN'].description = 'mytodolist.mainBodySSNDescription';
     modules['Enter SSN'].hasIcon = false;
     modules['Enter SSN'].noButton = false;
-    modules['Enter SSN'].estimatedTime = 'mytodolist.Less5minutes';
+    modules['Enter SSN'].estimatedTime = 'mytodolist.less5minutes';
     
     modules['Covid-19'].header = 'COVID-19 Survey';
     modules['Covid-19'].description = 'mytodolist.mainBodyCovid19Description';
