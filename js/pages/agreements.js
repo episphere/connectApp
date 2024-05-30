@@ -11,77 +11,77 @@ const siteToHipaaSignPosMap = {
     "Sanford": {
         "V0.02": {
             "Eng": {nameX:100,nameY:415,signatureX:100,signatureY:455,dateX:100,dateY:375},
-            "Span": {nameX:100,nameY:415,signatureX:100,signatureY:455,dateX:100,dateY:375}
+            "Span": { nameX:188, nameY:419, signatureX:80, signatureY:457, dateX: 80, dateY: 377 },
         },
         "default": {nameX:100,nameY:415,signatureX:100,signatureY:455,dateX:100,dateY:375},
     },
     "HP": {
         "V0.03": {
             "Eng": {nameX:100,nameY:420,signatureX:100,signatureY:465,dateX:100,dateY:370},
-            "Span": {nameX:100,nameY:420,signatureX:100,signatureY:465,dateX:100,dateY:370}
+            "Span": { nameX:188, nameY:424, signatureX:80, signatureY:470, dateX: 80, dateY: 375 },
         },
         "default": {nameX:100,nameY:420,signatureX:100,signatureY:465,dateX:100,dateY:370},
     },
     "Marshfield": {
         "V0.02": {
             "Eng": {nameX:100,nameY:425,signatureX:100,signatureY:465,dateX:100,dateY:385},
-            "Span": {nameX:100,nameY:425,signatureX:100,signatureY:465,dateX:100,dateY:385}
+            "Span": { nameX:188, nameY:429, signatureX:80, signatureY:467, dateX: 80, dateY: 387 },
         },
         "default": {nameX:100,nameY:425,signatureX:100,signatureY:465,dateX:100,dateY:385},
     },
     "HFHS": {
         "V0.02": {
             "Eng": {nameX:100,nameY:425,signatureX:100,signatureY:465,dateX:100,dateY:385},
-            "Span": {nameX:100,nameY:425,signatureX:100,signatureY:465,dateX:100,dateY:385},
+            "Span": { nameX:188, nameY:429, signatureX:80, signatureY:467, dateX: 80, dateY: 387 },
         },
         "default": {nameX:110,nameY:440,signatureX:110,signatureY:480,dateX:110,dateY:400},
     },
     "UChicago": {
         "V0.02": {
             "Eng": {nameX:110,nameY:425,signatureX:110,signatureY:465,dateX:110,dateY:385},
-            "Span": {nameX:110,nameY:425,signatureX:110,signatureY:465,dateX:110,dateY:385},
+            "Span": { nameX:188, nameY:429, signatureX:80, signatureY:467, dateX: 80, dateY: 387 },
         },
         "default": {nameX:110,nameY:425,signatureX:110,signatureY:465,dateX:110,dateY:385},
     },
     "KPCO": {
         "V0.02": {
             "Eng": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
-            "Span": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
+            "Span": {nameX:188,nameY:415,signatureX:80,signatureY:455,dateX:80,dateY:375},
         },
         "default": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
     },
     "KPGA": {
         "V0.03": {
             "Eng": {nameX:110,nameY:345,signatureX:110,signatureY:385,dateX:110,dateY:305},
-            "Span": {nameX:110,nameY:345,signatureX:110,signatureY:385,dateX:110,dateY:305},
+            "Span": {nameX:188,nameY:198,signatureX:80,signatureY:238,dateX:80,dateY:158},
         },
         "default": {nameX:110,nameY:345,signatureX:110,signatureY:385,dateX:110,dateY:305},
     },
     "KPHI": {
         "V0.02": {
             "Eng": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
-            "Span": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
+            "Span": {nameX:188,nameY:415,signatureX:80,signatureY:455,dateX:80,dateY:375},
         },
         "default": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
     },
     "KPNW": {
         "V0.02": {
             "Eng": {nameX:110,nameY:415,signatureX:110,signatureY:455,dateX:110,dateY:375},
-            "Span": {nameX:110,nameY:415,signatureX:110,signatureY:455,dateX:110,dateY:375},
+            "Span": {nameX:188,nameY:415,signatureX:80,signatureY:455,dateX:80,dateY:375},
         },
         "default": {nameX:110,nameY:415,signatureX:110,signatureY:455,dateX:110,dateY:375},
     },
     "NCI": {
         "V0.02": {
             "Eng": {nameX:110,nameY:427,signatureX:110,signatureY:467,dateX:110,dateY:387},
-            "Span": {nameX:110,nameY:427,signatureX:110,signatureY:467,dateX:110,dateY:387},
+            "Span": { nameX:188, nameY:419, signatureX:80, signatureY:457, dateX: 80, dateY: 377 },
         },
         "default": {nameX:110,nameY:427,signatureX:110,signatureY:467,dateX:110,dateY:387},
     },
     "BSWH": {
         "V0.01": {
             "Eng": { nameX:100, nameY:440, signatureX:100, signatureY:479, dateX: 100, dateY: 399 },
-            "Span": { nameX:100, nameY:440, signatureX:100, signatureY:479, dateX: 100, dateY: 399 },
+            "Span": { nameX:188, nameY:414, signatureX:80, signatureY:452, dateX: 80, dateY: 372 },
         },
         "default": { nameX:100, nameY:440, signatureX:100, signatureY:479, dateX: 100, dateY: 399 },
     },
@@ -654,7 +654,7 @@ async function generateSignedPdf(data, file) {
   const suffix = data[480305327] ? suffixToTextMap.get(parseInt(data[480305327])) : '';
   const participantFullName = `${data[471168198]}${middleName}${data[736251808]} ${suffix}`.trim();
   const fontSize = siteToSignFontSizeMap[participantSite] ?? siteToSignFontSizeMap['default'];
-
+  
   if (file === 'signed-consent') {
     sourcePdfLocation = './forms/consent/' + data[fieldMapping.consentVersion] + '.pdf';
     dateStr = new Date(data[454445267]).toLocaleDateString();
