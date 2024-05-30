@@ -1,8 +1,8 @@
-import { retrieveNotifications, showAnimation, hideAnimation } from "../shared.js";
+import { retrieveNotifications, showAnimation, hideAnimation, translateHTML, translateText } from "../shared.js";
 
 
 export const renderNotificationsPage = async () => {
-    document.title = 'My Connect - Messages';
+    document.title = translateText('notifications.title');
     showAnimation();
     const notifs = await retrieveNotifications();
 
@@ -27,17 +27,17 @@ export const renderNotificationsPage = async () => {
         template += `
                 <ul class="nav nav-tabs" style="border-bottom:none; margin-top:20px">
                     <li class="nav-item">
-                        <button class="nav-link navbar-btn messages-Active-Nav" id="readNotiifs">Read</button>
+                        <button class="nav-link navbar-btn messages-Active-Nav" id="readNotiifs" data-i18n="notifications.read"></button>
                     </li>
                 </ul>`;
     } else {
         template += `
                 <ul class="nav nav-tabs" style="border-bottom:none; margin-top:20px">
                     <li class="nav-item" >
-                        <button class=" nav-link navbar-btn messages-Active-Nav" id="unreadNotifs">Unread</button>
+                        <button class=" nav-link navbar-btn messages-Active-Nav" id="unreadNotifs" data-i18n="notifications.unread">Unread</button>
                     </li>
                     <li class="nav-item">
-                        <button class="nav-link navbar-btn messages-Inactive-Nav" id="readNotifs">Read</button>
+                        <button class="nav-link navbar-btn messages-Inactive-Nav" id="readNotifs" data-i18n="notifications.read">Read</button>
                     </li>
                 </ul>`;
     }
@@ -61,7 +61,7 @@ export const renderNotificationsPage = async () => {
     `;
     
     const mainContent = document.getElementById('root');
-    mainContent.innerHTML = template;
+    mainContent.innerHTML = translateHTML(template);
     if (unread.length > 0) {
         document.getElementById('readNotifs').addEventListener('click', () => {
             document.getElementById('surveyMainBody').innerHTML = renderMainBody(notifs.data, 'read');
@@ -105,7 +105,7 @@ const renderMainBody = (data, tab) => {
                 <div>
                     <div class="row">
                         <div class="col-md-2 ">
-                        <div class="SurveyIcon"><i class="fas fa-bell d-none d-md-block" title="Survey Icon" style="text-align:center; width:100%;font-size:30px;color:#ffff;padding-top:5px"></i></div>
+                        <div class="SurveyIcon"><i class="fas fa-bell d-none d-md-block" data-i18n="notifications.surveyIcon" title="Survey Icon" style="text-align:center; width:100%;font-size:30px;color:#ffff;padding-top:5px"></i></div>
                         </div>
                         <div class="col-md-10">
                             <span class="messagesHeaderFont">
@@ -130,12 +130,12 @@ const renderMainBody = (data, tab) => {
     if (!hasNotification) {
         template += `
             <div class="row">
-                <span class="messagesHeaderFont" style="text-align:center; margin:auto;">
+                <span class="messagesHeaderFont" style="text-align:center; margin:auto;" data-i18n="notifications.noMessages">
                     You have no messages.
                 </span>
             </div>
             `;
     }
     
-    return template;
+    return translateHTML(template);
 };

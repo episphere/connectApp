@@ -412,7 +412,9 @@
         "title": "My Connect - Mensajes",
         "email": "Correo electrónico",
         "sms": "SMS",
-        "surveyIcon": "Ícono de encuesta",
+        "surveyIcon": {
+            "title": "Ícono de encuesta"
+        },
         "noMessages": "No tiene ningún mensaje."
     },
     "payment": {
