@@ -283,7 +283,7 @@ export const renderAgreements = async () => {
                                             <div class="col-md-2" data-i18n="agreements.surveyIcon">
                                                 <i class="fab fa-wpforms d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
                                             </div>
-                                            <div class="col-md-10 cnnsentBodyFont2" data-i18n="agreements.stopSharinRecords">
+                                            <div class="col-md-10 cnnsentBodyFont2" data-i18n="agreements.stopSharingRecords">
                                                 <span class = "consentHeadersFont" style="color:#5c2d93">
                                                     <b>Revocation of electronic health records release (HIPAA Revocation) form</b>
                                                 </span>
