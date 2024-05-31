@@ -168,7 +168,7 @@ export const addEventHealthCareProviderSubmit = () => {
         
         let modalBody = document.getElementById('HealthProviderModalBody');
         let modalButton = document.getElementById('openModal');
-        modalBody.innerHTML = `Are you sure ${sites()[value]} is your healthcare provider?`
+        modalBody.innerHTML = translateHTML(`<span data-i18n="event.sureAboutProvider">Are you sure </span>${sites()[value]}<span data-i18n="event.sureAboutProviderEnd"> is your healthcare provider?</span>`);
         modalButton.click();
     });
 }
@@ -258,17 +258,18 @@ const addEmailFields = () => {
     div1.classList = ['col'];
 
     const input = document.createElement('input');	
-    input.classList = ['form-control col-md-4'];	
+    input.classList = ['form-control col-md-4'];
+    input.setAttribute('data-i18n', "event.emailPlaceholder2");
     input.placeholder = 'Enter additional email 2';	
     input.style = "margin-left:0px; max-width:382px;"
     input.type = 'text';	
     input.id = 'UPAdditionalEmail2';	
     input.title = ' Please enter an email address in this format: name@example.com.';
 
-    div1.appendChild(input);
+    div1.appendChild(translateHTML(input));
     div.appendChild(div1);
     
-    document.getElementById('additionalEmailBtn').innerHTML = `<button type="button" class="btn btn-light" id="addMoreEmail2" title="Add more email">Add more <i class="fas fa-plus"></i></button>`;
+    document.getElementById('additionalEmailBtn').innerHTML = translateHTML(`<button type="button" class="btn btn-light" id="addMoreEmail2" title="Add more email" data-i18n="event.addMoreEmail">Add more <i class="fas fa-plus"></i></button>`);
     
     const addMoreEmail2 = document.getElementById('addMoreEmail2');	
     addMoreEmail2.addEventListener('click', addAnotherEmailField)	
@@ -285,7 +286,8 @@ const addAnotherEmailField = () => {
     div1.classList = ['col']; 	
 
     const input2 = document.createElement('input');	
-    input2.classList = ['form-control col-md-4'];	
+    input2.classList = ['form-control col-md-4'];
+    input2.setAttribute('data-i18n', 'event.emailPlaceholder3');	
     input2.style = "margin-left:0px; max-width:382px;"
     input2.placeholder = 'Enter additional email 3';	
     input2.type = 'text';	

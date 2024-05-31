@@ -77,19 +77,45 @@
         "profileHeader": "My Profile",
         "nameSubheader": "Name",
         "notCorrectMessage": "If this is not correct, please contact the <a href=\"https://norcfedramp.servicenowservices.com/participant\" target=\"_blank\">Connect Support Center</a> or call 1-877-505-0253",
-        "firstName": "<label style=\"margin-left:-15px\">First name <span class=\"required\">*</span></label><input type=\"text\" value=\"${myData.data['471168198']}\" class=\"form-control input-validation row\" id=\"UPFirstName\" placeholder=\"Enter first name\" disabled style=\"max-width:215px; background-color:#e6e6e6 !important;\">",
+        "firstName": "First name <span class=\"required\">*</span>",
+        "firstNameField": {
+            "placeholder": "Enter first name"
+        },
         "middleName": "Middle name",
-        "middleNameErrorValidation": "Your middle name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters.",
-        "middleNamePlaceholder": "Enter middle name",
-        "lastName": "<label style=\"margin-left:-15px\">Last name <span class=\"required\">*</span></label><input type=\"text\" value=\"${myData.data['736251808']}\" class=\"form-control input-validation row\" id=\"UPLastName\" placeholder=\"Enter last name\" disabled style=\"max-width:304px; background-color:#e6e6e6 !important;\">",
-        "suffixList": "<label class=\"col-form-label\">Suffix</label><select class=\"form-control\" style=\"max-width:152px; margin-left:0px;\" id=\"UPSuffix\"><option value=\"\">-- Select --</option><option value=\"612166858\" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 0 ? 'selected':'') : ''}>Jr.</option><option value=\"255907182\" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 1 ? 'selected':'') : ''}>Sr.</option><option value=\"226924545\" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 2 ? 'selected':'') : ''}>I</option><option value=\"270793412\" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 3 ? 'selected':'') : ''}>II</option><option value=\"959021713\" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 4 ? 'selected':'') : ''}>III</option><option value=\"643664527\" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 5 ? 'selected':'') : ''}>2nd</option><option value=\"537892528\" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 6 ? 'selected':'') : ''}>3rd</option></select>",
-        "preferredName": "<label class=\"col-form-label\">Preferred first name</label><input style=\"max-width:215px; margin-left:0px;\" type=\"text\" class=\"form-control input-validation\" id=\"UPPreferredName\" placeholder=\"Enter preferred name\">",
+        "middleNameField": {
+            "data-error-validation": "Your middle name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters.",
+            "placeholder": "Enter middle name"
+        },
+        "lastName": "Last name <span class=\"required\">*</span>",
+        "lastNameField": {
+            "placeholder": "Enter last name"
+        },
+        "suffixList": "Suffix",
+        "preferredName": "Preferred first name",
+        "preferredNameField": {
+            "placeholder": "Enter preferred name"
+        },
         "birthDateSubHeader": "Date of Birth",
-        "monthList": "<option class=\"option-dark-mode\" value=\"\">-- Select -- </option><option class=\"option-dark-mode\" value=\"01\">January</option><option class=\"option-dark-mode\" value=\"02\">February</option><option class=\"option-dark-mode\" value=\"03\">March</option><option class=\"option-dark-mode\" value=\"04\">April</option><option class=\"option-dark-mode\" value=\"05\">May</option><option class=\"option-dark-mode\" value=\"06\">June</option><option class=\"option-dark-mode\" value=\"07\">July</option><option class=\"option-dark-mode\" value=\"08\">August</option><option class=\"option-dark-mode\" value=\"09\">September</option><option class=\"option-dark-mode\" value=\"10\">October</option><option class=\"option-dark-mode\" value=\"11\">November</option><option class=\"option-dark-mode\" value=\"12\">December</option>",
         "monthListLabel": "Month <span class=\"required\">*</span>",
-        "monthListRequired": "Please select your birth month.",
+        "monthListRequired": {
+            "data-error-required": "Please select your birth month."
+        },
+        "monthJanuary": "January",
+        "monthFebruary": "February",
+        "monthMarch": "March",
+        "monthApril": "April",
+        "monthMay": "May",
+        "monthJune": "June",
+        "monthJuly": "July",
+        "monthAugust": "August",
+        "monthSeptember": "September",
+        "monthOctober": "October",
+        "monthNovember": "November",
+        "monthDecember": "December",
         "dayListLabel": "Day <span class=\"required\">*</span>",
-        "dayListRequired": "Please select your birth day.",
+        "dayListRequired": {
+            "data-error-required": "Please select your birth day."
+        },
         "yearListLabel": "Year <span class=\"required\">*</span>",
         "yearListRequired": "Please select your birth year.",
         "yearListValidation": "The year you entered is outside of our expected range. Please check your entry.",
@@ -264,11 +290,185 @@
         "consentPageBody2": "This form explains in detail what it means to take part in Connect. To join the study, please scroll down to the bottom of this screen to electronically consent. You do not need to download and sign the form the join the study.",
         "consentPageBody3": "If you have trouble viewing the consent form in the window at the bottom of this screen, you can download an unsigned copy by scrolling down and selecting that option below.",
         "consentPageWait": "Please wait...",
-        "consentPageConsentFormLink": "<a href=\"${'./forms/consent/'  + participantSite + '_Consent_' + formVersions[participantSite]['Consent'] + '.pdf'}\" title=\"Download consent form\" data-toggle=\"tooltip\" download=\"connect_consent.pdf\" class=\"consentBodyFont2\" data-file=\"unsigned-form\"> Download an unsigned copy of the informed consent form&nbsp<i class=\"fas fa-file-download\"></i></a>",
+        "consentIframeHFHS": {
+            "src": "./forms/consent/HFHS_Consent_V0.03.html"
+        },
+        "consentIframeHP": {
+            "src": "./forms/consent/HP_Consent_V0.05.html"
+        },
+        "consentIframeKPCO": {
+            "src": "./forms/consent/KPCO_Consent_V0.03.html"
+        },
+        "consentIframeKPGA": {
+            "src": "./forms/consent/KPGA_Consent_V0.04.html"
+        },
+        "consentIframeKPHI": {
+            "src": "./forms/consent/KPHI_Consent_V0.03.html"
+        },
+        "consentIframeKPNW": {
+            "src": "./forms/consent/KPNW_Consent_V0.03.html"
+        },
+        "consentIframeMarshfield": {
+            "src": "./forms/consent/Marshfield_Consent_V0.03.html"
+        },
+        "consentIframeSanford": {
+            "src": "./forms/consent/Sanford_Consent_V0.03.html"
+        },
+        "consentIframeUChicago": {
+            "src": "./forms/consent/UChicago_Consent_V0.05.html"
+        },
+        "consentIframeBSWH": {
+            "src": "./forms/consent/BSWH_Consent_V0.02.html"
+        },
+        "consentIframeNCI": {
+            "src": "./forms/consent/NCI_Consent_V0.05.html"
+        },
+        "consentUnsignedHFHS": {
+            "title": "Download consent form",
+            "innerHTML": " Download an unsigned copy of the informed consent form&nbsp<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/consent/HFHS_Consent_V0.03.pdf"
+        },
+        "consentUnsignedHP": {
+            "title": "Download consent form",
+            "innerHTML": " Download an unsigned copy of the informed consent form&nbsp<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/consent/HP_Consent_V0.05.pdf"
+        },
+        "consentUnsignedKPCO": {
+            "title": "Download consent form",
+            "innerHTML": " Download an unsigned copy of the informed consent form&nbsp<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/consent/KPCO_Consent_V0.03.pdf"
+        },
+        "consentUnsignedKPGA": {
+            "title": "Download consent form",
+            "innerHTML": " Download an unsigned copy of the informed consent form&nbsp<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/consent/KPGA_Consent_V0.04.pdf"
+        },
+        "consentUnsignedKPHI": {
+            "title": "Download consent form",
+            "innerHTML": " Download an unsigned copy of the informed consent form&nbsp<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/consent/KPHI_Consent_V0.03.pdf"
+        },
+        "consentUnsignedKPNW": {
+            "title": "Download consent form",
+            "innerHTML": " Download an unsigned copy of the informed consent form&nbsp<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/consent/KPNW_Consent_V0.03.pdf"
+        },
+        "consentUnsignedMarshfield": {
+            "title": "Download consent form",
+            "innerHTML": " Download an unsigned copy of the informed consent form&nbsp<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/consent/Marshfield_Consent_V0.03.pdf"
+        },
+        "consentUnsignedSanford": {
+            "title": "Download consent form",
+            "innerHTML": " Download an unsigned copy of the informed consent form&nbsp<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/consent/Sanford_Consent_V0.03.pdf"
+        },
+        "consentUnsignedUChicago": {
+            "title": "Download consent form",
+            "innerHTML": " Download an unsigned copy of the informed consent form&nbsp<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/consent/UChicago_Consent_V0.05.pdf"
+        },
+        "consentUnsignedBSWH": {
+            "title": "Download consent form",
+            "innerHTML": " Download an unsigned copy of the informed consent form&nbsp<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/consent/BSWH_Consent_V0.02.pdf"
+        },
+        "consentUnsignedNCI": {
+            "title": "Download consent form",
+            "innerHTML": " Download an unsigned copy of the informed consent form&nbsp<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/consent/NCI_Consent_V0.05.pdf"
+        },
+        "hipaaIframeHFHS": {
+            "src": "./forms/HIPAA/HFHS_HIPAA_V0.02.html"
+        },
+        "hipaaIframeHP": {
+            "src": "./forms/HIPAA/HP_HIPAA_V0.03.html"
+        },
+        "hipaaIframeKPCO": {
+            "src": "./forms/HIPAA/KPCO_HIPAA_V0.02.html"
+        },
+        "hipaaIframeKPGA": {
+            "src": "./forms/HIPAA/KPGA_HIPAA_V0.03.html"
+        },
+        "hipaaIframeKPHI": {
+            "src": "./forms/HIPAA/KPHI_HIPAA_V0.02.html"
+        },
+        "hipaaIframeKPNW": {
+            "src": "./forms/HIPAA/KPNW_HIPAA_V0.02.html"
+        },
+        "hipaaIframeMarshfield": {
+            "src": "./forms/HIPAA/Marshfield_HIPAA_V0.02.html"
+        },
+        "hipaaIframeSanford": {
+            "src": "./forms/HIPAA/Sanford_HIPAA_V0.02.html"
+        },
+        "hipaaIframeUChicago": {
+            "src": "./forms/HIPAA/UChicago_HIPAA_V0.02.html"
+        },
+        "hipaaIframeBSWH": {
+            "src": "./forms/HIPAA/BSWH_HIPAA_V0.01.html"
+        },
+        "hipaaIframeNCI": {
+            "src": "./forms/HIPAA/NCI_HIPAA_V0.02.html"
+        },
+        "hipaaUnsignedHFHS": {
+            "title": "Download health records release form",
+            "innerHTML": "Download an unsigned copy of the release form&nbsp<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/HIPAA/HFHS_HIPAA_V0.02.pdf"
+        },
+        "hipaaUnsignedHP": {
+            "title": "Download health records release form",
+            "innerHTML": "Download an unsigned copy of the release form&nbsp<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/HIPAA/HP_HIPAA_V0.03.pdf"
+        },
+        "hipaaUnsignedKPCO": {
+            "title": "Download health records release form",
+            "innerHTML": "Download an unsigned copy of the release form&nbsp<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/HIPAA/KPCO_HIPAA_V0.02.pdf"
+        },
+        "hipaaUnsignedKPGA": {
+            "title": "Download health records release form",
+            "innerHTML": "Download an unsigned copy of the release form&nbsp<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/HIPAA/KPGA_HIPAA_V0.03.pdf"
+        },
+        "hipaaUnsignedKPHI": {
+            "title": "Download health records release form",
+            "innerHTML": "Download an unsigned copy of the release form&nbsp<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/HIPAA/KPHI_HIPAA_V0.02.pdf"
+        },
+        "hipaaUnsignedKPNW": {
+            "title": "Download health records release form",
+            "innerHTML": "Download an unsigned copy of the release form&nbsp<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/HIPAA/KPNW_HIPAA_V0.02.pdf"
+        },
+        "hipaaUnsignedMarshfield": {
+            "title": "Download health records release form",
+            "innerHTML": "Download an unsigned copy of the release form&nbsp<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/HIPAA/Marshfield_HIPAA_V0.02.pdf"
+        },
+        "hipaaUnsignedSanford": {
+            "title": "Download health records release form",
+            "innerHTML": "Download an unsigned copy of the release form&nbsp<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/HIPAA/Sanford_HIPAA_V0.02.pdf"
+        },
+        "hipaaUnsignedUChicago": {
+            "title": "Download health records release form",
+            "innerHTML": "Download an unsigned copy of the release form&nbsp<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/HIPAA/UChicago_HIPAA_V0.02.pdf"
+        },
+        "hipaaUnsignedBSWH": {
+            "title": "Download health records release form",
+            "innerHTML": "Download an unsigned copy of the release form&nbsp<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/HIPAA/BSWH_HIPAA_V0.01.pdf"
+        },
+        "hipaaUnsignedNCI": {
+            "title": "Download health records release form",
+            "innerHTML": "Download an unsigned copy of the release form&nbsp<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/HIPAA/NCI_HIPAA_V0.02.pdf"
+        },
         "consentPageSubheader2": "Electronic health records release (HIPAA Authorization) form",
         "consentPageBody4": "This allows Connect to access your electronic health records. To join the study, please scroll down to the bottom of this screen to electronically consent. You do not need to download and sign the form to join the study.",
         "consentPageBody5": "If you have trouble viewing the electronic health records release form in the window at the bottom of this screen, you can download an unsigned copy by scrolling down and selecting that option below.",
-        "consentPageReleaseFormLink": "<a href=\"${'./forms/HIPAA/'  + participantSite + '_HIPAA_' + formVersions[participantSite]['HIPAA'] + '.pdf'}\" title=\"Download health records release form\" data-toggle=\"tooltip\" download=\"connect_hipaa.pdf\" class=\"consentBodyFont2\" data-file=\"unsigned-form\">Download an unsigned copy of the release form&nbsp<i class=\"fas fa-file-download\"></i></a>",
         "consentPageBody6": "By clicking “Yes, I agree to join Connect” and typing your name, you confirm the following:",
         "consentPageBody6List": "<li>I have read these forms.</li><li>As  stated  in  the  consent  and  HIPAA  Authorization,  I  will allow  the  use,  storage, and  disclosure  (release) of  my  survey  answers, samples,  and  health  information for the research as described above.</li><li>If I have questions, I can contact the Connect Support Center at <a target=\"_blank\" href=\"https://norcfedramp.servicenowservices.com/recruit\">Cancer.gov/connectstudy/support</a> or by calling 1-866-462-6621</li><li>If I decide to leave the study, I can contact the Connect Support Center at <a target=\"_blank\" href=\"https://norcfedramp.servicenowservices.com/recruit\">Cancer.gov/connectstudy/support</a></li>",
         "consentPageAgree": "Yes, I agree to join Connect",
@@ -280,8 +480,14 @@
         "consentPageFormLegalName": "Please enter your legal name. If you are a member of Kaiser Permanente, please enter your first and last name exactly as it appears on your Kaiser Permanente ID card.",
         "submitButtonText": "Submit",
         "finishedPageHeader": "You have completed the consent process",
-        "finishedPageDownloadConsentForm": "<i class=\"fas fa-file-download\"></i> <a style=\"margin-left:10px\" title=\"Download consent form\" data-toggle=\"tooltip\" id=\"consentDownload\" download=\"signed_consent.pdf\" data-file=\"signed-consent\" >Download a copy of your signed consent form&nbsp</a>",
-        "finishedPageDownloadReleaseForm": "<i class=\"fas fa-file-download\"></i> <a style=\"margin-left:10px\" title=\"Download health records release form\" data-toggle=\"tooltip\" id=\"healthRecordsDownload\" download=\"signed_hipaa.pdf\" data-file=\"signed-HIPAA\" >Download a copy of your signed health records release form&nbsp</a>",
+        "finishedPageDownloadConsentForm": {
+            "title": "Download consent form",
+            "innerText": "Download a copy of your signed consent form "
+        },
+        "finishedPageDownloadReleaseForm": {
+            "title": "Download health records release form",
+            "innerText": "Download a copy of your signed health records release form "
+        },
         "profilePageHeader": "Thank you for your interest in the Connect for Cancer Prevention Study",
         "profilePageBody": "Thank you for completing the consent process. We need some more information about you to confirm that you can be part of the study. After you complete this step, we will use the information you share to check your eligibility and contact you within a few business days. We respect your privacy and protect the personal information you share with us.<br>If you have any questions, please contact the <a href=\"https://norcfedramp.servicenowservices.com/recruit\" target=\"_blank\">Connect Support Center</a>."
     },
@@ -871,11 +1077,18 @@
     },
     "event": {
         "selectBirthDay": "-- Select birth day --",
-        "sureAboutProvider": "Are you sure ${sites()[value]} is your healthcare provider?",
-        "emailPlaceholder2": "Enter additional email 2",
+        "sureAboutProvider": "Are you sure ",
+        "sureAboutProviderEnd": " is your healthcare provider?",
+        "emailPlaceholder2": {
+            "placeholder": "Enter additional email 2",
+            "title": "Please enter an email address in this format: name@example.com."
+        },
         "emailFormat": "Please enter an email address in this format: name@example.com.",
         "addMoreEmail": "<button type=\"button\" class=\"btn btn-light\" id=\"addMoreEmail2\" title=\"Add more email\">Add more <i class=\"fas fa-plus\"></i></button>",
-        "emailPlaceholder3": "Enter additional email 3",
+        "emailPlaceholder3": {
+            "placeholder": "Enter additional email 3",
+            "title": "Please enter an email address in this format: name@example.com."
+        },
         "provideResponse": "Please provide a response.",
         "enterEmail": "Please enter an email address.",
         "phoneRequired": "A phone number is required. Please provide at least one of the following: home phone, mobile phone, or other phone number.",
@@ -1322,6 +1535,7 @@
         "modMenstrualCycleSurvey": "Menstrual Cycle Survey",
         "modAtHomeMouthwashSampleSurvey": "At-Home Mouthwash Sample Survey",
         "modQualityofLifeSurvey": "Quality of Life Survey",
+        "sessionInactiveTitle": "Inactive",
         "sessionInactive": "You were inactive for 20 minutes, would you like to extend your session?<div class=\"modal-footer\"><button type=\"button\" title=\"Close\" class=\"btn btn-dark log-out-user\" data-dismiss=\"modal\">Log Out</button><button type=\"button\" title=\"Continue\" class=\"btn btn-primary extend-user-session\" data-dismiss=\"modal\">Continue</button></div>",
         "homeTitle": "My Connect - Home",
         "signInPhone": "Sign in with phone number"

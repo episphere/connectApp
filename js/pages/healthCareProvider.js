@@ -44,7 +44,7 @@ export const requestPINTemplate = () => {
 
 export const healthCareProvider = (siteId) => {
     let template = '';
-    template += translateHTML(`
+    template += `
     <br>
     <!-- Modal -->
     <div class="modal fade" id="HealthProviderModal" tabindex="-1" role="dialog" aria-labelledby="HealthProviderModalLabel" aria-hidden="true">
@@ -75,13 +75,13 @@ export const healthCareProvider = (siteId) => {
                 <label for="827220437"><strong data-i18n="provider.whoProvider">Who is your healthcare provider?<span class="required hovertext" data-hover-text="Healthcare provider is required"> *</span></strong>
                     <select ${siteId ? `disabled` : ``} class="form-control" style="margin-left:0px;" id="827220437" required>
                         <option value="" data-i18n="provider.selectProvider">-- Select healthcare provider --</option>
-    `);
+    `;
 
     for (let siteCode in sites()){
         template += `<option ${siteId && siteId === parseInt(siteCode) ? `selected`: `` } value=${siteCode}>${sites()[siteCode]}</option>`;
     }
 
-    template += translateHTML(`
+    template += `
                     </select>
                 </label>
             </div>
@@ -96,8 +96,8 @@ export const healthCareProvider = (siteId) => {
     </div>
     <div class="col-lg-2">
     </div>
-    `);
-    return template;
+    `;
+    return translateHTML(template);
 }
 
 export const heardAboutStudy = (formData = {}) => {

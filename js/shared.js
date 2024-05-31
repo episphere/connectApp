@@ -1118,9 +1118,9 @@ export const inactivityTime = (user) => {
             const header = document.getElementById('connectModalHeader');
             const body = document.getElementById('connectModalBody');
             document.getElementById('connectModalFooter').style.display = "none";
-            header.innerHTML = `<h5 class="modal-title">Inactive</h5>`;
+            header.innerHTML = `<h5 class="modal-title" data-i18n="shared.sessionInactiveTitle">${translateText('shared.sessionInactiveTitle')}</h5>`;
 
-            body.innerHTML = translateText('shared.sessionInactive');
+            body.innerHTML = `<span data-i18n="shared.sessionInactive">${translateText('shared.sessionInactive')}</span>`;
             document.body.removeChild(button);
 
             console.log("initial timeout has been reached!");
