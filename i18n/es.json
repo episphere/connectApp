@@ -264,11 +264,189 @@
         "consentPageBody2": "Este formulario explica en detalle qué significa participar en Connect. Para unirse al estudio, vaya a la parte inferior de esta pantalla y dé su consentimiento electrónico. No es necesario que descargue y firme el formulario para comenzar a participar en el estudio.",
         "consentPageBody3": "Si tiene problemas para ver el formulario de consentimiento en la ventana de la parte inferior de esta pantalla, puede desplazarse hacia abajo y seleccionar la opción de descargar una copia sin firmar.",
         "consentPageWait": "Espere, por favor...",
-        "consentPageConsentFormLink": "<a href=\"${'./forms/consent/'  + participantSite + '_Consent_' + formVersions[participantSite]['Consent'] + '.pdf'}\" title=\"Descargar el formulario de consentimiento\" data-toggle=\"tooltip\" download=\"connect_consent.pdf\" class=\"consentBodyFont2\" data-file=\"unsigned-form\"> Descargar una copia sin firmar del formulario de consentimiento informado<i class=\"fas fa-file-download\"></i></a>",
+        "consentIframeHFHS": {
+            "src": "./forms/consent/HFHS_Consent_V0.03_Span.html"
+        },
+        "consentIframeHP": {
+            "src": "./forms/consent/HP_Consent_V0.05_Span.html"
+        },
+        "consentIframeKPCO": {
+            "src": "./forms/consent/KPCO_Consent_V0.03_Span.html"
+        },
+        "consentIframeKPGA": {
+            "src": "./forms/consent/KPGA_Consent_V0.04_Span.html"
+        },
+        "consentIframeKPHI": {
+            "src": "./forms/consent/KPHI_Consent_V0.03_Span.html"
+        },
+        "consentIframeKPNW": {
+            "src": "./forms/consent/KPNW_Consent_V0.03_Span.html"
+        },
+        "consentIframeMarshfield": {
+            "src": "./forms/consent/Marshfield_Consent_V0.03_Span.html"
+        },
+        "consentIframeSanford": {
+            "src": "./forms/consent/Sanford_Consent_V0.03_Span.html"
+        },
+        "consentIframeUChicago": {
+            "src": "./forms/consent/UChicago_Consent_V0.05_Span.html"
+        },
+        "consentIframeBSWH": {
+            "src": "./forms/consent/BSWH_Consent_V0.02_Span.html"
+        },
+        "consentIframeNCI": {
+            "src": "./forms/consent/NCI_Consent_V0.05_Span.html"
+        },
+        "consentUnsignedHFHS": {
+            "title": "Descargar el formulario de divulgación de registros de salud",
+            "innerHTML": "Descargar una copia sin firmar del formulario de divulgación<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/consent/HFHS_Consent_V0.03_Span.pdf"
+        },
+        "consentUnsignedHP": {
+            "title": "Descargar el formulario de divulgación de registros de salud",
+            "innerHTML": "Descargar una copia sin firmar del formulario de divulgación<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/consent/HP_Consent_V0.05_Span.pdf"
+        },
+        "consentUnsignedKPCO": {
+            "title": "Descargar el formulario de divulgación de registros de salud",
+            "innerHTML": "Descargar una copia sin firmar del formulario de divulgación<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/consent/KPCO_Consent_V0.03_Span.pdf"
+        },
+        "consentUnsignedKPGA": {
+            "title": "Descargar el formulario de divulgación de registros de salud",
+            "innerHTML": "Descargar una copia sin firmar del formulario de divulgación<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/consent/KPGA_Consent_V0.04_Span.pdf"
+        },
+        "consentUnsignedKPHI": {
+            "title": "Descargar el formulario de divulgación de registros de salud",
+            "innerHTML": "Descargar una copia sin firmar del formulario de divulgación<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/consent/KPHI_Consent_V0.03_Span.pdf"
+        },
+        "consentUnsignedKPNW": {
+            "title": "Descargar el formulario de divulgación de registros de salud",
+            "innerHTML": "Descargar una copia sin firmar del formulario de divulgación<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/consent/KPNW_Consent_V0.03_Span.pdf"
+        },
+        "consentUnsignedMarshfield": {
+            "title": "Descargar el formulario de divulgación de registros de salud",
+            "innerHTML": "Descargar una copia sin firmar del formulario de divulgación<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/consent/Marshfield_Consent_V0.03_Span.pdf"
+        },
+        "consentUnsignedSanford": {
+            "title": "Descargar el formulario de divulgación de registros de salud",
+            "innerHTML": "Descargar una copia sin firmar del formulario de divulgación<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/consent/Sanford_Consent_V0.03_Span.pdf"
+        },
+        "consentUnsignedUChicago": {
+            "title": "Descargar el formulario de divulgación de registros de salud",
+            "innerHTML": "Descargar una copia sin firmar del formulario de divulgación<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/consent/UChicago_Consent_V0.05_Span.pdf"
+        },
+        "consentUnsignedBSWH": {
+            "title": "Descargar el formulario de divulgación de registros de salud",
+            "innerHTML": "Descargar una copia sin firmar del formulario de divulgación<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/consent/BSWH_Consent_V0.02_Span.pdf"
+        },
+        "consentUnsignedNCI": {
+            "title": "Descargar el formulario de divulgación de registros de salud",
+            "innerHTML": "Descargar una copia sin firmar del formulario de divulgación<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/consent/NCI_Consent_V0.05_Span.pdf"
+        },
+        "consentPageConsentFormLink": {
+            "title": "Descargar el formulario de consentimiento",
+            "innerHTML": " Descargar una copia sin firmar del formulario de consentimiento informado<i class=\"fas fa-file-download\"></i>"
+        },
+        "hipaaIframeHFHS": {
+            "src": "./forms/HIPAA/HFHS_HIPAA_V0.02_Span.html"
+        },
+        "hipaaIframeHP": {
+            "src": "./forms/HIPAA/HP_HIPAA_V0.03_Span.html"
+        },
+        "hipaaIframeKPCO": {
+            "src": "./forms/HIPAA/KPCO_HIPAA_V0.02_Span.html"
+        },
+        "hipaaIframeKPGA": {
+            "src": "./forms/HIPAA/KPGA_HIPAA_V0.03_Span.html"
+        },
+        "hipaaIframeKPHI": {
+            "src": "./forms/HIPAA/KPHI_HIPAA_V0.02_Span.html"
+        },
+        "hipaaIframeKPNW": {
+            "src": "./forms/HIPAA/KPNW_HIPAA_V0.02_Span.html"
+        },
+        "hipaaIframeMarshfield": {
+            "src": "./forms/HIPAA/Marshfield_HIPAA_V0.02_Span.html"
+        },
+        "hipaaIframeSanford": {
+            "src": "./forms/HIPAA/Sanford_HIPAA_V0.02_Span.html"
+        },
+        "hipaaIframeUChicago": {
+            "src": "./forms/HIPAA/UChicago_HIPAA_V0.02_Span.html"
+        },
+        "hipaaIframeBSWH": {
+            "src": "./forms/HIPAA/BSWH_HIPAA_V0.01_Span.html"
+        },
+        "hipaaIframeNCI": {
+            "src": "./forms/HIPAA/NCI_HIPAA_V0.02_Span.html"
+        },
+        "hipaaUnsignedHFHS": {
+            "title": "Descargar el formulario de divulgación de registros de salud",
+            "innerHTML": "Descargar una copia sin firmar del formulario de divulgación<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/HIPAA/HFHS_HIPAA_V0.02_Span.pdf"
+        },
+        "hipaaUnsignedHP": {
+            "title": "Descargar el formulario de divulgación de registros de salud",
+            "innerHTML": "Descargar una copia sin firmar del formulario de divulgación<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/HIPAA/HP_HIPAA_V0.03_Span.pdf"
+        },
+        "hipaaUnsignedKPCO": {
+            "title": "Descargar el formulario de divulgación de registros de salud",
+            "innerHTML": "Descargar una copia sin firmar del formulario de divulgación<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/HIPAA/KPCO_HIPAA_V0.02_Span.pdf"
+        },
+        "hipaaUnsignedKPGA": {
+            "title": "Descargar el formulario de divulgación de registros de salud",
+            "innerHTML": "Descargar una copia sin firmar del formulario de divulgación<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/HIPAA/KPGA_HIPAA_V0.03_Span.pdf"
+        },
+        "hipaaUnsignedKPHI": {
+            "title": "Descargar el formulario de divulgación de registros de salud",
+            "innerHTML": "Descargar una copia sin firmar del formulario de divulgación<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/HIPAA/KPHI_HIPAA_V0.02_Span.pdf"
+        },
+        "hipaaUnsignedKPNW": {
+            "title": "Descargar el formulario de divulgación de registros de salud",
+            "innerHTML": "Descargar una copia sin firmar del formulario de divulgación<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/HIPAA/KPNW_HIPAA_V0.02_Span.pdf"
+        },
+        "hipaaUnsignedMarshfield": {
+            "title": "Descargar el formulario de divulgación de registros de salud",
+            "innerHTML": "Descargar una copia sin firmar del formulario de divulgación<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/HIPAA/Marshfield_HIPAA_V0.02_Span.pdf"
+        },
+        "hipaaUnsignedSanford": {
+            "title": "Descargar el formulario de divulgación de registros de salud",
+            "innerHTML": "Descargar una copia sin firmar del formulario de divulgación<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/HIPAA/Sanford_HIPAA_V0.02_Span.pdf"
+        },
+        "hipaaUnsignedUChicago": {
+            "title": "Descargar el formulario de divulgación de registros de salud",
+            "innerHTML": "Descargar una copia sin firmar del formulario de divulgación<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/HIPAA/UChicago_HIPAA_V0.02_Span.pdf"
+        },
+        "hipaaUnsignedBSWH": {
+            "title": "Descargar el formulario de divulgación de registros de salud",
+            "innerHTML": "Descargar una copia sin firmar del formulario de divulgación<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/HIPAA/BSWH_HIPAA_V0.01_Span.pdf"
+        },
+        "hipaaUnsignedNCI": {
+            "title": "Descargar el formulario de divulgación de registros de salud",
+            "innerHTML": "Descargar una copia sin firmar del formulario de divulgación<i class=\"fas fa-file-download\"></i>",
+            "href": "./forms/HIPAA/NCI_HIPAA_V0.02_Span.pdf"
+        },
         "consentPageSubheader2": "Formulario de divulgación de registros electrónicos de salud (Autorización de la HIPAA)",
         "consentPageBody4": "Eso le permite a Connect acceder a sus registros electrónicos de salud. Para unirse al estudio, vaya a la parte inferior de esta pantalla y dé su consentimiento electrónico. No es necesario que descargue y firme el formulario para comenzar a participar en el estudio.",
         "consentPageBody5": "Si tiene problemas para ver el formulario de divulgación de registros electrónicos de salud en la ventana de la parte inferior de esta pantalla, puede desplazarse hacia abajo y seleccionar la opción de descargar una copia sin firmar.",
-        "consentPageReleaseFormLink": "<a href=\"${'./forms/HIPAA/'  + participantSite + '_HIPAA_' + formVersions[participantSite]['HIPAA'] + '.pdf'}\" title=\"Descargar el formulario de divulgación de registros de salud\" data-toggle=\"tooltip\" download=\"connect_hipaa.pdf\" class=\"consentBodyFont2\" data-file=\"unsigned-form\">Descargar una copia sin firmar del formulario de divulgación<i class=\"fas fa-file-download\"></i></a>",
         "consentPageBody6": "Al hacer clic en “Sí, acepto participar en Connect” y escribir su nombre, confirma lo siguiente:",
         "consentPageBody6List": "<li>He leído estos formularios.</li><li>Tal como se expresa en el consentimiento y en la autorización de la HIPAA, permitiré que se utilicen, almacenen y divulguen (den a conocer) mis respuestas a las encuestas, mis muestras y mi información médica para el estudio de investigación arriba descrito.</li><li>Si tengo preguntas, puedo comunicarme con el Centro de Asistencia de Connect desde <a target=\"_blank\" href=\"https://norcfedramp.servicenowservices.com/recruit\">cancer.gov/connectstudy/support</a> o llamar al 1-866-462-6621</li><li>Si decido abandonar el estudio, puedo comunicarme con el Centro de Asistencia de Connect desde <a target=\"_blank\" href=\"https://norcfedramp.servicenowservices.com/recruit\">cancer.gov/connectstudy/support</a></li>",
         "consentPageAgree": "Sí, acepto participar en Connect",
@@ -280,8 +458,14 @@
         "consentPageFormLegalName": "Sírvase ingresar su nombre legal. Si es miembro de Kaiser Permanente, sírvase ingresar su nombre y apellido tal como aparece en su tarjeta de identificación de Kaiser Permanente.",
         "submitButtonText": "Enviar",
         "finishedPageHeader": "Ha completado el proceso de consentimiento",
-        "finishedPageDownloadConsentForm": "<i class=\"fas fa-file-download\"></i> <a style=\"margin-left:10px\" title=\"Descargar el formulario de consentimiento\" data-toggle=\"tooltip\" id=\"consentDownload\" download=\"signed_consent.pdf\" data-file=\"signed-consent\">Descargue una copia de su formulario de consentimiento firmado</a>",
-        "finishedPageDownloadReleaseForm": "<i class=\"fas fa-file-download\"></i> <a style=\"margin-left:10px\" title=\"Descargar el formulario de divulgación de registros de salud\" data-toggle=\"tooltip\" id=\"healthRecordsDownload\" download=\"signed_hipaa.pdf\" data-file=\"signed-HIPAA\">Descargue una copia de su formulario firmado de divulgación de registros de salud</a>",
+        "finishedPageDownloadConsentForm": {
+            "title": "Descargar el formulario de consentimiento",
+            "innerText": "Descargue una copia de su formulario de consentimiento firmado"
+        },
+        "finishedPageDownloadReleaseForm": {
+            "title": "Descargar el formulario de divulgación de registros de salud",
+            "innerText": "Descargue una copia de su formulario firmado de divulgación de registros de salud"
+        },
         "profilePageHeader": "Gracias por su interés en el Estudio Connect para la Prevención del Cáncer",
         "profilePageBody": "Gracias por completar el proceso de consentimiento. Necesitamos más información sobre usted para confirmar que puede formar parte del estudio. Después de completar este paso, utilizaremos la información que nos haya dado para ver si cumple con los requisitos, y nos comunicaremos con usted luego de unos días hábiles. Respetamos su privacidad y protegemos la información personal que comparte con nosotros.<br/>Si tiene alguna pregunta, comuníquese con el <a href=\"https://norcfedramp.servicenowservices.com/recruit\" target=\"_blank\">Centro de Asistencia de Connect</a>."
     },
@@ -1322,6 +1506,7 @@
         "modMenstrualCycleSurvey": "Encuesta sobre ciclo menstrual",
         "modAtHomeMouthwashSampleSurvey": "Encuesta sobre muestra de enjuague bucal tomada en el hogar",
         "modQualityofLifeSurvey": "Encuesta sobre calidad de vida",
+        "sessionInactiveTitle": "Inactivo",
         "sessionInactive": "Ha estado inactivo durante 20 minutos, ¿desea extender la sesión?<div class=\"modal-footer\"><button type=\"button\" title=\"Cerrar\" class=\"btn btn-dark log-out-user\" data-dismiss=\"modal\">Cerrar sesión</button><button type=\"button\" title=\"Continuar\" class=\"btn btn-primary extend-user-session\" data-dismiss=\"modal\">Continuar</button></div>",
         "homeTitle": "My Connect - Inicio",
         "signInPhone": "Iniciar sesión con el número de teléfono"

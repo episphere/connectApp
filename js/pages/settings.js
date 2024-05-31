@@ -937,7 +937,7 @@ export const renderChangeNameGroup = () => {
             <div class="col">
                 <label data-i18n="settings.suffixFieldLabel" for="newSuffixNameField" class="custom-form-label">Suffix </label><span data-i18n="settings.optional"> (optional)</span>
                     <select class="form-control  ml-1" style="max-width:152px;" id="newSuffixNameField">
-                        <option value="">-- Select --</option>
+                        <option value="" data-i18n="form.selectOption">-- Select --</option>
                         <option value="${cId.suffixValue.jr}" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 0 ? 'selected' : '') : ''} data-i18n="${'settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.jr).replace('.', '')}">${translateText('settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.jr).replace('.', ''))}</option>
                         <option value="${cId.suffixValue.sr}" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 1 ? 'selected' : '') : ''} data-i18n="${'settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.sr).replace('.', '')}">${translateText('settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.sr).replace('.', ''))}</option>
                         <option value="${cId.suffixValue.first}" ${userData[cId.suffix] ? (suffixList[userData[cId.suffix]] == 2 ? 'selected':'') : ''} data-i18n="${'settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.first).replace('.', '')}">${translateText('settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.first).replace('.', ''))}</option>
