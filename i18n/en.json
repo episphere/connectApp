@@ -77,19 +77,45 @@
         "profileHeader": "My Profile",
         "nameSubheader": "Name",
         "notCorrectMessage": "If this is not correct, please contact the <a href=\"https://norcfedramp.servicenowservices.com/participant\" target=\"_blank\">Connect Support Center</a> or call 1-877-505-0253",
-        "firstName": "<label style=\"margin-left:-15px\">First name <span class=\"required\">*</span></label><input type=\"text\" value=\"${myData.data['471168198']}\" class=\"form-control input-validation row\" id=\"UPFirstName\" placeholder=\"Enter first name\" disabled style=\"max-width:215px; background-color:#e6e6e6 !important;\">",
+        "firstName": "First name <span class=\"required\">*</span>",
+        "firstNameField": {
+            "placeholder": "Enter first name"
+        },
         "middleName": "Middle name",
-        "middleNameErrorValidation": "Your middle name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters.",
-        "middleNamePlaceholder": "Enter middle name",
-        "lastName": "<label style=\"margin-left:-15px\">Last name <span class=\"required\">*</span></label><input type=\"text\" value=\"${myData.data['736251808']}\" class=\"form-control input-validation row\" id=\"UPLastName\" placeholder=\"Enter last name\" disabled style=\"max-width:304px; background-color:#e6e6e6 !important;\">",
-        "suffixList": "<label class=\"col-form-label\">Suffix</label><select class=\"form-control\" style=\"max-width:152px; margin-left:0px;\" id=\"UPSuffix\"><option value=\"\">-- Select --</option><option value=\"612166858\" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 0 ? 'selected':'') : ''}>Jr.</option><option value=\"255907182\" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 1 ? 'selected':'') : ''}>Sr.</option><option value=\"226924545\" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 2 ? 'selected':'') : ''}>I</option><option value=\"270793412\" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 3 ? 'selected':'') : ''}>II</option><option value=\"959021713\" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 4 ? 'selected':'') : ''}>III</option><option value=\"643664527\" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 5 ? 'selected':'') : ''}>2nd</option><option value=\"537892528\" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 6 ? 'selected':'') : ''}>3rd</option></select>",
-        "preferredName": "<label class=\"col-form-label\">Preferred first name</label><input style=\"max-width:215px; margin-left:0px;\" type=\"text\" class=\"form-control input-validation\" id=\"UPPreferredName\" placeholder=\"Enter preferred name\">",
+        "middleNameField": {
+            "data-error-validation": "Your middle name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters.",
+            "placeholder": "Enter middle name"
+        },
+        "lastName": "Last name <span class=\"required\">*</span>",
+        "lastNameField": {
+            "placeholder": "Enter last name"
+        },
+        "suffixList": "Suffix",
+        "preferredName": "Preferred first name",
+        "preferredNameField": {
+            "placeholder": "Enter preferred name"
+        },
         "birthDateSubHeader": "Date of Birth",
-        "monthList": "<option class=\"option-dark-mode\" value=\"\">-- Select -- </option><option class=\"option-dark-mode\" value=\"01\">January</option><option class=\"option-dark-mode\" value=\"02\">February</option><option class=\"option-dark-mode\" value=\"03\">March</option><option class=\"option-dark-mode\" value=\"04\">April</option><option class=\"option-dark-mode\" value=\"05\">May</option><option class=\"option-dark-mode\" value=\"06\">June</option><option class=\"option-dark-mode\" value=\"07\">July</option><option class=\"option-dark-mode\" value=\"08\">August</option><option class=\"option-dark-mode\" value=\"09\">September</option><option class=\"option-dark-mode\" value=\"10\">October</option><option class=\"option-dark-mode\" value=\"11\">November</option><option class=\"option-dark-mode\" value=\"12\">December</option>",
         "monthListLabel": "Month <span class=\"required\">*</span>",
-        "monthListRequired": "Please select your birth month.",
+        "monthListRequired": {
+            "data-error-required": "Please select your birth month."
+        },
+        "monthJanuary": "January",
+        "monthFebruary": "February",
+        "monthMarch": "March",
+        "monthApril": "April",
+        "monthMay": "May",
+        "monthJune": "June",
+        "monthJuly": "July",
+        "monthAugust": "August",
+        "monthSeptember": "September",
+        "monthOctober": "October",
+        "monthNovember": "November",
+        "monthDecember": "December",
         "dayListLabel": "Day <span class=\"required\">*</span>",
-        "dayListRequired": "Please select your birth day.",
+        "dayListRequired": {
+            "data-error-required": "Please select your birth day."
+        },
         "yearListLabel": "Year <span class=\"required\">*</span>",
         "yearListRequired": "Please select your birth year.",
         "yearListValidation": "The year you entered is outside of our expected range. Please check your entry.",
@@ -1051,11 +1077,18 @@
     },
     "event": {
         "selectBirthDay": "-- Select birth day --",
-        "sureAboutProvider": "Are you sure ${sites()[value]} is your healthcare provider?",
-        "emailPlaceholder2": "Enter additional email 2",
+        "sureAboutProvider": "Are you sure ",
+        "sureAboutProviderEnd": " is your healthcare provider?",
+        "emailPlaceholder2": {
+            "placeholder": "Enter additional email 2",
+            "title": "Please enter an email address in this format: name@example.com."
+        },
         "emailFormat": "Please enter an email address in this format: name@example.com.",
         "addMoreEmail": "<button type=\"button\" class=\"btn btn-light\" id=\"addMoreEmail2\" title=\"Add more email\">Add more <i class=\"fas fa-plus\"></i></button>",
-        "emailPlaceholder3": "Enter additional email 3",
+        "emailPlaceholder3": {
+            "placeholder": "Enter additional email 3",
+            "title": "Please enter an email address in this format: name@example.com."
+        },
         "provideResponse": "Please provide a response.",
         "enterEmail": "Please enter an email address.",
         "phoneRequired": "A phone number is required. Please provide at least one of the following: home phone, mobile phone, or other phone number.",

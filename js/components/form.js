@@ -1,7 +1,7 @@
-import { allStates, allCountries, getMyData, hasUserData } from "../shared.js";
+import { allStates, allCountries, getMyData, hasUserData, translateHTML, translateText } from "../shared.js";
 import { addEventMonthSelection, addEventUPSubmit, addEventCancerFollowUp, addEventChangeFocus, addEventAddressAutoComplete, addEventAdditionalEmail, addEventCheckCanText, addEventDisableCopyPaste } from "../event.js";
 import cId from '../fieldToConceptIdMapping.js';
-import { suffixList, suffixToTextMapDropdown } from "../settingsHelpers.js";
+import { suffixList, suffixToTextMapDropdown, suffixToTextMap } from "../settingsHelpers.js";
 
 export const renderUserProfile = async () => {
     const myData = await getMyData();
@@ -9,90 +9,90 @@ export const renderUserProfile = async () => {
     
     const mainContent = document.getElementById('root');
     const consentSuffixKey = cId.consentSuffix.toString();
-    mainContent.innerHTML = `
+    mainContent.innerHTML = translateHTML(`
         </br>
         <div class="row">
         <div class="col-lg-2">
         </div>
         <div class=col-lg-8>
-        <p class = "userProfileHeader">My Profile</p>        
+        <p class = "userProfileHeader" data-i18n="form.profileHeader">My Profile</p>        
         <form id="userProfileForm" method="POST" autocomplete="off">
-            <p class="userProfileSubHeaders">Name</p> 
-            <p>If this is not correct, please contact the <a href="https://norcfedramp.servicenowservices.com/participant" target="_blank">Connect Support Center</a> or call 1-877-505-0253</p>
+            <p class="userProfileSubHeaders" data-i18n="form.nameSubheader">Name</p> 
+            <p data-i18n="form.notCorrectMessage">If this is not correct, please contact the <a href="https://norcfedramp.servicenowservices.com/participant" target="_blank">Connect Support Center</a> or call 1-877-505-0253</p>
             <div class="row">
                 <div class="col-md-4">
-                    <label style="margin-left:-15px">First name <span class="required">*</span></label>
-                    <input type="text" value="${myData.data['471168198']}" class="form-control input-validation row" id="UPFirstName" placeholder="Enter first name" disabled style="max-width:215px; background-color:#e6e6e6 !important;">
+                    <label style="margin-left:-15px" data-i18n="form.firstName">First name <span class="required">*</span></label>
+                    <input data-i18n="form.firstNameField" type="text" value="${myData.data['471168198']}" class="form-control input-validation row" id="UPFirstName" placeholder="Enter first name" disabled style="max-width:215px; background-color:#e6e6e6 !important;">
                 </div>
                 <div class="col-md-4">
-                    <label style="margin-left:-15px">Middle name</label>
-                    <input type="text" value="${myData.data['436680969'] ? myData.data['436680969'] : ''}" class="form-control input-validation row" data-validation-pattern="alphabets" data-error-validation="Your middle name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters." id="UPMiddleInitial" placeholder="Enter middle name" style="max-width:215px">
+                    <label style="margin-left:-15px" data-i18n="form.middleName">Middle name</label>
+                    <input type="text"  data-i18n="form.middleNameField" value="${myData.data['436680969'] ? myData.data['436680969'] : ''}" class="form-control input-validation row" data-validation-pattern="alphabets" data-error-validation="Your middle name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters." id="UPMiddleInitial" placeholder="Enter middle name" style="max-width:215px">
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <label style="margin-left:-15px">Last name <span class="required">*</span></label>
-                    <input type="text" value="${myData.data['736251808']}" class="form-control input-validation row" id="UPLastName" placeholder="Enter last name" disabled style="max-width:304px; background-color:#e6e6e6 !important;">
+                    <label data-i18n="form.lastName" style="margin-left:-15px">Last name <span class="required">*</span></label>
+                    <input data-i18n="form.lastNameField" type="text" value="${myData.data['736251808']}" class="form-control input-validation row" id="UPLastName" placeholder="Enter last name" disabled style="max-width:304px; background-color:#e6e6e6 !important;">
                 </div>
             </div>
             <div class="form-group row">
                 <div class="col-md-4">
-                    <label class="col-form-label">Suffix</label>
+                    <label class="col-form-label" data-i18n="form.suffixList">Suffix</label>
                     <select class="form-control" style="max-width:152px; margin-left:0px;" id="UPSuffix">
-                        <option value="">-- Select --</option>
-                        <option value="${cId.suffixValue.jr}" ${myData.data[consentSuffixKey] ? (suffixList[myData.data[consentSuffixKey]] == 0 ? 'selected':'') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.jr)}</option>
-                        <option value="${cId.suffixValue.sr}" ${myData.data[consentSuffixKey] ? (suffixList[myData.data[consentSuffixKey]] == 1 ? 'selected':'') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.sr)}</option>
-                        <option value="${cId.suffixValue.first}" ${myData.data[consentSuffixKey] ? (suffixList[myData.data[consentSuffixKey]] == 2 ? 'selected':'') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.first)}</option>
-                        <option value="${cId.suffixValue.second}" ${myData.data[consentSuffixKey] ? (suffixList[myData.data[consentSuffixKey]] == 3 || suffixList[myData.data[consentSuffixKey]] == 10 ? 'selected':'') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.second)}</option>
-                        <option value="${cId.suffixValue.third}" ${myData.data[consentSuffixKey] ? (suffixList[myData.data[consentSuffixKey]] == 4 || suffixList[myData.data[consentSuffixKey]] == 11 ? 'selected':'') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.third)}</option>
-                        <option value="${cId.suffixValue.fourth}" ${myData.data[consentSuffixKey] ? (suffixList[myData.data[consentSuffixKey]] == 5 ? 'selected':'') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.fourth)}</option>
-                        <option value="${cId.suffixValue.fifth}" ${myData.data[consentSuffixKey] ? (suffixList[myData.data[consentSuffixKey]] == 6 ? 'selected':'') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.fifth)}</option>
-                        <option value="${cId.suffixValue.sixth}" ${myData.data[consentSuffixKey] ? (suffixList[myData.data[consentSuffixKey]] == 7 ? 'selected':'') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.sixth)}</option>
-                        <option value="${cId.suffixValue.seventh}" ${myData.data[consentSuffixKey] ? (suffixList[myData.data[consentSuffixKey]] == 8 ? 'selected':'') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.seventh)}</option>
-                        <option value="${cId.suffixValue.eighth}" ${myData.data[consentSuffixKey] ? (suffixList[myData.data[consentSuffixKey]] == 9 ? 'selected':'') : ''}>${suffixToTextMapDropdown.get(cId.suffixValue.eighth)}</option>
+                        <option value="" data-i18n="form.selectOption">-- Select --</option>
+                        <option value="${cId.suffixValue.jr}" ${myData.data[consentSuffixKey] ? (suffixList[myData.data[consentSuffixKey]] == 0 ? 'selected':'') : ''}  data-i18n="${'settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.jr).replace('.', '')}">${suffixToTextMapDropdown.get(cId.suffixValue.jr)}</option>
+                        <option value="${cId.suffixValue.sr}" ${myData.data[consentSuffixKey] ? (suffixList[myData.data[consentSuffixKey]] == 1 ? 'selected':'') : ''}  data-i18n="${'settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.sr).replace('.', '')}">${suffixToTextMapDropdown.get(cId.suffixValue.sr)}</option>
+                        <option value="${cId.suffixValue.first}" ${myData.data[consentSuffixKey] ? (suffixList[myData.data[consentSuffixKey]] == 2 ? 'selected':'') : ''}  data-i18n="${'settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.first).replace('.', '')}">${suffixToTextMapDropdown.get(cId.suffixValue.first)}</option>
+                        <option value="${cId.suffixValue.second}" ${myData.data[consentSuffixKey] ? (suffixList[myData.data[consentSuffixKey]] == 3 || suffixList[myData.data[consentSuffixKey]] == 10 ? 'selected':'') : ''}  data-i18n="${'settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.second).replace('.', '')}">${suffixToTextMapDropdown.get(cId.suffixValue.second)}</option>
+                        <option value="${cId.suffixValue.third}" ${myData.data[consentSuffixKey] ? (suffixList[myData.data[consentSuffixKey]] == 4 || suffixList[myData.data[consentSuffixKey]] == 11 ? 'selected':'') : ''}  data-i18n="${'settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.third).replace('.', '')}">${suffixToTextMapDropdown.get(cId.suffixValue.third)}</option>
+                        <option value="${cId.suffixValue.fourth}" ${myData.data[consentSuffixKey] ? (suffixList[myData.data[consentSuffixKey]] == 5 ? 'selected':'') : ''}   data-i18n="${'settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.fourth).replace('.', '')}">${suffixToTextMapDropdown.get(cId.suffixValue.fourth)}</option>
+                        <option value="${cId.suffixValue.fifth}" ${myData.data[consentSuffixKey] ? (suffixList[myData.data[consentSuffixKey]] == 6 ? 'selected':'') : ''}  data-i18n="${'settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.fifth).replace('.', '')}">${suffixToTextMapDropdown.get(cId.suffixValue.fifth)}</option>
+                        <option value="${cId.suffixValue.sixth}" ${myData.data[consentSuffixKey] ? (suffixList[myData.data[consentSuffixKey]] == 7 ? 'selected':'') : ''}  data-i18n="${'settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.sixth).replace('.', '')}">${suffixToTextMapDropdown.get(cId.suffixValue.sixth)}</option>
+                        <option value="${cId.suffixValue.seventh}" ${myData.data[consentSuffixKey] ? (suffixList[myData.data[consentSuffixKey]] == 8 ? 'selected':'') : ''}  data-i18n="${'settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.seventh).replace('.', '')}">${suffixToTextMapDropdown.get(cId.suffixValue.seventh)}</option>
+                        <option value="${cId.suffixValue.eighth}" ${myData.data[consentSuffixKey] ? (suffixList[myData.data[consentSuffixKey]] == 9 ? 'selected':'') : ''}   data-i18n="${'settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.eighth).replace('.', '')}">${suffixToTextMapDropdown.get(cId.suffixValue.eighth)}</option>
                     </select>
                 </div>
             </div>
             
             <div class="form-group row">
                 <div class="col-md-4">
-                    <label class="col-form-label">Preferred first name</label>
-                    <input style="max-width:215px; margin-left:0px;" type="text" class="form-control input-validation" id="UPPreferredName" placeholder="Enter preferred name">
+                    <label data-i18n="form.preferredName" class="col-form-label">Preferred first name</label>
+                    <input data-i18n="form.preferredNameField" style="max-width:215px; margin-left:0px;" type="text" class="form-control input-validation" id="UPPreferredName" placeholder="Enter preferred name">
                 </div>
             </div>
             <br>
             <hr style="color:#A9AEB1;">
             
-            <p class="userProfileSubHeaders">Date of Birth</p> 
+            <p class="userProfileSubHeaders" data-i18n="form.birthDateSubHeader">Date of Birth</p> 
             <div class="form-group row">
                 <div class="col-md-3">
                 
-                    <label class="col-form-label">Month <span class="required">*</span></label>
-                    <select style="margin-left:0px; max-width:188px;" id="UPMonth" class="form-control required-field" data-error-required='Please select your birth month.'>
-                        <option class="option-dark-mode" value="">-- Select -- </option>
-                        <option class="option-dark-mode" value="01">January</option>
-                        <option class="option-dark-mode" value="02">February</option>
-                        <option class="option-dark-mode" value="03">March</option>
-                        <option class="option-dark-mode" value="04">April</option>
-                        <option class="option-dark-mode" value="05">May</option>
-                        <option class="option-dark-mode" value="06">June</option>
-                        <option class="option-dark-mode" value="07">July</option>
-                        <option class="option-dark-mode" value="08">August</option>
-                        <option class="option-dark-mode" value="09">September</option>
-                        <option class="option-dark-mode" value="10">October</option>
-                        <option class="option-dark-mode" value="11">November</option>
-                        <option class="option-dark-mode" value="12">December</option>
+                    <label class="col-form-label" data-i18n="form.monthListLabel">Month <span class="required">*</span></label>
+                    <select style="margin-left:0px; max-width:188px;" id="UPMonth" class="form-control required-field" data-i18n="form.monthListRequired" data-error-required='Please select your birth month.'>
+                        <option class="option-dark-mode" value="" data-i18n="form.selectOption">-- Select -- </option>
+                        <option class="option-dark-mode" value="01" data-i18n="form.monthJanuary">January</option>
+                        <option class="option-dark-mode" value="02" data-i18n="form.monthFebruary">February</option>
+                        <option class="option-dark-mode" value="03" data-i18n="form.monthMarch">March</option>
+                        <option class="option-dark-mode" value="04" data-i18n="form.monthApril">April</option>
+                        <option class="option-dark-mode" value="05" data-i18n="form.monthMay">May</option>
+                        <option class="option-dark-mode" value="06" data-i18n="form.monthJune">June</option>
+                        <option class="option-dark-mode" value="07" data-i18n="form.monthJuly">July</option>
+                        <option class="option-dark-mode" value="08" data-i18n="form.monthAugust">August</option>
+                        <option class="option-dark-mode" value="09" data-i18n="form.monthSeptember">September</option>
+                        <option class="option-dark-mode" value="10" data-i18n="form.monthOctober">October</option>
+                        <option class="option-dark-mode" value="11" data-i18n="form.monthNovember">November</option>
+                        <option class="option-dark-mode" value="12" data-i18n="form.monthDecember">December</option>
                     </select>
                 </div>
                 <div class="col-md-4">
-                    <label class="col-form-label">Day <span class="required">*</span></label>
-                    <select style="margin-left:0px; max-width:129px;"class="form-control required-field" data-error-required='Please select your birth day.' id="UPDay"></select>
+                    <label class="col-form-label" data-i18n="form.dayListLabel">Day <span class="required">*</span></label>
+                    <select style="margin-left:0px; max-width:129px;"class="form-control required-field" data-i18n="form.dayListRequired" id="UPDay"></select>
                 </div>
             </div>
 
             <div class="form-group row">
                 <div class="col-md-4">
-                    <label class="col-form-label" style="padding:0;">Year <span class="required">*</span></label>
+                    <label class="col-form-label" style="padding:0;" data-i18n="form.yearListLabel">Year <span class="required">*</span></label>
                     <br>
                     <input style="margin-left:0px; max-width:152px;" type="text" class="form-control required-field input-validation" data-error-required='Please select your birth year.' data-validation-pattern="year" data-error-validation="The year you entered is outside of our expected range. Please check your entry." maxlength="4" id="UPYear" title="Birth year, must be in 1900s" Placeholder="Enter birth year">
                     <!--<datalist id="yearsOption"></datalist>-->
@@ -100,7 +100,7 @@ export const renderUserProfile = async () => {
             </div>
             <br>
             <hr>
-            <p class="userProfileSubHeaders">Contact Information</p>
+            <p class="userProfileSubHeaders" data-i18n="form.contactSubheader">Contact Information</p>
             
             <div class="form-group row" style="padding-bottom:0;">
                 <div class="col">
@@ -136,7 +136,7 @@ export const renderUserProfile = async () => {
             
             <div class="form-group row" style="padding-bottom:0">
                 <div class="col">
-                    <label class="col-form-label">
+                    <label class="col-form-label" data-i18n="form.phoneRequired">
                         <b>
                             One phone number is required.<span class="required">*</span>
                         </b>
@@ -145,8 +145,8 @@ export const renderUserProfile = async () => {
             </div>
             <div class="form-group row">
                 <div class="col">
-                    <label class="col-form-label">
-                        Mobile phone <span class="required"</span>
+                    <label class="col-form-label" data-i18n="form.mobilePhone">
+                        Mobile phone <span class="required"></span>
                     </label>
                     <br>
                     <div class="btn-group col-md-4" id="mainMobilePhone" style="margin-left:0px;">
@@ -159,7 +159,7 @@ export const renderUserProfile = async () => {
 
             <div class="form-group row">
                 <div class="col">
-                    <label class="col-form-label">
+                    <label class="col-form-label" data-i18n="form.leaveVoicemail">
                         Can we leave a voicemail at this number? 
                     </label>
                     <br>
@@ -213,11 +213,11 @@ export const renderUserProfile = async () => {
 
             <div class="form-group row">
                 <div class="col">
-                    <label class="col-form-label">
+                    <label class="col-form-label" data-i18n="form.otherPhone">
                         Other phone <span class="required"></span>
                     </label>
                     <br>
-                    <div class="btn-group col-md-4" id="mainMobilePhone3" style="margin-left:0px">
+                    <div class="btn-group col-md-4" id="mainMobilePhone3" style="margin-left:0px" data-i18n="form.otherPhoneControls">
                         <input type="text" class="form-control" id="UPPhoneNumber31" data-val-pattern="[1-9]{1}[0-9]{2}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999" style="margin-left:0px"> <span class="hyphen">-</span>
                         <input type="text" class="form-control" id="UPPhoneNumber32" data-val-pattern="[0-9]{3}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
                         <input type="text" class="form-control" id="UPPhoneNumber33" data-val-pattern="[0-9]{4}" title="Only numbers are allowed." size="4" maxlength="4" Placeholder="9999">
@@ -227,11 +227,11 @@ export const renderUserProfile = async () => {
 
             <div class="form-group row">
                 <div class="col">
-                    <label class="col-form-label">
+                    <label class="col-form-label" data-i18n="form.leaveVoicemail">
                         Can we leave a voicemail at this number? 
                     </label>
                     <br>
-                    <div class="btn-group btn-group-toggle col-md-4" style="margin-left:0px;">
+                    <div class="btn-group btn-group-toggle col-md-4" style="margin-left:0px;" data-i18n="form.leaveVoicemailControls3">
                         <label ><input type="radio" name="voiceMailPermission3" value="353358909"> Yes</label>
                         <label style = "margin-left:20px;"><input type="radio" name="voiceMailPermission3" value="104430631"> No</label>
                     </div>
@@ -241,14 +241,14 @@ export const renderUserProfile = async () => {
             ${renderMailingAddress('', 1, true)}
             <br>
             <hr>
-            <div class="userProfileSubHeaders">Cancer History</div>
+            <div class="userProfileSubHeaders" data-i18n="form.cancerHistorySubheader">Cancer History</div>
             <div class="form-group row">
                 <div class="col">
-                    <label class="col-form-label">Have you ever had invasive cancer? <span class="required">*</span></label>
+                    <label class="col-form-label" data-i18n="form.invasiveCancer">Have you ever had invasive cancer? <span class="required">*</span></label>
                     <br>
-                    <i>If you have or once had non-melanoma skin cancer (like basal cell or squamous cell carcinoma), or a condition that raises cancer risk (such as DCIS, or stage 0 breast cancer), please respond “No” to this question. These conditions are not invasive cancer, and you can still join. We are interested in learning how these conditions may affect cancer risk and health outcomes in the future.</i>
+                    <i data-i18n="form.invasiveCancerMessage">If you have or once had non-melanoma skin cancer (like basal cell or squamous cell carcinoma), or a condition that raises cancer risk (such as DCIS, or stage 0 breast cancer), please respond “No” to this question. These conditions are not invasive cancer, and you can still join. We are interested in learning how these conditions may affect cancer risk and health outcomes in the future.</i>
                     <br>
-                    <div class="btn-group btn-group-toggle col-md-4" style="margin-left:0px;">
+                    <div class="btn-group btn-group-toggle col-md-4" style="margin-left:0px;" data-i18n="form.invasiveCancerControls">
                         <label id="UPCancer1Btn"><input type="radio" name="cancerHistory" id="UPCancer1" value="353358909"> Yes</label>
                         <label id="UPCancer2Btn" style = "margin-left:20px;"><input type="radio" name="cancerHistory" id="UPCancer2" value="104430631"> No</label>
                     </div>
@@ -263,7 +263,7 @@ export const renderUserProfile = async () => {
             </br></br>
             <div class="row">
                 <div class="ml-auto">
-                    <button type="submit" class="btn btn-primary save-data consentNextButton">Submit</button>
+                    <button type="submit" class="btn btn-primary save-data consentNextButton" data-i18n="form.submitText">Submit</button>
                 </div>
             </div>
         </form>
@@ -272,7 +272,7 @@ export const renderUserProfile = async () => {
         <div class="col-lg-2">
         </div>
         </div>
-    `;
+    `);
     
     addEventNameConsistency(myData.data['471168198'], myData.data['736251808']);
     addEventChangeFocus();

@@ -77,19 +77,45 @@
         "profileHeader": "Mi perfil",
         "nameSubheader": "Nombre",
         "notCorrectMessage": "Si esto no es correcto, comuníquese con el <a href=\"https://norcfedramp.servicenowservices.com/participant\" target=\"_blank\">Centro de Asistencia de Connect</a> o llame al 1-877-505-0253",
-        "firstName": "<label style=\"margin-left:-15px\">Nombre de pila <span class=\"required\">*</span></label><input type=\"text\" value=\"${myData.data['471168198']}\" class=\"form-control input-validation row\" id=\"UPFirstName\" placeholder=\"Ingrese su nombre de pila\" disabled style=\"max-width:215px; background-color:#e6e6e6 !important;\">",
+        "firstName": "Nombre de pila <span class=\"required\">*</span>",
+        "firstNameField": {
+            "placeholder": "Ingrese su nombre de pila"
+        },
         "middleName": "Segundo nombre",
-        "middleNameErrorValidation": "Su segundo nombre debe contener solo letras mayúsculas y minúsculas. No use números ni caracteres especiales.",
-        "middleNamePlaceholder": "Ingrese su segundo nombre",
-        "lastName": "<label style=\"margin-left:-15px\">Apellido <span class=\"required\">*</span></label><input type=\"text\" value=\"${myData.data['736251808']}\" class=\"form-control input-validation row\" id=\"UPLastName\" placeholder=\"Ingrese su apellido\" disabled style=\"max-width:304px; background-color:#e6e6e6 !important;\">",
-        "suffixList": "<label class=\"col-form-label\">Sufijo</label><select class=\"form-control\" style=\"max-width:152px; margin-left:0px;\" id=\"UPSuffix\"><option value=\"\">-- Seleccione --</option><option value=\"612166858\" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 0 ? 'selected':'') : ''}>Jr.</option><option value=\"255907182\" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 1 ? 'selected':'') : ''}>Sr.</option><option value=\"226924545\" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 2 ? 'selected':'') : ''}>I</option><option value=\"270793412\" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 3 ? 'selected':'') : ''}>II</option><option value=\"959021713\" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 4 ? 'selected':'') : ''}>III</option><option value=\"643664527\" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 5 ? 'selected':'') : ''}>2.º</option><option value=\"537892528\" ${myData.data['480305327'] ? (suffixList[myData.data['480305327']] == 6 ? 'selected':'') : ''}>3.º</option></select>",
-        "preferredName": "<label class=\"col-form-label\">Nombre de pila preferido</label><input style=\"max-width:215px; margin-left:0px;\" type=\"text\" class=\"form-control input-validation\" id=\"UPPreferredName\" placeholder=\"Ingrese el nombre de pila preferido\">",
+        "middleNameField": {
+            "data-error-validation": "Su segundo nombre debe contener solo letras mayúsculas y minúsculas. No use números ni caracteres especiales.",
+            "placeholder": "Ingrese su segundo nombre"
+        },
+        "lastName": "Apellido <span class=\"required\">*</span>",
+        "lastNameField": {
+            "placeholder": "Ingrese su apellido"
+        },
+        "suffixList": "Sufijo",
+        "preferredName": "Nombre de pila preferido",
+        "preferredNameField": {
+            "placeholder": "Ingrese el nombre de pila preferido"
+        },
         "birthDateSubHeader": "Fecha de nacimiento",
-        "monthList": "<option class=\"option-dark-mode\" value=\"\">-- Seleccione -- </option><option class=\"option-dark-mode\" value=\"01\">Enero</option><option class=\"option-dark-mode\" value=\"02\">Febrero</option><option class=\"option-dark-mode\" value=\"03\">Marzo</option><option class=\"option-dark-mode\" value=\"04\">Abril</option><option class=\"option-dark-mode\" value=\"05\">Mayo</option><option class=\"option-dark-mode\" value=\"06\">Junio</option><option class=\"option-dark-mode\" value=\"07\">Julio</option><option class=\"option-dark-mode\" value=\"08\">Agosto</option><option class=\"option-dark-mode\" value=\"09\">Septiembre</option><option class=\"option-dark-mode\" value=\"10\">Octubre</option><option class=\"option-dark-mode\" value=\"11\">Noviembre</option><option class=\"option-dark-mode\" value=\"12\">Diciembre</option>",
         "monthListLabel": "Mes <span class=\"required\">*</span>",
-        "monthListRequired": "Seleccione su mes de nacimiento.",
+        "monthListRequired": {
+            "data-error-required": "Seleccione su mes de nacimiento."
+        },
+        "monthJanuary": "Enero",
+        "monthFebruary": "Febrero",
+        "monthMarch": "Marzo",
+        "monthApril": "Abril",
+        "monthMay": "Mayo",
+        "monthJune": "Junio",
+        "monthJuly": "Julio",
+        "monthAugust": "Agosto",
+        "monthSeptember": "Septiembre",
+        "monthOctober": "Octubre",
+        "monthNovember": "Noviembre",
+        "monthDecember": "Diciembre",
         "dayListLabel": "Día <span class=\"required\">*</span>",
-        "dayListRequired": "Seleccione su día de nacimiento.",
+        "dayListRequired": {
+            "data-error-required": "Seleccione su día de nacimiento."
+        },
         "yearListLabel": " <span class=\"required\">Año*</span>",
         "yearListRequired": "Seleccione su año de nacimiento.",
         "yearListValidation": "El año que ha ingresado está fuera de los límites esperados. Por favor, revise sus datos.",
@@ -494,7 +520,7 @@
         "submitText": "Enviar",
         "modalCancel": "No",
         "modalConfirm": "Sí",
-        "whoProvider": "¿Quién es su proveedor de atención médica?<span class=\"required hovertext\" data-hover-text=\"Healthcare provider is required\">*</span>",
+        "whoProvider": "¿Quién es su proveedor de atención médica?<span class=\"required hovertext\" data-hover-text=\"Se requiere proveedor de atención médica\">*</span>",
         "selectProvider": "-- Seleccione un proveedor de atención médica --",
         "required": "*Obligatorio",
         "heardAboutStudy": "<strong>¿Cómo se enteró de este estudio? (Marque todo lo que corresponda)</strong>",
@@ -1055,11 +1081,18 @@
     },
     "event": {
         "selectBirthDay": "-- Seleccione el día de nacimiento --",
-        "sureAboutProvider": "¿Está seguro de que ${sites()[value]} es su proveedor de atención médica?",
-        "emailPlaceholder2": "Ingrese una dirección de correo electrónico adicional 2",
+        "sureAboutProvider": "¿Está seguro de que ",
+        "sureAboutProviderEnd": " es su proveedor de atención médica?",
+        "emailPlaceholder2": {
+            "placeholder": "Ingrese una dirección de correo electrónico adicional 2",
+            "title": "Ingrese una dirección de correo electrónico con este formato: nombre@ejemplo.com."
+        },
         "emailFormat": "Ingrese una dirección de correo electrónico con este formato: nombre@ejemplo.com.",
         "addMoreEmail": "<button type=\"button\" class=\"btn btn-light\" id=\"addMoreEmail2\" title=\"Agregar otra dirección de correo electrónico\">Agregar más <i class=\"fas fa-plus\"></i></button>",
-        "emailPlaceholder3": "Ingrese una dirección de correo electrónico adicional 3",
+        "emailPlaceholder3": {
+            "placehoder": "Ingrese una dirección de correo electrónico adicional 3",
+            "title": "Ingrese una dirección de correo electrónico con este formato: nombre@ejemplo.com."
+        },
         "provideResponse": "Sírvase dar una respuesta.",
         "enterEmail": "Ingrese una dirección de correo electrónico.",
         "phoneRequired": "Debe ingresar un número de teléfono. Ingrese al menos uno de los siguientes datos: número de teléfono de su casa, número de teléfono celular u otro número de teléfono.",
