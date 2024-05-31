@@ -7,14 +7,7 @@ import formVersions from "../../forms/formVersions.js";
 
 const { PDFDocument, StandardFonts } = PDFLib;
 
-const siteToHipaaSignPosMap = {
-    "Sanford": {
-        "V0.02": {
-            "Eng": {nameX:100,nameY:415,signatureX:100,signatureY:455,dateX:100,dateY:375},
-            "Span": { nameX:188, nameY:419, signatureX:80, signatureY:457, dateX: 80, dateY: 377 },
-        },
-        "default": {nameX:100,nameY:415,signatureX:100,signatureY:455,dateX:100,dateY:375},
-    },
+const siteToHipaaSignPosMap = {   
     "HP": {
         "V0.03": {
             "Eng": {nameX:100,nameY:420,signatureX:100,signatureY:465,dateX:100,dateY:370},
@@ -22,26 +15,12 @@ const siteToHipaaSignPosMap = {
         },
         "default": {nameX:100,nameY:420,signatureX:100,signatureY:465,dateX:100,dateY:370},
     },
-    "Marshfield": {
-        "V0.02": {
-            "Eng": {nameX:100,nameY:425,signatureX:100,signatureY:465,dateX:100,dateY:385},
-            "Span": { nameX:188, nameY:429, signatureX:80, signatureY:467, dateX: 80, dateY: 387 },
-        },
-        "default": {nameX:100,nameY:425,signatureX:100,signatureY:465,dateX:100,dateY:385},
-    },
     "HFHS": {
         "V0.02": {
             "Eng": {nameX:100,nameY:425,signatureX:100,signatureY:465,dateX:100,dateY:385},
             "Span": { nameX:188, nameY:429, signatureX:80, signatureY:467, dateX: 80, dateY: 387 },
         },
         "default": {nameX:110,nameY:440,signatureX:110,signatureY:480,dateX:110,dateY:400},
-    },
-    "UChicago": {
-        "V0.02": {
-            "Eng": {nameX:110,nameY:425,signatureX:110,signatureY:465,dateX:110,dateY:385},
-            "Span": { nameX:188, nameY:429, signatureX:80, signatureY:467, dateX: 80, dateY: 387 },
-        },
-        "default": {nameX:110,nameY:425,signatureX:110,signatureY:465,dateX:110,dateY:385},
     },
     "KPCO": {
         "V0.02": {
@@ -78,6 +57,27 @@ const siteToHipaaSignPosMap = {
         },
         "default": {nameX:110,nameY:427,signatureX:110,signatureY:467,dateX:110,dateY:387},
     },
+    "Marshfield": {
+        "V0.02": {
+            "Eng": {nameX:100,nameY:425,signatureX:100,signatureY:465,dateX:100,dateY:385},
+            "Span": { nameX:188, nameY:429, signatureX:80, signatureY:467, dateX: 80, dateY: 387 },
+        },
+        "default": {nameX:100,nameY:425,signatureX:100,signatureY:465,dateX:100,dateY:385},
+    },
+    "Sanford": {
+        "V0.02": {
+            "Eng": {nameX:100,nameY:415,signatureX:100,signatureY:455,dateX:100,dateY:375},
+            "Span": { nameX:188, nameY:419, signatureX:80, signatureY:457, dateX: 80, dateY: 377 },
+        },
+        "default": {nameX:100,nameY:415,signatureX:100,signatureY:455,dateX:100,dateY:375},
+    },
+    "UChicago": {
+        "V0.02": {
+            "Eng": {nameX:110,nameY:425,signatureX:110,signatureY:465,dateX:110,dateY:385},
+            "Span": { nameX:188, nameY:429, signatureX:80, signatureY:467, dateX: 80, dateY: 387 },
+        },
+        "default": {nameX:110,nameY:425,signatureX:110,signatureY:465,dateX:110,dateY:385},
+    },
     "BSWH": {
         "V0.01": {
             "Eng": { nameX:100, nameY:440, signatureX:100, signatureY:479, dateX: 100, dateY: 399 },
@@ -89,29 +89,18 @@ const siteToHipaaSignPosMap = {
 }
 
 const siteToConsentSignPosMap = {
-    "Sanford": {
-        "V0.03": {nameX:120,nameY:730,signatureX:120,signatureY:655,dateX:120,dateY:690},
-        "default": {nameX:120,nameY:407,signatureX:120,signatureY:330,dateX:120,dateY:367},
-    },
     "HP": {
         "V0.02": {nameX:90,nameY:425,signatureX:110,signatureY:345,dateX:90,dateY:385},
         "V0.04": {nameX:90,nameY:402,signatureX:110,signatureY:322,dateX:90,dateY:362},
         "V0.05": {nameX:90,nameY:402,signatureX:110,signatureY:322,dateX:90,dateY:362},
         "default": {nameX:90,nameY:420,signatureX:110,signatureY:340,dateX:90,dateY:380},
     },
-    "Marshfield": {
-        "V0.02": {nameX:110,nameY:425,signatureX:115,signatureY:345,dateX:110,dateY:385},
-        "V0.03": {nameX:110,nameY:405,signatureX:115,signatureY:325,dateX:110,dateY:365},
-        "default": {nameX:110,nameY:420,signatureX:115,signatureY:345,dateX:110,dateY:380},
-    },
+    
     "HFHS":{
         "V0.03":  {nameX:90,nameY:410,signatureX:110,signatureY:330,dateX:90,dateY:370},
         "default": {nameX:110,nameY:380,signatureX:115,signatureY:300,dateX:110,dateY:340},
     },
-    "UChicago": {
-        "V0.05": {nameX:110,nameY:410,signatureX:115,signatureY:330,dateX:110,dateY:370},
-        "default": {nameX:110,nameY:380,signatureX:115,signatureY:305,dateX:110,dateY:342},
-    },
+    
     "KPCO": {
         "V0.03": {nameX:110,nameY:395,signatureX:110,signatureY:315,dateX:110,dateY:355},
         "default": {nameX:110,nameY:400,signatureX:110,signatureY:320,dateX:110,dateY:360},
@@ -132,6 +121,19 @@ const siteToConsentSignPosMap = {
     "NCI": {
         "V0.05": {nameX:90,nameY:407,signatureX:110,signatureY:330,dateX:90,dateY:370},
         "default": {nameX:90,nameY:410,signatureX:110,signatureY:335,dateX:90,dateY:375},
+    },
+    "Marshfield": {
+        "V0.02": {nameX:110,nameY:425,signatureX:115,signatureY:345,dateX:110,dateY:385},
+        "V0.03": {nameX:110,nameY:405,signatureX:115,signatureY:325,dateX:110,dateY:365},
+        "default": {nameX:110,nameY:420,signatureX:115,signatureY:345,dateX:110,dateY:380},
+    },
+    "Sanford": {
+        "V0.03": {nameX:120,nameY:730,signatureX:120,signatureY:655,dateX:120,dateY:690},
+        "default": {nameX:120,nameY:407,signatureX:120,signatureY:330,dateX:120,dateY:367},
+    },
+    "UChicago": {
+        "V0.05": {nameX:110,nameY:410,signatureX:115,signatureY:330,dateX:110,dateY:370},
+        "default": {nameX:110,nameY:380,signatureX:115,signatureY:305,dateX:110,dateY:342},
     },
     "BSWH": {
         "default": { nameX: 105, nameY: 407, signatureX: 105, signatureY: 329, dateX: 105, dateY: 367 },
