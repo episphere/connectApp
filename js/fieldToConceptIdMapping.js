@@ -52,6 +52,8 @@ export default
     "no": 104430631,
     "consentVersion": 454205108,
     "hipaaVersion": 412000022,
+    "hipaaRevokeVersion": 407743866,
+    "dataDestructionVersion": 304438543,
     "userProfileHistory": 569151507,
     "userProfileUpdateTimestamp": 371303487,
     "profileChangeRequestedBy": 611005658,

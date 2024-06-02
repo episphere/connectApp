@@ -1,4 +1,4 @@
-import { getMyData, hasUserData, hideAnimation, showAnimation, siteAcronyms, dateTime, storeResponse, isMobile, openNewTab, languageSuffix, getSelectedLanguage, translateHTML, translateText } from "../shared.js";
+import { getMyData, hasUserData, hideAnimation, showAnimation, siteAcronyms, dateTime, storeResponse, isMobile, openNewTab, languageSuffix, getSelectedLanguage, translateHTML, translateText, appState } from "../shared.js";
 import { initializeCanvas } from './consent.js'
 import fieldMapping from '../fieldToConceptIdMapping.js';
 import {suffixToTextMap, suffixToTextMapDropdown} from '../settingsHelpers.js'
@@ -141,6 +141,20 @@ const siteToConsentSignPosMap = {
     "default": {nameX: 110, nameY: 400, signatureX: 110, signatureY: 330, dateX: 110, dateY: 370}
 }
 
+const dataDestructionSignPosMap = {
+    "V1.0": {
+        "Eng": {signatureX: 150, signatureY: 420, nameX: 150, nameY: 400, dateX: 155, dateY: 380},
+        "Span": {signatureX: 88, signatureY: 410, nameX: 188, nameY: 385, dateX: 88, dateY: 365}
+    }
+}
+
+const hipaaRevokeSignPosMap = {
+    "V1.0": {
+        "Eng": {signatureX: 150, signatureY: 400, nameX: 150, nameY: 420, dateX: 155, dateY: 380},
+        "Span": {signatureX: 88, signatureY: 385, nameX: 188, nameY: 410, dateX: 88, dateY: 365}
+    }
+}
+
 const defaultNameDateSignatureSize = {
   nameSize: 24,
   dateSize: 24,
@@ -197,17 +211,17 @@ export const renderAgreements = async () => {
                                             <div class="col-md-2" data-i18n="agreements.surveyIcon">
                                                 <i class="fab fa-wpforms d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
                                             </div>
-                                            <div class="col-md-10 cnnsentBodyFont2" data-i18n="agreements.destroyForm">
+                                            <div class="col-md-10 cnnsentBodyFont2">
                                                 <span class = "consentHeadersFont" style="color:#5c2d93">
-                                                    <b>Sign data destruction request form</b>
+                                                    <b data-i18n="agreements.destroyFormTitle">Sign data destruction request form</b>
                                                 </span>
                                                 <br>
-                                                <span class = "consentBodyFont2">
+                                                <span class = "consentBodyFont2" data-i18n="agreements.destroyFormDescription">
                                                     Your request for Connect to destroy the information and samples you donated to the study, when possible.
                                                 </span>
                                                 <br>
                                                 <br>
-                                                <button class="btn btn-agreement consentNextButton" style="" id="signDataDestroy">Sign Form</button>
+                                                <button data-i18n="agreements.signForm" class="btn btn-agreement consentNextButton" style="" id="signDataDestroy">Sign Form</button>
                                             </div>
                                         </div>
                                     </div>
@@ -220,17 +234,17 @@ export const renderAgreements = async () => {
                                             <div class="col-md-2" data-i18n="agreements.surveyIcon">
                                                 <i class="fab fa-wpforms d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
                                             </div>
-                                            <div class="col-md-10 cnnsentBodyFont2" data-i18n="agreements.revocateShare">
+                                            <div class="col-md-10 cnnsentBodyFont2" >
                                                 <span class = "consentHeadersFont" style="color:#5c2d93">
-                                                    <b>Sign revocation of electronic health records release (HIPAA Revocation) form</b>
+                                                    <b data-i18n="agreements.revocateShareTitle">Sign revocation of electronic health records release (HIPAA Revocation) form</b>
                                                 </span>
                                                 <br>
-                                                <span class = "consentBodyFont2">
+                                                <span class = "consentBodyFont2" data-i18n="agreements.revocateShareDescription">
                                                     Your request for your health care provider to stop sharing your electronic health and medical records with Connect.
                                                 </span>
                                                 <br>
                                                 <br>
-                                                <button class="btn btn-agreement consentNextButton" style="" id="signHIPAARevoke">Sign Form</button>
+                                                <button data-i18n="agreements.signForm" class="btn btn-agreement consentNextButton" style="" id="signHIPAARevoke">Sign Form</button>
                                             </div>
                                         </div>
                                     </div>
@@ -256,21 +270,20 @@ export const renderAgreements = async () => {
                                                 <div class="col-md-2" data-i18n="agreements.surveyIcon">
                                                     <i class="fab fa-wpforms d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
                                                 </div>
-                                                <div class="col-md-10 cnnsentBodyFont2" data-i18n="agreements.samplesDestruction">
-                                                    <span class = "consentHeadersFont" style="color:#5c2d93">
+                                                <div class="col-md-10 cnnsentBodyFont2">
+                                                    <span class = "consentHeadersFont" style="color:#5c2d93" data-i18n="agreements.samplesDestructionTitle">
                                                         <b>Data destruction request form</b>
                                                     </span>
                                                     <br>
-                                                    <span class = "consentBodyFont2">
+                                                    <span class = "consentBodyFont2" data-i18n="agreements.samplesDestructionDescription">
                                                         Your request for Connect to destroy the information and samples you donated to the study, when possible       
                                                     </span>
                                                     <br>
                                                     <br>
-                                                    <span>Signed: ${new Date(myData.data['119449326']).toDateString()}
-                                                    </span>
+                                                    <span data-i18n="agreements.signed">Signed: </span>${new Date(myData.data['119449326']).toDateString()}
                                                     <br>
                                                     <br>
-                                                    <button class="btn btn-agreement consentNextButton" style="" id="downloadDestroy"><i class="fas fa-file-download" ></i> Download Signed Form</button>
+                                                    <button data-i18n="agreements.downloadSigned" class="btn btn-agreement consentNextButton" style="" id="downloadDestroy"><i class="fas fa-file-download" ></i> Download Signed Form</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -285,21 +298,20 @@ export const renderAgreements = async () => {
                                             <div class="col-md-2" data-i18n="agreements.surveyIcon">
                                                 <i class="fab fa-wpforms d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
                                             </div>
-                                            <div class="col-md-10 cnnsentBodyFont2" data-i18n="agreements.stopSharingRecords">
-                                                <span class = "consentHeadersFont" style="color:#5c2d93">
+                                            <div class="col-md-10 cnnsentBodyFont2">
+                                                <span class = "consentHeadersFont" style="color:#5c2d93"  data-i18n="agreements.stopSharingRecordsTitle">
                                                     <b>Revocation of electronic health records release (HIPAA Revocation) form</b>
                                                 </span>
                                                 <br>
-                                                <span class = "consentBodyFont2">
+                                                <span class = "consentBodyFont2"  data-i18n="agreements.stopSharingRecordsDescription">
                                                     Your request for your health care provider to stop sharing your electronic health and medical records with Connect.                                                
                                                 </span>
                                                 <br>
                                                 <br>
-                                                <span>Signed: ${new Date(myData.data['613641698']).toDateString()}
-                                                </span>
+                                                <span data-i18n="agreements.signed">Signed: </span>${new Date(myData.data['613641698']).toDateString()}
                                                 <br>
                                                 <br>
-                                                <button class="btn btn-agreement consentNextButton" style="" id="downloadRevoke"><i class="fas fa-file-download" ></i> Download Signed Form</button>
+                                                <button data-i18n="agreements.downloadSigned" class="btn btn-agreement consentNextButton" style="" id="downloadRevoke"><i class="fas fa-file-download" ></i> Download Signed Form</button>
                                             </div>
                                         </div>
                                     </div>
@@ -314,21 +326,20 @@ export const renderAgreements = async () => {
                                             <div class="col-md-2" data-i18n="agreements.surveyIcon">
                                                 <i class="fab fa-wpforms d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
                                             </div>
-                                            <div class="col-md-10 cnnsentBodyFont2" data-i18n="agreements.consentForm">
-                                                <span class = "consentHeadersFont" style="color:#5c2d93">
+                                            <div class="col-md-10 cnnsentBodyFont2">
+                                                <span class = "consentHeadersFont" style="color:#5c2d93" data-i18n="agreements.consentFormTitle">
                                                     <b>Consent form to participate in Connect</b>
                                                 </span>
                                                 <br>
-                                                <span class = "consentBodyFont2">
+                                                <span class = "consentBodyFont2" data-i18n="agreements.consentFormDescription">
                                                     Your signed agreement to participate in the Connect for Cancer Prevention Study. This form has important information about your privacy and what you will be asked to do as a Connect participant
                                                 </span>
                                                 <br>
                                                 <br>
-                                                <span>Signed: ${new Date(myData.data['454445267']).toDateString()}
-                                                </span>
+                                                <span data-i18n="agreements.signed">Signed: </span>${new Date(myData.data['454445267']).toDateString()}
                                                 <br>
                                                 <br>
-                                                <a class="btn btn-agreement consentNextButton" id="downloadConsent" download="signed_consent.pdf" data-file="signed-consent"><i class="fas fa-file-download" ></i> Download Signed Form</a>
+                                                <a data-i18n="agreements.downloadSigned" class="btn btn-agreement consentNextButton" id="downloadConsent" download="signed_consent.pdf" data-file="signed-consent"><i class="fas fa-file-download" ></i> Download Signed Form</a>
                                             </div>
                                         </div>
                                     </div>
@@ -342,20 +353,19 @@ export const renderAgreements = async () => {
                                             <div class="col-md-2" data-i18n="agreements.surveyIcon">
                                                 <i class="fab fa-wpforms d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
                                             </div>
-                                            <div class="col-md-10 cnnsentBodyFont2" data-i18n="agreements.releaseForm">
-                                                <span class = "consentHeadersFont" style="color:#5c2d93">
+                                            <div class="col-md-10 cnnsentBodyFont2">
+                                                <span class = "consentHeadersFont" style="color:#5c2d93" data-i18n="agreements.releaseFormTitle">
                                                     <b>Electronic health records release (HIPAA Authorization) form </b>
                                                 </span>
                                                 <br>
-                                                <span class = "consentBodyFont2">
+                                                <span class = "consentBodyFont2" data-i18n="agreements.releaseFormDescription">
                                                     Your signed agreement to allow your health care provider to share your electronic health and medical records with Connect.                                                </span>
                                                 <br>
                                                 <br>
-                                                <span>Signed: ${new Date(myData.data['262613359']).toDateString()}
-                                                </span>
+                                                <span data-i18n="agreements.signed">Signed: </span>${new Date(myData.data['262613359']).toDateString()}
                                                 <br>
                                                 <br>
-                                                <a class="btn btn-agreement consentNextButton" id="downloadHIPAA" download="signed_hipaa.pdf" data-file="signed-HIPAA"><i class="fas fa-file-download" ></i> Download Signed Form</a>
+                                                <a data-i18n="agreements.downloadSigned" class="btn btn-agreement consentNextButton" id="downloadHIPAA" download="signed_hipaa.pdf" data-file="signed-HIPAA"><i class="fas fa-file-download" ></i> Download Signed Form</a>
                                             </div>
                                         </div>
                                     </div>
@@ -435,12 +445,15 @@ const renderDownloadRevoke = async (data) => {
     const middleName = data[826240317] ? ` ${data[826240317]} ` : ' ';
     const suffix = data[693626233] ? suffixToTextMap.get(parseInt(data[693626233])) : '';
     const participantSignature = `${data[765336427]}${middleName}${data[479278368]} ${suffix}`.trim();
-    const langSuffix = languageSuffix();
-    const selectedLanguage = getSelectedLanguage();
-    const pdfLocation = './forms/HIPAA_Revocation_'+formVersions['Revocation']+(langSuffix[selectedLanguage] ? '_' + langSuffix[selectedLanguage] : '')+'.pdf';
+    const pdfLocation = `./forms/${data[fieldMapping.hipaaRevokeVersion]}.pdf`;
+    const versionArray  = data[fieldMapping.hipaaRevokeVersion].split('_');
+    const version = versionArray[2];
+    const lang = versionArray[3] ? versionArray[3] : 'Eng';
     const currentTime = new Date(data[613641698]).toLocaleDateString();
 
-    renderDownload(participantSignature, currentTime, pdfLocation, {x:150,y:420},{x1:150,y1:400},{x:155,y:380},20,15,20);
+    const coords = hipaaRevokeSignPosMap[version][lang];
+
+    renderDownload(participantSignature, currentTime, pdfLocation, {x: coords.nameX ,y: coords.nameY}, {x:coords.signatureX,y: coords.signatureY}, {x:coords.dateX,y:coords.dateY},20,15,20);
 }
 
 
@@ -450,10 +463,15 @@ const renderDownloadDestroy = async (data) => {
     const participantSignature = `${data[104278817]}${middleName}${data[744604255]} ${suffix}`.trim();
     const langSuffix = languageSuffix();
     const selectedLanguage = getSelectedLanguage();
-    const pdfLocation = './forms/Data_Destruction_'+formVersions['DataDestruction']+(langSuffix[selectedLanguage] ? '_' + langSuffix[selectedLanguage] : '')+'.pdf';
+    const pdfLocation = `./forms/${data[fieldMapping.dataDestructionVersion]}.pdf`;
+    const versionArray  = data[fieldMapping.dataDestructionVersion].split('_');
+    const version = versionArray[2];
+    const lang = versionArray[3] ? versionArray[3] : 'Eng';
     const currentTime = new Date(data[119449326]).toLocaleDateString();
 
-    renderDownload(participantSignature, currentTime, pdfLocation, {x:150,y:420},{x1:150,y1:400},{x:155,y:380},20,15,20);
+    const coords = dataDestructionSignPosMap[version][lang];
+
+    renderDownload(participantSignature, currentTime, pdfLocation, {x: coords.nameX ,y: coords.nameY}, {x:coords.signatureX,y: coords.signatureY}, {x:coords.dateX,y:coords.dateY},20,15,20);
 }
 
 const renderSignDataDestroy = async () =>{
@@ -465,7 +483,7 @@ const renderSignDataDestroy = async () =>{
             <div style="width:80%; margin:auto">
             <h4 class="consentSubheader" style="margin-top:50px" data-i18n="agreements.destructionFormTitle">Data destruction request form</h4>
             <div id="canvasContainer"></div>
-            <div class="row" style="margin:auto"><div style="margin:auto" data-i18n="agreements.downloadDestructionForm"><a href="./forms/Data_Destruction_${consentVersions['DataDestruction']}.pdf" title="Download Data destruction request form" data-toggle="tooltip" download="DataDestruction_${consentVersions['DataDestruction']}.pdf" class="consentBodyFont2"> Download an unsigned copy of the Data destruction request form&nbsp<i class="fas fa-file-download"></i></a></div></div>
+            <div class="row" style="margin:auto"><div style="margin:auto"><a data-i18n="agreements.downloadDestructionForm" href="./forms/Data_Destruction_${consentVersions['DataDestruction']}.pdf" title="Download Data destruction request form" data-toggle="tooltip" download="DataDestruction_${consentVersions['DataDestruction']}.pdf" class="consentBodyFont2"> Download an unsigned copy of the Data destruction request form&nbsp<i class="fas fa-file-download"></i></a></div></div>
             </div>` + consentSignTemplate() + 
         `</div>
         <div class="col-lg-2">
@@ -473,7 +491,9 @@ const renderSignDataDestroy = async () =>{
     </div>
     `);
     
-    initializeCanvas(`./forms/Data_Destruction_${consentVersions['DataDestruction']}.pdf`, 1, 'canvasContainer');
+    const selectedLanguage = appState.getState().language;
+    const langSuffix = languageSuffix()[selectedLanguage];
+    initializeCanvas(`./forms/Data_Destruction_${consentVersions['DataDestruction']}${(langSuffix ? '_'+langSuffix : '')}.pdf`, 1, 'canvasContainer');
     document.getElementById('backToAgreements').addEventListener('click', async () =>{
         showAnimation();
         await renderAgreements();
@@ -483,11 +503,13 @@ const renderSignDataDestroy = async () =>{
     consentForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         showAnimation();
+        const selectedLanguage = appState.getState().language;
+        const langSuffix = languageSuffix()[selectedLanguage];
         let formData = {};
         formData['359404406'] = 353358909;
         formData['119449326'] = dateTime();      
         formData['883668444'] = 704529432;
-        formData['304438543'] = `Data_Destruction_${consentVersions['DataDestruction']}`;  
+        formData['304438543'] = `Data_Destruction_${consentVersions['DataDestruction']}${(langSuffix ? '_'+langSuffix : '')}`;  
         formData['104278817'] = document.getElementById('CSFirstName').value;
         formData['268665918'] = document.getElementById('CSMiddleName').value;
         formData['744604255'] = document.getElementById('CSLastName').value;
@@ -502,23 +524,26 @@ const renderSignDataDestroy = async () =>{
 }
 
 const renderSignHIPAARevoke = async () =>{
-    document.getElementById('root').innerHTML = `
+    document.getElementById('root').innerHTML = translateHTML(`
     <div class="row">
         <div class="col-lg-2">
         </div>
         <div class="col-lg-8">
             <div style="width:80%; margin:auto">
-            <h4 class="consentSubheader" style="margin-top:50px">HIPAA Revocation Form</h4>
+            <h4 class="consentSubheader" style="margin-top:50px" data-i18n="agreements.revocationFormTitle">HIPAA Revocation Form</h4>
             <div id="canvasContainer"></div>
-            <div class="row" style="margin:auto"><div style="margin:auto"><a href="./forms/HIPAA_Revocation_${consentVersions['Revocation']}.pdf" title="Download HIPAA Revocation form" data-toggle="tooltip" download="Revocation_${consentVersions['Revocation']}.pdf" class="consentBodyFont2"> Download an unsigned copy of the HIPAA Revocation form&nbsp<i class="fas fa-file-download"></i></a></div></div>
+            <div class="row" style="margin:auto"><div style="margin:auto"><a data-i18n="agreements.downloadRevocationForm" href="./forms/HIPAA_Revocation_${consentVersions['Revocation']}.pdf" title="Download HIPAA Revocation form" data-toggle="tooltip" download="Revocation_${consentVersions['Revocation']}.pdf" class="consentBodyFont2"> Download an unsigned copy of the HIPAA Revocation form&nbsp<i class="fas fa-file-download"></i></a></div></div>
             </div>` + consentSignTemplate() + 
         `</div>
         <div class="col-lg-2">
         </div>
     </div>
-    `;
+    `);
+
+    const selectedLanguage = appState.getState().language;
+    const langSuffix = languageSuffix()[selectedLanguage];
     
-    initializeCanvas('./forms/HIPAA_Revocation_V1.0.pdf', 1, 'canvasContainer');
+    initializeCanvas('./forms/HIPAA_Revocation_V1.0'+(langSuffix ? '_'+langSuffix : '')+'.pdf', 1, 'canvasContainer');
     document.getElementById('backToAgreements').addEventListener('click', async () =>{
         showAnimation();
         await renderAgreements();
@@ -529,10 +554,12 @@ const renderSignHIPAARevoke = async () =>{
         e.preventDefault();
         showAnimation();
         let formData = {};
+        const selectedLanguage = appState.getState().language;
+        const langSuffix = languageSuffix()[selectedLanguage];
         formData['153713899'] = 353358909;
         formData['613641698'] = dateTime();
         formData['577794331'] = 121454001;
-        formData['407743866'] = `HIPAA_Revocation_${consentVersions['Revocation']}`;  
+        formData['407743866'] = `HIPAA_Revocation_${consentVersions['Revocation']}${(langSuffix ? '_'+langSuffix : '')}`;  
         formData['765336427'] = document.getElementById('CSFirstName').value;
         formData['826240317'] = document.getElementById('CSMiddleName').value;
         formData['479278368'] = document.getElementById('CSLastName').value;
@@ -570,8 +597,8 @@ const renderDownload = async (participant, timeStamp, fileLocation, nameCoordina
       });
     editPage.drawText(`
     ${participantSignature}`, {
-        x: signatureCoordinates.x1,
-        y: signatureCoordinates.y1,
+        x: signatureCoordinates.x,
+        y: signatureCoordinates.y,
         size: signSize,
         font: helveticaFont,
       });
@@ -588,43 +615,43 @@ const consentSignTemplate = () => {
     <form id="consentForm" style="margin-top:20px; margin-bottom:50px;" method="POST">
         <div id="CSConsentNameSignContainer" style="">
             <div class="row" style="width:80%; margin:auto; padding-left:0px; padding-right:0px">
-                <div class="col-md-4 form-group consent-form" data-i18n="agreements.firstName">
-                    <label class="consent-form-label">
+                <div class="col-md-4 form-group consent-form">
+                    <label class="consent-form-label" data-i18n="agreements.firstName">
                         First name<span class="required">*</span>
                     </label>
                     <input required type="text" autocomplete="off" id="CSFirstName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
                     <br>
                 </div>
-                <div class="col-md-2 form-group consent-form" data-i18n="agreements.middleName">
-                    <label class="consent-form-label">
+                <div class="col-md-2 form-group consent-form" >
+                    <label class="consent-form-label" data-i18n="agreements.middleName">
                         Middle name<span></span>
                     </label>
                     <input type="text" autocomplete="off" id="CSMiddleName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
                     <br>
                 </div>
-                <div class="col-md-4 form-group consent-form" data-i18n="agreements.lastName">
-                    <label class="consent-form-label">
+                <div class="col-md-4 form-group consent-form">
+                    <label class="consent-form-label" data-i18n="agreements.lastName">
                         Last name<span class="required">*</span>
                     </label>
                     <input required type="text" autocomplete="off" id="CSLastName" class="form-control col-md-10" placeholder="" style="margin-left:0px;">
                     <br>
                 </div>
-                <div class="col-md-2 form-group consent-form" data-i18n="agreements.suffixList">
-                    <label class="consent-form-label">
+                <div class="col-md-2 form-group consent-form" >
+                    <label class="consent-form-label" data-i18n="form.suffixList">
                         Suffix<span></span>
                     </label>
                     <select name="NameSuffix" class="form-control col-md-10" id="CSNameSuffix" style="margin-left:0px;">
-                        <option value="">-Select-</option>
-                        <option value="${fieldMapping.suffixValue.jr}">${suffixToTextMapDropdown.get(fieldMapping.suffixValue.jr)}</option>
-                        <option value="${fieldMapping.suffixValue.sr}">${suffixToTextMapDropdown.get(fieldMapping.suffixValue.sr)}</option>
-                        <option value="${fieldMapping.suffixValue.first}">${suffixToTextMapDropdown.get(fieldMapping.suffixValue.first)}</option>
-                        <option value="${fieldMapping.suffixValue.second}">${suffixToTextMapDropdown.get(fieldMapping.suffixValue.second)}</option>
-                        <option value="${fieldMapping.suffixValue.third}">${suffixToTextMapDropdown.get(fieldMapping.suffixValue.third)}</option>
-                        <option value="${fieldMapping.suffixValue.fourth}">${suffixToTextMapDropdown.get(fieldMapping.suffixValue.fourth)}</option>
-                        <option value="${fieldMapping.suffixValue.fifth}">${suffixToTextMapDropdown.get(fieldMapping.suffixValue.fifth)}</option>
-                        <option value="${fieldMapping.suffixValue.sixth}">${suffixToTextMapDropdown.get(fieldMapping.suffixValue.sixth)}</option>
-                        <option value="${fieldMapping.suffixValue.seventh}">${suffixToTextMapDropdown.get(fieldMapping.suffixValue.seventh)}</option>
-                        <option value="${fieldMapping.suffixValue.eighth}">${suffixToTextMapDropdown.get(fieldMapping.suffixValue.eighth)}</option>
+                        <option value="" data-i18n="form.selectOption">-Select-</option>
+                        <option value="${fieldMapping.suffixValue.jr}" data-i18n="${'settingsHelpers.suffix'+suffixToTextMap.get(fieldMapping.suffixValue.jr).replace('.', '')}">${suffixToTextMapDropdown.get(fieldMapping.suffixValue.jr)}</option>
+                        <option value="${fieldMapping.suffixValue.sr}" data-i18n="${'settingsHelpers.suffix'+suffixToTextMap.get(fieldMapping.suffixValue.sr).replace('.', '')}">${suffixToTextMapDropdown.get(fieldMapping.suffixValue.sr)}</option>
+                        <option value="${fieldMapping.suffixValue.first}" data-i18n="${'settingsHelpers.suffix'+suffixToTextMap.get(fieldMapping.suffixValue.first).replace('.', '')}">${suffixToTextMapDropdown.get(fieldMapping.suffixValue.first)}</option>
+                        <option value="${fieldMapping.suffixValue.second}" data-i18n="${'settingsHelpers.suffix'+suffixToTextMap.get(fieldMapping.suffixValue.second).replace('.', '')}">${suffixToTextMapDropdown.get(fieldMapping.suffixValue.second)}</option>
+                        <option value="${fieldMapping.suffixValue.third}" data-i18n="${'settingsHelpers.suffix'+suffixToTextMap.get(fieldMapping.suffixValue.third).replace('.', '')}">${suffixToTextMapDropdown.get(fieldMapping.suffixValue.third)}</option>
+                        <option value="${fieldMapping.suffixValue.fourth}" data-i18n="${'settingsHelpers.suffix'+suffixToTextMap.get(fieldMapping.suffixValue.fourth).replace('.', '')}">${suffixToTextMapDropdown.get(fieldMapping.suffixValue.fourth)}</option>
+                        <option value="${fieldMapping.suffixValue.fifth}" data-i18n="${'settingsHelpers.suffix'+suffixToTextMap.get(fieldMapping.suffixValue.fifth).replace('.', '')}">${suffixToTextMapDropdown.get(fieldMapping.suffixValue.fifth)}</option>
+                        <option value="${fieldMapping.suffixValue.sixth}" data-i18n="${'settingsHelpers.suffix'+suffixToTextMap.get(fieldMapping.suffixValue.sixth).replace('.', '')}">${suffixToTextMapDropdown.get(fieldMapping.suffixValue.sixth)}</option>
+                        <option value="${fieldMapping.suffixValue.seventh}" data-i18n="${'settingsHelpers.suffix'+suffixToTextMap.get(fieldMapping.suffixValue.seventh).replace('.', '')}">${suffixToTextMapDropdown.get(fieldMapping.suffixValue.seventh)}</option>
+                        <option value="${fieldMapping.suffixValue.eighth}" data-i18n="${'settingsHelpers.suffix'+suffixToTextMap.get(fieldMapping.suffixValue.eighth).replace('.', '')}">${suffixToTextMapDropdown.get(fieldMapping.suffixValue.eighth)}</option>
                     </select>
                     <br>
                 </div>
