@@ -94,7 +94,7 @@ export const renderUserProfile = async () => {
                 <div class="col-md-4">
                     <label class="col-form-label" style="padding:0;" data-i18n="form.yearListLabel">Year <span class="required">*</span></label>
                     <br>
-                    <input style="margin-left:0px; max-width:152px;" type="text" class="form-control required-field input-validation" data-error-required='Please select your birth year.' data-validation-pattern="year" data-error-validation="The year you entered is outside of our expected range. Please check your entry." maxlength="4" id="UPYear" title="Birth year, must be in 1900s" Placeholder="Enter birth year">
+                    <input data-i18n="form.yearListField" style="margin-left:0px; max-width:152px;" type="text" class="form-control required-field input-validation" data-error-required='Please select your birth year.' data-validation-pattern="year" data-error-validation="The year you entered is outside of our expected range. Please check your entry." maxlength="4" id="UPYear" title="Birth year, must be in 1900s" Placeholder="Enter birth year">
                     <!--<datalist id="yearsOption"></datalist>-->
                 </div>
             </div>
@@ -104,23 +104,23 @@ export const renderUserProfile = async () => {
             
             <div class="form-group row" style="padding-bottom:0;">
                 <div class="col">
-                    <label class="col-form-label">Preferred Email <span class="required">*</span></label>
-                    <input style="margin-left:0px; max-width:382px;" type="text" class="form-control" id="UPEmail" title="Please enter an email address in this format: name@example.com." Placeholder="abc@mail.com">
+                    <label data-i18n="form.preferredEmail" class="col-form-label">Preferred Email <span class="required">*</span></label>
+                    <input data-i18n="form.preferredEmailField" style="margin-left:0px; max-width:382px;" type="text" class="form-control" id="UPEmail" title="Please enter an email address in this format: name@example.com." Placeholder="abc@mail.com">
                 </div>
             </div>
             </br>
             <div class="form-group row" style="padding-top:0; padding-bottom:0;">
                 <div class="col">
-                    <label class="col-form-label">Confirm Preferred Email <span class="required">*</span></label>
-                    <input style="margin-left:0px; max-width:382px;" type="text" class="form-control" id="confirmUPEmail" title="Please enter an email address in this format: name@example.com." Placeholder="Retype preferred email">
+                    <label data-i18n="form.confirmPreferredEmail" class="col-form-label">Confirm Preferred Email <span class="required">*</span></label>
+                    <input data-i18n="form.confirmPreferredEmailField" style="margin-left:0px; max-width:382px;" type="text" class="form-control" id="confirmUPEmail" title="Please enter an email address in this format: name@example.com." Placeholder="Retype preferred email">
                 </div>
             </div>
             </br>
 
             <div class="form-group row" style="padding-top:0; padding-bottom:0;">
                 <div class="col">
-                    <label class="col-form-label">Additional Email</label>
-                    <input style="margin-left:0px; max-width:382px;" type="text" class="form-control col-md-4" id="UPEmail2" title="Please enter an email address in this format: name@example.com." Placeholder="Enter additional email">
+                    <label data-i18n="form.additionalEmail" class="col-form-label">Additional Email</label>
+                    <input data-i18n="form.additionalEmailField" style="margin-left:0px; max-width:382px;" type="text" class="form-control col-md-4" id="UPEmail2" title="Please enter an email address in this format: name@example.com." Placeholder="Enter additional email">
                 </div>
             </div>
             </br>
@@ -129,7 +129,7 @@ export const renderUserProfile = async () => {
             <div id="multipleEmail2"></div>
             <div class="form-group row" style="margin-bottom:20px !important;">
                 <div class="col" id="additionalEmailBtn">
-                    <button type="button" class="btn btn-light" id="addMoreEmail" title="Add more email">Add more <i class="fas fa-plus"></i></button>
+                    <button data-i18n="form.addMoreEmail" type="button" class="btn btn-light" id="addMoreEmail" title="Add more email">Add more <i class="fas fa-plus"></i></button>
                 </div>
             </div>
 
@@ -150,9 +150,9 @@ export const renderUserProfile = async () => {
                     </label>
                     <br>
                     <div class="btn-group col-md-4" id="mainMobilePhone" style="margin-left:0px;">
-                        <input type="text" class="form-control num-val" data-val-pattern="[1-9]{1}[0-9]{2}" title="Only numbers are allowed." id="UPPhoneNumber11" data-error-validation="Only numbers are allowed." size="3" maxlength="3" Placeholder="999" style="margin-left:0px"> <span class="hyphen">-</span>
-                        <input type="text" class="form-control num-val" data-val-pattern="[0-9]{3}" title="Only numbers are allowed." id="UPPhoneNumber12" data-error-validation="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
-                        <input type="text" class="form-control num-val" data-val-pattern="[0-9]{4}" title="Only numbers are allowed." id="UPPhoneNumber13" data-error-validation="Only numbers are allowed." size="4" maxlength="4" Placeholder="9999">
+                        <input data-i18n="settings.onlyNumbersField" type="text" class="form-control num-val" data-val-pattern="[1-9]{1}[0-9]{2}" title="Only numbers are allowed." id="UPPhoneNumber11" data-error-validation="Only numbers are allowed." size="3" maxlength="3" Placeholder="999" style="margin-left:0px"> <span class="hyphen">-</span>
+                        <input data-i18n="settings.onlyNumbersField" type="text" class="form-control num-val" data-val-pattern="[0-9]{3}" title="Only numbers are allowed." id="UPPhoneNumber12" data-error-validation="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
+                        <input data-i18n="settings.onlyNumbersField" type="text" class="form-control num-val" data-val-pattern="[0-9]{4}" title="Only numbers are allowed." id="UPPhoneNumber13" data-error-validation="Only numbers are allowed." size="4" maxlength="4" Placeholder="9999">
                     </div>
                 </div>
             </div>
@@ -164,49 +164,49 @@ export const renderUserProfile = async () => {
                     </label>
                     <br>
                     <div class="btn-group btn-group-toggle col-md-4" style="margin-left:0px;">
-                        <label><input type="radio" name="voiceMailPermission1" value="353358909"> Yes</label>
-                        <label style = "margin-left:20px;"><input type="radio" name="voiceMailPermission1" value="104430631"> No</label>
+                        <label><input type="radio" name="voiceMailPermission1" value="353358909"> <span data-i18n="settings.optYes">Yes</span></label>
+                        <label style = "margin-left:20px;"><input type="radio" name="voiceMailPermission1" value="104430631"> <span data-i18n="settings.optNo">No</span></label>
                     </div>
                 </div>
             </div>
             <div class="form-group row">
                 <div class="col">
-                    <label class="col-form-label">
+                    <label class="col-form-label" data-i18n="form.textNumber">
                         Can we text this number? 
                         <br>
                         Text message charges may apply
                     </label>
                     <br>
                     <div class="btn-group btn-group-toggle col-md-4"  style="margin-left:0px;">
-                        <label id="textPermissionYes"><input type="radio" name="textPermission1"  value="353358909"> Yes</label>
-                        <label style = "margin-left:20px;" id="textPermissionNo"><input type="radio" name="textPermission1"  value="104430631"> No</label>
+                        <label id="textPermissionYes"><input type="radio" name="textPermission1"  value="353358909"> <span data-i18n="settings.optYes">Yes</span></label>
+                        <label style = "margin-left:20px;" id="textPermissionNo"><input type="radio" name="textPermission1"  value="104430631"> <span data-i18n="settings.optNo">No</span></label>
                     </div>
                 </div>
             </div>
 
             <div class="form-group row">
                 <div class="col">
-                    <label class="col-form-label">
+                    <label class="col-form-label" data-i18n="form.homePhone">
                         Home phone <span class="required"></span>
                     </label>
                     <br>
                     <div class="btn-group col-md-4" id="mainMobilePhone2" style="margin-left:0px">
-                        <input type="text" class="form-control" id="UPPhoneNumber21" data-val-pattern="[1-9]{1}[0-9]{2}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999" style="margin-left:0px"> <span class="hyphen">-</span>
-                        <input type="text" class="form-control" id="UPPhoneNumber22" data-val-pattern="[0-9]{3}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
-                        <input type="text" class="form-control" id="UPPhoneNumber23" data-val-pattern="[0-9]{4}" title="Only numbers are allowed." size="4" maxlength="4" Placeholder="9999">
+                        <input data-i18n="form.onlyNumbers" type="text" class="form-control" id="UPPhoneNumber21" data-val-pattern="[1-9]{1}[0-9]{2}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999" style="margin-left:0px"> <span class="hyphen">-</span>
+                        <input data-i18n="form.onlyNumbers" type="text" class="form-control" id="UPPhoneNumber22" data-val-pattern="[0-9]{3}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
+                        <input data-i18n="form.onlyNumbers" type="text" class="form-control" id="UPPhoneNumber23" data-val-pattern="[0-9]{4}" title="Only numbers are allowed." size="4" maxlength="4" Placeholder="9999">
                     </div>
                 </div>
             </div>
 
             <div class="form-group row">
                 <div class="col">
-                    <label class="col-form-label">
+                    <label class="col-form-label" data-i18n="form.leaveVoicemail">
                         Can we leave a voicemail at this number? 
                     </label>
                     <br>
                     <div class="btn-group btn-group-toggle col-md-4" style="margin-left:0px;">
-                        <label ><input type="radio" name="voiceMailPermission2" value="353358909"> Yes</label>
-                        <label style = "margin-left:20px;"><input type="radio" name="voiceMailPermission2" value="104430631"> No</label>
+                        <label ><input type="radio" name="voiceMailPermission2" value="353358909"> <span data-i18n="settings.optYes">Yes</span></label>
+                        <label style = "margin-left:20px;"><input type="radio" name="voiceMailPermission2" value="104430631"> <span data-i18n="settings.optNo">No</span></label>
                     </div>
                 </div>
             </div>
@@ -217,10 +217,10 @@ export const renderUserProfile = async () => {
                         Other phone <span class="required"></span>
                     </label>
                     <br>
-                    <div class="btn-group col-md-4" id="mainMobilePhone3" style="margin-left:0px" data-i18n="form.otherPhoneControls">
-                        <input type="text" class="form-control" id="UPPhoneNumber31" data-val-pattern="[1-9]{1}[0-9]{2}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999" style="margin-left:0px"> <span class="hyphen">-</span>
-                        <input type="text" class="form-control" id="UPPhoneNumber32" data-val-pattern="[0-9]{3}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
-                        <input type="text" class="form-control" id="UPPhoneNumber33" data-val-pattern="[0-9]{4}" title="Only numbers are allowed." size="4" maxlength="4" Placeholder="9999">
+                    <div class="btn-group col-md-4" id="mainMobilePhone3" style="margin-left:0px">
+                        <input  data-i18n="form.onlyNumbers" type="text" class="form-control" id="UPPhoneNumber31" data-val-pattern="[1-9]{1}[0-9]{2}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999" style="margin-left:0px"> <span class="hyphen">-</span>
+                        <input  data-i18n="form.onlyNumbers" type="text" class="form-control" id="UPPhoneNumber32" data-val-pattern="[0-9]{3}" title="Only numbers are allowed." size="3" maxlength="3" Placeholder="999"> <span class="hyphen">-</span>
+                        <input  data-i18n="form.onlyNumbers" type="text" class="form-control" id="UPPhoneNumber33" data-val-pattern="[0-9]{4}" title="Only numbers are allowed." size="4" maxlength="4" Placeholder="9999">
                     </div>
                 </div>
             </div>
@@ -231,9 +231,9 @@ export const renderUserProfile = async () => {
                         Can we leave a voicemail at this number? 
                     </label>
                     <br>
-                    <div class="btn-group btn-group-toggle col-md-4" style="margin-left:0px;" data-i18n="form.leaveVoicemailControls3">
-                        <label ><input type="radio" name="voiceMailPermission3" value="353358909"> Yes</label>
-                        <label style = "margin-left:20px;"><input type="radio" name="voiceMailPermission3" value="104430631"> No</label>
+                    <div class="btn-group btn-group-toggle col-md-4" style="margin-left:0px;">
+                        <label ><input type="radio" name="voiceMailPermission3" value="353358909"> <span data-i18n="settings.optYes">Yes</span></label>
+                        <label style = "margin-left:20px;"><input type="radio" name="voiceMailPermission3" value="104430631"> <span data-i18n="settings.optNo">No</span></label>
                     </div>
                 </div>
             </div>
@@ -248,9 +248,9 @@ export const renderUserProfile = async () => {
                     <br>
                     <i data-i18n="form.invasiveCancerMessage">If you have or once had non-melanoma skin cancer (like basal cell or squamous cell carcinoma), or a condition that raises cancer risk (such as DCIS, or stage 0 breast cancer), please respond “No” to this question. These conditions are not invasive cancer, and you can still join. We are interested in learning how these conditions may affect cancer risk and health outcomes in the future.</i>
                     <br>
-                    <div class="btn-group btn-group-toggle col-md-4" style="margin-left:0px;" data-i18n="form.invasiveCancerControls">
-                        <label id="UPCancer1Btn"><input type="radio" name="cancerHistory" id="UPCancer1" value="353358909"> Yes</label>
-                        <label id="UPCancer2Btn" style = "margin-left:20px;"><input type="radio" name="cancerHistory" id="UPCancer2" value="104430631"> No</label>
+                    <div class="btn-group btn-group-toggle col-md-4" style="margin-left:0px;">
+                        <label id="UPCancer1Btn"><input type="radio" name="cancerHistory" id="UPCancer1" value="353358909"> <span data-i18n="settings.optYes">Yes</span></label>
+                        <label id="UPCancer2Btn" style = "margin-left:20px;"><input type="radio" name="cancerHistory" id="UPCancer2" value="104430631"> <span data-i18n="settings.optNo">No</span></label>
                     </div>
                     <br>
                     <div style="padding-left:0px" id="UPCancerBtnGroup">
@@ -316,76 +316,76 @@ const addEventNameConsistency = (cfn, cln) => {
 }
 
 export const renderAlternateContact = (id, required) => {
-    return `
+    return translateHTML(`
         <div class="form-group">
             <label>
-                First name ${required ? '<span class="required">*</span>': ''}
-                <input type="text" class="form-control" ${required ? 'required' : ''} id="UPFirstName${id}" placeholder="Enter first name">
+                <span data-i18n="form.alternateContactFirstNameLabel${required ? 'Required': ''}"> First name </span>
+                <input data-i18n="form.firstNameField" type="text" class="form-control" ${required ? 'required' : ''} id="UPFirstName${id}" placeholder="Enter first name">
             </label><br>
             <label>
-                Middle initial
-                <input type="text" class="form-control" id="UPMiddleInitial${id}" placeholder="Enter middle initial">
+                <span data-i18n="form.middleInitial">Middle initial </span>
+                <input data-i18n="form.middleInitialField" type="text" class="form-control" id="UPMiddleInitial${id}" placeholder="Enter middle initial">
             </label><br>
             <label>
-                Last name ${required ? '<span class="required">*</span>': ''}
-                <input type="text" class="form-control" ${required ? 'required' : ''} id="UPLastName${id}" placeholder="Enter last name">
+                <span data-i18n="form.alternateContactLastName${required ? 'Required': ''}">Last name </span>
+                <input data-i18n="form.lastNameField" type="text" class="form-control" ${required ? 'required' : ''} id="UPLastName${id}" placeholder="Enter last name">
             </label><br>
             <label>
-                Phone number ${required ? '<span class="required">*</span>': ''}
-                <input type="text" class="form-control" id="UPPhoneNumber${id}" ${required ? 'required' : ''} data-val-pattern="[1-9]{1}[0-9]{9}" size="10" maxlength="10" Placeholder="Enter phone number">
+                <span data-i18n="form.alternateContactPhoneNumber${required ? 'Required': ''}">Phone number </span>
+                <input data-i18n="form.alternateContactPhoneNumberField" type="text" class="form-control" id="UPPhoneNumber${id}" ${required ? 'required' : ''} data-val-pattern="[1-9]{1}[0-9]{9}" size="10" maxlength="10" Placeholder="Enter phone number">
             </label><br>
         </div>
         ${renderMailingAddress('', id, required, true)}
-    `;
+    `);
 }
 
 export const renderMailingAddress = (type, id, required, showCountry) => {
-    return `
+    return translateHTML(`
         <hr>
-        <div class="userProfileSubHeaders">Mailing Address</div>
+        <div class="userProfileSubHeaders" data-i18n="form.mailAddress">Mailing Address</div>
         <div class="form-group row">
             <div class="col">
-                <label class="col-form-label">
+                <label class="col-form-label" data-i18n="form.mailAddressLine1Label${required ? 'Required': ''}">
                     Line 1 (street, PO box, rural route) ${required ? '<span class="required">*</span>': ''}
                 </label>
                 <br>
-                <input style="margin-left:0px; max-width:301px;" type=text id="UPAddress${id}Line1" autocomplete="off" class="form-control required-field" data-error-required='Please enter the first line of your mailing address.' placeholder="Enter street, PO box, rural route" maxlength="70">
+                <input data-i18n="form.mailAddressLine1Field" style="margin-left:0px; max-width:301px;" type=text id="UPAddress${id}Line1" autocomplete="off" class="form-control required-field" data-error-required='Please enter the first line of your mailing address.' placeholder="Enter street, PO box, rural route" maxlength="70">
             </div>
         </div>
         <div class="form-group row">
             <div class="col">
-                <label class="col-form-label">
+                <label class="col-form-label" data-i18n="form.mailAddressLine2Label">
                     Line 2 (apartment, suite, unit, building)
                 </label>
                 <br>
-                <input style="margin-left:0px; max-width:301px;" type=text id="UPAddress${id}Line2" autocomplete="off" class="form-control" placeholder="Enter apartment, suite, unit, building" maxlength="70">
+                <input data-i18n="form.mailAddressLine2Field" style="margin-left:0px; max-width:301px;" type=text id="UPAddress${id}Line2" autocomplete="off" class="form-control" placeholder="Enter apartment, suite, unit, building" maxlength="70">
             </div>
         </div>
         <div class="form-group row">
             <div class="col">
-                <label class="col-form-label">
-                    City ${required ? '<span class="required">*</span>': ''}
+                <label class="col-form-label" data-i18n="form.mailAddressCityLabel${required ? 'Required': ''}">
+                    City 
                 </label>
                 <br>
-                <input style="margin-left:0px; max-width:301px;" type=text id="UPAddress${id}City" class="form-control required-field" data-error-required='Please enter the city field of your mailing address.' placeholder="Enter City">
+                <input data-i18n="form.mailAddressCityField" style="margin-left:0px; max-width:301px;" type=text id="UPAddress${id}City" class="form-control required-field" data-error-required='Please enter the city field of your mailing address.' placeholder="Enter City">
             </div>
         </div>
         <div class="form-group row">
             <div class="col-lg-2">
-                <label class="col-form-label">
+                <label class="col-form-label" data-i18n="form.mailAddressStateLabel${required ? 'Required': ''}">
                     State ${required ? '<span class="required">*</span>': ''}
                 </label>
                 <br>
                 <select style="margin-left:0px;" class="form-control required-field" data-error-required='Please select the state field of your mailing address.' id="UPAddress${id}State">
-                    <option class="option-dark-mode" value="">-- Select --</option>
+                    <option class="option-dark-mode" value="" data-i18n="form.selectOption">-- Select --</option>
                     ${renderStates()}
                 </select>
             </div>
             <div class="col-lg-2">
-                <label class="col-form-label">
+                <label class="col-form-label" data-i18n="form.mailAddressZipLabel${required ? 'Required': ''}">
                     Zip ${required ? '<span class="required">*</span>': ''}
                 </label>
-                <input type=text id="UPAddress${id}Zip" data-error-validation="Please enter a 5 digit zip code in this format: 12345." data-val-pattern="[0-9]{5}" title="5 characters long, numeric-only value." class="form-control required-field num-val" data-error-required='Please enter the zip field of your mailing address.' size="5" maxlength="5" placeholder="99999">
+                <input data-i18n="form.mailAddressZipField" type=text id="UPAddress${id}Zip" data-error-validation="Please enter a 5 digit zip code in this format: 12345." data-val-pattern="[0-9]{5}" title="5 characters long, numeric-only value." class="form-control required-field num-val" data-error-required='Please enter the zip field of your mailing address.' size="5" maxlength="5" placeholder="99999">
             </div>
         </div>
         <div class="form-group row">
@@ -393,7 +393,7 @@ export const renderMailingAddress = (type, id, required, showCountry) => {
         </div>
         ${showCountry ? `<br>
         <div class="form-group row">
-            <label class="col-md-4 col-form-label">
+            <label class="col-md-4 col-form-label" data-i18n="form.mailAddressCountry${required ? 'Required': ''}">
                 Country ${required ? '<span class="required">*</span>': ''}
             </label>
             <select class="form-control col-md-4" ${required ? 'required' : ''} id="UPAddress${id}Country">
@@ -403,13 +403,13 @@ export const renderMailingAddress = (type, id, required, showCountry) => {
             
         </div>
         `:``}
-    `
+    `);
 };
 
 const renderStates = () => {
     let options = '';
     for(const state in allStates){
-        options += `<option class="option-dark-mode" value="${state}">${state}</option>`
+        options += `<option class="option-dark-mode" value="${state}" data-i18n="shared.state${state.replace(/\s/g,'')}">${state}</option>`;
     }
     return options;
 }
@@ -417,7 +417,7 @@ const renderStates = () => {
 const renderCountries = () => {
     let options = '';
     for(const country in allCountries){
-        options += `<option class="option-dark-mode" value="${allCountries[country]}">${country}</option>`
+        options += `<option class="option-dark-mode" value="${allCountries[country]}" data-i18n="shared.country${country.replace(/(\s|[-.])/g,'')}">${country}</option>`
     }
     return options;
 }

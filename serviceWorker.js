@@ -88,4 +88,4 @@ registerRoute(
     'POST'
 );
 
-workbox.precaching.precacheAndRoute([{url: 'index.html', revision: '1.0.4'}]);
+workbox.precaching.precacheAndRoute([{url: 'index.html', revision: '1.0.5'}]);

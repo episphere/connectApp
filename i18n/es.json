@@ -116,19 +116,38 @@
         "dayListRequired": {
             "data-error-required": "Seleccione su día de nacimiento."
         },
-        "yearListLabel": " <span class=\"required\">Año*</span>",
-        "yearListRequired": "Seleccione su año de nacimiento.",
-        "yearListValidation": "El año que ha ingresado está fuera de los límites esperados. Por favor, revise sus datos.",
-        "yearListTitle": "Las dos primeras cifras del año de nacimiento deben ser 19",
-        "yearListPlaceholder": "Ingrese su año de nacimiento",
+        "yearListLabel": " Año<span class=\"required\">*</span>",
+        "yearListField": {
+            "data-error-required": "Seleccione su año de nacimiento.",
+            "data-error-validation": "El año que ha ingresado está fuera de los límites esperados. Por favor, revise sus datos.",
+            "title": "Las dos primeras cifras del año de nacimiento deben ser 19",
+            "placeholder": "Ingrese su año de nacimiento"
+        },
         "contactSubheader": "Información de contacto",
-        "preferredEmail": "<label class=\"col-form-label\">Dirección de correo electrónico preferida <span class=\"required\">*</span></label><input style=\"margin-left:0px; max-width:382px;\" type=\"text\" class=\"form-control\" id=\"UPEmail\" title=\"Ingrese una dirección de correo electrónico con este formato: nombre@ejemplo.com.\" Placeholder=\"abc@mail.com\">",
-        "confirmPreferredEmail": "<label class=\"col-form-label\">Confirme su dirección de correo electrónico preferida<span class=\"required\">*</span></label><input style=\"margin-left:0px; max-width:382px;\" type=\"text\" class=\"form-control\" id=\"confirmUPEmail\" title=\"Ingrese una dirección de correo electrónico con este formato: nombre@ejemplo.com.\" Placeholder=\"Vuelva a escribir su dirección de correo electrónico preferida\">",
-        "additionalEmail": "<label class=\"col-form-label\">Correo electrónico adicional</label><input style=\"margin-left:0px; max-width:382px;\" type=\"text\" class=\"form-control col-md-4\" id=\"UPEmail2\" title=\"Ingrese una dirección de correo electrónico con este formato: nombre@ejemplo.com.\" Placeholder=\"Ingrese una dirección de correo electrónico adicional\">",
-        "addMoreEmail": "<button type=\"button\" class=\"btn btn-light\" id=\"addMoreEmail\" title=\"Agregar otra dirección de correo electrónico\">Agregar más <i class=\"fas fa-plus\"></i></button>",
+        "preferredEmail": "Dirección de correo electrónico preferida <span class=\"required\">*</span></label>",
+        "preferredEmailField": {
+            "title": "Ingrese una dirección de correo electrónico con este formato: nombre@ejemplo.com.",
+            "placeholder": "abc@mail.com"
+        },
+        "confirmPreferredEmail": "Confirme su dirección de correo electrónico preferida<span class=\"required\">*</span>",
+        "confirmPreferredEmailField": {
+            "title": "Ingrese una dirección de correo electrónico con este formato: nombre@ejemplo.com.",
+            "placeholder": "Vuelva a escribir su dirección de correo electrónico preferida"
+        },
+        "additionalEmail": "Correo electrónico adicional",
+        "additionalEmailField": {
+            "title": "Ingrese una dirección de correo electrónico con este formato: nombre@ejemplo.com.",
+            "placeholder": "Ingrese una dirección de correo electrónico adicional"
+        },
+        "addMoreEmail": {
+            "title": "Agregar otra dirección de correo electrónico",
+            "innerHTML": "Agregar más <i class=\"fas fa-plus\"></i>"
+        },
         "phoneRequired": "<b>Debe ingresar un número de teléfono.<span class=\"required\">*</span></b>",
         "mobilePhone": "Teléfono celular <span class=\"required\">*</span>",
-        "onlyNumbers": "Solo se permiten números.",
+        "onlyNumbers": {
+            "title": "Solo se permiten números."
+        },
         "leaveVoicemail": "¿Podemos dejar un mensaje de voz en este número?",
         "leaveVoicemailControls1": "<label><input type=\"radio\" name=\"voiceMailPermission1\" value=\"353358909\"> Sí</label><label style = \"margin-left:20px;\"><input type=\"radio\" name=\"voiceMailPermission1\" value=\"104430631\"> No</label>",
         "textNumber": "¿Podemos enviar un mensaje de texto a este número? <br/>Es posible que le cobren por los mensajes de texto",
@@ -142,25 +161,50 @@
         "cancerHistorySubheader": "Antecedentes de cáncer",
         "invasiveCancer": "¿Ha tenido alguna vez cáncer invasivo? <span class=\"required\">*</span>",
         "invasiveCancerMessage": "Si tiene o tuvo alguna vez cáncer de piel que no sea melanoma (como carcinoma de células basales o de células escamosas) o una afección que aumente el riesgo de cáncer (como el carcinoma ductal in situ o el cáncer de mama en estadio 0), responda “No” a esta pregunta. Estas afecciones no son cáncer invasivo y usted todavía puede participar. Nos interesa saber cómo estas afecciones pueden afectar el riesgo de cáncer y los resultados de salud en el futuro.",
-        "invasiveCancerControls": "<label id=\"UPCancer1Btn\"><input type=\"radio\" name=\"cancerHistory\" id=\"UPCancer1\" value=\"353358909\"> Sí</label><label id=\"UPCancer2Btn\" style = \"margin-left:20px;\"><input type=\"radio\" name=\"cancerHistory\" id=\"UPCancer2\" value=\"104430631\"> No</label>",
         "submitText": "Enviar",
-        "alternateContact": "<label>Nombre de pila ${required ? '<span class=\"required\">*</span>': ''}<input type=\"text\" class=\"form-control\" ${required ? 'required' : ''} id=\"UPFirstName${id}\" placeholder=\"Enter first name\"></label><br/><label>Inicial del segundo nombre<input type=\"text\" class=\"form-control\" id=\"UPMiddleInitial${id}\" placeholder=\"Ingrese la inicial de su segundo nombre\"></label><br/><label>Apellido ${required ? '<span class=\"required\">*</span>': ''}<input type=\"text\" class=\"form-control\" ${required ? 'required' : ''} id=\"UPLastName${id}\" placeholder=\"Enter last name\"></label><br/><label>Número de teléfono ${required ? '<span class=\"required\">*</span>': ''}<input type=\"text\" class=\"form-control\" id=\"UPPhoneNumber${id}\" ${required ? 'required' : ''} data-val-pattern=\"[1-9]{1}[0-9]{9}\" size=\"10\" maxlength=\"10\" Placeholder=\"Enter phone number\"></label><br/>",
+        "alternateContactFirstNameLabel": "Nombre de pila ",
+        "alternateContactFirstNameLabelRequired": "Nombre de pila <span class=\"required\">*</span>",
+        "middleInitial": "Inicial del segundo nombre",
+        "middleInitialField": {
+            "placeholder": "Ingrese la inicial de su segundo nombre"
+        },
+        "alternateContactLastName": "Apellido ",
+        "alternateContactLastNameRequired": "Apellido <span class=\"required\">*</span>",
+        "alternateContactPhoneNumber": "Número de teléfono ",
+        "alternateContactPhoneNumberRequired": "Número de teléfono <span class=\"required\">*</span>",
+        "alternateContactPhoneNumberField": {
+            "placeholder": "Ingresa número telefónico"
+        },
         "mailAddress": "Dirección postal",
-        "mailAddressLine1Label": "Línea 1 (calle, apartado postal, ruta rural) ${required ? '<span class=\"required\">*</span>': ''}",
-        "mailAddressLine1Required": "Ingrese la primera línea de su dirección postal.",
-        "mailAddressLine1Placeholder": "Ingrese la calle, el apartado postal, la ruta rural",
-        "mailAddressLine2": "<label class=\"col-form-label\">Línea 2 (apartamento, suite, unidad, edificio)</label><br/><input style=\"margin-left:0px; max-width:301px;\" type=\"text\" id=\"UPAddress${id}Line2\" autocomplete=\"off\" class=\"form-control\" placeholder=\"Ingrese el apartamento, la suite, la unidad, el edificio\" maxlength=\"70\">",
-        "mailAddressCityLabel": "Ciudad ${required ? '<span class=\"required\">*</span>': ''}",
-        "mailAddressCityRequired": "Ingrese el campo de ciudad de su dirección postal.",
-        "mailAddressCityPlaceholder": "Ingrese la ciudad",
-        "mailAddressStateLabel": "Estado ${required ? '<span class=\"required\">*</span>': ''}",
+        "mailAddressLine1Label": "Línea 1 (calle, apartado postal, ruta rural)",
+        "mailAddressLine1LabelRequired": "Línea 1 (calle, apartado postal, ruta rural) <span class=\"required\">*</span>",
+        "mailAddressLine1Field": {
+            "data-error-required": "Ingrese la primera línea de su dirección postal.",
+            "placeholder": "Ingrese la calle, el apartado postal, la ruta rural"
+        },
+        "mailAddressLine2Label": "Línea 2 (apartamento, suite, unidad, edificio)",
+        "mailAddressLine2Field": {
+            "placeholder": "Ingrese el apartamento, la suite, la unidad, el edificio"
+        },
+        "mailAddressCityLabel": "Ciudad ",
+        "mailAddressCityLabelRequired": "Ciudad <span class=\"required\">*</span>",
+        "mailAddressCityField": {
+            "data-error-required": "Ingrese el campo de ciudad de su dirección postal.",
+            "placeholder": "Ingrese la ciudad"
+        },
+        "mailAddressStateLabel": "Estado ",
+        "mailAddressStateLabelRequired": "Estado <span class=\"required\">*</span>",
         "mailAddressStateRequired": "Seleccione el campo de estado de su dirección postal.",
         "selectOption": "-- Seleccione --",
-        "mailAddressZipLabel": "Código postal ${required ? '<span class=\"required\">*</span>': ''}",
-        "mailAddressZipValidation": "Ingrese un código postal de 5 dígitos con este formato: 12345.",
-        "mailAddressZipTitle": "5 caracteres de longitud, solo valor numérico.",
-        "mailAddressZipRequired": "Ingrese el campo de código postal de su dirección postal.",
-        "mailAddressCountry": "<label class=\"col-md-4 col-form-label\">País ${required ? '<span class=\"required\">*</span>': ''}</label><select class=\"form-control col-md-4\" ${required ? 'required' : ''} id=\"UPAddress${id}Country\"><option class=\"option-dark-mode\" value=\"\">-- Seleccione un país --</option>${renderCountries()}</select>"
+        "mailAddressZipLabel": "Código postal ",
+        "mailAddressZipLabelRequired": "Código postal <span class=\"required\">*</span>",
+        "mailAddressZipField": {
+            "data-error-validation": "Ingrese un código postal de 5 dígitos con este formato: 12345.",
+            "title": "5 caracteres de longitud, solo valor numérico.",
+            "data-error-required": "Ingrese el campo de código postal de su dirección postal."
+        },
+        "mailAddressCountry": "País ",
+        "mailAddressCountryRequired": "País <span class=\"required\">*</span>"
     },
     "navbar": {
         "dashboardLink": " Panel",
@@ -515,7 +559,9 @@
     "provider": {
         "alertWarning": "Nuestros registros muestran que ya tiene otra cuenta con una dirección de correo electrónico o número de teléfono diferente. Intente iniciar sesión de nuevo. Si necesita ayuda para acceder a su cuenta, escriba al Centro de Asistencia de Connect a <a href=\"mailto:ConnectSupport@norc.org\">ConnectSupport@norc.org</a> o llame al <span style=\"white-space:nowrap;overflow:hidden\">1-877-505-0253</span>.",
         "receivedPin": "<strong>Si recibió un PIN como parte de su invitación al estudio, ingréselo aquí.<br/>Su PIN debe tener 6 caracteres e incluir solo números y letras mayúsculas.<br/></strong>",
-        "enterPin": "<input style=\"margin-left:0px;\" type=\"text\" maxlength=\"6\" id=\"participantPIN\" class=\"form-control\" placeholder=\"Ingresar PIN\">",
+        "enterPin": {
+            "placeholder": "Ingresar PIN"
+        },
         "noPin": "No tengo PIN",
         "submitText": "Enviar",
         "modalCancel": "No",
@@ -546,16 +592,16 @@
         "consentProcess": "Las siguientes pantallas lo guiarán por el proceso de consentimiento informado. Brindan más detalles sobre el estudio y lo que significa participar en Connect. Al final, antes de decidir si comienza a participar, puede leer el formulario de consentimiento informado completo y el formulario de divulgación de registros electrónicos de salud."
     },
     "mytodolist": {
-        "withdrawnConnect": "<p/><br/>Se ha retirado de Connect. No recopilaremos más datos sobre usted. Si tiene alguna pregunta, llame al Centro de Asistencia de Connect al 1-877-505-0253 o escríbales a <a href=\"mailto:ConnectSupport@norc.org\">ConnectSupport@norc.org</a>.<br/>",
+        "withdrawnConnect": "Se ha retirado de Connect. No recopilaremos más datos sobre usted. Si tiene alguna pregunta, llame al Centro de Asistencia de Connect al 1-877-505-0253 o escríbales a <a href=\"mailto:ConnectSupport@norc.org\">ConnectSupport@norc.org</a>.",
         "deletedData": "A pedido de usted, hemos eliminado sus datos de Connect. Si tiene alguna pregunta, llame al Centro de Asistencia de Connect al 1-877-505-0253 o escríbales a <a href=\"mailto:ConnectSupport@norc.org\">ConnectSupport@norc.org</a>.",
         "newFormSign": "Tiene un nuevo <a href=\"#forms\">formulario</a> para firmar.",
         "completingProfile": "Gracias por completar su perfil del Estudio Connect para la Prevención del Cáncer. A continuación, el equipo de Connect de su sistema de atención médica verificará si reúne los requisitos para participar en el estudio. Nos pondremos en contacto con usted dentro de unos días hábiles.<br/>Mientras tanto, comience por completar su primera encuesta de Connect.",
         "checkEligibility": "El equipo de Connect de su sistema de atención médica está verificando si reúne los requisitos para participar en el estudio. ",
         "thankYouCompleting": "¡Gracias por completar su primera encuesta de Connect! Nos pondremos en contacto con usted para indicarle los próximos pasos.",
         "firstSurvey": "Mientras tanto, comience por completar su primera encuesta de Connect.",
-        "confirmedEligibility": "¡Tenemos buenas noticias! Hemos confirmado que reúne los requisitos para participar en el Estudio Connect para la Prevención del Cáncer. Ya es participante oficial de Connect.<br/>",
+        "confirmedEligibility": "¡Tenemos buenas noticias! Hemos confirmado que reúne los requisitos para participar en el Estudio Connect para la Prevención del Cáncer. Ya es participante oficial de Connect.",
         "completeFirstSurvey": "El próximo paso es completar su primera encuesta de Connect.",
-        "thankYouBeingPart": "<br/>Gracias por formar parte de Connect y por su compromiso con ayudarnos a obtener más información sobre cómo prevenir el cáncer.<br/>",
+        "thankYouBeingPart": "Gracias por formar parte de Connect y por su compromiso con ayudarnos a obtener más información sobre cómo prevenir el cáncer.",
         "notEligibleMessage": "Según nuestros registros, usted no reúne los requisitos para participar en el Estudio Connect para la Prevención del Cáncer. Gracias por su interés. Preservaremos la confidencialidad de todos los datos que nos haya dado. No utilizaremos la información que nos haya dado para nuestra investigación.<br/>Si cree que se trata de un error o tiene alguna pregunta, póngase en contacto con el <a href=\"https://norcfedramp.servicenowservices.com/participant\" target=\"_blank\">Centro de Asistencia de Connect</a>.",
         "alreadyHaveAccount": "Nuestros registros muestran que ya tiene otra cuenta con una dirección de correo electrónico o número de teléfono diferente. Intente iniciar sesión de nuevo. Si necesita ayuda para acceder a su cuenta, escriba al Centro de Asistencia de Connect a <a href=\"mailto:ConnectSupport@norc.org\">ConnectSupport@norc.org</a> o llame al <span style=\"white-space:nowrap;overflow:hidden\">1-877-505-0253</span>.",
         "bodyConnectSupport": "escriba al Centro de Asistencia de Connect a <a href=\"mailto:ConnectSupport@norc.org\">ConnectSupport@norc.org</a> o llame al 1-877-505-0253.",
@@ -566,7 +612,9 @@
         "bodyKPHawaii": "Escriba a KP Hawaii a <a href=\"mailto:Connect-Study-KPHI@kp.org\">Connect-Study-KPHI@kp.org</a> o llame al 833-417-0846",
         "bodyKPNorthwest": "Escriba a KP Northwest a <a href=\"mailto:Connect-Study-KPNW@kp.org\">Connect-Study-KPNW@kp.org</a> o llame al 1-866-554-6039 (sin cargo) o al 503-528-3985",
         "bodySanfordHealth": "Escriba a Sanford Health a <a href=\"mailto:ConnectStudy@sanfordhealth.org\">ConnectStudy@sanfordhealth.org</a> o llame al 605-312-6100",
-        "tryingContact": "Nuestro equipo del estudio ha estado intentando comunicarse con usted sobre su posibilidad de participar en el Estudio Connect para la Prevención del Cáncer. Necesitamos más información sobre usted para verificar si puede formar parte de Connect. Póngase en contacto con nosotros ${body} para confirmar si puede participar en el estudio.",
+        "bodyBaylorScottAndWhiteHealth": "Escriba a Baylor Scott & White Health a <a href = \"mailto:ConnectStudy@bswhealth.org\">ConnectStudy@bswhealth.org</a> o llame al 214-865-2427",
+        "tryingContact": "Nuestro equipo del estudio ha estado intentando comunicarse con usted sobre su posibilidad de participar en el Estudio Connect para la Prevención del Cáncer. Necesitamos más información sobre usted para verificar si puede formar parte de Connect. Póngase en contacto con nosotros ",
+        "tryingContactEnd": " para confirmar si puede participar en el estudio.",
         "toDoButton": "Pendiente",
         "completed": "Completado",
         "mainHeaderFirstSurvey": "Primera encuesta",
@@ -1048,10 +1096,15 @@
         "confirmSSN": "Confirme su número de Seguro Social:",
         "lastDigitsSSN": "Si prefiere darnos solo los últimos <b>4 dígitos</b> de su número de Seguro Social, ingrese los últimos <b>4 dígitos</b> aquí:",
         "confirmLastDigitsSSN": "Confirme los últimos <b>4 dígitos</b> de su número de Seguro Social:",
-        "endMessage": "Ha respondido todas las preguntas de esta encuesta. Para enviar sus respuestas, haga clic en el botón “Submit Survey” (Enviar encuesta).",
+        "instructions": "Para proporcionar los <b>9 dígitos</b> de su número de Seguro Social, ingréselos aquí. Si prefiere proporcionar solo los últimos 4 dígitos o ningún dígito, seleccione el botón \"Siguiente\".",
+        "endMessage": "Ha respondido todas las preguntas de esta encuesta. Para enviar sus respuestas, haga clic en el botón “Enviar encuesta”.",
         "submitSurveyText": "Enviar encuesta",
         "thankYouMessage": "Gracias. Esta encuesta permanecerá disponible en su panel de control de MyConnect en caso de que decida darnos esta información en el futuro. Para salir de esta encuesta, haga clic en el botón “Close Survey” (Cerrar encuesta).",
-        "closeSurveyText": "Cerrar encuesta"
+        "closeSurveyText": "Cerrar encuesta",
+        "responseRequested": "Respuesta solicitada",
+        "ssnSoftModalBodyText": "Hay 1 pregunta sin respuesta en esta página. ¿Te gustaria continuar?",
+        "ssnSoftModalContinueButton": "Continuar sin responder",
+        "ssnSoftModalCloseButton":"Responde la pregunta"
     },
     "support": {
         "title": "My Connect - Asistencia",
@@ -1090,7 +1143,7 @@
         "emailFormat": "Ingrese una dirección de correo electrónico con este formato: nombre@ejemplo.com.",
         "addMoreEmail": "<button type=\"button\" class=\"btn btn-light\" id=\"addMoreEmail2\" title=\"Agregar otra dirección de correo electrónico\">Agregar más <i class=\"fas fa-plus\"></i></button>",
         "emailPlaceholder3": {
-            "placehoder": "Ingrese una dirección de correo electrónico adicional 3",
+            "placeholder": "Ingrese una dirección de correo electrónico adicional 3",
             "title": "Ingrese una dirección de correo electrónico con este formato: nombre@ejemplo.com."
         },
         "provideResponse": "Sírvase dar una respuesta.",
@@ -1163,9 +1216,20 @@
         "yearDiagnosed": "¿En qué año se lo diagnosticaron?",
         "typeOfCancer": "¿Qué tipo de cáncer tenía?",
         "tellAboutDiagnosis": "Díganos todo lo que quiera que sepamos sobre su diagnóstico de cáncer",
-        "navButtons": "<button type=\"button\" title=\"Cerrar\" class=\"btn btn-dark\" data-dismiss=\"modal\">Regresar</button><button type=\"button\" id=\"confirmReview\" title=\"Confirmar los detalles\" class=\"btn btn-primary consentNextButton\" data-dismiss=\"modal\">Enviar</button>",
-        "birthValidator": "Su año de nacimiento debe tener cuatro dígitos, con formato AAAA.",
-        "enterTypeCancer": "Ingrese el tipo de cáncer",
+        "navButtonsClose": {
+            "title": "Cerrar", 
+            "innerText": "Regresar"
+        },
+        "navButtonsConfirm": {
+            "title": "Confirmar los detalles",
+            "innerText": "Enviar"
+        },
+        "birthField": {
+            "data-error-validation": "Su año de nacimiento debe tener cuatro dígitos, con formato AAAA."
+        },
+        "enterTypeCancer": {
+            "placeholder": "Ingrese el tipo de cáncer"
+        },
         "today": "Hoy",
         "old": "Anteriores",
         "noNotifications": "¡No se encontró ninguna notificación!"

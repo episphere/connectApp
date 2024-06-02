@@ -117,18 +117,37 @@
             "data-error-required": "Please select your birth day."
         },
         "yearListLabel": "Year <span class=\"required\">*</span>",
-        "yearListRequired": "Please select your birth year.",
-        "yearListValidation": "The year you entered is outside of our expected range. Please check your entry.",
-        "yearListTitle": "Birth year, must be in 1900s",
-        "yearListPlaceholder": "Enter birth year",
+        "yearListField": {
+            "data-error-required": "Please select your birth year.",
+            "data-error-validation": "The year you entered is outside of our expected range. Please check your entry.",
+            "title": "Birth year, must be in 1900s",
+            "placeholder": "Enter birth year"
+        },
         "contactSubheader": "Contact Information",
-        "preferredEmail": "<label class=\"col-form-label\">Preferred Email <span class=\"required\">*</span></label><input style=\"margin-left:0px; max-width:382px;\" type=\"text\" class=\"form-control\" id=\"UPEmail\" title=\"Please enter an email address in this format: name@example.com.\" Placeholder=\"abc@mail.com\">",
-        "confirmPreferredEmail": "<label class=\"col-form-label\">Confirm Preferred Email <span class=\"required\">*</span></label><input style=\"margin-left:0px; max-width:382px;\" type=\"text\" class=\"form-control\" id=\"confirmUPEmail\" title=\"Please enter an email address in this format: name@example.com.\" Placeholder=\"Retype preferred email\">",
-        "additionalEmail": "<label class=\"col-form-label\">Additional Email</label><input style=\"margin-left:0px; max-width:382px;\" type=\"text\" class=\"form-control col-md-4\" id=\"UPEmail2\" title=\"Please enter an email address in this format: name@example.com.\" Placeholder=\"Enter additional email\">",
-        "addMoreEmail": "<button type=\"button\" class=\"btn btn-light\" id=\"addMoreEmail\" title=\"Add more email\">Add more <i class=\"fas fa-plus\"></i></button>",
+        "preferredEmail": "Preferred Email <span class=\"required\">*</span>",
+        "preferredEmailField": {
+            "title": "Please enter an email address in this format: name@example.com.",
+            "placeholder": "abc@mail.com"
+        },
+        "confirmPreferredEmail": "Confirm Preferred Email <span class=\"required\">*</span>",
+        "confirmPreferredEmailField": {
+            "title": "Please enter an email address in this format: name@example.com.",
+            "placeholder": "Retype preferred email"
+        },
+        "additionalEmail": "Additional Email",
+        "additionalEmailField": {
+            "title": "Please enter an email address in this format: name@example.com.",
+            "placeholder": "Enter additional email"
+        },
+        "addMoreEmail": {
+            "title": "Add more email",
+            "innerHTML": "Add more <i class=\"fas fa-plus\"></i>"
+        },
         "phoneRequired": "<b>One phone number is required.<span class=\"required\">*</span></b>",
         "mobilePhone": "Mobile phone <span class=\"required\">*</span>",
-        "onlyNumbers": "Only numbers are allowed.",
+        "onlyNumbers": {
+            "title": "Only numbers are allowed."
+        },
         "leaveVoicemail": "Can we leave a voicemail at this number?",
         "leaveVoicemailControls1": "<label><input type=\"radio\" name=\"voiceMailPermission1\" value=\"353358909\"> Yes</label><label style = \"margin-left:20px;\"><input type=\"radio\" name=\"voiceMailPermission1\" value=\"104430631\"> No</label>",
         "textNumber": "Can we text this number? <br>Text message charges may apply",
@@ -142,25 +161,50 @@
         "cancerHistorySubheader": "Cancer History",
         "invasiveCancer": "Have you ever had invasive cancer? <span class=\"required\">*</span>",
         "invasiveCancerMessage": "If you have or once had non-melanoma skin cancer (like basal cell or squamous cell carcinoma), or a condition that raises cancer risk (such as DCIS, or stage 0 breast cancer), please respond “No” to this question. These conditions are not invasive cancer, and you can still join. We are interested in learning how these conditions may affect cancer risk and health outcomes in the future.",
-        "invasiveCancerControls": "<label id=\"UPCancer1Btn\"><input type=\"radio\" name=\"cancerHistory\" id=\"UPCancer1\" value=\"353358909\"> Yes</label><label id=\"UPCancer2Btn\" style = \"margin-left:20px;\"><input type=\"radio\" name=\"cancerHistory\" id=\"UPCancer2\" value=\"104430631\"> No</label>",
         "submitText": "Submit",
-        "alternateContact": "<label>First name ${required ? '<span class=\"required\">*</span>': ''}<input type=\"text\" class=\"form-control\" ${required ? 'required' : ''} id=\"UPFirstName${id}\" placeholder=\"Enter first name\"></label><br><label>Middle initial<input type=\"text\" class=\"form-control\" id=\"UPMiddleInitial${id}\" placeholder=\"Enter middle initial\"></label><br><label>Last name ${required ? '<span class=\"required\">*</span>': ''}<input type=\"text\" class=\"form-control\" ${required ? 'required' : ''} id=\"UPLastName${id}\" placeholder=\"Enter last name\"></label><br><label>Phone number ${required ? '<span class=\"required\">*</span>': ''}<input type=\"text\" class=\"form-control\" id=\"UPPhoneNumber${id}\" ${required ? 'required' : ''} data-val-pattern=\"[1-9]{1}[0-9]{9}\" size=\"10\" maxlength=\"10\" Placeholder=\"Enter phone number\"></label><br>",
+        "alternateContactFirstNameLabel": "First name ",
+        "alternateContactFirstNameLabelRequired": "First name <span class=\"required\">*</span>",
+        "middleInitial": "Middle initial",
+        "middleInitialField": {
+            "placeholder": "Enter middle initial"
+        },
+        "alternateContactLastName": "Last name ",
+        "alternateContactLastNameRequired": "Last name <span class=\"required\">*</span>",
+        "alternateContactPhoneNumber": "Phone number ",
+        "alternateContactPhoneNumberRequired": "Phone number <span class=\"required\">*</span>",
+        "alternateContactPhoneNumberField": {
+            "placeholder": "Enter phone number"
+        },
         "mailAddress": "Mailing Address",
-        "mailAddressLine1Label": "Line 1 (street, PO box, rural route) ${required ? '<span class=\"required\">*</span>': ''}",
-        "mailAddressLine1Required": "Please enter the first line of your mailing address.",
-        "mailAddressLine1Placeholder": "Enter street, PO box, rural route",
-        "mailAddressLine2": "<label class=\"col-form-label\">Line 2 (apartment, suite, unit, building)</label><br><input style=\"margin-left:0px; max-width:301px;\" type=text id=\"UPAddress${id}Line2\" autocomplete=\"off\" class=\"form-control\" placeholder=\"Enter apartment, suite, unit, building\" maxlength=\"70\">",
-        "mailAddressCityLabel": "City ${required ? '<span class=\"required\">*</span>': ''}",
-        "mailAddressCityRequired": "Please enter the city field of your mailing address.",
-        "mailAddressCityPlaceholder": "Enter City",
-        "mailAddressStateLabel": "State ${required ? '<span class=\"required\">*</span>': ''}",
+        "mailAddressLine1Label": "Line 1 (street, PO box, rural route)",
+        "mailAddressLine1LabelRequired": "Line 1 (street, PO box, rural route) <span class=\"required\">*</span>",
+        "mailAddressLine1Field": {
+            "data-error-required": "Please enter the first line of your mailing address.",
+            "placeholder": "Enter street, PO box, rural route"
+        },
+        "mailAddressLine2Label": "Line 2 (apartment, suite, unit, building)",
+        "mailAddressLine2Field": {
+            "placeholder": "Enter apartment, suite, unit, building"
+        },
+        "mailAddressCityLabel": "City ",
+        "mailAddressCityLabelRequired": "City <span class=\"required\">*</span>",
+        "mailAddressCityField": {
+            "data-error-required": "Please enter the city field of your mailing address.",
+            "placeholder": "Enter City"
+        },
+        "mailAddressStateLabel": "State ",
+        "mailAddressStateLabelRequired": "State <span class=\"required\">*</span>",
         "mailAddressStateRequired": "Please select the state field of your mailing address.",
         "selectOption": "-- Select --",
-        "mailAddressZipLabel": "Zip ${required ? '<span class=\"required\">*</span>': ''}",
-        "mailAddressZipValidation": "Please enter a 5 digit zip code in this format: 12345.",
-        "mailAddressZipTitle": "5 characters long, numeric-only value.",
-        "mailAddressZipRequired": "Please enter the zip field of your mailing address.",
-        "mailAddressCountry": "<label class=\"col-md-4 col-form-label\">Country ${required ? '<span class=\"required\">*</span>': ''}</label><select class=\"form-control col-md-4\" ${required ? 'required' : ''} id=\"UPAddress${id}Country\"><option class=\"option-dark-mode\" value=\"\">-- Select Country --</option>${renderCountries()}</select>"
+        "mailAddressZipLabel": "Zip ",
+        "mailAddressZipLabelRequired": "Zip <span class=\"required\">*</span>",
+        "mailAddressZipField": {
+            "data-error-validation": "Please enter a 5 digit zip code in this format: 12345.",
+            "title": "5 characters long, numeric-only value.",
+            "data-error-required": "Please enter the zip field of your mailing address."
+        },
+        "mailAddressCountry": "Country ",
+        "mailAddressCountryRequired": "Country <span class=\"required\">*</span>"
     },
     "navbar": {
         "dashboardLink": " Dashboard",
@@ -511,7 +555,9 @@
     "provider": {
         "alertWarning": "Our records show that you already have another account with a different email or phone number. Please try signing in again. Contact the Connect Support Center by emailing <a href=\"mailto:ConnectSupport@norc.org\">ConnectSupport@norc.org</a> or calling <span style=\"white-space:nowrap;overflow:hidden\">1-877-505-0253</span> if you need help accessing your account.",
         "receivedPin": "<strong>If you received a PIN as part of your study invitation, please enter it here.<br>Your PIN should be 6 characters and will include only numbers and uppercase letters.<br></strong>",
-        "enterPin": "<input style=\"margin-left:0px;\" type=\"text\" maxlength=\"6\" id=\"participantPIN\" class=\"form-control\" placeholder=\"Enter PIN\">",
+        "enterPin": {
+            "placehoder": "Enter PIN"
+        },
         "noPin": "I do not have a PIN",
         "submitText": "Submit",
         "modalCancel": "No",
@@ -542,16 +588,16 @@
         "consentProcess": "The next screens will take you through the informed consent process. They explain more about the study and what it means to take part in Connect. At the end, you can read the full informed consent form and electronic health records release form before you decide if you want to join."
     },
     "mytodolist": {
-        "withdrawnConnect": "<p/><br>You have withdrawn from Connect. We will not collect any more data from you. If you have any questions, please contact the Connect Support Center by calling 1-877-505-0253 or by emailing <a href='mailto:ConnectSupport@norc.org'>ConnectSupport@norc.org</a>.<br>",
+        "withdrawnConnect": "You have withdrawn from Connect. We will not collect any more data from you. If you have any questions, please contact the Connect Support Center by calling 1-877-505-0253 or by emailing <a href='mailto:ConnectSupport@norc.org'>ConnectSupport@norc.org</a>.",
         "deletedData": "At your request, we have deleted your Connect data. If you have any questions, please contact the Connect Support Center by calling 1-877-505-0253 or by emailing  <a href='mailto:ConnectSupport@norc.org'>ConnectSupport@norc.org</a>.",
         "newFormSign": "You have a new <a href='#forms'>form</a> to sign.",
         "completingProfile": "Thank you for completing your profile for the Connect for Cancer Prevention Study. Next, the Connect team at your health care system will check that you are eligible to be part of the study. We will contact you within a few business days.<br>In the meantime, please begin by completing your first Connect survey.",
         "checkEligibility": "The Connect team at your health care system is working to check that you are eligible to be part of the study. ",
         "thankYouCompleting": "Thank you for completing your first Connect survey! We will be in touch with next steps.",
         "firstSurvey": "In the meantime, please begin by completing your first Connect survey.",
-        "confirmedEligibility": "Great news! We have confirmed that you are eligible for the Connect for Cancer Prevention Study. You are now an official Connect participant.<br>",
+        "confirmedEligibility": "Great news! We have confirmed that you are eligible for the Connect for Cancer Prevention Study. You are now an official Connect participant.",
         "completeFirstSurvey": "The next step is to complete your first Connect survey.",
-        "thankYouBeingPart": "<br>Thank you for being a part of Connect and for your commitment to help us learn more about how to prevent cancer.<br>",
+        "thankYouBeingPart": "Thank you for being a part of Connect and for your commitment to help us learn more about how to prevent cancer.",
         "notEligibleMessage": "Based on our records you are not eligible for the Connect for Cancer Prevention Study. Thank you for your interest. Any information that you have already provided will remain private. We will not use any information you shared for our research.<br>If you think this is a mistake or if you have any questions, please contact the <a href=\"https://norcfedramp.servicenowservices.com/participant\" target=\"_blank\">Connect Support Center</a>.",
         "alreadyHaveAccount": "Our records show that you already have another account with a different email or phone number. Please try signing in again. Contact the Connect Support Center by emailing <a href = \"mailto:ConnectSupport@norc.org\">ConnectSupport@norc.org</a> or calling <span style=\"white-space:nowrap;overflow:hidden\">1-877-505-0253</span> if you need help accessing your account.",
         "bodyConnectSupport": "the Connect Support Center by emailing <a href = \"mailto:ConnectSupport@norc.org\">ConnectSupport@norc.org</a> or calling 1-877-505-0253",
@@ -562,7 +608,9 @@
         "bodyKPHawaii": "KP Hawaii by emailing <a href = \"mailto:Connect-Study-KPHI@kp.org\">Connect-Study-KPHI@kp.org</a> or calling 833-417-0846",
         "bodyKPNorthwest": "KP Northwest by emailing <a href = \"mailto:Connect-Study-KPNW@kp.org\">Connect-Study-KPNW@kp.org</a> or calling 1-866-554-6039 (toll-free) or 503-528-3985",
         "bodySanfordHealth": "Sanford Health by emailing <a href = \"mailto:ConnectStudy@sanfordhealth.org\">ConnectStudy@sanfordhealth.org</a> or calling 605-312-6100",
-        "tryingContact": "Our study team has been trying to contact you about your eligibility for the Connect for Cancer Prevention Study. We need more information from you to check that you can be part of Connect. Please contact ${body} to confirm that you can take part in the study.",
+        "bodyBaylorScottAndWhiteHealth": "Baylor Scott & White Health by emailing <a href = \"mailto:ConnectStudy@bswhealth.org\">ConnectStudy@bswhealth.org</a> or calling 214-865-2427",
+        "tryingContact": "Our study team has been trying to contact you about your eligibility for the Connect for Cancer Prevention Study. We need more information from you to check that you can be part of Connect. Please contact ",
+        "tryingContactEnd": " to confirm that you can take part in the study.",
         "toDoButton": "To Do",
         "completed": "Completed",
         "mainHeaderFirstSurvey": "First Survey",
@@ -1044,10 +1092,15 @@
         "confirmSSN": "Please confirm your Social Security Number:",
         "lastDigitsSSN": "If you prefer to provide only the last <b>4 digits</b> of your Social Security Number, please enter the last <b>4 digits</b> here:",
         "confirmLastDigitsSSN": "Please confirm the last <b>4 digits</b> of your Social Security Number:",
+        "instructions": "To provide all <b>9 digits</b> of your Social Security Number, please enter them here. If you prefer to provide only the last 4 digits or no digits, select the ‘Next’ button.",
         "endMessage": "You have answered all of the questions in this survey. To submit your answers, select the “Submit Survey” button.",
         "submitSurveyText": "Submit Survey",
         "thankYouMessage": "Thank you. This survey will remain available on your MyConnect dashboard in case you decide to provide this information in the future. To exit this survey, select the “Close Survey” button.",
-        "closeSurveyText": "Close Survey"
+        "closeSurveyText": "Close Survey",
+        "responseRequested": "Response Requested",
+        "ssnSoftModalBodyText": "There is 1 unanswered question on this page. Would you like to continue?",
+        "ssnSoftModalContinueButton": "Continue Without Answering",
+        "ssnSoftModalCloseButton":"Answer the Question"
     },
     "support": {
         "title": "My Connect - Support",
@@ -1159,9 +1212,20 @@
         "yearDiagnosed": "What year were you diagnosed?",
         "typeOfCancer": "What type of cancer did you have?",
         "tellAboutDiagnosis": "Please tell us anything you would like us to know about your cancer diagnosis",
-        "navButtons": "<button type=\"button\" title=\"Close\" class=\"btn btn-dark\" data-dismiss=\"modal\">Go Back</button><button type=\"button\" id=\"confirmReview\" title=\"Confirm details\" class=\"btn btn-primary consentNextButton\" data-dismiss=\"modal\">Submit</button>",
-        "birthValidator": "Your birth year must contain four digits in the YYYY format.",
-        "enterTypeCancer": "Please enter type of cancer",
+        "navButtonsClose": {
+            "title": "Close", 
+            "innerText": "Go Back"
+        },
+        "navButtonsConfirm": {
+            "title": "Confirm details",
+            "innerText": "Submit"
+        },
+        "birthField": {
+            "data-error-validation": "Your birth year must contain four digits in the YYYY format."
+        },
+        "enterTypeCancer": {
+            "placeholder": "Please enter type of cancer"
+        },
         "today": "Today",
         "old": "Old",
         "noNotifications": "No notifications found!"
