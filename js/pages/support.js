@@ -1,18 +1,22 @@
-import { getMyData, hasUserData, translateHTML, translateText } from "../shared.js";
+import { getMyData, hasUserData, translateHTML, translateText, appState } from "../shared.js";
+import fieldToConceptIdMapping from "../fieldToConceptIdMapping.js";
 
 export const renderSupportPage = async () => {
     document.title = translateText('support.title');
     const myData = await getMyData();
     let site = 0;
-    let link="https://norcfedramp.servicenowservices.com/recruit"
-    let phone = "1-877-505-0253"
+    let selectedLanguage = appState.getState().language || fieldToConceptIdMapping.language.en;
+    let link = "https://norcfedramp.servicenowservices.com/recruit";
+    let phone = 'defaultPhone';
+    let email = 'defaultEmail';
+    
     if(hasUserData(myData)){
         site = myData["data"]['827220437']
         let data = myData.data;
         
         if(!(data['827220437'] && data['142654897'] && data['919254129'] !== 353358909)){
             link="https://norcfedramp.servicenowservices.com/participant"
-            phone = "1-866-462-6621"
+            phone = 'signedInPhone';
         }
     }
     
@@ -122,7 +126,7 @@ export const renderSupportPage = async () => {
                 <br>
                 <br>
                 <p>
-                    You can also call ${phone} or email <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a>
+                    <span data-i18n="support.alsoCall">You can also call </span><span data-i18n="support.${phone}"></span><span data-i18n="support.alsoEmail"> or email </span><span data-i18n="support.${email}"></span>
                 </p>
 
             </div>
@@ -140,7 +144,7 @@ export const renderSupportPage = async () => {
                         <br>
                         <br>
                         <p>
-                        You can also call ${phone} or email <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a>
+                        <span data-i18n="support.alsoCall">You can also call </span>$<span data-i18n="support.${phone}"></span><span data-i18n="support.alsoEmail"> or email </span><span data-i18n="support.${email}"></span>
                         </p>
                     </div>
                 </div>
