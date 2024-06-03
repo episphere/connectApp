@@ -22,8 +22,8 @@ export const renderSamplesPage = async () => {
                 <div class="col-md-8">
                     <div class="row" style="width:100%">
                         <div class="consentHeadersFont" style="color:#606060;width:100%">
-                            <div>
-                            <span data-i18n="samples.donatingSamples">Donating Your Samples at </span>${site.name}
+                            <div data-i18n="samples.donatingSamples">
+                                Donating Your Samples at ${site.name}
                             </div>
                         </div>
                         <div class="messagesBodyFont" style="width:100%">
@@ -608,25 +608,25 @@ const bswh = {
     whatHappensDuring: '<span data-i18n="samples.bswh.whatHappensDuring">Donating your research blood and urine samples is just like providing a clinical sample requested by your health care provider. When you arrive at the clinic, you may go directly to the lab, get a ticket with a number, and follow the instructions. When it is your turn, the lab staff will call your number and collect your samples similarly to a clinical sample collection for medical care. Tell the lab techs that you are donating samples for NCI Connect. The techs will be able to see your blood draw and urine collection orders and instructions for Connect in their system.</span>',
     whatHappensAfter: '<span data-i18n="samples.bswh.whatHappensAfter">Within a day of your blood and urine collection, we will send you an email asking you to complete a short survey on MyConnect. The survey will ask about recent actions, such as:<br></br><ul  style="list-style-type:circle;"><li>The last time you ate or drank before your lab visit, and the times you went to sleep the night before your visit and woke up on the day of your visit.</li><li>If you are menstruating, the start date of your most recent menstrual period in the last 12 months.</li></ul><span class="site-info-bold-italic">When you receive our email, it is important that you complete the survey as soon as possible.</span></span>',
     howToDonateMouthwash: '<span data-i18n="samples.bswh.howToDonateMouthwash">We will send you an email as soon as your mouthwash home collection kit is on its way.  Once you receive the kit, you can collect your mouthwash sample in the comfort of your own home. The kit we mail you will include instructions and all of the items you need to collect your sample, including a return shipping box with a pre-paid shipping label to return your sample to us.<br></br>When you collect your mouthwash sample, we will ask you to complete a short survey on MyConnect. <span class="site-info-bold-italic">It is important to complete this survey on the same day that you collect your mouthwash sample.</span></span>',
-    support: '<span data-i18n="samples.bswh.support">Call 1-877-505-0253 (6:00 a.m-8:00 p.m. PT on weekdays and 7:00 a.m.-4:00 p.m. PT on weekends)</span>',
+    support: '<p><span data-i18n="samples.bswh.support">Call 1-877-505-0253 (6:00 a.m-8:00 p.m. PT on weekdays and 7:00 a.m.-4:00 p.m. PT on weekends)</span></p>',
     locationNotes: `<span data-i18n="samples.bswh.locationNotes"><div style="margin-bottom:2rem;"> 
                     <div>
-                        <span class="site-info-bold">Baylor Scott & White Health and Wellness Center- Dallas<span>
-                        <p>4500 Spring Ave,<br>
+                        <span class="site-info-bold">Baylor Scott & White Health and Wellness Center- Dallas</span>
+                        <p>4500 Spring Ave<br>
                             Dallas, TX 75210<br>
                             Parking Instructions: The Health and Wellness Center offers free surface level parking.
                         </p>
                     </div>
                     <div>
-                        <span class="site-info-bold">Baylor Scott & White Community Care (BCC) - Fort Worth*<span>
-                        <p>1307 8th Ave, Ste 305<br>
+                        <span class="site-info-bold">Baylor Scott & White Community Care (BCC) - Fort Worth*</span>
+                        <p >1307 8th Ave, Ste 305<br>
                             Fort Worth, TX 76104<br>
                             Parking Instructions: The Health and Wellness Center offers free surface level parking.<br>
                             <span style="font-size:1rem" class="site-info-underline-italic">*Note: Only patients of Baylor Scott & White Health Community Care - Fort Worth clinic can schedule an appointment at this location.</span>
                         </p>
                     </div>
                     <div>
-                        <span class="site-info-bold">Baylor Scott & White Health and Wellness Center- Dallas<span>
+                        <span class="site-info-bold">Baylor Scott & White All Saints Hospital- Fort Worth</span>
                         <p>1400 8th Avenue Fort Worth, TX 76104<br>
                         6th Floor, C Building<br>
                         Parking Instructions: Use the patient parking structure by the hospital.
@@ -637,8 +637,9 @@ const bswh = {
     prepareInstructions: '<span data-i18n="samples.bswh.prepareInstructions"><p>On the day of your appointment, you do not need to fast. Drink plenty of water to keep hydrated, but <span class="site-info-bold">stop drinking water one hour before your appointment.</span></p> <p><span class="site-info-bold">One hour before your appointment:</span> Please <span class="site-info-bold">do not</span> eat, drink any liquids (including water), chew gum, smoke, vape, or chew any products (including tobacco), rinse your mouth, or brush your teeth.</p> <p class="site-info-bold">Things to bring and remember</p><ul><li>Please remember to bring a valid photo ID that is not expired (driver’s license, passport, school photo ID, or other photo ID)</li><li>Make sure you know your login information for MyConnect</li><li>We will ask you to complete a short survey when you donate your samples. It may be helpful to have this information on hand:</li><ul><li>The last time you ate or drank before your appointment, and the times you went to sleep the night before your appointment and woke up on the day of your appointment.</li><li>If you are menstruating, the start date of your most recent menstrual period in the last 12 months.</li></ul></li></ul></span>',
     whatHappens: `<span data-i18n="samples.bswh.whatHappens"><p>The research team will check you in for your appointment and then collect your samples. At the end of your visit, the research team will check you out of your appointment.</p>
                   <p>We will draw a blood sample, collect a urine sample, and collect a saliva sample by asking you to swish with mouthwash.</p>
-                  <p>We will also ask you to complete a short survey on the MyConnect app using your mobile phone. You will need your MyConnect app login information to complete the survey. If you do not have a mobile phone, we will provide you with a tablet to complete your survey. We strongly encourage you to complete your survey at your appointment. If you choose to complete it after you leave your appointment, it is important to do so as soon as possible.</p>
-                  <div class="consentHeadersFont" style="color:#606060;width:100%;padding-top:1rem;">When Will I Receive My $25 Payment?</div><br>You will receive your $25 e-gift card  after you donate a blood sample and completeall four sections of your first Connect survey.<br><br>
+                  <p>We will also ask you to complete a short survey on MyConnect using your mobile phone. You will need your MyConnect login information to complete the survey. If you do not have a mobile phone, we will provide you with a tablet to complete your survey. We strongly encourage you to complete your survey at your appointment. If you choose to complete it after you leave your appointment, it is important to do so as soon as possible.</p>
+                  <div class="consentHeadersFont" style="color:#606060;width:100%;padding-top:1rem;">When Will I Receive My $25 Payment?</div><br>
+                  You will receive your $25 payment after you donate a blood sample and complete all four sections of your first Connect survey.<br><br>
                   You can find the four sections of your first survey on your MyConnect Dashboard. These sections are:<br><br>
                   <ol><li class="site-list-item-spacing">Background and Overall Health</li><li class="site-list-item-spacing">Medications, Reproductive Health, Exercise, and Sleep</li><li class="site-list-item-spacing">Smoking, Alcohol, and Sun Exposure</li><li class="site-list-item-spacing">Where you Live and Work</li>
                   </span>`,
