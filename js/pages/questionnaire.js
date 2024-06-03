@@ -132,6 +132,7 @@ async function startModule(data, modules, moduleId, questDiv) {
     let path;
     let sha;
     let key;
+    let lang;
 
     try {
         inputData = setInputData(data, modules); 
@@ -152,7 +153,7 @@ async function startModule(data, modules, moduleId, questDiv) {
         // Module has not been started.
         if (data[fieldMapping[moduleId].statusFlag] === fieldMapping.moduleStatus.notStarted) {
             
-            path = getMarkdownPath(appState.getState().language, moduleConfig[key]);
+            ({ path, lang } = getMarkdownPath(appState.getState().language, moduleConfig[key]));
             
             try {
                 sha = await fetchDataWithRetry(() => getModuleSHA(path, data['Connect_ID'], moduleId));
@@ -170,7 +171,7 @@ async function startModule(data, modules, moduleId, questDiv) {
         // Module has been started and has a SHA value.
         } else if (modules[fieldMapping[moduleId].conceptId]?.['sha']) {
 
-            path = getMarkdownPath(modules[fieldMapping[moduleId].conceptId][fieldMapping.surveyLanguage], moduleConfig[key]);
+            ({ path, lang } = getMarkdownPath(modules[fieldMapping[moduleId].conceptId][fieldMapping.surveyLanguage], moduleConfig[key]));
 
             sha = modules[fieldMapping[moduleId].conceptId]['sha'];
             url += sha + "/" + path;
@@ -179,7 +180,7 @@ async function startModule(data, modules, moduleId, questDiv) {
         } else {
             const startSurveyTimestamp = data[fieldMapping[moduleId].startTs] || '';
 
-            path = getMarkdownPath(modules[fieldMapping[moduleId].conceptId][fieldMapping.surveyLanguage], moduleConfig[key]);
+            ({ path, lang } = getMarkdownPath(modules[fieldMapping[moduleId].conceptId][fieldMapping.surveyLanguage], moduleConfig[key]));
 
             // Get the SHA from the GitHub API. The correct SHA is the SHA for the active survey commit when the participant started the survey.
             let surveyVersion;
@@ -208,7 +209,8 @@ async function startModule(data, modules, moduleId, questDiv) {
             retrieve: function(){return getMySurveys([fieldMapping[moduleId].conceptId], true)},
             soccer: externalListeners,
             updateTree: storeResponseTree,
-            treeJSON: tJSON
+            treeJSON: tJSON,
+            lang: lang
         }
 
         window.scrollTo(0, 0);
@@ -609,17 +611,20 @@ const displayError = () => {
 const getMarkdownPath = (value, config) => {
     
     let path;
+    let lang;
     
     switch (value) {
         case fieldMapping.language.en:
             path = config.path.en;
+            lang = 'en';
             break;
         case fieldMapping.language.es:
             path = config.path.es;
+            lang = 'es';
             break;
         default:
             throw new Error('Error: Language not defined in App State.');
     }
 
-    return path;
+    return { path, lang };
 }
