@@ -1,4 +1,4 @@
-import { getModuleSHA, getMyData, getShaFromGitHubCommitData, hasUserData, getMySurveys, logDDRumError, urls, questionnaireModules, storeResponseQuest, storeResponseTree, showAnimation, hideAnimation, addEventReturnToDashboard, fetchDataWithRetry, updateStartSurveyParticipantData, translateHTML, translateText } from "../shared.js";
+import { getModuleSHA, getMyData, getShaFromGitHubCommitData, hasUserData, getMySurveys, logDDRumError, urls, questionnaireModules, storeResponseQuest, storeResponseTree, showAnimation, hideAnimation, addEventReturnToDashboard, fetchDataWithRetry, updateStartSurveyParticipantData, translateHTML, translateText, appState } from "../shared.js";
 import fieldMapping from '../fieldToConceptIdMapping.js'; 
 import { socialSecurityTemplate } from "./ssn.js";
 import { SOCcer as SOCcerProd } from "./../../prod/config.js";
@@ -132,16 +132,15 @@ async function startModule(data, modules, moduleId, questDiv) {
     let path;
     let sha;
     let key;
+    let lang;
 
     try {
         inputData = setInputData(data, modules); 
         moduleConfig = questionnaireModules();
 
         key = Object.keys(moduleConfig).find(key => moduleConfig[key].moduleId === moduleId);
-        
-        if (key) {
-            path = moduleConfig[key].path;
-        } else {
+
+        if (!key) {
             throw new Error('Error: No path found for module (null key).');
         }
 
@@ -153,6 +152,9 @@ async function startModule(data, modules, moduleId, questDiv) {
 
         // Module has not been started.
         if (data[fieldMapping[moduleId].statusFlag] === fieldMapping.moduleStatus.notStarted) {
+            
+            ({ path, lang } = getMarkdownPath(appState.getState().language, moduleConfig[key]));
+            
             try {
                 sha = await fetchDataWithRetry(() => getModuleSHA(path, data['Connect_ID'], moduleId));
                 url += sha + "/" + path;
@@ -168,12 +170,17 @@ async function startModule(data, modules, moduleId, questDiv) {
 
         // Module has been started and has a SHA value.
         } else if (modules[fieldMapping[moduleId].conceptId]?.['sha']) {
+
+            ({ path, lang } = getMarkdownPath(modules[fieldMapping[moduleId].conceptId][fieldMapping.surveyLanguage], moduleConfig[key]));
+
             sha = modules[fieldMapping[moduleId].conceptId]['sha'];
             url += sha + "/" + path;
 
         // Module has been started but SHA is not found. 'Fix' the case where the SHA is not found for the module.
         } else {
             const startSurveyTimestamp = data[fieldMapping[moduleId].startTs] || '';
+
+            ({ path, lang } = getMarkdownPath(modules[fieldMapping[moduleId].conceptId][fieldMapping.surveyLanguage], moduleConfig[key]));
 
             // Get the SHA from the GitHub API. The correct SHA is the SHA for the active survey commit when the participant started the survey.
             let surveyVersion;
@@ -199,10 +206,11 @@ async function startModule(data, modules, moduleId, questDiv) {
             activate: true,
             delayedParameterArray: fieldMapping.delayedParameterArray, // Delayed parameters (external questions that require extra processing time)
             store: storeResponseQuest,
-            retrieve: function(){return getMySurveys([fieldMapping[moduleId].conceptId])},
+            retrieve: function(){return getMySurveys([fieldMapping[moduleId].conceptId], true)},
             soccer: externalListeners,
             updateTree: storeResponseTree,
-            treeJSON: tJSON
+            treeJSON: tJSON,
+            lang: lang
         }
 
         window.scrollTo(0, 0);
@@ -599,4 +607,25 @@ const displayError = () => {
     window.scrollTo(0, 0);
 
     hideAnimation();
+}
+
+const getMarkdownPath = (value, config) => {
+    
+    let path;
+    let lang;
+    
+    switch (value) {
+        case fieldMapping.language.en:
+            path = config.path.en;
+            lang = 'en';
+            break;
+        case fieldMapping.language.es:
+            path = config.path.es;
+            lang = 'es';
+            break;
+        default:
+            throw new Error('Error: Language not defined in App State.');
+    }
+
+    return { path, lang };
 }

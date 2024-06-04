@@ -73,6 +73,8 @@ export default
         "es": 773342525
     },
 
+    surveyLanguage: 784119588,
+
     "heardAboutStudyForm" : 142654897,
 
     "heardAboutStudyCheckBoxes":{

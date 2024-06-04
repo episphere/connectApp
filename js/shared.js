@@ -300,7 +300,7 @@ export const successResponse = (response) => {
     return response.code === 200
 }
 
-export const getMySurveys = async (data) => {
+export const getMySurveys = async (data, filter = false) => {
     
     const idToken = await getIdToken();
     const response = await fetch(`${api}?api=getUserSurveys`, {
@@ -330,7 +330,13 @@ export const getMySurveys = async (data) => {
                 if(surveyData.data[survey][versionNumber]) {
                     delete surveyData.data[survey][versionNumber];
                 }
-            })
+            });
+
+            if (filter) {
+                if (surveyData.data[survey][fieldMapping.surveyLanguage]) {
+                    delete surveyData.data[survey][fieldMapping.surveyLanguage];
+                }
+            }
         })
     }
 
@@ -1034,39 +1040,91 @@ export const questionnaireModules = () => {
         }
     }
 
-    if (location.host === urls.dev || location.host === 'localhost:5000') {
-        return {
-            'Background and Overall Health': {path: 'module1Stage.txt', moduleId:"Module1", enabled:true},
-            'Medications, Reproductive Health, Exercise, and Sleep': {path: 'module2Stage.txt', moduleId:"Module2", enabled:false},
-            'Smoking, Alcohol, and Sun Exposure': {path: 'module3Stage.txt', moduleId:"Module3", enabled:false},
-            'Where You Live and Work': {path: 'module4Stage.txt', moduleId:"Module4", enabled:false},
-            'Enter SSN': {moduleId:"ModuleSsn", enabled:false},
-            'Covid-19': {path: 'moduleCOVID19Stage.txt', moduleId:"ModuleCovid19", enabled:false},
-            'Biospecimen Survey': {path: 'moduleBiospecimenStage.txt', moduleId:"Biospecimen", enabled:false},
-            'Clinical Biospecimen Survey': {path: 'moduleClinicalBloodUrineStage.txt', moduleId:"ClinicalBiospecimen", enabled:false},
-            'Menstrual Cycle': {path: 'moduleMenstrualStage.txt', moduleId:"MenstrualCycle", enabled:false},
-            'Mouthwash': {path: 'moduleMouthwash.txt', moduleId:"Mouthwash", enabled:false},
-            'PROMIS': {path: 'moduleQoL.txt', moduleId:"PROMIS", enabled:false},
-            'Spanish Covid-19': {path: 'moduleCOVID19StageSpanish.txt', moduleId:"ModuleCovid19Spanish", enabled:true},
-            'Spanish Biospecimen Survey': {path: 'moduleBiospecimenStageSpanish.txt', moduleId:"BiospecimenSpanish", enabled:true},
-            'Spanish Clinical Biospecimen Survey': {path: 'moduleClinicalBloodUrineStageSpanish.txt', moduleId:"ClinicalBiospecimenSpanish", enabled:true},
-            'Spanish Menstrual Cycle': {path: 'moduleMenstrualStageSpanish.txt', moduleId:"MenstrualCycleSpanish", enabled:true},
-            'Spanish Mouthwash': {path: 'moduleMouthwashSpanish.txt', moduleId:"MouthwashSpanish", enabled:true}
-        };
-    }
-
     return {
-        'Background and Overall Health': {path: 'module1Stage.txt', moduleId:"Module1", enabled:true},
-        'Medications, Reproductive Health, Exercise, and Sleep': {path: 'module2Stage.txt', moduleId:"Module2", enabled:false},
-        'Smoking, Alcohol, and Sun Exposure': {path: 'module3Stage.txt', moduleId:"Module3", enabled:false},
-        'Where You Live and Work': {path: 'module4Stage.txt', moduleId:"Module4", enabled:false},
-        'Enter SSN': {moduleId:"ModuleSsn", enabled:false},
-        'Covid-19': {path: 'moduleCOVID19Stage.txt', moduleId:"ModuleCovid19", enabled:false},
-        'Biospecimen Survey': {path: 'moduleBiospecimenStage.txt', moduleId:"Biospecimen", enabled:false},
-        'Clinical Biospecimen Survey': {path: 'moduleClinicalBloodUrineStage.txt', moduleId:"ClinicalBiospecimen", enabled:false},
-        'Menstrual Cycle': {path: 'moduleMenstrualStage.txt', moduleId:"MenstrualCycle", enabled:false},
-        'Mouthwash': {path: 'moduleMouthwash.txt', moduleId:"Mouthwash", enabled:false},
-        'PROMIS': {path: 'moduleQoL.txt', moduleId:"PROMIS", enabled:false}
+        'Background and Overall Health': {
+            path: {
+                en: 'module1Stage.txt',
+                es: 'module1StageSpanish.txt'
+            }, 
+            moduleId:"Module1", 
+            enabled:true
+        },
+        'Medications, Reproductive Health, Exercise, and Sleep': {
+            path: {
+                en: 'module2Stage.txt',
+                es: 'module2StageSpanish.txt'
+            }, 
+            moduleId:"Module2", 
+            enabled:false
+        },
+        'Smoking, Alcohol, and Sun Exposure': {
+            path: {
+                en: 'module3Stage.txt',
+                es: 'module3StageSpanish.txt'
+            }, 
+            moduleId:"Module3", 
+            enabled:false
+        },
+        'Where You Live and Work': {
+            path: {
+                en: 'module4Stage.txt',
+                es: 'module4StageSpanish.txt'
+            }, 
+            moduleId:"Module4", 
+            enabled:false
+        },
+        'Enter SSN': {
+            moduleId:"ModuleSsn", 
+            enabled:false
+        },
+        'Covid-19': {
+            path: {
+                en: 'moduleCOVID19Stage.txt',
+                es: 'moduleCOVID19StageSpanish.txt'
+            }, 
+            moduleId:"ModuleCovid19", 
+            enabled:false
+        },
+        'Biospecimen Survey': {
+            path: {
+                en: 'moduleBiospecimenStage.txt',
+                es: 'moduleBiospecimenStageSpanish.txt'
+            }, 
+            moduleId:"Biospecimen", 
+            enabled:false
+        },
+        'Clinical Biospecimen Survey': {
+            path: {
+                en: 'moduleClinicalBloodUrineStage.txt',
+                es: 'moduleClinicalBloodUrineStageSpanish.txt'
+            }, 
+            moduleId:"ClinicalBiospecimen", 
+            enabled:false
+        },
+        'Menstrual Cycle': {
+            path: {
+                en: 'moduleMenstrualStage.txt',
+                es: 'moduleMenstrualStageSpanish.txt'
+            }, 
+            moduleId:"MenstrualCycle", 
+            enabled:false
+        },
+        'Mouthwash': {
+            path: {
+                en: 'moduleMouthwash.txt',
+                es: 'moduleMouthwashSpanish.txt'
+            }, 
+            moduleId:"Mouthwash", 
+            enabled:false
+        },
+        'PROMIS': {
+            path: {
+                en: 'moduleQoL.txt',
+                es: 'moduleQoLSpanish.txt'
+            }, 
+            moduleId:"PROMIS", 
+            enabled:false
+        }
     };
 }
 
@@ -1668,6 +1726,7 @@ export const updateStartSurveyParticipantData = async (sha, url, moduleId, repai
 
         questData[fieldMapping[moduleId].conceptId + ".sha"] = sha;
         questData[fieldMapping[moduleId].conceptId + "." + fieldMapping[moduleId].version] = version;
+        questData[fieldMapping[moduleId].conceptId + "." + fieldMapping.surveyLanguage] = appState.getState().language;
 
         // Do not update startTs if the sha is being repaired. Retain the original startTs, which coincides with the fetched survey.
         if (!repairShaValue) formData[fieldMapping[moduleId].startTs] = new Date().toISOString();

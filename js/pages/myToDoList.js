@@ -738,37 +738,7 @@ const setModuleAttributes = (data, modules, collections) => {
     modules['PROMIS'].header = 'Quality of Life Survey';
     modules['PROMIS'].description = 'mytodolist.mainBodyPROMISDescription';
     modules['PROMIS'].estimatedTime = 'mytodolist.10_15minutes';
-    if (modules['Spanish Covid-19']) {
-        modules['Spanish Covid-19'].header = 'SPANISH COVID-19 Survey';
-        modules['Spanish Covid-19'].description = 'mytodolist.mainBodyCovid19Description';
-        modules['Spanish Covid-19'].hasIcon = false;
-        modules['Spanish Covid-19'].noButton = false;
-        modules['Spanish Covid-19'].estimatedTime = 'mytodolist.10minutes';
-    }
     
-    if (modules['Spanish Biospecimen Survey']) {
-        modules['Spanish Biospecimen Survey'].header = 'SPANISH Baseline Blood, Urine, and Mouthwash Sample Survey';
-        modules['Spanish Biospecimen Survey'].description = 'mytodolist.mainBodyBiospecimenDescription';
-        modules['Spanish Biospecimen Survey'].estimatedTime = 'mytodolist.5minutes';
-    }
-    
-    if (modules['Spanish Clinical Biospecimen Survey']) {
-        modules['Spanish Clinical Biospecimen Survey'].header = 'SPANISH Clinical Baseline Blood and Urine Sample Survey';
-        modules['Spanish Clinical Biospecimen Survey'].description = 'mytodolist.mainBodyClinicalBiospecimenDescription';
-        modules['Spanish Clinical Biospecimen Survey'].estimatedTime = 'mytodolist.5minutes';
-    }
-    
-    if (modules['Spanish Menstrual Cycle']) {
-        modules['Spanish Menstrual Cycle'].header = 'SPANISH Menstrual Cycle Survey';
-        modules['Spanish Menstrual Cycle'].description = 'mytodolist.mainBodyMenstrualDescription';
-        modules['Spanish Menstrual Cycle'].estimatedTime = 'mytodolist.5minutes';
-    }
-    
-    if (modules['Spanish Mouthwash']) {
-        modules['Spanish Mouthwash'].header = 'SPANISH At-Home Mouthwash Sample Survey';
-        modules['Spanish Mouthwash'].description = 'mytodolist.mainBodyMouthwashDescription';
-        modules['Spanish Mouthwash'].estimatedTime = 'mytodolist.5minutes';
-    }
     if(data['331584571']?.['266600170']?.['840048338']) {
         modules['Biospecimen Survey'].enabled = true;
         modules['Covid-19'].enabled = true;
