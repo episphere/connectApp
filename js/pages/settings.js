@@ -121,7 +121,7 @@ export const renderSettingsPage = async () => {
                     ${headerMessage}
                     <br>
                     </p>
-                    <p class="consentHeadersFont" id="myProfileTextContainer" style="color:#606060; display:none;">
+                    <p class="consentHeadersFont" id="myProfileTextContainer" style="color:#606060; display:none;" data-i18n="settings.myProfile">
                         ${translateText('settings.myProfile')}
                     </p>
                 
@@ -894,7 +894,7 @@ export const renderUserNameData = () => {
                   <b>
                   <div id="profileSuffix" ${optVars.suffix ? 'data-i18n="settingsHelpers.suffix'+suffixToTextMap.get(parseInt(optVars.suffix, 10)).replace('.', '')+'"' : ''}">
                       ${optVars.suffix ? translateText('settingsHelpers.suffix'+suffixToTextMap.get(parseInt(optVars.suffix, 10)).replace('.', '')) : ''}
-                    </div>
+                  </div>
                   </b>
               </span>
           </div>

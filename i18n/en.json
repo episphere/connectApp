@@ -117,18 +117,37 @@
             "data-error-required": "Please select your birth day."
         },
         "yearListLabel": "Year <span class=\"required\">*</span>",
-        "yearListRequired": "Please select your birth year.",
-        "yearListValidation": "The year you entered is outside of our expected range. Please check your entry.",
-        "yearListTitle": "Birth year, must be in 1900s",
-        "yearListPlaceholder": "Enter birth year",
+        "yearListField": {
+            "data-error-required": "Please select your birth year.",
+            "data-error-validation": "The year you entered is outside of our expected range. Please check your entry.",
+            "title": "Birth year, must be in 1900s",
+            "placeholder": "Enter birth year"
+        },
         "contactSubheader": "Contact Information",
-        "preferredEmail": "<label class=\"col-form-label\">Preferred Email <span class=\"required\">*</span></label><input style=\"margin-left:0px; max-width:382px;\" type=\"text\" class=\"form-control\" id=\"UPEmail\" title=\"Please enter an email address in this format: name@example.com.\" Placeholder=\"abc@mail.com\">",
-        "confirmPreferredEmail": "<label class=\"col-form-label\">Confirm Preferred Email <span class=\"required\">*</span></label><input style=\"margin-left:0px; max-width:382px;\" type=\"text\" class=\"form-control\" id=\"confirmUPEmail\" title=\"Please enter an email address in this format: name@example.com.\" Placeholder=\"Retype preferred email\">",
-        "additionalEmail": "<label class=\"col-form-label\">Additional Email</label><input style=\"margin-left:0px; max-width:382px;\" type=\"text\" class=\"form-control col-md-4\" id=\"UPEmail2\" title=\"Please enter an email address in this format: name@example.com.\" Placeholder=\"Enter additional email\">",
-        "addMoreEmail": "<button type=\"button\" class=\"btn btn-light\" id=\"addMoreEmail\" title=\"Add more email\">Add more <i class=\"fas fa-plus\"></i></button>",
+        "preferredEmail": "Preferred Email <span class=\"required\">*</span>",
+        "preferredEmailField": {
+            "title": "Please enter an email address in this format: name@example.com.",
+            "placeholder": "abc@mail.com"
+        },
+        "confirmPreferredEmail": "Confirm Preferred Email <span class=\"required\">*</span>",
+        "confirmPreferredEmailField": {
+            "title": "Please enter an email address in this format: name@example.com.",
+            "placeholder": "Retype preferred email"
+        },
+        "additionalEmail": "Additional Email",
+        "additionalEmailField": {
+            "title": "Please enter an email address in this format: name@example.com.",
+            "placeholder": "Enter additional email"
+        },
+        "addMoreEmail": {
+            "title": "Add more email",
+            "innerHTML": "Add more <i class=\"fas fa-plus\"></i>"
+        },
         "phoneRequired": "<b>One phone number is required.<span class=\"required\">*</span></b>",
         "mobilePhone": "Mobile phone <span class=\"required\">*</span>",
-        "onlyNumbers": "Only numbers are allowed.",
+        "onlyNumbers": {
+            "title": "Only numbers are allowed."
+        },
         "leaveVoicemail": "Can we leave a voicemail at this number?",
         "leaveVoicemailControls1": "<label><input type=\"radio\" name=\"voiceMailPermission1\" value=\"353358909\"> Yes</label><label style = \"margin-left:20px;\"><input type=\"radio\" name=\"voiceMailPermission1\" value=\"104430631\"> No</label>",
         "textNumber": "Can we text this number? <br>Text message charges may apply",
@@ -142,25 +161,50 @@
         "cancerHistorySubheader": "Cancer History",
         "invasiveCancer": "Have you ever had invasive cancer? <span class=\"required\">*</span>",
         "invasiveCancerMessage": "If you have or once had non-melanoma skin cancer (like basal cell or squamous cell carcinoma), or a condition that raises cancer risk (such as DCIS, or stage 0 breast cancer), please respond “No” to this question. These conditions are not invasive cancer, and you can still join. We are interested in learning how these conditions may affect cancer risk and health outcomes in the future.",
-        "invasiveCancerControls": "<label id=\"UPCancer1Btn\"><input type=\"radio\" name=\"cancerHistory\" id=\"UPCancer1\" value=\"353358909\"> Yes</label><label id=\"UPCancer2Btn\" style = \"margin-left:20px;\"><input type=\"radio\" name=\"cancerHistory\" id=\"UPCancer2\" value=\"104430631\"> No</label>",
         "submitText": "Submit",
-        "alternateContact": "<label>First name ${required ? '<span class=\"required\">*</span>': ''}<input type=\"text\" class=\"form-control\" ${required ? 'required' : ''} id=\"UPFirstName${id}\" placeholder=\"Enter first name\"></label><br><label>Middle initial<input type=\"text\" class=\"form-control\" id=\"UPMiddleInitial${id}\" placeholder=\"Enter middle initial\"></label><br><label>Last name ${required ? '<span class=\"required\">*</span>': ''}<input type=\"text\" class=\"form-control\" ${required ? 'required' : ''} id=\"UPLastName${id}\" placeholder=\"Enter last name\"></label><br><label>Phone number ${required ? '<span class=\"required\">*</span>': ''}<input type=\"text\" class=\"form-control\" id=\"UPPhoneNumber${id}\" ${required ? 'required' : ''} data-val-pattern=\"[1-9]{1}[0-9]{9}\" size=\"10\" maxlength=\"10\" Placeholder=\"Enter phone number\"></label><br>",
+        "alternateContactFirstNameLabel": "First name ",
+        "alternateContactFirstNameLabelRequired": "First name <span class=\"required\">*</span>",
+        "middleInitial": "Middle initial",
+        "middleInitialField": {
+            "placeholder": "Enter middle initial"
+        },
+        "alternateContactLastName": "Last name ",
+        "alternateContactLastNameRequired": "Last name <span class=\"required\">*</span>",
+        "alternateContactPhoneNumber": "Phone number ",
+        "alternateContactPhoneNumberRequired": "Phone number <span class=\"required\">*</span>",
+        "alternateContactPhoneNumberField": {
+            "placeholder": "Enter phone number"
+        },
         "mailAddress": "Mailing Address",
-        "mailAddressLine1Label": "Line 1 (street, PO box, rural route) ${required ? '<span class=\"required\">*</span>': ''}",
-        "mailAddressLine1Required": "Please enter the first line of your mailing address.",
-        "mailAddressLine1Placeholder": "Enter street, PO box, rural route",
-        "mailAddressLine2": "<label class=\"col-form-label\">Line 2 (apartment, suite, unit, building)</label><br><input style=\"margin-left:0px; max-width:301px;\" type=text id=\"UPAddress${id}Line2\" autocomplete=\"off\" class=\"form-control\" placeholder=\"Enter apartment, suite, unit, building\" maxlength=\"70\">",
-        "mailAddressCityLabel": "City ${required ? '<span class=\"required\">*</span>': ''}",
-        "mailAddressCityRequired": "Please enter the city field of your mailing address.",
-        "mailAddressCityPlaceholder": "Enter City",
-        "mailAddressStateLabel": "State ${required ? '<span class=\"required\">*</span>': ''}",
+        "mailAddressLine1Label": "Line 1 (street, PO box, rural route)",
+        "mailAddressLine1LabelRequired": "Line 1 (street, PO box, rural route) <span class=\"required\">*</span>",
+        "mailAddressLine1Field": {
+            "data-error-required": "Please enter the first line of your mailing address.",
+            "placeholder": "Enter street, PO box, rural route"
+        },
+        "mailAddressLine2Label": "Line 2 (apartment, suite, unit, building)",
+        "mailAddressLine2Field": {
+            "placeholder": "Enter apartment, suite, unit, building"
+        },
+        "mailAddressCityLabel": "City ",
+        "mailAddressCityLabelRequired": "City <span class=\"required\">*</span>",
+        "mailAddressCityField": {
+            "data-error-required": "Please enter the city field of your mailing address.",
+            "placeholder": "Enter City"
+        },
+        "mailAddressStateLabel": "State ",
+        "mailAddressStateLabelRequired": "State <span class=\"required\">*</span>",
         "mailAddressStateRequired": "Please select the state field of your mailing address.",
         "selectOption": "-- Select --",
-        "mailAddressZipLabel": "Zip ${required ? '<span class=\"required\">*</span>': ''}",
-        "mailAddressZipValidation": "Please enter a 5 digit zip code in this format: 12345.",
-        "mailAddressZipTitle": "5 characters long, numeric-only value.",
-        "mailAddressZipRequired": "Please enter the zip field of your mailing address.",
-        "mailAddressCountry": "<label class=\"col-md-4 col-form-label\">Country ${required ? '<span class=\"required\">*</span>': ''}</label><select class=\"form-control col-md-4\" ${required ? 'required' : ''} id=\"UPAddress${id}Country\"><option class=\"option-dark-mode\" value=\"\">-- Select Country --</option>${renderCountries()}</select>"
+        "mailAddressZipLabel": "Zip ",
+        "mailAddressZipLabelRequired": "Zip <span class=\"required\">*</span>",
+        "mailAddressZipField": {
+            "data-error-validation": "Please enter a 5 digit zip code in this format: 12345.",
+            "title": "5 characters long, numeric-only value.",
+            "data-error-required": "Please enter the zip field of your mailing address."
+        },
+        "mailAddressCountry": "Country ",
+        "mailAddressCountryRequired": "Country <span class=\"required\">*</span>"
     },
     "navbar": {
         "dashboardLink": " Dashboard",
@@ -184,22 +228,38 @@
         "formsText": "Forms",
         "formsToSign": "Forms To Sign",
         "surveyIcon": "<i class=\"fab fa-wpforms d-none d-md-block\" title=\"Survey Icon\" style=\"margin-left:10px; font-size:50px;color:#c2af7f;\"></i>",
-        "destroyForm": "<span class = \"consentHeadersFont\" style=\"color:#5c2d93\"><b>Sign data destruction request form</b></span><br><span class = \"consentBodyFont2\">Your request for Connect to destroy the information and samples you donated to the study, when possible.</span><br><br><button class=\"btn btn-agreement consentNextButton\" style=\"\" id=\"signDataDestroy\">Sign Form</button>",
-        "revocateShare": "<span class = \"consentHeadersFont\" style=\"color:#5c2d93\"><b>Sign revocation of electronic health records release (HIPAA Revocation) form</b></span><br><span class = \"consentBodyFont2\">Your request for your health care provider to stop sharing your electronic health and medical records with Connect.</span><br><br><button class=\"btn btn-agreement consentNextButton\" style=\"\" id=\"signHIPAARevoke\">Sign Form</button>",
+        "destroyFormTitle": "Sign data destruction request form",
+        "destroyFormDescription": "Your request for Connect to destroy the information and samples you donated to the study, when possible.",
+        "revocateShareTitle": "Sign revocation of electronic health records release (HIPAA Revocation) form",
+        "revocateShareDescription": "Your request for your health care provider to stop sharing your electronic health and medical records with Connect.",
+        "signForm": "Sign Form",
         "signedFormsText": "Signed Forms",
-        "samplesDestruction": "<span class=\"consentHeadersFont\" style=\"color:#5c2d93\"><b>Data destruction request form</b></span><br><span class = \"consentBodyFont2\">Your request for Connect to destroy the information and samples you donated to the study, when possible       </span><br><br><span>Signed: ${new Date(myData.data['119449326']).toDateString()}</span><br><br><button class=\"btn btn-agreement consentNextButton\" style=\"\" id=\"downloadDestroy\"><i class=\"fas fa-file-download\" ></i> Download Signed Form</button>",
-        "stopSharingRecords": "<span class = \"consentHeadersFont\" style=\"color:#5c2d93\"><b>Revocation of electronic health records release (HIPAA Revocation) form</b></span><br><span class = \"consentBodyFont2\">Your request for your health care provider to stop sharing your electronic health and medical records with Connect.                                                </span><br><br><span>Signed: ${new Date(myData.data['613641698']).toDateString()}</span><br><br><button class=\"btn btn-agreement consentNextButton\" style=\"\" id=\"downloadRevoke\"><i class=\"fas fa-file-download\" ></i> Download Signed Form</button>",
-        "consentForm": "<span class = \"consentHeadersFont\" style=\"color:#5c2d93\"><b>Consent form to participate in Connect</b></span><br><span class = \"consentBodyFont2\">Your signed agreement to participate in the Connect for Cancer Prevention Study. This form has important information about your privacy and what you will be asked to do as a Connect participant</span><br><br><span>Signed: ${new Date(myData.data['454445267']).toDateString()}</span><br><br><a class=\"btn btn-agreement consentNextButton\" id=\"downloadConsent\" download=\"signed_consent.pdf\" data-file=\"signed-consent\"><i class=\"fas fa-file-download\" ></i> Download Signed Form</a>",
-        "releaseForm": "<span class = \"consentHeadersFont\" style=\"color:#5c2d93\"><b>Electronic health records release (HIPAA Authorization) form </b></span><br><span class = \"consentBodyFont2\">Your signed agreement to allow your health care provider to share your electronic health and medical records with Connect.                                                </span><br><br><span>Signed: ${new Date(myData.data['262613359']).toDateString()}</span><br><br><a class=\"btn btn-agreement consentNextButton\" id=\"downloadHIPAA\" download=\"signed_hipaa.pdf\" data-file=\"signed-HIPAA\"><i class=\"fas fa-file-download\" ></i> Download Signed Form</a>",
+        "samplesDestructionTitle": "<b>Data destruction request form</b>",
+        "samplesDestructionDescription": "Your request for Connect to destroy the information and samples you donated to the study, when possible       ",
+        "signed": "Signed: ",
+        "downloadSigned": "<i class=\"fas fa-file-download\"></i> Download Signed Form",
+        "stopSharingRecordsTitle": "<b>Revocation of electronic health records release (HIPAA Revocation) form</b>",
+        "stopSharingRecordsDescription": "Your request for your health care provider to stop sharing your electronic health and medical records with Connect.",
+        "consentFormTitle": "<b>Consent form to participate in Connect</b>",
+        "consentFormDescription": "Your signed agreement to participate in the Connect for Cancer Prevention Study. This form has important information about your privacy and what you will be asked to do as a Connect participant.",
+        "releaseFormTitle": "<b>Electronic health records release (HIPAA Authorization) form </b>",
+        "releaseFormDescription": "Your signed agreement to allow your health care provider to share your electronic health and medical records with Connect.",
         "noFormsText": "You have no forms available to view.",
         "destructionFormTitle": "Data destruction request form",
-        "downloadDestructionForm": "<a href=\"./forms/Data_Destruction_${consentVersions['DataDestruction']}.pdf\" title=\"Download Data destruction request form\" data-toggle=\"tooltip\" download=\"DataDestruction_${consentVersions['DataDestruction']}.pdf\" class=\"consentBodyFont2\"> Download an unsigned copy of the Data destruction request form&nbsp<i class=\"fas fa-file-download\"></i></a>",
+        "downloadDestructionForm": {
+            "href": "./forms/Data_Destruction_V1.0.pdf",
+            "title": "Download Data destruction request form",
+            "innerHTML": " Download an unsigned copy of the Data destruction request form&nbsp<i class=\"fas fa-file-download\"></i>"
+        },
         "revocationFormTitle": "HIPAA Revocation Form",
-        "downloadRevocationForm": "<a href=\"./forms/HIPAA_Revocation_${consentVersions['Revocation']}.pdf\" title=\"Download HIPAA Revocation form\" data-toggle=\"tooltip\" download=\"Revocation_${consentVersions['Revocation']}.pdf\" class=\"consentBodyFont2\"> Download an unsigned copy of the HIPAA Revocation form&nbsp<i class=\"fas fa-file-download\"></i></a>",
-        "firstName": "<label class=\"consent-form-label\">First name<span class=\"required\">*</span></label><input required type=\"text\" autocomplete=\"off\" id=\"CSFirstName\" class=\"form-control col-md-10\" placeholder=\"\" style=\"margin-left:0px;\"><br>",
-        "middleName": "<label class=\"consent-form-label\">Middle name<span></span></label><input type=\"text\" autocomplete=\"off\" id=\"CSMiddleName\" class=\"form-control col-md-10\" placeholder=\"\" style=\"margin-left:0px;\"><br>",
-        "lastName": "<label class=\"consent-form-label\">Last name<span class=\"required\">*</span></label><input required type=\"text\" autocomplete=\"off\" id=\"CSLastName\" class=\"form-control col-md-10\" placeholder=\"\" style=\"margin-left:0px;\"><br>",
-        "suffixList": "<label class=\"consent-form-label\">Suffix<span></span></label><select name=\"NameSuffix\" class=\"form-control col-md-10\" id=\"CSNameSuffix\" style=\"margin-left:0px;\"><option value=\"\">-Select-</option><option value=\"612166858\">Jr.</option><option value=\"255907182\">Sr.</option><option value=\"226924545\">I</option><option value=\"270793412\">II</option><option value=\"959021713\">III</option><option value=\"643664527\">2nd</option><option value=\"537892528\">3rd</option></select><br>",
+        "downloadRevocationForm": {
+            "href": "./forms/HIPAA_Revocation_V1.0.pdf",
+            "title": "Download HIPAA Revocation form",
+            "innerHTML": "Download an unsigned copy of the HIPAA Revocation form&nbsp<i class=\"fas fa-file-download\"></i>"
+        },
+        "firstName": "First name <span class=\"required\">*</span>",
+        "middleName": "Middle name",
+        "lastName": "Last name<span class=\"required\">*</span>",
         "navButtons": "<button class=\"btn btn-primary consentPrevButton\" type=\"button\" id=\"backToAgreements\" style=\"float:left;\">Back</button><div class=\"ml-auto\"><button type=\"submit\" class=\"btn btn-primary save-data consentNextButton\">Sign and Submit</button></div>"
     },
     "consent": {
@@ -511,7 +571,9 @@
     "provider": {
         "alertWarning": "Our records show that you already have another account with a different email or phone number. Please try signing in again. Contact the Connect Support Center by emailing <a href=\"mailto:ConnectSupport@norc.org\">ConnectSupport@norc.org</a> or calling <span style=\"white-space:nowrap;overflow:hidden\">1-877-505-0253</span> if you need help accessing your account.",
         "receivedPin": "<strong>If you received a PIN as part of your study invitation, please enter it here.<br>Your PIN should be 6 characters and will include only numbers and uppercase letters.<br></strong>",
-        "enterPin": "<input style=\"margin-left:0px;\" type=\"text\" maxlength=\"6\" id=\"participantPIN\" class=\"form-control\" placeholder=\"Enter PIN\">",
+        "enterPin": {
+            "placehoder": "Enter PIN"
+        },
         "noPin": "I do not have a PIN",
         "submitText": "Submit",
         "modalCancel": "No",
@@ -542,16 +604,16 @@
         "consentProcess": "The next screens will take you through the informed consent process. They explain more about the study and what it means to take part in Connect. At the end, you can read the full informed consent form and electronic health records release form before you decide if you want to join."
     },
     "mytodolist": {
-        "withdrawnConnect": "<p/><br>You have withdrawn from Connect. We will not collect any more data from you. If you have any questions, please contact the Connect Support Center by calling 1-877-505-0253 or by emailing <a href='mailto:ConnectSupport@norc.org'>ConnectSupport@norc.org</a>.<br>",
+        "withdrawnConnect": "You have withdrawn from Connect. We will not collect any more data from you. If you have any questions, please contact the Connect Support Center by calling 1-877-505-0253 or by emailing <a href='mailto:ConnectSupport@norc.org'>ConnectSupport@norc.org</a>.",
         "deletedData": "At your request, we have deleted your Connect data. If you have any questions, please contact the Connect Support Center by calling 1-877-505-0253 or by emailing  <a href='mailto:ConnectSupport@norc.org'>ConnectSupport@norc.org</a>.",
         "newFormSign": "You have a new <a href='#forms'>form</a> to sign.",
         "completingProfile": "Thank you for completing your profile for the Connect for Cancer Prevention Study. Next, the Connect team at your health care system will check that you are eligible to be part of the study. We will contact you within a few business days.<br>In the meantime, please begin by completing your first Connect survey.",
         "checkEligibility": "The Connect team at your health care system is working to check that you are eligible to be part of the study. ",
         "thankYouCompleting": "Thank you for completing your first Connect survey! We will be in touch with next steps.",
         "firstSurvey": "In the meantime, please begin by completing your first Connect survey.",
-        "confirmedEligibility": "Great news! We have confirmed that you are eligible for the Connect for Cancer Prevention Study. You are now an official Connect participant.<br>",
+        "confirmedEligibility": "Great news! We have confirmed that you are eligible for the Connect for Cancer Prevention Study. You are now an official Connect participant.",
         "completeFirstSurvey": "The next step is to complete your first Connect survey.",
-        "thankYouBeingPart": "<br>Thank you for being a part of Connect and for your commitment to help us learn more about how to prevent cancer.<br>",
+        "thankYouBeingPart": "Thank you for being a part of Connect and for your commitment to help us learn more about how to prevent cancer.",
         "notEligibleMessage": "Based on our records you are not eligible for the Connect for Cancer Prevention Study. Thank you for your interest. Any information that you have already provided will remain private. We will not use any information you shared for our research.<br>If you think this is a mistake or if you have any questions, please contact the <a href=\"https://norcfedramp.servicenowservices.com/participant\" target=\"_blank\">Connect Support Center</a>.",
         "alreadyHaveAccount": "Our records show that you already have another account with a different email or phone number. Please try signing in again. Contact the Connect Support Center by emailing <a href = \"mailto:ConnectSupport@norc.org\">ConnectSupport@norc.org</a> or calling <span style=\"white-space:nowrap;overflow:hidden\">1-877-505-0253</span> if you need help accessing your account.",
         "bodyConnectSupport": "the Connect Support Center by emailing <a href = \"mailto:ConnectSupport@norc.org\">ConnectSupport@norc.org</a> or calling 1-877-505-0253",
@@ -562,7 +624,9 @@
         "bodyKPHawaii": "KP Hawaii by emailing <a href = \"mailto:Connect-Study-KPHI@kp.org\">Connect-Study-KPHI@kp.org</a> or calling 833-417-0846",
         "bodyKPNorthwest": "KP Northwest by emailing <a href = \"mailto:Connect-Study-KPNW@kp.org\">Connect-Study-KPNW@kp.org</a> or calling 1-866-554-6039 (toll-free) or 503-528-3985",
         "bodySanfordHealth": "Sanford Health by emailing <a href = \"mailto:ConnectStudy@sanfordhealth.org\">ConnectStudy@sanfordhealth.org</a> or calling 605-312-6100",
-        "tryingContact": "Our study team has been trying to contact you about your eligibility for the Connect for Cancer Prevention Study. We need more information from you to check that you can be part of Connect. Please contact ${body} to confirm that you can take part in the study.",
+        "bodyBaylorScottAndWhiteHealth": "Baylor Scott & White Health by emailing <a href = \"mailto:ConnectStudy@bswhealth.org\">ConnectStudy@bswhealth.org</a> or calling 214-865-2427",
+        "tryingContact": "Our study team has been trying to contact you about your eligibility for the Connect for Cancer Prevention Study. We need more information from you to check that you can be part of Connect. Please contact ",
+        "tryingContactEnd": " to confirm that you can take part in the study.",
         "toDoButton": "To Do",
         "completed": "Completed",
         "mainHeaderFirstSurvey": "First Survey",
@@ -869,6 +933,16 @@
             "whatHappensAfter": "Within a day of your blood and urine collection, we will send you an email asking you to complete a short survey on MyConnect. The survey will ask about recent actions, such as:<br></br><ul  style=\"list-style-type:circle;\"><li>The last time you ate or drank before your lab visit, and the times you went to sleep the night before your visit and woke up on the day of your visit.</li><li>If you are menstruating, the start date of your most recent menstrual period in the last 12 months.</li></ul><span class=\"site-info-bold-italic\">When you receive our email, it is important that you complete the survey as soon as possible.</span>",
             "howToDonateMouthwash": "We will send you an email as soon as your mouthwash home collection kit is on its way.  Once you receive the kit, you can collect your mouthwash sample in the comfort of your own home. The kit we mail you will include instructions and all of the items you need to collect your sample, including a return shipping box with a pre-paid shipping label to return your sample to us.<br></br>When you collect your mouthwash sample, we will ask you to complete a short survey on MyConnect. <span class=\"site-info-bold-italic\">It is important to complete this survey on the same day that you collect your mouthwash sample.</span>",
             "support": "Call 1-877-505-0253 (6:00 a.m-8:00 p.m. PT on weekdays and 7:00 a.m.-4:00 p.m. PT on weekends)"
+        },
+        "bswh": {
+            "donatingSamples": "As part of Connect, we ask you to donate blood, urine, and mouthwash samples and complete a short surveys.",
+            "whenToDonate": "<p>The Connect team will send you an email when it is time to donate your samples. Be sure to check your spam or junk folder. After you receive the email, it is important to donate your samples as soon as you can. It is easy to donate all of your samples in one visit.<p/><p> <span class=\"site-info-bold\">Note:</span> If you have recently had a blood transfusion or donated blood, please wait at least <span class=\"site-info-bold\">eight weeks</span> from your donation or transfusion before donating your samples for Connect. If you have recently donated plasma, please wait at least <span class=\"site-info-bold\">two days</span> from your plasma donation before donating samples for Connect. If you have an upcoming colonoscopy, please be sure that you <span class=\"site-info-bold\">do not</span> donate samples for Connect on the <span class=\"site-info-bold\">same day</span> as your colonoscopy.<p/>",
+            "howToDonate": "<p>Contact the BSWH Connect team at 214-865-2427 or by email at <a href=\"mailto:ConnectStudy@bswhealth.org\">ConnectStudy@bswhealth.org</a> to schedule your appointment.</p>",
+            "support": "Call 1-877-505-0253 (6:00 a.m-8:00 p.m. PT on weekdays and 7:00 a.m.-4:00 p.m. PT on weekends)",
+            "locationNotes": "<div style=\"margin-bottom:2rem;\"><div><span class=\"site-info-bold\">Baylor Scott & White Health and Wellness Center- Dallas<span><p>4500 Spring Ave,<br>Dallas, TX 75210<br>Parking Instructions: The Health and Wellness Center offers free surface level parking.</p></div><div><span class=\"site-info-bold\">Baylor Scott & White Community Care (BCC) - Fort Worth*<span><p>1307 8th Ave, Ste 305<br>Fort Worth, TX 76104<br>Parking Instructions: The Health and Wellness Center offers free surface level parking.<br><span style=\"font-size:1rem\" class=\"site-info-underline-italic\">*Note: Only patients of Baylor Scott & White Health Community Care - Fort Worth clinic can schedule an appointment at this location.</span></p></div><div><span class=\"site-info-bold\">Baylor Scott & White Health and Wellness Center- Dallas<span><p>1400 8th Avenue Fort Worth, TX 76104<br>6th Floor, C Building<br>Parking Instructions: Use the patient parking structure by the hospital.</p></div>",
+            "howLong": "If you complete your first Connect survey before your appointment, please expect to spend about 45 minutes at your appointment to donate your samples and please expect to spend about 45 minutes at your appointment to donate your samples and complete another short biospecimen sample survey.",
+            "prepareInstructions": "<p>On the day of your appointment, you do not need to fast. Drink plenty of water to keep hydrated, but <span class=\"site-info-bold\">stop drinking water one hour before your appointment.</span></p> <p><span class=\"site-info-bold\">One hour before your appointment:</span> Please <span class=\"site-info-bold\">do not</span> eat, drink any liquids (including water), chew gum, smoke, vape, or chew any products (including tobacco), rinse your mouth, or brush your teeth.</p> <p class=\"site-info-bold\">Things to bring and remember</p><ul><li>Please remember to bring a valid photo ID that is not expired (driver’s license, passport, school photo ID, or other photo ID)</li><li>Make sure you know your login information for MyConnect</li><li>We will ask you to complete a short survey when you donate your samples. It may be helpful to have this information on hand:</li><ul><li>The last time you ate or drank before your appointment, and the times you went to sleep the night before your appointment and woke up on the day of your appointment.</li><li>If you are menstruating, the start date of your most recent menstrual period in the last 12 months.</li></ul></li></ul>",
+            "whatHappens": "<p>The research team will check you in for your appointment and then collect your samples. At the end of your visit, the research team will check you out of your appointment.</p><p>We will draw a blood sample, collect a urine sample, and collect a saliva sample by asking you to swish with mouthwash.</p><p>We will also ask you to complete a short survey on MyConnect using your mobile phone. You will need your MyConnect login information to complete the survey. If you do not have a mobile phone, we will provide you with a tablet to complete your survey. We strongly encourage you to complete your survey at your appointment. If you choose to complete it after you leave your appointment, it is important to do so as soon as possible.</p><div class=\"consentHeadersFont\" style=\"color:#606060;width:100%;padding-top:1rem;\">When Will I Receive My $25 Payment?</div><br>You will receive your $25 payment after you donate a blood sample and completeall four sections of your first Connect survey.<br><br>You can find the four sections of your first survey on your MyConnect Dashboard. These sections are:<br><br><ol><li class=\"site-list-item-spacing\">Background and Overall Health</li><li class=\"site-list-item-spacing\">Medications, Reproductive Health, Exercise, and Sleep</li><li class=\"site-list-item-spacing\">Smoking, Alcohol, and Sun Exposure</li><li class=\"site-list-item-spacing\">Where you Live and Work</li>"
         }
     },
     "settings": {
@@ -1044,10 +1118,15 @@
         "confirmSSN": "Please confirm your Social Security Number:",
         "lastDigitsSSN": "If you prefer to provide only the last <b>4 digits</b> of your Social Security Number, please enter the last <b>4 digits</b> here:",
         "confirmLastDigitsSSN": "Please confirm the last <b>4 digits</b> of your Social Security Number:",
+        "instructions": "To provide all <b>9 digits</b> of your Social Security Number, please enter them here. If you prefer to provide only the last 4 digits or no digits, select the ‘Next’ button.",
         "endMessage": "You have answered all of the questions in this survey. To submit your answers, select the “Submit Survey” button.",
         "submitSurveyText": "Submit Survey",
         "thankYouMessage": "Thank you. This survey will remain available on your MyConnect dashboard in case you decide to provide this information in the future. To exit this survey, select the “Close Survey” button.",
-        "closeSurveyText": "Close Survey"
+        "closeSurveyText": "Close Survey",
+        "responseRequested": "Response Requested",
+        "ssnSoftModalBodyText": "There is 1 unanswered question on this page. Would you like to continue?",
+        "ssnSoftModalContinueButton": "Continue Without Answering",
+        "ssnSoftModalCloseButton":"Answer the Question"
     },
     "support": {
         "title": "My Connect - Support",
@@ -1064,7 +1143,11 @@
         "supportText": "MyConnect Support",
         "question": "Have a question or problem?",
         "visitPortal": "Visit the Connect Support Center portal to search frequently asked questions or to submit a question.",
-        "callOrEmail": "You can also call ${phone} or email <a href = \"mailto:ConnectSupport@norc.org\">ConnectSupport@norc.org</a>",
+        "alsoCall": "You can also call ",
+        "alsoEmail": " or email ",
+        "defaultPhone": "1-877-505-0253",
+        "defaultEmail": "<a href=\"mailto:ConnectSupport@norc.org\">ConnectSupport@norc.org</a>",
+        "signedInPhone": "1-866-462-6621",
         "payments": "Payments",
         "bioSamples": "Biological Samples",
         "policyConfidential": "Policy and Confidentiality",
@@ -1159,9 +1242,20 @@
         "yearDiagnosed": "What year were you diagnosed?",
         "typeOfCancer": "What type of cancer did you have?",
         "tellAboutDiagnosis": "Please tell us anything you would like us to know about your cancer diagnosis",
-        "navButtons": "<button type=\"button\" title=\"Close\" class=\"btn btn-dark\" data-dismiss=\"modal\">Go Back</button><button type=\"button\" id=\"confirmReview\" title=\"Confirm details\" class=\"btn btn-primary consentNextButton\" data-dismiss=\"modal\">Submit</button>",
-        "birthValidator": "Your birth year must contain four digits in the YYYY format.",
-        "enterTypeCancer": "Please enter type of cancer",
+        "navButtonsClose": {
+            "title": "Close", 
+            "innerText": "Go Back"
+        },
+        "navButtonsConfirm": {
+            "title": "Confirm details",
+            "innerText": "Submit"
+        },
+        "birthField": {
+            "data-error-validation": "Your birth year must contain four digits in the YYYY format."
+        },
+        "enterTypeCancer": {
+            "placeholder": "Please enter type of cancer"
+        },
         "today": "Today",
         "old": "Old",
         "noNotifications": "No notifications found!"

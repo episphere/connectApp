@@ -25,7 +25,7 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
             }
             
             let topMessage = "";
-            
+
             if(data['699625233'] && data['699625233'] === 353358909){
                 let template = `
                     <div class="row">
@@ -35,17 +35,17 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                      
                 `;
                 let finalMessage = "";
-                const defaultMessage = "<p/><br>You have withdrawn from Connect. We will not collect any more data from you. If you have any questions, please contact the Connect Support Center by calling 1-877-505-0253 or by emailing <a href='mailto:ConnectSupport@norc.org'>ConnectSupport@norc.org</a>.<br>";
+                const defaultMessage = '<p/><br><span data-i18n="mytodolist.withdrawnConnect">You have withdrawn from Connect. We will not collect any more data from you. If you have any questions, please contact the Connect Support Center by calling 1-877-505-0253 or by emailing <a href="mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a>.</span><br>';
 
                 if (isParticipantDataDestroyed(data)){
-                    finalMessage += "At your request, we have deleted your Connect data. If you have any questions, please contact the Connect Support Center by calling 1-877-505-0253 or by emailing  <a href='mailto:ConnectSupport@norc.org'>ConnectSupport@norc.org</a>."
+                    finalMessage += '<span data-i18n="mytodolist.deletedData">At your request, we have deleted your Connect data. If you have any questions, please contact the Connect Support Center by calling 1-877-505-0253 or by emailing  <a href="mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a>.</span>'
                 }
                 else if (data['831041022'] === 353358909){
                     if (!data['359404406'] || data['359404406'] == 104430631){
-                        finalMessage += "You have a new <a href='#forms'>form</a> to sign." + defaultMessage
+                        finalMessage += '<span data-i18n="mytodolist.newFormSign">You have a new <a href="#forms">form</a> to sign.</span>' + defaultMessage
                     }
                     else if((data['747006172'] && data['747006172'] !== 104430631) && (!data['153713899'] || data['153713899'] == 104430631)){
-                        finalMessage += "You have a new <a href='#forms'>form</a> to sign." + defaultMessage
+                        finalMessage += '<span data-i18n="mytodolist.newFormSign">You have a new <a href="#forms">form</a> to sign.</span>' + defaultMessage
                     }
                     else{
                         finalMessage += defaultMessage
@@ -54,7 +54,7 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                 else if ((data['747006172'] && data['747006172'] !== 104430631)){
                     
                     if (!data['153713899'] || data['153713899'] == 104430631){
-                        finalMessage += "You have a new <a href='#forms'>form</a> to sign." + defaultMessage
+                        finalMessage += '<span data-i18n="mytodolist.newFormSign">You have a new <a href="#forms">form</a> to sign.</span>' + defaultMessage
                     }
                     else{
                         finalMessage += defaultMessage
@@ -66,12 +66,12 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                         ${finalMessage}
                     </div>
                     `
-                    mainContent.innerHTML = template;
+                    mainContent.innerHTML = translateHTML(template);
                     hideAnimation();
                     return;
                 }
                 else if (((data['773707518'] === 353358909)) && (!data['153713899'] || data['153713899'] === 104430631)){
-                    topMessage += "You have a new <a href='#forms'>form</a> to sign.<p/><br>"
+                    topMessage += '<span data-i18n="mytodolist.newFormSign">You have a new <a href="#forms">form</a> to sign.</span><p/><br>';
                 }
                 if(!data['821247024'] || data['821247024'] == 875007964){
                     if(data['unverifiedSeen'] && data['unverifiedSeen'] === true){
@@ -82,18 +82,18 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                     }
                     topMessage += `
                         ${fromUserProfile ? 
-                            `Thank you for completing your profile for the Connect for Cancer Prevention Study. Next, the Connect team at your health care system will check that you are eligible to be part of the study. We will contact you within a few business days.
+                            `<span data-i18n="mytodolist.completingProfile">Thank you for completing your profile for the Connect for Cancer Prevention Study. Next, the Connect team at your health care system will check that you are eligible to be part of the study. We will contact you within a few business days.
                             <br>
-                            In the meantime, please begin by completing your first Connect survey.`:
-                            `The Connect team at your health care system is working to check that you are eligible to be part of the study. 
-                            ${checkIfComplete(data) ? 'Thank you for completing your first Connect survey! We will be in touch with next steps.': 'In the meantime, please begin by completing your first Connect survey.'}`}
+                            In the meantime, please begin by completing your first Connect survey.</span>`:
+                            `<span data-i18n="mytodolist.checkEligibility">The Connect team at your health care system is working to check that you are eligible to be part of the study.</span> 
+                            ${checkIfComplete(data) ? '<span data-i18n="mytodolist.thankYouCompleting">Thank you for completing your first Connect survey! We will be in touch with next steps.</span>': '<span data-i18n="mytodolist.firstSurvey">In the meantime, please begin by completing your first Connect survey.</span>'}`}
                     `
                 }
                 else if(data['821247024'] && data['821247024'] == 197316935) {
                     if(data['verifiedSeen'] && data['verifiedSeen'] === true){
                         if(checkIfComplete(data)) {
                             if(!data['firstSurveyCompletedSeen']) {
-                                topMessage += 'Thank you for completing your first Connect survey! We will be in touch with next steps.' 
+                                topMessage += '<span data-i18n="mytodolist.thankYouCompleting">Thank you for completing your first Connect survey! We will be in touch with next steps.</span>' 
                                 let formData = {};
                                 formData['firstSurveyCompletedSeen'] = true;
                                 storeResponse(formData);
@@ -105,11 +105,11 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                     }
                     else{
                         topMessage += `
-                            Great news! We have confirmed that you are eligible for the Connect for Cancer Prevention Study. You are now an official Connect participant.
+                            <span data-i18n="mytodolist.confirmedEligibility">Great news! We have confirmed that you are eligible for the Connect for Cancer Prevention Study. You are now an official Connect participant.</span>
                             <br>
-                            ${checkIfComplete(data) ? 'Thank you for completing your first Connect survey! We will be in touch with next steps.':'The next step is to complete your first Connect survey.'}
+                            ${checkIfComplete(data) ? '<span data-i18n="mytodolist.thankYouCompleting">Thank you for completing your first Connect survey! We will be in touch with next steps.</span>':'<span data-i18n="mytodolist.completeFirstSurvey">The next step is to complete your first Connect survey.</span>'}
                             <br>
-                            Thank you for being a part of Connect and for your commitment to help us learn more about how to prevent cancer.
+                            <span data-i18n="mytodolist.thankYouBeingPart">Thank you for being a part of Connect and for your commitment to help us learn more about how to prevent cancer.</span>
                             <br>
                         `
                         let formData = {};
@@ -119,7 +119,7 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                 }
                 else if(data['821247024'] && data['821247024'] == 219863910) {
                     template += `
-                    <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
+                    <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;"  data-i18n="mytodolist.notEligibleMessage">
                         Based on our records you are not eligible for the Connect for Cancer Prevention Study. Thank you for your interest. Any information that you have already provided will remain private. We will not use any information you shared for our research.
                         <br>
                         If you think this is a mistake or if you have any questions, please contact the <a href="https://norcfedramp.servicenowservices.com/participant" target="_blank">Connect Support Center</a>.
@@ -129,13 +129,13 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                     </div>
                     </div>
                     `
-                    mainContent.innerHTML = template;
+                    mainContent.innerHTML = translateHTML(template);
                     hideAnimation();
                     return;
                 }
                 else if(data['821247024'] && data['821247024'] == 922622075) {
                     template += `
-                    <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
+                    <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;" data-i18n="mytodolist.alreadyHaveAccount">
                         Our records show that you already have another account with a different email or phone number. Please try signing in again. Contact the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling <span style="white-space:nowrap;overflow:hidden">1-877-505-0253</span> if you need help accessing your account.
                     </div>
                     </div>
@@ -143,54 +143,54 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                     </div>
                     </div>
                     `
-                    mainContent.innerHTML = template;
+                    mainContent.innerHTML = translateHTML(template);
                     hideAnimation();
                     return;
                 }
                 else if (data[fieldMapping.verification] && data[fieldMapping.verification] == fieldMapping.outreachTimedOut) {
                     let site = data[fieldMapping.healthcareProvider]
-                    let body = `the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling 1-877-505-0253`;
+                    let body = `<span data-i18n="mytodolist.bodyConnectSupport">the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling 1-877-505-0253</span>`;
                     if (site === fieldMapping.healthPartners){
-                        body = `HealthPartners by emailing <a href = "mailto:ConnectStudy@healthpartners.com">ConnectStudy@healthpartners.com</a> or calling 952-967-5067`
+                        body = `<span data-i18n="mytodolist.bodyHealthPartners">HealthPartners by emailing <a href = "mailto:ConnectStudy@healthpartners.com">ConnectStudy@healthpartners.com</a> or calling 952-967-5067</span>`
                     }
                     if (site === fieldMapping.henryFordHealth){
-                        body = `Henry Ford Health System by emailing <a href = "mailto:ConnectStudy@hfhs.org">ConnectStudy@hfhs.org</a>`
+                        body = `<span data-i18n="mytodolist.bodyHenryFord">Henry Ford Health System by emailing <a href = "mailto:ConnectStudy@hfhs.org">ConnectStudy@hfhs.org</a></span>`
                     }
                     if(site === fieldMapping.kaiserPermanenteCO){
-                        body = `KP Colorado by emailing <a href = "mailto:Connect-Study-KPCO@kp.org">Connect-Study-KPCO@kp.org</a> or calling 303-636-3126`
+                        body = `<span data-i18n="mytodolist.bodyKPColorado">KP Colorado by emailing <a href = "mailto:Connect-Study-KPCO@kp.org">Connect-Study-KPCO@kp.org</a> or calling 303-636-3126</span>`
                     }
                     if (site === fieldMapping.kaiserPermanenteGA){
-                        body = `KP Georgia by emailing <a href = "mailto:Connect-Study-KPGA@kp.org">Connect-Study-KPGA@kp.org</a> or calling 404-745-5115`
+                        body = `<span data-i18n="mytodolist.bodyKPGeorgia">KP Georgia by emailing <a href = "mailto:Connect-Study-KPGA@kp.org">Connect-Study-KPGA@kp.org</a> or calling 404-745-5115</span>`
                     }
                     if (site === fieldMapping.kaiserPermanenteHI){
-                        body = `KP Hawaii by emailing <a href = "mailto:Connect-Study-KPHI@kp.org">Connect-Study-KPHI@kp.org</a> or calling 833-417-0846`
+                        body = `<span data-i18n="mytodolist.bodyKPHawaii">KP Hawaii by emailing <a href = "mailto:Connect-Study-KPHI@kp.org">Connect-Study-KPHI@kp.org</a> or calling 833-417-0846</span>`
                     }
                     if (site === fieldMapping.kaiserPermanenteNW){
-                        body = `KP Northwest by emailing <a href = "mailto:Connect-Study-KPNW@kp.org">Connect-Study-KPNW@kp.org</a> or calling 1-866-554-6039 (toll-free) or 503-528-3985`
+                        body = `<span data-i18n="mytodolist.bodyKPNorthwest">KP Northwest by emailing <a href = "mailto:Connect-Study-KPNW@kp.org">Connect-Study-KPNW@kp.org</a> or calling 1-866-554-6039 (toll-free) or 503-528-3985</span>`
                     }
                     if (site === fieldMapping.marshfieldClinical){
-                        body = `the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling 1-877-505-0253`
+                        body = `<span data-i18n="mytodolist.bodyConnectSupport">the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling 1-877-505-0253</span>`
                     }
                     if (site === fieldMapping.sanfordHealth){
-                        body = `Sanford Health by emailing <a href = "mailto:ConnectStudy@sanfordhealth.org">ConnectStudy@sanfordhealth.org</a> or calling 605-312-6100`
+                        body = `<span data-i18n="mytodolist.bodySanfordHealth">Sanford Health by emailing <a href = "mailto:ConnectStudy@sanfordhealth.org">ConnectStudy@sanfordhealth.org</a> or calling 605-312-6100</span>`
                     }
                     if (site === fieldMapping.uChicagoMedicine){
-                        body = `the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling 1-877-505-0253`
+                        body = `<span data-i18n="mytodolist.bodyConnectSupport">the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling 1-877-505-0253</span>`
                     }
                     if (site === fieldMapping.baylorScottAndWhiteHealth) {
-                        body = `Baylor Scott & White Health by emailing <a href = "mailto:ConnectStudy@bswhealth.org">ConnectStudy@bswhealth.org</a> or calling 214-865-2427`
+                        body = `<span data-i18n="mytodolist.bodyBaylorScottAndWhiteHealth">Baylor Scott & White Health by emailing <a href = "mailto:ConnectStudy@bswhealth.org">ConnectStudy@bswhealth.org</a> or calling 214-865-2427</span>`
                     }
 
                     template += `
                     <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
-                        Our study team has been trying to contact you about your eligibility for the Connect for Cancer Prevention Study. We need more information from you to check that you can be part of Connect. Please contact ${body} to confirm that you can take part in the study.    
+                        <span  data-i18n="mytodolist.tryingContact">Our study team has been trying to contact you about your eligibility for the Connect for Cancer Prevention Study. We need more information from you to check that you can be part of Connect. Please contact </span>${body}<span data-i18n="mytodolist.tryingContactEnd"> to confirm that you can take part in the study.</span>    
                     </div>
                     </div>
                     <div class="col-lg-2">
                     </div>
                     </div>
                     `;
-                    mainContent.innerHTML = template;
+                    mainContent.innerHTML = translateHTML(template);
                     window.scrollTo(0,0)
                     hideAnimation();
                     return;
@@ -212,10 +212,10 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                 template += `
                             <ul class="nav nav-tabs" style="border-bottom:none; margin-top:20px">
                                 <li class="nav-item" style=:padding-left:10px>
-                                    <button class=" nav-link navbar-btn survey-Active-Nav" id="surveysToDoTab">To Do</button>
+                                    <button class=" nav-link navbar-btn survey-Active-Nav" id="surveysToDoTab" data-i18n="mytodolist.toDoButton">To Do</button>
                                 </li>
                                 <li class="nav-item">
-                                    <button class="nav-link navbar-btn survey-Inactive-Nav" id="surveysCompleted">Completed</button>
+                                    <button class="nav-link navbar-btn survey-Inactive-Nav" id="surveysCompleted" data-i18n="mytodolist.completed">Completed</button>
                                 </li>
                             </ul>`
                 template += `
@@ -232,7 +232,7 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                 </div>
                 `
                 
-                mainContent.innerHTML = template;
+                mainContent.innerHTML = translateHTML(template);
                 document.getElementById('surveysToDoTab').addEventListener('click', () => {
                     document.getElementById('surveyMainBody').innerHTML = renderMainBody(data, collections, 'todo') 
                     if(!document.getElementById('surveysToDoTab').classList.contains('survey-Active-Nav')){
@@ -393,7 +393,7 @@ const renderMainBody = (data, collections, tab) => {
     if(modules['Spanish Mouthwash']?.enabled) {
         toDisplaySystem.unshift({'body':['Spanish Mouthwash']});
     }
-    
+
     if(tab === 'todo'){
         for(let obj of toDisplaySystem){
             let started = false;
@@ -417,7 +417,7 @@ const renderMainBody = (data, collections, tab) => {
                         const ariaLabelButton = `${buttonAction} ${moduleTitle}`;
 
                         started = true;
-                        template += translateHTML(`
+                        template += `
                             <li style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;" role="listitem" aria-label="${moduleTitle}">
                                 <div class="row" role="region" aria-label="${moduleTitle} information">
                                     ${modules[thisKey]['hasIcon'] === false? `` : `
@@ -428,7 +428,7 @@ const renderMainBody = (data, collections, tab) => {
                                     <div class="${modules[thisKey]['hasIcon'] === false? 'col-9':'col-md-8'}">
                                         <p style="font-style:bold; font-size:24px; margin-left:30px">
                                             <b style="color:#5c2d93; font-size:18px;">
-                                            <span data-i18n="${`shared.mod${modules[thisKey]['header']}`}">${moduleTitle}</span>
+                                            <span data-i18n="${`shared.mod${moduleTitle.replace(/(\s|[-._\(\),])/g,'')}`}">${moduleTitle}</span>
                                             </b>
                                             <br> 
                                             <span data-i18n="${modules[thisKey].description}"></span>
@@ -447,7 +447,7 @@ const renderMainBody = (data, collections, tab) => {
                                     </div>
                                     `}
                                 </div>
-                            `);
+                            `;
                     }
 
                     if (!modules[key].completed) {
@@ -455,18 +455,18 @@ const renderMainBody = (data, collections, tab) => {
                         const isEnabled = modules[key].enabled && !modules[key].unreleased;
                         const buttonAction = modules[key].unreleased ? 'mytodolist.comingSoon' : (data[fieldMapping[modules[key].moduleId].statusFlag] === fieldMapping.moduleStatus.started ? 'mytodolist.continue' : 'mytodolist.start');
                         const ariaLabelButton = `${buttonAction} ${moduleTitle}`;
-                        template += translateHTML(`
+                        template += `
                             <div style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;" role="listitem" aria-label="${moduleTitle} details">
                                 <div class="row">
                                     ${modules[key]['hasIcon'] === false ? `` : `
                                     <div class="col-md-1" aria-hidden="true">
-                                        <i class="fas fa-clipboard-list d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
+                                        <i class="fas fa-clipboard-list d-none d-md-block" data-i18n="mytodolist.surveyIcon" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
                                     </div>
                                     `}
                                     <div class="${modules[key]['hasIcon'] === false ? 'col-9' : 'col-md-8'}">
                                     <p style="font-style:bold; font-size:24px; margin-left:30px">
                                         <b style="color:#5c2d93; font-size:18px;">
-                                        ${moduleTitle}
+                                        <span data-i18n="${`shared.mod${moduleTitle.replace(/(\s|[-._\(\),])/g,'')}`}">${moduleTitle}</span>
                                         </b>
                                         <br> 
                                         <span data-i18n="${modules[key].description}"></span>
@@ -489,7 +489,7 @@ const renderMainBody = (data, collections, tab) => {
                                     `}
                                 </div>
                                 
-                            </div>`);
+                            </div>`;
                     } else {
                         const moduleTitle = modules[key]['header'] || key; // Use the module's header or key as the title
                         const ariaLabelModule = `${moduleTitle} completed details`;
@@ -505,15 +505,15 @@ const renderMainBody = (data, collections, tab) => {
                                     <div class="${modules[key]['hasIcon'] === false? 'col-9':'col-md-8'}">
                                     <p style="font-style:bold; font-size:24px; margin-left:30px">
                                         <b style="color:#5c2d93; font-size:18px;">
-                                        ${modules[key]['header']?modules[key]['header']:key}
+                                        <span data-i18n="${`shared.mod${moduleTitle.replace(/(\s|[-._\(\),])/g,'')}`}">${moduleTitle}</span>
                                         </b>
                                         <br> 
-                                        ${modules[key].description}
+                                        <span data-i18n="${modules[key].description}"></span>
                                         <br>
                                         <br>
                                         ${modules[key].estimatedTime ? `
                                         <em>
-                                        Completed Time: ${new Date(data[fieldMapping[modules[key].moduleId].completeTs]).toLocaleString()}
+                                        <span data-i18n="mytodolist.completedTime">Completed Time:</span> ${new Date(data[fieldMapping[modules[key].moduleId].completeTs]).toLocaleString()}
                                         </em>
                                         ` : ''}
                                     </p>
@@ -547,25 +547,25 @@ const renderMainBody = (data, collections, tab) => {
                                 let thisKey = obj['header'];
                                 
                                 started = true;
-                                
+                                const moduleTitle = modules[thisKey]['header'] || thisKey; // Use the module's header or key as the title
                                 template += `<li role="listitem" style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
                                                 <div class="row" aria-labelledby="header-${thisKey}">
                                                     ${modules[thisKey]['hasIcon'] === false? `` : `
                                                     <div class="col-md-1" aria-hidden="true">
-                                                        <i class="fas fa-clipboard-list d-md-none d-md-block d-lg-flex" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
+                                                        <i class="fas fa-clipboard-list d-md-none d-md-block d-lg-flex" data-i18n="mytodolist.surveyIcon" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
                                                     </div>
                                                     `}
 
                                                     <div class="${modules[thisKey]['hasIcon'] === false? 'col-9':'col-md-8'}">
                                                     <p style="font-style:bold; font-size:24px; margin-left:30px">
                                                         <b id="header-${thisKey}" style="color:#5c2d93; font-size:18px;">
-                                                        ${modules[thisKey]['header']?modules[thisKey]['header']:thisKey}
+                                                        <span data-i18n="${`shared.mod${moduleTitle.replace(/(\s|[-._\(\),])/g,'')}`}">${moduleTitle}</span>
                                                         </b>
                                                         <br> 
-                                                        ${modules[thisKey].description}
+                                                        <span data-i18n="${modules[thisKey].description}"></span>
                                                         ${modules[thisKey].estimatedTime ? `
                                                         <em>
-                                                        Estimated Time: ${modules[thisKey].estimatedTime}
+                                                        <span data-i18n="mytodolist.estimatedTime">Estimated Time:</span> <span data-i18n="${modules[thisKey].estimatedTime}"></span>
                                                         </em>
                                                         ` : ''}
                                                         
@@ -574,7 +574,7 @@ const renderMainBody = (data, collections, tab) => {
                                                 
                                                     ${modules[thisKey]['noButton'] === true? '' : `
                                                     <div class="col-md-3">
-                                                        <button class="btn survey-list-active btn-agreement questionnaire-module ${modules[thisKey].enabled ? 'list-item-active' : 'btn-disabled survey-list-inactive disabled'}" ${modules[thisKey].enabled ? '': 'aria-disabled="true"'} title="${thisKey}" module_id="${modules[thisKey].moduleId}"><b>Start</b></button>    
+                                                        <button class="btn survey-list-active btn-agreement questionnaire-module ${modules[thisKey].enabled ? 'list-item-active' : 'btn-disabled survey-list-inactive disabled'}" ${modules[thisKey].enabled ? '': 'aria-disabled="true"'} title="${thisKey}" module_id="${modules[thisKey].moduleId}"><b data-i18n="mytodolist.start">Start</b></button>    
                                                     </div>
                                                     `}
                                                 </div>
@@ -582,25 +582,26 @@ const renderMainBody = (data, collections, tab) => {
                                             `;
                             }
                         }
+                        const moduleTitle = modules[key]['header'] || key;
                         template += `<div role="listitem" style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
                             <div class="row" aria-labelledby="completed-header-${key}">
                                 <div class="col-md-1" aria-hidden="true">
-                                <i class="fas fa-clipboard-list d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
+                                <i class="fas fa-clipboard-list d-none d-md-block" data-i18n="mytodolist.surveyIcon" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
                                 </div>
                                 <div class="col-md-8">
                                 <p style="font-style:bold; font-size:24px; margin-left:30px">
                                     <b id="completed-header-${key} style="color:#5c2d93; font-size:18px;">
-                                    ${modules[key]['header'] || key}
+                                    <span data-i18n="${`shared.mod${moduleTitle.replace(/(\s|[-._\(\),])/g,'')}`}">${moduleTitle}</span>
                                     </b>
                                     <br>
                                     <em>
-                                        ${modules[key].description}
+                                       <span data-i18n="${modules[key].description}"></span>
                                         </em>
                                 </p>
                                 </div>
                             
                                 <div class="col-md-3">
-                                Completed Time: ${new Date(data[fieldMapping[modules[key].moduleId].completeTs]).toLocaleString()}
+                                <span data-i18n="mytodolist.completedTime">Completed Time:</span> ${new Date(data[fieldMapping[modules[key].moduleId].completeTs]).toLocaleString()}
                                 </div>
                             </div>
                         </div>`;
@@ -613,7 +614,7 @@ const renderMainBody = (data, collections, tab) => {
         }
     }
 
-    return template;
+    return translateHTML(template);
 };
 
 const checkIfComplete = (data) => {
@@ -655,7 +656,7 @@ const checkForNewSurveys = async (data, collections) => {
 
     if(newSurvey) {
         template += `
-            <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
+            <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;" data-i18n="mytodolist.newSurvey">>
                 You have a new survey to complete.
             </div>
         `;
@@ -665,7 +666,7 @@ const checkForNewSurveys = async (data, collections) => {
         knownCompletedStandaloneSurveys = data[677381583];
         if(knownCompletedStandaloneSurveys < completedStandaloneSurveys) {
             template += `
-            <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
+            <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;" data-i18n="mytodolist.submittedSurvey">
                 Thank you for submitting your survey. If you are using a shared device, please remember to sign out of MyConnect and any email accounts you used to sign into MyConnect.
             </div>
         `;

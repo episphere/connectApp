@@ -1,4 +1,4 @@
-import { getModuleSHA, getMyData, getShaFromGitHubCommitData, hasUserData, getMySurveys, logDDRumError, urls, questionnaireModules, storeResponseQuest, storeResponseTree, showAnimation, hideAnimation, addEventReturnToDashboard, fetchDataWithRetry, updateStartSurveyParticipantData, appState } from "../shared.js";
+import { getModuleSHA, getMyData, getShaFromGitHubCommitData, hasUserData, getMySurveys, logDDRumError, urls, questionnaireModules, storeResponseQuest, storeResponseTree, showAnimation, hideAnimation, addEventReturnToDashboard, fetchDataWithRetry, updateStartSurveyParticipantData, translateHTML, translateText, appState } from "../shared.js";
 import fieldMapping from '../fieldToConceptIdMapping.js'; 
 import { socialSecurityTemplate } from "./ssn.js";
 import { SOCcer as SOCcerProd } from "./../../prod/config.js";
@@ -320,7 +320,7 @@ function externalListeners(){
         menstrualCycle.addEventListener("submit", async (e) => {
             if(e.target.value == 104430631) {
                 let rootElement = document.getElementById('root');
-                rootElement.innerHTML = `
+                rootElement.innerHTML = translateHTML(`
                 
                 <div class="row" style="margin-top:50px">
                     <div class = "col-md-1">
@@ -339,7 +339,7 @@ function externalListeners(){
                     <div class = "col-md-1">
                     </div>
                     <div class = "col-md-10" id="questionnaireRoot">
-                        Thank you. When your next menstrual period starts, please return to complete this survey.
+                        <span data-i18n="questionnaire.nextMenstrual">Thank you. When your next menstrual period starts, please return to complete this survey.</span>
                         <br>
                         <br>
                         <div class="container">
@@ -349,7 +349,7 @@ function externalListeners(){
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                 </div>
                                 <div class="col-lg-1 col-md-3 col-sm-3">
-                                    <button type="button" id="returnToDashboard" class="next">OK</button>
+                                    <button type="button" id="returnToDashboard" class="next" data-i18n="questionnaire.okButton">OK</button>
                                 </div>
                             </div>
                         </div>
@@ -358,7 +358,7 @@ function externalListeners(){
                     </div>
                 </div>
                 
-                `;
+                `);
 
                 addEventReturnToDashboard();
             }         
@@ -378,7 +378,7 @@ function buildHTML(soccerResults, question) {
         fieldset.insertBefore(responseElement, fieldset.firstChild);
     }
 
-    responseElement.innerHTML = "Please identify the occupation category that best describes this job.";
+    responseElement.innerHTML = translateHTML('<span data-i18n="questionnaire.identifyOccupation">Please identify the occupation category that best describes this job.</span>');
   
     soccerResults.forEach((soc, indx) => {
       let resp = document.createElement("input");
@@ -400,7 +400,8 @@ function buildHTML(soccerResults, question) {
     resp.onclick = quest.rbAndCbClick;
     let label = document.createElement("label");
     label.setAttribute("for", `${question.id}_NOTA`);
-    label.innerText = "NONE OF THE ABOVE";
+    label.setAttribute("data-i18n", 'questionnaire.noneAbove');
+    label.innerText = translateText('questionnaire.noneAbove');
   
     responseElement.append(resp, label);
 }
@@ -408,17 +409,17 @@ function buildHTML(soccerResults, question) {
 export const blockParticipant = () => {
     
     const mainContent = document.getElementById('root');
-    mainContent.innerHTML = `
+    mainContent.innerHTML = translateHTML(`
     <div class = "row" style="margin-top:25px">
         <div class = "col-lg-2">
         </div>
-        <div class = "col">
+        <div class = "col" data-i18n="questionnaire.thankYouCompleting">
             Thank you for completing your profile for the Connect for Cancer Prevention Study. Next, the Connect team at your health care system will check that you are eligible to be part of the study. We will contact you within a few business days to share information about next steps.
             </br>Questions? Please contact the <a href= "https://norcfedramp.servicenowservices.com/participant" target="_blank">Connect Support Center.</a>
         </div>
         <div class="col-lg-2">
         </div>
-    `
+    `);
     window.scrollTo(0, 0);
 
 }
@@ -589,19 +590,19 @@ const displayQuestionnaire = (id, progressBar) => {
 const displayError = () => {
     const mainContent = document.getElementById('root');
     if (mainContent) {
-        mainContent.innerHTML = `
+        mainContent.innerHTML = translateHTML(`
             <div class="row" role="alert" aria-live="assertive" style="margin-top:25px">
                 <div class = "col-lg-2">
                 </div>
                 <div class = "col">
                     <h2 class="screen-reader-only">Error Message. Something went wrong. Please try again. Contact the Connect Support Center at 1-877-505-0253 if you continue to experience this problem.</h2>
-                    <p>Something went wrong. Please try again. Contact the 
+                    <p data-i18n="questionnaire.somethingWrong">Something went wrong. Please try again. Contact the 
                         <a href="https://norcfedramp.servicenowservices.com/participant" target="_blank" rel="noopener noreferrer">Connect Support Center</a> 
                         if you continue to experience this problem.
                     </p>
                 </div>
             </div>
-        `;
+        `);
     }
     window.scrollTo(0, 0);
 

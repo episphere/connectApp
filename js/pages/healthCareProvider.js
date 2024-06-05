@@ -23,7 +23,7 @@ export const requestPINTemplate = () => {
                     
                     <label style="width:100%" data-i18n="provider.receivedPin"><strong>If you received a PIN as part of your study invitation, please enter it here.<br>
                     Your PIN should be 6 characters and will include only numbers and uppercase letters.<br></strong></label>
-                    <label data-i18n="provider.enterPin"><input style="margin-left:0px;" type="text" maxlength="6" id="participantPIN" class="form-control" placeholder="Enter PIN"></label>
+                    <label><input data-i18n="provider.enterPin" style="margin-left:0px;" type="text" maxlength="6" id="participantPIN" class="form-control" placeholder="Enter PIN"></label>
                 </div>
 
                 <div class="form-group row">
