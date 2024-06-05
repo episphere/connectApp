@@ -2,8 +2,8 @@ import { addEventHideNotification } from "./event.js";
 import fieldMapping from './fieldToConceptIdMapping.js'; 
 import { signInConfig } from "./pages/signIn.js";
 import { signInCheckRender, signUpRender } from "./pages/homePage.js";
-import en from "../i18n/en.json" with {type: 'json'};
-import es from "../i18n/es.json" with {type: 'json'};
+import en from "../i18n/en.js";
+import es from "../i18n/es.js";
 
 const i18n = {
     es, en

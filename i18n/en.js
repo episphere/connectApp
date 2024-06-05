@@ -1,4 +1,4 @@
-{
+const en = {
     "home": {
         "titleText": "Connect <em>today.</em><br>Prevent cancer<br><em>tomorrow.</em><br /><br /><img src=\"./images/newImages/ConnectLogo.png\" alt=\"Connect logo\"><br><br>",
         "ageQuestion": "<b>Are you age 30 to 70 with no history of certain cancers?*</b>",
@@ -1640,3 +1640,5 @@
         "spanishOption": "Español"
     }
 }
+
+export default en;
