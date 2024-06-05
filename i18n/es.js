@@ -1,4 +1,4 @@
-﻿{
+﻿const es ={
     "home": {
         "titleText": "Súmese a Connect <em>hoy.</em><br/>Prevenga el cáncer<br/><em>mañana.</em><br/><br/><img src=\"./images/newImages/ConnectLogo.png\" alt=\"Logotipo de Connect\"/><br/><br/>",
         "ageQuestion": "<b>¿Tiene entre 30 y 70 años, y no tiene antecedentes de ciertos tipos de cáncer?*</b>",
@@ -1644,3 +1644,5 @@
         "spanishOption": "Español"
     }
 }
+
+export default es;
