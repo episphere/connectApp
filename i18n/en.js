@@ -1635,7 +1635,7 @@ const en = {
         "signInPhone": "Sign in with phone number"
     },
     "languageSelector": {
-        "title": "Preferred Language",
+        "title": "Language",
         "englishOption": "English",
         "spanishOption": "Español"
     }
