@@ -83,7 +83,7 @@ export const homeNavBar = () => {
 export const languageSelector = () => {
     const selectedLanguage = appState.getState().language;
     return translateHTML(`
-        <div id="languageSelectorTitle" data-i18n="languageSelector.title">Preferred Language</div>
+        <div id="languageSelectorTitle" data-i18n="languageSelector.title">Language</div>
         <select  id="languageSelector">
             <option value="${fieldMapping.language.en}" ${selectedLanguage === fieldMapping.language.en ? 'selected' : ''} data-i18n="languageSelector.englishOption">English</option>
             <option value="${fieldMapping.language.es}" ${selectedLanguage === fieldMapping.language.es ? 'selected' : ''} data-i18n="languageSelector.spanishOption">Spanish</option>
