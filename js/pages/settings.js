@@ -30,7 +30,9 @@ const optVars = {
     canWeVoicemailOther: null,
     loginEmail: null,
     loginPhone: null,
-    preferredLanguage: null,
+
+    // temp disable - 061024
+    // preferredLanguage: null,
 };
 
 const formVisBools = {
@@ -55,7 +57,9 @@ const optRowEles = {
     additionalEmail2Row: null,
     loginEmailRow: null,
     loginPhoneRow: null,
-    preferredLanguageRow: null,
+
+    // temp disable - 061024
+    // preferredLanguageRow: null,
 };
 
 let firebaseAuthUser;
@@ -97,7 +101,10 @@ export const renderSettingsPage = async () => {
     optVars.otherPhoneNumberComplete = userData[cId.otherPhone];
     optVars.additionalEmail1 = userData[cId.additionalEmail1];
     optVars.additionalEmail2 = userData[cId.additionalEmail2];
-    optVars.preferredLanguage = userData[cId.preferredLanguage];
+
+    // temp disable - 061024
+    // optVars.preferredLanguage = userData[cId.preferredLanguage];
+
     formVisBools.isNameFormDisplayed = false;
     formVisBools.isContactInformationFormDisplayed = false;
     formVisBools.isMailingAddressFormDisplayed = false;
@@ -296,7 +303,9 @@ const loadContactInformationElements = () => {
   optRowEles.otherPhoneVoicemailRow = document.getElementById('otherPhoneVoicemailRow');
   optRowEles.additionalEmail1Row = document.getElementById('additionalEmail1Row');
   optRowEles.additionalEmail2Row = document.getElementById('additionalEmail2Row');
-  optRowEles.preferredLanguageRow = document.getElementById('preferredLanguageRow');
+
+  // temp disable - 061024
+  // optRowEles.preferredLanguageRow = document.getElementById('preferredLanguageRow');
 
   showAndPushElementToArrayIfExists(optVars.mobilePhoneNumberComplete, optRowEles.mobilePhoneRow, !!optVars.mobilePhoneNumberComplete, contactInformationElementArray);
   showAndPushElementToArrayIfExists(optVars.canWeVoicemailMobile, optRowEles.mobilePhoneVoicemailRow, !!optVars.mobilePhoneNumberComplete, contactInformationElementArray);
@@ -307,7 +316,9 @@ const loadContactInformationElements = () => {
   showAndPushElementToArrayIfExists(optVars.canWeVoicemailOther, optRowEles.otherPhoneVoicemailRow, !!optVars.otherPhoneNumberComplete, contactInformationElementArray);
   showAndPushElementToArrayIfExists(optVars.additionalEmail1, optRowEles.additionalEmail1Row, !!optVars.additionalEmail1, contactInformationElementArray);
   showAndPushElementToArrayIfExists(optVars.additionalEmail2, optRowEles.additionalEmail2Row, !!optVars.additionalEmail2, contactInformationElementArray);
-  showAndPushElementToArrayIfExists(optVars.preferredLanguage, optRowEles.preferredLanguageRow, !!optVars.preferredLanguage, contactInformationElementArray);
+
+  // temp disable - 061024
+  // showAndPushElementToArrayIfExists(optVars.preferredLanguage, optRowEles.preferredLanguageRow, !!optVars.preferredLanguage, contactInformationElementArray);
 };
 
 const handleEditContactInformationSection = () => {
@@ -315,7 +326,11 @@ const handleEditContactInformationSection = () => {
     successMessageElement = hideSuccessMessage(successMessageElement);
     formVisBools.isContactInformationFormDisplayed = toggleElementVisibility(contactInformationElementArray, formVisBools.isContactInformationFormDisplayed);
     if (formVisBools.isContactInformationFormDisplayed) {
-      hideOptionalElementsOnShowForm([optRowEles.mobilePhoneRow, optRowEles.mobilePhoneVoicemailRow, optRowEles.mobilePhoneTextRow, optRowEles.homePhoneRow, optRowEles.homePhoneVoicemailRow, optRowEles.otherPhoneRow, optRowEles.otherPhoneVoicemailRow, optRowEles.additionalEmail1Row, optRowEles.additionalEmail2Row, optRowEles.preferredLanguageRow]);
+
+      // temp disable - 061024
+      // hideOptionalElementsOnShowForm([optRowEles.mobilePhoneRow, optRowEles.mobilePhoneVoicemailRow, optRowEles.mobilePhoneTextRow, optRowEles.homePhoneRow, optRowEles.homePhoneVoicemailRow, optRowEles.otherPhoneRow, optRowEles.otherPhoneVoicemailRow, optRowEles.additionalEmail1Row, optRowEles.additionalEmail2Row, optRowEles.preferredLanguageRow]);  
+      
+      hideOptionalElementsOnShowForm([optRowEles.mobilePhoneRow, optRowEles.mobilePhoneVoicemailRow, optRowEles.mobilePhoneTextRow, optRowEles.homePhoneRow, optRowEles.homePhoneVoicemailRow, optRowEles.otherPhoneRow, optRowEles.otherPhoneVoicemailRow, optRowEles.additionalEmail1Row, optRowEles.additionalEmail2Row]);
       toggleActiveForm(FormTypes.CONTACT);
     }
     toggleButtonText();
@@ -345,7 +360,9 @@ const handleEditContactInformationSection = () => {
     const preferredEmail = document.getElementById('newPreferredEmail').value.toLowerCase().trim();
     optVars.additionalEmail1 = document.getElementById('newadditionalEmail1').value.toLowerCase().trim();
     optVars.additionalEmail2 = document.getElementById('newadditionalEmail2').value.toLowerCase().trim();
-    optVars.preferredLanguage = document.getElementById('newpreferredLanguage').value.toLowerCase().trim();
+    
+    // temp disable - 061024
+    // optVars.preferredLanguage = document.getElementById('newpreferredLanguage').value.toLowerCase().trim();
 
     const isContactInformationValid = validateContactInformation(optVars.mobilePhoneNumberComplete, optVars.homePhoneNumberComplete, preferredEmail, optVars.otherPhoneNumberComplete, optVars.additionalEmail1, optVars.additionalEmail2);
     if (isContactInformationValid) {
@@ -357,7 +374,11 @@ const handleEditContactInformationSection = () => {
 };
 
 const submitNewContactInformation = async preferredEmail => {
-  const isSuccess = await changeContactInformation(optVars.mobilePhoneNumberComplete, optVars.homePhoneNumberComplete, optVars.canWeVoicemailMobile, optVars.canWeText, optVars.canWeVoicemailHome, preferredEmail, optVars.otherPhoneNumberComplete, optVars.canWeVoicemailOther, optVars.additionalEmail1, optVars.additionalEmail2, optVars.preferredLanguage, userData).catch(function (error) {
+
+  // temp disable - 061024  
+  // const isSuccess = await changeContactInformation(optVars.mobilePhoneNumberComplete, optVars.homePhoneNumberComplete, optVars.canWeVoicemailMobile, optVars.canWeText, optVars.canWeVoicemailHome, preferredEmail, optVars.otherPhoneNumberComplete, optVars.canWeVoicemailOther, optVars.additionalEmail1, optVars.additionalEmail2, optVars.preferredLanguage, userData).catch(function (error) {
+  
+  const isSuccess = await changeContactInformation(optVars.mobilePhoneNumberComplete, optVars.homePhoneNumberComplete, optVars.canWeVoicemailMobile, optVars.canWeText, optVars.canWeVoicemailHome, preferredEmail, optVars.otherPhoneNumberComplete, optVars.canWeVoicemailOther, optVars.additionalEmail1, optVars.additionalEmail2, userData).catch(function (error) {
     document.getElementById('changeContactInformationFail').style.display = 'block';
     document.getElementById('changeContactInformationError').innerHTML = error.message;
   });
@@ -371,7 +392,10 @@ const submitNewContactInformation = async preferredEmail => {
     handleOptionalFieldVisibility(optVars.canWeVoicemailOther, 'profileOtherVoicemailPermission', optRowEles.otherPhoneVoicemailRow, contactInformationElementArray[0], 'radio', !!optVars.otherPhoneNumberComplete);
     handleOptionalFieldVisibility(optVars.additionalEmail1, 'profileadditionalEmail1', optRowEles.additionalEmail1Row, contactInformationElementArray[0], 'text');
     handleOptionalFieldVisibility(optVars.additionalEmail2, 'profileadditionalEmail2', optRowEles.additionalEmail2Row, contactInformationElementArray[0], 'text');
-    handleOptionalFieldVisibility(optVars.preferredLanguage, 'profilepreferredLanguage', optRowEles.preferredLanguageRow, contactInformationElementArray[0], 'languageSelector');
+
+    // temp disable - 061024
+    // handleOptionalFieldVisibility(optVars.preferredLanguage, 'profilepreferredLanguage', optRowEles.preferredLanguageRow, contactInformationElementArray[0], 'languageSelector');
+
     successMessageElement = document.getElementById('changeContactInformationSuccess');
     successMessageElement.style.display = 'block';
     document.getElementById('profilePreferredEmail').textContent = preferredEmail;
@@ -1145,7 +1169,9 @@ export const renderContactInformationData = () => {
                     </b>
                 </span>
             </div>
-        </div>         
+        </div>  
+        
+        <!-- temp disable - 061024
         <div class="row userProfileLinePaddings" id="preferredLanguageRow" style="display:none">
             <div class="col">
                 <span class="userProfileBodyFonts">
@@ -1160,7 +1186,8 @@ export const renderContactInformationData = () => {
                     </b>
                 </span>
             </div>
-        </div>         
+        </div>  
+        -->       
       `);
 };
 
@@ -1284,6 +1311,7 @@ export const renderChangeContactInformationGroup = () => {
                       </div>
                   </div>
 
+                  <!-- temp disable - 061024
                   <div class="form-group row">
                       <div class="col">
                           <label for="newpreferredLanguage" class="custom-form-label" data-i18n="languageSelector.title">Additional Email 2 (optional)</label>
@@ -1294,6 +1322,7 @@ export const renderChangeContactInformationGroup = () => {
                           </select>
                       </div>
                   </div>
+                  -->
   
                   <div class="form-group row">
                       <div class="col">

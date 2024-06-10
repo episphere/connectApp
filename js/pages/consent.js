@@ -1065,7 +1065,8 @@ const consentSubmit = async e => {
     formData['507120821'] = 596523216;
 
     //set the prefered language
-    formData[fieldMapping.preferredLanguage] = selectedLanguage;
+    // temp disable - 061024
+    // formData[fieldMapping.preferredLanguage] = selectedLanguage;
     
     const response = await storeResponse(formData);
     if(response.code === 200) consentFinishedPage ();
