@@ -1639,7 +1639,7 @@
         "signInPhone": "Iniciar sesión con el número de teléfono"
     },
     "languageSelector": {
-        "title": "Idioma preferido",
+        "title": "Idioma",
         "englishOption": "English",
         "spanishOption": "Español"
     }
