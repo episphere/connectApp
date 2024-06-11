@@ -22,8 +22,8 @@ export const renderSamplesPage = async () => {
                 <div class="col-md-8">
                     <div class="row" style="width:100%">
                         <div class="consentHeadersFont" style="color:#606060;width:100%">
-                            <div data-i18n="samples.donatingSamples">
-                                Donating Your Samples at ${site.name}
+                            <div>
+                                <span data-i18n="samples.donatingSamples"/></span> ${site.name}
                             </div>
                         </div>
                         <div class="messagesBodyFont" style="width:100%">
