@@ -404,7 +404,10 @@ export const changeName = async (firstName, lastName, middleName, suffix, prefer
   return isSuccess;
 };
 
-export const changeContactInformation = async (mobilePhoneNumberComplete, homePhoneNumberComplete, canWeVoicemailMobile, canWeText, canWeVoicemailHome, preferredEmail, otherPhoneNumberComplete, canWeVoicemailOther, additionalEmail1, additionalEmail2, preferredLanguage, userData) => {
+// temp disable - 061024
+// export const changeContactInformation = async (mobilePhoneNumberComplete, homePhoneNumberComplete, canWeVoicemailMobile, canWeText, canWeVoicemailHome, preferredEmail, otherPhoneNumberComplete, canWeVoicemailOther, additionalEmail1, additionalEmail2, preferredLanguage, userData) => {
+
+  export const changeContactInformation = async (mobilePhoneNumberComplete, homePhoneNumberComplete, canWeVoicemailMobile, canWeText, canWeVoicemailHome, preferredEmail, otherPhoneNumberComplete, canWeVoicemailOther, additionalEmail1, additionalEmail2, userData) => {
   document.getElementById('changeContactInformationFail').style.display = 'none';
   document.getElementById('changeContactInformationGroup').style.display = 'none';
 
@@ -430,7 +433,8 @@ export const changeContactInformation = async (mobilePhoneNumberComplete, homePh
     [cId.canWeVoicemailOther]: parseInt(canWeVoicemailOther),
     [cId.additionalEmail1]: additionalEmail1,
     [cId.additionalEmail2]: additionalEmail2,
-    [cId.preferredLanguage]: parseInt(preferredLanguage)
+    // temp disable - 061024
+    // [cId.preferredLanguage]: parseInt(preferredLanguage)
   };
 
   let { changedUserDataForProfile, changedUserDataForHistory } = findChangedUserDataValues(newValues, userData, 'changeContactInformation');
