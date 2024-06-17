@@ -1,4 +1,4 @@
-import { getModuleSHA, getMyData, getShaFromGitHubCommitData, hasUserData, getMySurveys, logDDRumError, urls, questionnaireModules, storeResponseQuest, storeResponseTree, showAnimation, hideAnimation, addEventReturnToDashboard, fetchDataWithRetry, updateStartSurveyParticipantData } from "../shared.js";
+import { getModuleSHA, getMyData, getShaFromGitHubCommitData, hasUserData, getMySurveys, logDDRumError, urls, questionnaireModules, storeResponseQuest, storeResponseTree, showAnimation, hideAnimation, addEventReturnToDashboard, fetchDataWithRetry, updateStartSurveyParticipantData, translateHTML, translateText, appState } from "../shared.js";
 import fieldMapping from '../fieldToConceptIdMapping.js'; 
 import { socialSecurityTemplate } from "./ssn.js";
 import { SOCcer as SOCcerProd } from "./../../prod/config.js";
@@ -28,11 +28,12 @@ async function loadQuestConfig() {
             ...(data?.['Connect_ID'] && { connectID: data['Connect_ID'] }),
         });
 
+        // TODO: Quest 2.0 manage version with Firestore or similar
         questConfig = {
-            "myconnect.cancer.gov": "https://cdn.jsdelivr.net/gh/episphere/quest@v1.1.4/replace2.js",
-            "myconnect-stage.cancer.gov": "https://cdn.jsdelivr.net/gh/episphere/quest@v1.1.4/replace2.js",
+            "myconnect.cancer.gov": "https://cdn.jsdelivr.net/gh/episphere/quest@v1.1.6/replace2.js",
+            "myconnect-stage.cancer.gov": "https://cdn.jsdelivr.net/gh/episphere/quest@v1.1.6/replace2.js",
             "episphere.github.io": "https://episphere.github.io/quest/replace2.js",
-            "localhost:5000": "https://cdn.jsdelivr.net/gh/episphere/quest@v1.1.4/replace2.js"
+            "localhost:5000": "https://cdn.jsdelivr.net/gh/episphere/quest@v1.1.6/replace2.js"
         }
     }
 }
@@ -132,16 +133,15 @@ async function startModule(data, modules, moduleId, questDiv) {
     let path;
     let sha;
     let key;
+    let lang;
 
     try {
         inputData = setInputData(data, modules); 
         moduleConfig = questionnaireModules();
 
         key = Object.keys(moduleConfig).find(key => moduleConfig[key].moduleId === moduleId);
-        
-        if (key) {
-            path = moduleConfig[key].path;
-        } else {
+
+        if (!key) {
             throw new Error('Error: No path found for module (null key).');
         }
 
@@ -153,6 +153,9 @@ async function startModule(data, modules, moduleId, questDiv) {
 
         // Module has not been started.
         if (data[fieldMapping[moduleId].statusFlag] === fieldMapping.moduleStatus.notStarted) {
+            
+            ({ path, lang } = getMarkdownPath(appState.getState().language, moduleConfig[key]));
+            
             try {
                 sha = await fetchDataWithRetry(() => getModuleSHA(path, data['Connect_ID'], moduleId));
                 url += sha + "/" + path;
@@ -168,12 +171,17 @@ async function startModule(data, modules, moduleId, questDiv) {
 
         // Module has been started and has a SHA value.
         } else if (modules[fieldMapping[moduleId].conceptId]?.['sha']) {
+
+            ({ path, lang } = getMarkdownPath(modules[fieldMapping[moduleId].conceptId][fieldMapping.surveyLanguage], moduleConfig[key]));
+
             sha = modules[fieldMapping[moduleId].conceptId]['sha'];
             url += sha + "/" + path;
 
         // Module has been started but SHA is not found. 'Fix' the case where the SHA is not found for the module.
         } else {
             const startSurveyTimestamp = data[fieldMapping[moduleId].startTs] || '';
+
+            ({ path, lang } = getMarkdownPath(modules[fieldMapping[moduleId].conceptId][fieldMapping.surveyLanguage], moduleConfig[key]));
 
             // Get the SHA from the GitHub API. The correct SHA is the SHA for the active survey commit when the participant started the survey.
             let surveyVersion;
@@ -199,10 +207,11 @@ async function startModule(data, modules, moduleId, questDiv) {
             activate: true,
             delayedParameterArray: fieldMapping.delayedParameterArray, // Delayed parameters (external questions that require extra processing time)
             store: storeResponseQuest,
-            retrieve: function(){return getMySurveys([fieldMapping[moduleId].conceptId])},
+            retrieve: function(){return getMySurveys([fieldMapping[moduleId].conceptId], true)},
             soccer: externalListeners,
             updateTree: storeResponseTree,
-            treeJSON: tJSON
+            treeJSON: tJSON,
+            lang: lang
         }
 
         window.scrollTo(0, 0);
@@ -312,7 +321,7 @@ function externalListeners(){
         menstrualCycle.addEventListener("submit", async (e) => {
             if(e.target.value == 104430631) {
                 let rootElement = document.getElementById('root');
-                rootElement.innerHTML = `
+                rootElement.innerHTML = translateHTML(`
                 
                 <div class="row" style="margin-top:50px">
                     <div class = "col-md-1">
@@ -331,7 +340,7 @@ function externalListeners(){
                     <div class = "col-md-1">
                     </div>
                     <div class = "col-md-10" id="questionnaireRoot">
-                        Thank you. When your next menstrual period starts, please return to complete this survey.
+                        <span data-i18n="questionnaire.nextMenstrual">Thank you. When your next menstrual period starts, please return to complete this survey.</span>
                         <br>
                         <br>
                         <div class="container">
@@ -341,7 +350,7 @@ function externalListeners(){
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                 </div>
                                 <div class="col-lg-1 col-md-3 col-sm-3">
-                                    <button type="button" id="returnToDashboard" class="next">OK</button>
+                                    <button type="button" id="returnToDashboard" class="next" data-i18n="questionnaire.okButton">OK</button>
                                 </div>
                             </div>
                         </div>
@@ -350,7 +359,7 @@ function externalListeners(){
                     </div>
                 </div>
                 
-                `;
+                `);
 
                 addEventReturnToDashboard();
             }         
@@ -370,7 +379,7 @@ function buildHTML(soccerResults, question) {
         fieldset.insertBefore(responseElement, fieldset.firstChild);
     }
 
-    responseElement.innerHTML = "Please identify the occupation category that best describes this job.";
+    responseElement.innerHTML = translateHTML('<span data-i18n="questionnaire.identifyOccupation">Please identify the occupation category that best describes this job.</span>');
   
     soccerResults.forEach((soc, indx) => {
       let resp = document.createElement("input");
@@ -392,7 +401,8 @@ function buildHTML(soccerResults, question) {
     resp.onclick = quest.rbAndCbClick;
     let label = document.createElement("label");
     label.setAttribute("for", `${question.id}_NOTA`);
-    label.innerText = "NONE OF THE ABOVE";
+    label.setAttribute("data-i18n", 'questionnaire.noneAbove');
+    label.innerText = translateText('questionnaire.noneAbove');
   
     responseElement.append(resp, label);
 }
@@ -400,17 +410,17 @@ function buildHTML(soccerResults, question) {
 export const blockParticipant = () => {
     
     const mainContent = document.getElementById('root');
-    mainContent.innerHTML = `
+    mainContent.innerHTML = translateHTML(`
     <div class = "row" style="margin-top:25px">
         <div class = "col-lg-2">
         </div>
-        <div class = "col">
+        <div class = "col" data-i18n="questionnaire.thankYouCompleting">
             Thank you for completing your profile for the Connect for Cancer Prevention Study. Next, the Connect team at your health care system will check that you are eligible to be part of the study. We will contact you within a few business days to share information about next steps.
             </br>Questions? Please contact the <a href= "https://norcfedramp.servicenowservices.com/participant" target="_blank">Connect Support Center.</a>
         </div>
         <div class="col-lg-2">
         </div>
-    `
+    `);
     window.scrollTo(0, 0);
 
 }
@@ -581,21 +591,42 @@ const displayQuestionnaire = (id, progressBar) => {
 const displayError = () => {
     const mainContent = document.getElementById('root');
     if (mainContent) {
-        mainContent.innerHTML = `
+        mainContent.innerHTML = translateHTML(`
             <div class="row" role="alert" aria-live="assertive" style="margin-top:25px">
                 <div class = "col-lg-2">
                 </div>
                 <div class = "col">
                     <h2 class="screen-reader-only">Error Message. Something went wrong. Please try again. Contact the Connect Support Center at 1-877-505-0253 if you continue to experience this problem.</h2>
-                    <p>Something went wrong. Please try again. Contact the 
+                    <p data-i18n="questionnaire.somethingWrong">Something went wrong. Please try again. Contact the 
                         <a href="https://norcfedramp.servicenowservices.com/participant" target="_blank" rel="noopener noreferrer">Connect Support Center</a> 
                         if you continue to experience this problem.
                     </p>
                 </div>
             </div>
-        `;
+        `);
     }
     window.scrollTo(0, 0);
 
     hideAnimation();
+}
+
+const getMarkdownPath = (value, config) => {
+    
+    let path;
+    let lang;
+    
+    switch (value) {
+        case fieldMapping.language.en:
+            path = config.path.en;
+            lang = 'en';
+            break;
+        case fieldMapping.language.es:
+            path = config.path.es;
+            lang = 'es';
+            break;
+        default:
+            throw new Error('Error: Language not defined in App State.');
+    }
+
+    return { path, lang };
 }

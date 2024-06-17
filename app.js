@@ -1,7 +1,7 @@
-import { getParameters, validateToken, userLoggedIn, getMyData, hasUserData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, appState, processAuthWithFirebaseAdmin, successResponse, logDDRumError } from "./js/shared.js";
-import { userNavBar, homeNavBar } from "./js/components/navbar.js";
+import { getParameters, validateToken, userLoggedIn, getMyData, hasUserData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, appState, processAuthWithFirebaseAdmin, successResponse, logDDRumError, translateHTML } from "./js/shared.js";
+import { userNavBar, homeNavBar, languageSelector } from "./js/components/navbar.js";
 import { homePage, joinNowBtn, whereAmIInDashboard, renderHomeAboutPage, renderHomeExpectationsPage, renderHomePrivacyPage } from "./js/pages/homePage.js";
-import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser, addEventToggleSubmit } from "./js/event.js";
+import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser, addEventToggleSubmit, addEventLanguageSelection } from "./js/event.js";
 import { requestPINTemplate, duplicateAccountReminderRender } from "./js/pages/healthCareProvider.js";
 import { myToDoList } from "./js/pages/myToDoList.js";
 import {renderNotificationsPage} from "./js/pages/notifications.js"
@@ -41,6 +41,16 @@ window.onload = async () => {
         mainContent.innerHTML = `<span class="not-compatible">MyConnect is not supported on your browser. Please use Chrome, Edge, Safari or Firefox.</span>`;
         return;
     }
+
+    //Check for language storage
+    // temp hardcoding for English - 061024
+    // let preferredLanguage = window.localStorage.getItem('preferredLanguage');
+    // if (!preferredLanguage) {
+    //     preferredLanguage = conceptIdMap.language.en;
+    // }
+
+    const preferredLanguage = conceptIdMap.language.en;
+    appState.setState({"language": parseInt(preferredLanguage, 10)});
 
     const script = document.createElement('script');
     
@@ -95,14 +105,15 @@ window.onload = async () => {
     
     const footer = document.getElementById('footer');
     footer.innerHTML = footerTemplate();
-    googleTranslateElementInit();
+    // googleTranslateElementInit();
+    
     router();
 }
 
 // TODO: 'google is not defined' datadog error - inspect loading sequence/timing.
-const googleTranslateElementInit = () => {
-    if(google) new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
-}
+// const googleTranslateElementInit = () => {
+//     if(google) new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+// }
 
 const handleVerifyEmail = (auth, actionCode) => {
     auth.applyActionCode(actionCode).then(function(resp) {
@@ -199,6 +210,12 @@ const router = async () => {
     if (loggedIn === false) {
         toggleNavBar(route, {}); // If not logged in, pass no data to toggleNavBar
 
+        // temp disable - 061024
+        // const languageSelectorContainer = document.getElementById('languageSelectorContainer');
+        // languageSelectorContainer.innerHTML = languageSelector();
+        // translateHTML(languageSelectorContainer);
+        // addEventLanguageSelection();
+
         if (route === '#') {
             homePage();
         } else if (route === '#about') {
@@ -220,6 +237,10 @@ const router = async () => {
     else{
         const data = await getMyData();
 
+        // temp disable - 061024
+        // document.getElementById('languageSelectorContainer').innerHTML = languageSelector(data);
+        // addEventLanguageSelection();
+        
         if(successResponse(data)) {
             const firebaseAuthUser = firebase.auth().currentUser;
             await checkAuthDataConsistency(firebaseAuthUser.email ?? '', firebaseAuthUser.phoneNumber ?? '', data.data[conceptIdMap.firebaseAuthEmail] ?? '', data.data[conceptIdMap.firebaseAuthPhone] ?? '');
