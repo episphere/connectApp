@@ -1026,17 +1026,90 @@ export const questionnaireModules = () => {
     
     if(location.host === urls.prod) {
         return {
-            'Background and Overall Health': {path: 'prod/module1.txt', moduleId:"Module1", enabled:true},
-            'Medications, Reproductive Health, Exercise, and Sleep': {path: 'prod/module2.txt', moduleId:"Module2", enabled:false},
-            'Smoking, Alcohol, and Sun Exposure': {path: 'prod/module3.txt', moduleId:"Module3", enabled:false},
-            'Where You Live and Work': {path: 'prod/module4.txt', moduleId:"Module4", enabled:false},
-            'Enter SSN': {moduleId:"ModuleSsn", enabled:false},
-            'Covid-19': {path: 'prod/moduleCOVID19.txt', moduleId:"ModuleCovid19", enabled:false},
-            'Biospecimen Survey': {path: 'prod/moduleBiospecimen.txt', moduleId:"Biospecimen", enabled:false},
-            'Clinical Biospecimen Survey': {path: 'prod/moduleClinicalBloodUrine.txt', moduleId:"ClinicalBiospecimen", enabled:false},
-            'Menstrual Cycle': {path: 'prod/moduleMenstrual.txt', moduleId:"MenstrualCycle", enabled:false},
-            'Mouthwash': {path: 'prod/moduleMouthwash.txt', moduleId:"Mouthwash", enabled:false},
-            'PROMIS': {path: 'prod/moduleQoL.txt', moduleId:"PROMIS", enabled:false}
+            'Background and Overall Health': {
+                path: {
+                    en: 'prod/module1.txt', 
+                    es: 'prod/module1Spanish.txt'
+                },
+                moduleId: "Module1", 
+                enabled: true
+            },
+            'Medications, Reproductive Health, Exercise, and Sleep': {
+                path: {
+                    en: 'prod/module2.txt', 
+                    es: 'prod/module2Spanish.txt'
+                }, 
+                moduleId: "Module2", 
+                enabled: false
+            },
+            'Smoking, Alcohol, and Sun Exposure': {
+                path: {
+                    en: 'prod/module3.txt', 
+                    es: 'prod/module3Spanish.txt'
+                },
+                moduleId: "Module3", 
+                enabled: false
+            },
+            'Where You Live and Work': {
+                path: {
+                    en: 'prod/module4.txt', 
+                    es: 'prod/module4Spanish.txt'
+                }, 
+                moduleId: "Module4", 
+                enabled: false
+            },
+            'Enter SSN': {
+                moduleId: "ModuleSsn", 
+                enabled: false
+            },
+            'Covid-19': {
+                path: {
+                    en: 'prod/moduleCOVID19.txt', 
+                    es: 'prod/moduleCOVID19Spanish.txt'
+                },
+                moduleId: "ModuleCovid19", 
+                enabled: false
+            },
+            'Biospecimen Survey': {
+                path: {
+                    en: 'prod/moduleBiospecimen.txt', 
+                    es: 'prod/moduleBiospecimenSpanish.txt'
+                },
+                moduleId: "Biospecimen", 
+                enabled: false
+            },
+            'Clinical Biospecimen Survey': {
+                path: {
+                    en: 'prod/moduleClinicalBloodUrine.txt', 
+                    es: 'prod/moduleClinicalBloodUrineSpanish.txt'
+                },
+                moduleId: "ClinicalBiospecimen", 
+                enabled: false
+            },
+            'Menstrual Cycle': {
+                path: {
+                    en: 'prod/moduleMenstrual.txt', 
+                    es: 'prod/moduleMenstrualSpanish.txt'
+                },
+                moduleId: "MenstrualCycle", 
+                enabled: false
+            },
+            'Mouthwash': {
+                path: {
+                    en: 'prod/moduleMouthwash.txt', 
+                    es: 'prod/moduleMouthwashSpanish.txt'
+                }, 
+                moduleId: "Mouthwash", 
+                enabled: false
+            },
+            'PROMIS': {
+                path: {
+                    en: 'prod/moduleQoL.txt', 
+                    es: 'prod/moduleQoLSpanish.txt'
+                },
+                moduleId: "PROMIS", 
+                enabled: false
+            }
         }
     }
 
