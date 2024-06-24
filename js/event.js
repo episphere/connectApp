@@ -1,9 +1,9 @@
 import { allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, BirthMonths, getAge, getMyData, 
-    hasUserData, retrieveNotifications, removeActiveClass, toggleNavbarMobileView, appState, logDDRumError } from "./shared.js";
+    hasUserData, retrieveNotifications, removeActiveClass, toggleNavbarMobileView, appState, logDDRumError, translateHTML, translateText } from "./shared.js";
 import { consentTemplate } from "./pages/consent.js";
 import { heardAboutStudy, healthCareProvider, duplicateAccountReminderRender } from "./pages/healthCareProvider.js";
 import { myToDoList } from "./pages/myToDoList.js";
-import { suffixToTextMapDropdown } from "./settingsHelpers.js";
+import { suffixToTextMap } from "./settingsHelpers.js";
 import fieldMapping from "./fieldToConceptIdMapping.js";
 
 export const addEventsConsentSign = () => {
@@ -82,7 +82,7 @@ export const addEventMonthSelection = () => {
     const UPMonth = document.getElementById('UPMonth');
     UPMonth.addEventListener('change', () => {
         const value = UPMonth.value;
-        let template = '<option class="option-dark-mode" value="">-- Select birth day --</option>';
+        let template = '<option class="option-dark-mode" value="" data-i18n="event.selectBirthDay">-- Select birth day --</option>';
 
         if(value === '02'){
             for(let i = 1; i < 30; i++){
@@ -99,8 +99,7 @@ export const addEventMonthSelection = () => {
                 template += `<option class="option-dark-mode" value=${i < 10 ? `0${i}`: `${i}`}>${i}</option>`
             }
         }
-
-        document.getElementById('UPDay').innerHTML = template;
+        document.getElementById('UPDay').innerHTML = translateHTML(template);
     });
 }
 
@@ -168,7 +167,7 @@ export const addEventHealthCareProviderSubmit = () => {
         
         let modalBody = document.getElementById('HealthProviderModalBody');
         let modalButton = document.getElementById('openModal');
-        modalBody.innerHTML = `Are you sure ${sites()[value]} is your healthcare provider?`
+        modalBody.innerHTML = translateHTML(`<span data-i18n="event.sureAboutProvider">Are you sure </span>${sites()[value]}<span data-i18n="event.sureAboutProviderEnd"> is your healthcare provider?</span>`);
         modalButton.click();
     });
 }
@@ -258,17 +257,18 @@ const addEmailFields = () => {
     div1.classList = ['col'];
 
     const input = document.createElement('input');	
-    input.classList = ['form-control col-md-4'];	
+    input.classList = ['form-control col-md-4'];
+    input.setAttribute('data-i18n', "event.emailPlaceholder2");
     input.placeholder = 'Enter additional email 2';	
     input.style = "margin-left:0px; max-width:382px;"
     input.type = 'text';	
     input.id = 'UPAdditionalEmail2';	
     input.title = ' Please enter an email address in this format: name@example.com.';
 
-    div1.appendChild(input);
+    div1.appendChild(translateHTML(input));
     div.appendChild(div1);
     
-    document.getElementById('additionalEmailBtn').innerHTML = `<button type="button" class="btn btn-light" id="addMoreEmail2" title="Add more email">Add more <i class="fas fa-plus"></i></button>`;
+    document.getElementById('additionalEmailBtn').innerHTML = translateHTML(`<button type="button" data-i18n="form.addMoreEmail" class="btn btn-light" id="addMoreEmail2" title="Add more email">Add more <i class="fas fa-plus"></i></button>`);
     
     const addMoreEmail2 = document.getElementById('addMoreEmail2');	
     addMoreEmail2.addEventListener('click', addAnotherEmailField)	
@@ -285,14 +285,15 @@ const addAnotherEmailField = () => {
     div1.classList = ['col']; 	
 
     const input2 = document.createElement('input');	
-    input2.classList = ['form-control col-md-4'];	
+    input2.classList = ['form-control col-md-4'];
+    input2.setAttribute('data-i18n', 'event.emailPlaceholder3');	
     input2.style = "margin-left:0px; max-width:382px;"
     input2.placeholder = 'Enter additional email 3';	
     input2.type = 'text';	
     input2.id = 'UPAdditionalEmail3';	
     input2.title = ' Please enter an email address in this format: name@example.com.';
     
-    div1.appendChild(input2);
+    div1.appendChild(translateHTML(input2));
     div.appendChild(div1);
 
     const br = document.getElementById('multipleEmail2Br');	
@@ -775,206 +776,209 @@ export const removeAllErrors = () => {
 
 const verifyUserDetails = (formData) => {
     if(!document.getElementById('connectMainModal').classList.contains('show')) openModal();
-    document.getElementById('connectModalHeader').innerHTML = `
-    <h4>Review your profile details</h4>
+    document.getElementById('connectModalHeader').innerHTML = translateHTML(`
+    <h4 data-i18n="event.reviewProfile">Review your profile details</h4>
     <button type="button" class="close close-modal" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
-    `;
+    `);
 
-    document.getElementById('connectModalBody').innerHTML = `
+    document.getElementById('connectModalBody').innerHTML = translateHTML(`
         <div class="row">
-            <div class="col">First name</div>
+            <div class="col" data-i18n="event.firstName">First name</div>
             <div class="col">${formData['399159511']}</div>
         </div>
         ${formData['231676651'] ? `
         <div class="row">
-            <div class="col">Middle name</div>
+            <div class="col" data-i18n="event.middleName">Middle name</div>
             <div class="col">${formData['231676651']}</div>
         </div>
         `:``}
         <div class="row">
-            <div class="col">Last name</div>
+            <div class="col" data-i18n="event.lastName">Last name</div>
             <div class="col">${formData['996038075']}</div>
         </div>
         ${formData['506826178'] ? `
         <div class="row">
             <div class="col">Suffix</div>
-            <div class="col">${formData['506826178'] ? suffixToTextMapDropdown.get(parseInt(formData['506826178'], 10)) : ''}</div>
+            <div class="col" ${formData['506826178'] ? 'data-i18n="settingsHelpers.suffix'+suffixToTextMap.get(parseInt(formData['506826178'], 10)).replace('.', '')+'"' : ''}">
+                ${formData['506826178'] ? translateText('settingsHelpers.suffix'+suffixToTextMap.get(parseInt(formData['506826178'], 10)).replace('.', '')) : ''}
+            </div>
         </div>
         `: ``}
         ${formData['153211406'] ? `
         <div class="row">
-            <div class="col">Preferred Name</div>
+            <div class="col" data-i18n="event.preferredName">Preferred Name</div>
             <div class="col">${formData['153211406']}</div>
         </div>
         `: ``}
         <div class="row">
-            <div class="col"><strong>Date of birth</strong></div>
+            <div class="col"><strong data-i18n="event.birthDate">Date of birth</strong></div>
         </div>
         <div class="row">
-            <div class="col">Month</div>
-            <div class="col">${BirthMonths[formData['564964481']]}</div>
+            <div class="col" data-i18n="event.month">Month</div>
+            <div class="col" ${formData['564964481'] ? `data-i18n="shared.month${BirthMonths[formData['564964481']].replace(/^\d+\s-\s/s,'')}"` : ''}>${formData['564964481'] ? translateText(`shared.month${BirthMonths[formData['564964481']].replace(/^\d+\s-\s/s,'')}`) : ''}</div>
         </div>
         <div class="row">
-            <div class="col">Day</div>
+            <div class="col" data-i18n="event.day">Day</div>
             <div class="col">${formData['795827569']}</div>
         </div>
         <div class="row">
-            <div class="col">Year</div>
+            <div class="col" data-i18n="event.year">Year</div>
             <div class="col">${formData['544150384']}</div>
         </div>
         <div class="row">
-            <div class="col"><strong>Contact Information</strong></div>
+            <div class="col"><strong data-i18n="event.contactInfo">Contact Information</strong></div>
         </div>
         ${formData['388711124'] ? `
         <div class="row">
-            <div class="col">Mobile phone</div>
+            <div class="col" data-i18n="event.mobilePhone">Mobile phone</div>
             <div class="col">${formData['388711124'].substr(0,3)} - ${formData['388711124'].substr(3,3)} - ${formData['388711124'].substr(6,4)}</div>
         </div>
         `:``}
         
         ${formData['271757434'] ? `
         <div class="row">
-            <div class="col">Can we leave a voicemail at this number?</div>
-            <div class="col">${parseInt(formData['271757434']) === 353358909 ? 'Yes': 'No'}</div>
+            <div class="col" data-i18n="event.leaveVoicemail">Can we leave a voicemail at this number?</div>
+            <div class="col" data-i18n="${parseInt(formData['271757434']) === 353358909 ? 'event.optYes' : 'event.optNo'}">${parseInt(formData['271757434']) === 353358909 ? translateText('event.optYes'): translateText('event.optNo')}</div>
         </div>
         `:``}
         
         ${formData['646873644'] ? `
         <div class="row">
-            <div class="col">Can we text this number?</div>
-            <div class="col">${parseInt(formData['646873644']) === 353358909 ? 'Yes': 'No'}</div>
+            <div class="col" data-i18n="event.textNumber">Can we text this number?</div>
+            <div class="col" data-i18n="${parseInt(formData['646873644']) === 353358909 ? 'event.optYes' : 'event.optNo'}">${parseInt(formData['646873644']) === 353358909 ? translateText('event.optYes'): translateText('event.optNo')}</div>
         </div>
         `:``}
         
         ${formData['438643922'] ? `
         <div class="row">
-            <div class="col">Home phone</div>
+            <div class="col" data-i18n="event.homePhone">Home phone</div>
             <div class="col">${formData['438643922'].substr(0,3)} - ${formData['438643922'].substr(3,3)} - ${formData['438643922'].substr(6,4)}</div>
         </div>
         `:``}
         
         ${formData['187894482'] ? `
         <div class="row">
-            <div class="col">Can we leave a voicemail at this number?</div>
-            <div class="col">${formData['187894482'] === 353358909 ? 'Yes': 'No'}</div>
+            <div class="col" data-i18n="event.leaveVoicemail">Can we leave a voicemail at this number?</div>
+            <div class="col" data-i18n="${parseInt(formData['187894482']) === 353358909 ? 'event.optYes' : 'event.optNo'}">${parseInt(formData['187894482']) === 353358909 ? translateText('event.optYes'): translateText('event.optNo')}</div>
         </div>
         `: ``}
 
         ${formData['793072415'] ? `
         <div class="row">
-            <div class="col">Other phone</div>
+            <div class="col" data-i18n="event.otherPhone">Other phone</div>
             <div class="col">${formData['793072415'].substr(0,3)} - ${formData['793072415'].substr(3,3)} - ${formData['793072415'].substr(6,4)}</div>
         </div>
         `:``}
         
         ${formData['983278853'] ? `
         <div class="row">
-            <div class="col">Can we leave a voicemail at this number?</div>
-            <div class="col">${formData['983278853'] === 353358909 ? 'Yes': 'No'}</div>
+            <div class="col" data-i18n="event.leaveVoicemail">Can we leave a voicemail at this number?</div>
+            <div class="col" data-i18n="${parseInt(formData['983278853']) === 353358909 ? 'event.optYes' : 'event.optNo'}">${parseInt(formData['983278853']) === 353358909 ? translateText('event.optYes'): translateText('event.optNo')}</div>
         </div>
         `: ``}
         
         ${formData['869588347'] ? `
         <div class="row">
-            <div class="col">Preferred Email</div>
+            <div class="col" data-i18n="event.preferredEmail">Preferred Email</div>
             <div class="col">${formData['869588347']}</div>
         </div>
         `:``}
         
         ${formData['849786503'] ? `
         <div class="row">
-            <div class="col">Additional Email</div>
+            <div class="col" data-i18n="event.additionalEmail">Additional Email</div>
             <div class="col">${formData['849786503']}</div>
         </div>
         `:``}
 
         ${formData['635101039'] ? `
         <div class="row">
-            <div class="col">Additional Email 2</div>
+            <div class="col" data-i18n="event.additionalEmail2">Additional Email 2</div>
             <div class="col">${formData['635101039']}</div>
         </div>
         `:``}
 
         ${formData['714419972'] ? `
         <div class="row">
-            <div class="col">Additional Email 3</div>
+            <div class="col" data-i18n="event.additionalEmail3">Additional Email 3</div>
             <div class="col">${formData['714419972']}</div>
         </div>
         `:``}
 
         ${formData['524461170'] ? `
         <div class="row">
-            <div class="col">How do you prefer that we reach you?</div>
-            <div class="col">${formData['524461170'] === 127547625 ? 'Text Message': 'Email'}</div>
+            <div class="col" data-i18n="event.howToReach">How do you prefer that we reach you?</div>
+            <div class="col">${formData['524461170'] === 127547625 ? translateHTML('event.optSMS'): translateHTML('event.optEmail')}</div>
+            <div class="col" data-i18n="${parseInt(formData['524461170']) === 127547625 ? 'event.optSMS' : 'event.optEmail'}">${parseInt(formData['524461170']) === 127547625 ? translateText('event.optSMS'): translateText('event.optEmail')}</div>
         </div>
         `:``}
 
         <div class="row">
-            <div class="col"><strong>Mailing address</strong></div>
+            <div class="col"><strong data-i18n="event.mailAddress">Mailing address</strong></div>
         </div>
 
         <div class="row">
-            <div class="col">Line 1 (street, PO box, rural route)</div>
+            <div class="col" data-i18n="event.line1">Line 1 (street, PO box, rural route)</div>
             <div class="col">${formData['521824358']}</div>
         </div>
 
         ${formData['442166669'] ? `
         <div class="row">
-            <div class="col">Line 2 (apartment, suite, unit, building)</div>
+            <div class="col" data-i18n="event.line2">Line 2 (apartment, suite, unit, building)</div>
             <div class="col">${formData['442166669']}</div>
         </div>
         `:``}
 
         <div class="row">
-            <div class="col">City</div>
+            <div class="col" data-i18n="event.city">City</div>
             <div class="col">${formData['703385619']}</div>
         </div>
 
         <div class="row">
-            <div class="col">State</div>
+            <div class="col" data-i18n="event.state">State</div>
             <div class="col">${formData['634434746']}</div>
         </div>
 
         <div class="row">
-            <div class="col">Zip</div>
+            <div class="col" data-i18n="event.zip">Zip</div>
             <div class="col">${formData['892050548']}</div>
         </div>
 
         ${formData['452166062'] ? `
         <div class="row">
-            <div class="col">Have you ever had invasive cancer?</div>
-            <div class="col">${formData['452166062'] === 353358909 ? 'Yes' : 'No'}</div>
+            <div class="col" data-i18n="event.invasiveCancer">Have you ever had invasive cancer?</div>
+            <div class="col" data-i18n="${parseInt(formData['452166062']) === 353358909 ? 'event.optYes' : 'event.optNo'}">${parseInt(formData['452166062']) === 353358909 ? translateText('event.optYes'): translateText('event.optNo')}</div>
         </div>
         `:``}
         
         ${formData['650597106'] ? `
         <div class="row">
-            <div class="col">What year were you diagnosed?</div>
+            <div class="col" data-i18n="event.yearDiagnosed">What year were you diagnosed?</div>
             <div class="col">${formData['650597106']}</div>
         </div>
         `:``}
 
         ${formData['266952173'] ? `
         <div class="row">
-            <div class="col">What type of cancer did you have?</div>
+            <div class="col" data-i18n="event.typeOfCancer">What type of cancer did you have?</div>
             <div class="col">${formData['266952173']}</div>
         </div>
         `:``}
 
         ${formData['494982282'] ? `
         <div class="row">
-            <div class="col">Please tell us anything you would like us to know about your cancer diagnosis</div>
+            <div class="col" data-i18n="event.tellAboutDiagnosis">Please tell us anything you would like us to know about your cancer diagnosis</div>
             <div class="col">${formData['494982282']}</div>
         </div>
         `:``}
-    `;
+    `);
 
-    document.getElementById('connectModalFooter').innerHTML = `
-        <button type="button" title="Close" class="btn btn-dark" data-dismiss="modal">Go Back</button>
-        <button type="button" id="confirmReview" title="Confirm details" class="btn btn-primary consentNextButton" data-dismiss="modal">Submit</button>
-    `;
+    document.getElementById('connectModalFooter').innerHTML = translateHTML(`
+        <button data-i18n="event.navButtonsClose" type="button" title="Close" class="btn btn-dark" data-dismiss="modal">Go Back</button>
+        <button data-i18n="event.navButtonsConfirm" type="button" id="confirmReview" title="Confirm details" class="btn btn-primary consentNextButton" data-dismiss="modal">Submit</button>
+    `);
     document.getElementById('connectModalFooter').style.display = 'block';
 
     //make sure this is not hidden
@@ -1124,22 +1128,22 @@ export const addEventRequestPINForm = () => {
 export const addEventCancerFollowUp = () => {
     const UPCancer1 = document.getElementById('UPCancer1Btn');
     UPCancer1.addEventListener('click', () => {
-        document.getElementById('cancerFollowUp').innerHTML = `
+        document.getElementById('cancerFollowUp').innerHTML = translateHTML(`
             <div class="form-group row">
-                <label class="col-md-4 col-form-label">What year were you diagnosed?</label>
-                <input type="text" class="form-control input-validation col-md-4" maxlength="4" id="UPCancerYear" data-validation-pattern="year" data-error-validation="Your birth year must contain four digits in the YYYY format." Placeholder="YYYY">
+                <label class="col-md-4 col-form-label" data-i18n="event.yearDiagnosed">What year were you diagnosed?</label>
+                <input data-i18n="event.birthField" type="text" class="form-control input-validation col-md-4" maxlength="4" id="UPCancerYear" data-validation-pattern="year" data-error-validation="Your birth year must contain four digits in the YYYY format." Placeholder="YYYY">
             </div>
 
             <div class="form-group row">
-                <label class="col-md-4 col-form-label">What type of cancer did you have?</label>
-                <input type="text" class="form-control col-md-4" id="UPCancerType" Placeholder="Please enter type of cancer">
+                <label class="col-md-4 col-form-label" data-i18n="event.typeOfCancer">What type of cancer did you have?</label>
+                <input data-i18n="event.enterTypeCancer" type="text" class="form-control col-md-4" id="UPCancerType" Placeholder="Please enter type of cancer">
             </div>
 
             <div class="form-group row">
-                <label class="col-md-4 col-form-label">Please tell us anything you would like us to know about your cancer diagnosis</label>
+                <label class="col-md-4 col-form-label" data-i18n="event.tellAboutDiagnosis">Please tell us anything you would like us to know about your cancer diagnosis</label>
                 <textarea class="form-control col-md-4" id="UPCancerDiagnosis"></textarea>
             </div>
-        `;
+        `);
     });
 
     const UPCancer2 = document.getElementById('UPCancer2Btn');
@@ -1292,4 +1296,18 @@ export const addEventCheckCanText = () => {
 export const addEventDisableCopyPaste = () =>{
     const myInput = document.getElementById('confirmUPEmail');
     myInput.onpaste = e => e.preventDefault();
+}
+
+export const addEventLanguageSelection = () => {
+    const selector = document.getElementById('languageSelector');
+    if(!selector) {
+        console.warn('Language Selector Not Found');
+        return;
+    }
+    selector.addEventListener('change', (e) => { 
+        const selectedLanguage = parseInt(e.target.value, 10);
+        window.localStorage.setItem('preferredLanguage', selectedLanguage);
+        appState.setState({"language": selectedLanguage});
+        translateHTML(document.body);
+    });
 }

@@ -1,4 +1,4 @@
-import { getMyData, hasUserData, urls, fragment, checkAccount, validEmailFormat, validPhoneNumberFormat, getCleanSearchString, firebaseSignInRender, signInAnonymously, usGov } from "../shared.js";
+import { getMyData, hasUserData, urls, fragment, checkAccount, validEmailFormat, validPhoneNumberFormat, getCleanSearchString, firebaseSignInRender, signInAnonymously, usGov, translateHTML, translateText } from "../shared.js";
 import { signInConfig } from "./signIn.js";
 import { environmentWarningModal, downtimeWarning } from "../event.js";
 
@@ -10,25 +10,24 @@ export const homePage = async () => {
   let downtime = false;
 
     const mainContent = document.getElementById('root');
-    mainContent.innerHTML = `
+    mainContent.innerHTML = translateHTML(`
         <div class="row connectBody1">
             <div class="col-lg-2 o">
             </div>
             <div class="col-lg-4 d-none d-sm-flex text-lg-left text-center" style="text-align:center;">
-                <p class = "homeTitleText" style="text-align:left; font-family: 'Montserrat', sans-serif;">
-                
-                    Connect <em>today.</em>
-                    <br>Prevent cancer
-                    <br><em>tomorrow.</em>
-                    <br>
-                    <br>
-                    <img src="./images/newImages/ConnectLogo.png" alt="Connect logo">
-                    <br><br>
-                    
+                <p class = "homeTitleText" style="text-align:left; font-family: 'Montserrat', sans-serif;" data-i18n="home.titleText">
+                  Connect <em>today.</em>
+                  <br>Prevent cancer
+                  <br><em>tomorrow.</em>
+                  <br>
+                  <br>
+                  <img src="./images/newImages/ConnectLogo.png" alt="Connect logo">
+                  <br><br>
+                   
                 </p>
             </div>
             <div class="col-lg-4 d-sm-none text-lg-left text-center" style="text-align:center;">
-                <p class = "homeTitleTextMobile " style="text-align:center; font-family: 'Montserrat', sans-serif;">
+                <p class = "homeTitleTextMobile" style="text-align:center; font-family: 'Montserrat', sans-serif;" data-i18n="home.titleText">
                 
                     Connect <em>today.</em>
                     <br>Prevent cancer
@@ -42,15 +41,15 @@ export const homePage = async () => {
             </div>
             <div class="col-md-8 col-lg-4">
                 <div class="signInWrapper" id="signInWrapperDiv">
-                  <p class="loginTitleFont" style="text-align:center;">Sign In</p>
+                  <p class="loginTitleFont" style="text-align:center;" data-i18n="home.loginTitle">Sign In</p>
                   <div id="signInDiv">
                   </div>
-                  <p>
+                  <p data-i18n="home.haveAccount">
                       <div style="font-size:12px;padding-left:24px; padding-right:24px;margin:auto;.">
                           If you have an account, please sign in with the email or phone number you used to create your account.
                       </div>
                   </p>
-                  <div style="font-size:8px;padding-left:24px; padding-right:24px;margin:auto;.">
+                  <div style="font-size:8px;padding-left:24px; padding-right:24px;margin:auto;." data-i18n="shared.usGov">
                       ${usGov}
                   </div>
                 </div>
@@ -61,7 +60,7 @@ export const homePage = async () => {
         <div class="row connectBody">
             <div class="col-lg-2 ">
             </div>
-            <div class="col-lg-4 .d-none text-lg-left text-center connectBodyPicture" >
+            <div class="col-lg-4 .d-none text-lg-left text-center connectBodyPicture" data-i18n="home.connectBodyPicture">
                 <img src="./images/newImages/Tiles2.png" alt="Connect logo" width="95%" style="float:left; max-width:380px">
             </div>
             <div class="col-lg-4">
@@ -73,26 +72,26 @@ export const homePage = async () => {
             <div class="col-lg-2">
             </div>
             <div class="col-lg-4" style="text-align:left;">
-                <p class="MonteserratFont" style = "color:#606060; font-size: 28px;">
-                    <b>
-                    Are you age 30 to 70 with no history of certain cancers?*    
-                    </b>
+                <p class="MonteserratFont" style = "color:#606060; font-size: 28px;" data-i18n="home.ageQuestion">
+                  <b>
+                  Are you age 30 to 70 with no history of certain cancers?*    
+                  </b>
                 </p>
-                <p class="NotoSansFont" style="color:#606060; font-size: 18px;">
+                <p class="NotoSansFont" style="color:#606060; font-size: 18px;" data-i18n="home.joinStudy">
                     We need your help. We invite you to join a research study from the National Cancer Institute, part of the National Institutes of Health, to help understand what causes cancer and how to prevent it.
                 </p>
-                <p class="NotoSansFont" style="color:#606060; font-size: 15px;">
+                <p class="NotoSansFont" style="color:#606060; font-size: 15px;" data-i18n="home.joinConnect">
                     *If you have or once had non-melanoma skin cancer (like basal cell or squamous cell carcinoma), or a condition that raises the risk of getting cancer (like DCIS, or stage 0 breast cancer), you can still join Connect.
                 </p>
                 
             </div>
             <div class="col-lg-4">
-                <img src="./images/newImages/Group2.png" alt="Group Picture" style="width:100%">
+                <img src="./images/newImages/Group2.png" alt="Group Picture" style="width:100%" data-i18n="home.groupPicture">
             </div>
             <div class="col-lg-1">
             </div>
         </div>
-    `;
+    `);
     
     const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
     const cleanSearchStr = getCleanSearchString(location.search);
@@ -114,12 +113,11 @@ export const homePage = async () => {
 }
 
 export const joinNowBtn = (bool) => {
-    if(bool){
-        return `<span class="join-now-heading">What causes and prevents cancer? Help researchers answer this question for future generations</span>
-        </br><a class="btn join-now-btn" href="#sign_in">Join Now</a>`
+  if (bool) {
+    return translateText('home.joinNowTrue')
     }
     else {
-        return `<span class="join-now-heading">Thanks for joining Connect Cohort Study!</span>`
+    return translateText('home.joinNowFalse')
     }
 }
 
@@ -132,47 +130,47 @@ export const whereAmIInDashboard = async () => {
         if(data['919254129'] === 353358909){
             if(data['699625233'] && data['699625233'] === 353358909 && data['821247024'] && data['821247024'] !== 197316935){
                 //Awaiting verification
-                return 'You are awaiting verifiction';
+              return translateText('home.awaitVerification');
             }
             if(data['699625233'] && data['699625233'] === 353358909){
                 
                 //go do your surveys
-                return 'Please go fill out your surveys <a href="#dashboard">Here</a>';
+              return translateText('home.doSurveys');
             }
             //fill out your user profile
-            return 'Please go and fill out your user profile <a href="#dashboard">Here</a>';
+            return translateText('home.fillProfile');
         }
         //sign e-consent
-        return 'Please go and sign the e-consent form <a href="#dashboard">Here</a>';
+        return translateText('home.signConsent');
     }
     else if(data['827220437'] && !data['142654897']){
         //heard about study
-        return 'Where did you hear about this study <a href="#dashboard">Here</a>'
+        return translateText('home.heardStudy')
     }
     else if(data['379080287']){
         //pin
-        return 'Please tell us if you already have a pin <a href="#dashboard">Here</a>'
+        return translateText('home.havePin')
     }
     else{
         //Choose health care provider
-        return 'Please tell us your health provider <a href="#dashboard">Here</a>'
+        return translateText('home.chooseProvider')
     }
 }
 
 export const renderHomeAboutPage =  () => {
     const mainContent = document.getElementById('root');
-    mainContent.innerHTML = `
+  mainContent.innerHTML = translateHTML(`
     <div class="row">
        <div class="col-1">
        </div>
        <div class="col-10" id="connectBody">
           <article>
              <div class="resize-content">
-                <h1>
+                <h1 data-i18n="home.aboutStudyTitle">
                    About the Study
                 </h1>
                 <div id="cgvBody">
-                   <div class="blog-intro-text">
+                   <div class="blog-intro-text" data-i18n="home.aboutStudyIntro">
                       <h2 id="why-connect-is-important">Working Together to Prevent Cancer</h2>
                       <img loading="lazy" src=" https://www.cancer.gov/connect-prevention-study/sites/g/files/xnrzdm246/files/styles/cgov_article/public/cgov_image/media_image/2021-06/about-the-study-lead.jpg?h=becdecf7&amp;itok=03qT_e3y" width="330" height="320" style="float:right; padding-left: 5px;" alt="A group of diverse older adults standing together with their arms around each other looking to camera" />
                       <p>The Connect for Cancer Prevention Study is a research study that wants to better understand the causes of cancer and how to prevent it. We are asking you to join Connect so that we can study the health and behavior patterns that may affect cancer risk.</p>
@@ -180,36 +178,36 @@ export const renderHomeAboutPage =  () => {
                    </div>
                    <div class="accordion">
                       <nav class="on-this-page hide-otp-on-collapse" role="navigation">
-                         <h6>On This Page</h6>
+                         <h6 data-i18n="home.onThisPage">On This Page</h6>
                          <ul>
                             <li class="list-style">
                                <a href="#why-connect-is-important">
-                                  <p>Why Connect Is Important</p>
+                                  <p data-i18n="home.whyImportant">Why Connect Is Important</p>
                                </a>
                             </li>
                             <li class="list-style">
                                <a href="#what-to-expect-if-you-decide-to-join">
-                                  <p>What to Expect If You Decide to Join</p>
+                                  <p data-i18n="home.whatExpect">What to Expect If You Decide to Join</p>
                                </a>
                             </li>
                             <li class="list-style">
                                <a href="#where-this-study-takes-place">
-                                  <p>Where This Study Takes Place</p>
+                                  <p data-i18n="home.wherePlace">Where This Study Takes Place</p>
                                </a>
                             </li>
                             <li class="list-style">
                                <a href="#about-our-researchers">
-                                  <p>About Our Researchers</p>
+                                  <p data-i18n="home.aboutResearchers">About Our Researchers</p>
                                </a>
                             </li>
                             <li class="list-style">
                                <a href="#a-resource-for-science">
-                                  <p>A Resource for Science</p>
+                                  <p data-i18n="home.resourceScience">A Resource for Science</p>
                                </a>
                             </li>
                          </ul>
                       </nav>
-                      <section>
+                      <section data-i18n="home.whyImportantSection">
                          <h2 id="why-connect-is-important">
                             <p>Why Connect Is Important</p>
                          </h2>
@@ -222,7 +220,7 @@ export const renderHomeAboutPage =  () => {
                          <p>Patterns that affect cancer risk may vary based on where people live, their race and ethnicity, their age, and other factors. It is important for Connect to include many types of people so that new discoveries can benefit everybody.</p>
                          <p>We are launching Connect today because modern cohorts are needed to study new and future exposures that may affect cancer risk. We are using new technology and research methods that can lead to key discoveries to prevent cancer.</p>
                       </section>
-                      <section>
+                      <section data-i18n="home.whatExpectSection">
                          <h2 id="what-to-expect-if-you-decide-to-join">
                             <br>
                             <p>What to Expect If You Decide to Join</p>
@@ -231,14 +229,14 @@ export const renderHomeAboutPage =  () => {
                          <p>We will also ask you to donate samples of blood, urine, and saliva (biological specimens) when you join the study and every two or three years after. These samples provide information about what is going on in your body. Information from different types of samples can help us find health and behavior patterns that may affect cancer risk. Learn more from our <a data-entity-substitution="canonical" data-entity-type="node" data-entity-uuid="6a5a3e24-4247-4b79-b3ab-d5ec782e6d75" href="#expectations">What to Expect</a> page.</p>
                          <p>Connect will go on for many years because events that may affect cancer risk happen over a lifetime, and most cancers develop later in life. If you join, we hope you take part for many years. The longer you participate, the more we may learn.</p>
                       </section>
-                      <section>
+                      <section data-i18n="home.wherePlaceSection">
                          <h2 id="where-this-study-takes-place">
                             <p>Where This Study Takes Place</p>
                          </h2>
                          <p>For a study of this size and importance, we partnered with health care systems throughout the United States. People who get their health care through these systems tend to stay for a long time. This is an important quality for cohort studies like ours that need to follow people over the course of their lives.</p>
                          <p>Health care systems store private, protected information about their patients’ health from all aspects of care in the form of electronic health records (EHRs). By agreeing to share the information in your EHRs with Connect, researchers can get a full picture of your health. We can also coordinate with your health care system to collect leftover samples from your regular health care visits, like stool or urine, or tissue from people who develop a cancer or precancer.</p>
                       </section>
-                      <section>
+                      <section data-i18n="home.aboutResearchersSection">
                          <h2 id="about-our-researchers">
                             <p>About Our Researchers</p>
                          </h2>
@@ -249,7 +247,7 @@ export const renderHomeAboutPage =  () => {
                          <p style="margin-bottom: 0.5rem">Our team at NCI is part of the largest cancer research group in the world that studies the causes of disease, or epidemiology. Our team and other researchers at NCI have long histories of studying cancer and have made important discoveries. For example, in another cohort study, we found that drinking coffee was associated with lower risk of death from cancer and other causes. This was good news for coffee drinkers! NCI research informs public health policy in the United States and around the world. Connect will contribute evidence that can impact public health policy far into the future.</p>
                          <p style="margin-bottom: 0.5rem">See the full <a href="https://dceg.cancer.gov/research/who-we-study/cohorts/connect#study-team" >Connect team</a> information page to learn about the people leading this research.</p>
                       </section>
-                      <section>
+                      <section data-i18n="home.resourceScienceSection">
                          <h2 id="a-resource-for-science">
                             <p>A Resource for Science</p>
                          </h2>
@@ -271,59 +269,59 @@ export const renderHomeAboutPage =  () => {
        </div>
        <div class="col-1">
        </div>
-    </div>     `
+    </div>     `);
     window.scrollTo(0, 0);
 }
 
 export const renderHomeExpectationsPage = () => {
     const mainContent = document.getElementById('root');
-    mainContent.innerHTML = `
+  mainContent.innerHTML = translateHTML(`
     <div class="row">
        <div class="col-1">
        </div>
        <div class="col-10" id="connectBody">
           <article>
         <div class="resize-content">
-          <h1>
+          <h1 data-i18n="home.whatExpectTitle">
               What to Expect
           </h1>
           <div id="cgvBody">
-              <div class="blog-intro-text">
+              <div class="blog-intro-text" data-i18n="home.whatExpectIntro">
                 <img loading="lazy" src="https://www.cancer.gov/connect-prevention-study/sites/g/files/xnrzdm246/files/styles/cgov_article/public/cgov_image/media_image/2021-06/what-to-expect-lead.jpg?h=becdecf7&amp;itok=Xqd0--45" width="350" height="320" style="float:right; padding-left:15px;" alt="Two women smiling. One woman has her arm leaning on her partner."/>
                 <p>If you are interested in joining the Connect for Cancer Prevention Study and think you are eligible, it is easy to sign up. If you choose to join Connect, we will ask you to take part in study activities from time to time. Most study activities are easy to complete online a few times each year.</p>
               </div>
               <div class="accordion">
                 <nav class="on-this-page hide-otp-on-collapse" role="navigation">
-                    <h6>On This Page</h6>
+                    <h6 data-i18n="home.onThisPage">On This Page</h6>
                     <ul>
                       <li class = "list-style">
                           <a href="#joining-connect">
-                            <p>Joining Connect</p>
+                            <p data-i18n="home.joiningConnect">Joining Connect</p>
                           </a>
                       </li>
                       <li class = "list-style">
                           <a href="#after-you-join">
-                            <p>After You Join</p>
+                            <p data-i18n="home.afterJoin">After You Join</p>
                           </a>
                       </li>
                       <li class="list-style">
                           <a href="#long-term-study-activities">
-                            <p>Long-term Study Activities</p>
+                            <p data-i18n="home.studyActivities">Long-term Study Activities</p>
                           </a>
                       </li>
                       <li class="list-style">
                           <a href="#what-connect-will-do">
-                            <p>What Connect Will Do</p>
+                            <p data-i18n="home.whatWillDo">What Connect Will Do</p>
                           </a>
                       </li>
                       <li class="list-style">
                           <a href="#how-your-information-will-help-prevent-cancer">
-                            <p>How Your Information Will Help Prevent Cancer</p>
+                            <p data-i18n="home.preventCancer">How Your Information Will Help Prevent Cancer</p>
                           </a>
                       </li>
                     </ul>
                 </nav>
-                <section>
+                <section data-i18n="home.joiningConnectSection">
                     <h2 id="joining-connect">
                       <p>Joining Connect</p>
                     </h2>
@@ -360,7 +358,7 @@ export const renderHomeExpectationsPage = () => {
                     </div>
                     <p>Joining Connect will not affect your health care or health benefits. If you join, you can stop at any time. There is no monetary cost tied to taking part in Connect.</p>
                 </section>
-                <section>
+                <section data-i18n="home.afterJoinSection">
                     <h2 id="after-you-join">
                       <p>After You Join</p>
                     </h2>
@@ -388,7 +386,7 @@ export const renderHomeExpectationsPage = () => {
                     <p>Some samples may be collected where you get your health care. Others are easy for you to collect at home. There is no monetary cost tied to donating samples.</p>
                     <p>After you complete the first set of surveys and donate your first blood sample, you will receive $25 in cash or as a gift card, depending on your health care system.</p>
                 </section>
-                <section>
+                <section data-i18n="home.studyActivitiesSection">
                     <h2 id="long-term-study-activities">
                       <p>Long-term Study Activities</p>
                     </h2>
@@ -406,7 +404,7 @@ export const renderHomeExpectationsPage = () => {
                       <li class="list-style">Sharing information from wearable health trackers that you wear or mobile phone apps. These could measure physical activity, diet, sleep, or things about where you live.</li>
                     </ul>
                 </section>
-                <section>
+                <section data-i18n="home.whatWillDoSection">
                     <h2 id="what-connect-will-do">
                       <p>What Connect Will Do</p>
                     </h2>
@@ -435,7 +433,7 @@ export const renderHomeExpectationsPage = () => {
                       <li class="list-style">Urine from tests to check for some infections</li>
                     </ul>
                 </section>
-                <section>
+                <section data-i18n="home.preventCancerSection">
                     <h2 id="how-your-information-will-help-prevent-cancer">
                       <p>How Your Information May Help Prevent Cancer</p>
                     </h2>
@@ -466,13 +464,13 @@ export const renderHomeExpectationsPage = () => {
        </div>
        <div class="col-1">
        </div>
-    </div>`;
+    </div>`);
     window.scrollTo(0, 0);
   };
 
 export const renderHomePrivacyPage = () => {
   const mainContent = document.getElementById('root');
-  mainContent.innerHTML = `
+  mainContent.innerHTML = translateHTML(`
     <div class="row">
       <div class="col-1">
       </div>
@@ -482,13 +480,12 @@ export const renderHomePrivacyPage = () => {
             <!-- End Banner Area -->
             <div class="resize-content">
                 <!-- PAGE TITLE -->
-                <h1>Your Privacy Is Important to Us</h1>
+                <h1 data-i18n="home.privacyPageTitle">Your Privacy Is Important to Us</h1>
                 <!-- END PAGE TITLE -->
                 <!-- Contents -->
-                <div class="blog-intro-text">
+                <div class="blog-intro-text" data-i18n="home.privacyPageIntro">
               <img loading="lazy" src="https://www.cancer.gov/connect-prevention-study/sites/g/files/xnrzdm246/files/styles/cgov_article/public/cgov_image/media_image/2021-06/your-privacy-lead.jpg?h=becdecf7&amp;itok=iygf7OKL" width="350" height="300" style="float:right; padding-left:20px; " alt="A man in a wheelchair looking at information on a tablet" />
                 <p style="margin-top:16px">As part of the study, we ask you to share information that can identify you, like your name, address, and social security number (optional), and health information. Our team values the important information you share with us, and will protect this information with the highest privacy standards.</p>
-                </div>
                 <p>To protect your information, we: </p>
                 <ul>
                   <li class="list-style">Follow federal privacy rules, including the <a href="https://www.justice.gov/opcl/overview-privacy-act-1974-2020-edition">Privacy Act</a> and the <a href="https://grants.nih.gov/grants/guide/notice-files/NOT-OD-19-050.html">Common Rule</a>.</li>
@@ -499,32 +496,36 @@ export const renderHomePrivacyPage = () => {
                 </ul>
                 <p>If you have questions about our privacy safeguards, please <a href="https://norcfedramp.servicenowservices.com/recruit">contact us</a>.</p>
                 <!-- End Contents -->
+              </div>
             </div>
           </article>
       </div>
       <div class="col-1">
       </div>
-    </div>`
+    </div>`);
   window.scrollTo(0, 0);
 }
 
 export function signInSignUpEntryRender({ ui }) {
   const df = fragment`
   <div class="mx-4">
-    <p class="loginTitleFont" style="text-align:center;">Sign Into Your Account</p>
-    <button type="button" class="connect connect-primary" style="width:100%" id="signInBtn">Sign In</button>
+    <p class="loginTitleFont" style="text-align:center;" data-i18n="home.signInTitle">Sign Into Your Account</p>
+    <button type="button" class="connect connect-primary" style="width:100%" id="signInBtn" data-i18n="home.signInButton">Sign In</button>
     <hr/>
-    <p class="loginTitleFont" style="text-align:center;">Sign Up</p>
-    <button type="button" class = "connect connect-secondary" style="width:100%" id="signUpBtn">Create Account</button>
-    <div style="font-size:8px" class="mt-3">
+    <p class="loginTitleFont" style="text-align:center;" data-i18n="home.signUpTitle">Sign Up</p>
+    <button type="button" class = "connect connect-secondary" style="width:100%" id="signUpBtn" data-i18n="home.signUpButton">Create Account</button>
+    <div style="font-size:8px" class="mt-3" data-i18n="shared.usGov">
     ${usGov}
     </div>
   </div>`;
 
+  // Added this code to properly translate the string
+  translateHTML(df.children[0]);
   const signInBtn = df.querySelector('#signInBtn');
   const signUpBtn = df.querySelector('#signUpBtn');
 
   document.getElementById('signInWrapperDiv').replaceChildren(df);
+
   signInBtn.addEventListener('click', async () => {
     await signInCheckRender({ ui });
   });
@@ -536,28 +537,30 @@ export function signInSignUpEntryRender({ ui }) {
 export function signInCheckRender ({ ui }) {
   const df = fragment`
   <div class="mx-4">
-    <form ">
-      <label for="accountInput" class="form-label">Phone or Email<br />
+    <form>
+      <label for="accountInput" class="form-label" data-i18n="home.phoneEmailLabel">Phone or Email<br />
         <span style="font-size: 0.8rem; color:gray">Phone Format: 123-456-7890</span>
       </label>
       <input type="text" id="accountInput" />
       <div class="alert alert-warning mt-1"
-          id="invalidInputAlert" role="alert" style="display:none">
+          id="invalidInputAlert" role="alert" style="display:none" data-i18n="home.emailPhoneAlert">
           Please enter a valid email or phone number
       </div>
-      <button type="submit" class="connect connect-primary my-3" style="width:100%" id="signInBtn">
+      <button type="submit" class="connect connect-primary my-3" style="width:100%" id="signInBtn" data-i18n="home.continueButton">
       Continue
       </button>
       <p>
-          Don't have an account?
-          <a href="#" id="signUpAnchor">Create one here</a>
+          <span data-i18n="home.dontHaveAccount">Don't have an account?</span> 
+          <a href="#" id="signUpAnchor" data-i18n="home.signUpHere">Create one here</a>
       </p>
     </form>
-    <div style="font-size:8px" class="mt-3">
+    <div style="font-size:8px" class="mt-3" data-i18n="shared.usGov">
       ${usGov}
     </div>
   </div>`;
    
+  // Added this code to properly translate the string
+ translateHTML(df.children[0]);
   const signInBtn = df.querySelector('#signInBtn');
   const accountInput = df.querySelector('#accountInput');
   const signUpAnchor = df.querySelector('#signUpAnchor');
@@ -633,25 +636,27 @@ export function signInCheckRender ({ ui }) {
 export function signUpRender({ ui, signUpType = "phone" }) {
   const df = fragment`
   <div class="mx-4">
-    <p class="loginTitleFont" style="text-align:center;">Create an Account</p>
+    <p class="loginTitleFont" style="text-align:center;" data-i18n="home.createAccountTitle">Create an Account</p>
     <div id="signUpDiv"></div>
     <p>
       ${
         signUpType === "phone"
           ? `<div style="font-size:12px" class="mb-2">
-          <a href="#" id="emailSignUp">Click here</a> if you want to sign up with email.
+          <span data-i18n="home.signUpEmail"></span><a href="#" id="emailSignUp" data-i18n="home.clickHere">Click here</a>
         </div>`
           : ""
       }
       <div style="font-size:12px">
-        If you have an account, please <a href="#" id="signIn">sign in </a> with the email or phone number you used to create your account.
+        <span data-i18n="home.signInAccount">If you have an account, please </span><a href="#" id="signIn" data-i18n="home.signInAccountLink">sign in </a><span data-i18n="home.signInAccountEnd"> with the email or phone number you used to create your account.</span>
       </div>
     </p>
-    <div style="font-size:8px" class="mt-3">
+    <div style="font-size:8px" class="mt-3" data-i18n="shared.usGov">
     ${usGov}
     </div>
   </div>`;
 
+  // Added this code to properly translate the string
+  translateHTML(df.children[0]);
   const signInLink = df.querySelector("#signIn");
   const emailSignUpLink = df.querySelector("#emailSignUp");
   document.getElementById("signInWrapperDiv").replaceChildren(df);
@@ -659,7 +664,8 @@ export function signUpRender({ ui, signUpType = "phone" }) {
   ui.start("#signUpDiv", signInConfig(signUpType));
 
   if (signUpType === "phone") {
-    document.querySelector("div.firebaseui-card-header > h1").innerText = "Create an account with your phone number";
+    document.querySelector("div.firebaseui-card-header > h1").innerText = translateText('home.createAccountPhone');
+    document.querySelector("div.firebaseui-card-header > h1").setAttribute('data-i18n', 'home.createAccountPhone');
     const verifyButton = document.querySelector('button[class~="firebaseui-id-submit"]');
     verifyButton && verifyButton.addEventListener("click", () => {
         const cancelButton = document.querySelector('button[class~="firebaseui-id-secondary-link"]');
@@ -668,17 +674,19 @@ export function signUpRender({ ui, signUpType = "phone" }) {
         });
       });
   } else if (signUpType === "email") {
-    document.querySelector("div.firebaseui-card-header > h1").innerText = "Create an account with your email";
+    document.querySelector("div.firebaseui-card-header > h1").innerText = translateText('home.createAccountEmail');
+    document.querySelector("div.firebaseui-card-header > h1").setAttribute('data-i18n', 'home.createAccountEmail');
     const firebaseUiCardContentWrapper = document.querySelector('div[class~="firebaseui-relative-wrapper"]');
     const pElement = document.createElement("p");
-    pElement.innerText =
-      "Connect is a long-term study. Please use an email that you will be able to access in the future. Avoid using a work email if possible.";
+    pElement.innerText = translateText('home.personalEmail');
+    pElement.setAttribute('data-i18n', 'home.personalEmail');
     firebaseUiCardContentWrapper.appendChild(pElement);
     const submitButton = document.querySelector('button[class~="firebaseui-id-submit"]');
     submitButton && submitButton.addEventListener("click", () => {
       const pEle = document.querySelector('p[class~="firebaseui-text-input-error"]');
       if (pEle?.innerText !== "") {
-        pEle.innerText = "Enter a valid email address";
+        pEle.innerText = translateText('home.validEmail');
+        pEle.setAttribute('data-i18n', 'home.validEmail');
       } else {
         window.localStorage.setItem(
           "signInEmail",
@@ -709,19 +717,21 @@ export function signUpRender({ ui, signUpType = "phone" }) {
 function accountNotFoundRender({ ui, account }) {
   const df = fragment`
   <div class="mx-4 d-flex flex-column justify-content-center align-items-center">
-    <h5>Not Found</h5>
+    <h5 data-i18n="home.notFoundTitle">Not Found</h5>
     <div class="d-flex flex-column justify-content-left ">
-      <p>Your ${account.type} (${account.value}) cannot be found.</p>
-      <p>If you’re having trouble signing in or don’t remember your account information, please contact the Connect Support Center at 
+      <p><span data-i18n="home.accountNotFound${account.type.replace(/\s/g,'')}"></span>${account.value}<span data-i18n="home.accountNotFoundEnd"></span></p>
+      <p data-i18n="home.signInTrouble">If you’re having trouble signing in or don’t remember your account information, please contact the Connect Support Center at 
         <a href="tel:+18664626621">1-866-462-6621</a> or 
         <a href="mailto:ConnectStudy@norc.org">ConnectStudy@norc.org</a> before creating a new account.
       </p>
-      <p>Use another account? <a href="#" id="useAnotherAccount">Click here</a> </p>
-      <p>Don't have an account? <a href="#" id="createNewAccount">Create one here</a> </p>
+      <p><span data-i18n="home.anotherAccount">Use another account? </span><a href="#" id="useAnotherAccount" data-i18n="home.anotherAccountClick">Click here</a> </p>
+      <p><span  data-i18n="home.noAccount">Don't have an account? </span><a href="#" id="createNewAccount" data-i18n="home.noAccountCreate">Create one here</a> </p>
     <div>
   </div>
   `;
 
+  // Added this code to properly translate the string
+  df.children[0].innerHTML = eval('`'+translateHTML(df.children[0].innerHTML)+'`');
   const useAnotherAccountBtn = df.querySelector('#useAnotherAccount');
   const createNewAccountBtn = df.querySelector('#createNewAccount');
 

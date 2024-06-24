@@ -1,4 +1,4 @@
-import { hideAnimation, questionnaireModules, storeResponse, isParticipantDataDestroyed} from "../shared.js";
+import { hideAnimation, questionnaireModules, storeResponse, isParticipantDataDestroyed, translateHTML} from "../shared.js";
 import { blockParticipant, questionnaire } from "./questionnaire.js";
 import { renderUserProfile } from "../components/form.js";
 import { consentTemplate } from "./consent.js";
@@ -30,11 +30,8 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
             }
             
             let topMessage = "";
-            
-            if(
-                data[fieldMapping.userProfileSubmittedAutogen] &&
-                data[fieldMapping.userProfileSubmittedAutogen] === fieldMapping.yes
-            ){
+
+            if(data['699625233'] && data['699625233'] === 353358909){
                 let template = `
                     <div class="row">
                         <div class="col-lg-2">
@@ -43,21 +40,17 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                      
                 `;
                 let finalMessage = "";
-                const defaultMessage = "<p/><br>You have withdrawn from Connect. We will not collect any more data from you. If you have any questions, please contact the Connect Support Center by calling 1-877-505-0253 or by emailing <a href='mailto:ConnectSupport@norc.org'>ConnectSupport@norc.org</a>.<br>";
+                const defaultMessage = '<p/><br><span data-i18n="mytodolist.withdrawnConnect">You have withdrawn from Connect. We will not collect any more data from you. If you have any questions, please contact the Connect Support Center by calling 1-877-505-0253 or by emailing <a href="mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a>.</span><br>';
 
                 if (isParticipantDataDestroyed(data)){
-                    finalMessage += "At your request, we have deleted your Connect data. If you have any questions, please contact the Connect Support Center by calling 1-877-505-0253 or by emailing  <a href='mailto:ConnectSupport@norc.org'>ConnectSupport@norc.org</a>."
+                    finalMessage += '<span data-i18n="mytodolist.deletedData">At your request, we have deleted your Connect data. If you have any questions, please contact the Connect Support Center by calling 1-877-505-0253 or by emailing  <a href="mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a>.</span>'
                 }
-                else if (data[fieldMapping.destroyData] === fieldMapping.yes){
-                    if (!data[fieldMapping.dataDestructionRequestSigned] || data[fieldMapping.dataDestructionRequestSigned] == fieldMapping.no){
-                        finalMessage += "You have a new <a href='#forms'>form</a> to sign." + defaultMessage
+                else if (data['831041022'] === 353358909){
+                    if (!data['359404406'] || data['359404406'] == 104430631){
+                        finalMessage += '<span data-i18n="mytodolist.newFormSign">You have a new <a href="#forms">form</a> to sign.</span>' + defaultMessage
                     }
-                    else if(
-                        (data[fieldMapping.withdrawConsent] &&
-                            data[fieldMapping.withdrawConsent] !== fieldMapping.no) &&
-                        (!data[fieldMapping.hipaaRevocationSigned] || data[fieldMapping.hipaaRevocationSigned] == fieldMapping.no)
-                    ){
-                        finalMessage += "You have a new <a href='#forms'>form</a> to sign." + defaultMessage
+                    else if((data['747006172'] && data['747006172'] !== 104430631) && (!data['153713899'] || data['153713899'] == 104430631)){
+                        finalMessage += '<span data-i18n="mytodolist.newFormSign">You have a new <a href="#forms">form</a> to sign.</span>' + defaultMessage
                     }
                     else{
                         finalMessage += defaultMessage
@@ -65,8 +58,8 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                 }
                 else if ((data[fieldMapping.withdrawConsent] && data[fieldMapping.withdrawConsent] !== fieldMapping.no)){
                     
-                    if (!data[fieldMapping.hipaaRevocationSigned] || data[fieldMapping.hipaaRevocationSigned] == fieldMapping.no){
-                        finalMessage += "You have a new <a href='#forms'>form</a> to sign." + defaultMessage
+                    if (!data['153713899'] || data['153713899'] == 104430631){
+                        finalMessage += '<span data-i18n="mytodolist.newFormSign">You have a new <a href="#forms">form</a> to sign.</span>' + defaultMessage
                     }
                     else{
                         finalMessage += defaultMessage
@@ -78,12 +71,12 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                         ${finalMessage}
                     </div>
                     `
-                    mainContent.innerHTML = template;
+                    mainContent.innerHTML = translateHTML(template);
                     hideAnimation();
                     return;
                 }
-                else if (((data[fieldMapping.revokeHipaa] === fieldMapping.yes)) && (!data[fieldMapping.hipaaRevocationSigned] || data[fieldMapping.hipaaRevocationSigned] === fieldMapping.no)){
-                    topMessage += "You have a new <a href='#forms'>form</a> to sign.<p/><br>"
+                else if (((data['773707518'] === 353358909)) && (!data['153713899'] || data['153713899'] === 104430631)){
+                    topMessage += '<span data-i18n="mytodolist.newFormSign">You have a new <a href="#forms">form</a> to sign.</span><p/><br>';
                 }
                 if(!data[fieldMapping.verification] || data[fieldMapping.verification] == fieldMapping.notYetVerified){
                     if(data['unverifiedSeen'] && data['unverifiedSeen'] === true){
@@ -94,18 +87,18 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                     }
                     topMessage += `
                         ${fromUserProfile ? 
-                            `Thank you for completing your profile for the Connect for Cancer Prevention Study. Next, the Connect team at your health care system will check that you are eligible to be part of the study. We will contact you within a few business days.
+                            `<span data-i18n="mytodolist.completingProfile">Thank you for completing your profile for the Connect for Cancer Prevention Study. Next, the Connect team at your health care system will check that you are eligible to be part of the study. We will contact you within a few business days.
                             <br>
-                            In the meantime, please begin by completing your first Connect survey.`:
-                            `The Connect team at your health care system is working to check that you are eligible to be part of the study. 
-                            ${checkIfComplete(data) ? 'Thank you for completing your first Connect survey! We will be in touch with next steps.': 'In the meantime, please begin by completing your first Connect survey.'}`}
+                            In the meantime, please begin by completing your first Connect survey.</span>`:
+                            `<span data-i18n="mytodolist.checkEligibility">The Connect team at your health care system is working to check that you are eligible to be part of the study.</span> 
+                            ${checkIfComplete(data) ? '<span data-i18n="mytodolist.thankYouCompleting">Thank you for completing your first Connect survey! We will be in touch with next steps.</span>': '<span data-i18n="mytodolist.firstSurvey">In the meantime, please begin by completing your first Connect survey.</span>'}`}
                     `
                 }
                 else if(data[fieldMapping.verification] && data[fieldMapping.verification] == fieldMapping.verified) {
                     if(data['verifiedSeen'] && data['verifiedSeen'] === true){
                         if(checkIfComplete(data)) {
                             if(!data['firstSurveyCompletedSeen']) {
-                                topMessage += 'Thank you for completing your first Connect survey! We will be in touch with next steps.' 
+                                topMessage += '<span data-i18n="mytodolist.thankYouCompleting">Thank you for completing your first Connect survey! We will be in touch with next steps.</span>' 
                                 let formData = {};
                                 formData['firstSurveyCompletedSeen'] = true;
                                 storeResponse(formData);
@@ -117,11 +110,11 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                     }
                     else{
                         topMessage += `
-                            Great news! We have confirmed that you are eligible for the Connect for Cancer Prevention Study. You are now an official Connect participant.
+                            <span data-i18n="mytodolist.confirmedEligibility">Great news! We have confirmed that you are eligible for the Connect for Cancer Prevention Study. You are now an official Connect participant.</span>
                             <br>
-                            ${checkIfComplete(data) ? 'Thank you for completing your first Connect survey! We will be in touch with next steps.':'The next step is to complete your first Connect survey.'}
+                            ${checkIfComplete(data) ? '<span data-i18n="mytodolist.thankYouCompleting">Thank you for completing your first Connect survey! We will be in touch with next steps.</span>':'<span data-i18n="mytodolist.completeFirstSurvey">The next step is to complete your first Connect survey.</span>'}
                             <br>
-                            Thank you for being a part of Connect and for your commitment to help us learn more about how to prevent cancer.
+                            <span data-i18n="mytodolist.thankYouBeingPart">Thank you for being a part of Connect and for your commitment to help us learn more about how to prevent cancer.</span>
                             <br>
                         `
                         let formData = {};
@@ -131,7 +124,7 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                 }
                 else if(data[fieldMapping.verification] && data[fieldMapping.verification] == fieldMapping.cannotBeVerified) {
                     template += `
-                    <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
+                    <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;"  data-i18n="mytodolist.notEligibleMessage">
                         Based on our records you are not eligible for the Connect for Cancer Prevention Study. Thank you for your interest. Any information that you have already provided will remain private. We will not use any information you shared for our research.
                         <br>
                         If you think this is a mistake or if you have any questions, please contact the <a href="https://norcfedramp.servicenowservices.com/participant" target="_blank">Connect Support Center</a>.
@@ -141,13 +134,13 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                     </div>
                     </div>
                     `
-                    mainContent.innerHTML = template;
+                    mainContent.innerHTML = translateHTML(template);
                     hideAnimation();
                     return;
                 }
                 else if(data[fieldMapping.verification] && data[fieldMapping.verification] == fieldMapping.duplicate) {
                     template += `
-                    <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
+                    <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;" data-i18n="mytodolist.alreadyHaveAccount">
                         Our records show that you already have another account with a different email or phone number. Please try signing in again. Contact the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling <span style="white-space:nowrap;overflow:hidden">1-877-505-0253</span> if you need help accessing your account.
                     </div>
                     </div>
@@ -155,51 +148,54 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                     </div>
                     </div>
                     `
-                    mainContent.innerHTML = template;
+                    mainContent.innerHTML = translateHTML(template);
                     hideAnimation();
                     return;
                 }
-                else if(data[fieldMapping.verification] && data[fieldMapping.verification] == fieldMapping.outreachTimedOut) {
+                else if (data[fieldMapping.verification] && data[fieldMapping.verification] == fieldMapping.outreachTimedOut) {
                     let site = data[fieldMapping.healthcareProvider]
-                    let body = `the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling 1-877-505-0253`;
-                    if(site == fieldMapping.healthPartners){
-                        body = `HealthPartners by emailing <a href = "mailto:ConnectStudy@healthpartners.com">ConnectStudy@healthpartners.com</a> or calling 952-967-5067`
+                    let body = `<span data-i18n="mytodolist.bodyConnectSupport">the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling 1-877-505-0253</span>`;
+                    if (site === fieldMapping.healthPartners){
+                        body = `<span data-i18n="mytodolist.bodyHealthPartners">HealthPartners by emailing <a href = "mailto:ConnectStudy@healthpartners.com">ConnectStudy@healthpartners.com</a> or calling 952-967-5067</span>`
                     }
-                    if(site == fieldMapping.hfhs){
-                        body = `Henry Ford Health System by emailing <a href = "mailto:ConnectStudy@hfhs.org">ConnectStudy@hfhs.org</a>`
+                    if (site === fieldMapping.henryFordHealth){
+                        body = `<span data-i18n="mytodolist.bodyHenryFord">Henry Ford Health System by emailing <a href = "mailto:ConnectStudy@hfhs.org">ConnectStudy@hfhs.org</a></span>`
                     }
-                    if(site == fieldMapping.kpColorado){
-                        body = `KP Colorado by emailing <a href = "mailto:Connect-Study-KPCO@kp.org">Connect-Study-KPCO@kp.org</a> or calling 303-636-3126`
+                    if(site === fieldMapping.kaiserPermanenteCO){
+                        body = `<span data-i18n="mytodolist.bodyKPColorado">KP Colorado by emailing <a href = "mailto:Connect-Study-KPCO@kp.org">Connect-Study-KPCO@kp.org</a> or calling 303-636-3126</span>`
                     }
-                    if(site == fieldMapping.kpGeorgia){
-                        body = `KP Georgia by emailing <a href = "mailto:Connect-Study-KPGA@kp.org">Connect-Study-KPGA@kp.org</a> or calling 404-745-5115`
+                    if (site === fieldMapping.kaiserPermanenteGA){
+                        body = `<span data-i18n="mytodolist.bodyKPGeorgia">KP Georgia by emailing <a href = "mailto:Connect-Study-KPGA@kp.org">Connect-Study-KPGA@kp.org</a> or calling 404-745-5115</span>`
                     }
-                    if(site == fieldMapping.kpHawaii){
-                        body = `KP Hawaii by emailing <a href = "mailto:Connect-Study-KPHI@kp.org">Connect-Study-KPHI@kp.org</a> or calling 833-417-0846`
+                    if (site === fieldMapping.kaiserPermanenteHI){
+                        body = `<span data-i18n="mytodolist.bodyKPHawaii">KP Hawaii by emailing <a href = "mailto:Connect-Study-KPHI@kp.org">Connect-Study-KPHI@kp.org</a> or calling 833-417-0846</span>`
                     }
-                    if(site == fieldMapping.kpNorthwest){
-                        body = `KP Northwest by emailing <a href = "mailto:Connect-Study-KPNW@kp.org">Connect-Study-KPNW@kp.org</a> or calling 1-866-554-6039 (toll-free) or 503-528-3985`
+                    if (site === fieldMapping.kaiserPermanenteNW){
+                        body = `<span data-i18n="mytodolist.bodyKPNorthwest">KP Northwest by emailing <a href = "mailto:Connect-Study-KPNW@kp.org">Connect-Study-KPNW@kp.org</a> or calling 1-866-554-6039 (toll-free) or 503-528-3985</span>`
                     }
-                    if(site == fieldMapping.marshfield){
-                        body = `the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling 1-877-505-0253`
+                    if (site === fieldMapping.marshfieldClinical){
+                        body = `<span data-i18n="mytodolist.bodyConnectSupport">the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling 1-877-505-0253</span>`
                     }
-                    if(site == fieldMapping.sanfordHealth){
-                        body = `Sanford Health by emailing <a href = "mailto:ConnectStudy@sanfordhealth.org">ConnectStudy@sanfordhealth.org</a> or calling 605-312-6100`
+                    if (site === fieldMapping.sanfordHealth){
+                        body = `<span data-i18n="mytodolist.bodySanfordHealth">Sanford Health by emailing <a href = "mailto:ConnectStudy@sanfordhealth.org">ConnectStudy@sanfordhealth.org</a> or calling 605-312-6100</span>`
                     }
-                    if(site == fieldMapping.ucm){
-                        body = `the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling 1-877-505-0253`
+                    if (site === fieldMapping.uChicagoMedicine){
+                        body = `<span data-i18n="mytodolist.bodyConnectSupport">the Connect Support Center by emailing <a href = "mailto:ConnectSupport@norc.org">ConnectSupport@norc.org</a> or calling 1-877-505-0253</span>`
+                    }
+                    if (site === fieldMapping.baylorScottAndWhiteHealth) {
+                        body = `<span data-i18n="mytodolist.bodyBaylorScottAndWhiteHealth">Baylor Scott & White Health by emailing <a href = "mailto:ConnectStudy@bswhealth.org">ConnectStudy@bswhealth.org</a> or calling 214-865-2427</span>`
                     }
 
                     template += `
                     <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
-                        Our study team has been trying to contact you about your eligibility for the Connect for Cancer Prevention Study. We need more information from you to check that you can be part of Connect. Please contact ${body} to confirm that you can take part in the study.    
+                        <span  data-i18n="mytodolist.tryingContact">Our study team has been trying to contact you about your eligibility for the Connect for Cancer Prevention Study. We need more information from you to check that you can be part of Connect. Please contact </span>${body}<span data-i18n="mytodolist.tryingContactEnd"> to confirm that you can take part in the study.</span>    
                     </div>
                     </div>
                     <div class="col-lg-2">
                     </div>
                     </div>
                     `;
-                    mainContent.innerHTML = template;
+                    mainContent.innerHTML = translateHTML(template);
                     window.scrollTo(0,0)
                     hideAnimation();
                     return;
@@ -218,13 +214,22 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                     </div>
                     `
                 }
+
+                // temp disable - 061024
+                /*
+                template += `
+                    <div class="alert alert-warning" id="notesOnLanguage" style="margin-top:10px;" data-i18n="mytodolist.notesOnLanguage">
+                        If you'd like to take this survey in another language, simply click the button at the top of the page to switch to your preferred language before you start. Once you start this survey in one language, you'll need to finish it in that language.
+                    </div>
+                `*/
+                
                 template += `
                             <ul class="nav nav-tabs" style="border-bottom:none; margin-top:20px">
                                 <li class="nav-item" style=:padding-left:10px>
-                                    <button class=" nav-link navbar-btn survey-Active-Nav" id="surveysToDoTab">To Do</button>
+                                    <button class=" nav-link navbar-btn survey-Active-Nav" id="surveysToDoTab" data-i18n="mytodolist.toDoButton">To Do</button>
                                 </li>
                                 <li class="nav-item">
-                                    <button class="nav-link navbar-btn survey-Inactive-Nav" id="surveysCompleted">Completed</button>
+                                    <button class="nav-link navbar-btn survey-Inactive-Nav" id="surveysCompleted" data-i18n="mytodolist.completed">Completed</button>
                                 </li>
                             </ul>`
                 template += `
@@ -241,7 +246,7 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                 </div>
                 `
                 
-                mainContent.innerHTML = template;
+                mainContent.innerHTML = translateHTML(template);
                 document.getElementById('surveysToDoTab').addEventListener('click', () => {
                     document.getElementById('surveyMainBody').innerHTML = renderMainBody(data, collections, 'todo') 
                     if(!document.getElementById('surveysToDoTab').classList.contains('survey-Active-Nav')){
@@ -405,7 +410,7 @@ const renderMainBody = (data, collections, tab) => {
     if(modules['Spanish Mouthwash']?.enabled) {
         toDisplaySystem.unshift({'body':['Spanish Mouthwash']});
     }
-    
+
     if(tab === 'todo'){
         for(let obj of toDisplaySystem){
             let started = false;
@@ -425,7 +430,7 @@ const renderMainBody = (data, collections, tab) => {
                         const thisKey = obj['header'];
                         const moduleTitle = modules[thisKey]['header'] || thisKey;
                         const isEnabled = modules[thisKey].enabled && !modules[thisKey].unreleased;
-                        const buttonAction = modules[thisKey].unreleased ? 'Coming soon' : data[fieldMapping[modules[thisKey].moduleId]?.statusFlag] === fieldMapping.moduleStatus.started ? 'Continue' : 'Start';
+                        const buttonAction = modules[thisKey].unreleased ? 'mytodolist.comingSoon' : data[fieldMapping[modules[thisKey].moduleId]?.statusFlag] === fieldMapping.moduleStatus.started ? 'mytodolist.continue' : 'mytodolist.start';
                         const ariaLabelButton = `${buttonAction} ${moduleTitle}`;
 
                         started = true;
@@ -434,19 +439,19 @@ const renderMainBody = (data, collections, tab) => {
                                 <div class="row" role="region" aria-label="${moduleTitle} information">
                                     ${modules[thisKey]['hasIcon'] === false? `` : `
                                     <div class="col-md-1" aria-hidden="true">
-                                        <i class="fas fa-clipboard-list d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
+                                        <i class="fas fa-clipboard-list d-none d-md-block" data-i18n="mytodolist.surveyIcon" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
                                     </div>
                                     `}
                                     <div class="${modules[thisKey]['hasIcon'] === false? 'col-9':'col-md-8'}">
                                         <p style="font-style:bold; font-size:24px; margin-left:30px">
                                             <b style="color:#5c2d93; font-size:18px;">
-                                            ${moduleTitle}
+                                            <span data-i18n="${`shared.mod${moduleTitle.replace(/(\s|[-._\(\),])/g,'')}`}">${moduleTitle}</span>
                                             </b>
                                             <br> 
-                                            ${modules[thisKey].description}
+                                            <span data-i18n="${modules[thisKey].description}"></span>
                                             ${modules[thisKey].estimatedTime ? `
                                             <em>
-                                            Estimated Time: ${modules[thisKey].estimatedTime}
+                                            <span data-i18n="mytodolist.estimatedTime">Estimated Time:</span> <span data-i18n="${modules[thisKey].estimatedTime}"></span>
                                             </em>
                                             ` : ''}
                                         </p>
@@ -454,8 +459,7 @@ const renderMainBody = (data, collections, tab) => {
                                     ${modules[thisKey]['noButton'] === true? '' : `
                                     <div class="col-md-3">
                                         <button class="btn survey-list-active btn-agreement questionnaire-module ${isEnabled ? 'list-item-active' : 'btn-disabled survey-list-inactive disabled'}" ${isEnabled ? '': 'aria-disabled="true"'} title="${moduleTitle}" module_id="${modules[thisKey].moduleId}" aria-label="${ariaLabelButton}">
-                                            <b>${buttonAction}
-                                            </b>
+                                            <b data-i18n="${buttonAction}"></b>
                                         </button>
                                     </div>
                                     `}
@@ -466,28 +470,28 @@ const renderMainBody = (data, collections, tab) => {
                     if (!modules[key].completed) {
                         const moduleTitle = modules[key]['header'] || key;
                         const isEnabled = modules[key].enabled && !modules[key].unreleased;
-                        const buttonAction = modules[key].unreleased ? 'Coming soon' : (data[fieldMapping[modules[key].moduleId].statusFlag] === fieldMapping.moduleStatus.started ? 'Continue' : 'Start');
+                        const buttonAction = modules[key].unreleased ? 'mytodolist.comingSoon' : (data[fieldMapping[modules[key].moduleId].statusFlag] === fieldMapping.moduleStatus.started ? 'mytodolist.continue' : 'mytodolist.start');
                         const ariaLabelButton = `${buttonAction} ${moduleTitle}`;
                         template += `
                             <div style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;" role="listitem" aria-label="${moduleTitle} details">
                                 <div class="row">
                                     ${modules[key]['hasIcon'] === false ? `` : `
                                     <div class="col-md-1" aria-hidden="true">
-                                        <i class="fas fa-clipboard-list d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
+                                        <i class="fas fa-clipboard-list d-none d-md-block" data-i18n="mytodolist.surveyIcon" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
                                     </div>
                                     `}
                                     <div class="${modules[key]['hasIcon'] === false ? 'col-9' : 'col-md-8'}">
                                     <p style="font-style:bold; font-size:24px; margin-left:30px">
                                         <b style="color:#5c2d93; font-size:18px;">
-                                        ${moduleTitle}
+                                        <span data-i18n="${`shared.mod${moduleTitle.replace(/(\s|[-._\(\),])/g,'')}`}">${moduleTitle}</span>
                                         </b>
                                         <br> 
-                                        ${modules[key].description}
+                                        <span data-i18n="${modules[key].description}"></span>
                                         <br>
                                         <br>
                                         ${modules[key].estimatedTime ? `
                                         <em>
-                                        Estimated Time: ${modules[key].estimatedTime}
+                                        <span data-i18n="mytodolist.estimatedTime">Estimated Time:</span> <span data-i18n="${modules[key].estimatedTime}"></span>
                                         </em>
                                         ` : ''}
                                     </p>
@@ -496,7 +500,7 @@ const renderMainBody = (data, collections, tab) => {
                                     ${modules[key]['noButton'] === true ? '' : `
                                         <div class="col-md-3">
                                             <button class="btn survey-list-active btn-agreement questionnaire-module ${isEnabled ? 'list-item-active' : 'btn-disabled survey-list-inactive disabled'}" ${isEnabled ? '': 'aria-disabled="true"'} title="${key}" module_id="${modules[key].moduleId}" aria-label="${ariaLabelButton}">
-                                                <b>${buttonAction}</b>
+                                            <b data-i18n="${buttonAction}"></b>
                                             </button> 
                                         </div>
                                     `}
@@ -518,15 +522,15 @@ const renderMainBody = (data, collections, tab) => {
                                     <div class="${modules[key]['hasIcon'] === false? 'col-9':'col-md-8'}">
                                     <p style="font-style:bold; font-size:24px; margin-left:30px">
                                         <b style="color:#5c2d93; font-size:18px;">
-                                        ${modules[key]['header']?modules[key]['header']:key}
+                                        <span data-i18n="${`shared.mod${moduleTitle.replace(/(\s|[-._\(\),])/g,'')}`}">${moduleTitle}</span>
                                         </b>
                                         <br> 
-                                        ${modules[key].description}
+                                        <span data-i18n="${modules[key].description}"></span>
                                         <br>
                                         <br>
                                         ${modules[key].estimatedTime ? `
                                         <em>
-                                        Completed Time: ${new Date(data[fieldMapping[modules[key].moduleId].completeTs]).toLocaleString()}
+                                        <span data-i18n="mytodolist.completedTime">Completed Time:</span> ${new Date(data[fieldMapping[modules[key].moduleId].completeTs]).toLocaleString()}
                                         </em>
                                         ` : ''}
                                     </p>
@@ -560,25 +564,25 @@ const renderMainBody = (data, collections, tab) => {
                                 let thisKey = obj['header'];
                                 
                                 started = true;
-                                
+                                const moduleTitle = modules[thisKey]['header'] || thisKey; // Use the module's header or key as the title
                                 template += `<li role="listitem" style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
                                                 <div class="row" aria-labelledby="header-${thisKey}">
                                                     ${modules[thisKey]['hasIcon'] === false? `` : `
                                                     <div class="col-md-1" aria-hidden="true">
-                                                        <i class="fas fa-clipboard-list d-md-none d-md-block d-lg-flex" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
+                                                        <i class="fas fa-clipboard-list d-md-none d-md-block d-lg-flex" data-i18n="mytodolist.surveyIcon" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
                                                     </div>
                                                     `}
 
                                                     <div class="${modules[thisKey]['hasIcon'] === false? 'col-9':'col-md-8'}">
                                                     <p style="font-style:bold; font-size:24px; margin-left:30px">
                                                         <b id="header-${thisKey}" style="color:#5c2d93; font-size:18px;">
-                                                        ${modules[thisKey]['header']?modules[thisKey]['header']:thisKey}
+                                                        <span data-i18n="${`shared.mod${moduleTitle.replace(/(\s|[-._\(\),])/g,'')}`}">${moduleTitle}</span>
                                                         </b>
                                                         <br> 
-                                                        ${modules[thisKey].description}
+                                                        <span data-i18n="${modules[thisKey].description}"></span>
                                                         ${modules[thisKey].estimatedTime ? `
                                                         <em>
-                                                        Estimated Time: ${modules[thisKey].estimatedTime}
+                                                        <span data-i18n="mytodolist.estimatedTime">Estimated Time:</span> <span data-i18n="${modules[thisKey].estimatedTime}"></span>
                                                         </em>
                                                         ` : ''}
                                                         
@@ -587,7 +591,7 @@ const renderMainBody = (data, collections, tab) => {
                                                 
                                                     ${modules[thisKey]['noButton'] === true? '' : `
                                                     <div class="col-md-3">
-                                                        <button class="btn survey-list-active btn-agreement questionnaire-module ${modules[thisKey].enabled ? 'list-item-active' : 'btn-disabled survey-list-inactive disabled'}" ${modules[thisKey].enabled ? '': 'aria-disabled="true"'} title="${thisKey}" module_id="${modules[thisKey].moduleId}"><b>Start</b></button>    
+                                                        <button class="btn survey-list-active btn-agreement questionnaire-module ${modules[thisKey].enabled ? 'list-item-active' : 'btn-disabled survey-list-inactive disabled'}" ${modules[thisKey].enabled ? '': 'aria-disabled="true"'} title="${thisKey}" module_id="${modules[thisKey].moduleId}"><b data-i18n="mytodolist.start">Start</b></button>    
                                                     </div>
                                                     `}
                                                 </div>
@@ -595,25 +599,26 @@ const renderMainBody = (data, collections, tab) => {
                                             `;
                             }
                         }
+                        const moduleTitle = modules[key]['header'] || key;
                         template += `<div role="listitem" style="width:95%; margin:auto; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
                             <div class="row" aria-labelledby="completed-header-${key}">
                                 <div class="col-md-1" aria-hidden="true">
-                                <i class="fas fa-clipboard-list d-none d-md-block" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
+                                <i class="fas fa-clipboard-list d-none d-md-block" data-i18n="mytodolist.surveyIcon" title="Survey Icon" style="margin-left:10px; font-size:50px;color:#c2af7f;"></i>
                                 </div>
                                 <div class="col-md-8">
                                 <p style="font-style:bold; font-size:24px; margin-left:30px">
                                     <b id="completed-header-${key} style="color:#5c2d93; font-size:18px;">
-                                    ${modules[key]['header'] || key}
+                                    <span data-i18n="${`shared.mod${moduleTitle.replace(/(\s|[-._\(\),])/g,'')}`}">${moduleTitle}</span>
                                     </b>
                                     <br>
                                     <em>
-                                        ${modules[key].description}
+                                       <span data-i18n="${modules[key].description}"></span>
                                         </em>
                                 </p>
                                 </div>
                             
                                 <div class="col-md-3">
-                                Completed Time: ${new Date(data[fieldMapping[modules[key].moduleId].completeTs]).toLocaleString()}
+                                <span data-i18n="mytodolist.completedTime">Completed Time:</span> ${new Date(data[fieldMapping[modules[key].moduleId].completeTs]).toLocaleString()}
                                 </div>
                             </div>
                         </div>`;
@@ -626,7 +631,7 @@ const renderMainBody = (data, collections, tab) => {
         }
     }
 
-    return template;
+    return translateHTML(template);
 };
 
 const checkIfComplete = (data) => {
@@ -668,7 +673,7 @@ const checkForNewSurveys = async (data, collections) => {
 
     if(newSurvey) {
         template += `
-            <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
+            <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;" data-i18n="mytodolist.newSurvey">>
                 You have a new survey to complete.
             </div>
         `;
@@ -678,7 +683,7 @@ const checkForNewSurveys = async (data, collections) => {
         knownCompletedStandaloneSurveys = data[677381583];
         if(knownCompletedStandaloneSurveys < completedStandaloneSurveys) {
             template += `
-            <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;">
+            <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;" data-i18n="mytodolist.submittedSurvey">
                 Thank you for submitting your survey. If you are using a shared device, please remember to sign out of MyConnect and any email accounts you used to sign into MyConnect.
             </div>
         `;
@@ -699,90 +704,58 @@ const checkForNewSurveys = async (data, collections) => {
 
 const setModuleAttributes = (data, modules, collections) => {
     modules['First Survey'] = {};
-    modules['First Survey'].description = 'This survey is split into four sections that ask about a wide range of topics, including information about your medical history, family, work, and health behaviors. You can answer all of the questions at one time, or pause and return to complete the survey later. If you pause, your answers will be saved so you can pick up where you left off. You can skip any questions that you do not want to answer.';
+    modules['First Survey'].description = 'mytodolist.mainHeaderFirstSurveyDescription';
     modules['First Survey'].hasIcon = false;
     modules['First Survey'].noButton = true;
     
-    modules['Background and Overall Health'].header = 'Background and Overall Health Survey Section';
-    modules['Background and Overall Health'].description = 'Questions about you, your medical history, and your family history.';
-    modules['Background and Overall Health'].estimatedTime = '20 to 30 minutes';
+    modules['Background and Overall Health'].header = 'Background and Overall Health'; 
+    modules['Background and Overall Health'].description = 'mytodolist.mainBodyBackgroundDescription';
+    modules['Background and Overall Health'].estimatedTime = 'mytodolist.20_30minutes';
     
-    modules['Medications, Reproductive Health, Exercise, and Sleep'].header = 'Medications, Reproductive Health, Exercise, and Sleep Survey Section';
-    modules['Medications, Reproductive Health, Exercise, and Sleep'].description = 'Questions about your current and past use of medications, your exercise and sleep habits, and your reproductive health.';
-    modules['Medications, Reproductive Health, Exercise, and Sleep'].estimatedTime = '20 to 30 minutes';
+    modules['Medications, Reproductive Health, Exercise, and Sleep'].header = 'Medications, Reproductive Health, Exercise, and Sleep'; 
+    modules['Medications, Reproductive Health, Exercise, and Sleep'].description = 'mytodolist.mainBodyMedicationsDescription';
+    modules['Medications, Reproductive Health, Exercise, and Sleep'].estimatedTime = 'mytodolist.20_30minutes';
     
-    modules['Smoking, Alcohol, and Sun Exposure'].header = 'Smoking, Alcohol, and Sun Exposure Survey Section';
-    modules['Smoking, Alcohol, and Sun Exposure'].description = 'Questions about your use of tobacco, nicotine, marijuana, and alcohol, as well as your sun exposure.';
-    modules['Smoking, Alcohol, and Sun Exposure'].estimatedTime = '20 to 30 minutes';
+    modules['Smoking, Alcohol, and Sun Exposure'].header = 'Smoking, Alcohol, and Sun Exposure'; 
+    modules['Smoking, Alcohol, and Sun Exposure'].description = 'mytodolist.mainBodySmokingDescription';
+    modules['Smoking, Alcohol, and Sun Exposure'].estimatedTime = 'mytodolist.20_30minutes';
     
-    modules["Where You Live and Work"].header = 'Where You Live and Work Survey Section';
-    modules["Where You Live and Work"].description  = 'Questions about places where you have lived and worked, and your commute to school or work.'
-    modules['Where You Live and Work'].estimatedTime = '20 to 30 minutes';
+    modules["Where You Live and Work"].header = 'Where You Live and Work';
+    modules["Where You Live and Work"].description  = 'mytodolist.mainBodyLiveWorkDescription';
+    modules["Where You Live and Work"].estimatedTime = 'mytodolist.20_30minutes';
     
     modules['Enter SSN'].header = 'Your Social Security Number (SSN)';
-    modules['Enter SSN'].description = 'We may use your Social Security Number when we collect information from important data sources like health registries to match information from these sources to you. We protect your privacy every time we ask for information about you from other sources. Providing your Social Security Number is optional.';
+    modules['Enter SSN'].description = 'mytodolist.mainBodySSNDescription';
     modules['Enter SSN'].hasIcon = false;
     modules['Enter SSN'].noButton = false;
-    modules['Enter SSN'].estimatedTime = 'Less than 5 minutes';
+    modules['Enter SSN'].estimatedTime = 'mytodolist.less5minutes';
     
     modules['Covid-19'].header = 'COVID-19 Survey';
-    modules['Covid-19'].description = 'Questions about your history of COVID-19, including any vaccinations you may have received and details about times you may have gotten sick with COVID-19.';
+    modules['Covid-19'].description = 'mytodolist.mainBodyCovid19Description';
     modules['Covid-19'].hasIcon = false;
     modules['Covid-19'].noButton = false;
-    modules['Covid-19'].estimatedTime = '10 minutes';
+    modules['Covid-19'].estimatedTime = 'mytodolist.10minutes';
 
     modules['Biospecimen Survey'].header = 'Baseline Blood, Urine, and Mouthwash Sample Survey';
-    modules['Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples.';
-    modules['Biospecimen Survey'].estimatedTime = '5 minutes';
+    modules['Biospecimen Survey'].description = 'mytodolist.mainBodyBiospecimenDescription';
+    modules['Biospecimen Survey'].estimatedTime = 'mytodolist.5minutes';
     
     modules['Clinical Biospecimen Survey'].header = 'Baseline Blood and Urine Sample Survey';
-    modules['Clinical Biospecimen Survey'].description = 'Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples.';
-    modules['Clinical Biospecimen Survey'].estimatedTime = '5 minutes';
+    modules['Clinical Biospecimen Survey'].description = 'mytodolist.mainBodyClinicalBiospecimenDescription';
+    modules['Clinical Biospecimen Survey'].estimatedTime = 'mytodolist.5minutes';
 
     modules['Menstrual Cycle'].header = 'Menstrual Cycle Survey';
-    modules['Menstrual Cycle'].description = 'Questions about the date of your first menstrual period after you donated samples for Connect. ';
-    modules['Menstrual Cycle'].estimatedTime = '5 minutes';
+    modules['Menstrual Cycle'].description = 'mytodolist.mainBodyMenstrualDescription';
+    modules['Menstrual Cycle'].estimatedTime = 'mytodolist.5minutes';
 
     modules['Mouthwash'].header = 'At-Home Mouthwash Sample Survey';
-    modules['Mouthwash'].description = 'Questions about your oral health and hygiene practices that are related to your sample. Complete this survey <b>on the day you collect your mouthwash sample at home</b>.';
-    modules['Mouthwash'].estimatedTime = '5 minutes';
+    modules['Mouthwash'].description = 'mytodolist.mainBodyMouthwashDescription';
+    modules['Mouthwash'].estimatedTime = 'mytodolist.5minutes';
 
     modules['PROMIS'].header = 'Quality of Life Survey';
-    modules['PROMIS'].description = 'Questions about your physical, social, and mental health.';
-    modules['PROMIS'].estimatedTime = '10 to 15 minutes';
-
-    if (modules['Spanish Covid-19']) {
-        modules['Spanish Covid-19'].header = 'SPANISH COVID-19 Survey';
-        modules['Spanish Covid-19'].description = 'SPANISH Questions about your history of COVID-19, including any vaccinations you may have received and details about times you may have gotten sick with COVID-19.';
-        modules['Spanish Covid-19'].hasIcon = false;
-        modules['Spanish Covid-19'].noButton = false;
-        modules['Spanish Covid-19'].estimatedTime = '10 minutes';
-    }
+    modules['PROMIS'].description = 'mytodolist.mainBodyPROMISDescription';
+    modules['PROMIS'].estimatedTime = 'mytodolist.10_15minutes';
     
-    if (modules['Spanish Biospecimen Survey']) {
-        modules['Spanish Biospecimen Survey'].header = 'SPANISH Baseline Blood, Urine, and Mouthwash Sample Survey';
-        modules['Spanish Biospecimen Survey'].description = 'SPANISH Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples.';
-        modules['Spanish Biospecimen Survey'].estimatedTime = '5 minutes';
-    }
-    
-    if (modules['Spanish Clinical Biospecimen Survey']) {
-        modules['Spanish Clinical Biospecimen Survey'].header = 'SPANISH Baseline Blood and Urine Sample Survey';
-        modules['Spanish Clinical Biospecimen Survey'].description = 'SPANISH Questions about recent actions, like when you last ate and when you went to sleep and woke up on the day you donated samples.';
-        modules['Spanish Clinical Biospecimen Survey'].estimatedTime = '5 minutes';
-    }
-    
-    if (modules['Spanish Menstrual Cycle']) {
-        modules['Spanish Menstrual Cycle'].header = 'SPANISH Menstrual Cycle Survey';
-        modules['Spanish Menstrual Cycle'].description = 'SPANISH Questions about the date of your first menstrual period after you donated samples for Connect. ';
-        modules['Spanish Menstrual Cycle'].estimatedTime = '5 minutes';
-    }
-    
-    if (modules['Spanish Mouthwash']) {
-        modules['Spanish Mouthwash'].header = 'SPANISH At-Home Mouthwash Sample Survey';
-        modules['Spanish Mouthwash'].description = 'SPANISH Questions about your oral health and hygiene practices.';
-        modules['Spanish Mouthwash'].estimatedTime = '5 minutes';
-    }
-
     if(data['331584571']?.['266600170']?.['840048338']) {
         modules['Biospecimen Survey'].enabled = true;
         modules['Covid-19'].enabled = true;

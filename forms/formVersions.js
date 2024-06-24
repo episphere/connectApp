@@ -4,8 +4,8 @@ export default {
     HIPAA: "V0.02",
   },
   HP: {
-    Consent: "V0.04",
-    HIPAA: "V0.02",
+    Consent: "V0.05",
+    HIPAA: "V0.03",
   },
   KPCO: {
     Consent: "V0.03",
@@ -34,6 +34,10 @@ export default {
   UChicago: {
     Consent: "V0.05",
     HIPAA: "V0.02",
+  },
+  BSWH: {
+    Consent: "V0.02",
+    HIPAA: "V0.01",
   },
   NCI: {
     Consent: "V0.05",

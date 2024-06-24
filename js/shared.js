@@ -2,6 +2,12 @@ import { addEventHideNotification } from "./event.js";
 import fieldMapping from './fieldToConceptIdMapping.js'; 
 import { signInConfig } from "./pages/signIn.js";
 import { signInCheckRender, signUpRender } from "./pages/homePage.js";
+import en from "../i18n/en.js";
+import es from "../i18n/es.js";
+
+const i18n = {
+    es, en
+};
 
 export const urls = {
     'prod': 'myconnect.cancer.gov',
@@ -38,72 +44,78 @@ else if(location.host === urls.stage) api = 'https://api-myconnect-stage.cancer.
 else api = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app';
 
 const afterEmailLinkRender = (email, type) => {
-    return fragment`
+    const df = fragment`
     <div class="mx-4">
-    <p class="loginTitleFont" style="text-align:center;">Sign In</p>
+    <p class="loginTitleFont" style="text-align:center;" data-i18n="shared.signIn">Sign In</p>
     <div id="sign${type}Div" lang="en">
       <div class="mdl-card mdl-shadow--2dp firebaseui-container firebaseui-id-page-email-link-sign-in-sent">
         <form onsubmit="return false;">
           <div class="firebaseui-card-header">
-            <h1 class="firebaseui-title">Sign-in email sent</h1>
+            <h1 class="firebaseui-title" data-i18n="shared.emailSent">Sign-in email sent</h1>
           </div>
           <div class="firebaseui-card-content">
             <div class="firebaseui-email-sent"></div>
-            <p class="firebaseui-text">We sent a verification email to <strong>${email}</strong>. Please check your email and click the link we sent to finish signing in. Our email may take a few minutes to arrive in your inbox.</p>
+            <p class="firebaseui-text"><span data-i18n="shared.emailSentMessageStart">We sent a verification email to </span><strong>${email}</strong><span data-i18n="shared.emailSentMessageEnd">. Please check your email and click the link we sent to finish signing in. Our email may take a few minutes to arrive in your inbox.</span></p>
           </div>
           <div class="firebaseui-card-actions">
             <div class="firebaseui-form-links">
-              <a class="firebaseui-link firebaseui-id-trouble-getting-email-link" href="javascript:void(0)">Trouble getting email?</a>
+              <a class="firebaseui-link firebaseui-id-trouble-getting-email-link" href="javascript:void(0)" data-i18n="shared.troubleGettingEmail">Trouble getting email?</a>
             </div>
             <div class="firebaseui-form-actions">
-              <button class="firebaseui-id-secondary-link firebaseui-button mdl-button mdl-js-button mdl-button--primary" data-upgraded=",MaterialButton">Back</button>
+              <button class="firebaseui-id-secondary-link firebaseui-button mdl-button mdl-js-button mdl-button--primary" data-upgraded=",MaterialButton" data-i18n="shared.backText">Back</button>
             </div>
           </div>
           <div class="firebaseui-card-footer"></div>
         </form>
       </div>
     </div>
-    <div style="font-size:8px" class="mt-3"> ${usGov} </div>
+    <div style="font-size:8px" class="mt-3" data-i18n="shared.usGov"> ${usGov} </div>
     </div>
     `;
+    // Added this code to properly translate the string
+    translateHTML(df.children[0]);
+    return df;
 };
 
 const troubleGettingEmailRender = (type) => {
-    return fragment`
+    const df = fragment`
     <div class="mx-4">
-    <p class="loginTitleFont" style="text-align:center;">Sign In</p>
+    <p class="loginTitleFont" style="text-align:center;" data-i18n="shared.signIn">Sign In</p>
     <div id="sign${type}Div" lang="en">
         <div class="mdl-card mdl-shadow--2dp firebaseui-container firebaseui-id-page-email-not-received">
         <form onsubmit="return false;">
             <div class="firebaseui-card-header">
-            <h1 class="firebaseui-title">Trouble getting email?</h1>
+            <h1 class="firebaseui-title" data-i18n="shared.troubleGettingEmail">Trouble getting email?</h1>
             </div>
             <div class="firebaseui-card-content">
-            <p class="firebaseui-text">Try these common fixes:</p>
-            <ul>
+            <p class="firebaseui-text" data-i18n="shared.tryFixes">Try these common fixes:</p>
+            <ul data-i18n="shared.fixesList">
                 <li>Check if the email was marked as spam or filtered.</li>
                 <li>Check your internet connection.</li>
                 <li>Check that you did not misspell your email.</li>
                 <li>Check that your inbox space is not running out or other inbox settings related issues.</li>
             </ul>
             <p></p>
-            <p class="firebaseui-text">If the steps above didn't work, you can resend the email. Note that this will deactivate the link in the older email.</p>
+            <p class="firebaseui-text" data-i18n="shared.resendEmail">If the steps above didn't work, you can resend the email. Note that this will deactivate the link in the older email.</p>
             </div>
             <div class="firebaseui-card-actions">
             <div class="firebaseui-form-links">
-                <a class="firebaseui-link firebaseui-id-resend-email-link" href="javascript:void(0)">Resend</a>
+                <a class="firebaseui-link firebaseui-id-resend-email-link" href="javascript:void(0)" data-i18n="shared.resendText">Resend</a>
             </div>
             <div class="firebaseui-form-actions">
-                <button class="firebaseui-id-secondary-link firebaseui-button mdl-button mdl-js-button mdl-button--primary" data-upgraded=",MaterialButton">Back</button>
+                <button class="firebaseui-id-secondary-link firebaseui-button mdl-button mdl-js-button mdl-button--primary" data-upgraded=",MaterialButton" data-i18n="shared.backText">Back</button>
             </div>
             </div>
             <div class="firebaseui-card-footer"></div>
         </form>
         </div>
     </div>
-    <div style="font-size:8px" class="mt-3"> ${usGov} </div>
+    <div style="font-size:8px" class="mt-3" data-i18n="shared.usGov"> ${usGov} </div>
     </div>
     `;
+    // Added this code to properly translate the string
+    translateHTML(df.children[0]);
+    return df;
 }
 
 const signInFlowRender = (signInEmail) => {
@@ -301,7 +313,7 @@ export const successResponse = (response) => {
     return response.code === 200
 }
 
-export const getMySurveys = async (data) => {
+export const getMySurveys = async (data, filter = false) => {
     
     const idToken = await getIdToken();
     const response = await fetch(`${api}?api=getUserSurveys`, {
@@ -331,7 +343,13 @@ export const getMySurveys = async (data) => {
                 if(surveyData.data[survey][versionNumber]) {
                     delete surveyData.data[survey][versionNumber];
                 }
-            })
+            });
+
+            if (filter) {
+                if (surveyData.data[survey][fieldMapping.surveyLanguage]) {
+                    delete surveyData.data[survey][fieldMapping.surveyLanguage];
+                }
+            }
         })
     }
 
@@ -359,7 +377,8 @@ const allIHCS = {
     452412599: 'Kaiser Permanente Northwest',
     303349821: 'Marshfield Clinic Health System',
     657167265: 'Sanford Health',
-    809703864: 'University of Chicago Medicine'
+    809703864: 'University of Chicago Medicine',
+    472940358: 'Baylor Scott & White Health'
 }
 
 export const sites = () => {
@@ -373,7 +392,8 @@ export const sites = () => {
             125001209: 'Kaiser Permanente Colorado',
             452412599: 'Kaiser Permanente Northwest',
             327912200: 'Kaiser Permanente Georgia',
-            300267574: 'Kaiser Permanente Hawaii'
+            300267574: 'Kaiser Permanente Hawaii',
+            472940358: 'Baylor Scott & White Health'
         }
     }
     else if (location.host === urls.stage) {
@@ -387,6 +407,7 @@ export const sites = () => {
             327912200: 'Kaiser Permanente Georgia',
             300267574: 'Kaiser Permanente Hawaii',
             452412599: 'Kaiser Permanente Northwest',
+            472940358: 'Baylor Scott & White Health'
         }
         //return allIHCS
     }
@@ -406,6 +427,7 @@ export const siteAcronyms = () => {
         303349821: 'Marshfield',
         657167265: 'Sanford',
         809703864: 'UChicago',
+        472940358: 'BSWH',
         13: 'NCI'
     }
 }
@@ -485,7 +507,7 @@ export const getParameters = (URL) => {
 
 export const dataSavingBtn = (className) => {
     const btn = document.getElementsByClassName(className)[0];
-    btn.innerHTML = `<div class="spinner-border spinner-saving" role="status"><span class="sr-only">Loading...</span></div> Saving`;
+    btn.innerHTML = translateText('shared.savingSpin');
 }
 
 export const errorMessage = (id, msg, focus) => {
@@ -951,7 +973,7 @@ export const connectPushNotification = () => {
                     <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
                         <div class="toast-header">
                             <strong class="mr-auto">${payload.notification.title}</strong>
-                            <button type="button" class="ml-2 mb-1 close hideNotification" data-dismiss="toast" aria-label="Close">&times;</button>
+                            <button type="button" class="ml-2 mb-1 close hideNotification" data-dismiss="toast" aria-label="${translateText('shared.closeText')}">&times;</button>
                         </div>
                         <div class="toast-body">
                             ${payload.notification.body}
@@ -1033,39 +1055,91 @@ export const questionnaireModules = () => {
         }
     }
 
-    if (location.host === urls.dev || location.host === 'localhost:5000') {
-        return {
-            'Background and Overall Health': {path: 'module1Stage.txt', moduleId:"Module1", enabled:true},
-            'Medications, Reproductive Health, Exercise, and Sleep': {path: 'module2Stage.txt', moduleId:"Module2", enabled:false},
-            'Smoking, Alcohol, and Sun Exposure': {path: 'module3Stage.txt', moduleId:"Module3", enabled:false},
-            'Where You Live and Work': {path: 'module4Stage.txt', moduleId:"Module4", enabled:false},
-            'Enter SSN': {moduleId:"ModuleSsn", enabled:false},
-            'Covid-19': {path: 'moduleCOVID19Stage.txt', moduleId:"ModuleCovid19", enabled:false},
-            'Biospecimen Survey': {path: 'moduleBiospecimenStage.txt', moduleId:"Biospecimen", enabled:false},
-            'Clinical Biospecimen Survey': {path: 'moduleClinicalBloodUrineStage.txt', moduleId:"ClinicalBiospecimen", enabled:false},
-            'Menstrual Cycle': {path: 'moduleMenstrualStage.txt', moduleId:"MenstrualCycle", enabled:false},
-            'Mouthwash': {path: 'moduleMouthwash.txt', moduleId:"Mouthwash", enabled:false},
-            'PROMIS': {path: 'moduleQoL.txt', moduleId:"PROMIS", enabled:false},
-            'Spanish Covid-19': {path: 'moduleCOVID19StageSpanish.txt', moduleId:"ModuleCovid19Spanish", enabled:true},
-            'Spanish Biospecimen Survey': {path: 'moduleBiospecimenStageSpanish.txt', moduleId:"BiospecimenSpanish", enabled:true},
-            'Spanish Clinical Biospecimen Survey': {path: 'moduleClinicalBloodUrineStageSpanish.txt', moduleId:"ClinicalBiospecimenSpanish", enabled:true},
-            'Spanish Menstrual Cycle': {path: 'moduleMenstrualStageSpanish.txt', moduleId:"MenstrualCycleSpanish", enabled:true},
-            'Spanish Mouthwash': {path: 'moduleMouthwashSpanish.txt', moduleId:"MouthwashSpanish", enabled:true}
-        };
-    }
-
     return {
-        'Background and Overall Health': {path: 'module1Stage.txt', moduleId:"Module1", enabled:true},
-        'Medications, Reproductive Health, Exercise, and Sleep': {path: 'module2Stage.txt', moduleId:"Module2", enabled:false},
-        'Smoking, Alcohol, and Sun Exposure': {path: 'module3Stage.txt', moduleId:"Module3", enabled:false},
-        'Where You Live and Work': {path: 'module4Stage.txt', moduleId:"Module4", enabled:false},
-        'Enter SSN': {moduleId:"ModuleSsn", enabled:false},
-        'Covid-19': {path: 'moduleCOVID19Stage.txt', moduleId:"ModuleCovid19", enabled:false},
-        'Biospecimen Survey': {path: 'moduleBiospecimenStage.txt', moduleId:"Biospecimen", enabled:false},
-        'Clinical Biospecimen Survey': {path: 'moduleClinicalBloodUrineStage.txt', moduleId:"ClinicalBiospecimen", enabled:false},
-        'Menstrual Cycle': {path: 'moduleMenstrualStage.txt', moduleId:"MenstrualCycle", enabled:false},
-        'Mouthwash': {path: 'moduleMouthwash.txt', moduleId:"Mouthwash", enabled:false},
-        'PROMIS': {path: 'moduleQoL.txt', moduleId:"PROMIS", enabled:false}
+        'Background and Overall Health': {
+            path: {
+                en: 'module1Stage.txt',
+                es: 'module1StageSpanish.txt'
+            }, 
+            moduleId:"Module1", 
+            enabled:true
+        },
+        'Medications, Reproductive Health, Exercise, and Sleep': {
+            path: {
+                en: 'module2Stage.txt',
+                es: 'module2StageSpanish.txt'
+            }, 
+            moduleId:"Module2", 
+            enabled:false
+        },
+        'Smoking, Alcohol, and Sun Exposure': {
+            path: {
+                en: 'module3Stage.txt',
+                es: 'module3StageSpanish.txt'
+            }, 
+            moduleId:"Module3", 
+            enabled:false
+        },
+        'Where You Live and Work': {
+            path: {
+                en: 'module4Stage.txt',
+                es: 'module4StageSpanish.txt'
+            }, 
+            moduleId:"Module4", 
+            enabled:false
+        },
+        'Enter SSN': {
+            moduleId:"ModuleSsn", 
+            enabled:false
+        },
+        'Covid-19': {
+            path: {
+                en: 'moduleCOVID19Stage.txt',
+                es: 'moduleCOVID19StageSpanish.txt'
+            }, 
+            moduleId:"ModuleCovid19", 
+            enabled:false
+        },
+        'Biospecimen Survey': {
+            path: {
+                en: 'moduleBiospecimenStage.txt',
+                es: 'moduleBiospecimenStageSpanish.txt'
+            }, 
+            moduleId:"Biospecimen", 
+            enabled:false
+        },
+        'Clinical Biospecimen Survey': {
+            path: {
+                en: 'moduleClinicalBloodUrineStage.txt',
+                es: 'moduleClinicalBloodUrineStageSpanish.txt'
+            }, 
+            moduleId:"ClinicalBiospecimen", 
+            enabled:false
+        },
+        'Menstrual Cycle': {
+            path: {
+                en: 'moduleMenstrualStage.txt',
+                es: 'moduleMenstrualStageSpanish.txt'
+            }, 
+            moduleId:"MenstrualCycle", 
+            enabled:false
+        },
+        'Mouthwash': {
+            path: {
+                en: 'moduleMouthwash.txt',
+                es: 'moduleMouthwashSpanish.txt'
+            }, 
+            moduleId:"Mouthwash", 
+            enabled:false
+        },
+        'PROMIS': {
+            path: {
+                en: 'moduleQoL.txt',
+                es: 'moduleQoLSpanish.txt'
+            }, 
+            moduleId:"PROMIS", 
+            enabled:false
+        }
     };
 }
 
@@ -1117,13 +1191,9 @@ export const inactivityTime = (user) => {
             const header = document.getElementById('connectModalHeader');
             const body = document.getElementById('connectModalBody');
             document.getElementById('connectModalFooter').style.display = "none";
-            header.innerHTML = `<h5 class="modal-title">Inactive</h5>`;
+            header.innerHTML = `<h5 class="modal-title" data-i18n="shared.sessionInactiveTitle">${translateText('shared.sessionInactiveTitle')}</h5>`;
 
-            body.innerHTML = `You were inactive for 20 minutes, would you like to extend your session?
-                            <div class="modal-footer">
-                                <button type="button" title="Close" class="btn btn-dark log-out-user" data-dismiss="modal">Log Out</button>
-                                <button type="button" title="Continue" class="btn btn-primary extend-user-session" data-dismiss="modal">Continue</button>
-                            </div>`
+            body.innerHTML = `<span data-i18n="shared.sessionInactive">${translateText('shared.sessionInactive')}</span>`;
             document.body.removeChild(button);
 
             console.log("initial timeout has been reached!");
@@ -1159,7 +1229,7 @@ const signOut = () => {
     localforage.clear();
     firebase.auth().signOut();
     window.location.hash = '#';
-    document.title = 'My Connect - Home';
+    document.title = translateText('shared.homeTitle');
 }
 
 export const renderSyndicate = (url, element, page) => {
@@ -1436,12 +1506,13 @@ export const firebaseSignInRender = async ({ ui, account = {}, displayFlag = tru
     console.log('account', account);
   const df = fragment`
     <div class="mx-4">
-      <p class="loginTitleFont" style="text-align:center;">Sign In</p>
+      <p class="loginTitleFont" style="text-align:center;" data-i18n="shared.signIn">Sign In</p>
       <div id="signInDiv"></div>
-      <div style="font-size:8px" class="mt-3">
-      ${displayFlag ? usGov : ""}
+      <div style="font-size:8px" class="mt-3" ${displayFlag ? 'data-i18n="shared.usGov"' : ''}>
       </div>
     </div>`;
+
+  translateHTML(df.children[0]);
 
   document.getElementById("signInWrapperDiv").replaceChildren(df);
   ui.start("#signInDiv", signInConfig(account.type));
@@ -1466,7 +1537,8 @@ export const firebaseSignInRender = async ({ ui, account = {}, displayFlag = tru
   } else if (account.type === "phone") {
     document.querySelector('input[class~="firebaseui-id-phone-number"]').value = account.value;
     document.querySelector('label[class~="firebaseui-label"]').remove();
-    document.querySelector('h1[class~="firebaseui-title"]').innerText = "Sign in with phone number";
+    document.querySelector('h1[class~="firebaseui-title"]').innerText = translateText('shared.signInPhone');
+    document.querySelector('h1[class~="firebaseui-title"]').setAttribute('data-i18n', 'shared.signInPhone');
   }
 };
 
@@ -1671,6 +1743,7 @@ export const updateStartSurveyParticipantData = async (sha, url, moduleId, repai
 
         questData[fieldMapping[moduleId].conceptId + ".sha"] = sha;
         questData[fieldMapping[moduleId].conceptId + "." + fieldMapping[moduleId].version] = version;
+        questData[fieldMapping[moduleId].conceptId + "." + fieldMapping.surveyLanguage] = appState.getState().language;
 
         // Do not update startTs if the sha is being repaired. Retain the original startTs, which coincides with the fetched survey.
         if (!repairShaValue) formData[fieldMapping[moduleId].startTs] = new Date().toISOString();
@@ -1732,3 +1805,146 @@ export const logDDRumError = (error, errorType = 'CustomError', additionalContex
         );
     }
 };
+
+export const translateHTML = (source, language) => {
+    if (!language) {
+        language = appState.getState().language;
+        if (!language) {
+            language = 'en';
+        } else {
+            language = languageAcronyms()[language];
+        }
+    }
+
+    let sourceElement;
+    if (typeof source === "string") {
+        const sourceDOM = new DocumentFragment;
+        sourceDOM.append(document.createElement('div'));
+        sourceElement = sourceDOM.children[0];
+        sourceElement.innerHTML = source;
+    } else {
+        sourceElement = source;
+    }
+
+    // console.log(source, language, i18n, sourceElement, sourceElement.dataset);
+    if (sourceElement.dataset.i18n) {
+        let keys = sourceElement.dataset.i18n.split('.');
+        let translation = translateText(keys, language);
+        if (translation) {
+            if (typeof translation === 'object') {
+                Object.keys(translation).forEach((key) => {
+                    if (key === 'innerHTML') {
+                        sourceElement.innerHTML = translation[key];
+                    } else if (key === 'innerText') {
+                        sourceElement.innerText = translation[key];
+                    } else {
+                        sourceElement.setAttribute(key, translation[key]);
+                    }
+                });
+            } else {
+                sourceElement.innerHTML = translation ? translation : '';
+            }
+        }
+    } else {
+        const translationNodes = sourceElement.querySelectorAll("[data-i18n]");
+        translationNodes.forEach(node => {
+            translateHTML(node, language);
+        })
+    }
+    
+    if (typeof source === "string") {
+        return sourceElement.innerHTML;
+    } else {
+       return sourceElement;
+    }
+}
+
+/**
+ * Returns the translation for a given language or the fall back language of english
+ * 
+ * @param {String[]} keys 
+ * @param {String} language 
+ * @param {int} keyIndex 
+ * @param {Object} translationObj 
+ * @returns String
+ */
+export const translateText = (keys, language, keyIndex, translationObj) => { 
+    if (!language) {
+        language = appState.getState().language;
+        if (!language) {
+            language = 'en';
+        } else {
+            language = languageAcronyms()[language];
+        }
+    }
+
+    if (typeof keys === 'string') {
+        keys = keys.split('.');
+    }
+
+    if (!keyIndex) {
+        keyIndex = 0;
+    }
+
+    if (!translationObj) {
+        //Fallback to english if the language doesn't exist
+        translationObj = i18n[language] ? i18n[language] : i18n['en'];
+    }
+    if ((keyIndex + 1) === keys.length) {
+        if (!translationObj[keys[keyIndex]]) {
+            if (language !== 'en') {
+                //If the languange is not English then return english as the fallback
+                return translateText(keys, 'en');
+            } else {
+                return null;
+            }
+        } else {
+            return translationObj[keys[keyIndex]];
+        }
+    } else {
+        if (translationObj[keys[keyIndex]]) {
+            let nextIndexKey = keyIndex + 1;
+            return translateText(keys, language, nextIndexKey, translationObj[keys[keyIndex]]);
+        } else {
+            if (language !== 'en') {
+                //If the language is not english then return english as the fallback
+                return translateText(keys, 'en');
+            } else {
+                //IF the langauge is already english then retun null because there is no matching translation  
+                return null;
+            }
+        }
+    }
+}
+
+export const languageAcronyms = () => {
+    return {
+        [fieldMapping.language.en]: 'en',
+        [fieldMapping.language.es]: 'es'
+    }
+
+}
+
+export const languageSuffix = () => {
+    return {
+        [fieldMapping.language.en]: '',
+        [fieldMapping.language.es]: 'Span'
+    }
+
+}
+
+export const languageTranslations = () => {
+    return {
+        [fieldMapping.language.en]: 'languageSelector.englishOption',
+        [fieldMapping.language.es]: 'languageSelector.spanishOption'
+    }
+}
+
+export const getSelectedLanguage = () => {
+    let selectedLanguage = appState.getState().language;
+    if (!selectedLanguage) {
+        selectedLanguage = fieldMapping.language.en;
+    }
+
+    return selectedLanguage;
+}
