@@ -52,6 +52,8 @@ export default
     "no": 104430631,
     "consentVersion": 454205108,
     "hipaaVersion": 412000022,
+    "hipaaRevokeVersion": 407743866,
+    "dataDestructionVersion": 304438543,
     "userProfileHistory": 569151507,
     "userProfileUpdateTimestamp": 371303487,
     "profileChangeRequestedBy": 611005658,
@@ -61,9 +63,17 @@ export default
     "requestedDataDestroyNotSigned": 111959410,
     "requestedDataDestroySigned": 704529432,
     "noneOfTheseApply": 398561594,
+    "outreachTimedOut": 160161595,
     firstSignInTime: 335767902,
     pinNumber: 379080287,
     menstrualSurveyEligible: 289750687,
+    "preferredLanguage": 255077064,
+    "language": {
+        "en": 163149180,
+        "es": 773342525
+    },
+
+    surveyLanguage: 784119588,
 
     "heardAboutStudyForm" : 142654897,
 
@@ -297,5 +307,18 @@ export default
         assigned: 241974920,
         shipped: 277438316,
         received: 375535639
-    }
+    },
+    
+    // Healthcare providers
+
+    healthPartners: 531629870,
+    henryFordHealth: 548392715,
+    kaiserPermanenteCO: 125001209,
+    kaiserPermanenteGA: 327912200,
+    kaiserPermanenteHI: 300267574,
+    kaiserPermanenteNW: 452412599,
+    marshfieldClinical: 303349821,
+    sanfordHealth: 657167265,
+    uChicagoMedicine: 809703864,
+    baylorScottAndWhiteHealth: 976883292,
 };
