@@ -30,10 +30,10 @@ async function loadQuestConfig() {
 
         // TODO: Quest 2.0 manage version with Firestore or similar
         questConfig = {
-            "myconnect.cancer.gov": "https://cdn.jsdelivr.net/gh/episphere/quest@v1.1.6/replace2.js",
-            "myconnect-stage.cancer.gov": "https://cdn.jsdelivr.net/gh/episphere/quest@v1.1.6/replace2.js",
+            "myconnect.cancer.gov": "https://cdn.jsdelivr.net/gh/episphere/quest@v1.1.9/replace2.js",
+            "myconnect-stage.cancer.gov": "https://cdn.jsdelivr.net/gh/episphere/quest@v1.1.9/replace2.js",
             "episphere.github.io": "https://episphere.github.io/quest/replace2.js",
-            "localhost:5000": "https://cdn.jsdelivr.net/gh/episphere/quest@v1.1.6/replace2.js"
+            "localhost:5000": "https://cdn.jsdelivr.net/gh/episphere/quest@v1.1.9/replace2.js"
         }
     }
 }
