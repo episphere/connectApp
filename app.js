@@ -43,13 +43,11 @@ window.onload = async () => {
     }
 
     //Check for language storage
-    // temp hardcoding for English - 061024
-    // let preferredLanguage = window.localStorage.getItem('preferredLanguage');
-    // if (!preferredLanguage) {
-    //     preferredLanguage = conceptIdMap.language.en;
-    // }
+    let preferredLanguage = window.localStorage.getItem('preferredLanguage');
+    if (!preferredLanguage) {
+        preferredLanguage = conceptIdMap.language.en;
+    }
 
-    const preferredLanguage = conceptIdMap.language.en;
     appState.setState({"language": parseInt(preferredLanguage, 10)});
 
     const script = document.createElement('script');
@@ -210,11 +208,10 @@ const router = async () => {
     if (loggedIn === false) {
         toggleNavBar(route, {}); // If not logged in, pass no data to toggleNavBar
 
-        // temp disable - 061024
-        // const languageSelectorContainer = document.getElementById('languageSelectorContainer');
-        // languageSelectorContainer.innerHTML = languageSelector();
-        // translateHTML(languageSelectorContainer);
-        // addEventLanguageSelection();
+        const languageSelectorContainer = document.getElementById('languageSelectorContainer');
+        languageSelectorContainer.innerHTML = languageSelector();
+        translateHTML(languageSelectorContainer);
+        addEventLanguageSelection();
 
         if (route === '#') {
             homePage();
@@ -237,9 +234,8 @@ const router = async () => {
     else{
         const data = await getMyData();
 
-        // temp disable - 061024
-        // document.getElementById('languageSelectorContainer').innerHTML = languageSelector(data);
-        // addEventLanguageSelection();
+        document.getElementById('languageSelectorContainer').innerHTML = languageSelector(data);
+        addEventLanguageSelection();
         
         if(successResponse(data)) {
             const firebaseAuthUser = firebase.auth().currentUser;
