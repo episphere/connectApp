@@ -210,15 +210,10 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
                     `
                 }
 
-                // temp disable - 061024
-                /*
                 template += `
                     <div class="alert alert-warning" id="notesOnLanguage" style="margin-top:10px;" data-i18n="mytodolist.notesOnLanguage">
                         If you'd like to take this survey in another language, simply click the button at the top of the page to switch to your preferred language before you start. Once you start this survey in one language, you'll need to finish it in that language.
                     </div>
-                `*/
-                
-                template += `
                             <ul class="nav nav-tabs" style="border-bottom:none; margin-top:20px">
                                 <li class="nav-item" style=:padding-left:10px>
                                     <button class=" nav-link navbar-btn survey-Active-Nav" id="surveysToDoTab" data-i18n="mytodolist.toDoButton">To Do</button>
