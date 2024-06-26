@@ -270,7 +270,7 @@ function externalListeners(language){
                 task3 = e.target[1].value;
                 const soccerResults = await buildSoccerResults(title3, task3, language);
     
-                await buildHTML(soccerResults, occuptn1);
+                buildHTML(soccerResults, occuptn1);
             });
         }
         else {
@@ -280,7 +280,7 @@ function externalListeners(language){
                 title3 = e.target[0].value;
                 const soccerResults = await buildSoccerResults(title3, '', language);
     
-                await buildHTML(soccerResults, occuptn1);
+                buildHTML(soccerResults, occuptn1);
             });
         }
     }
