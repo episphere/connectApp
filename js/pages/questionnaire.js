@@ -1,9 +1,6 @@
-import { getModuleSHA, getMyData, getShaFromGitHubCommitData, hasUserData, getMySurveys, logDDRumError, urls, questionnaireModules, storeResponseQuest, storeResponseTree, showAnimation, hideAnimation, addEventReturnToDashboard, fetchDataWithRetry, updateStartSurveyParticipantData, translateHTML, translateText, getSelectedLanguage } from "../shared.js";
+import { getModuleSHA, getMyData, getShaFromGitHubCommitData, hasUserData, getMySurveys, logDDRumError, questionnaireModules, storeResponseQuest, storeResponseTree, showAnimation, hideAnimation, addEventReturnToDashboard, fetchDataWithRetry, updateStartSurveyParticipantData, translateHTML, translateText, getSelectedLanguage } from "../shared.js";
 import fieldMapping from '../fieldToConceptIdMapping.js'; 
 import { socialSecurityTemplate } from "./ssn.js";
-import { SOCcer as SOCcerProd } from "./../../prod/config.js";
-import { SOCcer as SOCcerStage } from "./../../stage/config.js";
-import { SOCcer as SOCcerDev } from "./../../dev/config.js";
 
 let questConfig;
 let quest;
@@ -208,7 +205,7 @@ async function startModule(data, modules, moduleId, questDiv) {
             delayedParameterArray: fieldMapping.delayedParameterArray, // Delayed parameters (external questions that require extra processing time)
             store: storeResponseQuest,
             retrieve: function(){return getMySurveys([fieldMapping[moduleId].conceptId], true)},
-            soccer: externalListeners,
+            soccer: function(){return externalListeners(lang)},
             updateTree: storeResponseTree,
             treeJSON: tJSON,
             lang: lang
@@ -239,7 +236,7 @@ async function startModule(data, modules, moduleId, questDiv) {
     }
 }
 
-function externalListeners(){
+function externalListeners(language){
     
     const work3 = document.getElementById("D_627122657");
     const work3b = document.getElementById("D_796828094");
@@ -264,14 +261,14 @@ function externalListeners(){
             work3.addEventListener("submit", (e) => {
                 e.preventDefault();
                 
-                title3 = e.target[0].value;
+                title3 = e.target[1].value;
             });
 
             work3b.addEventListener("submit", async (e) => {
                 e.preventDefault();
     
-                task3 = e.target[0].value;
-                const soccerResults = await buildSoccerResults(title3, task3);
+                task3 = e.target[1].value;
+                const soccerResults = await buildSoccerResults(title3, task3, language);
     
                 buildHTML(soccerResults, occuptn1);
             });
@@ -280,8 +277,8 @@ function externalListeners(){
             work3.addEventListener("submit", async (e) => {
                 e.preventDefault();
                 
-                title3 = e.target[0].value;
-                const soccerResults = await buildSoccerResults(title3, '');
+                title3 = e.target[1].value;
+                const soccerResults = await buildSoccerResults(title3, '', language);
     
                 buildHTML(soccerResults, occuptn1);
             });
@@ -293,14 +290,14 @@ function externalListeners(){
             work7.addEventListener("submit", (e) => {
                 e.preventDefault();
                 
-                title7 = e.target[0].value;
+                title7 = e.target[1].value;
             });
 
             work7b.addEventListener("submit", async (e) => {
                 e.preventDefault();
     
-                task7 = e.target[0].value;
-                const soccerResults = await buildSoccerResults(title7, task7);
+                task7 = e.target[1].value;
+                const soccerResults = await buildSoccerResults(title7, task7, language);
     
                 buildHTML(soccerResults, occuptn2);
             });
@@ -309,8 +306,8 @@ function externalListeners(){
             work7.addEventListener("submit", async (e) => {
                 e.preventDefault();
                 
-                title7 = e.target[0].value;
-                const soccerResults = await buildSoccerResults(title7, '');
+                title7 = e.target[1].value;
+                const soccerResults = await buildSoccerResults(title7, '', language);
     
                 buildHTML(soccerResults, occuptn2);
             });
@@ -425,16 +422,21 @@ export const blockParticipant = () => {
 
 }
 
-const buildSoccerResults = async (title, task) => { 
-    let soccerURL = SOCcerDev;
+const buildSoccerResults = async (title, task, language) => { 
 
-    if(location.host === urls.prod) soccerURL = SOCcerProd;
-    else if(location.host === urls.stage) soccerURL = SOCcerStage;
-        
     try {    
-        let soccerResults = await (await fetch(`${soccerURL}title=${title}&task=${task}&n=6`)).json();
-    
-        for(let i = 0; i < soccerResults.length; i++){
+        const response = await fetch(`https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/connect-soccer`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ title, task, language })
+        });
+
+        const soccerResponse = await response.json();
+        const soccerResults = soccerResponse.results;
+        
+        for (let i = 0; i < soccerResults.length; i++){
             soccerResults[i]['code'] += '-' + i;
         }
     

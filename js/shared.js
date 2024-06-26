@@ -1799,7 +1799,7 @@ export const updateStartSurveyParticipantData = async (sha, url, moduleId, repai
 
         questData[fieldMapping[moduleId].conceptId + ".sha"] = sha;
         questData[fieldMapping[moduleId].conceptId + "." + fieldMapping[moduleId].version] = version;
-        questData[fieldMapping[moduleId].conceptId + "." + fieldMapping.surveyLanguage] = appState.getState().language;
+        questData[fieldMapping[moduleId].conceptId + "." + fieldMapping.surveyLanguage] = getSelectedLanguage();
 
         // Do not update startTs if the sha is being repaired. Retain the original startTs, which coincides with the fetched survey.
         if (!repairShaValue) formData[fieldMapping[moduleId].startTs] = new Date().toISOString();
