@@ -277,7 +277,7 @@ function externalListeners(language){
             work3.addEventListener("submit", async (e) => {
                 e.preventDefault();
                 
-                title3 = e.target[0].value;
+                title3 = e.target[1].value;
                 const soccerResults = await buildSoccerResults(title3, '', language);
     
                 buildHTML(soccerResults, occuptn1);
@@ -290,13 +290,13 @@ function externalListeners(language){
             work7.addEventListener("submit", (e) => {
                 e.preventDefault();
                 
-                title7 = e.target[0].value;
+                title7 = e.target[1].value;
             });
 
             work7b.addEventListener("submit", async (e) => {
                 e.preventDefault();
     
-                task7 = e.target[0].value;
+                task7 = e.target[1].value;
                 const soccerResults = await buildSoccerResults(title7, task7, language);
     
                 buildHTML(soccerResults, occuptn2);
@@ -306,7 +306,7 @@ function externalListeners(language){
             work7.addEventListener("submit", async (e) => {
                 e.preventDefault();
                 
-                title7 = e.target[0].value;
+                title7 = e.target[1].value;
                 const soccerResults = await buildSoccerResults(title7, '', language);
     
                 buildHTML(soccerResults, occuptn2);
