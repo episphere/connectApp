@@ -18,6 +18,8 @@ import { firebaseConfig as prodFirebaseConfig } from "./prod/config.js";
 import conceptIdMap from "./js/fieldToConceptIdMapping.js";
 
 let auth = '';
+// DataDog session management -> tie Connect_ID to DataDog sessions
+let isDataDogUserSessionSet = false;
 
 const datadogConfig = {
     clientToken: 'pubcb2a7770dcbc09aaf1da459c45ecff65',
@@ -240,6 +242,13 @@ const router = async () => {
         if(successResponse(data)) {
             const firebaseAuthUser = firebase.auth().currentUser;
             await checkAuthDataConsistency(firebaseAuthUser.email ?? '', firebaseAuthUser.phoneNumber ?? '', data.data[conceptIdMap.firebaseAuthEmail] ?? '', data.data[conceptIdMap.firebaseAuthPhone] ?? '');
+
+            // Set Connect_ID for the current DataDog session
+            if (!isLocalDev && window.DD_RUM && data?.data?.['Connect_ID'] && !isDataDogUserSessionSet) {
+                window.DD_RUM.setUser({id: data.data['Connect_ID']});
+                isDataDogUserSessionSet = true;
+            }
+            
             toggleNavBar(route, data);  // If logged in, pass data to toggleNavBar
 
             if (route === '#') userProfile();
@@ -367,6 +376,15 @@ const userProfile = () => {
 }
 
 const signOut = () => {
+    // Record a logout action and stop the DataDog session. This or 15 mins of inactivity will create a new session when the next action is taken.
+    if (!isLocalDev && window.DD_RUM) {
+        window.DD_RUM.addAction('user_logout', {
+            timestamp: new Date().toISOString()
+        });
+        window.DD_RUM.stopSession();
+        isDataDogUserSessionSet = false;
+    }
+
     firebase.auth().signOut();
     window.location.hash = '#';
     document.title = 'My Connect - Home';
