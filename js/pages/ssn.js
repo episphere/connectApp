@@ -17,8 +17,6 @@ let ssnFourDigitsShow;
 let ssnFourDigitsConfirm;
 let ssnFourDigitsConfirmShow;
 
-let language;
-
 let ignoreBlur = false;
 
 export const socialSecurityTemplate = (data) => {
@@ -33,8 +31,6 @@ export const socialSecurityTemplate = (data) => {
         
         storeResponse(formData);
     }
-
-    language = getSelectedLanguage();
 
     window.scrollTo(0, 0);
 
@@ -385,7 +381,6 @@ const endMessageOne = () => {
     document.getElementById('endMessageOneNext').addEventListener('click', async () => {
         
         const formData = ssnNineDigits ? { ssnNineDigits } : { ssnFourDigits };
-        formData[fieldMapping.surveyLanguage] = language;
 
         await storeSocial(formData);
         location.reload();
