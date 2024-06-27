@@ -504,9 +504,12 @@ const checkNineDigitValid = (input) => {
 
     if (input.length !== 9) return false;
 
-    if (input[0] === '9' || input.slice(0, 3) === '666') return false;
+    // Cannot start with 000, 666 or 900-999
+    if (input[0] === '9' || input.slice(0, 3) === '666' || input.slice(0, 3) === '000') return false;
+    // Cannot be 111111111, 333333333, 078-05-1120, 219-09-9999
     if (input === '111111111' || input === '333333333' || input === '078051120' || input === '219099999') return false;
-    if (input.slice(0, 3) === '000' || input.slice(3, 5) === '00' || input.slice(-4) === '0000') return false;
+    // Middle digits cannot be 00 OR Last digits cannot be 0000
+    if (input.slice(3, 5) === '00' || input.slice(-4) === '0000') return false;
 
     return true;
 }
