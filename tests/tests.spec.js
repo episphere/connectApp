@@ -37,10 +37,12 @@ class PlaywrightDevPage {
 
     // Now sign in
     await page.getByRole('button', { name: 'Sign In' }).click();
-    await page.getByLabel('Phone or Email Phone Format:').click();
-    await page.getByLabel('Phone or Email Phone Format:').fill(process.env.USERNAME);
-    await page.getByText('Phone or Email Phone Format: 123-456-7890 Please enter a valid email or phone').click();
-    await page.getByRole('button', { name: 'Continue' }).click();
+    const usernameInput = await page.locator('#accountInput');
+    await usernameInput.click();
+    await usernameInput.fill(process.env.USERNAME);
+    await usernameInput.press('Tab')
+    // await page.getByText('Phone or Email Phone Format: 123-456-7890 Please enter a valid email or phone').click();
+    await page.locator('#signInBtn').click();
     await page.locator('input[name="password"]').click();
     await page.locator('input[name="password"]').fill(process.env.PASSWORD);
 

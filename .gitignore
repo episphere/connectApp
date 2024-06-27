@@ -3,9 +3,9 @@ temp
 .DS_Store
 .hintrc
 .eslintrc.js
+connectApp-translation
 node_modules/
 /test-results/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
-connectApp-translation
