@@ -1,4 +1,4 @@
-import { getModuleSHA, getMyData, getShaFromGitHubCommitData, hasUserData, getMySurveys, logDDRumError, questionnaireModules, storeResponseQuest, storeResponseTree, showAnimation, hideAnimation, addEventReturnToDashboard, fetchDataWithRetry, updateStartSurveyParticipantData, translateHTML, translateText, getSelectedLanguage } from "../shared.js";
+import { getModuleSHA, getMyData, getShaFromGitHubCommitData, hasUserData, getAppSettings, getMySurveys, logDDRumError, questionnaireModules, storeResponseQuest, storeResponseTree, showAnimation, hideAnimation, addEventReturnToDashboard, fetchDataWithRetry, updateStartSurveyParticipantData, translateHTML, translateText, getSelectedLanguage } from "../shared.js";
 import fieldMapping from '../fieldToConceptIdMapping.js'; 
 import { socialSecurityTemplate } from "./ssn.js";
 
@@ -9,29 +9,30 @@ let modules;
 
 const questDiv = "questionnaireRoot";
 
+/**
+ * The questConfig object maps the current environment to the appropriate Quest version.
+ * The Quest version is fetched from Firestore.
+ * Fetch currentQuestVersion from Firestore: collection: appSettings, document: { "appName":connectApp, "currentQuestVersion": currentQuestVersion }
+ */
 async function loadQuestConfig() {
+    const paramsToFetchArray = ['currentQuestVersion'];
+
     try {
-        if (!questConfig) {
-            const importedModule = await import("https://episphere.github.io/questionnaire/questVersions.js");
-            questConfig = importedModule.default;
-        }
+        const appSettingsResponse = await getAppSettings(paramsToFetchArray);
+        const questVersion = appSettingsResponse.currentQuestVersion;
+        questConfig = {
+            "myconnect.cancer.gov": `https://cdn.jsdelivr.net/gh/episphere/quest@v${questVersion}/replace2.js`,
+            "myconnect-stage.cancer.gov": `https://cdn.jsdelivr.net/gh/episphere/quest@v${questVersion}/replace2.js`,
+            "episphere.github.io": "https://episphere.github.io/quest-dev/replace2.js",
+            "localhost:5000": `https://cdn.jsdelivr.net/gh/episphere/quest@v${questVersion}/replace2.js`
+        };
     } catch (error) {
-        // questConfig fallback (emerging issue happening in Chrome 123+)
-        // Monitor this in DataDog. Temporary fallback. Consider maintenance-free ways of storing config backup when import fails.
         console.error(`Error: QuestConfig - error dynamically loading questConfig. Using fallback: ${error.message}`);
         logDDRumError(error, 'QuestConfigError', {
             userAction: 'click start survey',
             timestamp: new Date().toISOString(),
             ...(data?.['Connect_ID'] && { connectID: data['Connect_ID'] }),
         });
-
-        // TODO: Quest 2.0 manage version with Firestore or similar
-        questConfig = {
-            "myconnect.cancer.gov": "https://cdn.jsdelivr.net/gh/episphere/quest@v1.1.9/replace2.js",
-            "myconnect-stage.cancer.gov": "https://cdn.jsdelivr.net/gh/episphere/quest@v1.1.9/replace2.js",
-            "episphere.github.io": "https://episphere.github.io/quest-dev/replace2.js",
-            "localhost:5000": "https://cdn.jsdelivr.net/gh/episphere/quest@v1.1.9/replace2.js"
-        }
     }
 }
 

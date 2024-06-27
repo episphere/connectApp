@@ -41,6 +41,10 @@ let api = '';
 
 if(location.host === urls.prod) api = 'https://api-myconnect.cancer.gov/app';
 else if(location.host === urls.stage) api = 'https://api-myconnect-stage.cancer.gov/app';
+
+// TODO: remove this
+else if(location.host.startsWith('localhost')) api = 'http://localhost:5001/nih-nci-dceg-connect-dev/us-central1/app';
+
 else api = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app';
 
 const afterEmailLinkRender = (email, type) => {
@@ -2003,4 +2007,41 @@ export const getSelectedLanguage = () => {
     }
 
     return selectedLanguage;
+}
+
+/**
+ * Get the custom settings for ConnectApp. Initial use: Quest versioning. See loadQuestConfig().
+ * @param {Array<string>} paramsToFetchArray - Optional array of parameters to fetch. E.g. ['param1', 'param2', 'param3']. Omit to return entire appSettings object.
+ * @returns {Object} - App settings object.
+ */
+export const getAppSettings = async (paramsToFetchArray) => {
+    const queryParams = paramsToFetchArray && paramsToFetchArray.length > 0
+        ? `&selectedParamsArray=${encodeURIComponent(paramsToFetchArray.map(param => param.trim()).join(','))}`
+        : '';
+
+    const url = `${api}?api=getAppSettings${queryParams ? `${queryParams}` : ''}`;
+
+    try {
+        const idToken = await getIdToken();
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + idToken,
+            },
+        });
+    
+        if (!response.ok) {
+            throw new Error(`Server responded with: ${response.status}`);
+        }
+    
+        const jsonResponse = await response.json();
+        
+        if (jsonResponse.code === 200) {
+            return jsonResponse.data;
+        } else {
+            throw new Error('Failed to retrieve app settings', jsonResponse.message);
+        }
+    } catch (error) {
+        throw new Error('Error: getAppSettings():', error);
+    }
 }
