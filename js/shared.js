@@ -2027,14 +2027,14 @@ export const getAppSettings = async (paramsToFetchArray) => {
         });
     
         const jsonResponse = await response.json();
-        
+
         if (jsonResponse.code !== 200) {
-            throw new Error('Failed to retrieve app settings', jsonResponse.message);
+            throw new Error(`Failed to retrieve app settings: ${jsonResponse.message}`);
         } 
         
         return jsonResponse.data;
 
     } catch (error) {
-        throw new Error('Error: getAppSettings():', error);
+        throw new Error(`Error: getAppSettings(): ${error.message || error}`);
     }
 }
