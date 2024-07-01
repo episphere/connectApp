@@ -27,7 +27,7 @@ async function loadQuestConfig() {
             "localhost:5000": `https://cdn.jsdelivr.net/gh/episphere/quest@v${questVersion}/replace2.js`
         };
     } catch (error) {
-        console.error(`Error: QuestConfig - error dynamically loading questConfig. Using fallback: ${error.message}`);
+        console.error(`QuestConfig Loading Error: ${error.message}`);
         logDDRumError(error, 'QuestConfigError', {
             userAction: 'click start survey',
             timestamp: new Date().toISOString(),

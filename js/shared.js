@@ -2007,15 +2007,12 @@ export const getSelectedLanguage = () => {
 
 /**
  * Get the custom settings for ConnectApp. Initial use: Quest versioning. See loadQuestConfig().
- * @param {Array<string>} paramsToFetchArray - Optional array of parameters to fetch. E.g. ['param1', 'param2', 'param3']. Omit to return entire appSettings object.
+ * @param {Array<string>} paramsToFetchArray - Array of parameters to fetch. E.g. ['param1', 'param2', 'param3'].
  * @returns {Object} - App settings object.
  */
 export const getAppSettings = async (paramsToFetchArray) => {
-    const queryParams = paramsToFetchArray && paramsToFetchArray.length > 0
-        ? `&selectedParamsArray=${encodeURIComponent(paramsToFetchArray.map(param => param.trim()).join(','))}`
-        : '';
-
-    const url = `${api}?api=getAppSettings${queryParams ? `${queryParams}` : ''}`;
+    const queryParams = `&selectedParamsArray=${encodeURIComponent(paramsToFetchArray.map(param => param.trim()).join(','))}`;
+    const url = `${api}?api=getAppSettings${queryParams}`;
 
     try {
         const idToken = await getIdToken();
