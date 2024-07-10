@@ -147,6 +147,7 @@ const signInFlowRender = (signInEmail) => {
 };
 
 export const sendEmailLink = () => {
+    const preferredLanguage = getSelectedLanguage();
     const signInEmail = window.localStorage.getItem("signInEmail");
     const continueUrl = window.location.href;
 
@@ -155,7 +156,7 @@ export const sendEmailLink = () => {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email: signInEmail, continueUrl }),
+        body: JSON.stringify({ email: signInEmail, continueUrl , preferredLanguage}),
     }).then(() => {
         signInFlowRender(signInEmail);
     });
