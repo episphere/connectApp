@@ -21,12 +21,12 @@ async function loadQuestConfig() {
     try {
         const appSettingsResponse = await getAppSettings(paramsToFetchArray);
         questVersion = appSettingsResponse.currentQuestVersion;
-        console.log(`Quest Version: ${questVersion}`);
+        
         questConfig = {
             "myconnect.cancer.gov": `https://cdn.jsdelivr.net/gh/episphere/quest@v${questVersion}/replace2.js`,
             "myconnect-stage.cancer.gov": `https://cdn.jsdelivr.net/gh/episphere/quest@v${questVersion}/replace2.js`,
             "episphere.github.io": "https://episphere.github.io/quest-dev/replace2.js",
-            "localhost:5000": '../quest-dev/replace2.js' //`https://cdn.jsdelivr.net/gh/episphere/quest@v${questVersion}/replace2.js`
+            "localhost:5000": `https://cdn.jsdelivr.net/gh/episphere/quest@v${questVersion}/replace2.js`
         };
     } catch (error) {
         console.error(`QuestConfig Loading Error: ${error.message}`);
@@ -60,7 +60,6 @@ const importQuest = async () => {
  * @param {string} moduleId - The ID of the survey module the participant clicked to start.
  */
 export const questionnaire = async (moduleId) => {
-    console.time('PRELOADING');
     try {
         showAnimation();
 
@@ -227,8 +226,7 @@ async function startModule(data, modules, moduleId, questDiv) {
         }
 
         window.scrollTo(0, 0);
-        console.timeEnd('PRELOADING');
-        console.time('RENDERING');
+
         await quest.render(questParameters, questDiv, inputData);
             
         //Grid fix first
@@ -244,7 +242,6 @@ async function startModule(data, modules, moduleId, questDiv) {
         setUpMutationObserver();
         
         document.getElementById(questDiv).style.visibility = 'visible';
-        console.timeEnd('RENDERING');
     } catch (error) {
         const errorContext = { moduleId, modules, inputData, moduleConfig, key, path, sha };
         error.context = errorContext;
