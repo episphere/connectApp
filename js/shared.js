@@ -1794,7 +1794,7 @@ export const getShaFromGitHubCommitData = async (surveyStartTimestamp, path, con
  */
 export const updateStartSurveyParticipantData = async (sha, url, moduleId, repairShaVersionString, repairShaValue = false) => {
     try {
-        const version = repairShaValue ? repairShaVersionString : await fetchDataWithRetry(() => getModuleText(url));
+        const { moduleText, version } = repairShaValue ? repairShaVersionString : await fetchDataWithRetry(() => getModuleText(url));
         let questData = {};
         let formData = {};
 
@@ -1810,6 +1810,8 @@ export const updateStartSurveyParticipantData = async (sha, url, moduleId, repai
         // Caution on refactor: both calls are complex. Both transform the data objects.
         await storeResponseQuest(questData);
         await storeResponse(formData);
+
+        return moduleText;
     } catch (error) {
         throw error;
     }
@@ -1822,7 +1824,7 @@ export const updateStartSurveyParticipantData = async (sha, url, moduleId, repai
  * @returns {String} - Version number (ex: 2.2).
  */
 // TODO: monitor this. Raw access to GitHub data doesn't appear to be rate limited. If we see errors, authenticate this request.
-const getModuleText = async (url) => {
+export const getModuleText = async (url) => {
     try {
         const response = await fetch(url);
         if (!response.ok) {
@@ -1831,8 +1833,8 @@ const getModuleText = async (url) => {
 
         const moduleText = await response.text();
         const match = moduleText.match("{\"version\":\\s*\"([0-9]{1,2}\\.[0-9]{1,3})\"}");
-        
-        return match ? match[1] : '1.0';
+        const version = match ? match[1] : '1.0';
+        return { moduleText, version };
 
     } catch (error) {
         throw new Error(`Error: Fetching module text failed. ${error.message}`);

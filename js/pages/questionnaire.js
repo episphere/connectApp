@@ -1,8 +1,9 @@
-import { getModuleSHA, getMyData, getShaFromGitHubCommitData, hasUserData, getAppSettings, getMySurveys, logDDRumError, questionnaireModules, storeResponseQuest, storeResponseTree, showAnimation, hideAnimation, addEventReturnToDashboard, fetchDataWithRetry, updateStartSurveyParticipantData, translateHTML, translateText, getSelectedLanguage } from "../shared.js";
+import { getModuleSHA, getModuleText, getMyData, getShaFromGitHubCommitData, hasUserData, getAppSettings, getMySurveys, logDDRumError, questionnaireModules, storeResponseQuest, storeResponseTree, showAnimation, hideAnimation, addEventReturnToDashboard, fetchDataWithRetry, updateStartSurveyParticipantData, translateHTML, translateText, getSelectedLanguage } from "../shared.js";
 import fieldMapping from '../fieldToConceptIdMapping.js'; 
 import { socialSecurityTemplate } from "./ssn.js";
 
 let questConfig;
+let questVersion;
 let quest;
 let data;
 let modules;
@@ -19,7 +20,8 @@ async function loadQuestConfig() {
 
     try {
         const appSettingsResponse = await getAppSettings(paramsToFetchArray);
-        const questVersion = appSettingsResponse.currentQuestVersion;
+        questVersion = appSettingsResponse.currentQuestVersion;
+        
         questConfig = {
             "myconnect.cancer.gov": `https://cdn.jsdelivr.net/gh/episphere/quest@v${questVersion}/replace2.js`,
             "myconnect-stage.cancer.gov": `https://cdn.jsdelivr.net/gh/episphere/quest@v${questVersion}/replace2.js`,
@@ -132,6 +134,7 @@ async function startModule(data, modules, moduleId, questDiv) {
     let sha;
     let key;
     let lang;
+    let moduleText;
 
     try {
         inputData = setInputData(data, modules); 
@@ -162,18 +165,25 @@ async function startModule(data, modules, moduleId, questDiv) {
             }
             
             try {
-                await updateStartSurveyParticipantData(sha, url, moduleId);
+                moduleText = await updateStartSurveyParticipantData(sha, url, moduleId);
             } catch (error) {
                 throw new Error('Error: Storing questData and formData failed.');
             }
 
-        // Module has been started and has a SHA value.
+        // Module has been started and has a SHA value. Note: Don't need to update participant for this case since record exists. Fetch module text directly.
         } else if (modules[fieldMapping[moduleId].conceptId]?.['sha']) {
 
             ({ path, lang } = getMarkdownPath(modules[fieldMapping[moduleId].conceptId][fieldMapping.surveyLanguage], moduleConfig[key]));
 
             sha = modules[fieldMapping[moduleId].conceptId]['sha'];
             url += sha + "/" + path;
+
+            try {
+                const moduleFetchResult = await fetchDataWithRetry(() => getModuleText(url));
+                moduleText = moduleFetchResult.moduleText;
+            } catch (error) {
+                throw new Error('Error: Module text prefetch failed.');
+            }
 
         // Module has been started but SHA is not found. 'Fix' the case where the SHA is not found for the module.
         } else {
@@ -194,22 +204,25 @@ async function startModule(data, modules, moduleId, questDiv) {
             // Repair the SHA value in the module data. Do not update the start timestamp (found in participant data) for the module.
             try {
                 const repairShaValue = true;
-                await updateStartSurveyParticipantData(sha, url, moduleId, surveyVersion, repairShaValue);
+                moduleText = await updateStartSurveyParticipantData(sha, url, moduleId, surveyVersion, repairShaValue);
             } catch (error) {
                 throw new Error('Error: Updating participant data failed after EXISTING MODULE: SHA not found.');
             }   
         }
 
         const questParameters = {
-            url: url,
-            activate: true,
-            delayedParameterArray: fieldMapping.delayedParameterArray, // Delayed parameters (external questions that require extra processing time)
-            store: storeResponseQuest,
-            retrieve: function(){return getMySurveys([fieldMapping[moduleId].conceptId], true)},
-            soccer: function(){return externalListeners(lang)},
-            updateTree: storeResponseTree,
-            treeJSON: tJSON,
-            lang: lang
+            url: url,                                                                               // URL for the module's markdown text.
+            activate: true,                                                                         // Activate the stylesheets.
+            delayedParameterArray: fieldMapping.delayedParameterArray,                              // Delayed parameters (external questions that require extra processing time).
+            store: storeResponseQuest,                                                              // Store the participant's responses in Firestore.
+            retrieve: function(){return getMySurveys([fieldMapping[moduleId].conceptId], true)},    // Retrieve the module data from Firestore.
+            soccer: function(){return externalListeners(lang)},                                     // External listeners for soccer questions.
+            updateTree: storeResponseTree,                                                          // Update the treeJSON in Firestore.
+            treeJSON: tJSON,                                                                        // Existing treeJSON for the module. Tracks the participant's progress through the module.
+            lang: lang,                                                                             // Participant's preferred language.
+            text: moduleText,                                                                       // Markdown text for the module.
+            questVersion: questVersion,                                                             // Quest version number, for loading stylesheets from the CDN.
+            surveyDataPrefetch: modules[fieldMapping[moduleId].conceptId]                           // Prefetched survey data.
         }
 
         window.scrollTo(0, 0);
@@ -229,7 +242,6 @@ async function startModule(data, modules, moduleId, questDiv) {
         setUpMutationObserver();
         
         document.getElementById(questDiv).style.visibility = 'visible';
-
     } catch (error) {
         const errorContext = { moduleId, modules, inputData, moduleConfig, key, path, sha };
         error.context = errorContext;
