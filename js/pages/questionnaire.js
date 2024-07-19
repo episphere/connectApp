@@ -165,7 +165,7 @@ async function startModule(data, modules, moduleId, questDiv) {
             }
             
             try {
-                moduleText = await updateStartSurveyParticipantData(sha, url, moduleId);
+                moduleText = await updateStartSurveyParticipantData(sha, path, data['Connect_ID'], moduleId);
             } catch (error) {
                 throw new Error('Error: Storing questData and formData failed.');
             }
@@ -179,7 +179,7 @@ async function startModule(data, modules, moduleId, questDiv) {
             url += sha + "/" + path;
 
             try {
-                const moduleFetchResult = await fetchDataWithRetry(() => getModuleText(url));
+                const moduleFetchResult = await fetchDataWithRetry(() => getModuleText(sha, path, data['Connect_ID'], moduleId));
                 moduleText = moduleFetchResult.moduleText;
             } catch (error) {
                 throw new Error('Error: Module text prefetch failed.');
@@ -187,6 +187,7 @@ async function startModule(data, modules, moduleId, questDiv) {
 
         // Module has been started but SHA is not found. 'Fix' the case where the SHA is not found for the module.
         } else {
+            console.error('Module started but SHA not found. Fixing the SHA not found case.');
             const startSurveyTimestamp = data[fieldMapping[moduleId].startTs] || '';
 
             ({ path, lang } = getMarkdownPath(modules[fieldMapping[moduleId].conceptId][fieldMapping.surveyLanguage], moduleConfig[key]));
@@ -204,7 +205,7 @@ async function startModule(data, modules, moduleId, questDiv) {
             // Repair the SHA value in the module data. Do not update the start timestamp (found in participant data) for the module.
             try {
                 const repairShaValue = true;
-                moduleText = await updateStartSurveyParticipantData(sha, url, moduleId, surveyVersion, repairShaValue);
+                moduleText = await updateStartSurveyParticipantData(sha, path, data['Connect_ID'], moduleId, surveyVersion, repairShaValue);
             } catch (error) {
                 throw new Error('Error: Updating participant data failed after EXISTING MODULE: SHA not found.');
             }   
