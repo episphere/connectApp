@@ -753,21 +753,32 @@ const setModuleAttributes = (data, modules, collections) => {
         modules['Covid-19'].enabled = true;
     }
 
-    if(data[fieldMapping.menstrualSurveyEligible] === 353358909) {
+    if (data[fieldMapping.menstrualSurveyEligible] === 353358909) {
         modules['Menstrual Cycle'].enabled = true;
 
-        if(data[fieldMapping.MenstrualCycle.statusFlag] !== fieldMapping.moduleStatus.submitted) {
+        if (data[fieldMapping.MenstrualCycle.statusFlag] !== fieldMapping.moduleStatus.submitted) {
 
-            const cutoffDate = new Date();
-            cutoffDate.setDate(cutoffDate.getDate() - 45);
+            // Survey will become available on dashboard 120 hours (5 days) after completion of bio survey if participant is menstrual survey eligible
+            const firstCutoffDate = new Date();
+            firstCutoffDate.setDate(firstCutoffDate.getDate() - 5);
+            const dateBecomeAvailable = firstCutoffDate.toISOString()
 
-            if(data[fieldMapping.Biospecimen.statusFlag] === fieldMapping.moduleStatus.submitted) {
-                if(data[fieldMapping.Biospecimen.completeTs] < cutoffDate.toISOString()) {
+            // Survey will be closed if it has been more than 45 days since the Biospec survey submission and the MC survey is not submitted yet.
+            const secondCutoffDate = new Date();
+            secondCutoffDate.setDate(secondCutoffDate.getDate() - 45);
+            const dateBecomeUnavailable = secondCutoffDate.toISOString()
+
+            if (data[fieldMapping.Biospecimen.statusFlag] === fieldMapping.moduleStatus.submitted) {
+                if (data[fieldMapping.Biospecimen.completeTs] < dateBecomeUnavailable ||
+                    data[fieldMapping.Biospecimen.completeTs] > dateBecomeAvailable
+                ) {
                     modules['Menstrual Cycle'].enabled = false;
                 }
             }
-            else if(data[fieldMapping.ClinicalBiospecimen.statusFlag] === fieldMapping.moduleStatus.submitted) {
-                if(data[fieldMapping.ClinicalBiospecimen.completeTs] < cutoffDate.toISOString()) {
+            else if (data[fieldMapping.ClinicalBiospecimen.statusFlag] === fieldMapping.moduleStatus.submitted) {
+                if (data[fieldMapping.ClinicalBiospecimen.completeTs] < dateBecomeUnavailable ||
+                    data[fieldMapping.ClinicalBiospecimen.completeTs] > dateBecomeAvailable
+                ) {
                     modules['Menstrual Cycle'].enabled = false;
                 }
             }

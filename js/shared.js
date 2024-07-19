@@ -147,6 +147,7 @@ const signInFlowRender = (signInEmail) => {
 };
 
 export const sendEmailLink = () => {
+    const preferredLanguage = getSelectedLanguage();
     const signInEmail = window.localStorage.getItem("signInEmail");
     const continueUrl = window.location.href;
 
@@ -155,7 +156,7 @@ export const sendEmailLink = () => {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email: signInEmail, continueUrl }),
+        body: JSON.stringify({ email: signInEmail, continueUrl , preferredLanguage}),
     }).then(() => {
         signInFlowRender(signInEmail);
     });
@@ -1026,17 +1027,90 @@ export const questionnaireModules = () => {
     
     if(location.host === urls.prod) {
         return {
-            'Background and Overall Health': {path: 'prod/module1.txt', moduleId:"Module1", enabled:true},
-            'Medications, Reproductive Health, Exercise, and Sleep': {path: 'prod/module2.txt', moduleId:"Module2", enabled:false},
-            'Smoking, Alcohol, and Sun Exposure': {path: 'prod/module3.txt', moduleId:"Module3", enabled:false},
-            'Where You Live and Work': {path: 'prod/module4.txt', moduleId:"Module4", enabled:false},
-            'Enter SSN': {moduleId:"ModuleSsn", enabled:false},
-            'Covid-19': {path: 'prod/moduleCOVID19.txt', moduleId:"ModuleCovid19", enabled:false},
-            'Biospecimen Survey': {path: 'prod/moduleBiospecimen.txt', moduleId:"Biospecimen", enabled:false},
-            'Clinical Biospecimen Survey': {path: 'prod/moduleClinicalBloodUrine.txt', moduleId:"ClinicalBiospecimen", enabled:false},
-            'Menstrual Cycle': {path: 'prod/moduleMenstrual.txt', moduleId:"MenstrualCycle", enabled:false},
-            'Mouthwash': {path: 'prod/moduleMouthwash.txt', moduleId:"Mouthwash", enabled:false},
-            'PROMIS': {path: 'prod/moduleQoL.txt', moduleId:"PROMIS", enabled:false}
+            'Background and Overall Health': {
+                path: {
+                    en: 'prod/module1.txt', 
+                    es: 'prod/module1Spanish.txt'
+                },
+                moduleId: "Module1", 
+                enabled: true
+            },
+            'Medications, Reproductive Health, Exercise, and Sleep': {
+                path: {
+                    en: 'prod/module2.txt', 
+                    es: 'prod/module2Spanish.txt'
+                }, 
+                moduleId: "Module2", 
+                enabled: false
+            },
+            'Smoking, Alcohol, and Sun Exposure': {
+                path: {
+                    en: 'prod/module3.txt', 
+                    es: 'prod/module3Spanish.txt'
+                },
+                moduleId: "Module3", 
+                enabled: false
+            },
+            'Where You Live and Work': {
+                path: {
+                    en: 'prod/module4.txt', 
+                    es: 'prod/module4Spanish.txt'
+                }, 
+                moduleId: "Module4", 
+                enabled: false
+            },
+            'Enter SSN': {
+                moduleId: "ModuleSsn", 
+                enabled: false
+            },
+            'Covid-19': {
+                path: {
+                    en: 'prod/moduleCOVID19.txt', 
+                    es: 'prod/moduleCOVID19Spanish.txt'
+                },
+                moduleId: "ModuleCovid19", 
+                enabled: false
+            },
+            'Biospecimen Survey': {
+                path: {
+                    en: 'prod/moduleBiospecimen.txt', 
+                    es: 'prod/moduleBiospecimenSpanish.txt'
+                },
+                moduleId: "Biospecimen", 
+                enabled: false
+            },
+            'Clinical Biospecimen Survey': {
+                path: {
+                    en: 'prod/moduleClinicalBloodUrine.txt', 
+                    es: 'prod/moduleClinicalBloodUrineSpanish.txt'
+                },
+                moduleId: "ClinicalBiospecimen", 
+                enabled: false
+            },
+            'Menstrual Cycle': {
+                path: {
+                    en: 'prod/moduleMenstrual.txt', 
+                    es: 'prod/moduleMenstrualSpanish.txt'
+                },
+                moduleId: "MenstrualCycle", 
+                enabled: false
+            },
+            'Mouthwash': {
+                path: {
+                    en: 'prod/moduleMouthwash.txt', 
+                    es: 'prod/moduleMouthwashSpanish.txt'
+                }, 
+                moduleId: "Mouthwash", 
+                enabled: false
+            },
+            'PROMIS': {
+                path: {
+                    en: 'prod/moduleQoL.txt', 
+                    es: 'prod/moduleQoLSpanish.txt'
+                },
+                moduleId: "PROMIS", 
+                enabled: false
+            }
         }
     }
 
@@ -1720,13 +1794,13 @@ export const getShaFromGitHubCommitData = async (surveyStartTimestamp, path, con
  */
 export const updateStartSurveyParticipantData = async (sha, url, moduleId, repairShaVersionString, repairShaValue = false) => {
     try {
-        const version = repairShaValue ? repairShaVersionString : await fetchDataWithRetry(() => getModuleText(url));
+        const { moduleText, version } = repairShaValue ? repairShaVersionString : await fetchDataWithRetry(() => getModuleText(url));
         let questData = {};
         let formData = {};
 
         questData[fieldMapping[moduleId].conceptId + ".sha"] = sha;
         questData[fieldMapping[moduleId].conceptId + "." + fieldMapping[moduleId].version] = version;
-        questData[fieldMapping[moduleId].conceptId + "." + fieldMapping.surveyLanguage] = appState.getState().language;
+        questData[fieldMapping[moduleId].conceptId + "." + fieldMapping.surveyLanguage] = getSelectedLanguage();
 
         // Do not update startTs if the sha is being repaired. Retain the original startTs, which coincides with the fetched survey.
         if (!repairShaValue) formData[fieldMapping[moduleId].startTs] = new Date().toISOString();
@@ -1736,6 +1810,8 @@ export const updateStartSurveyParticipantData = async (sha, url, moduleId, repai
         // Caution on refactor: both calls are complex. Both transform the data objects.
         await storeResponseQuest(questData);
         await storeResponse(formData);
+
+        return moduleText;
     } catch (error) {
         throw error;
     }
@@ -1748,7 +1824,7 @@ export const updateStartSurveyParticipantData = async (sha, url, moduleId, repai
  * @returns {String} - Version number (ex: 2.2).
  */
 // TODO: monitor this. Raw access to GitHub data doesn't appear to be rate limited. If we see errors, authenticate this request.
-const getModuleText = async (url) => {
+export const getModuleText = async (url) => {
     try {
         const response = await fetch(url);
         if (!response.ok) {
@@ -1757,8 +1833,8 @@ const getModuleText = async (url) => {
 
         const moduleText = await response.text();
         const match = moduleText.match("{\"version\":\\s*\"([0-9]{1,2}\\.[0-9]{1,3})\"}");
-        
-        return match ? match[1] : '1.0';
+        const version = match ? match[1] : '1.0';
+        return { moduleText, version };
 
     } catch (error) {
         throw new Error(`Error: Fetching module text failed. ${error.message}`);
@@ -1930,4 +2006,35 @@ export const getSelectedLanguage = () => {
     }
 
     return selectedLanguage;
+}
+
+/**
+ * Get the custom settings for ConnectApp. Initial use: Quest versioning. See loadQuestConfig().
+ * @param {Array<string>} paramsToFetchArray - Array of parameters to fetch. E.g. ['param1', 'param2', 'param3'].
+ * @returns {Object} - App settings object.
+ */
+export const getAppSettings = async (paramsToFetchArray) => {
+    const queryParams = `&selectedParamsArray=${encodeURIComponent(paramsToFetchArray.map(param => param.trim()).join(','))}`;
+    const url = `${api}?api=getAppSettings${queryParams}`;
+
+    try {
+        const idToken = await getIdToken();
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + idToken,
+            },
+        });
+    
+        const jsonResponse = await response.json();
+
+        if (jsonResponse.code !== 200) {
+            throw new Error(`Failed to retrieve app settings: ${jsonResponse.message}`);
+        } 
+        
+        return jsonResponse.data;
+
+    } catch (error) {
+        throw new Error(`Error: getAppSettings(): ${error.message || error}`);
+    }
 }
