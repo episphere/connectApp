@@ -1689,10 +1689,10 @@ export const fetchDataWithRetry = async (fetchFunction, maxRetries = 5, retryInt
 
 /**
  * Fetch module sha from GitHub.
- * @param {String} path - Path to the module file in the GitHub repository.
- * @param {String} connectID - Connect ID of the logged in participant.
- * @param {String} moduleID - Module ID of the module the participant is accessing.
- * @returns {String} - sha value.
+ * @param {string} path - Path to the module file in the GitHub repository.
+ * @param {string} connectID - Connect ID of the logged in participant.
+ * @param {string} moduleID - Module ID of the module the participant is accessing.
+ * @returns {string} - sha value.
  */
 export const getModuleSHA = async (path, connectID, moduleID) => {
     let sha;
@@ -1734,11 +1734,11 @@ export const getModuleSHA = async (path, connectID, moduleID) => {
 
 /**
  * Determine module sha from GitHub commit history on the module's file (compare startSurveyTimestamp with commit history timestamps).
- * @param {String} surveyStartTimestamp - Timestamp of when the participant started the survey module.
- * @param {String} path - Path to the module file in the GitHub repository.
- * @param {String} connectID - Connect ID of the logged in participant.
- * @param {String} moduleID - Module ID of the module the participant is accessing.
- * @returns {String} - sha value.
+ * @param {string} surveyStartTimestamp - Timestamp of when the participant started the survey module.
+ * @param {string} path - Path to the module file in the GitHub repository.
+ * @param {string} connectID - Connect ID of the logged in participant.
+ * @param {string} moduleID - Module ID of the module the participant is accessing.
+ * @returns {string} - sha value.
  */
 export const getShaFromGitHubCommitData = async (surveyStartTimestamp, path, connectID, moduleID) => {
     let sha;
@@ -1786,13 +1786,13 @@ export const getShaFromGitHubCommitData = async (surveyStartTimestamp, path, con
 /**
  * Update participant and survey data when the participant starts a survey module.
  * Also used to repair the SHA value when the participant continues a survey and the SHA value is missing.
- * @param {String} sha - SHA value of the module file.
- * @param {String} path - Path to the module file in the GitHub repository.
- * @param {String} connectId - Connect ID of the logged in participant.
- * @param {String} moduleId - Module ID of the module the participant is accessing.
- * @param {String} repairShaVersionString - Version string to use when repairing the SHA value (fetched from GitHub raw API).
+ * @param {string} sha - SHA value of the module file.
+ * @param {string} path - Path to the module file in the GitHub repository.
+ * @param {string} connectId - Connect ID of the logged in participant.
+ * @param {string} moduleId - Module ID of the module the participant is accessing.
+ * @param {string} repairShaVersionString - Version string to use when repairing the SHA value (fetched from GitHub raw API).
  * @param {Boolean} repairShaValue - Flag to indicate if the SHA is being repaired (retain the original survey start timestamp when true).
- * @returns {String} - Module text for Quest.
+ * @returns {string} - Module text for Quest.
  */
 export const updateStartSurveyParticipantData = async (sha, path, connectId, moduleId, repairShaVersionString, repairShaValue = false) => {
 
@@ -1829,10 +1829,10 @@ export const updateStartSurveyParticipantData = async (sha, path, connectId, mod
 
 /**
  * Fetch module text and version number from GitHub.
- * @param {String} sha - SHA value of the module file.
- * @param {String} path - Path to the module file in the GitHub repository.
- * @param {String} connectID - Connect ID of the logged in participant.
- * @param {String} moduleID - Module ID of the module the participant is accessing.
+ * @param {string} sha - SHA value of the module file.
+ * @param {string} path - Path to the module file in the GitHub repository.
+ * @param {string} connectID - Connect ID of the logged in participant.
+ * @param {string} moduleID - Module ID of the module the participant is accessing.
  * @returns {Object} - { moduleText, surveyVersion } object.
  */
 export const getModuleText = async (sha, path, connectID, moduleID) => {
@@ -1871,7 +1871,7 @@ export const getModuleText = async (sha, path, connectID, moduleID) => {
 /**
  * Force-Log detailed error to Datadog RUM (and console).
  * @param {Error} error - The error object to log.
- * @param {String} errorType - Categorize the type of the error for datadog.
+ * @param {string} errorType - Categorize the type of the error for datadog.
  * @param {Object} additionalContext - Optional. Additional context to include with the error. Example: { userAction: 'click', timestamp: new Date().toISOString(), connectID: '1234567890' }
  */
 export const logDDRumError = (error, errorType = 'CustomError', additionalContext = {}) => {
