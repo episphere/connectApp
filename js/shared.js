@@ -1866,7 +1866,7 @@ export const getModuleText = async (sha, path, connectID, moduleID) => {
 
         throw new Error('Error: getModuleText():', error);
     }
-};
+}
 
 /**
  * Force-Log detailed error to Datadog RUM (and console).
