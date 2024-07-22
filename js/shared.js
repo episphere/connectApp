@@ -1689,10 +1689,10 @@ export const fetchDataWithRetry = async (fetchFunction, maxRetries = 5, retryInt
 
 /**
  * Fetch module sha from GitHub.
- * @param {String} path - Path to the module file in the GitHub repository.
- * @param {String} connectID - Connect ID of the logged in participant.
- * @param {String} moduleID - Module ID of the module the participant is accessing.
- * @returns {String} - sha value.
+ * @param {string} path - Path to the module file in the GitHub repository.
+ * @param {string} connectID - Connect ID of the logged in participant.
+ * @param {string} moduleID - Module ID of the module the participant is accessing.
+ * @returns {string} - sha value.
  */
 export const getModuleSHA = async (path, connectID, moduleID) => {
     let sha;
@@ -1734,11 +1734,11 @@ export const getModuleSHA = async (path, connectID, moduleID) => {
 
 /**
  * Determine module sha from GitHub commit history on the module's file (compare startSurveyTimestamp with commit history timestamps).
- * @param {String} surveyStartTimestamp - Timestamp of when the participant started the survey module.
- * @param {String} path - Path to the module file in the GitHub repository.
- * @param {String} connectID - Connect ID of the logged in participant.
- * @param {String} moduleID - Module ID of the module the participant is accessing.
- * @returns {String} - sha value.
+ * @param {string} surveyStartTimestamp - Timestamp of when the participant started the survey module.
+ * @param {string} path - Path to the module file in the GitHub repository.
+ * @param {string} connectID - Connect ID of the logged in participant.
+ * @param {string} moduleID - Module ID of the module the participant is accessing.
+ * @returns {string} - sha value.
  */
 export const getShaFromGitHubCommitData = async (surveyStartTimestamp, path, connectID, moduleID) => {
     let sha;
@@ -1786,20 +1786,30 @@ export const getShaFromGitHubCommitData = async (surveyStartTimestamp, path, con
 /**
  * Update participant and survey data when the participant starts a survey module.
  * Also used to repair the SHA value when the participant continues a survey and the SHA value is missing.
- * @param {String} sha - SHA value of the module file. 
- * @param {String} version - Version of the module file.
- * @param {String} moduleId - Module ID of the module the participant is accessing.
- * @param {String} repairShaVersionString - Version string to use when repairing the SHA value (fetched from GitHub raw API).
+ * @param {string} sha - SHA value of the module file.
+ * @param {string} path - Path to the module file in the GitHub repository.
+ * @param {string} connectId - Connect ID of the logged in participant.
+ * @param {string} moduleId - Module ID of the module the participant is accessing.
+ * @param {string} repairShaVersionString - Version string to use when repairing the SHA value (fetched from GitHub raw API).
  * @param {Boolean} repairShaValue - Flag to indicate if the SHA is being repaired (retain the original survey start timestamp when true).
+ * @returns {string} - Module text for Quest.
  */
-export const updateStartSurveyParticipantData = async (sha, url, moduleId, repairShaVersionString, repairShaValue = false) => {
+export const updateStartSurveyParticipantData = async (sha, path, connectId, moduleId, repairShaVersionString, repairShaValue = false) => {
+
     try {
-        const { moduleText, version } = repairShaValue ? repairShaVersionString : await fetchDataWithRetry(() => getModuleText(url));
+        const { moduleText, surveyVersion } = await fetchDataWithRetry(() => getModuleText(sha, path, connectId, moduleId));
+
+        // If the SHA value is being repaired (rare case), sanity check the version string.
+        if (repairShaValue && repairShaVersionString !== surveyVersion) {
+            console.error('updateStartSurveyParticipantData', 'SHA repair failed. Version mismatch:', repairShaVersionString, surveyVersion);
+            throw new Error('SHA repair failed in updateStartSurveyParticipantData. Version mismatch:', repairShaVersionString, surveyVersion);
+        }
+
         let questData = {};
         let formData = {};
 
         questData[fieldMapping[moduleId].conceptId + ".sha"] = sha;
-        questData[fieldMapping[moduleId].conceptId + "." + fieldMapping[moduleId].version] = version;
+        questData[fieldMapping[moduleId].conceptId + "." + fieldMapping[moduleId].version] = surveyVersion;
         questData[fieldMapping[moduleId].conceptId + "." + fieldMapping.surveyLanguage] = getSelectedLanguage();
 
         // Do not update startTs if the sha is being repaired. Retain the original startTs, which coincides with the fetched survey.
@@ -1818,33 +1828,50 @@ export const updateStartSurveyParticipantData = async (sha, url, moduleId, repai
 }
 
 /**
- * Get the version number from the module file. Executes for new surveys only.
- * Some of the oldest survey files don't have version numbers. In that case, default to 1.0 for recordkeeping.
- * @param {String} url - URL of the module file.
- * @returns {String} - Version number (ex: 2.2).
+ * Fetch module text and version number from GitHub.
+ * @param {string} sha - SHA value of the module file.
+ * @param {string} path - Path to the module file in the GitHub repository.
+ * @param {string} connectID - Connect ID of the logged in participant.
+ * @param {string} moduleID - Module ID of the module the participant is accessing.
+ * @returns {Object} - { moduleText, surveyVersion } object.
  */
-// TODO: monitor this. Raw access to GitHub data doesn't appear to be rate limited. If we see errors, authenticate this request.
-export const getModuleText = async (url) => {
+export const getModuleText = async (sha, path, connectID, moduleID) => {
     try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+        const idToken = await getIdToken();
+        const encodedSHA = encodeURIComponent(sha);
+        const encodedPath = encodeURIComponent(path);
+        const response = await fetch(`${api}?api=getQuestSurveyFromGitHub&path=${encodedPath}&sha=${encodedSHA}`, {
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + idToken,
+            },
+        });
+
+        const jsonResponse = await response.json();
+
+        if (jsonResponse.code === 200) {
+            return jsonResponse.data;
+        } else {
+            throw new Error('Failed to retrieve Module text', jsonResponse.message);
         }
-
-        const moduleText = await response.text();
-        const match = moduleText.match("{\"version\":\\s*\"([0-9]{1,2}\\.[0-9]{1,3})\"}");
-        const version = match ? match[1] : '1.0';
-        return { moduleText, version };
-
     } catch (error) {
-        throw new Error(`Error: Fetching module text failed. ${error.message}`);
+        logDDRumError(new Error(`Module Text Fetch Error: + ${error.message}`), 'GetModuleTextError', {
+                userAction: 'click start survey',
+                timestamp: new Date().toISOString(),
+                connectID: connectID,
+                questionnaire: moduleID,
+                sha: sha || 'Unknown SHA',
+                path: path || 'Unknown path',
+        });
+
+        throw new Error('Error: getModuleText():', error);
     }
 }
 
 /**
  * Force-Log detailed error to Datadog RUM (and console).
  * @param {Error} error - The error object to log.
- * @param {String} errorType - Categorize the type of the error for datadog.
+ * @param {string} errorType - Categorize the type of the error for datadog.
  * @param {Object} additionalContext - Optional. Additional context to include with the error. Example: { userAction: 'click', timestamp: new Date().toISOString(), connectID: '1234567890' }
  */
 export const logDDRumError = (error, errorType = 'CustomError', additionalContext = {}) => {
