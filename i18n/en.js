@@ -944,7 +944,7 @@ const en = {
             "support": "Call 1-877-505-0253 (6:00 a.m-8:00 p.m. PT on weekdays and 7:00 a.m.-4:00 p.m. PT on weekends)"
         },
         "bswh": {
-            "donatingSamples": "As part of Connect, we ask you to donate blood, urine, and mouthwash samples and complete a short surveys.",
+            "donatingSamples": "As part of Connect, we ask you to donate blood, urine, and mouthwash samples and complete a short survey.",
             "whenToDonate": "<p>The Connect team will send you an email when it is time to donate your samples. Be sure to check your spam or junk folder. After you receive the email, it is important to donate your samples as soon as you can. It is easy to donate all of your samples in one visit.<p/><p> <span class=\"site-info-bold\">Note:</span> If you have recently had a blood transfusion or donated blood, please wait at least <span class=\"site-info-bold\">eight weeks</span> from your donation or transfusion before donating your samples for Connect. If you have recently donated plasma, please wait at least <span class=\"site-info-bold\">two days</span> from your plasma donation before donating samples for Connect. If you have an upcoming colonoscopy, please be sure that you <span class=\"site-info-bold\">do not</span> donate samples for Connect on the <span class=\"site-info-bold\">same day</span> as your colonoscopy.<p/>",
             "howToDonate": "<p>Contact the BSWH Connect team at 214-865-2427 or by email at <a href=\"mailto:ConnectStudy@bswhealth.org\">ConnectStudy@bswhealth.org</a> to schedule your appointment.</p>",
             "support": "Call 1-877-505-0253 (6:00 a.m-8:00 p.m. PT on weekdays and 7:00 a.m.-4:00 p.m. PT on weekends)",
