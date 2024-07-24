@@ -278,7 +278,7 @@
         "lastNameRequired": "Debe ingresar un apellido",
         "firstNameCheck": "Su nombre de pila debe contener solo letras mayúsculas y minúsculas. No use números ni caracteres especiales.",
         "lastNameCheck": "Su apellido debe contener solo letras mayúsculas y minúsculas. Por favor, no utilice ningún número.",
-        "progressText": " de 9 <b style=\"color:#2E2E2E; font-family: 'Noto Sans', sans-serif; font-weight:bold;\">${progress &gt; 9?'':list[progress-1]}</b>",
+        "progressText": " de 9 ",
         "welcomePageHeader": "<b>Le damos la bienvenida</b>",
         "welcomePageBody1": "¡Gracias por su interés en el <b>Estudio Connect para la Prevención del Cáncer!</b> En las siguientes pantallas, le contaremos sobre Connect y qué significa participar en este estudio de investigación.",
         "welcomePageBody2": "Luego, verá el formulario de consentimiento informado completo y el formulario de divulgación de registros electrónicos de salud. Esos formularios dan más detalles sobre el estudio. Después de ver esos formularios, puede decidir si participar o no en Connect.",
