@@ -140,7 +140,7 @@ export const heardAboutStudy = (formData = {}) => {
                     <label data-i18n="provider.invitationPortal"><input type="checkbox" id="checkbox6" ${getChecked(formData[heardAboutStudyCheckBoxes.checkbox6])}> Invitation through my patient portal (such as MyChart)</label>
                 </div>
                 <div class="checkbox">
-                    <labeldata-i18n="provider.letterMail"><input type="checkbox" id="checkbox3" ${getChecked(formData[heardAboutStudyCheckBoxes.checkbox3])}> Letter or brochure in mail</label>
+                    <label data-i18n="provider.letterMail"><input type="checkbox" id="checkbox3" ${getChecked(formData[heardAboutStudyCheckBoxes.checkbox3])}> Letter or brochure in mail</label>
                 </div>
                 <div class="checkbox">
                     <label data-i18n="provider.newsTvRadio"><input type="checkbox" id="checkbox17" ${getChecked(formData[heardAboutStudyCheckBoxes.checkbox17])}> Local news, television, or radio station</label>
