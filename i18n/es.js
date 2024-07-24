@@ -583,7 +583,7 @@
         "submitText": "Enviar",
         "modalCancel": "No",
         "modalConfirm": "Sí",
-        "whoProvider": "¿Quién es su proveedor de atención médica?<span class=\"required hovertext\" data-hover-text=\"Healthcare provider is required\">*</span>",
+        "whoProvider": "¿Quién es su proveedor de atención médica?<span class=\"required hovertext\" data-hover-text=\"Se requiere proveedor de atención médica\">*</span>",
         "selectProvider": "-- Seleccione un proveedor de atención médica --",
         "required": "*Obligatorio",
         "heardAboutStudy": "<strong>¿Cómo se enteró de este estudio? (Marque todo lo que corresponda)</strong>",
