@@ -840,7 +840,7 @@ input:checked + .slider:before {
 }
 
 .nci-connect-logo-width {
-    width: inherit;
+    width: 456px;
 }
 
 .nci-connect-logo-width-small {
