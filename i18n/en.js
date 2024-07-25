@@ -728,6 +728,10 @@ const en = {
     },
     "samples": {
         "title": "My Connect - Samples",
+        "emailSupport": {
+            "innerHTML": "ConnectSupport@norc.org",
+            "href": "mailto:ConnectSupport@norc.org"
+        },
         "donatingSamples": "Donating Your Samples at ",
         "whenToDonate": "When Should I Donate My Samples?",
         "howToDonate": "How Do I Donate My Samples?",
@@ -1644,6 +1648,7 @@ const en = {
         "sessionInactiveTitle": "Inactive",
         "sessionInactive": "You were inactive for 20 minutes, would you like to extend your session?<div class=\"modal-footer\"><button type=\"button\" title=\"Close\" class=\"btn btn-dark log-out-user\" data-dismiss=\"modal\">Log Out</button><button type=\"button\" title=\"Continue\" class=\"btn btn-primary extend-user-session\" data-dismiss=\"modal\">Continue</button></div>",
         "homeTitle": "My Connect - Home",
+        "dashboardTitle": "My Connect - Dashboard",
         "signInPhone": "Sign in with phone number"
     },
     "languageSelector": {
