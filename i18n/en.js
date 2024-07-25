@@ -277,7 +277,7 @@ const en = {
         "lastNameRequired": "A last name is required",
         "firstNameCheck": "Your first name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters.",
         "lastNameCheck": "Your last name should contain only uppercase and lowercase letters. Please do not use any numbers.",
-        "progressText": " of 9 <b style=\"color:#2E2E2E; font-family: 'Noto Sans', sans-serif; font-weight:bold;\">${progress > 9?'':list[progress-1]}</b>",
+        "progressText": " of 9 ",
         "welcomePageHeader": "<b>Welcome</b>",
         "welcomePageBody1": "Thank you for your interest in the <b>Connect for Cancer Prevention Study!</b> In the following screens, we will tell you about Connect and what it means to take part in this research study.",
         "welcomePageBody2": "Then, you will view the full informed consent form and electronic health records release form. These forms provide more details about the study. After you view these forms, you can decide if you want to join Connect.",
