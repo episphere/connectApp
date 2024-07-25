@@ -89,19 +89,10 @@ window.onload = async () => {
       appState.setState({ idToken });
     });
 
-    if ('serviceWorker' in navigator) {
-        try {
-            navigator.serviceWorker.register('./serviceWorker.js')
-            .then((registration) => {
-            });
-        }
-        catch (error) {
-            console.log(error);
-        }
-    }
-    
+    await registerServiceWorker();
     const footer = document.getElementById('footer');
     footer.innerHTML = footerTemplate();
+    await updateVersionDisplay();
     // googleTranslateElementInit();
     
     router();
@@ -450,5 +441,66 @@ const updateFirebaseAuthPhoneTrigger = async (phone) =>  {
       console.error('An error occurred:', error);
       hideAnimation();
       throw error;
+    }
+};
+
+/**
+ * This function is an async function that checks if the service worker is supported by the browser
+ * If it is supported, it registers the service worker
+ * If the service worker is already installed and there is a new service worker available, it refreshes the page
+*/
+const registerServiceWorker = async () => {
+    if ("serviceWorker" in navigator) {
+        try {
+        const registration = await navigator.serviceWorker.register("./serviceWorker.js");
+        console.log('Service Worker registered with scope:', registration.scope);
+
+        registration.addEventListener('updatefound', () => { // This event fires when a new service worker is found
+            const newWorker = registration.installing;
+            newWorker.addEventListener('statechange', () => { // This event fires when the state of the service worker changes
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                // New content is available, refresh the page
+                console.log("Refreshing page");
+                window.location.reload();
+            }
+            });
+        });
+        } catch (error) {
+        console.log('Service Worker registration failed:', error);
+        }
+    }
+};
+
+/**
+ * Fetches the app version from the cache storage and updates the version display in the footer
+*/
+const updateVersionDisplay = async () => {
+    const versionNumber = await fetchAppVersionFromCache();
+    if (!versionNumber) return;
+
+    let versionElement = document.getElementById('appVersion');
+
+    if (versionElement) {
+        if (!versionNumber) return;
+        versionElement.textContent = versionNumber;
+    }
+};
+
+const fetchAppVersionFromCache = async () => {
+    try {
+        const cache = await caches.open('app-version-cache');
+        const response = await cache.match('./appVersion.js');
+
+        if (!response) return;
+
+        const appVersionText = await response.text();
+        const versionMatch = appVersionText.match(/"versionNumber"\s*:\s*"(v\d+\.\d+\.\d+)"/);
+
+        if (!versionMatch) return;
+
+        return versionMatch[1];
+    } catch (error) {
+        console.error('Error fetching app version:', error);
+        return 'Error fetching version';
     }
 };

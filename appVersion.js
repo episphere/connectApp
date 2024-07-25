@@ -1,5 +1,3 @@
 const appVersion = {
-    "versionNumber" : 'v1.6.8',
+    "versionNumber" : "v24.7.0",
 }
-
-export default appVersion;

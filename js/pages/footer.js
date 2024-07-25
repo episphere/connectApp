@@ -1,5 +1,4 @@
 import { urls, translateHTML } from "./../shared.js";
-import appVersion from "./../../appVersion.js";
 
 export const footerTemplate = () => {
     const footerHTML = `
@@ -52,7 +51,7 @@ export const footerTemplate = () => {
             <div class="row w-100" style="margin:0">
                 <div class="col">
                     <p class="nih-tagline" data-i18n="footer.nihHealth">NIH…Turning Discovery Into Health<sup>®</sup></p>
-                    <p id="appVersion">${appVersion.versionNumber}</p>
+                    <p id="appVersion"></p>
                 </div>
             </div>
         </div>
