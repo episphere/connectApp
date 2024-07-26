@@ -405,6 +405,7 @@ export const changeName = async (firstName, lastName, middleName, suffix, prefer
 };
 
 export const changeContactInformation = async (mobilePhoneNumberComplete, homePhoneNumberComplete, canWeVoicemailMobile, canWeText, canWeVoicemailHome, preferredEmail, otherPhoneNumberComplete, canWeVoicemailOther, additionalEmail1, additionalEmail2, preferredLanguage, userData) => {
+
   document.getElementById('changeContactInformationFail').style.display = 'none';
   document.getElementById('changeContactInformationGroup').style.display = 'none';
 

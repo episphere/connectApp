@@ -22,8 +22,8 @@ export const renderSamplesPage = async () => {
                 <div class="col-md-8">
                     <div class="row" style="width:100%">
                         <div class="consentHeadersFont" style="color:#606060;width:100%">
-                            <div data-i18n="samples.donatingSamples">
-                                Donating Your Samples at ${site.name}
+                            <div>
+                                <span data-i18n="samples.donatingSamples"/></span> ${site.name}
                             </div>
                         </div>
                         <div class="messagesBodyFont" style="width:100%">
@@ -354,13 +354,13 @@ const sanford = {
     support: '<span data-i18n="samples.sanford.support">Call 1-877-505-0253 (8:00 a.m.-10:00 p.m. CT on weekdays and 9:00 a.m.-6:00 p.m. CT on weekends)</span>',
     locations: [
         [
-            '<span data-i18n="samples.sanford.locations."><span>Option 1: Sanford Health Lab Location</span><br><br><span style=" font-family: \'Noto Sans\', sans-serif; font-size: 18px; font-weight: 400; line-height: 27px; color: #2E2E2E; margin-top: 20px;"> To find a Sanford Health Lab Location  and its operating hours, please visit <a href="https://www.sanfordhealth.org/locations" target="_blank">https://www.sanfordhealth.org/locations</a> <br><br>  Exact hours may vary by location. Walking in outside of normal business hours may lead to longer wait times. <br><br> Note: If you live in the Bismarck region, the Sanford lab team prefers you pre-schedule an appointment. You can do this within your MyChart or by calling the lab directly.</span> </span>',
+            '<span data-i18n="samples.sanford.locations.Option1"><span>Option 1: Sanford Health Lab Location</span><br><br><span style=" font-family: \'Noto Sans\', sans-serif; font-size: 18px; font-weight: 400; line-height: 27px; color: #2E2E2E; margin-top: 20px;"> To find a Sanford Health Lab Location  and its operating hours, please visit <a href="https://www.sanfordhealth.org/locations" target="_blank">https://www.sanfordhealth.org/locations</a> <br><br>  Exact hours may vary by location. Walking in outside of normal business hours may lead to longer wait times. <br><br> Note: If you live in the Bismarck region, the Sanford lab team prefers you pre-schedule an appointment. You can do this within your MyChart or by calling the lab directly.</span> </span>',
             '',
             '',
             ''
         ],
         [
-            '<span data-i18n="samples.sanford.locations."><span>Option 2: Connect Research Lab</span> <br><br> <span style=" font-family: \'Noto Sans\', sans-serif; font-size: 18px; font-weight: 400; color: #2E2E2E; margin-top: 20px;">Use the link in the message we send to your MyChart or email to schedule an appointment at one of the below locations. You may also schedule an appointment by calling the Connect team at 605-312-6100. <br><br>  Connect Research Lab appointments are available Monday – Thursday 7:00am – 4:00pm and Friday 7:00am – 2:00pm. If you would like to schedule outside of these hours, please contact the Connect team at 605-312-6100 or ConnectStudy@sanfordhealth.org. <span style=" font-family: \'Noto Sans\', sans-serif; font-size: 18px; line-height: 27px; color: #2E2E2E; margin-top: 20px;"></span>',
+            '<span data-i18n="samples.sanford.locations.Option2"><span>Option 2: Connect Research Lab</span> <br><br> <span style=" font-family: \'Noto Sans\', sans-serif; font-size: 18px; font-weight: 400; color: #2E2E2E; margin-top: 20px;">Use the link in the message we send to your MyChart or email to schedule an appointment at one of the below locations. You may also schedule an appointment by calling the Connect team at 605-312-6100. <br><br>  Connect Research Lab appointments are available Monday – Thursday 7:00am – 4:00pm and Friday 7:00am – 2:00pm. If you would like to schedule outside of these hours, please contact the Connect team at 605-312-6100 or ConnectStudy@sanfordhealth.org. <span style=" font-family: \'Noto Sans\', sans-serif; font-size: 18px; line-height: 27px; color: #2E2E2E; margin-top: 20px;"></span>',
             '',
             '',
             ''
@@ -535,7 +535,7 @@ const u_chicago = {
     locations: 
     [
         [
-            '<span data-i18n="samples.u_chicago.locations."><span>Option 1: UChicago Connect Research Lab Locations:<br><br></span><span style=" font-family: \'Noto Sans\', sans-serif; font-size: 18px; line-height: 27px; color: #2E2E2E; margin-top: 20px;">Use the link in the email we send to schedule an appointment at one of the below locations, or schedule an appointment with Connect staff by calling 773-834-5804.</span></span>',
+            '<span data-i18n="samples.u_chicago.locations.Option1"><span>Option 1: UChicago Connect Research Lab Locations:<br><br></span><span style=" font-family: \'Noto Sans\', sans-serif; font-size: 18px; line-height: 27px; color: #2E2E2E; margin-top: 20px;">Use the link in the email we send to schedule an appointment at one of the below locations, or schedule an appointment with Connect staff by calling 773-834-5804.</span></span>',
             '',
             '',
             '',
@@ -559,7 +559,7 @@ const u_chicago = {
             '<span data-i18n="samples.u_chicago.locations.OrlandParkParking">The clinic building is located across the street from the UChicago Medicine Orland Park building on the southwest corner of 143rd St and S Ravinia Ave. This location offers free parking in front of the building. Once parked, the suite location is through the front doors and the last door on the left down the lefthand hallway.</span>',
         ],
         [
-            '<span data-i18n="samples.u_chicago.locations."><span>Option 2: UCM Outpatient Clinical Lab Locations:<br><br></span><span style=" font-family: \'Noto Sans\', sans-serif; font-size: 18px; line-height: 27px; color: #2E2E2E; margin-top: 20px;">You may walk into any of the following lab locations to donate samples for Connect during normal hours of operation (check the links below for location and hour information):</span></span>',
+            '<span data-i18n="samples.u_chicago.locations.Option2"><span>Option 2: UCM Outpatient Clinical Lab Locations:<br><br></span><span style=" font-family: \'Noto Sans\', sans-serif; font-size: 18px; line-height: 27px; color: #2E2E2E; margin-top: 20px;">You may walk into any of the following lab locations to donate samples for Connect during normal hours of operation (check the links below for location and hour information):</span></span>',
             '',
             '',
             '',
@@ -583,14 +583,14 @@ const u_chicago = {
             '',
         ],
         [
-            '<span class="site-info-underline"><a href="https://www.uchicagomedicine.org/find-a-location/uchicago-medicine-dearborn-station" target="_blank">UChicago Medicine Dearborn Station</a></span>',
-            '47 W. Polk St., Suite G1<br> Chicago, IL 60605',
+            '<span data-i18n="samples.u_chicago.locations.DearbornName"><span class="site-info-underline"><a href="https://www.uchicagomedicine.org/find-a-location/uchicago-medicine-dearborn-station" target="_blank">UChicago Medicine Dearborn Station</a></span></span>',
+            '<span data-i18n="samples.u_chicago.locations.DearbornAddress">47 W. Polk St., Suite G1<br> Chicago, IL 60605</span>',
             '',
             '',
         ],
         [
-            '<span class="site-info-underline"><a href="https://www.uchicagomedicine.org/find-a-location/uchicago-medicine-kenwood" target="_blank">UChicago Medicine Kenwood</a></span>',
-            '4646 S. Drexel Blvd<br> Chicago, IL 60653',
+            '<span data-i18n="samples.u_chicago.locations.KenwoodName"><span class="site-info-underline"><a href="https://www.uchicagomedicine.org/find-a-location/uchicago-medicine-kenwood" target="_blank">UChicago Medicine Kenwood</a></span></span>',
+            '<span data-i18n="samples.u_chicago.locations.KenwoodAddress">4646 S. Drexel Blvd<br> Chicago, IL 60653</span>',
             '',
             '',
         ],

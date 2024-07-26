@@ -97,7 +97,9 @@ export const renderSettingsPage = async () => {
     optVars.otherPhoneNumberComplete = userData[cId.otherPhone];
     optVars.additionalEmail1 = userData[cId.additionalEmail1];
     optVars.additionalEmail2 = userData[cId.additionalEmail2];
+
     optVars.preferredLanguage = userData[cId.preferredLanguage];
+
     formVisBools.isNameFormDisplayed = false;
     formVisBools.isContactInformationFormDisplayed = false;
     formVisBools.isMailingAddressFormDisplayed = false;
@@ -315,7 +317,8 @@ const handleEditContactInformationSection = () => {
     successMessageElement = hideSuccessMessage(successMessageElement);
     formVisBools.isContactInformationFormDisplayed = toggleElementVisibility(contactInformationElementArray, formVisBools.isContactInformationFormDisplayed);
     if (formVisBools.isContactInformationFormDisplayed) {
-      hideOptionalElementsOnShowForm([optRowEles.mobilePhoneRow, optRowEles.mobilePhoneVoicemailRow, optRowEles.mobilePhoneTextRow, optRowEles.homePhoneRow, optRowEles.homePhoneVoicemailRow, optRowEles.otherPhoneRow, optRowEles.otherPhoneVoicemailRow, optRowEles.additionalEmail1Row, optRowEles.additionalEmail2Row, optRowEles.preferredLanguageRow]);
+
+      hideOptionalElementsOnShowForm([optRowEles.mobilePhoneRow, optRowEles.mobilePhoneVoicemailRow, optRowEles.mobilePhoneTextRow, optRowEles.homePhoneRow, optRowEles.homePhoneVoicemailRow, optRowEles.otherPhoneRow, optRowEles.otherPhoneVoicemailRow, optRowEles.additionalEmail1Row, optRowEles.additionalEmail2Row, optRowEles.preferredLanguageRow]);  
       toggleActiveForm(FormTypes.CONTACT);
     }
     toggleButtonText();
@@ -345,6 +348,7 @@ const handleEditContactInformationSection = () => {
     const preferredEmail = document.getElementById('newPreferredEmail').value.toLowerCase().trim();
     optVars.additionalEmail1 = document.getElementById('newadditionalEmail1').value.toLowerCase().trim();
     optVars.additionalEmail2 = document.getElementById('newadditionalEmail2').value.toLowerCase().trim();
+    
     optVars.preferredLanguage = document.getElementById('newpreferredLanguage').value.toLowerCase().trim();
 
     const isContactInformationValid = validateContactInformation(optVars.mobilePhoneNumberComplete, optVars.homePhoneNumberComplete, preferredEmail, optVars.otherPhoneNumberComplete, optVars.additionalEmail1, optVars.additionalEmail2);
@@ -357,6 +361,7 @@ const handleEditContactInformationSection = () => {
 };
 
 const submitNewContactInformation = async preferredEmail => {
+
   const isSuccess = await changeContactInformation(optVars.mobilePhoneNumberComplete, optVars.homePhoneNumberComplete, optVars.canWeVoicemailMobile, optVars.canWeText, optVars.canWeVoicemailHome, preferredEmail, optVars.otherPhoneNumberComplete, optVars.canWeVoicemailOther, optVars.additionalEmail1, optVars.additionalEmail2, optVars.preferredLanguage, userData).catch(function (error) {
     document.getElementById('changeContactInformationFail').style.display = 'block';
     document.getElementById('changeContactInformationError').innerHTML = error.message;
@@ -372,6 +377,7 @@ const submitNewContactInformation = async preferredEmail => {
     handleOptionalFieldVisibility(optVars.additionalEmail1, 'profileadditionalEmail1', optRowEles.additionalEmail1Row, contactInformationElementArray[0], 'text');
     handleOptionalFieldVisibility(optVars.additionalEmail2, 'profileadditionalEmail2', optRowEles.additionalEmail2Row, contactInformationElementArray[0], 'text');
     handleOptionalFieldVisibility(optVars.preferredLanguage, 'profilepreferredLanguage', optRowEles.preferredLanguageRow, contactInformationElementArray[0], 'languageSelector');
+
     successMessageElement = document.getElementById('changeContactInformationSuccess');
     successMessageElement.style.display = 'block';
     document.getElementById('profilePreferredEmail').textContent = preferredEmail;
@@ -1145,7 +1151,7 @@ export const renderContactInformationData = () => {
                     </b>
                 </span>
             </div>
-        </div>         
+        </div>  
         <div class="row userProfileLinePaddings" id="preferredLanguageRow" style="display:none">
             <div class="col">
                 <span class="userProfileBodyFonts">
@@ -1160,7 +1166,7 @@ export const renderContactInformationData = () => {
                     </b>
                 </span>
             </div>
-        </div>         
+        </div>  
       `);
 };
 
@@ -1283,7 +1289,6 @@ export const renderChangeContactInformationGroup = () => {
                           <input max-width:382px;" value="${optVars.additionalEmail2 ? `${optVars.additionalEmail2}` : ''}" type="email" class="form-control ml-1" id="newadditionalEmail2" placeholder="abc@mail.com">
                       </div>
                   </div>
-
                   <div class="form-group row">
                       <div class="col">
                           <label for="newpreferredLanguage" class="custom-form-label" data-i18n="languageSelector.title">Additional Email 2 (optional)</label>
@@ -1294,7 +1299,6 @@ export const renderChangeContactInformationGroup = () => {
                           </select>
                       </div>
                   </div>
-  
                   <div class="form-group row">
                       <div class="col">
                           <button id="changeContactInformationSubmit" class="btn btn-primary save-data consentNextButton" data-i18n="settings.submitContactInfoUpdate">Submit Contact Info Update</button>

@@ -1,4 +1,4 @@
-import { getParameters, validateToken, userLoggedIn, getMyData, hasUserData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, appState, processAuthWithFirebaseAdmin, successResponse, logDDRumError, translateHTML } from "./js/shared.js";
+import { getParameters, validateToken, userLoggedIn, getMyData, hasUserData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, appState, processAuthWithFirebaseAdmin, successResponse, logDDRumError, translateHTML, languageAcronyms } from "./js/shared.js";
 import { userNavBar, homeNavBar, languageSelector } from "./js/components/navbar.js";
 import { homePage, joinNowBtn, whereAmIInDashboard, renderHomeAboutPage, renderHomeExpectationsPage, renderHomePrivacyPage } from "./js/pages/homePage.js";
 import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser, addEventToggleSubmit, addEventLanguageSelection } from "./js/event.js";
@@ -18,6 +18,8 @@ import { firebaseConfig as prodFirebaseConfig } from "./prod/config.js";
 import conceptIdMap from "./js/fieldToConceptIdMapping.js";
 
 let auth = '';
+// DataDog session management -> tie Connect_ID to DataDog sessions
+let isDataDogUserSessionSet = false;
 
 const datadogConfig = {
     clientToken: 'pubcb2a7770dcbc09aaf1da459c45ecff65',
@@ -47,7 +49,10 @@ window.onload = async () => {
     if (!preferredLanguage) {
         preferredLanguage = conceptIdMap.language.en;
     }
+
+    document.documentElement.setAttribute('lang', languageAcronyms()[parseInt(preferredLanguage, 10)]);
     appState.setState({"language": parseInt(preferredLanguage, 10)});
+    translateHTML(document.body);
 
     const script = document.createElement('script');
     
@@ -197,10 +202,12 @@ const router = async () => {
     let exceptions = ['#joining-connect','#after-you-join','#long-term-study-activities','#what-connect-will-do','#how-your-information-will-help-prevent-cancer','#why-connect-is-important','#what-to-expect-if-you-decide-to-join','#where-this-study-takes-place','#about-our-researchers','#a-resource-for-science']
     if (loggedIn === false) {
         toggleNavBar(route, {}); // If not logged in, pass no data to toggleNavBar
+
         const languageSelectorContainer = document.getElementById('languageSelectorContainer');
         languageSelectorContainer.innerHTML = languageSelector();
         translateHTML(languageSelectorContainer);
         addEventLanguageSelection();
+
         if (route === '#') {
             homePage();
         } else if (route === '#about') {
@@ -221,11 +228,20 @@ const router = async () => {
     }
     else{
         const data = await getMyData();
+
         document.getElementById('languageSelectorContainer').innerHTML = languageSelector(data);
         addEventLanguageSelection();
+        
         if(successResponse(data)) {
             const firebaseAuthUser = firebase.auth().currentUser;
             await checkAuthDataConsistency(firebaseAuthUser.email ?? '', firebaseAuthUser.phoneNumber ?? '', data.data[conceptIdMap.firebaseAuthEmail] ?? '', data.data[conceptIdMap.firebaseAuthPhone] ?? '');
+
+            // Set Connect_ID for the current DataDog session
+            if (!isLocalDev && window.DD_RUM && data?.data?.['Connect_ID'] && !isDataDogUserSessionSet) {
+                window.DD_RUM.setUser({id: data.data['Connect_ID']});
+                isDataDogUserSessionSet = true;
+            }
+            
             toggleNavBar(route, data);  // If logged in, pass data to toggleNavBar
 
             if (route === '#') userProfile();
@@ -353,6 +369,15 @@ const userProfile = () => {
 }
 
 const signOut = () => {
+    // Record a logout action and stop the DataDog session. This or 15 mins of inactivity will create a new session when the next action is taken.
+    if (!isLocalDev && window.DD_RUM) {
+        window.DD_RUM.addAction('user_logout', {
+            timestamp: new Date().toISOString()
+        });
+        window.DD_RUM.stopSession();
+        isDataDogUserSessionSet = false;
+    }
+
     firebase.auth().signOut();
     window.location.hash = '#';
     document.title = 'My Connect - Home';
