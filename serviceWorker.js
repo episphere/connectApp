@@ -1,6 +1,6 @@
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
-importScripts('./appVersion.js');
 
+const appVersion = "v24.7.1";
 workbox.setConfig({debug: false});
 const { registerRoute } = workbox.routing;
 const { CacheFirst, NetworkFirst, StaleWhileRevalidate, NetworkOnly } = workbox.strategies;
@@ -8,12 +8,17 @@ const { CacheableResponse, CacheableResponsePlugin } = workbox.cacheableResponse
 const { ExpirationPlugin } = workbox.expiration;
 const { BackgroundSyncPlugin } = workbox.backgroundSync
 const googleAnalytics = workbox.googleAnalytics;
+const cacheNameMapper = {
+    "static-cache": `static-cache-${appVersion}`,
+    "images-cache": `images-cache-${appVersion}`,
+  };
+const currCacheNameArray = Object.values(cacheNameMapper);
 
 googleAnalytics.initialize();
-registerRoute(/\.(?:js|css)$/, new NetworkFirst({cacheName: 'static-cache'}));
+registerRoute(/\.(?:js|css|html)$/, new NetworkFirst({ cacheName: cacheNameMapper["static-cache"] }));
 registerRoute(/\.(?:png|jpg|jpeg|svg|gif|ico)$/,
     new CacheFirst({
-        cacheName: 'images-cache',
+        cacheName: cacheNameMapper["images-cache"],
         plugins: [
             new ExpirationPlugin({
                 maxEntries: 30,
@@ -91,3 +96,27 @@ registerRoute(
 );
 
 workbox.precaching.precacheAndRoute([{url: 'index.html', revision: '1.0.6'}]);
+
+self.addEventListener("install", () => {
+    self.skipWaiting();
+});
+
+self.addEventListener("activate", (event) => {
+    event.waitUntil(
+        caches.keys().then((cacheNames) => {
+        return Promise.all(
+            cacheNames.map((cacheName) => {
+            if (!currCacheNameArray.includes(cacheName)) {
+                return caches.delete(cacheName);
+            }
+            })
+        );
+        })
+    );
+});
+
+self.addEventListener("message", (event) => {
+    if (event.data.action === "getAppVersion") {
+      event.source.postMessage({ action: "sendAppVersion", payload: appVersion });
+    }
+});
