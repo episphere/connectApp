@@ -92,12 +92,18 @@ const siteToConsentSignPosMap = {
     "HP": {
         "V0.02": {nameX:90,nameY:425,signatureX:110,signatureY:345,dateX:90,dateY:385},
         "V0.04": {nameX:90,nameY:402,signatureX:110,signatureY:322,dateX:90,dateY:362},
-        "V0.05": {nameX:90,nameY:402,signatureX:110,signatureY:322,dateX:90,dateY:362},
+        "V0.05": {
+            "Eng": {nameX:90,nameY:402,signatureX:110,signatureY:322,dateX:90,dateY:362},
+            "Span": {nameX:105,nameY:392,signatureX:105,signatureY:312,dateX:105,dateY:352}
+        },
         "default": {nameX:90,nameY:420,signatureX:110,signatureY:340,dateX:90,dateY:380},
     },
     
     "HFHS":{
-        "V0.03":  {nameX:90,nameY:410,signatureX:110,signatureY:330,dateX:90,dateY:370},
+        "V0.03":  {
+            "Eng": {nameX:90,nameY:410,signatureX:110,signatureY:330,dateX:90,dateY:370},
+            "Span": {nameX:105,nameY:410,signatureX:105,signatureY:330,dateX:105,dateY:370}
+        },
         "default": {nameX:110,nameY:380,signatureX:115,signatureY:300,dateX:110,dateY:340},
     },
     
@@ -119,16 +125,25 @@ const siteToConsentSignPosMap = {
         "default": {nameX:110,nameY:390,signatureX:110,signatureY:310,dateX:110,dateY:350},
     },
     "NCI": {
-        "V0.05": {nameX:90,nameY:407,signatureX:110,signatureY:330,dateX:90,dateY:370},
+        "V0.05": {
+            "Eng": {nameX:90,nameY:407,signatureX:110,signatureY:330,dateX:90,dateY:370},
+            "Span": {nameX:105,nameY:407,signatureX:105,signatureY:330,dateX:105,dateY:370}
+        },
         "default": {nameX:90,nameY:410,signatureX:110,signatureY:335,dateX:90,dateY:375},
     },
     "Marshfield": {
         "V0.02": {nameX:110,nameY:425,signatureX:115,signatureY:345,dateX:110,dateY:385},
-        "V0.03": {nameX:110,nameY:405,signatureX:115,signatureY:325,dateX:110,dateY:365},
+        "V0.03": {
+            "Eng": {nameX:110,nameY:405,signatureX:115,signatureY:325,dateX:110,dateY:365},
+            "Span": {nameX:110,nameY:395,signatureX:110,signatureY:315,dateX:110,dateY:355}
+        },
         "default": {nameX:110,nameY:420,signatureX:115,signatureY:345,dateX:110,dateY:380},
     },
     "Sanford": {
-        "V0.03": {nameX:120,nameY:730,signatureX:120,signatureY:655,dateX:120,dateY:690},
+        "V0.03": {
+            "Eng": {nameX:120,nameY:730,signatureX:120,signatureY:655,dateX:120,dateY:690},
+            "Span": {nameX:120,nameY:200,signatureX:120,signatureY:125,dateX:120,dateY:160}
+        },
         "default": {nameX:120,nameY:407,signatureX:120,signatureY:330,dateX:120,dateY:367},
     },
     "UChicago": {
@@ -136,6 +151,10 @@ const siteToConsentSignPosMap = {
         "default": {nameX:110,nameY:380,signatureX:115,signatureY:305,dateX:110,dateY:342},
     },
     "BSWH": {
+        "V0.02": {
+            "Eng": { nameX: 105, nameY: 407, signatureX: 105, signatureY: 329, dateX: 105, dateY: 367 },
+            "Span": { nameX: 105, nameY: 407, signatureX: 105, signatureY: 329, dateX: 105, dateY: 367 }
+        },
         "default": { nameX: 105, nameY: 407, signatureX: 105, signatureY: 329, dateX: 105, dateY: 367 },
     },
     "default": {nameX: 110, nameY: 400, signatureX: 110, signatureY: 330, dateX: 110, dateY: 370}
@@ -690,7 +709,9 @@ async function generateSignedPdf(data, file) {
     const versionArray = data[fieldMapping.consentVersion].split('_');
     const version = versionArray[2];
     const lang = versionArray[3] ? versionArray[3] : 'Eng';
-    if (siteToConsentSignPosMap[participantSite] && siteToConsentSignPosMap[participantSite][version]) {
+    if (siteToConsentSignPosMap[participantSite] && siteToConsentSignPosMap[participantSite][version] && siteToConsentSignPosMap[participantSite][version][lang]) {
+        coords = siteToConsentSignPosMap[participantSite][version][lang];
+    } else if (siteToConsentSignPosMap[participantSite] && siteToConsentSignPosMap[participantSite][version] && siteToConsentSignPosMap[participantSite][version].nameX) {
         coords = siteToConsentSignPosMap[participantSite][version];
     } else if (siteToConsentSignPosMap[participantSite] && siteToConsentSignPosMap[participantSite]['default']) {
         coords = siteToConsentSignPosMap[participantSite]['default'];

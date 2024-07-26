@@ -1,4 +1,4 @@
-import { getParameters, validateToken, userLoggedIn, getMyData, hasUserData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, appState, processAuthWithFirebaseAdmin, successResponse, logDDRumError, translateHTML, languageAcronyms } from "./js/shared.js";
+import { getParameters, validateToken, userLoggedIn, getMyData, hasUserData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, appState, processAuthWithFirebaseAdmin, successResponse, logDDRumError, translateHTML, translateText, languageAcronyms } from "./js/shared.js";
 import { userNavBar, homeNavBar, languageSelector } from "./js/components/navbar.js";
 import { homePage, joinNowBtn, whereAmIInDashboard, renderHomeAboutPage, renderHomeExpectationsPage, renderHomePrivacyPage } from "./js/pages/homePage.js";
 import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser, addEventToggleSubmit, addEventLanguageSelection } from "./js/event.js";
@@ -271,7 +271,7 @@ const router = async () => {
 const userProfile = () => {
     auth.onAuthStateChanged(async user => {
         if (user && !user.isAnonymous){
-            document.title = 'My Connect - Dashboard';
+            document.title = translateText('shared.dashboardTitle');
             const mainContent = document.getElementById('root');
             let href = location.href;
             const specialParameter = 'continueUrl=';
@@ -371,7 +371,7 @@ const userProfile = () => {
             }
         }
         else{
-            document.title = 'My Connect - Home';
+            document.title = translateText('shared.homeTitle');
             window.location.hash = '#';
         }
     });
@@ -389,7 +389,7 @@ const signOut = () => {
 
     firebase.auth().signOut();
     window.location.hash = '#';
-    document.title = 'My Connect - Home';
+    document.title = translateText('shared.homeTitle');
 }
 
 /**
