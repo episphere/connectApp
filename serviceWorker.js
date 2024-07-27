@@ -1,6 +1,6 @@
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
 
-const appVersion = "v24.7.1";
+const appVersion = "v24.7.0";
 workbox.setConfig({debug: false});
 const { registerRoute } = workbox.routing;
 const { CacheFirst, NetworkFirst, StaleWhileRevalidate, NetworkOnly } = workbox.strategies;
@@ -15,7 +15,7 @@ const cacheNameMapper = {
 const currCacheNameArray = Object.values(cacheNameMapper);
 
 googleAnalytics.initialize();
-registerRoute(/\.(?:js|css|html)$/, new NetworkFirst({ cacheName: cacheNameMapper["static-cache"] }));
+registerRoute(/\.(?:js|css|html|pdf)$/, new NetworkFirst({ cacheName: cacheNameMapper["static-cache"] }));
 registerRoute(/\.(?:png|jpg|jpeg|svg|gif|ico)$/,
     new CacheFirst({
         cacheName: cacheNameMapper["images-cache"],
