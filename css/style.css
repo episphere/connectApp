@@ -1496,3 +1496,8 @@ button.connect-secondary {
 #languageSelector {
     margin-bottom: 2px;
 }
+
+#appVersion {
+    color: #fff;
+    font-size: 0.8rem;
+}

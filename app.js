@@ -17,6 +17,25 @@ import { firebaseConfig as stageFirebaseConfig } from "./stage/config.js";
 import { firebaseConfig as prodFirebaseConfig } from "./prod/config.js";
 import conceptIdMap from "./js/fieldToConceptIdMapping.js";
 
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("./serviceWorker.js").catch((error) => {
+        console.error("Service worker registration failed.", error);
+        return;
+    });
+
+    navigator.serviceWorker.ready.then(() => {
+        if (navigator.serviceWorker.controller) {
+        navigator.serviceWorker.controller.postMessage({ action: "getAppVersion" });
+        }
+    });
+
+    navigator.serviceWorker.addEventListener("message", (event) => {
+        if (event.data.action === "sendAppVersion") {
+        document.getElementById("appVersion").textContent = event.data.payload;
+        }
+    });
+}
+
 let auth = '';
 // DataDog session management -> tie Connect_ID to DataDog sessions
 let isDataDogUserSessionSet = false;
@@ -94,17 +113,6 @@ window.onload = async () => {
       appState.setState({ idToken });
     });
 
-    if ('serviceWorker' in navigator) {
-        try {
-            navigator.serviceWorker.register('./serviceWorker.js')
-            .then((registration) => {
-            });
-        }
-        catch (error) {
-            console.log(error);
-        }
-    }
-    
     const footer = document.getElementById('footer');
     footer.innerHTML = footerTemplate();
     // googleTranslateElementInit();
