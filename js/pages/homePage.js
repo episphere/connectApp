@@ -92,7 +92,7 @@ export const homePage = async () => {
             </div>
         </div>
     `);
-    
+
     const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
     const cleanSearchStr = getCleanSearchString(location.search);
     const params = new URLSearchParams(cleanSearchStr);
@@ -717,7 +717,7 @@ function accountNotFoundRender({ ui, account }) {
   <div class="mx-4 d-flex flex-column justify-content-center align-items-center">
     <h5 data-i18n="home.notFoundTitle">Not Found</h5>
     <div class="d-flex flex-column justify-content-left ">
-      <p><span data-i18n="home.accountNotFound${account.type.replace(/\s/g,'')}"></span>${account.value}<span data-i18n="home.accountNotFoundEnd"></span></p>
+      <p><span data-i18n="home.accountNotFound${account.type.replace(/\s/g,'')}"></span>${account.value}<span data-i18n="home.accountNotFound${account.type.replace(/\s/g,'')}End"></span></p>
       <p data-i18n="home.signInTrouble">If you’re having trouble signing in or don’t remember your account information, please contact the Connect Support Center at 
         <a href="tel:+18664626621">1-866-462-6621</a> or 
         <a href="mailto:ConnectStudy@norc.org">ConnectStudy@norc.org</a> before creating a new account.
