@@ -95,8 +95,6 @@ registerRoute(
     'POST'
 );
 
-workbox.precaching.precacheAndRoute([{url: 'index.html', revision: '1.0.6'}]);
-
 self.addEventListener("install", () => {
     self.skipWaiting();
 });
