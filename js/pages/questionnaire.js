@@ -136,6 +136,8 @@ async function startModule(data, modules, moduleId, questDiv) {
     let lang;
     let moduleText;
 
+    await localforage.clear();
+
     try {
         inputData = setInputData(data, modules); 
         moduleConfig = questionnaireModules();
@@ -144,12 +146,6 @@ async function startModule(data, modules, moduleId, questDiv) {
 
         if (!key) {
             throw new Error('Error: No path found for module (null key).');
-        }
-
-        if (modules[fieldMapping[moduleId].conceptId]?.['treeJSON']) {
-            tJSON = modules[fieldMapping[moduleId].conceptId]['treeJSON'];
-        } else {
-            await localforage.clear();
         }
 
         // Module has not been started.
@@ -173,6 +169,7 @@ async function startModule(data, modules, moduleId, questDiv) {
         // Module has been started and has a SHA value. Note: Don't need to update participant for this case since record exists. Fetch module text directly.
         } else if (modules[fieldMapping[moduleId].conceptId]?.['sha']) {
 
+            tJSON = await getTree(modules, moduleId);
             ({ path, lang } = getMarkdownPath(modules[fieldMapping[moduleId].conceptId][fieldMapping.surveyLanguage], moduleConfig[key]));
 
             sha = modules[fieldMapping[moduleId].conceptId]['sha'];
@@ -190,6 +187,7 @@ async function startModule(data, modules, moduleId, questDiv) {
             console.error('Module started but SHA not found. Fixing the SHA not found case.');
             const startSurveyTimestamp = data[fieldMapping[moduleId].startTs] || '';
 
+            tJSON = await getTree(modules, moduleId);
             ({ path, lang } = getMarkdownPath(modules[fieldMapping[moduleId].conceptId][fieldMapping.surveyLanguage], moduleConfig[key]));
 
             // Get the SHA from the GitHub API. The correct SHA is the SHA for the active survey commit when the participant started the survey.
@@ -645,4 +643,9 @@ const getMarkdownPath = (value, config) => {
     }
 
     return { path, lang };
+}
+
+const getTree = async (modules, moduleId) => {
+
+    return modules[fieldMapping[moduleId].conceptId]?.['treeJSON'];
 }
