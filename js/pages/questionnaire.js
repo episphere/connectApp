@@ -136,6 +136,8 @@ async function startModule(data, modules, moduleId, questDiv) {
     let lang;
     let moduleText;
 
+    await localforage.clear();
+
     try {
         inputData = setInputData(data, modules); 
         moduleConfig = questionnaireModules();
@@ -645,9 +647,5 @@ const getMarkdownPath = (value, config) => {
 
 const getTree = async (modules, moduleId) => {
 
-    if (modules[fieldMapping[moduleId].conceptId]?.['treeJSON']) {
-        return modules[fieldMapping[moduleId].conceptId]['treeJSON'];
-    } else {
-        await localforage.clear();
-    }
+    return modules[fieldMapping[moduleId].conceptId]?.['treeJSON'];
 }
