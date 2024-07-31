@@ -92,7 +92,7 @@ const renderProgress = (progress) => {
         <div class="col-lg-10">
             <div class="row" style"padding-bottom:0px;padding-top:0px;">
                 <div class="consentBodyFont2" style="text-align:center;width:30px;height:30px;background:#2A72A5;border-radius:50%;border:5px solid #2A72A5;line-height:19px;color:white; display:inline;">${progress > 9?9:progress}</div>
-                <p class="consentBodyFont2" style="margin-left:4px; color:#2A72A5;" data-i18n="consent.progressText"> of 9 <b style="color:#2E2E2E; font-family: 'Noto Sans', sans-serif; font-weight:bold;">${progress > 9?'':list[progress-1]}</b></p> 
+                <p class="consentBodyFont2" style="margin-left:4px; color:#2A72A5;"><span data-i18n="consent.progressText"> of 9 </span><b style="color:#2E2E2E; font-family: 'Noto Sans', sans-serif; font-weight:bold;">${progress > 9?'':'<span data-i18n="consent.list'+(progress-1)+'">'+list[progress-1]+'</span>'}</b></p> 
             </div>
         </div>
         <div class="col-lg-1">
@@ -1065,8 +1065,7 @@ const consentSubmit = async e => {
     formData['507120821'] = 596523216;
 
     //set the prefered language
-    // temp disable - 061024
-    // formData[fieldMapping.preferredLanguage] = selectedLanguage;
+    formData[fieldMapping.preferredLanguage] = selectedLanguage;
     
     const response = await storeResponse(formData);
     if(response.code === 200) consentFinishedPage ();

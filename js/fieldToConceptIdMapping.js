@@ -257,51 +257,6 @@ export default
         "standaloneSurvey": true,
         "version":          "850585325"
     },
-    
-    "ModuleCovid19Spanish": {
-        "conceptId":        "D_793330426", 
-        "startTs":          "268176409", 
-        "completeTs":       "784810139",  
-        "statusFlag":       "220186468", 
-        "standaloneSurvey": true,
-        "version":          "931332817"
-    },
-
-    "BiospecimenSpanish": {
-        "conceptId":        "D_299215535",
-        "startTs":          "822499427", 
-        "completeTs":       "222161762",  
-        "statusFlag":       "265193023", 
-        "standaloneSurvey": true,
-        "version":          "227848247"
-    },
-
-    "MenstrualCycleSpanish": {
-        "conceptId":        "D_912367929",
-        "startTs":          "844088537", 
-        "completeTs":       "217640691",  
-        "statusFlag":       "459098666", 
-        "standaloneSurvey": true,
-        "version":          "901199566"
-    },
-
-    "ClinicalBiospecimenSpanish": {
-        "conceptId":        "D_826163434",
-        "startTs":          "534669573", 
-        "completeTs":       "764863765", 
-        "statusFlag":       "253883960", 
-        "standaloneSurvey": true,
-        "version":          "220355297"
-    },
-
-    "MouthwashSpanish": {
-        "conceptId":        "D_390351864",
-        "startTs":          "286191859", 
-        "completeTs":       "195145666",  
-        "statusFlag":       "547363263", 
-        "standaloneSurvey": true,
-        "version":          "850585325"
-    },
 
     "PROMIS": {
         "conceptId":        "D_601305072",

@@ -1,4 +1,4 @@
-import { getParameters, validateToken, userLoggedIn, getMyData, hasUserData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, appState, processAuthWithFirebaseAdmin, successResponse, logDDRumError, translateHTML } from "./js/shared.js";
+import { getParameters, validateToken, userLoggedIn, getMyData, hasUserData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, appState, processAuthWithFirebaseAdmin, successResponse, logDDRumError, translateHTML, translateText, languageAcronyms } from "./js/shared.js";
 import { userNavBar, homeNavBar, languageSelector } from "./js/components/navbar.js";
 import { homePage, joinNowBtn, whereAmIInDashboard, renderHomeAboutPage, renderHomeExpectationsPage, renderHomePrivacyPage } from "./js/pages/homePage.js";
 import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser, addEventToggleSubmit, addEventLanguageSelection } from "./js/event.js";
@@ -17,7 +17,28 @@ import { firebaseConfig as stageFirebaseConfig } from "./stage/config.js";
 import { firebaseConfig as prodFirebaseConfig } from "./prod/config.js";
 import conceptIdMap from "./js/fieldToConceptIdMapping.js";
 
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("./serviceWorker.js").catch((error) => {
+        console.error("Service worker registration failed.", error);
+        return;
+    });
+
+    navigator.serviceWorker.ready.then(() => {
+        if (navigator.serviceWorker.controller) {
+        navigator.serviceWorker.controller.postMessage({ action: "getAppVersion" });
+        }
+    });
+
+    navigator.serviceWorker.addEventListener("message", (event) => {
+        if (event.data.action === "sendAppVersion") {
+        document.getElementById("appVersion").textContent = event.data.payload;
+        }
+    });
+}
+
 let auth = '';
+// DataDog session management -> tie Connect_ID to DataDog sessions
+let isDataDogUserSessionSet = false;
 
 const datadogConfig = {
     clientToken: 'pubcb2a7770dcbc09aaf1da459c45ecff65',
@@ -43,14 +64,14 @@ window.onload = async () => {
     }
 
     //Check for language storage
-    // temp hardcoding for English - 061024
-    // let preferredLanguage = window.localStorage.getItem('preferredLanguage');
-    // if (!preferredLanguage) {
-    //     preferredLanguage = conceptIdMap.language.en;
-    // }
+    let preferredLanguage = window.localStorage.getItem('preferredLanguage');
+    if (!preferredLanguage) {
+        preferredLanguage = conceptIdMap.language.en;
+    }
 
-    const preferredLanguage = conceptIdMap.language.en;
+    document.documentElement.setAttribute('lang', languageAcronyms()[parseInt(preferredLanguage, 10)]);
     appState.setState({"language": parseInt(preferredLanguage, 10)});
+    translateHTML(document.body);
 
     const script = document.createElement('script');
     
@@ -92,17 +113,6 @@ window.onload = async () => {
       appState.setState({ idToken });
     });
 
-    if ('serviceWorker' in navigator) {
-        try {
-            navigator.serviceWorker.register('./serviceWorker.js')
-            .then((registration) => {
-            });
-        }
-        catch (error) {
-            console.log(error);
-        }
-    }
-    
     const footer = document.getElementById('footer');
     footer.innerHTML = footerTemplate();
     // googleTranslateElementInit();
@@ -210,11 +220,10 @@ const router = async () => {
     if (loggedIn === false) {
         toggleNavBar(route, {}); // If not logged in, pass no data to toggleNavBar
 
-        // temp disable - 061024
-        // const languageSelectorContainer = document.getElementById('languageSelectorContainer');
-        // languageSelectorContainer.innerHTML = languageSelector();
-        // translateHTML(languageSelectorContainer);
-        // addEventLanguageSelection();
+        const languageSelectorContainer = document.getElementById('languageSelectorContainer');
+        languageSelectorContainer.innerHTML = languageSelector();
+        translateHTML(languageSelectorContainer);
+        addEventLanguageSelection();
 
         if (route === '#') {
             homePage();
@@ -237,13 +246,19 @@ const router = async () => {
     else{
         const data = await getMyData();
 
-        // temp disable - 061024
-        // document.getElementById('languageSelectorContainer').innerHTML = languageSelector(data);
-        // addEventLanguageSelection();
+        document.getElementById('languageSelectorContainer').innerHTML = languageSelector(data);
+        addEventLanguageSelection();
         
         if(successResponse(data)) {
             const firebaseAuthUser = firebase.auth().currentUser;
             await checkAuthDataConsistency(firebaseAuthUser.email ?? '', firebaseAuthUser.phoneNumber ?? '', data.data[conceptIdMap.firebaseAuthEmail] ?? '', data.data[conceptIdMap.firebaseAuthPhone] ?? '');
+
+            // Set Connect_ID for the current DataDog session
+            if (!isLocalDev && window.DD_RUM && data?.data?.['Connect_ID'] && !isDataDogUserSessionSet) {
+                window.DD_RUM.setUser({id: data.data['Connect_ID']});
+                isDataDogUserSessionSet = true;
+            }
+            
             toggleNavBar(route, data);  // If logged in, pass data to toggleNavBar
 
             if (route === '#') userProfile();
@@ -264,7 +279,7 @@ const router = async () => {
 const userProfile = () => {
     auth.onAuthStateChanged(async user => {
         if (user && !user.isAnonymous){
-            document.title = 'My Connect - Dashboard';
+            document.title = translateText('shared.dashboardTitle');
             const mainContent = document.getElementById('root');
             let href = location.href;
             const specialParameter = 'continueUrl=';
@@ -364,16 +379,25 @@ const userProfile = () => {
             }
         }
         else{
-            document.title = 'My Connect - Home';
+            document.title = translateText('shared.homeTitle');
             window.location.hash = '#';
         }
     });
 }
 
 const signOut = () => {
+    // Record a logout action and stop the DataDog session. This or 15 mins of inactivity will create a new session when the next action is taken.
+    if (!isLocalDev && window.DD_RUM) {
+        window.DD_RUM.addAction('user_logout', {
+            timestamp: new Date().toISOString()
+        });
+        window.DD_RUM.stopSession();
+        isDataDogUserSessionSet = false;
+    }
+
     firebase.auth().signOut();
     window.location.hash = '#';
-    document.title = 'My Connect - Home';
+    document.title = translateText('shared.homeTitle');
 }
 
 /**

@@ -148,6 +148,7 @@ const signInFlowRender = (signInEmail) => {
 };
 
 export const sendEmailLink = () => {
+    const preferredLanguage = getSelectedLanguage();
     const signInEmail = window.localStorage.getItem("signInEmail");
     const continueUrl = window.location.href;
 
@@ -156,7 +157,7 @@ export const sendEmailLink = () => {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email: signInEmail, continueUrl }),
+        body: JSON.stringify({ email: signInEmail, continueUrl , preferredLanguage}),
     }).then(() => {
         signInFlowRender(signInEmail);
     });
@@ -1041,17 +1042,90 @@ export const questionnaireModules = () => {
     
     if(location.host === urls.prod) {
         return {
-            'Background and Overall Health': {path: 'prod/module1.txt', moduleId:"Module1", enabled:true},
-            'Medications, Reproductive Health, Exercise, and Sleep': {path: 'prod/module2.txt', moduleId:"Module2", enabled:false},
-            'Smoking, Alcohol, and Sun Exposure': {path: 'prod/module3.txt', moduleId:"Module3", enabled:false},
-            'Where You Live and Work': {path: 'prod/module4.txt', moduleId:"Module4", enabled:false},
-            'Enter SSN': {moduleId:"ModuleSsn", enabled:false},
-            'Covid-19': {path: 'prod/moduleCOVID19.txt', moduleId:"ModuleCovid19", enabled:false},
-            'Biospecimen Survey': {path: 'prod/moduleBiospecimen.txt', moduleId:"Biospecimen", enabled:false},
-            'Clinical Biospecimen Survey': {path: 'prod/moduleClinicalBloodUrine.txt', moduleId:"ClinicalBiospecimen", enabled:false},
-            'Menstrual Cycle': {path: 'prod/moduleMenstrual.txt', moduleId:"MenstrualCycle", enabled:false},
-            'Mouthwash': {path: 'prod/moduleMouthwash.txt', moduleId:"Mouthwash", enabled:false},
-            'PROMIS': {path: 'prod/moduleQoL.txt', moduleId:"PROMIS", enabled:false}
+            'Background and Overall Health': {
+                path: {
+                    en: 'prod/module1.txt', 
+                    es: 'prod/module1Spanish.txt'
+                },
+                moduleId: "Module1", 
+                enabled: true
+            },
+            'Medications, Reproductive Health, Exercise, and Sleep': {
+                path: {
+                    en: 'prod/module2.txt', 
+                    es: 'prod/module2Spanish.txt'
+                }, 
+                moduleId: "Module2", 
+                enabled: false
+            },
+            'Smoking, Alcohol, and Sun Exposure': {
+                path: {
+                    en: 'prod/module3.txt', 
+                    es: 'prod/module3Spanish.txt'
+                },
+                moduleId: "Module3", 
+                enabled: false
+            },
+            'Where You Live and Work': {
+                path: {
+                    en: 'prod/module4.txt', 
+                    es: 'prod/module4Spanish.txt'
+                }, 
+                moduleId: "Module4", 
+                enabled: false
+            },
+            'Enter SSN': {
+                moduleId: "ModuleSsn", 
+                enabled: false
+            },
+            'Covid-19': {
+                path: {
+                    en: 'prod/moduleCOVID19.txt', 
+                    es: 'prod/moduleCOVID19Spanish.txt'
+                },
+                moduleId: "ModuleCovid19", 
+                enabled: false
+            },
+            'Biospecimen Survey': {
+                path: {
+                    en: 'prod/moduleBiospecimen.txt', 
+                    es: 'prod/moduleBiospecimenSpanish.txt'
+                },
+                moduleId: "Biospecimen", 
+                enabled: false
+            },
+            'Clinical Biospecimen Survey': {
+                path: {
+                    en: 'prod/moduleClinicalBloodUrine.txt', 
+                    es: 'prod/moduleClinicalBloodUrineSpanish.txt'
+                },
+                moduleId: "ClinicalBiospecimen", 
+                enabled: false
+            },
+            'Menstrual Cycle': {
+                path: {
+                    en: 'prod/moduleMenstrual.txt', 
+                    es: 'prod/moduleMenstrualSpanish.txt'
+                },
+                moduleId: "MenstrualCycle", 
+                enabled: false
+            },
+            'Mouthwash': {
+                path: {
+                    en: 'prod/moduleMouthwash.txt', 
+                    es: 'prod/moduleMouthwashSpanish.txt'
+                }, 
+                moduleId: "Mouthwash", 
+                enabled: false
+            },
+            'PROMIS': {
+                path: {
+                    en: 'prod/moduleQoL.txt', 
+                    es: 'prod/moduleQoLSpanish.txt'
+                },
+                moduleId: "PROMIS", 
+                enabled: false
+            }
         }
     }
 
@@ -1632,10 +1706,10 @@ export const fetchDataWithRetry = async (fetchFunction, maxRetries = 5, retryInt
 
 /**
  * Fetch module sha from GitHub.
- * @param {String} path - Path to the module file in the GitHub repository.
- * @param {String} connectID - Connect ID of the logged in participant.
- * @param {String} moduleID - Module ID of the module the participant is accessing.
- * @returns {String} - sha value.
+ * @param {string} path - Path to the module file in the GitHub repository.
+ * @param {string} connectID - Connect ID of the logged in participant.
+ * @param {string} moduleID - Module ID of the module the participant is accessing.
+ * @returns {string} - sha value.
  */
 export const getModuleSHA = async (path, connectID, moduleID) => {
     let sha;
@@ -1677,11 +1751,11 @@ export const getModuleSHA = async (path, connectID, moduleID) => {
 
 /**
  * Determine module sha from GitHub commit history on the module's file (compare startSurveyTimestamp with commit history timestamps).
- * @param {String} surveyStartTimestamp - Timestamp of when the participant started the survey module.
- * @param {String} path - Path to the module file in the GitHub repository.
- * @param {String} connectID - Connect ID of the logged in participant.
- * @param {String} moduleID - Module ID of the module the participant is accessing.
- * @returns {String} - sha value.
+ * @param {string} surveyStartTimestamp - Timestamp of when the participant started the survey module.
+ * @param {string} path - Path to the module file in the GitHub repository.
+ * @param {string} connectID - Connect ID of the logged in participant.
+ * @param {string} moduleID - Module ID of the module the participant is accessing.
+ * @returns {string} - sha value.
  */
 export const getShaFromGitHubCommitData = async (surveyStartTimestamp, path, connectID, moduleID) => {
     let sha;
@@ -1729,21 +1803,31 @@ export const getShaFromGitHubCommitData = async (surveyStartTimestamp, path, con
 /**
  * Update participant and survey data when the participant starts a survey module.
  * Also used to repair the SHA value when the participant continues a survey and the SHA value is missing.
- * @param {String} sha - SHA value of the module file. 
- * @param {String} version - Version of the module file.
- * @param {String} moduleId - Module ID of the module the participant is accessing.
- * @param {String} repairShaVersionString - Version string to use when repairing the SHA value (fetched from GitHub raw API).
+ * @param {string} sha - SHA value of the module file.
+ * @param {string} path - Path to the module file in the GitHub repository.
+ * @param {string} connectId - Connect ID of the logged in participant.
+ * @param {string} moduleId - Module ID of the module the participant is accessing.
+ * @param {string} repairShaVersionString - Version string to use when repairing the SHA value (fetched from GitHub raw API).
  * @param {Boolean} repairShaValue - Flag to indicate if the SHA is being repaired (retain the original survey start timestamp when true).
+ * @returns {string} - Module text for Quest.
  */
-export const updateStartSurveyParticipantData = async (sha, url, moduleId, repairShaVersionString, repairShaValue = false) => {
+export const updateStartSurveyParticipantData = async (sha, path, connectId, moduleId, repairShaVersionString, repairShaValue = false) => {
+
     try {
-        const version = repairShaValue ? repairShaVersionString : await fetchDataWithRetry(() => getModuleText(url));
+        const { moduleText, surveyVersion } = await fetchDataWithRetry(() => getModuleText(sha, path, connectId, moduleId));
+
+        // If the SHA value is being repaired (rare case), sanity check the version string.
+        if (repairShaValue && repairShaVersionString !== surveyVersion) {
+            console.error('updateStartSurveyParticipantData', 'SHA repair failed. Version mismatch:', repairShaVersionString, surveyVersion);
+            throw new Error('SHA repair failed in updateStartSurveyParticipantData. Version mismatch:', repairShaVersionString, surveyVersion);
+        }
+
         let questData = {};
         let formData = {};
 
         questData[fieldMapping[moduleId].conceptId + ".sha"] = sha;
-        questData[fieldMapping[moduleId].conceptId + "." + fieldMapping[moduleId].version] = version;
-        questData[fieldMapping[moduleId].conceptId + "." + fieldMapping.surveyLanguage] = appState.getState().language;
+        questData[fieldMapping[moduleId].conceptId + "." + fieldMapping[moduleId].version] = surveyVersion;
+        questData[fieldMapping[moduleId].conceptId + "." + fieldMapping.surveyLanguage] = getSelectedLanguage();
 
         // Do not update startTs if the sha is being repaired. Retain the original startTs, which coincides with the fetched survey.
         if (!repairShaValue) formData[fieldMapping[moduleId].startTs] = new Date().toISOString();
@@ -1753,39 +1837,58 @@ export const updateStartSurveyParticipantData = async (sha, url, moduleId, repai
         // Caution on refactor: both calls are complex. Both transform the data objects.
         await storeResponseQuest(questData);
         await storeResponse(formData);
+
+        return moduleText;
     } catch (error) {
         throw error;
     }
 }
 
 /**
- * Get the version number from the module file. Executes for new surveys only.
- * Some of the oldest survey files don't have version numbers. In that case, default to 1.0 for recordkeeping.
- * @param {String} url - URL of the module file.
- * @returns {String} - Version number (ex: 2.2).
+ * Fetch module text and version number from GitHub.
+ * @param {string} sha - SHA value of the module file.
+ * @param {string} path - Path to the module file in the GitHub repository.
+ * @param {string} connectID - Connect ID of the logged in participant.
+ * @param {string} moduleID - Module ID of the module the participant is accessing.
+ * @returns {Object} - { moduleText, surveyVersion } object.
  */
-// TODO: monitor this. Raw access to GitHub data doesn't appear to be rate limited. If we see errors, authenticate this request.
-const getModuleText = async (url) => {
+export const getModuleText = async (sha, path, connectID, moduleID) => {
     try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+        const idToken = await getIdToken();
+        const encodedSHA = encodeURIComponent(sha);
+        const encodedPath = encodeURIComponent(path);
+        const response = await fetch(`${api}?api=getQuestSurveyFromGitHub&path=${encodedPath}&sha=${encodedSHA}`, {
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + idToken,
+            },
+        });
+
+        const jsonResponse = await response.json();
+
+        if (jsonResponse.code === 200) {
+            return jsonResponse.data;
+        } else {
+            throw new Error('Failed to retrieve Module text', jsonResponse.message);
         }
-
-        const moduleText = await response.text();
-        const match = moduleText.match("{\"version\":\\s*\"([0-9]{1,2}\\.[0-9]{1,3})\"}");
-        
-        return match ? match[1] : '1.0';
-
     } catch (error) {
-        throw new Error(`Error: Fetching module text failed. ${error.message}`);
+        logDDRumError(new Error(`Module Text Fetch Error: + ${error.message}`), 'GetModuleTextError', {
+                userAction: 'click start survey',
+                timestamp: new Date().toISOString(),
+                connectID: connectID,
+                questionnaire: moduleID,
+                sha: sha || 'Unknown SHA',
+                path: path || 'Unknown path',
+        });
+
+        throw new Error('Error: getModuleText():', error);
     }
 }
 
 /**
  * Force-Log detailed error to Datadog RUM (and console).
  * @param {Error} error - The error object to log.
- * @param {String} errorType - Categorize the type of the error for datadog.
+ * @param {string} errorType - Categorize the type of the error for datadog.
  * @param {Object} additionalContext - Optional. Additional context to include with the error. Example: { userAction: 'click', timestamp: new Date().toISOString(), connectID: '1234567890' }
  */
 export const logDDRumError = (error, errorType = 'CustomError', additionalContext = {}) => {
@@ -1947,4 +2050,35 @@ export const getSelectedLanguage = () => {
     }
 
     return selectedLanguage;
+}
+
+/**
+ * Get the custom settings for ConnectApp. Initial use: Quest versioning. See loadQuestConfig().
+ * @param {Array<string>} paramsToFetchArray - Array of parameters to fetch. E.g. ['param1', 'param2', 'param3'].
+ * @returns {Object} - App settings object.
+ */
+export const getAppSettings = async (paramsToFetchArray) => {
+    const queryParams = `&selectedParamsArray=${encodeURIComponent(paramsToFetchArray.map(param => param.trim()).join(','))}`;
+    const url = `${api}?api=getAppSettings${queryParams}`;
+
+    try {
+        const idToken = await getIdToken();
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + idToken,
+            },
+        });
+    
+        const jsonResponse = await response.json();
+
+        if (jsonResponse.code !== 200) {
+            throw new Error(`Failed to retrieve app settings: ${jsonResponse.message}`);
+        } 
+        
+        return jsonResponse.data;
+
+    } catch (error) {
+        throw new Error(`Error: getAppSettings(): ${error.message || error}`);
+    }
 }
