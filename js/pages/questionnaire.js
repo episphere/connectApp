@@ -1,40 +1,40 @@
-import { getModuleSHA, getMyData, getShaFromGitHubCommitData, hasUserData, getMySurveys, logDDRumError, urls, questionnaireModules, storeResponseQuest, storeResponseTree, showAnimation, hideAnimation, addEventReturnToDashboard, fetchDataWithRetry, updateStartSurveyParticipantData, translateHTML, translateText, getSelectedLanguage } from "../shared.js";
+import { getModuleSHA, getModuleText, getMyData, getShaFromGitHubCommitData, hasUserData, getAppSettings, getMySurveys, logDDRumError, questionnaireModules, storeResponseQuest, storeResponseTree, showAnimation, hideAnimation, addEventReturnToDashboard, fetchDataWithRetry, updateStartSurveyParticipantData, translateHTML, translateText, getSelectedLanguage } from "../shared.js";
 import fieldMapping from '../fieldToConceptIdMapping.js'; 
 import { socialSecurityTemplate } from "./ssn.js";
-import { SOCcer as SOCcerProd } from "./../../prod/config.js";
-import { SOCcer as SOCcerStage } from "./../../stage/config.js";
-import { SOCcer as SOCcerDev } from "./../../dev/config.js";
 
 let questConfig;
+let questVersion;
 let quest;
 let data;
 let modules;
 
 const questDiv = "questionnaireRoot";
 
+/**
+ * The questConfig object maps the current environment to the appropriate Quest version.
+ * The Quest version is fetched from Firestore.
+ * Fetch currentQuestVersion from Firestore: collection: appSettings, document: { "appName":connectApp, "currentQuestVersion": currentQuestVersion }
+ */
 async function loadQuestConfig() {
+    const paramsToFetchArray = ['currentQuestVersion'];
+
     try {
-        if (!questConfig) {
-            const importedModule = await import("https://episphere.github.io/questionnaire/questVersions.js");
-            questConfig = importedModule.default;
-        }
+        const appSettingsResponse = await getAppSettings(paramsToFetchArray);
+        questVersion = appSettingsResponse.currentQuestVersion;
+        
+        questConfig = {
+            "myconnect.cancer.gov": `https://cdn.jsdelivr.net/gh/episphere/quest@v${questVersion}/replace2.js`,
+            "myconnect-stage.cancer.gov": `https://cdn.jsdelivr.net/gh/episphere/quest@v${questVersion}/replace2.js`,
+            "episphere.github.io": "https://episphere.github.io/quest-dev/replace2.js",
+            "localhost:5000": `https://cdn.jsdelivr.net/gh/episphere/quest@v${questVersion}/replace2.js`
+        };
     } catch (error) {
-        // questConfig fallback (emerging issue happening in Chrome 123+)
-        // Monitor this in DataDog. Temporary fallback. Consider maintenance-free ways of storing config backup when import fails.
-        console.error(`Error: QuestConfig - error dynamically loading questConfig. Using fallback: ${error.message}`);
+        console.error(`QuestConfig Loading Error: ${error.message}`);
         logDDRumError(error, 'QuestConfigError', {
             userAction: 'click start survey',
             timestamp: new Date().toISOString(),
             ...(data?.['Connect_ID'] && { connectID: data['Connect_ID'] }),
         });
-
-        // TODO: Quest 2.0 manage version with Firestore or similar
-        questConfig = {
-            "myconnect.cancer.gov": "https://cdn.jsdelivr.net/gh/episphere/quest@v1.1.10/replace2.js",
-            "myconnect-stage.cancer.gov": "https://cdn.jsdelivr.net/gh/episphere/quest@v1.1.10/replace2.js",
-            "episphere.github.io": "https://episphere.github.io/quest/replace2.js",
-            "localhost:5000": "https://cdn.jsdelivr.net/gh/episphere/quest@v1.1.10/replace2.js"
-        }
     }
 }
 
@@ -134,6 +134,9 @@ async function startModule(data, modules, moduleId, questDiv) {
     let sha;
     let key;
     let lang;
+    let moduleText;
+
+    await localforage.clear();
 
     try {
         inputData = setInputData(data, modules); 
@@ -143,12 +146,6 @@ async function startModule(data, modules, moduleId, questDiv) {
 
         if (!key) {
             throw new Error('Error: No path found for module (null key).');
-        }
-
-        if (modules[fieldMapping[moduleId].conceptId]?.['treeJSON']) {
-            tJSON = modules[fieldMapping[moduleId].conceptId]['treeJSON'];
-        } else {
-            await localforage.clear();
         }
 
         // Module has not been started.
@@ -164,23 +161,33 @@ async function startModule(data, modules, moduleId, questDiv) {
             }
             
             try {
-                await updateStartSurveyParticipantData(sha, url, moduleId);
+                moduleText = await updateStartSurveyParticipantData(sha, path, data['Connect_ID'], moduleId);
             } catch (error) {
                 throw new Error('Error: Storing questData and formData failed.');
             }
 
-        // Module has been started and has a SHA value.
+        // Module has been started and has a SHA value. Note: Don't need to update participant for this case since record exists. Fetch module text directly.
         } else if (modules[fieldMapping[moduleId].conceptId]?.['sha']) {
 
+            tJSON = await getTree(modules, moduleId);
             ({ path, lang } = getMarkdownPath(modules[fieldMapping[moduleId].conceptId][fieldMapping.surveyLanguage], moduleConfig[key]));
 
             sha = modules[fieldMapping[moduleId].conceptId]['sha'];
             url += sha + "/" + path;
 
+            try {
+                const moduleFetchResult = await fetchDataWithRetry(() => getModuleText(sha, path, data['Connect_ID'], moduleId));
+                moduleText = moduleFetchResult.moduleText;
+            } catch (error) {
+                throw new Error('Error: Module text prefetch failed.');
+            }
+
         // Module has been started but SHA is not found. 'Fix' the case where the SHA is not found for the module.
         } else {
+            console.error('Module started but SHA not found. Fixing the SHA not found case.');
             const startSurveyTimestamp = data[fieldMapping[moduleId].startTs] || '';
 
+            tJSON = await getTree(modules, moduleId);
             ({ path, lang } = getMarkdownPath(modules[fieldMapping[moduleId].conceptId][fieldMapping.surveyLanguage], moduleConfig[key]));
 
             // Get the SHA from the GitHub API. The correct SHA is the SHA for the active survey commit when the participant started the survey.
@@ -196,22 +203,25 @@ async function startModule(data, modules, moduleId, questDiv) {
             // Repair the SHA value in the module data. Do not update the start timestamp (found in participant data) for the module.
             try {
                 const repairShaValue = true;
-                await updateStartSurveyParticipantData(sha, url, moduleId, surveyVersion, repairShaValue);
+                moduleText = await updateStartSurveyParticipantData(sha, path, data['Connect_ID'], moduleId, surveyVersion, repairShaValue);
             } catch (error) {
                 throw new Error('Error: Updating participant data failed after EXISTING MODULE: SHA not found.');
             }   
         }
 
         const questParameters = {
-            url: url,
-            activate: true,
-            delayedParameterArray: fieldMapping.delayedParameterArray, // Delayed parameters (external questions that require extra processing time)
-            store: storeResponseQuest,
-            retrieve: function(){return getMySurveys([fieldMapping[moduleId].conceptId], true)},
-            soccer: externalListeners,
-            updateTree: storeResponseTree,
-            treeJSON: tJSON,
-            lang: lang
+            url: url,                                                                               // URL for the module's markdown text.
+            activate: true,                                                                         // Activate the stylesheets.
+            delayedParameterArray: fieldMapping.delayedParameterArray,                              // Delayed parameters (external questions that require extra processing time).
+            store: storeResponseQuest,                                                              // Store the participant's responses in Firestore.
+            retrieve: function(){return getMySurveys([fieldMapping[moduleId].conceptId], true)},    // Retrieve the module data from Firestore.
+            soccer: function(){return externalListeners(lang)},                                     // External listeners for soccer questions.
+            updateTree: storeResponseTree,                                                          // Update the treeJSON in Firestore.
+            treeJSON: tJSON,                                                                        // Existing treeJSON for the module. Tracks the participant's progress through the module.
+            lang: lang,                                                                             // Participant's preferred language.
+            text: moduleText,                                                                       // Markdown text for the module.
+            questVersion: questVersion,                                                             // Quest version number, for loading stylesheets from the CDN.
+            surveyDataPrefetch: modules[fieldMapping[moduleId].conceptId]                           // Prefetched survey data.
         }
 
         window.scrollTo(0, 0);
@@ -231,7 +241,6 @@ async function startModule(data, modules, moduleId, questDiv) {
         setUpMutationObserver();
         
         document.getElementById(questDiv).style.visibility = 'visible';
-
     } catch (error) {
         const errorContext = { moduleId, modules, inputData, moduleConfig, key, path, sha };
         error.context = errorContext;
@@ -239,7 +248,7 @@ async function startModule(data, modules, moduleId, questDiv) {
     }
 }
 
-function externalListeners(){
+function externalListeners(language){
     
     const work3 = document.getElementById("D_627122657");
     const work3b = document.getElementById("D_796828094");
@@ -264,14 +273,14 @@ function externalListeners(){
             work3.addEventListener("submit", (e) => {
                 e.preventDefault();
                 
-                title3 = e.target[0].value;
+                title3 = e.target[1].value;
             });
 
             work3b.addEventListener("submit", async (e) => {
                 e.preventDefault();
     
-                task3 = e.target[0].value;
-                const soccerResults = await buildSoccerResults(title3, task3);
+                task3 = e.target[1].value;
+                const soccerResults = await buildSoccerResults(title3, task3, language);
     
                 buildHTML(soccerResults, occuptn1);
             });
@@ -280,8 +289,8 @@ function externalListeners(){
             work3.addEventListener("submit", async (e) => {
                 e.preventDefault();
                 
-                title3 = e.target[0].value;
-                const soccerResults = await buildSoccerResults(title3, '');
+                title3 = e.target[1].value;
+                const soccerResults = await buildSoccerResults(title3, '', language);
     
                 buildHTML(soccerResults, occuptn1);
             });
@@ -293,14 +302,14 @@ function externalListeners(){
             work7.addEventListener("submit", (e) => {
                 e.preventDefault();
                 
-                title7 = e.target[0].value;
+                title7 = e.target[1].value;
             });
 
             work7b.addEventListener("submit", async (e) => {
                 e.preventDefault();
     
-                task7 = e.target[0].value;
-                const soccerResults = await buildSoccerResults(title7, task7);
+                task7 = e.target[1].value;
+                const soccerResults = await buildSoccerResults(title7, task7, language);
     
                 buildHTML(soccerResults, occuptn2);
             });
@@ -309,8 +318,8 @@ function externalListeners(){
             work7.addEventListener("submit", async (e) => {
                 e.preventDefault();
                 
-                title7 = e.target[0].value;
-                const soccerResults = await buildSoccerResults(title7, '');
+                title7 = e.target[1].value;
+                const soccerResults = await buildSoccerResults(title7, '', language);
     
                 buildHTML(soccerResults, occuptn2);
             });
@@ -425,16 +434,21 @@ export const blockParticipant = () => {
 
 }
 
-const buildSoccerResults = async (title, task) => { 
-    let soccerURL = SOCcerDev;
+const buildSoccerResults = async (title, task, language) => { 
 
-    if(location.host === urls.prod) soccerURL = SOCcerProd;
-    else if(location.host === urls.stage) soccerURL = SOCcerStage;
-        
     try {    
-        let soccerResults = await (await fetch(`${soccerURL}title=${title}&task=${task}&n=6`)).json();
-    
-        for(let i = 0; i < soccerResults.length; i++){
+        const response = await fetch(`https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/connect-soccer`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ title, task, language })
+        });
+
+        const soccerResponse = await response.json();
+        const soccerResults = soccerResponse.results;
+        
+        for (let i = 0; i < soccerResults.length; i++){
             soccerResults[i]['code'] += '-' + i;
         }
     
@@ -629,4 +643,9 @@ const getMarkdownPath = (value, config) => {
     }
 
     return { path, lang };
+}
+
+const getTree = async (modules, moduleId) => {
+
+    return modules[fieldMapping[moduleId].conceptId]?.['treeJSON'];
 }
