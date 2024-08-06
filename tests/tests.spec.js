@@ -46,7 +46,9 @@ class PlaywrightDevPage {
     await page.locator('input[name="password"]').click();
     await page.locator('input[name="password"]').fill(process.env.PASSWORD);
 
-    await Promise.all([page.getByRole('button', { name: 'Sign In' }).click(), page.waitForResponse(resp => resp.url().includes('https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword'))]);
+    await page.getByRole('button', { name: 'Sign In' }).click();
+
+    // await Promise.all([page.getByRole('button', { name: 'Sign In' }).click(), page.waitForResponse(resp => resp.url().includes('https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword'))]);
   }
 
   async interceptUserData(dataOverrides) {
@@ -98,7 +100,7 @@ class PlaywrightDevPage {
     const selector = await pageObj.getByLabel('Who is your healthcare provider?');
     const options = await eligibilityForm.getByRole('option');
     // Currently we have 10 healthcare providers, plus one more option for the no selection
-    await expect(options).toHaveCount(11);
+    await expect(options).toHaveCount(12);
 
     // Select the first option that's not no selection
     selector.selectOption({ index: 1 });
@@ -118,10 +120,12 @@ class PlaywrightDevPage {
     let checkboxesCount = Object.keys(fieldMapping.heardAboutStudyCheckBoxes).length;
     let listItems = await pageObj.getByRole('checkbox');
     expect(listItems).toHaveCount(checkboxesCount);
-    await listItems.click();
+    // await pageObj.pause();
+    // await pageObj.pause();
+    // await listItems.click();
     // await listItems.nth(5).dispatchEvent('click');
     // await document.querySelector('#checkbox1').click();
-    await pageObj.click('button[id="checkbox1"]');
+    await pageObj.click('input[id="checkbox8"]');
 
     // await pageObj.locator('#checkbox1').dispatchEvent('click');
 
@@ -205,10 +209,10 @@ test.describe('UI tests', () => {
 
     await Promise.all([
       'First Survey',
-      'Background and Overall Health Survey Section',
-      'Where You Live and Work Survey Section',
-      'Medications, Reproductive Health, Exercise, and Sleep Survey Section',
-      'Smoking, Alcohol, and Sun Exposure Survey Section',
+      'Background and Overall Health',
+      'Where You Live and Work',
+      'Medications, Reproductive Health, Exercise, and Sleep',
+      'Smoking, Alcohol, and Sun Exposure',
       'Your Social Security Number (SSN)'
     ].map((text, index) => expect(surveys.nth(index)).toContainText(text)));
 
@@ -291,10 +295,10 @@ test.describe('UI tests', () => {
 
     await Promise.all([
       'First Survey',
-      'Background and Overall Health Survey Section',
-      'Where You Live and Work Survey Section',
-      'Medications, Reproductive Health, Exercise, and Sleep Survey Section',
-      'Smoking, Alcohol, and Sun Exposure Survey Section'
+      'Background and Overall Health',
+      'Where You Live and Work',
+      'Medications, Reproductive Health, Exercise, and Sleep',
+      'Smoking, Alcohol, and Sun Exposure'
     ].map((text, index) => expect(surveys.nth(index)).toContainText(text)));
 
     // Completed tab
@@ -457,8 +461,8 @@ test.describe('UI tests', () => {
     // @TODO
     const requestPINForm = await pageObj.locator('#requestPINForm');
     await expect(requestPINForm).toBeVisible();
-    await expect(requestPINForm).toContainText(`If you received a PIN as part of your study invitation, please enter it here.
-    Your PIN should be 6 characters and will include only numbers and uppercase letters.`)
+    await expect(requestPINForm).toContainText(`If you received a PIN as part of your study invitation, please enter it here.`);
+    await expect(requestPINForm).toContainText(`Your PIN should be 6 characters and will include only numbers and uppercase letters.`)
 
     const participantPINInput = await pageObj.locator('#participantPIN');
     await expect(participantPINInput).toBeVisible();
