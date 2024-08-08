@@ -697,6 +697,16 @@ export function signUpRender({ ui, signUpType = "phone" }) {
         signUpRender({ ui, signUpType: "email" });
       });
     });
+    const inputEle = document.querySelector('input[class~="firebaseui-id-email"]');
+    inputEle &&
+        inputEle.addEventListener("keyup", (event) => {
+            if (event.keyCode === 13) {
+              window.localStorage.setItem(
+                "signInEmail",
+                inputEle.value
+              );
+            }
+        });
   }
 
   signInLink.addEventListener("click", (e) => {
