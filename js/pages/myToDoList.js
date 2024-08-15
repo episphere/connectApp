@@ -795,7 +795,7 @@ const setModuleAttributes = (data, modules, collections) => {
         const cutoffDate = new Date();
         cutoffDate.setDate(cutoffDate.getDate() - 90);
 
-        if (data[fieldMapping.verifiedDate] > cutoffDate.toISOString()) {
+        if (data[fieldMapping.verifiedDate] && data[fieldMapping.verifiedDate] > cutoffDate.toISOString()) {
             modules["PROMIS"].enabled = false;
         }
     }
