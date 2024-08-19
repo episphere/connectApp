@@ -553,12 +553,6 @@ const u_chicago = {
             '<span data-i18n="samples.u_chicago.locations.IngallsParking">Ingalls Memorial Hospital offers free valet and self-parking.</span>',
         ],
         [
-            '<span data-i18n="samples.u_chicago.locations.OrlandParkName"><span class="site-info-underline">UChicago Medicine Orland Park in Orland Park, IL</span></span>',
-            '<span data-i18n="samples.u_chicago.locations.OrlandParkAddress">9661 W 143rd St </br> Orland Park, IL 60462</span>',
-            '',
-            '<span data-i18n="samples.u_chicago.locations.OrlandParkParking">The clinic building is located across the street from the UChicago Medicine Orland Park building on the southwest corner of 143rd St and S Ravinia Ave. This location offers free parking in front of the building. Once parked, the suite location is through the front doors and the last door on the left down the lefthand hallway.</span>',
-        ],
-        [
             '<span data-i18n="samples.u_chicago.locations.Option2"><span>Option 2: UCM Outpatient Clinical Lab Locations:<br><br></span><span style=" font-family: \'Noto Sans\', sans-serif; font-size: 18px; line-height: 27px; color: #2E2E2E; margin-top: 20px;">You may walk into any of the following lab locations to donate samples for Connect during normal hours of operation (check the links below for location and hour information):</span></span>',
             '',
             '',
@@ -571,7 +565,7 @@ const u_chicago = {
             '<span data-i18n="samples.u_chicago.locations.RiverEastParking">From Lake Shore Drive: Exit at Grand Ave. and proceed west towards McClurg Ct.  An entrance to the parking garage is located past that intersection on your left at 321 E. Grand.<br><br>From the West: Take Illinois St. east towards Columbus Dr. An entrance to the parking garage is located past that intersection on your left at 300 E. Illinois.<br><br>Once inside the parking garage, follow the signs to LL3 (Fall) for designated UChicago Medicine patient parking.  We will validate your parking pass from the parking garage. Please show your self-parking ticket to research staff. We are unable to validate street parking.</span>',
         ],
         [
-            '<span data-i18n="samples.u_chicago.locations.SouthLoopName"><span class="site-info-underline"><a href="https://www.uchicagomedicine.org/find-a-location/uchicago-medicine-south-loop" target="_blank">UChicago Medicine – South Loop, in Downtown Chicago</a></span></span></span>',
+            '<span data-i18n="samples.u_chicago.locations.SouthLoopName"><span class="site-info-underline"><a href="https://www.uchicagomedicine.org/find-a-location/uchicago-medicine-south-loop" target="_blank">UChicago Medicine – South Loop, in Downtown Chicago</a></span></span>',
             '<span data-i18n="samples.u_chicago.locations.SouthLoopAddress">Southgate Market P1 <br> 1101 S Canal St<br>Chicago, IL 60607</span></span>',
             '',
             '<span data-i18n="samples.u_chicago.locations.SouthLoopParking">The clinic is located on the P1 level next to the DSW. Entrances are located off of Canal St right beside the Panera Bread and on the P1 level of the parking garage. We will validate your parking pass from the parking garage. Please show your self-parking ticket to research staff. We are unable to validate street parking.</span></span>',
