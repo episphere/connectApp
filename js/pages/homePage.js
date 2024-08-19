@@ -1,4 +1,4 @@
-import { getMyData, hasUserData, urls, fragment, checkAccount, validEmailFormat, validPhoneNumberFormat, getCleanSearchString, firebaseSignInRender, signInAnonymously, usGov, translateHTML, translateText } from "../shared.js";
+import { getMyData, hasUserData, urls, fragment, checkAccount, validEmailFormat, validPhoneNumberFormat, getCleanSearchString, firebaseSignInRender, signInAnonymously, usGov, translateHTML, translateText, getFirebaseUI } from "../shared.js";
 import { signInConfig } from "./signIn.js";
 import { environmentWarningModal, downtimeWarning } from "../event.js";
 
@@ -93,7 +93,8 @@ export const homePage = async () => {
         </div>
     `);
 
-    const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
+    const fbui = await getFirebaseUI();
+    const ui = fbui.auth.AuthUI.getInstance() || new fbui.auth.AuthUI(firebase.auth());
     const cleanSearchStr = getCleanSearchString(location.search);
     const params = new URLSearchParams(cleanSearchStr);
     const isMagicLinkSignIn = params.get('apiKey') !== null && params.get('mode') === 'signIn';

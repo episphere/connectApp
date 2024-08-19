@@ -2065,3 +2065,57 @@ export const getAppSettings = async (paramsToFetchArray) => {
         throw new Error(`Error: getAppSettings(): ${error.message || error}`);
     }
 }
+
+let firebaseLoaded = false;
+
+export const getFirebaseUI = async () => {
+    let lang = languageAcronyms()[getSelectedLanguage()];
+    let scriptTag = document.getElementById('firebaseui-script');
+    //If we have a script tag but it is for the wrong language then we need to 
+    //tear down the existing UI and reload the new one
+    if (scriptTag && scriptTag.dataset.i18n !== lang) {
+        scriptTag.parentNode.removeChild(scriptTag);
+        scriptTag = null;
+    }
+
+    //If the scriptTag is falsey then load it
+    if (!scriptTag) {
+        scriptTag = document.createElement("script");
+        scriptTag.src = 'https://www.gstatic.com/firebasejs/ui/6.1.0/firebase-ui-auth__'+lang+'.js';
+        scriptTag.async = true;
+        scriptTag.id = 'firebaseui-script';
+        scriptTag.setAttribute('data-i18n', lang);
+        document.body.appendChild(scriptTag);
+
+        await new Promise((resolve, reject) => {
+            scriptTag.addEventListener('load', () => {
+                firebaseLoaded = true;
+                resolve(true);
+            });
+            scriptTag.addEventListener('error', (event) => {
+                reject(new Error('Error loading FirebaseUI script from '+event.target.getAttribute('src')));
+            });
+        });
+        return firebaseui;
+    } else {
+        if (firebaseLoaded) {
+            return firebaseui;
+        } else {
+            try {
+                await new Promise((resolve, reject) => {
+                    scriptTag.addEventListener('load', () => {
+                        firebaseLoaded = true;
+                        resolve(true);
+                    });
+                    scriptTag.addEventListener('error', (event) => {
+                        reject(new Error('Error loading FirebaseUI script from '+event.target.getAttribute('src')));
+                    });
+                });
+                return firebaseui;
+            } catch (e) {
+                console.error('Error Loading FirebaseUI', e);
+                return null;
+            }
+        }
+    }
+}

@@ -1,4 +1,4 @@
-import { allStates, showAnimation, hideAnimation, getMyData, hasUserData, urls, firebaseSignInRender, validEmailFormat, validPhoneNumberFormat, signInAnonymously, checkAccount, translateHTML, translateText, languageTranslations } from '../shared.js';
+import { allStates, showAnimation, hideAnimation, getMyData, hasUserData, urls, firebaseSignInRender, validEmailFormat, validPhoneNumberFormat, signInAnonymously, checkAccount, translateHTML, translateText, languageTranslations, getFirebaseUI } from '../shared.js';
 import { attachTabEventListeners, addOrUpdateAuthenticationMethod, changeContactInformation, changeMailingAddress, changeName, formatFirebaseAuthPhoneNumber, FormTypes, getCheckedRadioButtonValue, handleContactInformationRadioButtonPresets, handleOptionalFieldVisibility, hideOptionalElementsOnShowForm, hideSuccessMessage, openUpdateLoginForm, showAndPushElementToArrayIfExists, showEditButtonsOnUserVerified, suffixList, suffixToTextMap, toggleElementVisibility, togglePendingVerificationMessage, unlinkFirebaseAuthProvider, updatePhoneNumberInputFocus, validateContactInformation, validateLoginEmail, validateLoginPhone, validateMailingAddress, validateName } from '../settingsHelpers.js';
 import { addEventAddressAutoComplete } from '../event.js';
 import cId from '../fieldToConceptIdMapping.js';
@@ -475,8 +475,8 @@ const handleEditSignInInformationSection = () => {
             const inputStr = accountInput.value.trim();
             const isEmail = !!inputStr.match(validEmailFormat);
             const isPhone = !!inputStr.match(validPhoneNumberFormat);
-        
-            const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
+            const fbui = await getFirebaseUI();
+            const ui = fbui.auth.AuthUI.getInstance() || new fbui.auth.AuthUI(firebase.auth());
             if (isEmail) {
             //   await signInAnonymously();
               const emailForQuery = inputStr

@@ -1,5 +1,5 @@
 import { allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, BirthMonths, getAge, getMyData, 
-    hasUserData, retrieveNotifications, removeActiveClass, toggleNavbarMobileView, appState, logDDRumError, translateHTML, translateText } from "./shared.js";
+    hasUserData, retrieveNotifications, removeActiveClass, toggleNavbarMobileView, appState, logDDRumError, translateHTML, translateText, getFirebaseUI } from "./shared.js";
 import { consentTemplate } from "./pages/consent.js";
 import { heardAboutStudy, healthCareProvider, duplicateAccountReminderRender } from "./pages/healthCareProvider.js";
 import { myToDoList } from "./pages/myToDoList.js";
@@ -1304,7 +1304,7 @@ export const addEventLanguageSelection = () => {
         console.warn('Language Selector Not Found');
         return;
     }
-    selector.addEventListener('change', (e) => { 
+    selector.addEventListener('change', async (e) => { 
         const selectedLanguage = parseInt(e.target.value, 10);
         window.localStorage.setItem('preferredLanguage', selectedLanguage);
         appState.setState({"language": selectedLanguage});
