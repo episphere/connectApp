@@ -45,6 +45,7 @@ export default
     "healthcareProvider":827220437,
     "verification":821247024,
     "verified":197316935,
+    "verifiedDate": 914594314,
     "firebaseAuthEmail": 421823980,
     "firebaseAuthPhone": 348474836,
     "userProfileSubmittedAutogen": 699625233,
