@@ -475,8 +475,6 @@ const handleEditSignInInformationSection = () => {
             const inputStr = accountInput.value.trim();
             const isEmail = !!inputStr.match(validEmailFormat);
             const isPhone = !!inputStr.match(validPhoneNumberFormat);
-            const fbui = await getFirebaseUI();
-            const ui = fbui.auth.AuthUI.getInstance() || new fbui.auth.AuthUI(firebase.auth());
             if (isEmail) {
             //   await signInAnonymously();
               const emailForQuery = inputStr
@@ -493,7 +491,7 @@ const handleEditSignInInformationSection = () => {
         
               if (response?.data?.accountExists) {
                 const account = { type: 'email', value: inputStr };
-                firebaseSignInRender({ ui, account, displayFlag: false });
+                firebaseSignInRender({ account, displayFlag: false });
               } else {
                 alert(translateText('settings.accountNotFound'));
               }
@@ -504,7 +502,7 @@ const handleEditSignInInformationSection = () => {
         
               if (response?.data?.accountExists) {
                 const account = { type: 'phone', value: phoneNumberStr };
-                firebaseSignInRender({ ui, account, displayFlag: false });
+                firebaseSignInRender({ account, displayFlag: false });
               } else {
                 alert(translateText('settings.accountNotFound'));
               }

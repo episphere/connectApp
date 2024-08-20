@@ -1,10 +1,11 @@
 import { allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, BirthMonths, getAge, getMyData, 
-    hasUserData, retrieveNotifications, removeActiveClass, toggleNavbarMobileView, appState, logDDRumError, translateHTML, translateText, getFirebaseUI } from "./shared.js";
+    hasUserData, retrieveNotifications, removeActiveClass, toggleNavbarMobileView, appState, logDDRumError, translateHTML, translateText, firebaseSignInRender } from "./shared.js";
 import { consentTemplate } from "./pages/consent.js";
 import { heardAboutStudy, healthCareProvider, duplicateAccountReminderRender } from "./pages/healthCareProvider.js";
 import { myToDoList } from "./pages/myToDoList.js";
 import { suffixToTextMap } from "./settingsHelpers.js";
 import fieldMapping from "./fieldToConceptIdMapping.js";
+import {signUpRender} from "./pages/homePage.js";
 
 export const addEventsConsentSign = () => {
     document.getElementById('CSFirstName').addEventListener('keyup', () => {
@@ -1309,5 +1310,14 @@ export const addEventLanguageSelection = () => {
         window.localStorage.setItem('preferredLanguage', selectedLanguage);
         appState.setState({"language": selectedLanguage});
         translateHTML(document.body);
+        const wrapperDiv = document.getElementById("signInWrapperDiv");
+        console.log(wrapperDiv.dataset);
+        if (wrapperDiv && wrapperDiv.dataset.uiType === 'signIn' && 
+            (wrapperDiv.dataset.accountType === 'phone' || wrapperDiv.dataset.accountType === 'email')) {
+            const account = {type: wrapperDiv.dataset.accountType, value: wrapperDiv.dataset.accountValue};
+            firebaseSignInRender({account});
+        } else if (wrapperDiv && wrapperDiv.dataset.uiType === 'signUp') {
+            signUpRender({signUpType: wrapperDiv.dataset.signupType})
+        }
     });
 }

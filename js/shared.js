@@ -118,9 +118,8 @@ const troubleGettingEmailRender = (type) => {
     return df;
 }
 
-const signInFlowRender = (signInEmail) => {
+const signInFlowRender = async (signInEmail) => {
   const type = document.getElementById("signInDiv") ? "In" : "Up";
-  const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
   document.getElementById("signInWrapperDiv").replaceChildren(afterEmailLinkRender(signInEmail, type));
 
   document.querySelector('a[class~="firebaseui-id-trouble-getting-email-link"]').addEventListener("click", () => {
@@ -130,11 +129,11 @@ const signInFlowRender = (signInEmail) => {
       .querySelector('a[class~="firebaseui-id-resend-email-link"]')
       .addEventListener("click", () => sendEmailLink());
 
-    document.querySelector('button[class~="firebaseui-id-secondary-link"]').addEventListener("click", () => {
+    document.querySelector('button[class~="firebaseui-id-secondary-link"]').addEventListener("click", async () => {
       if (type === "In") {
-        signInCheckRender({ ui });
+        signInCheckRender({ });
       } else {
-        signUpRender({ ui, signUpType: "email" });
+        await signUpRender({ signUpType: "email" });
       }
     });
   });
@@ -142,7 +141,7 @@ const signInFlowRender = (signInEmail) => {
   document.querySelector('button[class~="firebaseui-id-secondary-link"]').addEventListener("click", (e) => {
     e.preventDefault();
     window.localStorage.setItem("signInUpdate", "yes");
-    signInCheckRender({ ui });
+    signInCheckRender();
   });
 };
 
@@ -1561,7 +1560,7 @@ export const usGov = `
 You are accessing a U.S. Government web site which may contain information that must be protected under the U.S. Privacy Act or other sensitive information and is intended for Government authorized use only. Unauthorized attempts to upload information, change information, or use of this web site may result in disciplinary action, civil, and/or criminal penalties. Unauthorized users of this web site should have no expectation of privacy regarding any communications or data processed by this web site. Anyone accessing this web site expressly consents to monitoring of their actions and all communication or data transitioning or stored on or related to this web site and is advised that if such monitoring reveals possible evidence of criminal activity, NIH may provide that evidence to law enforcement officials.
 `;
 
-export const firebaseSignInRender = async ({ ui, account = {}, displayFlag = true }) => {
+export const firebaseSignInRender = async ({ account = {}, displayFlag = true }) => {
   const df = fragment`
     <div class="mx-4">
       <p class="loginTitleFont" style="text-align:center;" data-i18n="shared.signIn">Sign In</p>
@@ -1572,7 +1571,16 @@ export const firebaseSignInRender = async ({ ui, account = {}, displayFlag = tru
 
   translateHTML(df.children[0]);
 
-  document.getElementById("signInWrapperDiv").replaceChildren(df);
+  const wrapperDiv = document.getElementById("signInWrapperDiv");
+  wrapperDiv.replaceChildren(df);
+  wrapperDiv.setAttribute('data-ui-type', 'signIn');
+  wrapperDiv.setAttribute('data-account-type', account.type);
+  if (account.value) {
+    wrapperDiv.setAttribute('data-account-value', account.value);
+  } else {
+    wrapperDiv.removeAttribute('data-account-value');
+  }
+  let ui = await getFirebaseUI();
   ui.start("#signInDiv", signInConfig(account.type));
 
   if (account.type === "magicLink") {
@@ -2074,8 +2082,13 @@ export const getFirebaseUI = async () => {
     //If we have a script tag but it is for the wrong language then we need to 
     //tear down the existing UI and reload the new one
     if (scriptTag && scriptTag.dataset.i18n !== lang) {
+        let ui = firebaseui.auth.AuthUI.getInstance();
+        if (ui) {
+            ui.delete();
+        }
         scriptTag.parentNode.removeChild(scriptTag);
         scriptTag = null;
+        
     }
 
     //If the scriptTag is falsey then load it
@@ -2090,16 +2103,19 @@ export const getFirebaseUI = async () => {
         await new Promise((resolve, reject) => {
             scriptTag.addEventListener('load', () => {
                 firebaseLoaded = true;
+                firebaseui.lang = lang;
                 resolve(true);
             });
             scriptTag.addEventListener('error', (event) => {
                 reject(new Error('Error loading FirebaseUI script from '+event.target.getAttribute('src')));
             });
         });
-        return firebaseui;
+        console.log('lang', firebaseui.lang);
+        return firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
     } else {
         if (firebaseLoaded) {
-            return firebaseui;
+            console.log('pre-loaded lang', firebaseui.lang);
+            return firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
         } else {
             try {
                 await new Promise((resolve, reject) => {
@@ -2111,7 +2127,8 @@ export const getFirebaseUI = async () => {
                         reject(new Error('Error loading FirebaseUI script from '+event.target.getAttribute('src')));
                     });
                 });
-                return firebaseui;
+                console.log('wait-loaded lang', firebaseui.lang);
+                return firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
             } catch (e) {
                 console.error('Error Loading FirebaseUI', e);
                 return null;

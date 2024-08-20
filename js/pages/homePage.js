@@ -94,7 +94,7 @@ export const homePage = async () => {
     `);
 
     const fbui = await getFirebaseUI();
-    const ui = fbui.auth.AuthUI.getInstance() || new fbui.auth.AuthUI(firebase.auth());
+    
     const cleanSearchStr = getCleanSearchString(location.search);
     const params = new URLSearchParams(cleanSearchStr);
     const isMagicLinkSignIn = params.get('apiKey') !== null && params.get('mode') === 'signIn';
@@ -104,9 +104,9 @@ export const homePage = async () => {
         location.search = cleanSearchStr; // Page reload with clean url
       }
       
-        firebaseSignInRender({ui, account:{type:'magicLink', value:''}});
+        firebaseSignInRender({account:{type:'magicLink', value:''}});
     } else {
-        signInSignUpEntryRender({ui});
+        signInSignUpEntryRender();
     }
     
     location.host !== urls.prod && !isMagicLinkSignIn && environmentWarningModal();
@@ -507,7 +507,7 @@ export const renderHomePrivacyPage = () => {
   window.scrollTo(0, 0);
 }
 
-export function signInSignUpEntryRender({ ui }) {
+export function signInSignUpEntryRender() {
   const df = fragment`
   <div class="mx-4">
     <p class="loginTitleFont" style="text-align:center;" data-i18n="home.signInTitle">Sign Into Your Account</p>
@@ -528,14 +528,14 @@ export function signInSignUpEntryRender({ ui }) {
   document.getElementById('signInWrapperDiv').replaceChildren(df);
 
   signInBtn.addEventListener('click', async () => {
-    await signInCheckRender({ ui });
+    await signInCheckRender();
   });
-  signUpBtn.addEventListener('click', () => {
-    signUpRender({ ui, signUpType: "phone" });
+  signUpBtn.addEventListener('click', async () => {
+    await signUpRender({ signUpType: "phone" });
   });
 }
 
-export function signInCheckRender ({ ui }) {
+export function signInCheckRender () {
   const df = fragment`
   <div class="mx-4">
     <form>
@@ -591,10 +591,10 @@ export function signInCheckRender ({ ui }) {
 
       if (response?.data?.accountExists) {
         const account = { type: 'email', value: inputStr };
-        firebaseSignInRender({ ui, account });
+        firebaseSignInRender({ account });
       } else {
         const account = { type: 'email', value: inputStr };
-        accountNotFoundRender({ ui, account });
+        accountNotFoundRender({ account });
       }
     } else if (isPhone) {
       await signInAnonymously();
@@ -603,10 +603,10 @@ export function signInCheckRender ({ ui }) {
 
       if (response?.data?.accountExists) {
         const account = { type: 'phone', value: phoneNumberStr };
-        firebaseSignInRender({ ui, account });
+        firebaseSignInRender({ account });
       } else {
         const account = { type: 'phone number', value: inputStr };
-        accountNotFoundRender({ ui, account });
+        accountNotFoundRender({ account });
       }
     } else {
       addWarning();
@@ -614,7 +614,7 @@ export function signInCheckRender ({ ui }) {
   });
 
   signUpAnchor.addEventListener('click', () => {
-    signUpRender({ ui, signUpType: "phone" });
+    signUpRender({ signUpType: "phone" });
   });
 
   invalidInputAlertDiv.addEventListener('click', () => {
@@ -632,7 +632,7 @@ export function signInCheckRender ({ ui }) {
   }
 }
 
-export function signUpRender({ ui, signUpType = "phone" }) {
+export async function signUpRender({ signUpType = "phone" }) {
   const df = fragment`
   <div class="mx-4">
     <p class="loginTitleFont" style="text-align:center;" data-i18n="home.createAccountTitle">Create an Account</p>
@@ -658,8 +658,12 @@ export function signUpRender({ ui, signUpType = "phone" }) {
   translateHTML(df.children[0]);
   const signInLink = df.querySelector("#signIn");
   const emailSignUpLink = df.querySelector("#emailSignUp");
-  document.getElementById("signInWrapperDiv").replaceChildren(df);
+  const wrapperDiv = document.getElementById("signInWrapperDiv");
+  wrapperDiv.replaceChildren(df);
+  wrapperDiv.setAttribute('data-ui-type', 'signUp');
+  wrapperDiv.setAttribute('data-signup-type', signUpType);
 
+  let ui = await getFirebaseUI();
   ui.start("#signUpDiv", signInConfig(signUpType));
 
   if (signUpType === "phone") {
@@ -669,7 +673,7 @@ export function signUpRender({ ui, signUpType = "phone" }) {
     verifyButton && verifyButton.addEventListener("click", () => {
         const cancelButton = document.querySelector('button[class~="firebaseui-id-secondary-link"]');
         cancelButton && cancelButton.addEventListener("click", () => {
-          signUpRender({ ui, signUpType: "phone" });
+          signUpRender({ signUpType: "phone" });
         });
       });
   } else if (signUpType === "email") {
@@ -695,7 +699,7 @@ export function signUpRender({ ui, signUpType = "phone" }) {
 
       const backButton = document.querySelector('button[class~="firebaseui-id-secondary-link"]');
       backButton && backButton.addEventListener("click", () => {
-        signUpRender({ ui, signUpType: "email" });
+        signUpRender({ signUpType: "email" });
       });
     });
     const inputEle = document.querySelector('input[class~="firebaseui-id-email"]');
@@ -712,18 +716,18 @@ export function signUpRender({ ui, signUpType = "phone" }) {
 
   signInLink.addEventListener("click", (e) => {
     e.preventDefault();
-    signInCheckRender({ ui });
+    signInCheckRender();
   });
 
   emailSignUpLink && emailSignUpLink.addEventListener("click", (e) => {
       e.preventDefault();
-      signUpRender({ ui, signUpType: "email" });
+      signUpRender({ signUpType: "email" });
     });
 }
 
 
 
-function accountNotFoundRender({ ui, account }) {
+function accountNotFoundRender({ account }) {
   const df = fragment`
   <div class="mx-4 d-flex flex-column justify-content-center align-items-center">
     <h5 data-i18n="home.notFoundTitle">Not Found</h5>
@@ -747,11 +751,11 @@ function accountNotFoundRender({ ui, account }) {
   document.getElementById('signInWrapperDiv').replaceChildren(df);
 
   useAnotherAccountBtn.addEventListener('click', () => {
-    signInCheckRender({ ui });
+    signInCheckRender();
   });
 
   createNewAccountBtn.addEventListener('click', () => {
-    signUpRender({ ui, signUpType: "phone" });
+    signUpRender({ signUpType: "phone" });
   });
 }
   
