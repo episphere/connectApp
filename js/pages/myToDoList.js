@@ -785,8 +785,19 @@ const setModuleAttributes = (data, modules, collections) => {
         }
     }
 
-    if (data[fieldMapping.PROMIS.statusFlag] !== fieldMapping.moduleStatus.notYetEligible) {
-        modules['PROMIS'].enabled = true;
+    if (
+        data[fieldMapping.verification] === fieldMapping.verified &&
+        data[fieldMapping.PROMIS.statusFlag] !==
+            fieldMapping.moduleStatus.submitted
+    ) {
+        modules["PROMIS"].enabled = true;
+
+        const cutoffDate = new Date();
+        cutoffDate.setDate(cutoffDate.getDate() - 90);
+
+        if (data[fieldMapping.verifiedDate] && data[fieldMapping.verifiedDate] > cutoffDate.toISOString()) {
+            modules["PROMIS"].enabled = false;
+        }
     }
     
     if (data[fieldMapping.Module1.statusFlag] === fieldMapping.moduleStatus.submitted) { 
