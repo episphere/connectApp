@@ -1,4 +1,4 @@
-import { allStates, showAnimation, hideAnimation, getMyData, hasUserData, urls, firebaseSignInRender, validEmailFormat, validPhoneNumberFormat, signInAnonymously, checkAccount, translateHTML, translateText, languageTranslations } from '../shared.js';
+import { allStates, showAnimation, hideAnimation, getMyData, hasUserData, urls, firebaseSignInRender, validEmailFormat, validPhoneNumberFormat, signInAnonymously, checkAccount, translateHTML, translateText, languageTranslations, getFirebaseUI } from '../shared.js';
 import { attachTabEventListeners, addOrUpdateAuthenticationMethod, changeContactInformation, changeMailingAddress, changeName, formatFirebaseAuthPhoneNumber, FormTypes, getCheckedRadioButtonValue, handleContactInformationRadioButtonPresets, handleOptionalFieldVisibility, hideOptionalElementsOnShowForm, hideSuccessMessage, openUpdateLoginForm, showAndPushElementToArrayIfExists, showEditButtonsOnUserVerified, suffixList, suffixToTextMap, toggleElementVisibility, togglePendingVerificationMessage, unlinkFirebaseAuthProvider, updatePhoneNumberInputFocus, validateContactInformation, validateLoginEmail, validateLoginPhone, validateMailingAddress, validateName } from '../settingsHelpers.js';
 import { addEventAddressAutoComplete } from '../event.js';
 import cId from '../fieldToConceptIdMapping.js';
@@ -108,10 +108,10 @@ export const renderSettingsPage = async () => {
       let headerMessage = '';
       if (!isParticipantDataDestroyed) {
         if (userData[cId.verification] !== cId.verified) {
-            headerMessage = translateText('settings.joinMessage');
+            headerMessage = 'settings.joinMessage';
         }
       } else {
-        headerMessage = translateText('settings.deleteInfoMessage');
+        headerMessage = 'settings.deleteInfoMessage';
       }
 
       template += `
@@ -119,8 +119,8 @@ export const renderSettingsPage = async () => {
                 <div class="col-lg-3">
                 </div>
                 <div class="col-lg-6" id="myProfileHeader">
-                    <p id="pendingVerification" style="color:${!isParticipantDataDestroyed ? '#1c5d86' : 'red'}; display:none;">
-                    ${headerMessage}
+                    <p id="pendingVerification" style="color:${!isParticipantDataDestroyed ? '#1c5d86' : 'red'}; display:none;"${headerMessage ? ' data-i18n="'+headerMessage+'"' : ''}>
+                    ${headerMessage ? translateText(headerMessage) : ''}
                     <br>
                     </p>
                     <p class="consentHeadersFont" id="myProfileTextContainer" style="color:#606060; display:none;" data-i18n="settings.myProfile">
@@ -475,8 +475,6 @@ const handleEditSignInInformationSection = () => {
             const inputStr = accountInput.value.trim();
             const isEmail = !!inputStr.match(validEmailFormat);
             const isPhone = !!inputStr.match(validPhoneNumberFormat);
-        
-            const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
             if (isEmail) {
             //   await signInAnonymously();
               const emailForQuery = inputStr
@@ -493,7 +491,7 @@ const handleEditSignInInformationSection = () => {
         
               if (response?.data?.accountExists) {
                 const account = { type: 'email', value: inputStr };
-                firebaseSignInRender({ ui, account, displayFlag: false });
+                firebaseSignInRender({ account, displayFlag: false });
               } else {
                 alert(translateText('settings.accountNotFound'));
               }
@@ -504,7 +502,7 @@ const handleEditSignInInformationSection = () => {
         
               if (response?.data?.accountExists) {
                 const account = { type: 'phone', value: phoneNumberStr };
-                firebaseSignInRender({ ui, account, displayFlag: false });
+                firebaseSignInRender({ account, displayFlag: false });
               } else {
                 alert(translateText('settings.accountNotFound'));
               }
@@ -1402,7 +1400,7 @@ export const renderChangeMailingAddressGroup = id => {
                         State <span class="required">*</span>
                     </label>
                     <br>
-                    <select style="max-width:150px; text-align-last: center; text-align: center;" class="form-control required-field" data-error-required='Please select the state field of your mailing address.' id="UPAddress${id}State">
+                    <select style="max-width:150px; text-align-last: center; text-align: center;" class="form-control required-field" data-error-required="${translateText('settings.stateValidator')}" id="UPAddress${id}State">
                         <option class="option-dark-mode" value="" data-i18n="form.selectOption">-- Select --</option>
                         ${renderStates()}
                     </select>

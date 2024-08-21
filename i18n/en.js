@@ -348,7 +348,7 @@ const en = {
         "indigenousOtherPageBody3": "The decision to join Connect is yours to make. Please choose what you are most comfortable with. We respect your decision and your privacy, and welcome any feedback that you would like to share with us. Please call us at 1-866-462-6621 8:00 a.m.-10:00 p.m. CT on weekdays, and 9:00 a.m.-6:00 p.m. CT on weekends, or write to us at ConnectStudy@norc.org.",
         "indigenousOtherPageBody4": "Thank you for learning about how Connect will engage with Indigenous Peoples. On the next screen, you can view the full consent form and electronic health records release form to continue the consent process.",
         "consentPageHeader": "Informed Consent",
-        "consentPageBody1": "To join Connect, we need you to review the full informed consent form and electronic health records release (HIPAA Authorization) form below. If you have any questions, contact the Connect Support Center at <a target=\"_blank\" href=\"https://norcfedramp.servicenowservices.com/recruit\">Cancer.gov/connectstudy/support</a> or call 1-866-462-6621. Once you are comfortable with the study and decide to join, please sign the forms electronically by scrolling to the bottom of this screen and clicking, “Yes, I agree to join Connect.” Then, please type your name into the fields that appear and click “Next” to view and download copies of your signed forms.",
+        "consentPageBody1": "To join Connect, we need you to review the full informed consent form and electronic health records release (HIPAA Authorization) form below. If you have any questions, contact the Connect Support Center at <a target=\"_blank\" href=\"https://norcfedramp.servicenowservices.com/recruit\">Cancer.gov/connectstudy/support</a> or call 1-866-462-6621. Once you are comfortable with the study and decide to join, please sign the forms electronically by scrolling to the bottom of this screen and clicking, “Yes, I agree to join Connect.” Then, please type your name into the fields that appear and click “Submit” to view and download copies of your signed forms.",
         "consentPageSubheader1": "Informed Consent Form",
         "consentPageBody2": "This form explains in detail what it means to take part in Connect. To join the study, please scroll down to the bottom of this screen to electronically consent. You do not need to download and sign the form the join the study.",
         "consentPageBody3": "If you have trouble viewing the consent form in the window at the bottom of this screen, you can download an unsigned copy by scrolling down and selecting that option below.",
@@ -575,7 +575,7 @@ const en = {
         "alertWarning": "Our records show that you already have another account with a different email or phone number. Please try signing in again. Contact the Connect Support Center by emailing <a href=\"mailto:ConnectSupport@norc.org\">ConnectSupport@norc.org</a> or calling <span style=\"white-space:nowrap;overflow:hidden\">1-877-505-0253</span> if you need help accessing your account.",
         "receivedPin": "<strong>If you received a PIN as part of your study invitation, please enter it here.<br>Your PIN should be 6 characters and will include only numbers and uppercase letters.<br></strong>",
         "enterPin": {
-            "placehoder": "Enter PIN"
+            "placeholder": "Enter PIN"
         },
         "noPin": "I do not have a PIN",
         "submitText": "Submit",
