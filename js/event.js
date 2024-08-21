@@ -1305,7 +1305,7 @@ export const addEventLanguageSelection = () => {
         console.warn('Language Selector Not Found');
         return;
     }
-    selector.addEventListener('change', async (e) => { 
+    selector.addEventListener('change', (e) => { 
         const selectedLanguage = parseInt(e.target.value, 10);
         window.localStorage.setItem('preferredLanguage', selectedLanguage);
         appState.setState({"language": selectedLanguage});
