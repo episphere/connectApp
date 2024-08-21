@@ -221,9 +221,23 @@ const router = async () => {
         toggleNavBar(route, {}); // If not logged in, pass no data to toggleNavBar
 
         const languageSelectorContainer = document.getElementById('languageSelectorContainer');
-        languageSelectorContainer.innerHTML = languageSelector();
-        translateHTML(languageSelectorContainer);
-        addEventLanguageSelection();
+        if (!languageSelectorContainer) {
+            let reloadCount = sessionStorage.getItem('reloadCount');
+            reloadCount = reloadCount ? parseInt(reloadCount, 10) + 1 : 1;
+            if (reloadCount > 2) {
+                //Ignore trying to render the selector
+                console.error('Could Not find the language selector div');
+            } else {
+                sessionStorage.setItem('reloadCount', reloadCount);
+                window.location.reload(true);
+            }
+
+        } else {
+            languageSelectorContainer.innerHTML = languageSelector();
+            translateHTML(languageSelectorContainer);
+            addEventLanguageSelection();
+        }
+        
 
         if (route === '#') {
             homePage();
@@ -246,8 +260,23 @@ const router = async () => {
     else{
         const data = await getMyData();
 
-        document.getElementById('languageSelectorContainer').innerHTML = languageSelector(data);
-        addEventLanguageSelection();
+        const languageSelectorContainer = document.getElementById('languageSelectorContainer');
+        if (!languageSelectorContainer) {
+            let reloadCount = sessionStorage.getItem('reloadCount');
+            reloadCount = reloadCount ? parseInt(reloadCount, 10) + 1 : 1;
+            if (reloadCount > 2) {
+                //Ignore trying to render the selector
+                console.error('Could Not find the language selector div');
+            } else {
+                sessionStorage.setItem('reloadCount', reloadCount);
+                window.location.reload(true);
+            }
+
+        } else {
+            languageSelectorContainer.innerHTML = languageSelector();
+            translateHTML(languageSelectorContainer);
+            addEventLanguageSelection();
+        }
         
         if(successResponse(data)) {
             const firebaseAuthUser = firebase.auth().currentUser;
