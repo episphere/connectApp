@@ -2109,11 +2109,9 @@ export const getFirebaseUI = async () => {
                 reject(new Error('Error loading FirebaseUI script from '+event.target.getAttribute('src')));
             });
         });
-        console.log('lang', firebaseui.lang);
         return firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
     } else {
         if (firebaseLoaded) {
-            console.log('pre-loaded lang', firebaseui.lang);
             return firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
         } else {
             try {
@@ -2126,7 +2124,6 @@ export const getFirebaseUI = async () => {
                         reject(new Error('Error loading FirebaseUI script from '+event.target.getAttribute('src')));
                     });
                 });
-                console.log('wait-loaded lang', firebaseui.lang);
                 return firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
             } catch (e) {
                 console.error('Error Loading FirebaseUI', e);
