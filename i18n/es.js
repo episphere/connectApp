@@ -580,7 +580,7 @@
         "alertWarning": "Nuestros registros muestran que ya tiene otra cuenta con una dirección de correo electrónico o número de teléfono diferente. Intente iniciar sesión de nuevo. Si necesita ayuda para acceder a su cuenta, escriba al Centro de Asistencia de Connect a <a href=\"mailto:ConnectAyuda@norc.org\">ConnectAyuda@norc.org</a> o llame al <span style=\"white-space:nowrap;overflow:hidden\">1-877-775-7004</span>.",
         "receivedPin": "<strong>Si recibió un PIN como parte de su invitación al estudio, ingréselo aquí.<br/>Su PIN debe tener 6 caracteres e incluir solo números y letras mayúsculas.<br/></strong>",
         "enterPin": {
-            "placehoder": "Ingresar PIN"
+            "placeholder": "Ingresar PIN"
         },
         "noPin": "No tengo PIN",
         "submitText": "Enviar",

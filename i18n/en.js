@@ -575,7 +575,7 @@ const en = {
         "alertWarning": "Our records show that you already have another account with a different email or phone number. Please try signing in again. Contact the Connect Support Center by emailing <a href=\"mailto:ConnectSupport@norc.org\">ConnectSupport@norc.org</a> or calling <span style=\"white-space:nowrap;overflow:hidden\">1-877-505-0253</span> if you need help accessing your account.",
         "receivedPin": "<strong>If you received a PIN as part of your study invitation, please enter it here.<br>Your PIN should be 6 characters and will include only numbers and uppercase letters.<br></strong>",
         "enterPin": {
-            "placehoder": "Enter PIN"
+            "placeholder": "Enter PIN"
         },
         "noPin": "I do not have a PIN",
         "submitText": "Submit",
