@@ -108,10 +108,10 @@ export const renderSettingsPage = async () => {
       let headerMessage = '';
       if (!isParticipantDataDestroyed) {
         if (userData[cId.verification] !== cId.verified) {
-            headerMessage = translateText('settings.joinMessage');
+            headerMessage = 'settings.joinMessage';
         }
       } else {
-        headerMessage = translateText('settings.deleteInfoMessage');
+        headerMessage = 'settings.deleteInfoMessage';
       }
 
       template += `
@@ -119,8 +119,8 @@ export const renderSettingsPage = async () => {
                 <div class="col-lg-3">
                 </div>
                 <div class="col-lg-6" id="myProfileHeader">
-                    <p id="pendingVerification" style="color:${!isParticipantDataDestroyed ? '#1c5d86' : 'red'}; display:none;">
-                    ${headerMessage}
+                    <p id="pendingVerification" style="color:${!isParticipantDataDestroyed ? '#1c5d86' : 'red'}; display:none;"${headerMessage ? ' data-i18n="'+headerMessage+'"' : ''}>
+                    ${headerMessage ? translateText(headerMessage) : ''}
                     <br>
                     </p>
                     <p class="consentHeadersFont" id="myProfileTextContainer" style="color:#606060; display:none;" data-i18n="settings.myProfile">
