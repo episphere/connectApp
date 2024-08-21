@@ -1311,7 +1311,6 @@ export const addEventLanguageSelection = () => {
         appState.setState({"language": selectedLanguage});
         translateHTML(document.body);
         const wrapperDiv = document.getElementById("signInWrapperDiv");
-        console.log(wrapperDiv.dataset);
         if (wrapperDiv && wrapperDiv.dataset.uiType === 'signIn' && 
             (wrapperDiv.dataset.accountType === 'phone' || wrapperDiv.dataset.accountType === 'email')) {
             const account = {type: wrapperDiv.dataset.accountType, value: wrapperDiv.dataset.accountValue};
