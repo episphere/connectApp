@@ -1971,7 +1971,6 @@ export const translateText = (keys, language, keyIndex, translationObj) => {
             language = languageAcronyms()[language];
         }
     }
-
     if (typeof keys === 'string') {
         keys = keys.split('.');
     }

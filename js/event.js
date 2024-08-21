@@ -373,7 +373,7 @@ export const addEventUPSubmit = () => {
             }
         });*/
         if(!(document.getElementById('UPCancer1').checked|| document.getElementById('UPCancer2').checked)){
-            errorMessage('UPCancerBtnGroup', 'Please provide a response.', focus);
+            errorMessage('UPCancerBtnGroup', '<span data-i18n="event.provideResponse">'+translateText('event.provideResponse')+'</span>', focus);
             focus = false;
             hasError = true;
         }
@@ -392,7 +392,7 @@ export const addEventUPSubmit = () => {
         let zip = document.getElementById('UPAddress1Zip').value;
         let city = document.getElementById('UPAddress1City');
         if(!email){
-            errorMessage('UPEmail', 'Please enter an email address.', focus);
+            errorMessage('UPEmail', '<span data-i18n="event.enterEmail">'+translateText('event.enterEmail')+'</span>', focus);
             focus = false;
             hasError = true;
         }
@@ -400,15 +400,15 @@ export const addEventUPSubmit = () => {
             errorMessage('UPPhoneNumber11');
             errorMessage('UPPhoneNumber12');
             errorMessage('UPPhoneNumber13');
-            errorMessage('mainMobilePhone', 'A phone number is required. Please provide at least one of the following: home phone, mobile phone, or other phone number.', focus);
+            errorMessage('mainMobilePhone', '<span data-i18n="event.phoneRequired">'+translateText('event.phoneRequired')+'</span>', focus);
             errorMessage('UPPhoneNumber21');
             errorMessage('UPPhoneNumber22');
             errorMessage('UPPhoneNumber23');
-            errorMessage('mainMobilePhone2', 'A phone number is required. Please provide at least one of the following: home phone, mobile phone, or other phone number.');
+            errorMessage('mainMobilePhone2', '<span data-i18n="event.phoneRequired">'+translateText('event.phoneRequired')+'</span>');
             errorMessage('UPPhoneNumber31');
             errorMessage('UPPhoneNumber32');
             errorMessage('UPPhoneNumber33');
-            errorMessage('mainMobilePhone3', 'A phone number is required. Please provide at least one of the following: home phone, mobile phone, or other phone number.');
+            errorMessage('mainMobilePhone3', '<span data-i18n="event.phoneRequired">'+translateText('event.phoneRequired')+'</span>');
             focus = false;
             hasError = true;
         }
@@ -416,7 +416,7 @@ export const addEventUPSubmit = () => {
             errorMessage('UPPhoneNumber11');
             errorMessage('UPPhoneNumber12');
             errorMessage('UPPhoneNumber13');
-            errorMessage('mainMobilePhone', 'Please enter a phone number in this format: 999-999-9999.');
+            errorMessage('mainMobilePhone', '<span data-i18n="event.phoneFormat">'+translateText('event.phoneFormat')+'</span>');
             if(focus) document.getElementById('UPPhoneNumber11').focus();
             focus = false;
             hasError = true;
@@ -425,7 +425,7 @@ export const addEventUPSubmit = () => {
             errorMessage('UPPhoneNumber21');
             errorMessage('UPPhoneNumber22');
             errorMessage('UPPhoneNumber23');
-            errorMessage('mainMobilePhone2', 'Please enter a phone number in this format: 999-999-9999.');
+            errorMessage('mainMobilePhone2', '<span data-i18n="event.phoneFormat">'+translateText('event.phoneFormat')+'</span>');
             if(focus) document.getElementById('UPPhoneNumber21').focus();
             focus = false;
             hasError = true;
@@ -434,7 +434,7 @@ export const addEventUPSubmit = () => {
             errorMessage('UPPhoneNumber31');
             errorMessage('UPPhoneNumber32');
             errorMessage('UPPhoneNumber33');
-            errorMessage('mainMobilePhone3', 'Please enter a phone number in this format: 999-999-9999.');
+            errorMessage('mainMobilePhone3', '<span data-i18n="event.phoneFormat">'+translateText('event.phoneFormat')+'</span>');
             if(focus) document.getElementById('UPPhoneNumber31').focus();
             focus = false;
             hasError = true;
@@ -443,7 +443,7 @@ export const addEventUPSubmit = () => {
             errorMessage('UPPhoneNumber11');
             errorMessage('UPPhoneNumber12');
             errorMessage('UPPhoneNumber13');
-            errorMessage('mainMobilePhone', 'Phone number may only contain numbers.');
+            errorMessage('mainMobilePhone', '<span data-i18n="event.phoneOnlyNumbers">'+translateText('event.phoneOnlyNumbers')+'</span>');
             if(focus) document.getElementById('UPPhoneNumber11').focus();
             focus = false;
             hasError = true;
@@ -452,7 +452,7 @@ export const addEventUPSubmit = () => {
             errorMessage('UPPhoneNumber21');
             errorMessage('UPPhoneNumber22');
             errorMessage('UPPhoneNumber23');
-            errorMessage('mainMobilePhone2', 'Phone number may only contain numbers.');
+            errorMessage('mainMobilePhone2', '<span data-i18n="event.phoneOnlyNumbers">'+translateText('event.phoneOnlyNumbers')+'</span>');
             if(focus) document.getElementById('UPPhoneNumber21').focus();
             focus = false;
             hasError = true;
@@ -461,13 +461,13 @@ export const addEventUPSubmit = () => {
             errorMessage('UPPhoneNumber31');
             errorMessage('UPPhoneNumber32');
             errorMessage('UPPhoneNumber33');
-            errorMessage('mainMobilePhone3', 'Phone number may only contain numbers.');
+            errorMessage('mainMobilePhone3', '<span data-i18n="event.phoneOnlyNumbers">'+translateText('event.phoneOnlyNumbers')+'</span>');
             if(focus) document.getElementById('UPPhoneNumber31').focus();
             focus = false;
             hasError = true;
         }
         if(zip && !/[0-9]{5}/.test(zip) ){
-            errorMessage('UPAddress1Zip', 'Zip code may only contain numbers.');
+            errorMessage('UPAddress1Zip', '<span data-i18n="event.zipOnlyNumbers">'+translateText('event.zipOnlyNumbers')+'</span>');
             if(focus) document.getElementById('UPAddress1Zip').focus();
             focus = false;
             hasError = true;
@@ -480,39 +480,39 @@ export const addEventUPSubmit = () => {
             hasError = true;
         }*/
         if(email && /\S+@\S+\.\S+/.test(email) === false) {
-            errorMessage('UPEmail', 'Please enter an email address in this format: name@example.com.', focus);
+            errorMessage('UPEmail', '<span data-i18n="settingsHelpers.emailFormat">'+translateText('settingsHelpers.emailFormat')+'</span>', focus);
             if(focus) document.getElementById('UPPhoneNumber11').focus();
             focus = false;
             hasError = true;
         }
         if(email2 && email2.value && /\S+@\S+\.\S+/.test(email2.value) === false) {
-            errorMessage('UPEmail2', 'Please enter an email address in this format: name@example.com.', focus);
+            errorMessage('UPEmail2', '<span data-i18n="settingsHelpers.emailFormat">'+translateText('settingsHelpers.emailFormat')+'</span>', focus);
             if(focus) document.getElementById('UPPhoneNumber21').focus();
             focus = false;
             hasError = true;
         }
         if(email3 && email3.value && /\S+@\S+\.\S+/.test(email3.value) === false) {
-            errorMessage('UPAdditionalEmail2', 'Please enter an email address in this format: name@example.com.', focus);
+            errorMessage('UPAdditionalEmail2', '<span data-i18n="settingsHelpers.emailFormat">'+translateText('settingsHelpers.emailFormat')+'</span>', focus);
             if(focus) document.getElementById('UPAdditionalEmail2').focus();
             focus = false;
             hasError = true;
         }
         if(email4 && email4.value && /\S+@\S+\.\S+/.test(email4.value) === false) {
-            errorMessage('UPAdditionalEmail3', 'Please enter an email address in this format: name@example.com.', focus);
+            errorMessage('UPAdditionalEmail3', '<span data-i18n="settingsHelpers.emailFormat">'+translateText('settingsHelpers.emailFormat')+'</span>', focus);
             if(focus) document.getElementById('UPAdditionalEmail3').focus();
             focus = false;
             hasError = true;
         }
         const confirmedEmail = document.getElementById('confirmUPEmail').value;
         if(!confirmedEmail){
-            errorMessage('confirmUPEmail', 'Please confirm your email address.', focus);
+            errorMessage('confirmUPEmail', '<span data-i18n="event.confirmEmail">'+translateText('event.confirmEmail')+'</span>', focus);
             if(focus) document.getElementById('confirmUPEmail').focus();
             focus = false;
             hasError = true;
             
         }
         else if(confirmedEmail !== document.getElementById('UPEmail').value){
-            errorMessage('confirmUPEmail', 'Your email addresses do not match. Please retype your email addresses.', focus);
+            errorMessage('confirmUPEmail', '<span data-i18n="event.emailsDoNotMatch">'+translateText('event.emailsDoNotMatch')+'</span>', focus);
             if(focus) document.getElementById('confirmUPEmail').focus();
             focus = false;
             hasError = true;
@@ -547,7 +547,7 @@ export const addEventUPSubmit = () => {
             const year = parseInt(formData['544150384']);
             const isLeapYear = ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
             if(!isLeapYear){
-                errorMessage('UPDay', 'Invalid day.', true);
+                errorMessage('UPDay', '<span data-i18n="event.invalidDay">'+translateText('event.invalidDay')+'</span>', true);
                 return false;
             }
         }
@@ -641,7 +641,7 @@ export const addEventUPSubmit = () => {
                 formData['650597106'] = parseInt(document.getElementById('UPCancerYear').value);
             }
             else {
-                errorMessage('UPCancerYear', 'Your year of cancer diagnosed can not be less than the birth year.', true);
+                errorMessage('UPCancerYear', '<span data-i18n="event.yearCancerDiagnosed">'+translateText('event.yearCancerDiagnosed')+'</span>', true);
                 return false;
             }
         }

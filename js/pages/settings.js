@@ -1400,7 +1400,7 @@ export const renderChangeMailingAddressGroup = id => {
                         State <span class="required">*</span>
                     </label>
                     <br>
-                    <select style="max-width:150px; text-align-last: center; text-align: center;" class="form-control required-field" data-error-required='Please select the state field of your mailing address.' id="UPAddress${id}State">
+                    <select style="max-width:150px; text-align-last: center; text-align: center;" class="form-control required-field" data-error-required="${translateText('settings.stateValidator')}" id="UPAddress${id}State">
                         <option class="option-dark-mode" value="" data-i18n="form.selectOption">-- Select --</option>
                         ${renderStates()}
                     </select>
