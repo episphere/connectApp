@@ -220,10 +220,7 @@ const router = async () => {
     if (loggedIn === false) {
         toggleNavBar(route, {}); // If not logged in, pass no data to toggleNavBar
 
-        const languageSelectorContainer = document.getElementById('languageSelectorContainer');
-        languageSelectorContainer.innerHTML = languageSelector();
-        translateHTML(languageSelectorContainer);
-        addEventLanguageSelection();
+        renderLanguageSelector();
 
         if (route === '#') {
             homePage();
@@ -246,8 +243,7 @@ const router = async () => {
     else{
         const data = await getMyData();
 
-        document.getElementById('languageSelectorContainer').innerHTML = languageSelector(data);
-        addEventLanguageSelection();
+        renderLanguageSelector()
         
         if(successResponse(data)) {
             const firebaseAuthUser = firebase.auth().currentUser;
@@ -274,6 +270,21 @@ const router = async () => {
             else window.location.hash = '#';   
         }
     }
+}
+
+const renderLanguageSelector = () => {
+    let languageSelectorContainer = document.getElementById('languageSelectorContainer');
+    if (!languageSelectorContainer) {
+       //Add the language Selector Container
+       languageSelectorContainer = document.createElement('div');
+       languageSelectorContainer.id = 'languageSelectorContainer';
+       let navBarAlt = document.getElementById('navbarNavAltMarkup')
+       navBarAlt.parentNode.insertBefore(languageSelectorContainer, navBarAlt);
+    }
+
+    languageSelectorContainer.innerHTML = languageSelector();
+    translateHTML(languageSelectorContainer);
+    addEventLanguageSelection();
 }
 
 const userProfile = () => {
