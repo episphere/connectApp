@@ -95,9 +95,9 @@ const renderMainBody = (data, tab) => {
     let hasNotification = false;
     for (let i = 0; i < data.length; i++) {
         if ((tab === 'read' && data[i].read === true) || (tab === 'unread' && data[i].read === false)) {
-            let notificationTitle = `Email (${data[i].notification.title})`;
+            let notificationTitle = '<span data-i18n="notifications.email">'+translateText('notifications.email')+'</span> ('+data[i].notification.title+')';
             if (data[i].notificationType === "sms") {
-                notificationTitle = "SMS Message";
+                notificationTitle = '<span data-i18n="notifications.sms">'+translateText('notifications.sms')+'</span>';
               }
             
             const notificationBody = data[i].notification.body.replace(/<style[^>]*>.*?<\/style>/gs, "");
