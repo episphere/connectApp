@@ -4,3 +4,5 @@ temp
 .hintrc
 .eslintrc.js
 connectApp-translation
+node_modules/
+local-dev/
