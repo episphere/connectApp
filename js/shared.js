@@ -246,7 +246,7 @@ const completeSurvey = async (data, moduleId) => {
 
     await storeResponse(formData);
 
-    // location.reload(); commenting out temporarily 
+    location.reload();
 }
 
 export const storeResponse = async (formData) => {
