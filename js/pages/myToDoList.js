@@ -858,6 +858,7 @@ const setModuleAttributes = (data, modules, collections) => {
     }
 
     if (data[fieldMapping.PROMIS.statusFlag] === fieldMapping.moduleStatus.submitted) { 
+        modules['PROMIS'].enabled = true;
         modules['PROMIS'].completed = true;
     }
 
