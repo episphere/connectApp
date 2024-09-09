@@ -15,6 +15,10 @@ import { renderVerifiedPage } from "./js/pages/verifiedPage.js";
 import { firebaseConfig as devFirebaseConfig } from "./dev/config.js";
 import { firebaseConfig as stageFirebaseConfig } from "./stage/config.js";
 import { firebaseConfig as prodFirebaseConfig } from "./prod/config.js";
+// When doing local development, uncomment this.
+// Get the API key file from Box or the DevOps team
+// Do not accept PRs with the localDevFirebaseConfig import uncommented
+// import { firebaseConfig as  localDevFirebaseConfig} from "./local-dev/config.js";
 import conceptIdMap from "./js/fieldToConceptIdMapping.js";
 
 if ("serviceWorker" in navigator) {
@@ -87,7 +91,13 @@ window.onload = async () => {
 
         window.DD_RUM && window.DD_RUM.init({ ...datadogConfig, env: 'stage' });
     }
-    else {
+    else if (isLocalDev) {
+        if (typeof localDevFirebaseConfig === 'undefined') {
+            console.error('Local development requires a localDevFirebaseConfig function to be defined in src/local-dev/config.js.');
+            return;
+        }
+        !firebase.apps.length ? firebase.initializeApp(localDevFirebaseConfig) : firebase.app();
+    } else {
         script.src = `https://maps.googleapis.com/maps/api/js?key=${devFirebaseConfig.apiKey}&libraries=places&callback=Function.prototype`
         !firebase.apps.length ? firebase.initializeApp(devFirebaseConfig) : firebase.app();
         !isLocalDev && window.DD_RUM && window.DD_RUM.init({ ...datadogConfig, env: 'dev' });
