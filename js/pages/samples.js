@@ -627,7 +627,7 @@ const bswh = {
                         </p>
                     </div>
                     <div>
-                        <span class="site-info-bold">Baylor Scott & White Community Care (BCC) - Worth Street Clinic</span>
+                        <span class="site-info-bold">Baylor Scott & White Community Care (BCC) - Worth Street Clinic*</span>
                         <p>4001 Worth St.<br>
                         Dallas, TX 75246<br>
                         Parking Instructions: The site offers free surface level parking.<br>
