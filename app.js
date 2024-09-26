@@ -93,7 +93,7 @@ window.onload = async () => {
     }
     else if (isLocalDev) {
         if (typeof localDevFirebaseConfig === 'undefined') {
-            console.error('Local development requires a localDevFirebaseConfig function to be defined in src/local-dev/config.js.');
+            console.error('Local development requires a localDevFirebaseConfig function to be defined in ./local-dev/config.js.');
             return;
         }
         !firebase.apps.length ? firebase.initializeApp(localDevFirebaseConfig) : firebase.app();

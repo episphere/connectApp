@@ -683,7 +683,9 @@
         "mainBodyMouthwashHeader": "Encuesta sobre muestra de enjuague bucal tomada en el hogar",
         "mainBodyMouthwashDescription": "Preguntas sobre sus costumbres de higiene y salud bucales.",
         "mainBodyPROMISHeader": "Encuesta sobre calidad de vida",
-        "mainBodyPROMISDescription": "Preguntas sobre su salud física, social y mental."
+        "mainBodyPROMISDescription": "Preguntas sobre su salud física, social y mental.",
+        "mainBodyExperience2024Header": "2024 Encuesta Sobre Experiencia de Connect",
+        "mainBodyExperience2024Description": "Preguntas acerca de su experiencia con Connect, y sus preferencias para realizar actividades del estudio, utilizar MyConnect, y recibir mensajes."
     },
     "notifications": {
         "read": "Leídos",
@@ -1647,6 +1649,7 @@
         "modMenstrualCycleSurvey": "Encuesta sobre ciclo menstrual",
         "modAtHomeMouthwashSampleSurvey": "Encuesta sobre muestra de enjuague bucal tomada en el hogar",
         "modQualityofLifeSurvey": "Encuesta sobre calidad de vida",
+        "mod2024ConnectExperienceSurvey": "2024 Encuesta Sobre Experiencia de Connect",
         "sessionInactiveTitle": "Inactivo",
         "sessionInactive": "Ha estado inactivo durante 20 minutos, ¿desea extender la sesión?<div class=\"modal-footer\"><button type=\"button\" title=\"Cerrar\" class=\"btn btn-dark log-out-user\" data-dismiss=\"modal\">Cerrar sesión</button><button type=\"button\" title=\"Continuar\" class=\"btn btn-primary extend-user-session\" data-dismiss=\"modal\">Continuar</button></div>",
         "homeTitle": "My Connect - Inicio",

@@ -120,7 +120,8 @@ export default
         "D_826163434":      "ClinicalBiospecimen",
         "D_793330426":      "ModuleCovid19",
         "D_390351864":      "Mouthwash",
-        "D_601305072":      "PROMIS"
+        "D_601305072":      "PROMIS",
+        "D_968369696":      "Experience2024"
     },
 
     "Module1_OLD": {
@@ -236,6 +237,15 @@ export default
         "statusFlag":       "320303124", 
         "standaloneSurvey": true,
         "version":          "490327747"
+    },
+
+    "Experience2024": {
+        "conceptId":        "D_968369696",
+        "startTs":          "263355177", 
+        "completeTs":       "199471989",  
+        "statusFlag":       "956490759", 
+        "standaloneSurvey": true,
+        "version":          "905236593"
     },
 
     // external variables passed into Quest that require extra async/await handling.
