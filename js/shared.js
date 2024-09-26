@@ -1117,7 +1117,7 @@ export const questionnaireModules = () => {
                 },
                 moduleId: "PROMIS", 
                 enabled: false
-            },
+            }
         }
     }
 
