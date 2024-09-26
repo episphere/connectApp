@@ -1032,7 +1032,7 @@ export const questionnaireModules = () => {
                     es: 'prod/module2024ConnectExperienceSpanish.txt'
                 },
                 moduleId: "Experience2024", 
-                enabled: true
+                enabled: false
             },
             'Background and Overall Health': {
                 path: {
@@ -1116,14 +1116,6 @@ export const questionnaireModules = () => {
                     es: 'prod/moduleQoLSpanish.txt'
                 },
                 moduleId: "PROMIS", 
-                enabled: false
-            },
-            'Connect Experience 2024': {
-                path: {
-                    en: 'prod/module2024ConnectExperience.txt', 
-                    es: 'prod/module2024ConnectExperienceSpanish.txt'
-                },
-                moduleId: "Experience2024", 
                 enabled: false
             },
         }
