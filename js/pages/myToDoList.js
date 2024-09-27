@@ -850,7 +850,7 @@ const setModuleAttributes = (data, modules, collections) => {
         modules['PROMIS'].completed = true;
     }
 
-    if (data[fieldMapping.verifiedDate] && +new Date(data[fieldMapping.verifiedDate]) > +new Date('2024-03-01T00:00:00.000Z') && +new Date(data[fieldMapping.verifiedDate]) < +new Date('2024-07-31T23:59:59.999Z')) {
+    if (data[fieldMapping.Experience2024.statusFlag]) {
         modules["Connect Experience 2024"].enabled = true;
     }
     if (data[fieldMapping.Experience2024.statusFlag] === fieldMapping.moduleStatus.submitted) { 
