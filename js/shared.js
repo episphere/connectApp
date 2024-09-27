@@ -1026,6 +1026,14 @@ export const questionnaireModules = () => {
     
     if(location.host === urls.prod) {
         return {
+            'Connect Experience 2024': {
+                path: {
+                    en: 'prod/module2024ConnectExperience.txt', 
+                    es: 'prod/module2024ConnectExperienceSpanish.txt'
+                },
+                moduleId: "Experience2024", 
+                enabled: false
+            },
             'Background and Overall Health': {
                 path: {
                     en: 'prod/module1.txt', 
@@ -1114,6 +1122,14 @@ export const questionnaireModules = () => {
     }
 
     return {
+        'Connect Experience 2024': {
+                path: {
+                    en: 'module2024ConnectExperienceStage.txt', 
+                    es: 'module2024ConnectExperienceStageSpanish.txt'
+                },
+                moduleId: "Experience2024", 
+                enabled: false
+            },
         'Background and Overall Health': {
             path: {
                 en: 'module1Stage.txt',

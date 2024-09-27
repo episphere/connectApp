@@ -678,7 +678,9 @@ const en = {
         "mainBodyMouthwashHeader": "At-Home Mouthwash Sample Survey",
         "mainBodyMouthwashDescription": "Questions about your oral health and hygiene practices.",
         "mainBodyPROMISHeader": "Quality of Life Survey",
-        "mainBodyPROMISDescription": "Questions about your physical, social, and mental health."
+        "mainBodyPROMISDescription": "Questions about your physical, social, and mental health.",
+        "mainBodyExperience2024Header": "2024 Connect Experience Survey",
+        "mainBodyExperience2024Description": "Questions about your experience with Connect and your preferences for completing study activities, using MyConnect, and getting messages."
     },
     "notifications": {
         "read": "Read",
@@ -1642,6 +1644,7 @@ const en = {
         "modMenstrualCycleSurvey": "Menstrual Cycle Survey",
         "modAtHomeMouthwashSampleSurvey": "At-Home Mouthwash Sample Survey",
         "modQualityofLifeSurvey": "Quality of Life Survey",
+        "mod2024ConnectExperienceSurvey": "2024 Connect Experience Survey",
         "sessionInactiveTitle": "Inactive",
         "sessionInactive": "You were inactive for 20 minutes, would you like to extend your session?<div class=\"modal-footer\"><button type=\"button\" title=\"Close\" class=\"btn btn-dark log-out-user\" data-dismiss=\"modal\">Log Out</button><button type=\"button\" title=\"Continue\" class=\"btn btn-primary extend-user-session\" data-dismiss=\"modal\">Continue</button></div>",
         "homeTitle": "My Connect - Home",
