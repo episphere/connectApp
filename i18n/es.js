@@ -667,6 +667,7 @@
         "10minutes": "10 minutos",
         "5minutes": "5 minutos",
         "10_15minutes": "De 10 a 15 minutos",
+        "15_20minutes": "De 15 a 20 minutos",
         "mainBodyMedicationsDescription": "Preguntas sobre su consumo actual y pasado de medicamentos, sus hábitos de ejercicio y sueño, y su salud reproductiva.",
         "mainBodySmokingDescription": "Preguntas sobre el consumo de tabaco, nicotina, marihuana y alcohol, y sobre la exposición al sol.",
         "mainBodyLiveWorkDescription": "Preguntas sobre los lugares en los que ha vivido y trabajado, y sobre su viaje al lugar donde estudia o trabaja.",

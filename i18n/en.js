@@ -662,6 +662,7 @@ const en = {
         "10minutes": "10 minutes",
         "5minutes": "5 minutes",
         "10_15minutes": "10 to 15 minutes",
+        "15_20minutes": "15 to 20 minutes",
         "mainBodyMedicationsDescription": "Questions about your current and past use of medications, your exercise and sleep habits, and your reproductive health.",
         "mainBodySmokingDescription": "Questions about your use of tobacco, nicotine, marijuana, and alcohol, as well as your sun exposure.",
         "mainBodyLiveWorkDescription": "Questions about places where you have lived and worked, and your commute to school or work.",
