@@ -378,24 +378,8 @@ const renderMainBody = (data, collections, tab) => {
         toDisplaySystem.unshift({'body':['PROMIS']});
     }
 
-    if(modules['Spanish Covid-19']?.enabled) {
-        toDisplaySystem.unshift({'body':['Spanish Covid-19']});
-    }
-
-    if(modules['Spanish Biospecimen Survey']?.enabled) {
-        toDisplaySystem.unshift({'body':['Spanish Biospecimen Survey']});
-    }
-
-    if(modules['Spanish Clinical Biospecimen Survey']?.enabled) {
-        toDisplaySystem.unshift({'body':['Spanish Clinical Biospecimen Survey']});
-    }
-
-    if(modules['Spanish Menstrual Cycle']?.enabled) {
-        toDisplaySystem.unshift({'body':['Spanish Menstrual Cycle']});
-    }
-    
-    if(modules['Spanish Mouthwash']?.enabled) {
-        toDisplaySystem.unshift({'body':['Spanish Mouthwash']});
+    if(modules['Connect Experience 2024'].enabled) {
+        toDisplaySystem.unshift({'body':['Connect Experience 2024']});
     }
 
     if(tab === 'todo'){
@@ -742,6 +726,10 @@ const setModuleAttributes = (data, modules, collections) => {
     modules['PROMIS'].header = 'Quality of Life Survey';
     modules['PROMIS'].description = 'mytodolist.mainBodyPROMISDescription';
     modules['PROMIS'].estimatedTime = 'mytodolist.10_15minutes';
+
+    modules['Connect Experience 2024'].header = '2024 Connect Experience Survey';
+    modules['Connect Experience 2024'].description = 'mytodolist.mainBodyExperience2024Description';
+    modules['Connect Experience 2024'].estimatedTime = 'mytodolist.10_15minutes';
     
     if(data['331584571']?.['266600170']?.['840048338']) {
         modules['Biospecimen Survey'].enabled = true;
@@ -858,7 +846,15 @@ const setModuleAttributes = (data, modules, collections) => {
     }
 
     if (data[fieldMapping.PROMIS.statusFlag] === fieldMapping.moduleStatus.submitted) { 
+        modules['PROMIS'].enabled = true;
         modules['PROMIS'].completed = true;
+    }
+
+    if (data[fieldMapping.Experience2024.statusFlag]) {
+        modules["Connect Experience 2024"].enabled = true;
+    }
+    if (data[fieldMapping.Experience2024.statusFlag] === fieldMapping.moduleStatus.submitted) { 
+        modules['Connect Experience 2024'].completed = true;
     }
 
     return modules;
