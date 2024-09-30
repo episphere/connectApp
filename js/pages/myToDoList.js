@@ -729,7 +729,7 @@ const setModuleAttributes = (data, modules, collections) => {
 
     modules['Connect Experience 2024'].header = '2024 Connect Experience Survey';
     modules['Connect Experience 2024'].description = 'mytodolist.mainBodyExperience2024Description';
-    modules['Connect Experience 2024'].estimatedTime = 'mytodolist.10_15minutes';
+    modules['Connect Experience 2024'].estimatedTime = 'mytodolist.15_20minutes';
     
     if(data['331584571']?.['266600170']?.['840048338']) {
         modules['Biospecimen Survey'].enabled = true;
