@@ -608,14 +608,14 @@ const bswh = {
                         <span class="site-info-bold">Baylor Scott & White Health and Wellness Center- Dallas</span>
                         <p>4500 Spring Ave<br>
                             Dallas, TX 75210<br>
-                            Parking Instructions: The Health and Wellness Center offers free surface level parking.
+                            Parking Instructions: The site offers free surface level parking.
                         </p>
                     </div>
                     <div>
                         <span class="site-info-bold">Baylor Scott & White Community Care (BCC) - Fort Worth*</span>
                         <p >1307 8th Ave, Ste 305<br>
                             Fort Worth, TX 76104<br>
-                            Parking Instructions: The Health and Wellness Center offers free surface level parking.<br>
+                            Parking Instructions: The site offers free surface level parking.<br>
                             <span style="font-size:1rem" class="site-info-underline-italic">*Note: Only patients of Baylor Scott & White Health Community Care - Fort Worth clinic can schedule an appointment at this location.</span>
                         </p>
                     </div>
@@ -624,6 +624,21 @@ const bswh = {
                         <p>1400 8th Avenue Fort Worth, TX 76104<br>
                         6th Floor, C Building<br>
                         Parking Instructions: Use the patient parking structure by the hospital.
+                        </p>
+                    </div>
+                    <div>
+                        <span class="site-info-bold">Baylor Scott & White Community Care (BCC) - Worth Street Clinic*</span>
+                        <p>4001 Worth St.<br>
+                        Dallas, TX 75246<br>
+                        Parking Instructions: The site offers free surface level parking.<br>
+                        <span style="font-size:1rem" class="site-info-underline-italic">*Note: Only patients of Baylor Scott & White Health Community Care - Worth Street clinic can schedule an appointment at this location.</span>
+                        </p>
+                    </div>
+                    <div>
+                        <span class="site-info-bold">Baylor Scott & White Sammons Cancer Center</span>
+                        <p>3410 Worth St, Suite 530<br>
+                        Dallas, TX 75246<br>
+                        Parking Instructions: Drive to the back of the Sammons Cancer Center Building and park in the underground garage. You will get a ticket from the machine as you enter the garage. Please keep the ticket. During your visit, the Connect team will give you a voucher for free parking. 
                         </p>
                     </div>
                     </span>`,
