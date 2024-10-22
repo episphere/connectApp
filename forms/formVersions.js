@@ -8,8 +8,8 @@ export default {
     HIPAA: "V0.03",
   },
   KPCO: {
-    Consent: "V0.03",
-    HIPAA: "V0.02",
+    Consent: "V0.04",
+    HIPAA: "V0.03",
   },
   KPGA: {
     Consent: "V0.04",
