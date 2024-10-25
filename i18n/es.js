@@ -361,7 +361,7 @@
             "src": "./forms/consent/HP_Consent_V0.05_Span.html"
         },
         "consentIframeKPCO": {
-            "src": "./forms/consent/KPCO_Consent_V0.03_Span.html"
+            "src": "./forms/consent/KPCO_Consent_V0.04_Span.html"
         },
         "consentIframeKPGA": {
             "src": "./forms/consent/KPGA_Consent_V0.04_Span.html"
@@ -400,7 +400,7 @@
         "consentUnsignedKPCO": {
             "title": "Descargar el formulario de consentimiento",
             "innerHTML": " Descargue una copia sin firmar del formulario de consentimiento informado&nbsp;<i class=\"fas fa-file-download\"></i>",
-            "href": "./forms/consent/KPCO_Consent_V0.03_Span.pdf"
+            "href": "./forms/consent/KPCO_Consent_V0.04_Span.pdf"
         },
         "consentUnsignedKPGA": {
             "title": "Descargar el formulario de consentimiento",
@@ -453,7 +453,7 @@
             "src": "./forms/HIPAA/HP_HIPAA_V0.03_Span.html"
         },
         "hipaaIframeKPCO": {
-            "src": "./forms/HIPAA/KPCO_HIPAA_V0.02_Span.html"
+            "src": "./forms/HIPAA/KPCO_HIPAA_V0.03_Span.html"
         },
         "hipaaIframeKPGA": {
             "src": "./forms/HIPAA/KPGA_HIPAA_V0.03_Span.html"
@@ -492,7 +492,7 @@
         "hipaaUnsignedKPCO": {
             "title": "Descargar el formulario de divulgación de registros de salud",
             "innerHTML": "Descargue una copia sin firmar del formulario de divulgación&nbsp;<i class=\"fas fa-file-download\"></i>",
-            "href": "./forms/HIPAA/KPCO_HIPAA_V0.02_Span.pdf"
+            "href": "./forms/HIPAA/KPCO_HIPAA_V0.03_Span.pdf"
         },
         "hipaaUnsignedKPGA": {
             "title": "Descargar el formulario de divulgación de registros de salud",
