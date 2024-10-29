@@ -23,6 +23,10 @@ const siteToHipaaSignPosMap = {
         "default": {nameX:110,nameY:440,signatureX:110,signatureY:480,dateX:110,dateY:400},
     },
     "KPCO": {
+        "V0.03": {
+            "Eng": {nameX:110,nameY:425,signatureX:110,signatureY:465,dateX:110,dateY:385},
+            "Span": {nameX:188,nameY:425,signatureX:80,signatureY:465,dateX:80,dateY:385},
+        },
         "V0.02": {
             "Eng": {nameX:110,nameY:410,signatureX:110,signatureY:450,dateX:110,dateY:370},
             "Span": {nameX:188,nameY:415,signatureX:80,signatureY:455,dateX:80,dateY:375},
@@ -108,6 +112,10 @@ const siteToConsentSignPosMap = {
     },
     
     "KPCO": {
+        "V0.04": {
+            "Eng": {nameX:110,nameY:395,signatureX:110,signatureY:315,dateX:110,dateY:355},
+            "Span": {nameX:110,nameY:395,signatureX:110,signatureY:315,dateX:110,dateY:355},
+        },
         "V0.03": {nameX:110,nameY:395,signatureX:110,signatureY:315,dateX:110,dateY:355},
         "default": {nameX:110,nameY:400,signatureX:110,signatureY:320,dateX:110,dateY:360},
     },
