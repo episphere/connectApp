@@ -360,7 +360,7 @@ const en = {
             "src": "./forms/consent/HP_Consent_V0.05.html"
         },
         "consentIframeKPCO": {
-            "src": "./forms/consent/KPCO_Consent_V0.03.html"
+            "src": "./forms/consent/KPCO_Consent_V0.04.html"
         },
         "consentIframeKPGA": {
             "src": "./forms/consent/KPGA_Consent_V0.04.html"
@@ -399,7 +399,7 @@ const en = {
         "consentUnsignedKPCO": {
             "title": "Download consent form",
             "innerHTML": " Download an unsigned copy of the informed consent form&nbsp<i class=\"fas fa-file-download\"></i>",
-            "href": "./forms/consent/KPCO_Consent_V0.03.pdf"
+            "href": "./forms/consent/KPCO_Consent_V0.04.pdf"
         },
         "consentUnsignedKPGA": {
             "title": "Download consent form",
@@ -448,7 +448,7 @@ const en = {
             "src": "./forms/HIPAA/HP_HIPAA_V0.03.html"
         },
         "hipaaIframeKPCO": {
-            "src": "./forms/HIPAA/KPCO_HIPAA_V0.02.html"
+            "src": "./forms/HIPAA/KPCO_HIPAA_V0.03.html"
         },
         "hipaaIframeKPGA": {
             "src": "./forms/HIPAA/KPGA_HIPAA_V0.03.html"
@@ -487,7 +487,7 @@ const en = {
         "hipaaUnsignedKPCO": {
             "title": "Download health records release form",
             "innerHTML": "Download an unsigned copy of the release form&nbsp<i class=\"fas fa-file-download\"></i>",
-            "href": "./forms/HIPAA/KPCO_HIPAA_V0.02.pdf"
+            "href": "./forms/HIPAA/KPCO_HIPAA_V0.03.pdf"
         },
         "hipaaUnsignedKPGA": {
             "title": "Download health records release form",
