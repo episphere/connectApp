@@ -528,7 +528,7 @@ const setInputData = (data, modules) => {
         const age = currentYear - birthYear + ageAdjustment;
     
         inputData["age"] = age;
-        inputData["AGE"] = age;
+        inputData["yob"] = birthYear;
     }
 
     return inputData;
