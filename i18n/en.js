@@ -99,6 +99,7 @@ const en = {
             "placeholder": "Enter preferred name"
         },
         "birthDateSubHeader": "Date of Birth",
+        "birthPlaceSubHeader": "Place of Birth",
         "monthListLabel": "Month <span class=\"required\">*</span>",
         "monthListRequired": {
             "data-error-required": "Please select your birth month."
@@ -125,6 +126,29 @@ const en = {
             "data-error-validation": "The year you entered is outside of our expected range. Please check your entry.",
             "title": "Birth year, must be in 1900s",
             "placeholder": "Enter birth year"
+        },
+        "yearListFieldConfirmation": {
+            "placeholder": "Re-enter birth year",
+            "data-error-confirmation":"Both the Year of Birth's do not match"
+        },
+        "monthFieldConfirmation": {
+            "data-error-confirmation":"Both the Month of Birth's do not match"
+        },
+        "dayFieldConfirmation": {
+            "data-error-confirmation":"Both the Day of Birth's do not match"
+        },
+        "birthPlaceIntroduction": "We collect this information so that we can match information we collect from other sources, like state health registries, to you.",
+        "cityOfBirth":{
+            "title": "City",
+            "placeholder": "Enter City"
+        },
+        "stateOfBirth":{
+            "title": "State",
+            "placeholder": "Enter State"
+        },
+            "countryOfBirth":{
+            "title": "Country",
+            "placeholder": "Enter Country"
         },
         "contactSubheader": "Contact Information",
         "preferredEmail": "Preferred Email <span class=\"required\">*</span>",
@@ -199,6 +223,7 @@ const en = {
         "mailAddressStateLabelRequired": "State <span class=\"required\">*</span>",
         "mailAddressStateRequired": "Please select the state field of your mailing address.",
         "selectOption": "-- Select --",
+        "selectOptionConfirmation": "-- Re-select month --",
         "mailAddressZipLabel": "Zip ",
         "mailAddressZipLabelRequired": "Zip <span class=\"required\">*</span>",
         "mailAddressZipField": {
@@ -552,7 +577,9 @@ const en = {
             "innerText": "Download a copy of your signed health records release form "
         },
         "profilePageHeader": "Thank you for your interest in the Connect for Cancer Prevention Study",
-        "profilePageBody": "Thank you for completing the consent process. We need some more information about you to confirm that you can be part of the study. After you complete this step, we will use the information you share to check your eligibility and contact you within a few business days. We respect your privacy and protect the personal information you share with us.<br>If you have any questions, please contact the <a href=\"https://norcfedramp.servicenowservices.com/recruit\" target=\"_blank\">Connect Support Center</a>."
+        "profilePageBody": ` Thank you for completing the consent process. We need some more information about you to confirm that you can be part of the study. After you complete this step, the Connect team at your health care system will use the information you share to check your eligibility.<br><br>
+        Please enter your information carefully to ensure it is correct. This will help your healthcare system match it to your medical record and confirm your eligibility for Connect. If your healthcare system is unable to find a match, it might take longer to confirm your participation. After we confirm your eligibility for Connect, we’ll use the information you share to match any information we collect from other sources, like state health registries, to you. <br><br>
+        We will contact you within a few business days. We respect your privacy and protect the personal information you share with us. If you have questions, please contact the <a href=\"https://norcfedramp.servicenowservices.com/recruit\" target=\"_blank\">Connect Support Center</a> at MyConnect.cancer.gov/support.`
     },
     "footer": {
         "Questions": "HAVE QUESTIONS?",
@@ -1176,6 +1203,7 @@ const en = {
     },
     "event": {
         "selectBirthDay": "-- Select birth day --",
+        "selectBirthDayConfirmation": "-- Re-select birth day --",
         "sureAboutProvider": "Are you sure ",
         "sureAboutProviderEnd": " is your healthcare provider?",
         "emailPlaceholder2": {

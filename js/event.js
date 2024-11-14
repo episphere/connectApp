@@ -79,28 +79,61 @@ export const addEventAddressAutoComplete = (id, country) => {
     });
 }
 
+const getDaysTemplate = (month) => {
+    let template = "";
+    if (month === "02") {
+        for (let i = 1; i < 30; i++) {
+            template += `<option class="option-dark-mode" value=${
+                i < 10 ? `0${i}` : `${i}`
+            }>${i}</option>`;
+        }
+    }
+    if (
+        month === "01" ||
+        month === "03" ||
+        month === "05" ||
+        month === "07" ||
+        month === "08" ||
+        month === "10" ||
+        month === "12"
+    ) {
+        for (let i = 1; i < 32; i++) {
+            template += `<option class="option-dark-mode" value=${
+                i < 10 ? `0${i}` : `${i}`
+            }>${i}</option>`;
+        }
+    }
+    if (
+        month === "04" ||
+        month === "06" ||
+        month === "09" ||
+        month === "11"
+    ) {
+        for (let i = 1; i < 31; i++) {
+            template += `<option class="option-dark-mode" value=${
+                i < 10 ? `0${i}` : `${i}`
+            }>${i}</option>`;
+        }
+    }
+    return template;
+};
+
 export const addEventMonthSelection = () => {
     const UPMonth = document.getElementById('UPMonth');
     UPMonth.addEventListener('change', () => {
         const value = UPMonth.value;
         let template = '<option class="option-dark-mode" value="" data-i18n="event.selectBirthDay">-- Select birth day --</option>';
-
-        if(value === '02'){
-            for(let i = 1; i < 30; i++){
-                template += `<option class="option-dark-mode" value=${i < 10 ? `0${i}`: `${i}`}>${i}</option>`
-            }
-        }
-        if(value === '01' || value === '03' || value === '05' || value === '07' || value === '08' || value === '10' || value === '12'){
-            for(let i = 1; i < 32; i++){
-                template += `<option class="option-dark-mode" value=${i < 10 ? `0${i}`: `${i}`}>${i}</option>`
-            }
-        }
-        if(value === '04' || value === '06' || value === '09' || value === '11'){
-            for(let i = 1; i < 31; i++){
-                template += `<option class="option-dark-mode" value=${i < 10 ? `0${i}`: `${i}`}>${i}</option>`
-            }
-        }
+        template += getDaysTemplate(value);
         document.getElementById('UPDay').innerHTML = translateHTML(template);
+    });
+}
+export const addEventMonthConfirmationSelection = () => {
+    const UPMonthConfirmation = document.getElementById('UPMonthConfirmation');
+    UPMonthConfirmation.addEventListener('change', () => {
+        const value = UPMonthConfirmation.value;
+        let template = '<option class="option-dark-mode" value="" data-i18n="event.selectBirthDayConfirmation">Re-select birth day</option>';
+        template += getDaysTemplate(value);
+        document.getElementById('UPDayConfirmation').innerHTML = translateHTML(template);
     });
 }
 
@@ -309,6 +342,7 @@ export const addEventUPSubmit = () => {
         e.preventDefault();
         removeAllErrors();
         const requiredFields = document.getElementsByClassName('required-field');
+        const confirmationFields = document.getElementsByClassName('confirmation-field');
         const validations = document.getElementsByClassName('input-validation');
         const numberValidations = document.getElementsByClassName('num-val');
         const radios = document.getElementsByName('UPRadio');
@@ -360,6 +394,16 @@ export const addEventUPSubmit = () => {
             }
             if(element.type === 'checkbox' && element.checked === false && element.hidden === false){
                 errorMessage(element.id, `${element.dataset.errorRequired}`, focus);
+                focus = false;
+                hasError = true;
+            }    
+        });
+        Array.from(confirmationFields).forEach(element => {
+            const target = element.getAttribute('target')
+            const targetElement= document.getElementById(target)
+
+            if(element.value !== targetElement.value){
+                errorMessage(element.id, `${element.dataset.errorConfirmation}`, focus);
                 focus = false;
                 hasError = true;
             }
@@ -551,6 +595,10 @@ export const addEventUPSubmit = () => {
                 return false;
             }
         }
+        formData['876546260'] = document.getElementById('cityOfBirth').value;
+        formData['337485417'] = document.getElementById('stateOfBirth').value;
+        formData['384576626'] = document.getElementById('countryOfBirth').value;
+
         const gender = document.getElementsByName('UPRadio');
         Array.from(gender).forEach(radioBtn => {
             if(radioBtn.checked) formData['383945929'] = parseInt(radioBtn.value);
@@ -827,6 +875,21 @@ const verifyUserDetails = (formData) => {
         <div class="row">
             <div class="col" data-i18n="event.year">Year</div>
             <div class="col">${formData['544150384']}</div>
+        </div>
+        <div class="row">
+            <div class="col"><strong data-i18n="form.birthPlaceSubHeader">Place of birth</strong></div>
+        </div>
+         <div class="row">
+            <div class="col" data-i18n="form.cityOfBirth">City</div>
+            <div class="col">${formData['876546260']}</div>
+        </div>
+         <div class="row">
+            <div class="col" data-i18n="form.stateOfBirth">State</div>
+            <div class="col">${formData['337485417']}</div>
+        </div>
+         <div class="row">
+            <div class="col" data-i18n="form.countryOfBirth">Country</div>
+            <div class="col">${formData['384576626']}</div>
         </div>
         <div class="row">
             <div class="col"><strong data-i18n="event.contactInfo">Contact Information</strong></div>

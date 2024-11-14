@@ -1,5 +1,5 @@
 import { allStates, allCountries, getMyData, hasUserData, translateHTML, translateText } from "../shared.js";
-import { addEventMonthSelection, addEventUPSubmit, addEventCancerFollowUp, addEventChangeFocus, addEventAddressAutoComplete, addEventAdditionalEmail, addEventCheckCanText, addEventDisableCopyPaste } from "../event.js";
+import { addEventMonthSelection, addEventMonthConfirmationSelection, addEventUPSubmit, addEventCancerFollowUp, addEventChangeFocus, addEventAddressAutoComplete, addEventAdditionalEmail, addEventCheckCanText, addEventDisableCopyPaste } from "../event.js";
 import cId from '../fieldToConceptIdMapping.js';
 import { suffixList, suffixToTextMapDropdown, suffixToTextMap } from "../settingsHelpers.js";
 
@@ -26,7 +26,9 @@ export const renderUserProfile = async () => {
                 </div>
                 <div class="col-md-4">
                     <label style="margin-left:-15px" data-i18n="form.middleName">Middle name</label>
-                    <input type="text"  data-i18n="form.middleNameField" value="${myData.data['436680969'] ? myData.data['436680969'] : ''}" class="form-control input-validation row" data-validation-pattern="alphabets" data-error-validation="Your middle name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters." id="UPMiddleInitial" placeholder="Enter middle name" style="max-width:215px">
+                    <input type="text"  data-i18n="form.middleNameField" value="${
+                        myData.data["436680969"] ? myData.data["436680969"] : ""
+                    }" class="form-control input-validation row" data-validation-pattern="alphabets" data-error-validation="Your middle name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters." id="UPMiddleInitial" placeholder="Enter middle name" style="max-width:215px; background-color:#e6e6e6 !important;" disabled>
                 </div>
             </div>
             <div class="row">
@@ -38,7 +40,7 @@ export const renderUserProfile = async () => {
             <div class="form-group row">
                 <div class="col-md-4">
                     <label class="col-form-label" data-i18n="form.suffixList">Suffix</label>
-                    <select class="form-control" style="max-width:152px; margin-left:0px;" id="UPSuffix">
+                    <select class="form-control" style="max-width:152px; background-color:#e6e6e6 !important; margin-left:0px;" id="UPSuffix" disabled>
                         <option value="" data-i18n="form.selectOption">-- Select --</option>
                         <option value="${cId.suffixValue.jr}" ${myData.data[consentSuffixKey] ? (suffixList[myData.data[consentSuffixKey]] == 0 ? 'selected':'') : ''}  data-i18n="${'settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.jr).replace('.', '')}">${suffixToTextMapDropdown.get(cId.suffixValue.jr)}</option>
                         <option value="${cId.suffixValue.sr}" ${myData.data[consentSuffixKey] ? (suffixList[myData.data[consentSuffixKey]] == 1 ? 'selected':'') : ''}  data-i18n="${'settingsHelpers.suffix'+suffixToTextMap.get(cId.suffixValue.sr).replace('.', '')}">${suffixToTextMapDropdown.get(cId.suffixValue.sr)}</option>
@@ -69,7 +71,7 @@ export const renderUserProfile = async () => {
                 
                     <label class="col-form-label" data-i18n="form.monthListLabel">Month <span class="required">*</span></label>
                     <select style="margin-left:0px; max-width:188px;" id="UPMonth" class="form-control required-field" data-i18n="form.monthListRequired" data-error-required='Please select your birth month.'>
-                        <option class="option-dark-mode" value="" data-i18n="form.selectOption">-- Select -- </option>
+                        <option class="option-dark-mode" value="" data-i18n="form.selectOption">-- Select --</option>
                         <option class="option-dark-mode" value="01" data-i18n="form.monthJanuary">January</option>
                         <option class="option-dark-mode" value="02" data-i18n="form.monthFebruary">February</option>
                         <option class="option-dark-mode" value="03" data-i18n="form.monthMarch">March</option>
@@ -91,14 +93,74 @@ export const renderUserProfile = async () => {
             </div>
 
             <div class="form-group row">
+                <div class="col-md-3">
+                    <select style="margin-left:0px; max-width:188px;" id="UPMonthConfirmation" class="form-control confirmation-field" target="UPMonth" data-i18n="form.monthFieldConfirmation" data-error-confirmation="Both the Month of Birth's do not match">
+                        <option class="option-dark-mode" value="" data-i18n="form.selectOptionConfirmation">-- Select --</option>
+                        <option class="option-dark-mode" value="01" data-i18n="form.monthJanuary">January</option>
+                        <option class="option-dark-mode" value="02" data-i18n="form.monthFebruary">February</option>
+                        <option class="option-dark-mode" value="03" data-i18n="form.monthMarch">March</option>
+                        <option class="option-dark-mode" value="04" data-i18n="form.monthApril">April</option>
+                        <option class="option-dark-mode" value="05" data-i18n="form.monthMay">May</option>
+                        <option class="option-dark-mode" value="06" data-i18n="form.monthJune">June</option>
+                        <option class="option-dark-mode" value="07" data-i18n="form.monthJuly">July</option>
+                        <option class="option-dark-mode" value="08" data-i18n="form.monthAugust">August</option>
+                        <option class="option-dark-mode" value="09" data-i18n="form.monthSeptember">September</option>
+                        <option class="option-dark-mode" value="10" data-i18n="form.monthOctober">October</option>
+                        <option class="option-dark-mode" value="11" data-i18n="form.monthNovember">November</option>
+                        <option class="option-dark-mode" value="12" data-i18n="form.monthDecember">December</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <select style="margin-left:0px; max-width:129px;" class="form-control confirmation-field" id="UPDayConfirmation" target="UPDay" data-i18n="form.dayFieldConfirmation" data-error-confirmation="Both the Day of Birth's do not match"></select>
+                </div>
+            </div>
+
+            <div class="form-group row">
                 <div class="col-md-4">
                     <label class="col-form-label" style="padding:0;" data-i18n="form.yearListLabel">Year <span class="required">*</span></label>
                     <br>
-                    <input data-i18n="form.yearListField" style="margin-left:0px; max-width:152px;" type="text" class="form-control required-field input-validation" data-error-required='Please select your birth year.' data-validation-pattern="year" data-error-validation="The year you entered is outside of our expected range. Please check your entry." maxlength="4" id="UPYear" title="Birth year, must be in 1900s" Placeholder="Enter birth year">
+                    <input data-i18n="form.yearListField" style="margin-left:0px; max-width:170px;" type="text" class="form-control required-field input-validation" data-error-required='Please select your birth year.' data-validation-pattern="year" data-error-validation="The year you entered is outside of our expected range. Please check your entry." maxlength="4" id="UPYear" title="Birth year, must be in 1900s" Placeholder="Enter birth year">
                     <!--<datalist id="yearsOption"></datalist>-->
                 </div>
             </div>
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <input data-i18n="form.yearListFieldConfirmation" style="margin-left:0px; max-width:170px;" type="text" class="form-control confirmation-field" id="UPYearConfirmation" Placeholder="Re-enter birth year" target="UPYear" data-error-confirmation="Both the Year of Birth's do not match">
+                    <!--<datalist id="yearsOptionConfirmation"></datalist>-->
+                </div>
+            </div>
             <br>
+            <hr>
+            <p class="userProfileSubHeaders" data-i18n="form.birthPlaceSubHeader">Place of birth</p>
+            <span data-i18n="form.birthPlaceIntroduction">We collect this information so that we canmay match any information we collect from other sources, like state health registries, to you. </span>
+            <div class="form-group row">
+                <div class="col">
+                    <label class="col-form-label" data-i18n="form.cityOfBirth.title">
+                        City 
+                    </label>
+                    <br>
+                    <input data-i18n="form.cityOfBirth" style="margin-left:0px; max-width:301px;" type=text id="cityOfBirth" class="form-control" placeholder="Enter City">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col">
+                    <label class="col-form-label" data-i18n="form.stateOfBirth.title">
+                        State 
+                    </label>
+                    <br>
+                    <input data-i18n="form.stateOfBirth" style="margin-left:0px; max-width:301px;" type=text id="stateOfBirth" class="form-control" placeholder="Enter State">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col">
+                    <label class="col-form-label" data-i18n="form.countryOfBirth.title">
+                        Country 
+                    </label>
+                    <br>
+                    <input data-i18n="form.countryOfBirth" style="margin-left:0px; max-width:301px;" type=text id="countryOfBirth" class="form-control" placeholder="Enter Country">
+                </div>
+            </div>
+
             <hr>
             <p class="userProfileSubHeaders" data-i18n="form.contactSubheader">Contact Information</p>
             
@@ -278,6 +340,7 @@ export const renderUserProfile = async () => {
     addEventChangeFocus();
     addEventCancerFollowUp();
     addEventMonthSelection();
+    addEventMonthConfirmationSelection();
     addEventAdditionalEmail();
     addEventAddressAutoComplete(1);
     addEventCheckCanText();

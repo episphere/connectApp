@@ -100,6 +100,7 @@
             "placeholder": "Ingrese el nombre de pila preferido"
         },
         "birthDateSubHeader": "Fecha de nacimiento",
+        "birthPlaceSubHeader": "Lugar de nacimiento",
         "monthListLabel": "Mes <span class=\"required\">*</span>",
         "monthListRequired": {
             "data-error-required": "Seleccione su mes de nacimiento."
@@ -126,6 +127,29 @@
             "data-error-validation": "El año que ha ingresado está fuera de los límites esperados. Por favor, revise sus datos.",
             "title": "Las dos primeras cifras del año de nacimiento deben ser 19",
             "placeholder": "Ingrese su año de nacimiento"
+        },
+        "yearListFieldConfirmation": {
+            "placeholder": "Vuelva a ingresar el año",
+            "data-error-confirmation":"Spanish Text"
+        },
+        "monthFieldConfirmation": {
+            "data-error-confirmation":"Spanish Text"
+        },
+        "dayFieldConfirmation": {
+            "data-error-confirmation":"Spanish Text"
+        },
+        "birthPlaceIntroduction": "Recopilamos esta información para poder vincular la información que recopilamos de otras fuentes, como los registros de salud estatales, con la suya. ",
+        "cityOfBirth":{
+            "title": "Ciudad",
+            "placeholder": "Ingrese la ciudad"
+        },
+        "stateOfBirth":{
+            "title": "Estado",
+            "placeholder": "Ingrese la estado"
+        },
+        "countryOfBirth":{
+            "title": "País",
+            "placeholder": "Ingrese la país"
         },
         "contactSubheader": "Información de contacto",
         "preferredEmail": "Dirección de correo electrónico preferida <span class=\"required\">*</span>",
@@ -200,6 +224,7 @@
         "mailAddressStateLabelRequired": "Estado <span class=\"required\">*</span>",
         "mailAddressStateRequired": "Seleccione el campo de estado de su dirección postal.",
         "selectOption": "-- Seleccione --",
+        "selectOptionConfirmation": "-- Volver a seleccionar --",
         "mailAddressZipLabel": "Código postal ",
         "mailAddressZipLabelRequired": "Código postal <span class=\"required\">*</span>",
         "mailAddressZipField": {
@@ -557,7 +582,9 @@
             "innerText": "Descargue una copia de su formulario firmado de divulgación de registros de salud "
         },
         "profilePageHeader": "Gracias por su interés en el Estudio Connect para la Prevención del Cáncer",
-        "profilePageBody": "Gracias por completar el proceso de consentimiento. Necesitamos más información sobre usted para confirmar que puede formar parte del estudio. Después de completar este paso, utilizaremos la información que nos haya dado para ver si cumple con los requisitos, y nos comunicaremos con usted luego de unos días hábiles. Respetamos su privacidad y protegemos la información personal que comparte con nosotros.<br/>Si tiene alguna pregunta, comuníquese con el <a href=\"https://norcfedramp.servicenowservices.com/recruit\" target=\"_blank\">Centro de Asistencia de Connect</a>."
+        "profilePageBody": `Gracias por completar el proceso de consentimiento. Necesitamos más información sobre usted para confirmar que puede participar en el estudio. Después de completar este paso, el equipo de Connect de su sistema de atención médica utilizará la información que nos haya dado para ver si cumple con los requisitos de participación. <br><br>
+        Ingrese la información con cuidado para asegurarse de que sea correcta. Eso ayudará a su sistema de atención médica a asignársela a su historia clínica y a confirmar que cumple con los requisitos para participar en Connect. Si su sistema de atención médica no puede encontrar una historia clínica que coincida con sus datos, es posible que tarde más en confirmar su participación. Una vez que confirmemos que cumple con los requisitos para participar en Connect, usaremos la información que comparta para vincular con usted toda información que reunamos de otras fuentes, como los registros de salud estatales.<br><br>
+        Nos pondremos en contacto con usted dentro de unos días hábiles. Respetamos su privacidad y protegemos la información personal que comparte con nosotros. Si tiene alguna pregunta, comuníquese con el Centro de <a href=\"https://norcfedramp.servicenowservices.com/recruit\" target=\"_blank\">Connect desde MyConnect.cancer.gov/support.</a>`
     },
     "footer": {
         "Questions": "¿TIENE ALGUNA PREGUNTA?",
@@ -1181,6 +1208,7 @@
     },
     "event": {
         "selectBirthDay": "-- Seleccione el día de nacimiento --",
+        "selectBirthDayConfirmation": "-- Vuelva a seleccionar el día de nacimiento --",
         "sureAboutProvider": "¿Está seguro de que ",
         "sureAboutProviderEnd": " es su proveedor de atención médica?",
         "emailPlaceholder2": {
