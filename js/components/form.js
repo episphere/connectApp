@@ -132,7 +132,7 @@ export const renderUserProfile = async () => {
             <br>
             <hr>
             <p class="userProfileSubHeaders" data-i18n="form.birthPlaceSubHeader">Place of birth</p>
-            <span data-i18n="form.birthPlaceIntroduction">We collect this information so that we canmay match any information we collect from other sources, like state health registries, to you. </span>
+            <span data-i18n="form.birthPlaceIntroduction">We collect this information so that we can match any information we collect from other sources, like state health registries, to you. </span>
             <div class="form-group row">
                 <div class="col">
                     <label class="col-form-label" data-i18n="form.cityOfBirth.title">
