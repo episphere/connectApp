@@ -80,42 +80,18 @@ export const addEventAddressAutoComplete = (id, country) => {
 }
 
 const getDaysTemplate = (month) => {
-    let template = "";
-    if (month === "02") {
-        for (let i = 1; i < 30; i++) {
-            template += `<option class="option-dark-mode" value=${
-                i < 10 ? `0${i}` : `${i}`
-            }>${i}</option>`;
-        }
+    const monthLengths = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    const daysInMonth = monthLengths[parseInt(month, 10) - 1];
+
+    const options = [`<option class="option-dark-mode" value="">-- Select --</option>`];
+
+    for (let i = 1; i <= daysInMonth; i++) {
+        options.push(
+            `<option class="option-dark-mode" value=${i < 10 ? `0${i}` : i}>${i}</option>`
+        );
     }
-    if (
-        month === "01" ||
-        month === "03" ||
-        month === "05" ||
-        month === "07" ||
-        month === "08" ||
-        month === "10" ||
-        month === "12"
-    ) {
-        for (let i = 1; i < 32; i++) {
-            template += `<option class="option-dark-mode" value=${
-                i < 10 ? `0${i}` : `${i}`
-            }>${i}</option>`;
-        }
-    }
-    if (
-        month === "04" ||
-        month === "06" ||
-        month === "09" ||
-        month === "11"
-    ) {
-        for (let i = 1; i < 31; i++) {
-            template += `<option class="option-dark-mode" value=${
-                i < 10 ? `0${i}` : `${i}`
-            }>${i}</option>`;
-        }
-    }
-    return template;
+
+    return options.join('');
 };
 
 export const addEventMonthSelection = () => {
