@@ -964,3 +964,46 @@ export const unlinkFirebaseAuthenticationTrigger = async (authToUnlink) =>  {
       throw error;
   }
 }
+
+export const formerNameOptions = [
+  { value: "", text: "-- Select --" , i18n: 'form.formerNameCategoryDefaultOption'},
+  { value: "first", text: "First" , i18n: 'form.formerNameCategoryOption.first'},
+  { value: "middle", text: "Middle" ,i18n: 'form.formerNameCategoryOption.middle'},
+  { value: "last", text: "Last" ,i18n: 'form.formerNameCategoryOption.last'},
+];
+export const numberOfDefaultFormerNames = 2
+export const getFormerNameData = () => {
+    const formerNameItems = document.getElementsByClassName("former-name-item");
+    const fNameArray = [];
+    const mNameArray = [];
+    const lNameArray = [];
+    Array.from(formerNameItems).forEach((_, index) => {
+        const inputElement = document.getElementById(
+            `former-name-value-${index + 1}`
+        );
+        const selectElement = document.getElementById(
+            `former-name-category-${index + 1}`
+        );
+        if (inputElement.value) {
+            switch (selectElement.value) {
+                case "first":
+                    fNameArray.push(inputElement.value);
+                    break;
+                case "middle":
+                    mNameArray.push(inputElement.value);
+                    break;
+                case "last":
+                    lNameArray.push(inputElement.value);
+                    break;
+            }
+        }
+    });
+    return fNameArray.length || mNameArray.length || lNameArray.length
+        ? {
+              [cId.userProfileUpdateTimestamp]: new Date().toISOString(),
+              [cId.fName]: fNameArray.length ? fNameArray : undefined,
+              [cId.mName]: mNameArray.length ? mNameArray : undefined,
+              [cId.lName]: lNameArray.length ? lNameArray : undefined,
+          }
+        : undefined;
+};

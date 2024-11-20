@@ -3,7 +3,7 @@ import { allCountries, dataSavingBtn, storeResponse, validatePin, generateNewTok
 import { consentTemplate } from "./pages/consent.js";
 import { heardAboutStudy, healthCareProvider, duplicateAccountReminderRender } from "./pages/healthCareProvider.js";
 import { myToDoList } from "./pages/myToDoList.js";
-import { suffixToTextMap } from "./settingsHelpers.js";
+import { suffixToTextMap, getFormerNameData, formerNameOptions } from "./settingsHelpers.js";
 import fieldMapping from "./fieldToConceptIdMapping.js";
 import {signUpRender} from "./pages/homePage.js";
 
@@ -83,7 +83,7 @@ const getDaysTemplate = (month) => {
     const monthLengths = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
     const daysInMonth = monthLengths[parseInt(month, 10) - 1];
 
-    const options = [`<option class="option-dark-mode" value="">-- Select --</option>`];
+    const options = [];
 
     for (let i = 1; i <= daysInMonth; i++) {
         options.push(
@@ -250,6 +250,67 @@ export const addEventSaveConsentBtn = () => {
         });
     })
 }
+
+export const addEventFormerName = () => {
+    const addMoreFormerNameDiv = document.getElementById("addMoreFormerName");
+    addMoreFormerNameDiv.addEventListener("click", addMoreFormerName);
+};
+
+export const addMoreFormerName = () => {
+    const div = document.getElementById("former-name-group");
+    const formerNameItems = document.getElementsByClassName("former-name-item");
+    const inputId = `former-name-value-${formerNameItems.length + 1}`;
+    const selectId = `former-name-category-${formerNameItems.length + 1}`;
+
+    const div1 = document.createElement('div');	
+    div1.classList = ['form-group row former-name-item'];
+
+    const div1_1 = document.createElement('div');	
+    div1_1.classList = ['col-md-3'];
+
+    const select = document.createElement('select');	
+    select.classList = ['form-control'];
+    select.setAttribute('data-i18n', "form.formerNameValue");
+    select.setAttribute('data-error-required', "Please choose a name category. If you do not have a name to enter, please remove text from Former Name textbox");
+    select.style = "margin-left:0px; max-width:188px"
+    select.id = selectId;	
+
+    formerNameOptions.forEach((option) => {
+        const opt = document.createElement("option");
+        opt.classList = ["option-dark-mode"];
+        opt.value = option.value;
+        opt.textContent = option.text;
+        opt.setAttribute("data-i18n", option.i18n);
+        select.appendChild(translateHTML(opt));
+    });
+
+    div1_1.appendChild(translateHTML(select));
+    div1.appendChild(div1_1);
+
+    const div1_2 = document.createElement('div');	
+    div1_2.classList = ['col-md-4'];
+
+    const input = document.createElement('input');	
+    input.classList = ['form-control'];
+    input.setAttribute('data-i18n', "form.formerNameValue");
+    input.placeholder = 'Enter former name';	
+    input.style = "margin-left:0px; max-width:170px"
+    input.type = 'text';	
+    input.id = inputId;	
+
+    div1_2.appendChild(translateHTML(input));
+    div1.appendChild(div1_2);
+    div.appendChild(div1);
+    
+    const inputElement = document.getElementById(inputId);
+    inputElement.addEventListener("blur", () => {
+        const selectElement = document.getElementById(selectId);
+        selectElement.classList.remove("required-field");
+        if (inputElement.value) {
+            selectElement.classList.add("required-field");
+        }
+    });
+};
 
 export const addEventAdditionalEmail = () => {	
     const addMoreEmail = document.getElementById('addMoreEmail');	
@@ -571,6 +632,14 @@ export const addEventUPSubmit = () => {
                 return false;
             }
         }
+
+        // User Profile Former Name
+        const upFormerName = getFormerNameData();
+        if (upFormerName) {
+            formData[fieldMapping.userProfileHistory] = [upFormerName];
+        }
+
+        // User Profile Place of Birth
         formData['876546260'] = document.getElementById('cityOfBirth').value;
         formData['337485417'] = document.getElementById('stateOfBirth').value;
         formData['384576626'] = document.getElementById('countryOfBirth').value;
@@ -835,6 +904,32 @@ const verifyUserDetails = (formData) => {
         <div class="row">
             <div class="col" data-i18n="event.preferredName">Preferred Name</div>
             <div class="col">${formData['153211406']}</div>
+        </div>
+        `: ``}
+        ${formData[fieldMapping.userProfileHistory] ? `
+        <div class="row">
+            <div class="col"><strong data-i18n="">Former Names</strong></div>
+        </div>
+            `: ``}
+        ${formData[fieldMapping.userProfileHistory]?.[0]?.[fieldMapping.fName] 
+             ? `
+        <div class="row">
+            <div class="col" data-i18n="">First Name</div>
+            <div class="col">${formData[fieldMapping.userProfileHistory]?.[0]?.[fieldMapping.fName].join(', ')}</div>
+        </div>
+        `: ``}
+        ${formData[fieldMapping.userProfileHistory]?.[0]?.[fieldMapping.mName] 
+             ? `
+        <div class="row">
+            <div class="col" data-i18n="">Middle Name</div>
+            <div class="col">${formData[fieldMapping.userProfileHistory]?.[0]?.[fieldMapping.mName].join(', ')}</div>
+        </div>
+        `: ``}
+        ${formData[fieldMapping.userProfileHistory]?.[0]?.[fieldMapping.lName] 
+             ? `
+        <div class="row">
+            <div class="col" data-i18n="">Middle Name</div>
+            <div class="col">${formData[fieldMapping.userProfileHistory]?.[0]?.[fieldMapping.lName].join(', ')}</div>
         </div>
         `: ``}
         <div class="row">

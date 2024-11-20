@@ -99,6 +99,26 @@
         "preferredNameField": {
             "placeholder": "Ingrese el nombre de pila preferido"
         },
+        "formerNameSubHeader": "Nombres anteriores",
+        "formerNameIntrodution": "Los nombres anteriores son otros nombres que ha utilizado en el pasado en documentos y procesos administrativos (por ejemplo, cambios de nombre legal, apellido de soltera, apellido de casada). Recopilamos esta información para poder vincular la información que recopilamos de otras fuentes, como los registros de salud estatales, con la suya. ",
+        "formerNameCategoryDefaultOption":"-- Seleccionar --",
+        "formerNameCategoryOption":{
+            "first" : "Nombre",
+            "middle" : "Segundo Nombre",
+            "last" : "Apellido",
+        },
+        "formerNameCategoryTitle": "Categoría de nombre",
+        "formerNameValueTitle": "Nombre anterior",
+        "formerNameValue": {
+            "placeholder": "Ingrese el nombre anterior"
+        },
+        "formerNameCategory": {
+            // "data-error-required": "***"
+        },
+        "addMoreFormerName": {
+            "title": "Agregar otra dirección de correo electrónico",
+            "innerHTML": "Agregar más <i class=\"fas fa-plus\"></i>"
+        },
         "birthDateSubHeader": "Fecha de nacimiento",
         "birthPlaceSubHeader": "Lugar de nacimiento",
         "monthListLabel": "Mes <span class=\"required\">*</span>",
@@ -130,13 +150,13 @@
         },
         "yearListFieldConfirmation": {
             "placeholder": "Vuelva a ingresar el año",
-            "data-error-confirmation":"Spanish Text"
+            // "data-error-confirmation":"Spanish Text"
         },
         "monthFieldConfirmation": {
-            "data-error-confirmation":"Spanish Text"
+            // "data-error-confirmation":"Spanish Text"
         },
         "dayFieldConfirmation": {
-            "data-error-confirmation":"Spanish Text"
+            // "data-error-confirmation":"Spanish Text"
         },
         "birthPlaceIntroduction": "Recopilamos esta información para poder vincular la información que recopilamos de otras fuentes, como los registros de salud estatales, con la suya. ",
         "cityOfBirth":{
