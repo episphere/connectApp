@@ -66,7 +66,7 @@ export const renderUserProfile = async () => {
             <hr style="color:#A9AEB1;">
 
             <p class="userProfileSubHeaders" data-i18n="form.formerNameSubHeader">Former Names</p> 
-            <span data-i18n="form.formerNameIntrodution">Former names are other name(s) you have used in the past for paperwork and administrative purposes (for example, legal name changes, unmarried or “maiden name”, married name). We collect this information so that we can match information we collect from other sources, like state health registries, to you.</span>
+            <span data-i18n="form.formerNameIntroduction">Former names are other name(s) you have used in the past for paperwork and administrative purposes (for example, legal name changes, unmarried or “maiden name”, married name). We collect this information so that we can match information we collect from other sources, like state health registries, to you.</span>
             <div class="form-group row">
                 <div class="col-md-3">
                     <label class="col-form-label" data-i18n="form.formerNameCategoryTitle">Name Category</label>

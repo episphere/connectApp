@@ -263,13 +263,13 @@ export const addMoreFormerName = () => {
     const selectId = `former-name-category-${formerNameItems.length + 1}`;
 
     const div1 = document.createElement('div');	
-    div1.classList = ['form-group row former-name-item'];
+    div1.classList.add('form-group', 'row', 'former-name-item')
 
     const div1_1 = document.createElement('div');	
-    div1_1.classList = ['col-md-3'];
+    div1_1.classList.add('col-md-3');
 
     const select = document.createElement('select');	
-    select.classList = ['form-control'];
+    select.classList.add('form-control');
     select.setAttribute('data-i18n', "form.formerNameValue");
     select.setAttribute('data-error-required', "Please choose a name category. If you do not have a name to enter, please remove text from Former Name textbox");
     select.style = "margin-left:0px; max-width:188px"
@@ -277,7 +277,7 @@ export const addMoreFormerName = () => {
 
     formerNameOptions.forEach((option) => {
         const opt = document.createElement("option");
-        opt.classList = ["option-dark-mode"];
+        opt.classList.add("option-dark-mode");
         opt.value = option.value;
         opt.textContent = option.text;
         opt.setAttribute("data-i18n", option.i18n);
@@ -288,10 +288,10 @@ export const addMoreFormerName = () => {
     div1.appendChild(div1_1);
 
     const div1_2 = document.createElement('div');	
-    div1_2.classList = ['col-md-4'];
+    div1_2.classList.add('col-md-4');
 
     const input = document.createElement('input');	
-    input.classList = ['form-control'];
+    input.classList.add('form-control');
     input.setAttribute('data-i18n', "form.formerNameValue");
     input.placeholder = 'Enter former name';	
     input.style = "margin-left:0px; max-width:170px"
@@ -301,7 +301,7 @@ export const addMoreFormerName = () => {
     div1_2.appendChild(translateHTML(input));
     div1.appendChild(div1_2);
     div.appendChild(div1);
-    
+
     const inputElement = document.getElementById(inputId);
     inputElement.addEventListener("blur", () => {
         const selectElement = document.getElementById(selectId);

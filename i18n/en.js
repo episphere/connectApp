@@ -99,7 +99,7 @@ const en = {
             "placeholder": "Enter preferred name"
         },
         "formerNameSubHeader": "Former Names",
-        "formerNameIntrodution": "Former names are other name(s) you have used in the past for paperwork and administrative purposes (for example, legal name changes, unmarried or “maiden name”, married name). We collect this information so that we can match information we collect from other sources, like state health registries, to you.",
+        "formerNameIntroduction": "Former names are other name(s) you have used in the past for paperwork and administrative purposes (for example, legal name changes, unmarried or “maiden name”, married name). We collect this information so that we can match information we collect from other sources, like state health registries, to you.",
         "formerNameCategoryDefaultOption":"-- Select --",
         "formerNameCategoryOption":{
             "first" : "First",
