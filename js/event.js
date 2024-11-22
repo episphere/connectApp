@@ -385,66 +385,66 @@ export const addEventUPSubmit = () => {
         const radios = document.getElementsByName('UPRadio');
         let hasError = false;
         let focus = true;
-        Array.from(validations).forEach(element => {
-            if(element.value){
-                const validationPattern = element.dataset.validationPattern;
-                if(validationPattern && validationPattern === 'alphabets') {
-                    if(!/^[A-Za-z ]+$/.test(element.value)) {
-                        errorMessage(element.id, element.dataset.errorValidation, focus)
-                        focus = false;
-                        hasError = true;
-                    }
-                }
-                if(validationPattern && validationPattern === 'year') {
-                    if(!/^(19|20)[0-9]{2}$/.test(element.value)) {
-                        errorMessage(element.id, element.dataset.errorValidation, focus)
-                        focus = false;
-                        hasError = true;
-                    }
-                    else {
-                        if(element.value.length > 4) {
-                            errorMessage(element.id, element.dataset.errorValidation, focus)
-                            focus = false;
-                            hasError = true;
-                        }
-                        else if (parseInt(element.value) > new Date().getFullYear()) {
-                            errorMessage(element.id, element.dataset.errorValidation, focus)
-                            focus = false;
-                            hasError = true;
-                        }
-                    }
-                }
-                if(validationPattern && validationPattern === 'numbers') {
-                    if(!/^[0-9]*$/.test(element.value)) {
-                        errorMessage(element.id, element.dataset.errorValidation, focus)
-                        focus = false;
-                        hasError = true;
-                    }
-                }
-            }
-        });
-        Array.from(requiredFields).forEach(element => {
-            if(!element.value){
-                errorMessage(element.id, `${element.dataset.errorRequired}`, focus);
-                focus = false;
-                hasError = true;
-            }
-            if(element.type === 'checkbox' && element.checked === false && element.hidden === false){
-                errorMessage(element.id, `${element.dataset.errorRequired}`, focus);
-                focus = false;
-                hasError = true;
-            }    
-        });
-        Array.from(confirmationFields).forEach(element => {
-            const target = element.getAttribute('target')
-            const targetElement= document.getElementById(target)
+        // Array.from(validations).forEach(element => {
+        //     if(element.value){
+        //         const validationPattern = element.dataset.validationPattern;
+        //         if(validationPattern && validationPattern === 'alphabets') {
+        //             if(!/^[A-Za-z ]+$/.test(element.value)) {
+        //                 errorMessage(element.id, element.dataset.errorValidation, focus)
+        //                 focus = false;
+        //                 hasError = true;
+        //             }
+        //         }
+        //         if(validationPattern && validationPattern === 'year') {
+        //             if(!/^(19|20)[0-9]{2}$/.test(element.value)) {
+        //                 errorMessage(element.id, element.dataset.errorValidation, focus)
+        //                 focus = false;
+        //                 hasError = true;
+        //             }
+        //             else {
+        //                 if(element.value.length > 4) {
+        //                     errorMessage(element.id, element.dataset.errorValidation, focus)
+        //                     focus = false;
+        //                     hasError = true;
+        //                 }
+        //                 else if (parseInt(element.value) > new Date().getFullYear()) {
+        //                     errorMessage(element.id, element.dataset.errorValidation, focus)
+        //                     focus = false;
+        //                     hasError = true;
+        //                 }
+        //             }
+        //         }
+        //         if(validationPattern && validationPattern === 'numbers') {
+        //             if(!/^[0-9]*$/.test(element.value)) {
+        //                 errorMessage(element.id, element.dataset.errorValidation, focus)
+        //                 focus = false;
+        //                 hasError = true;
+        //             }
+        //         }
+        //     }
+        // });
+        // Array.from(requiredFields).forEach(element => {
+        //     if(!element.value){
+        //         errorMessage(element.id, `${element.dataset.errorRequired}`, focus);
+        //         focus = false;
+        //         hasError = true;
+        //     }
+        //     if(element.type === 'checkbox' && element.checked === false && element.hidden === false){
+        //         errorMessage(element.id, `${element.dataset.errorRequired}`, focus);
+        //         focus = false;
+        //         hasError = true;
+        //     }    
+        // });
+        // Array.from(confirmationFields).forEach(element => {
+        //     const target = element.getAttribute('target')
+        //     const targetElement= document.getElementById(target)
 
-            if(element.value !== targetElement.value){
-                errorMessage(element.id, `${element.dataset.errorConfirmation}`, focus);
-                focus = false;
-                hasError = true;
-            }
-        });
+        //     if(element.value !== targetElement.value){
+        //         errorMessage(element.id, `${element.dataset.errorConfirmation}`, focus);
+        //         focus = false;
+        //         hasError = true;
+        //     }
+        // });
         /*Array.from(numberValidations).forEach(element => {
             const pattern = element.dataset.valPattern
             if(element.value && !element.value.match(new RegExp(pattern))){
@@ -634,10 +634,7 @@ export const addEventUPSubmit = () => {
         }
 
         // User Profile Former Name
-        const upFormerName = getFormerNameData();
-        if (upFormerName) {
-            formData[fieldMapping.userProfileHistory] = [upFormerName];
-        }
+        formData[fieldMapping.userProfileHistory] = getFormerNameData();
 
         // User Profile Place of Birth
         formData['876546260'] = document.getElementById('cityOfBirth').value;
@@ -877,7 +874,7 @@ const verifyUserDetails = (formData) => {
     </button>
     `);
 
-    document.getElementById('connectModalBody').innerHTML = translateHTML(`
+    let bodyHtml = `
         <div class="row">
             <div class="col" data-i18n="event.firstName">First name</div>
             <div class="col">${formData['399159511']}</div>
@@ -906,33 +903,31 @@ const verifyUserDetails = (formData) => {
             <div class="col">${formData['153211406']}</div>
         </div>
         `: ``}
-        ${formData[fieldMapping.userProfileHistory] ? `
-        <div class="row">
-            <div class="col"><strong data-i18n="">Former Names</strong></div>
-        </div>
-            `: ``}
-        ${formData[fieldMapping.userProfileHistory]?.[0]?.[fieldMapping.fName] 
-             ? `
-        <div class="row">
-            <div class="col" data-i18n="">First Name</div>
-            <div class="col">${formData[fieldMapping.userProfileHistory]?.[0]?.[fieldMapping.fName].join(', ')}</div>
-        </div>
-        `: ``}
-        ${formData[fieldMapping.userProfileHistory]?.[0]?.[fieldMapping.mName] 
-             ? `
-        <div class="row">
-            <div class="col" data-i18n="">Middle Name</div>
-            <div class="col">${formData[fieldMapping.userProfileHistory]?.[0]?.[fieldMapping.mName].join(', ')}</div>
-        </div>
-        `: ``}
-        ${formData[fieldMapping.userProfileHistory]?.[0]?.[fieldMapping.lName] 
-             ? `
-        <div class="row">
-            <div class="col" data-i18n="">Middle Name</div>
-            <div class="col">${formData[fieldMapping.userProfileHistory]?.[0]?.[fieldMapping.lName].join(', ')}</div>
-        </div>
-        `: ``}
-        <div class="row">
+        ${formData[fieldMapping.userProfileHistory].length ? `
+            <div class="row">
+                <div class="col"><strong data-i18n="">Former Names</strong></div>
+            </div>
+                `: ``}`;
+    formData[fieldMapping.userProfileHistory].forEach((item) => {
+        bodyHtml += `<div class="row">
+                            <div class="col" data-i18n="">
+                                ${
+                                    item[fieldMapping.fName]
+                                        ? "First Name"
+                                        : item[fieldMapping.mName]
+                                        ? "Middle Name"
+                                        : "Last Name"
+                                }
+                            </div>
+                            <div class="col">${
+                                item[fieldMapping.fName] ||
+                                item[fieldMapping.mName] ||
+                                item[fieldMapping.lName || ""]
+                            }</div>
+                        </div>`;
+    });
+    bodyHtml += `
+        <div class="row">   
             <div class="col"><strong data-i18n="event.birthDate">Date of birth</strong></div>
         </div>
         <div class="row">
@@ -1108,7 +1103,8 @@ const verifyUserDetails = (formData) => {
             <div class="col">${formData['494982282']}</div>
         </div>
         `:``}
-    `);
+    `
+    document.getElementById('connectModalBody').innerHTML = translateHTML(bodyHtml);
 
     document.getElementById('connectModalFooter').innerHTML = translateHTML(`
         <button data-i18n="event.navButtonsClose" type="button" title="Close" class="btn btn-dark" data-dismiss="modal">Go Back</button>

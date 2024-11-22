@@ -973,37 +973,34 @@ export const formerNameOptions = [
 ];
 export const numberOfDefaultFormerNames = 2
 export const getFormerNameData = () => {
-    const formerNameItems = document.getElementsByClassName("former-name-item");
-    const fNameArray = [];
-    const mNameArray = [];
-    const lNameArray = [];
-    Array.from(formerNameItems).forEach((_, index) => {
-        const inputElement = document.getElementById(
-            `former-name-value-${index + 1}`
-        );
-        const selectElement = document.getElementById(
-            `former-name-category-${index + 1}`
-        );
-        if (inputElement.value) {
-            switch (selectElement.value) {
-                case "first":
-                    fNameArray.push(inputElement.value);
-                    break;
-                case "middle":
-                    mNameArray.push(inputElement.value);
-                    break;
-                case "last":
-                    lNameArray.push(inputElement.value);
-                    break;
-            }
-        }
-    });
-    return fNameArray.length || mNameArray.length || lNameArray.length
-        ? {
-              [cId.userProfileUpdateTimestamp]: new Date().toISOString(),
-              [cId.fName]: fNameArray.length ? fNameArray : undefined,
-              [cId.mName]: mNameArray.length ? mNameArray : undefined,
-              [cId.lName]: lNameArray.length ? lNameArray : undefined,
+  const result = []   
+  const upEmail = document.getElementById("UPEmail");
+  const formerNameItems = document.getElementsByClassName("former-name-item");
+  Array.from(formerNameItems).forEach((_, index) => {
+      const inputElement = document.getElementById(
+          `former-name-value-${index + 1}`
+      );
+      const selectElement = document.getElementById(
+          `former-name-category-${index + 1}`
+      );
+      if (inputElement.value) {
+          const object = {
+            [cId.profileChangeRequestedBy] : upEmail.value,
+            [cId.userProfileUpdateTimestamp]: new Date().toISOString(),
           }
-        : undefined;
+          switch (selectElement.value) {
+              case "first":
+                object[cId.fName] = inputElement.value
+                  break;
+              case "middle":
+                object[cId.mName] = inputElement.value
+                  break;
+              case "last":
+                object[cId.lName] = inputElement.value
+                  break;
+          }
+          result.push(object)
+      }
+  });
+  return result
 };
