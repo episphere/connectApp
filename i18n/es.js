@@ -113,7 +113,7 @@
             "placeholder": "Ingrese el nombre anterior"
         },
         "formerNameCategory": {
-            // "data-error-required": "***"
+            "data-error-required": "Por favor, elija una categoría de nombre. Si no tiene un nombre para ingresar, por favor, elimine el texto del cuadro de texto Nombre anterior"
         },
         "addMoreFormerName": {
             "title": "Agregar otra dirección de correo electrónico",
@@ -123,7 +123,7 @@
         "birthPlaceSubHeader": "Lugar de nacimiento",
         "monthListLabel": "Mes <span class=\"required\">*</span>",
         "monthListRequired": {
-            "data-error-required": "Seleccione su mes de nacimiento."
+            "data-error-required": "Por favor complete los campos requeridos de fecha de nacimiento"
         },
         "monthJanuary": "Enero",
         "monthFebruary": "Febrero",
@@ -139,24 +139,24 @@
         "monthDecember": "Diciembre",
         "dayListLabel": "Día <span class=\"required\">*</span>",
         "dayListRequired": {
-            "data-error-required": "Seleccione su día de nacimiento."
+            "data-error-required": "Por favor complete los campos requeridos de fecha de nacimiento"
         },
         "yearListLabel": " Año <span class=\"required\">*</span>",
         "yearListField": {
-            "data-error-required": "Seleccione su año de nacimiento.",
+            "data-error-required": "Por favor complete los campos requeridos de fecha de nacimiento",
             "data-error-validation": "El año que ha ingresado está fuera de los límites esperados. Por favor, revise sus datos.",
             "title": "Las dos primeras cifras del año de nacimiento deben ser 19",
             "placeholder": "Ingrese su año de nacimiento"
         },
         "yearListFieldConfirmation": {
             "placeholder": "Vuelva a ingresar el año",
-            // "data-error-confirmation":"Spanish Text"
+            "data-error-confirmation":"Los valores de la fecha del año no coinciden"
         },
         "monthFieldConfirmation": {
-            // "data-error-confirmation":"Spanish Text"
+            "data-error-confirmation":"Los valores de los dos meses no coinciden"
         },
         "dayFieldConfirmation": {
-            // "data-error-confirmation":"Spanish Text"
+            "data-error-confirmation":"Los valores de los dos días no coinciden "
         },
         "birthPlaceIntroduction": "Recopilamos esta información para poder vincular la información que recopilamos de otras fuentes, como los registros de salud estatales, con la suya. ",
         "cityOfBirth":{
