@@ -7,9 +7,6 @@ import { heardAboutStudy, requestPINTemplate, healthCareProvider } from "./healt
 import fieldMapping from '../fieldToConceptIdMapping.js';
 
 export const myToDoList = async (data, fromUserProfile, collections) => {
-    renderUserProfile();
-            hideAnimation();
-            return
     const mainContent = document.getElementById('root');
     if(!data['507120821']){
         let formData = {
