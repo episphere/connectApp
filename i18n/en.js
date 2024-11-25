@@ -176,11 +176,6 @@ const en = {
             "title": "Please enter an email address in this format: name@example.com.",
             "placeholder": "abc@mail.com"
         },
-        "confirmPreferredEmail": "Confirm Preferred Email <span class=\"required\">*</span>",
-        "confirmPreferredEmailField": {
-            "title": "Please enter an email address in this format: name@example.com.",
-            "placeholder": "Retype preferred email"
-        },
         "additionalEmail": "Additional Email",
         "additionalEmailField": {
             "title": "Please enter an email address in this format: name@example.com.",
@@ -222,6 +217,7 @@ const en = {
         "alternateContactPhoneNumberField": {
             "placeholder": "Enter phone number"
         },
+        "addresses": "Addresses",
         "mailAddress": "Mailing Address",
         "mailAddressLine1Label": "Line 1 (street, PO box, rural route)",
         "mailAddressLine1LabelRequired": "Line 1 (street, PO box, rural route) <span class=\"required\">*</span>",
@@ -251,8 +247,12 @@ const en = {
             "title": "5 characters long, numeric-only value.",
             "data-error-required": "Please enter the zip field of your mailing address."
         },
+        "isPOBoxChecked": "Please check if mailing address is a P.O. Box",
         "mailAddressCountry": "Country ",
-        "mailAddressCountryRequired": "Country <span class=\"required\">*</span>"
+        "mailAddressCountryRequired": "Country <span class=\"required\">*</span>",
+        "physicalAddress": "Physical Address (if different from Mailing Address)",
+        "physicalAddress":"Physical address is needed so Connect can mail you packages via FedEx for some study activities. FedEx does not deliver to P.O. Boxes.",
+
     },
     "navbar": {
         "dashboardLink": " Dashboard",
