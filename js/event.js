@@ -3,7 +3,7 @@ import { allCountries, dataSavingBtn, storeResponse, validatePin, generateNewTok
 import { consentTemplate } from "./pages/consent.js";
 import { heardAboutStudy, healthCareProvider, duplicateAccountReminderRender } from "./pages/healthCareProvider.js";
 import { myToDoList } from "./pages/myToDoList.js";
-import { suffixToTextMap } from "./settingsHelpers.js";
+import { suffixToTextMap, getFormerNameData, formerNameOptions } from "./settingsHelpers.js";
 import fieldMapping from "./fieldToConceptIdMapping.js";
 import {signUpRender} from "./pages/homePage.js";
 
@@ -83,7 +83,7 @@ const getDaysTemplate = (month) => {
     const monthLengths = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
     const daysInMonth = monthLengths[parseInt(month, 10) - 1];
 
-    const options = [`<option class="option-dark-mode" value="">-- Select --</option>`];
+    const options = [];
 
     for (let i = 1; i <= daysInMonth; i++) {
         options.push(
@@ -251,6 +251,67 @@ export const addEventSaveConsentBtn = () => {
     })
 }
 
+export const addEventFormerName = () => {
+    const addMoreFormerNameDiv = document.getElementById("addMoreFormerName");
+    addMoreFormerNameDiv.addEventListener("click", addMoreFormerName);
+};
+
+export const addMoreFormerName = () => {
+    const div = document.getElementById("former-name-group");
+    const formerNameItems = document.getElementsByClassName("former-name-item");
+    const inputId = `former-name-value-${formerNameItems.length + 1}`;
+    const selectId = `former-name-category-${formerNameItems.length + 1}`;
+
+    const div1 = document.createElement('div');	
+    div1.classList.add('form-group', 'row', 'former-name-item')
+
+    const div1_1 = document.createElement('div');	
+    div1_1.classList.add('col-md-3');
+
+    const select = document.createElement('select');	
+    select.classList.add('form-control');
+    select.setAttribute('data-i18n', "form.formerNameValue");
+    select.setAttribute('data-error-required', "Please choose a name category. If you do not have a name to enter, please remove text from Former Name textbox");
+    select.style = "margin-left:0px; max-width:188px"
+    select.id = selectId;	
+
+    formerNameOptions.forEach((option) => {
+        const opt = document.createElement("option");
+        opt.classList.add("option-dark-mode");
+        opt.value = option.value;
+        opt.textContent = option.text;
+        opt.setAttribute("data-i18n", option.i18n);
+        select.appendChild(translateHTML(opt));
+    });
+
+    div1_1.appendChild(translateHTML(select));
+    div1.appendChild(div1_1);
+
+    const div1_2 = document.createElement('div');	
+    div1_2.classList.add('col-md-4');
+
+    const input = document.createElement('input');	
+    input.classList.add('form-control');
+    input.setAttribute('data-i18n', "form.formerNameValue");
+    input.placeholder = 'Enter former name';	
+    input.style = "margin-left:0px; max-width:170px"
+    input.type = 'text';	
+    input.id = inputId;	
+
+    div1_2.appendChild(translateHTML(input));
+    div1.appendChild(div1_2);
+    div.appendChild(div1);
+
+    const inputElement = document.getElementById(inputId);
+    inputElement.addEventListener("blur", () => {
+        const selectElement = document.getElementById(selectId);
+        selectElement.classList.remove("required-field");
+        if (inputElement.value) {
+            selectElement.classList.add("required-field");
+        }
+    });
+};
+
 export const addEventAdditionalEmail = () => {	
     const addMoreEmail = document.getElementById('addMoreEmail');	
     addMoreEmail.addEventListener('click', addEmailFields);	
@@ -324,66 +385,66 @@ export const addEventUPSubmit = () => {
         const radios = document.getElementsByName('UPRadio');
         let hasError = false;
         let focus = true;
-        Array.from(validations).forEach(element => {
-            if(element.value){
-                const validationPattern = element.dataset.validationPattern;
-                if(validationPattern && validationPattern === 'alphabets') {
-                    if(!/^[A-Za-z ]+$/.test(element.value)) {
-                        errorMessage(element.id, element.dataset.errorValidation, focus)
-                        focus = false;
-                        hasError = true;
-                    }
-                }
-                if(validationPattern && validationPattern === 'year') {
-                    if(!/^(19|20)[0-9]{2}$/.test(element.value)) {
-                        errorMessage(element.id, element.dataset.errorValidation, focus)
-                        focus = false;
-                        hasError = true;
-                    }
-                    else {
-                        if(element.value.length > 4) {
-                            errorMessage(element.id, element.dataset.errorValidation, focus)
-                            focus = false;
-                            hasError = true;
-                        }
-                        else if (parseInt(element.value) > new Date().getFullYear()) {
-                            errorMessage(element.id, element.dataset.errorValidation, focus)
-                            focus = false;
-                            hasError = true;
-                        }
-                    }
-                }
-                if(validationPattern && validationPattern === 'numbers') {
-                    if(!/^[0-9]*$/.test(element.value)) {
-                        errorMessage(element.id, element.dataset.errorValidation, focus)
-                        focus = false;
-                        hasError = true;
-                    }
-                }
-            }
-        });
-        Array.from(requiredFields).forEach(element => {
-            if(!element.value){
-                errorMessage(element.id, `${element.dataset.errorRequired}`, focus);
-                focus = false;
-                hasError = true;
-            }
-            if(element.type === 'checkbox' && element.checked === false && element.hidden === false){
-                errorMessage(element.id, `${element.dataset.errorRequired}`, focus);
-                focus = false;
-                hasError = true;
-            }    
-        });
-        Array.from(confirmationFields).forEach(element => {
-            const target = element.getAttribute('target')
-            const targetElement= document.getElementById(target)
+        // Array.from(validations).forEach(element => {
+        //     if(element.value){
+        //         const validationPattern = element.dataset.validationPattern;
+        //         if(validationPattern && validationPattern === 'alphabets') {
+        //             if(!/^[A-Za-z ]+$/.test(element.value)) {
+        //                 errorMessage(element.id, element.dataset.errorValidation, focus)
+        //                 focus = false;
+        //                 hasError = true;
+        //             }
+        //         }
+        //         if(validationPattern && validationPattern === 'year') {
+        //             if(!/^(19|20)[0-9]{2}$/.test(element.value)) {
+        //                 errorMessage(element.id, element.dataset.errorValidation, focus)
+        //                 focus = false;
+        //                 hasError = true;
+        //             }
+        //             else {
+        //                 if(element.value.length > 4) {
+        //                     errorMessage(element.id, element.dataset.errorValidation, focus)
+        //                     focus = false;
+        //                     hasError = true;
+        //                 }
+        //                 else if (parseInt(element.value) > new Date().getFullYear()) {
+        //                     errorMessage(element.id, element.dataset.errorValidation, focus)
+        //                     focus = false;
+        //                     hasError = true;
+        //                 }
+        //             }
+        //         }
+        //         if(validationPattern && validationPattern === 'numbers') {
+        //             if(!/^[0-9]*$/.test(element.value)) {
+        //                 errorMessage(element.id, element.dataset.errorValidation, focus)
+        //                 focus = false;
+        //                 hasError = true;
+        //             }
+        //         }
+        //     }
+        // });
+        // Array.from(requiredFields).forEach(element => {
+        //     if(!element.value){
+        //         errorMessage(element.id, `${element.dataset.errorRequired}`, focus);
+        //         focus = false;
+        //         hasError = true;
+        //     }
+        //     if(element.type === 'checkbox' && element.checked === false && element.hidden === false){
+        //         errorMessage(element.id, `${element.dataset.errorRequired}`, focus);
+        //         focus = false;
+        //         hasError = true;
+        //     }    
+        // });
+        // Array.from(confirmationFields).forEach(element => {
+        //     const target = element.getAttribute('target')
+        //     const targetElement= document.getElementById(target)
 
-            if(element.value !== targetElement.value){
-                errorMessage(element.id, `${element.dataset.errorConfirmation}`, focus);
-                focus = false;
-                hasError = true;
-            }
-        });
+        //     if(element.value !== targetElement.value){
+        //         errorMessage(element.id, `${element.dataset.errorConfirmation}`, focus);
+        //         focus = false;
+        //         hasError = true;
+        //     }
+        // });
         /*Array.from(numberValidations).forEach(element => {
             const pattern = element.dataset.valPattern
             if(element.value && !element.value.match(new RegExp(pattern))){
@@ -571,6 +632,11 @@ export const addEventUPSubmit = () => {
                 return false;
             }
         }
+
+        // User Profile Former Name
+        formData[fieldMapping.userProfileHistory] = getFormerNameData();
+
+        // User Profile Place of Birth
         formData['876546260'] = document.getElementById('cityOfBirth').value;
         formData['337485417'] = document.getElementById('stateOfBirth').value;
         formData['384576626'] = document.getElementById('countryOfBirth').value;
@@ -808,7 +874,7 @@ const verifyUserDetails = (formData) => {
     </button>
     `);
 
-    document.getElementById('connectModalBody').innerHTML = translateHTML(`
+    let bodyHtml = `
         <div class="row">
             <div class="col" data-i18n="event.firstName">First name</div>
             <div class="col">${formData['399159511']}</div>
@@ -837,7 +903,31 @@ const verifyUserDetails = (formData) => {
             <div class="col">${formData['153211406']}</div>
         </div>
         `: ``}
-        <div class="row">
+        ${formData[fieldMapping.userProfileHistory].length ? `
+            <div class="row">
+                <div class="col"><strong data-i18n="">Former Names</strong></div>
+            </div>
+                `: ``}`;
+    formData[fieldMapping.userProfileHistory].forEach((item) => {
+        bodyHtml += `<div class="row">
+                            <div class="col" data-i18n="">
+                                ${
+                                    item[fieldMapping.fName]
+                                        ? "First Name"
+                                        : item[fieldMapping.mName]
+                                        ? "Middle Name"
+                                        : "Last Name"
+                                }
+                            </div>
+                            <div class="col">${
+                                item[fieldMapping.fName] ||
+                                item[fieldMapping.mName] ||
+                                item[fieldMapping.lName || ""]
+                            }</div>
+                        </div>`;
+    });
+    bodyHtml += `
+        <div class="row">   
             <div class="col"><strong data-i18n="event.birthDate">Date of birth</strong></div>
         </div>
         <div class="row">
@@ -1013,7 +1103,8 @@ const verifyUserDetails = (formData) => {
             <div class="col">${formData['494982282']}</div>
         </div>
         `:``}
-    `);
+    `
+    document.getElementById('connectModalBody').innerHTML = translateHTML(bodyHtml);
 
     document.getElementById('connectModalFooter').innerHTML = translateHTML(`
         <button data-i18n="event.navButtonsClose" type="button" title="Close" class="btn btn-dark" data-dismiss="modal">Go Back</button>

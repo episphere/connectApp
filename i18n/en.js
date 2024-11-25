@@ -98,11 +98,31 @@ const en = {
         "preferredNameField": {
             "placeholder": "Enter preferred name"
         },
+        "formerNameSubHeader": "Former Names",
+        "formerNameIntroduction": "Former names are other name(s) you have used in the past for paperwork and administrative purposes (for example, legal name changes, unmarried or “maiden name”, married name). We collect this information so that we can match information we collect from other sources, like state health registries, to you.",
+        "formerNameCategoryDefaultOption":"-- Select --",
+        "formerNameCategoryOption":{
+            "first" : "First",
+            "middle" : "Middle",
+            "last" : "Last",
+        },
+        "formerNameCategoryTitle": "Name Category",
+        "formerNameValueTitle": "Former Name",
+        "formerNameValue": {
+            "placeholder": "Enter former name"
+        },
+        "formerNameCategory": {
+            "data-error-required": "Please choose a name category. If you do not have a name to enter, please remove text from Former Name textbox"
+        },
+        "addMoreFormerName": {
+            "title": "Add more email",
+            "innerHTML": "Add more <i class=\"fas fa-plus\"></i>"
+        },
         "birthDateSubHeader": "Date of Birth",
         "birthPlaceSubHeader": "Place of Birth",
         "monthListLabel": "Month <span class=\"required\">*</span>",
         "monthListRequired": {
-            "data-error-required": "Please select your birth month."
+            "data-error-required": "Please complete required Date of Birth fields"
         },
         "monthJanuary": "January",
         "monthFebruary": "February",
@@ -118,24 +138,24 @@ const en = {
         "monthDecember": "December",
         "dayListLabel": "Day <span class=\"required\">*</span>",
         "dayListRequired": {
-            "data-error-required": "Please select your birth day."
+            "data-error-required": "Please complete required Date of Birth fields"
         },
         "yearListLabel": "Year <span class=\"required\">*</span>",
         "yearListField": {
-            "data-error-required": "Please select your birth year.",
+            "data-error-required": "Please complete required Date of Birth fields",
             "data-error-validation": "The year you entered is outside of our expected range. Please check your entry.",
             "title": "Birth year, must be in 1900s",
             "placeholder": "Enter birth year"
         },
         "yearListFieldConfirmation": {
             "placeholder": "Re-enter birth year",
-            "data-error-confirmation":"Both the Year of Birth's do not match"
+            "data-error-confirmation":"Both the Year values do not match "
         },
         "monthFieldConfirmation": {
-            "data-error-confirmation":"Both the Month of Birth's do not match"
+            "data-error-confirmation":"Both the Month values do not match"
         },
         "dayFieldConfirmation": {
-            "data-error-confirmation":"Both the Day of Birth's do not match"
+            "data-error-confirmation":"Both the Day values do not match "
         },
         "birthPlaceIntroduction": "We collect this information so that we can match information we collect from other sources, like state health registries, to you.",
         "cityOfBirth":{

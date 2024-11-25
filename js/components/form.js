@@ -1,7 +1,7 @@
 import { allStates, allCountries, getMyData, hasUserData, translateHTML, translateText } from "../shared.js";
-import { addEventMonthSelection, addEventMonthConfirmationSelection, addEventUPSubmit, addEventCancerFollowUp, addEventChangeFocus, addEventAddressAutoComplete, addEventAdditionalEmail, addEventCheckCanText, addEventDisableCopyPaste } from "../event.js";
+import { addEventMonthSelection, addEventMonthConfirmationSelection, addEventUPSubmit, addEventCancerFollowUp, addEventChangeFocus, addEventAddressAutoComplete, addEventAdditionalEmail, addEventCheckCanText, addEventDisableCopyPaste, addEventFormerName, addMoreFormerName } from "../event.js";
 import cId from '../fieldToConceptIdMapping.js';
-import { suffixList, suffixToTextMapDropdown, suffixToTextMap } from "../settingsHelpers.js";
+import { suffixList, suffixToTextMapDropdown, suffixToTextMap, numberOfDefaultFormerNames } from "../settingsHelpers.js";
 
 export const renderUserProfile = async () => {
     const myData = await getMyData();
@@ -63,6 +63,26 @@ export const renderUserProfile = async () => {
                 </div>
             </div>
             <br>
+            <hr style="color:#A9AEB1;">
+
+            <p class="userProfileSubHeaders" data-i18n="form.formerNameSubHeader">Former Names</p> 
+            <span data-i18n="form.formerNameIntroduction">Former names are other name(s) you have used in the past for paperwork and administrative purposes (for example, legal name changes, unmarried or “maiden name”, married name). We collect this information so that we can match information we collect from other sources, like state health registries, to you.</span>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <label class="col-form-label" data-i18n="form.formerNameCategoryTitle">Name Category</label>
+                </div>
+                <div class="col-md-4">
+                    <label class="col-form-label" data-i18n="form.formerNameValueTitle">Former Name</label>
+                </div>
+            </div>
+            <div id="former-name-group">
+               <!-- Use function addMoreFormerName to generate default content -->
+            </div>
+            <div class="form-group row" style="margin-bottom:20px !important;">
+                <div class="col">
+                    <button data-i18n="form.addMoreFormerName" type="button" class="btn btn-light" id="addMoreFormerName">Add more <i class="fas fa-plus"></i></button>
+                </div>
+            </div>
             <hr style="color:#A9AEB1;">
             
             <p class="userProfileSubHeaders" data-i18n="form.birthDateSubHeader">Date of Birth</p> 
@@ -341,11 +361,16 @@ export const renderUserProfile = async () => {
     addEventCancerFollowUp();
     addEventMonthSelection();
     addEventMonthConfirmationSelection();
+    addEventFormerName();
     addEventAdditionalEmail();
     addEventAddressAutoComplete(1);
     addEventCheckCanText();
     addEventDisableCopyPaste();
     addEventUPSubmit();
+
+    for (let i = 0; i < numberOfDefaultFormerNames; i++) {
+        addMoreFormerName();
+    }
 };
 
 const addEventNameConsistency = (cfn, cln) => {
