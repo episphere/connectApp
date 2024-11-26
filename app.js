@@ -18,7 +18,7 @@ import { firebaseConfig as prodFirebaseConfig } from "./prod/config.js";
 // When doing local development, uncomment this.
 // Get the API key file from Box or the DevOps team
 // Do not accept PRs with the localDevFirebaseConfig import uncommented
-import { firebaseConfig as  localDevFirebaseConfig} from "./local-dev/config.js";
+// import { firebaseConfig as  localDevFirebaseConfig} from "./local-dev/config.js";
 
 import conceptIdMap from "./js/fieldToConceptIdMapping.js";
 
@@ -98,9 +98,6 @@ window.onload = async () => {
             return;
         }
         !firebase.apps.length ? firebase.initializeApp(localDevFirebaseConfig) : firebase.app();
-
-        // TODO: Remove this
-        if (location.host.startsWith('localhost')) firebase.functions().useFunctionsEmulator('http://localhost:5001');
         window.DD_RUM && window.DD_RUM.init({ ...datadogConfig, env: 'dev' });
     } else {
         script.src = `https://maps.googleapis.com/maps/api/js?key=${devFirebaseConfig.apiKey}&libraries=places&callback=Function.prototype`

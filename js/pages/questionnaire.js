@@ -10,7 +10,7 @@ let appSettingsData;                                    // The app settings data
 let modules;                                            // The survey modules data.
 let isQuest2 = false;                                   // To identify the Quest versions < 2 and >= 2. Retain for gradual migration to Quest v2.0+.
 const questDivID = "questionnaireRoot";                 // The div ID for loading surveys.
-const appSettingsParamsToFetchArray = [                 // The app settings parameters to fetch (Quest-related settings) from Firestore.
+const appSettingsArray = [                              // The app settings parameters to fetch (Quest-related settings) from Firestore.
     'currentQuestVersion',
     'currentQuest2Version',
     'quest2ModuleActivatedTimestamp'
@@ -22,6 +22,7 @@ const appSettingsParamsToFetchArray = [                 // The app settings para
  * If: Quest 2.0+ survey is active AND
  *     Either the participant is starting a new survey OR the participant's survey start timestamp is greater than the module's activation timestamp,
  *     Then: load Quest 2.0+.
+ * Else: load Quest 1.
  * @param {string} moduleId - The ID of the survey module the participant clicked to start.
  * @returns {void} - Sets the global questVersion and questConfig variables for loading.
  * Fetch currentQuestVersion from Firestore: collection: appSettings, document:
@@ -39,18 +40,14 @@ async function loadQuestConfig(moduleId) {
         }
     }
 
-    // TODO: remove
-    isQuest2 = true;
-    console.log('IS QUEST 2:', isQuest2);
-
-    // TODO: Update the CDN location for Quest 2.0+ when available.
+    // TODO: Verify and update the CDN location for Quest 2.0+ when available.
     if (isQuest2) {
         questVersion = appSettingsData.currentQuest2Version;
         questConfig = {
-            "myconnect.cancer.gov": "https://raw.githubusercontent.com/episphere/quest-dev/quest2/main.js",
-            "myconnect-stage.cancer.gov": "https://raw.githubusercontent.com/episphere/quest-dev/quest2/main.js",
-            "episphere.github.io": "https://raw.githubusercontent.com/episphere/quest-dev/quest2/main.js",
-            "localhost:5000": '../quest-dev/main.js' //"https://raw.githubusercontent.com/episphere/quest-dev/quest2/replace2.js" //"https://episphere.github.io/quest-dev/replace2.js",
+            "myconnect.cancer.gov": `https://cdn.jsdelivr.net/gh/episphere/quest-dev@v${questVersion}/main.js`, // TODO: implement
+            "myconnect-stage.cancer.gov": `https://cdn.jsdelivr.net/gh/episphere/quest-dev@v${questVersion}/main.js`, // TODO: implement
+            "episphere.github.io": "https://episphere.github.io/quest-dev/replace2.js", // TODO: Update path (it will be main.js).
+            "localhost:5000": `https://cdn.jsdelivr.net/gh/episphere/quest-dev@v${questVersion}/main.js`, // TODO: implement
         }
     } else {
         questVersion = appSettingsData.currentQuestVersion;
@@ -99,7 +96,7 @@ export const questionnaire = async (moduleId) => {
 
         const [participantResponse, appSettingsResponse] = await Promise.all([
             fetchDataWithRetry(() => getMyData()),
-            fetchDataWithRetry(() => getAppSettings(appSettingsParamsToFetchArray)),
+            fetchDataWithRetry(() => getAppSettings(appSettingsArray)),
         ]);
 
         if(!hasUserData(participantResponse)) {

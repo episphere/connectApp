@@ -254,7 +254,7 @@ export default
         "D_279637054",
     ],
 
-    // External question IDs (Quest) mapped to their function names. // TODO: make this module-specific
+    // External question IDs (Quest) mapped to their function names.
     questAsyncQuestionsMap: {
         "Module1": {
             asyncQuestions: {
