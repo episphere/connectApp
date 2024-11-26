@@ -5,17 +5,17 @@ export const footerTemplate = () => {
         <div class="row footer-content" style="margin:0">
             <div class="row w-100" style="margin:0">
                 <div class="col content-wrapper" data-i18n="footer.nci-dceg">
-                    <div class="dceg-footer align-left text-center text-sm-left">Division of Cancer Epidemiology and Genetics</div>
-                    <div class="nci-dceg-footer align-left text-center text-sm-left">at the National Cancer Institute</div>
+                    <div class="dceg-footer align-left text-center text-sm-center">Division of Cancer Epidemiology and Genetics</div>
+                    <div class="nci-dceg-footer align-left text-center text-sm-center">at the National Cancer Institute</div>
                 </div>
             </div>
             <div class="row w-100 pt-0 align-left" style="margin:0">
-                <div class="col-lg-4 pt-3 content-wrapper text-center text-sm-left">
+                <div class="col-lg-4 pt-3 content-wrapper text-center text-sm-center">
                     <div class="footer-heading" data-i18n="footer.Questions">HAVE QUESTIONS?</div>
                     <div class="footer-sub-heading pt-3" data-i18n="footer.contactLink"><a class="footer-links" target="__blank" href="https://norcfedramp.servicenowservices.com/recruit">Contact the Connect Support Center</a></div>
                     <div class="footer-sub-heading pt-3" data-i18n="footer.emailUs"><a class="footer-links" href="mailto:ConnectStudy@norc.org">Email Us</a></div>
                 </div>
-                <div class="col-lg-4 pt-3 content-wrapper text-center text-sm-left">
+                <div class="col-lg-4 pt-3 content-wrapper text-center text-sm-center">
                     <div class="footer-heading" data-i18n="footer.policies">POLICIES</div>
                     <div class="footer-sub-heading pt-3" data-i18n="footer.accessibility"><a class="footer-links" target="__blank" href="https://www.cancer.gov/global/web/policies/accessibility">Accessibility</a></div>
                     <div class="footer-sub-heading pt-3" data-i18n="footer.disclaimer"><a class="footer-links" target="__blank" href="https://www.cancer.gov/policies/disclaimer">Disclaimer</a></div>
@@ -25,7 +25,7 @@ export const footerTemplate = () => {
                     <div class="footer-sub-heading pt-3" data-i18n="footer.siteMap"><a class="footer-links" target="__blank" href="https://dceg.cancer.gov/about/sitemap">Site Map</a></div>
                 </div>
                 ${location.host !== urls.stage && location.host !== urls.prod ? `
-                    <!--div class="col-lg-4 pt-3 content-wrapper text-center text-sm-left">
+                    <!--div class="col-lg-4 pt-3 content-wrapper text-center text-sm-center">
                         <div class="footer-heading" data-i18n="footer.translate">TRANSLATE</div>
                         <div class="footer-sub-heading pt-3" id="google_translate_element"></div>
                     </div-->

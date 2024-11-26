@@ -1,11 +1,9 @@
-import { getMyData, hasUserData, translateHTML, translateText, appState } from "../shared.js";
-import fieldToConceptIdMapping from "../fieldToConceptIdMapping.js";
+import { getMyData, hasUserData, translateHTML, translateText } from "../shared.js";
 
 export const renderSupportPage = async () => {
     document.title = translateText('support.title');
     const myData = await getMyData();
     let site = 0;
-    let selectedLanguage = appState.getState().language || fieldToConceptIdMapping.language.en;
     let link = "https://norcfedramp.servicenowservices.com/recruit";
     let phone = 'defaultPhone';
     let email = 'defaultEmail';
@@ -19,8 +17,9 @@ export const renderSupportPage = async () => {
             phone = 'signedInPhone';
         }
     }
-    
-    let paymentInfo = translateHTML(`
+
+    // NOTE: This is not part of 'template'. It is never returned/displayed. Consider removal.
+    translateHTML(`
         <p data-i18n="support.infoBody1">
             After you complete some initial study activities, we will send you a $25 gift card as a thank you.You become eligible for the $25 gift card after you:
         </p>
@@ -57,10 +56,11 @@ export const renderSupportPage = async () => {
         <p data-i18n="support.infoBody3">
             Questions? Please contact the Connect Support Center.
         </p>
-
     `)
+
+    // NOTE: This is not part of 'template'. It is never returned/displayed. Consider removal.
     if(site == 809703864){
-        paymentInfo = translateHTML(`
+        translateHTML(`
             <p data-i18n="support.infoBody4">
                 After you complete some initial study activities, you will receive $25 as a thank you.You become eligible for the $25 after you:
             </p>
@@ -96,140 +96,35 @@ export const renderSupportPage = async () => {
             </p>
         `)
     }
-    let template =  translateHTML(`
-    <div class="row">
-        <div class="col-lg-2">
-        </div>
-        <div class="col-lg-8">
-        <div class="row">
-            
-            <h3 data-i18n="support.infoTitle">Connect Support Center</h3>
-        </div>
-        <!--
-        <div class="row">
-            <div class="col-md-12">
-                <button class="btn faq-btn" type="button" data-toggle="collapse" data-target="#faq1" aria-expanded="false" aria-controls="faq1">
-                    <span class="faq-text" data-i18n="support.supportText">MyConnect Support</span> <span class="faq-icon"><i class="fas fa-plus"></i></span>
-                </button>
-            </div>
-        </div>
-        -->
-        <div class="row">
-            <div>
-                <p data-i18n="support.question">
-                    Have a question or problem?
-                </p>
-                <p data-i18n="support.visitPortal">
-                    Visit the Connect Support Center portal to search frequently asked questions or to submit a question.
-                </p>
-                    <a href="${link}" target="_blank">MyConnect.cancer.gov/support</a>
-                <br>
-                <br>
-                <p>
-                    <span data-i18n="support.alsoCall">You can also call </span><span data-i18n="support.${phone}"></span><span data-i18n="support.alsoEmail"> or email </span><span data-i18n="support.${email}"></span>
-                </p>
 
+    let template =  translateHTML(`
+        <div class="row">
+            <div class="col-lg-2">
             </div>
-            <!--
-            <div class="col-md-12">
-                <div class="collapse show" id="faq1">
-                    <div class="card card-body">
+            <div class="col-lg-8">
+                <div class="row">
+                    <h3 data-i18n="support.infoTitle">Connect Support Center</h3>
+                </div>
+                <div class="row">
+                    <div>
                         <p data-i18n="support.question">
-                        Have a question or problem?
+                            Have a question or problem?
                         </p>
                         <p data-i18n="support.visitPortal">
-                        Visit the Connect Support Center portal to search frequently asked questions or to submit a question.
+                            Visit the Connect Support Center portal to search frequently asked questions or to submit a question.
                         </p>
-                        <a href="${link}" target="_blank">MyConnect.cancer.gov/support</a>
+                            <a href="${link}" target="_blank">MyConnect.cancer.gov/support</a>
                         <br>
                         <br>
                         <p>
-                        <span data-i18n="support.alsoCall">You can also call </span>$<span data-i18n="support.${phone}"></span><span data-i18n="support.alsoEmail"> or email </span><span data-i18n="support.${email}"></span>
+                            <span data-i18n="support.alsoCall">You can also call </span><span data-i18n="support.${phone}"></span><span data-i18n="support.alsoEmail"> or email </span><span data-i18n="support.${email}"></span>
                         </p>
                     </div>
                 </div>
             </div>
-            -->
-        </div>
-        </div>
-        <div class="col-lg-2">
-        </div>
-        </div>
-        <!--
-        <div class="row">
-            <div class="col-md-12">
-                <button class="btn faq-btn" type="button" data-toggle="collapse" data-target="#faq2" aria-expanded="false" aria-controls="faq2">
-                    <span class="faq-text" data-i18n="support.payments">Payments</span> <span class="faq-icon"><i class="fas fa-plus"></i></span>
-                </button>
+            <div class="col-lg-2">
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="collapse show" id="faq2">
-                    <div class="card card-body">
-                        ${paymentInfo}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--
-        <div class="row">
-            <div class="col-md-12">
-                <button class="btn faq-btn" type="button" data-toggle="collapse" data-target="#faq3" aria-expanded="false" aria-controls="faq3">
-                    <span class="faq-text" data-i18n="support.bioSamples">Biological Samples</span> <span class="faq-icon"><i class="fas fa-plus"></i></span>
-                </button>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="collapse" id="faq3">
-                    <div class="card card-body">
-                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <button class="btn faq-btn" type="button" data-toggle="collapse" data-target="#faq4" aria-expanded="false" aria-controls="faq4">
-                    <span class="faq-text" data-i18n="support.policyConfidential">Policy and Confidentiality</span> <span class="faq-icon"><i class="fas fa-plus"></i></span>
-                </button>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="collapse" id="faq4">
-                    <div class="card card-body">
-                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                    </div>
-                </div>
-            </div>
-        </div>
-        -->
-        <!--
-        <div class="row align-center">
-            <div class="col-md-12">
-                <strong data-i18n="support.noAnswer">Can't find the answer?</strong>
-            </div>
-        </div>
-        <div class="row align-center">
-            <div class="col-md-12">
-                <button class="btn btn-primary btn-disbaled" data-i18n="support.helpForm">Help Form</button>
-            </div>
-        </div>
-        <div class="row align-center">
-            <div class="col-md-12">
-                <strong data-i18n="support.contactSupportLine">You can also contact our support line at</strong>
-            </div>
-        </div>
-        <div class="row align-center">
-            <div class="col-md-12">
-                1-800-CONNECT</br>
-                helpdesk@connect.gov
-            </div>
-        </div>
-        -->
     `);
     
     document.getElementById('root').innerHTML = template;

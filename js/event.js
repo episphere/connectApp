@@ -1,5 +1,5 @@
 import { allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, BirthMonths, getAge, getMyData, 
-    hasUserData, retrieveNotifications, removeActiveClass, toggleNavbarMobileView, appState, logDDRumError, translateHTML, translateText, firebaseSignInRender } from "./shared.js";
+    hasUserData, retrieveNotifications, toggleNavbarMobileView, appState, logDDRumError, translateHTML, translateText, firebaseSignInRender } from "./shared.js";
 import { consentTemplate } from "./pages/consent.js";
 import { heardAboutStudy, healthCareProvider, duplicateAccountReminderRender } from "./pages/healthCareProvider.js";
 import { myToDoList } from "./pages/myToDoList.js";
@@ -385,74 +385,56 @@ export const addEventUPSubmit = () => {
         const radios = document.getElementsByName('UPRadio');
         let hasError = false;
         let focus = true;
-        // Array.from(validations).forEach(element => {
-        //     if(element.value){
-        //         const validationPattern = element.dataset.validationPattern;
-        //         if(validationPattern && validationPattern === 'alphabets') {
-        //             if(!/^[A-Za-z ]+$/.test(element.value)) {
-        //                 errorMessage(element.id, element.dataset.errorValidation, focus)
-        //                 focus = false;
-        //                 hasError = true;
-        //             }
-        //         }
-        //         if(validationPattern && validationPattern === 'year') {
-        //             if(!/^(19|20)[0-9]{2}$/.test(element.value)) {
-        //                 errorMessage(element.id, element.dataset.errorValidation, focus)
-        //                 focus = false;
-        //                 hasError = true;
-        //             }
-        //             else {
-        //                 if(element.value.length > 4) {
-        //                     errorMessage(element.id, element.dataset.errorValidation, focus)
-        //                     focus = false;
-        //                     hasError = true;
-        //                 }
-        //                 else if (parseInt(element.value) > new Date().getFullYear()) {
-        //                     errorMessage(element.id, element.dataset.errorValidation, focus)
-        //                     focus = false;
-        //                     hasError = true;
-        //                 }
-        //             }
-        //         }
-        //         if(validationPattern && validationPattern === 'numbers') {
-        //             if(!/^[0-9]*$/.test(element.value)) {
-        //                 errorMessage(element.id, element.dataset.errorValidation, focus)
-        //                 focus = false;
-        //                 hasError = true;
-        //             }
-        //         }
-        //     }
-        // });
-        // Array.from(requiredFields).forEach(element => {
-        //     if(!element.value){
-        //         errorMessage(element.id, `${element.dataset.errorRequired}`, focus);
-        //         focus = false;
-        //         hasError = true;
-        //     }
-        //     if(element.type === 'checkbox' && element.checked === false && element.hidden === false){
-        //         errorMessage(element.id, `${element.dataset.errorRequired}`, focus);
-        //         focus = false;
-        //         hasError = true;
-        //     }    
-        // });
-        // Array.from(confirmationFields).forEach(element => {
-        //     const target = element.getAttribute('target')
-        //     const targetElement= document.getElementById(target)
-
-        //     if(element.value !== targetElement.value){
-        //         errorMessage(element.id, `${element.dataset.errorConfirmation}`, focus);
-        //         focus = false;
-        //         hasError = true;
-        //     }
-        // });
-        /*Array.from(numberValidations).forEach(element => {
-            const pattern = element.dataset.valPattern
-            if(element.value && !element.value.match(new RegExp(pattern))){
-                errorMessageNumbers(element.id, `${element.dataset.errorValidation}`, focus);
+        Array.from(validations).forEach(element => {
+            if(element.value){
+                const validationPattern = element.dataset.validationPattern;
+                if(validationPattern && validationPattern === 'alphabets') {
+                    if(!/^[A-Za-z ]+$/.test(element.value)) {
+                        errorMessage(element.id, element.dataset.errorValidation, focus)
+                        focus = false;
+                        hasError = true;
+                    }
+                }
+                if(validationPattern && validationPattern === 'year') {
+                    if(!/^(19|20)[0-9]{2}$/.test(element.value)) {
+                        errorMessage(element.id, element.dataset.errorValidation, focus)
+                        focus = false;
+                        hasError = true;
+                    }
+                    else {
+                        if(element.value.length > 4) {
+                            errorMessage(element.id, element.dataset.errorValidation, focus)
+                            focus = false;
+                            hasError = true;
+                        }
+                        else if (parseInt(element.value) > new Date().getFullYear()) {
+                            errorMessage(element.id, element.dataset.errorValidation, focus)
+                            focus = false;
+                            hasError = true;
+                        }
+                    }
+                }
+                if(validationPattern && validationPattern === 'numbers') {
+                    if(!/^[0-9]*$/.test(element.value)) {
+                        errorMessage(element.id, element.dataset.errorValidation, focus)
+                        focus = false;
+                        hasError = true;
+                    }
+                }
+            }
+        });
+        Array.from(requiredFields).forEach(element => {
+            if(!element.value){
+                errorMessage(element.id, `${element.dataset.errorRequired}`, focus);
                 focus = false;
                 hasError = true;
             }
-        });*/
+            if(element.type === 'checkbox' && element.checked === false && element.hidden === false){
+                errorMessage(element.id, `${element.dataset.errorRequired}`, focus);
+                focus = false;
+                hasError = true;
+            }
+        });
         if(!(document.getElementById('UPCancer1').checked|| document.getElementById('UPCancer2').checked)){
             errorMessage('UPCancerBtnGroup', '<span data-i18n="event.provideResponse">'+translateText('event.provideResponse')+'</span>', focus);
             focus = false;
@@ -553,13 +535,6 @@ export const addEventUPSubmit = () => {
             focus = false;
             hasError = true;
         }
-        
-        /*if(city && !/^[a-zA-Z]+$/.test(city) ){
-            errorMessage('UPAddress1City', 'City name may only contain letters.');
-            if(focus) document.getElementById('UPAddress1City').focus();
-            focus = false;
-            hasError = true;
-        }*/
         if(email && /\S+@\S+\.\S+/.test(email) === false) {
             errorMessage('UPEmail', '<span data-i18n="settingsHelpers.emailFormat">'+translateText('settingsHelpers.emailFormat')+'</span>', focus);
             if(focus) document.getElementById('UPPhoneNumber11').focus();
@@ -741,39 +716,17 @@ export const addEventUPSubmit = () => {
 
         
         const ageToday = getAge(`${formData['544150384']}-${formData['564964481']}-${formData['795827569']}`);
-        /*if(!(ageToday < 66 && ageToday > 39)){
-            // Age is out of qualified range.
-            openModal();
-            document.getElementById('connectModalHeader').innerHTML = `
-            <h4>Review your date of birth</h4>
-            <button type="button" class="close close-modal" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            `;
-            document.getElementById('connectModalBody').innerHTML = `The date of birth that you entered does not make you eligible for the study. Please check that you entered your correct date of birth.`;
-            document.getElementById('connectModalFooter').innerHTML = `
-                <button type="button" title="Close" class="btn btn-dark" data-dismiss="modal">Back</button>
-                <button type="button" id="continueAnyways" title="Continue anyways" class="btn btn-primary">Continue anyway</button>
-            `
-            document.getElementById('continueAnyways').addEventListener('click', () => {
-                verifyUserDetails(formData);
-            });
-        }else {*/
-            formData['117249500'] = ageToday;
-            verifyUserDetails(formData);
-        //}
+
+        formData['117249500'] = ageToday;
+        verifyUserDetails(formData);
     });
 }
 
 const openModal = () => {
-    const tmpBtn = document.createElement('button');
-    tmpBtn.dataset.target = "#connectMainModal";
-    tmpBtn.dataset.toggle = "modal";
-    tmpBtn.hidden = true;
-    document.body.appendChild(tmpBtn);
-    tmpBtn.click();
-    document.body.removeChild(tmpBtn);
-}
+    const modalElement = document.getElementById('connectMainModal');
+    const modal = new bootstrap.Modal(modalElement);
+    modal.show();
+};
 
 export const downtimeWarning = () => {
     document.getElementById('connectWarningModalHeader').style.display = 'block'; 
@@ -828,19 +781,15 @@ export const environmentWarningModal = () => {
 
         </br>
 
-        <div class="col-md-4" style="width:100%; margin:0 auto; text-align:center;">
+        <div class="col-md-4 mx-auto text-center">
             <label style="text-align:center;">Enter staff access code</label>
             <input type="text" style="text-align:center; margin:0 auto;" class="form-control input-validation row" id="testingAccessCode" name="testingAccessCode">
         </div>
     `;
 
-    const tmpBtn = document.createElement('button');
-    tmpBtn.dataset.target = "#connectWarningModal";
-    tmpBtn.dataset.toggle = "modal";
-    tmpBtn.hidden = true;
-    document.body.appendChild(tmpBtn);
-    tmpBtn.click();
-    document.body.removeChild(tmpBtn);
+    const modalElement = document.getElementById('connectWarningModal');
+    const modal = new bootstrap.Modal(modalElement);
+    modal.show();
 
     const testingAccessCode = document.getElementById('testingAccessCode');
     const warningCloseBtn = document.getElementById('warningCloseBtn');
@@ -848,7 +797,13 @@ export const environmentWarningModal = () => {
     if(testingAccessCode) {
         testingAccessCode.addEventListener('keyup', () => {
             if(warningCloseBtn) warningCloseBtn.disabled = !(testingAccessCode.value == 'agree')
-        })
+        });
+        // allow enter key if warningCloseBtn is enabled
+        testingAccessCode.addEventListener('keydown', (e) => {
+            if(e.key === 'Enter' && !warningCloseBtn.disabled) {
+                warningCloseBtn.click();
+            }
+        });
     }
 }
 
@@ -869,9 +824,7 @@ const verifyUserDetails = (formData) => {
     if(!document.getElementById('connectMainModal').classList.contains('show')) openModal();
     document.getElementById('connectModalHeader').innerHTML = translateHTML(`
     <h4 data-i18n="event.reviewProfile">Review your profile details</h4>
-    <button type="button" class="close close-modal" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     `);
 
     let bodyHtml = `
@@ -1107,8 +1060,10 @@ const verifyUserDetails = (formData) => {
     document.getElementById('connectModalBody').innerHTML = translateHTML(bodyHtml);
 
     document.getElementById('connectModalFooter').innerHTML = translateHTML(`
-        <button data-i18n="event.navButtonsClose" type="button" title="Close" class="btn btn-dark" data-dismiss="modal">Go Back</button>
-        <button data-i18n="event.navButtonsConfirm" type="button" id="confirmReview" title="Confirm details" class="btn btn-primary consentNextButton" data-dismiss="modal">Submit</button>
+        <div class="d-flex justify-content-between w-100">
+            <button data-i18n="event.navButtonsClose" type="button" title="Close" class="btn btn-dark" data-bs-dismiss="modal">Go Back</button>
+            <button data-i18n="event.navButtonsConfirm" type="button" id="confirmReview" title="Confirm details" class="btn btn-primary consentNextButton" data-bs-dismiss="modal">Submit</button>
+        </div>
     `);
     document.getElementById('connectModalFooter').style.display = 'block';
 
@@ -1132,6 +1087,7 @@ const verifyUserDetails = (formData) => {
 
 }
 
+// TODO: this doesn't appear to be used anywhere
 export const addEventPreferredContactType = () => {
     const p1 = document.getElementById('textPermissionYes');
     const p2 = document.getElementById('textPermissionNo');
@@ -1152,12 +1108,6 @@ export const addEventPreferredContactType = () => {
             </div>
         </div>
         `;
-        /*
-        else {
-            const div = document.getElementById('preferredEmailPhone');
-            div.classList = '';
-            div.innerHTML = '';
-        }*/
     });
 
     p2.addEventListener('click', () => {
@@ -1173,7 +1123,7 @@ export const addEventPreferredContactType = () => {
                 div.classList = ['form-group row']
                 div.innerHTML = `
                     <label class="col-md-4 col-form-label">How do you prefer that we reach you?</label>
-                    <div class="btn-group btn-group-toggle col-md-4" data-toggle="buttons">
+                    <div class="btn-group btn-group-toggle col-md-4" data-bs-toggle="buttons">
                         <label class="btn btn-light up-btns"><input type="radio" name="methodOfContact" value="127547625">Text Message</label>
                         <label class="btn btn-light up-btns"><input type="radio" name="methodOfContact" value="357184057">Email</label>
                     </div>
@@ -1386,10 +1336,12 @@ export const toggleCurrentPage = async (route) => {
     const IDs = ['userDashboard', 'Notifications', 'userAgreements', 'userSettings', 'connectSamples', 'connectSupport', 'connectPayment'];
     IDs.forEach(id => {
         const element = document.getElementById(id);
-        if(element) {
-            element.addEventListener('click', () => {
-                removeActiveClass('navbar-nav', 'current-page');
-                element.parentNode.parentNode.classList.add('current-page');
+        if (element) {
+            const clonedElement = element.cloneNode(true);
+            element.parentNode.replaceChild(clonedElement, element);
+
+            clonedElement.addEventListener('click', () => {
+                updateActiveNavItem(clonedElement);
                 toggleNavbarMobileView();
             });
         }
@@ -1404,21 +1356,28 @@ export const toggleCurrentPage = async (route) => {
     if(route === '#payment') document.getElementById('connectPayment').click();
 }
 
-export const toggleCurrentPageNoUser = async (route) => {
+export const toggleCurrentPageNoUser = async () => {
     const IDs = ['home', 'about', 'expectations', 'privacy'];
     IDs.forEach(id => {
         const element = document.getElementById(id);
-        element.addEventListener('click', () => {
-            removeActiveClass('navbar-nav', 'current-page');
-            element.parentNode.parentNode.classList.add('current-page');
-            toggleNavbarMobileView();
-        })
-    });
-    // if(route === '#') document.getElementById('home').click();
-    // else if(route === '#about') document.getElementById('about').click();
-    // else if(route === '#expectations') document.getElementById('expectations').click();
-    // else if(route === '#privacy') document.getElementById('privacy').click();
+        if (element) {
+            const clonedElement = element.cloneNode(true);
+            element.parentNode.replaceChild(clonedElement, element);
 
+            clonedElement.addEventListener('click', () => {
+                updateActiveNavItem(clonedElement);
+                toggleNavbarMobileView();
+            });
+        }
+    });
+}
+
+export const updateActiveNavItem = (clonedElement) => {
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('current-page');
+    });
+
+    clonedElement.closest('.nav-item').classList.add('current-page');
 }
 
 export const addEventCheckCanText = () => {

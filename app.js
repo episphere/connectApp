@@ -1,5 +1,5 @@
-import { getParameters, validateToken, userLoggedIn, getMyData, hasUserData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, appState, processAuthWithFirebaseAdmin, successResponse, logDDRumError, translateHTML, translateText, languageAcronyms } from "./js/shared.js";
-import { userNavBar, homeNavBar, languageSelector } from "./js/components/navbar.js";
+import { getParameters, validateToken, userLoggedIn, getMyData, hasUserData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, appState, processAuthWithFirebaseAdmin, successResponse, logDDRumError, translateHTML, translateText, languageAcronyms, toggleNavbarMobileView } from "./js/shared.js";
+import { userNavBar, homeNavBar, languageSelector, signOutNavBarTemplate } from "./js/components/navbar.js";
 import { homePage, joinNowBtn, whereAmIInDashboard, renderHomeAboutPage, renderHomeExpectationsPage, renderHomePrivacyPage } from "./js/pages/homePage.js";
 import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser, addEventToggleSubmit, addEventLanguageSelection } from "./js/event.js";
 import { requestPINTemplate, duplicateAccountReminderRender } from "./js/pages/healthCareProvider.js";
@@ -18,7 +18,8 @@ import { firebaseConfig as prodFirebaseConfig } from "./prod/config.js";
 // When doing local development, uncomment this.
 // Get the API key file from Box or the DevOps team
 // Do not accept PRs with the localDevFirebaseConfig import uncommented
-// import { firebaseConfig as  localDevFirebaseConfig} from "./local-dev/config.js";
+import { firebaseConfig as  localDevFirebaseConfig} from "./local-dev/config.js";
+
 import conceptIdMap from "./js/fieldToConceptIdMapping.js";
 
 if ("serviceWorker" in navigator) {
@@ -97,6 +98,10 @@ window.onload = async () => {
             return;
         }
         !firebase.apps.length ? firebase.initializeApp(localDevFirebaseConfig) : firebase.app();
+
+        // TODO: Remove this
+        if (location.host.startsWith('localhost')) firebase.functions().useFunctionsEmulator('http://localhost:5001');
+        window.DD_RUM && window.DD_RUM.init({ ...datadogConfig, env: 'dev' });
     } else {
         script.src = `https://maps.googleapis.com/maps/api/js?key=${devFirebaseConfig.apiKey}&libraries=places&callback=Function.prototype`
         !firebase.apps.length ? firebase.initializeApp(devFirebaseConfig) : firebase.app();
@@ -125,15 +130,9 @@ window.onload = async () => {
 
     const footer = document.getElementById('footer');
     footer.innerHTML = footerTemplate();
-    // googleTranslateElementInit();
     
     router();
 }
-
-// TODO: 'google is not defined' datadog error - inspect loading sequence/timing.
-// const googleTranslateElementInit = () => {
-//     if(google) new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
-// }
 
 const handleVerifyEmail = (auth, actionCode) => {
     auth.applyActionCode(actionCode).then(function(resp) {
@@ -288,8 +287,8 @@ const renderLanguageSelector = () => {
        //Add the language Selector Container
        languageSelectorContainer = document.createElement('div');
        languageSelectorContainer.id = 'languageSelectorContainer';
-       let navBarAlt = document.getElementById('navbarNavAltMarkup')
-       navBarAlt.parentNode.insertBefore(languageSelectorContainer, navBarAlt);
+       let userNavBar = document.getElementById('userNavBarContainer');
+       userNavBar.parentNode.insertBefore(languageSelectorContainer, userNavBar);
     }
 
     languageSelectorContainer.innerHTML = languageSelector();
@@ -430,22 +429,23 @@ const toggleNavBar = (route, data) => {
     auth.onAuthStateChanged(async user => {
         if (user && !user.isAnonymous){
             showAnimation();
-            document.getElementById('navbarNavAltMarkup').innerHTML = userNavBar(data);
+            document.getElementById('userNavBarContainer').innerHTML = userNavBar(data);
+            document.getElementById('signOutContainer').innerHTML = signOutNavBarTemplate();
             document.getElementById('joinNow') ? document.getElementById('joinNow').innerHTML = joinNowBtn(false) : ``; 
             document.getElementById('signInWrapperDiv') ? document.getElementById('signInWrapperDiv').style.display = "none" :'';
             document.getElementById('nextStepWarning') ? document.getElementById('nextStepWarning').innerHTML = await whereAmIInDashboard() : '';
             document.getElementById('nextStepWarning') ? document.getElementById('nextStepWarning').style.display="block": '';
             addEventRetrieveNotifications();
-            toggleCurrentPage(route);
+            await toggleCurrentPage(route);
             hideAnimation();
-            
         }
         else{
             showAnimation();
-            document.getElementById('navbarNavAltMarkup').innerHTML = homeNavBar();
+            document.getElementById('userNavBarContainer').innerHTML = homeNavBar();
+            document.getElementById('signOutContainer').innerHTML = '';
             document.getElementById('joinNow') ? document.getElementById('joinNow').innerHTML = joinNowBtn(true) : ``;
             document.getElementById('nextStepWarning') ? document.getElementById('nextStepWarning').style.display="none": '';
-            toggleCurrentPageNoUser(route);
+            await toggleCurrentPageNoUser(route);
             hideAnimation();
         }
     });

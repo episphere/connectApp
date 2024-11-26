@@ -248,16 +248,27 @@ export default
         "version":          "905236593"
     },
 
-    // external variables passed into Quest that require extra async/await handling.
+    // @deprecated. Retain until migration to Quest2 is complete. External variables passed into Quest that require extra async/await handling.
     delayedParameterArray: [
-        "D_627122657",
-        "D_796828094",
-        "D_118061122",
-        "D_518387017",
         "D_761310265",
         "D_279637054",
-        "D_951357171",
     ],
+
+    // External question IDs (Quest) mapped to their function names. // TODO: make this module-specific
+    questAsyncQuestionsMap: {
+        "Module1": {
+            asyncQuestions: {
+                "[D_761310265?]": {
+                    func: "soccer",
+                    args: ["D_627122657", "D_796828094"],
+                },
+                "[D_279637054?]": {
+                    func: "soccer",
+                    args: ["D_118061122", "D_518387017"],
+                }
+            },
+        },
+    },
 
     collectionDetails: 173836415,
     baseline: 266600170,

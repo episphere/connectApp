@@ -14,7 +14,7 @@ export const homePage = async () => {
         <div class="row connectBody1">
             <div class="col-lg-2 o">
             </div>
-            <div class="col-lg-4 d-none d-sm-flex text-lg-left text-center" style="text-align:center;">
+            <div class="col-lg-4 d-none d-sm-flex text-lg-start text-center" style="text-align:center;">
                 <p class = "homeTitleText" style="text-align:left; font-family: 'Montserrat', sans-serif;" data-i18n="home.titleText">
                   Connect <em>today.</em>
                   <br>Prevent cancer
@@ -26,7 +26,7 @@ export const homePage = async () => {
                    
                 </p>
             </div>
-            <div class="col-lg-4 d-sm-none text-lg-left text-center" style="text-align:center;">
+            <div class="col-lg-4 d-sm-none text-lg-start text-center" style="text-align:center;">
                 <p class = "homeTitleTextMobile" style="text-align:center; font-family: 'Montserrat', sans-serif;" data-i18n="home.titleText">
                 
                     Connect <em>today.</em>
@@ -60,7 +60,7 @@ export const homePage = async () => {
         <div class="row connectBody">
             <div class="col-lg-2 ">
             </div>
-            <div class="col-lg-4 .d-none text-lg-left text-center connectBodyPicture" data-i18n="home.connectBodyPicture">
+            <div class="col-lg-4 .d-none text-lg-start text-center connectBodyPicture" data-i18n="home.connectBodyPicture">
                 <img src="./images/newImages/Tiles2.png" alt="Connect logo" width="95%" style="float:left; max-width:380px">
             </div>
             <div class="col-lg-4">

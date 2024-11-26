@@ -41,6 +41,11 @@ let api = '';
 
 if(location.host === urls.prod) api = 'https://api-myconnect.cancer.gov/app';
 else if(location.host === urls.stage) api = 'https://api-myconnect-stage.cancer.gov/app';
+
+// TODO: remove this
+else if (location.host.startsWith('localhost')) api = 'http://localhost:5001/nih-nci-dceg-connect-dev/us-central1/app';
+
+
 else api = 'https://us-central1-nih-nci-dceg-connect-dev.cloudfunctions.net/app';
 
 const afterEmailLinkRender = (email, type) => {
@@ -195,6 +200,7 @@ export const generateNewToken = async () => {
 }
 
 //Store tree function being passed into quest
+// @deprecated. Retain until migration to Quest2 is complete. Quest 2.0+ has tree storage integrated into response saving.
 export const storeResponseTree = async (questName) => {
     
     let formData = {[questName]: {treeJSON: questionQueue.toJSON()}};
@@ -232,7 +238,7 @@ export const storeResponseQuest = async (formData) => {
     transformedData = await clientFilterData(transformedData);
 
     if(Object.keys(transformedData[moduleId]).length > 0) {
-        await storeResponse(transformedData);
+        return await storeResponse(transformedData);
     }
 }
 
@@ -261,7 +267,9 @@ export const storeResponse = async (formData) => {
         body: JSON.stringify(formData)
     });
 
-    return await response.json();
+    const responseObj = await response.json();
+
+    return await responseObj;
 }
 
 export const storeSocial = async (formData) => {
@@ -957,8 +965,8 @@ export const connectPushNotification = () => {
                 div.innerHTML = `
                     <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
                         <div class="toast-header">
-                            <strong class="mr-auto">${payload.notification.title}</strong>
-                            <button type="button" class="ml-2 mb-1 close hideNotification" data-dismiss="toast" aria-label="${translateText('shared.closeText')}">&times;</button>
+                            <strong class="me-auto">${payload.notification.title}</strong>
+                            <button type="button" class="ms-2 mb-1 close hideNotification" data-bs-dismiss="toast" aria-label="${translateText('shared.closeText')}">&times;</button>
                         </div>
                         <div class="toast-body">
                             ${payload.notification.body}
@@ -1001,17 +1009,16 @@ const manageNotificationTokens = (token) => {
     }
 }
 
-export const removeActiveClass = (className, activeClass) => {
-    let fileIconElement = document.getElementsByClassName(className);
-    Array.from(fileIconElement).forEach(elm => {
-        elm.classList.remove(activeClass);
-    });
-}
-
 export const toggleNavbarMobileView = () => {
-    const btn = document.querySelectorAll('.navbar-toggler');
-    if(btn && btn[0]){
-        if(!btn[0].classList.contains('collapsed')) btn[0].click();
+    const navbarCollapse = document.getElementById('navbarContent');
+    const navbarToggler = document.querySelector('.navbar-toggler');
+
+    if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+        navbarCollapse.classList.remove('show');
+        if (navbarToggler) {
+            navbarToggler.classList.add('collapsed');
+            navbarToggler.setAttribute('aria-expanded', 'false');
+        }
     }
 }
 
@@ -1236,62 +1243,99 @@ export const isBrowserCompatible = () => {
     return isValidBrowser;
 }
 
-// TODO: refactor -- multiple issues in datadog
-export const inactivityTime = (user) => {
-    let time;
-    
+/**
+ * Track user inactivity with `lastActivityTimestamp` and log out the user after a period of inactivity.
+ * Show a warning modal 20 minutes after the last user activity.
+ * Log out the user 5 minutes after the warning if there's no response.
+ * Reset the inactivity timer on user activity.
+ */
+
+export const inactivityTime = () => {
+    const inactivityTimeout = 1200000; // 20 minutes
+    const maxResponseTime = 300000; // 5 minutes (after no activity for 20 minutes)
+    const inactivityCheckInterval = 60000; // 1 minute (check for inactivity every minute)
+
+    let responseTimeout;
+    let inactivityInterval;
+    let modal;
+    let lastActivityTimestamp = Date.now();
+
     const resetTimer = () => {
-        
-        clearTimeout(time);
-        time = setTimeout(() => {
-            if(!firebase.auth().currentUser) return;
-            const resposeTimeout = setTimeout(() => {
-                // log out user if they don't respond to warning after 5 minutes.
-                Array.from(document.getElementsByClassName('extend-user-session')).forEach(e => {
-                    e.click();
-                });
+        lastActivityTimestamp = Date.now();
+        if (inactivityInterval) {
+            clearInterval(inactivityInterval);
+        }
+        // Restart the inactivity check interval
+        inactivityInterval = setInterval(checkInactivity, inactivityCheckInterval);
+    };
 
-                console.log("responseTimeout has been reached!");
+    const checkInactivity = () => {
+        const currentTime = Date.now();
+        if (currentTime - lastActivityTimestamp > inactivityTimeout) {
+            showInactivityWarning();
+        }
+    };
 
-                signOut();
-            }, 300000)
-            // Show warning after 20 minutes of no activity.
-            if(!firebase.auth().currentUser) return;
-            const button = document.createElement('button');
-            button.dataset.toggle = 'modal';
-            button.dataset.target = '#connectMainModal'
-            document.body.appendChild(button);
-            button.click();
-            const header = document.getElementById('connectModalHeader');
-            const body = document.getElementById('connectModalBody');
-            document.getElementById('connectModalFooter').style.display = "none";
-            header.innerHTML = `<h5 class="modal-title" data-i18n="shared.sessionInactiveTitle">${translateText('shared.sessionInactiveTitle')}</h5>`;
-
-            body.innerHTML = `<span data-i18n="shared.sessionInactive">${translateText('shared.sessionInactive')}</span>`;
-            document.body.removeChild(button);
-
-            console.log("initial timeout has been reached!");
-
-            // TODO: datadog error: TypeError: Cannot read properties of null (reading 'addEventListener')
-            Array.from(document.getElementsByClassName('log-out-user')).forEach(e => {
-                e.addEventListener('click', () => {
-                    clearTimeout(time)
-                    signOut();
-                })
-            })
-            // TODO: datadog error: TypeError: Cannot read properties of null (reading 'addEventListener')
-            document.getElementById('signOut').addEventListener('click', () =>{
-                clearTimeout(time)
-            })
-            Array.from(document.getElementsByClassName('extend-user-session')).forEach(e => {
-                e.addEventListener('click', () => {
-                    clearTimeout(resposeTimeout);
-                    resetTimer;
-                })
-            });
-        }, 1200000);
+    const hideModal = () => {
+        if (modal) {
+            modal.hide();
+        }
     }
-    //resetTimer();
+
+    // Activate the response timeout, show the warning modal, and log out the user if there's no response.
+    const showInactivityWarning = () => {
+        if (!firebase.auth().currentUser) return;
+
+        // Stop the inactivity check interval while showing the warning modal. Start the response timeout.
+        clearInterval(inactivityInterval);
+
+        responseTimeout = setTimeout(() => {
+            console.log("responseTimeout has been reached!");
+            signOut();
+            hideModal();
+        }, maxResponseTime);
+
+        const modalElement = document.getElementById('connectMainModal');
+        modal = new bootstrap.Modal(modalElement);
+        modal.show();
+
+        // Update modal content
+        const header = document.getElementById('connectModalHeader');
+        const body = document.getElementById('connectModalBody');
+        document.getElementById('connectModalFooter').style.display = "none";
+
+        header.innerHTML = `<h5 class="modal-title" data-i18n="shared.sessionInactiveTitle">${translateText('shared.sessionInactiveTitle')}</h5>`;
+        body.innerHTML = `<span data-i18n="shared.sessionInactive">${translateText('shared.sessionInactive')}</span>`;
+
+        console.log("initial timeout has been reached!");
+
+        attachEventListeners();
+    };
+
+    const attachEventListeners = () => {
+        // Log out button
+        document.querySelectorAll('.log-out-user, #signOut').forEach((element) => {
+            element?.addEventListener('click', () => {
+                clearTimeout(responseTimeout);
+                signOut();
+                hideModal();
+            });
+        });
+
+        // Continue session button
+        document.querySelectorAll('.extend-user-session').forEach((element) => {
+            element?.addEventListener('click', () => {
+                clearTimeout(responseTimeout);
+                resetTimer();
+                hideModal();
+            });
+        });
+    };
+
+    // Start the inactivity interval when the page is loaded
+    inactivityInterval = setInterval(checkInactivity, inactivityCheckInterval);
+
+    // Reset the inactivity timer on user activity
     window.onload = resetTimer;
     document.onmousemove = resetTimer;
     document.addEventListener('keydown', resetTimer);
@@ -1368,13 +1412,8 @@ export const renderSyndicate = (url, element, page) => {
         let section = aLinks[i];
         let found = false;
         for(let j = 0; j < allIds.length; j++){
-            //console.log(section.href)
-            //console.log(allIds[j])
             if(section.href.includes(allIds[j])){
                 found = true;
-                //console.log(section.href)
-                //console.log(allIds[j])
-                //console.log(found)
             }
         }
         if(!found){
@@ -1900,7 +1939,7 @@ export const getModuleText = async (sha, path, connectID, moduleID) => {
  */
 export const logDDRumError = (error, errorType = 'CustomError', additionalContext = {}) => {
 
-    console.error('ERROR', error, 'Additional context:', additionalContext);
+    console.error(`${errorType}: ${error.message}. Additional context: ${JSON.stringify(additionalContext, null, 2)}`);
 
     if (window.DD_RUM) {
         window.DD_RUM.addError(
@@ -1936,7 +1975,6 @@ export const translateHTML = (source, language) => {
         sourceElement = source;
     }
 
-    // console.log(source, language, i18n, sourceElement, sourceElement.dataset);
     if (sourceElement.dataset.i18n) {
         let keys = sourceElement.dataset.i18n.split('.');
         let translation = translateText(keys, language);
