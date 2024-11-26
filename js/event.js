@@ -386,23 +386,23 @@ export const addEventUPSubmit = () => {
         let hasError = false;
         let focus = true;
         Array.from(validations).forEach(element => {
-            if (element.value) {
+            if(element.value){
                 const validationPattern = element.dataset.validationPattern;
-                if (validationPattern && validationPattern === 'alphabets') {
-                    if (!/^[A-Za-z ]+$/.test(element.value)) {
+                if(validationPattern && validationPattern === 'alphabets') {
+                    if(!/^[A-Za-z ]+$/.test(element.value)) {
                         errorMessage(element.id, element.dataset.errorValidation, focus)
                         focus = false;
                         hasError = true;
                     }
                 }
-                if (validationPattern && validationPattern === 'year') {
-                    if (!/^(19|20)[0-9]{2}$/.test(element.value)) {
+                if(validationPattern && validationPattern === 'year') {
+                    if(!/^(19|20)[0-9]{2}$/.test(element.value)) {
                         errorMessage(element.id, element.dataset.errorValidation, focus)
                         focus = false;
                         hasError = true;
                     }
                     else {
-                        if (element.value.length > 4) {
+                        if(element.value.length > 4) {
                             errorMessage(element.id, element.dataset.errorValidation, focus)
                             focus = false;
                             hasError = true;
@@ -414,8 +414,8 @@ export const addEventUPSubmit = () => {
                         }
                     }
                 }
-                if (validationPattern && validationPattern === 'numbers') {
-                    if (!/^[0-9]*$/.test(element.value)) {
+                if(validationPattern && validationPattern === 'numbers') {
+                    if(!/^[0-9]*$/.test(element.value)) {
                         errorMessage(element.id, element.dataset.errorValidation, focus)
                         focus = false;
                         hasError = true;
@@ -424,22 +424,22 @@ export const addEventUPSubmit = () => {
             }
         });
         Array.from(requiredFields).forEach(element => {
-            if (!element.value) {
+            if(!element.value){
                 errorMessage(element.id, `${element.dataset.errorRequired}`, focus);
                 focus = false;
                 hasError = true;
             }
-            if (element.type === 'checkbox' && element.checked === false && element.hidden === false) {
+            if(element.type === 'checkbox' && element.checked === false && element.hidden === false){
                 errorMessage(element.id, `${element.dataset.errorRequired}`, focus);
                 focus = false;
                 hasError = true;
-            }
+            }    
         });
         Array.from(confirmationFields).forEach(element => {
             const target = element.getAttribute('target')
-            const targetElement = document.getElementById(target)
+            const targetElement= document.getElementById(target)
 
-            if (element.value !== targetElement.value) {
+            if(element.value !== targetElement.value){
                 errorMessage(element.id, `${element.dataset.errorConfirmation}`, focus);
                 focus = false;
                 hasError = true;
