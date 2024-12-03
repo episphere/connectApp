@@ -491,7 +491,7 @@ const handleEditSignInInformationSection = () => {
         
               if (response?.data?.accountExists) {
                 const account = { type: 'email', value: inputStr };
-                firebaseSignInRender({ account, displayFlag: false });
+                await firebaseSignInRender({ account, displayFlag: false });
               } else {
                 alert(translateText('settings.accountNotFound'));
               }
@@ -502,7 +502,7 @@ const handleEditSignInInformationSection = () => {
         
               if (response?.data?.accountExists) {
                 const account = { type: 'phone', value: phoneNumberStr };
-                firebaseSignInRender({ account, displayFlag: false });
+                await firebaseSignInRender({ account, displayFlag: false });
               } else {
                 alert(translateText('settings.accountNotFound'));
               }

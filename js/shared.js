@@ -2,6 +2,7 @@ import { addEventHideNotification } from "./event.js";
 import fieldMapping from './fieldToConceptIdMapping.js'; 
 import { signInConfig } from "./pages/signIn.js";
 import { signInCheckRender, signUpRender } from "./pages/homePage.js";
+import { signOut } from "../app.js";
 import en from "../i18n/en.js";
 import es from "../i18n/es.js";
 
@@ -264,7 +265,7 @@ export const storeResponse = async (formData) => {
 
     const responseObj = await response.json();
 
-    return await responseObj;
+    return responseObj;
 }
 
 export const storeSocial = async (formData) => {
@@ -1005,17 +1006,17 @@ const manageNotificationTokens = (token) => {
 }
 
 export const toggleNavbarMobileView = () => {
-    const navbarCollapse = document.getElementById('navbarContent');
+    const navbarCollapse = document.querySelector('#navbarContent.show');
     const navbarToggler = document.querySelector('.navbar-toggler');
 
-    if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+    if (navbarCollapse) {
         navbarCollapse.classList.remove('show');
         if (navbarToggler) {
             navbarToggler.classList.add('collapsed');
             navbarToggler.setAttribute('aria-expanded', 'false');
         }
     }
-}
+};
 
 export const getConceptVariableName = async (conceptId) => {
     const response = await fetch(`https://raw.githubusercontent.com/episphere/conceptGithubActions/master/jsons/${conceptId}.json`);
@@ -1246,104 +1247,161 @@ export const isBrowserCompatible = () => {
  */
 
 export const inactivityTime = () => {
-    const inactivityTimeout = 1200000; // 20 minutes
+    const inactivityTimeout = 1200000; // 20 minutes (show inactivity warning after 20 minutes)
     const maxResponseTime = 300000; // 5 minutes (after no activity for 20 minutes)
-    const inactivityCheckInterval = 60000; // 1 minute (check for inactivity every minute)
+    const checkInterval = 60000; // 1 minute (check for inactivity every minute)
 
     let responseTimeout;
-    let inactivityInterval;
     let modal;
     let lastActivityTimestamp = Date.now();
+    let isInactiveModalShown = false;
+    let intervalId;
+    let loadListener;
+
+    const modalElement = document.getElementById('connectMainModal');
+    if (!modalElement) return;
 
     const resetTimer = () => {
-        lastActivityTimestamp = Date.now();
-        if (inactivityInterval) {
-            clearInterval(inactivityInterval);
+        if (!isInactiveModalShown) {
+            lastActivityTimestamp = Date.now();
         }
-        // Restart the inactivity check interval
-        inactivityInterval = setInterval(checkInactivity, inactivityCheckInterval);
     };
 
     const checkInactivity = () => {
-        const currentTime = Date.now();
-        if (currentTime - lastActivityTimestamp > inactivityTimeout) {
+        const now = Date.now();
+        if (!isInactiveModalShown && now - lastActivityTimestamp > inactivityTimeout) {
             showInactivityWarning();
         }
     };
 
     const hideModal = () => {
         if (modal) {
+            modalElement.inert = true;
             modal.hide();
+        }
+        isInactiveModalShown = false;
+    }
+
+    const showModal = () => {
+        if (modal) {
+            modalElement.inert = false;
+            modal.show();
         }
     }
 
+    const cleanUpAndLogOut = async () => {
+        clearTimeout(responseTimeout);
+        clearInterval(intervalId);
+        hideModal();
+        detachDocumentEventListeners();
+        await signOut();
+    }
+
+    const attachModalEventListeners = (modalElement) => {
+        // Log out button
+        const logOutButton = modalElement.querySelector('.log-out-user');
+        if (logOutButton) {
+            logOutButton.addEventListener('click', async () => {
+                await cleanUpAndLogOut();
+            });
+        }
+
+        // Continue session button
+        const continueButton = modalElement.querySelector('.extend-user-session');
+        if (continueButton) {
+            continueButton.addEventListener('click', () => {
+                clearTimeout(responseTimeout);
+                lastActivityTimestamp = Date.now();
+                hideModal();
+            });
+        }
+
+        // Return focus to the navbar when the modal is hidden
+        modalElement.addEventListener('hidden.bs.modal', (event) => {
+            if (event.target === modalElement) {
+                const navbar = document.querySelector('.navbar');
+                if (navbar) {
+                    navbar.focus();
+                }
+            }
+        });
+    };
+
+    const attachDocumentEventListeners = () => {
+        const signOutButton = document.querySelector('#signOut');
+        if (signOutButton) {
+            signOutButton.addEventListener('click', async () => {
+                await cleanUpAndLogOut();
+            });
+        }
+
+        // Reset the inactivity timer on user activity
+        document.addEventListener('mousemove', resetTimer);
+        document.addEventListener('keydown', resetTimer);
+    }
+
+    const detachDocumentEventListeners = () => {
+        document.removeEventListener('mousemove', resetTimer);
+        document.removeEventListener('keydown', resetTimer);
+
+        const signOutButton = document.querySelector('#signOut');
+        if (signOutButton) {
+            signOutButton.replaceWith(signOutButton.cloneNode(true));
+        }
+    };
+
     // Activate the response timeout, show the warning modal, and log out the user if there's no response.
-    const showInactivityWarning = () => {
+    const showInactivityWarning = async () => {
         if (!firebase.auth().currentUser) return;
 
-        // Stop the inactivity check interval while showing the warning modal. Start the response timeout.
-        clearInterval(inactivityInterval);
+        isInactiveModalShown = true;
 
-        responseTimeout = setTimeout(() => {
+        responseTimeout = setTimeout(async () => {
             console.log("responseTimeout has been reached!");
-            signOut();
-            hideModal();
+            await cleanUpAndLogOut();
         }, maxResponseTime);
 
-        const modalElement = document.getElementById('connectMainModal');
         modal = new bootstrap.Modal(modalElement);
-        modal.show();
+        showModal();
 
         // Update modal content
         const header = document.getElementById('connectModalHeader');
         const body = document.getElementById('connectModalBody');
-        document.getElementById('connectModalFooter').style.display = "none";
+        const footer = document.getElementById('connectModalFooter');
 
-        header.innerHTML = `<h5 class="modal-title" data-i18n="shared.sessionInactiveTitle">${translateText('shared.sessionInactiveTitle')}</h5>`;
-        body.innerHTML = `<span data-i18n="shared.sessionInactive">${translateText('shared.sessionInactive')}</span>`;
+        if (header && body && footer) {
+            footer.style.display = 'none';
+            header.innerHTML = `<h5 class="modal-title" data-i18n="shared.sessionInactiveTitle">${translateText('shared.sessionInactiveTitle')}</h5>`;
+            body.innerHTML = `<span data-i18n="shared.sessionInactive">${translateText('shared.sessionInactive')}</span>`;
+        }
 
         console.log("initial timeout has been reached!");
 
-        attachEventListeners();
+        attachModalEventListeners(modalElement);
     };
 
-    const attachEventListeners = () => {
-        // Log out button
-        document.querySelectorAll('.log-out-user, #signOut').forEach((element) => {
-            element?.addEventListener('click', () => {
-                clearTimeout(responseTimeout);
-                signOut();
-                hideModal();
-            });
-        });
+    // Magage the inactivity timer
+    intervalId = setInterval(checkInactivity, checkInterval);
 
-        // Continue session button
-        document.querySelectorAll('.extend-user-session').forEach((element) => {
-            element?.addEventListener('click', () => {
-                clearTimeout(responseTimeout);
-                resetTimer();
-                hideModal();
-            });
-        });
+    // Handle window load event
+    if (document.readyState !== 'complete') {
+        loadListener = () => resetTimer();
+        window.addEventListener('load', loadListener);
+    }
+
+    // Attach event listeners when the DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', attachDocumentEventListeners);
+    } else {
+        attachDocumentEventListeners();
+    }
+
+    return () => {
+        if (intervalId) clearInterval(intervalId);
+        if (responseTimeout) clearTimeout(responseTimeout);
+        if (loadListener) window.removeEventListener('load', loadListener);
     };
-
-    // Start the inactivity interval when the page is loaded
-    inactivityInterval = setInterval(checkInactivity, inactivityCheckInterval);
-
-    // Reset the inactivity timer on user activity
-    window.onload = resetTimer;
-    document.onmousemove = resetTimer;
-    document.addEventListener('keydown', resetTimer);
 };
-
-const signOut = () => {
-
-    console.log("signing current user out!");
-    localforage.clear();
-    firebase.auth().signOut();
-    window.location.hash = '#';
-    document.title = translateText('shared.homeTitle');
-}
 
 export const renderSyndicate = (url, element, page) => {
     const mainContent = document.getElementById(element);
@@ -1640,7 +1698,10 @@ export const firebaseSignInRender = async ({ account = {}, displayFlag = true })
     await elementIsLoaded('div[class~="firebaseui-id-page-email-link-sign-in-confirmation"]', 1500);
     if (emailInput !== null && signInEmail && Date.now() - signInTime < timeLimit) {
       emailInput.value = signInEmail;
-      document.querySelector('button[class~="firebaseui-id-submit"]').click();
+      const submitButton = document.querySelector('button[class~="firebaseui-id-submit"]');
+      submitButton.addEventListener('click', (e) => e.preventDefault());
+      submitButton.click();
+
       window.localStorage.removeItem("connectSignIn");
     }
   } else if (account.type === "email") {
@@ -1649,7 +1710,11 @@ export const firebaseSignInRender = async ({ account = {}, displayFlag = true })
     window.localStorage.setItem("connectSignIn", JSON.stringify(signInData));
     document.querySelector('input[class~="firebaseui-id-email"]').value = account.value;
     document.querySelector('label[class~="firebaseui-label"]').remove();
-    document.querySelector('button[class~="firebaseui-id-submit"]').click();
+
+    const submitButton = document.querySelector('button[class~="firebaseui-id-submit"]');
+    submitButton.addEventListener('click', (e) => e.preventDefault());
+    submitButton.click();
+
   } else if (account.type === "phone") {
     document.querySelector('input[class~="firebaseui-id-phone-number"]').value = account.value;
     document.querySelector('label[class~="firebaseui-label"]').remove();
@@ -2179,5 +2244,21 @@ export const getFirebaseUI = async () => {
                 return null;
             }
         }
+    }
+}
+
+/**
+ * Set a short timeout to disallow multiple repetitive actions (button clicks).
+ * @param {Function} func - Function to execute.
+ * @param {number} delay - Delay in milliseconds.
+ * @returns 
+ */
+export const debounceClick = (func, delay) => {
+    let timeoutId;
+    return function(...args) {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            func.apply(this, args);
+        }, delay);
     }
 }

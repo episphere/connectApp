@@ -1,7 +1,7 @@
 import { getParameters, validateToken, userLoggedIn, getMyData, hasUserData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, appState, processAuthWithFirebaseAdmin, successResponse, logDDRumError, translateHTML, translateText, languageAcronyms, toggleNavbarMobileView } from "./js/shared.js";
 import { userNavBar, homeNavBar, languageSelector, signOutNavBarTemplate } from "./js/components/navbar.js";
 import { homePage, joinNowBtn, whereAmIInDashboard, renderHomeAboutPage, renderHomeExpectationsPage, renderHomePrivacyPage } from "./js/pages/homePage.js";
-import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser, addEventToggleSubmit, addEventLanguageSelection } from "./js/event.js";
+import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser, addEventToggleSubmit, addEventLanguageSelection, environmentWarningModal } from "./js/event.js";
 import { requestPINTemplate, duplicateAccountReminderRender } from "./js/pages/healthCareProvider.js";
 import { myToDoList } from "./js/pages/myToDoList.js";
 import {renderNotificationsPage} from "./js/pages/notifications.js"
@@ -98,7 +98,6 @@ window.onload = async () => {
             return;
         }
         !firebase.apps.length ? firebase.initializeApp(localDevFirebaseConfig) : firebase.app();
-        window.DD_RUM && window.DD_RUM.init({ ...datadogConfig, env: 'dev' });
     } else {
         script.src = `https://maps.googleapis.com/maps/api/js?key=${devFirebaseConfig.apiKey}&libraries=places&callback=Function.prototype`
         !firebase.apps.length ? firebase.initializeApp(devFirebaseConfig) : firebase.app();
@@ -111,24 +110,29 @@ window.onload = async () => {
     auth = firebase.auth();
 
     auth.onAuthStateChanged(async (user) => {
-      let idToken = '';
-      if (user) {
-        idToken = await user.getIdToken();
-        if (!user.isAnonymous) {
-          localforage.clear();
-          inactivityTime();
-          const firstSignInTime = new Date(user.metadata.creationTime).toISOString();
-          appState.setState({ participantData: { firstSignInTime } });
-        } 
-      }
+        let idToken = '';
+        if (user) {
+            idToken = await user.getIdToken();
+            if (!user.isAnonymous) {
+                localforage.clear();
+                const firstSignInTime = new Date(user.metadata.creationTime).toISOString();
+                appState.setState({ participantData: { firstSignInTime } }); // TODO: potential issue with firstSignInTimestamp
+            }
+        }
 
-      appState.setState({ idToken });
+        appState.setState({ idToken });
+
+        await router();
+
+        if (user && !user.isAnonymous) {
+            inactivityTime();
+        }
     });
 
     const footer = document.getElementById('footer');
-    footer.innerHTML = footerTemplate();
-    
-    router();
+    if (footer) {
+        footer.innerHTML = footerTemplate();
+    }
 }
 
 const handleVerifyEmail = (auth, actionCode) => {
@@ -194,8 +198,8 @@ const handleResetPassword = (auth, actionCode) => {
     });
 }
 
-window.onhashchange = () => {
-    router();
+window.onhashchange = async () => {
+    await router();
 }
 
 const router = async () => {
@@ -229,7 +233,7 @@ const router = async () => {
         renderLanguageSelector();
 
         if (route === '#') {
-            homePage();
+            await homePage();
         } else if (route === '#about') {
             renderHomeAboutPage();
         } else if (route === '#expectations') {
@@ -266,7 +270,7 @@ const router = async () => {
             if (route === '#') userProfile();
             else if (route === '#dashboard') userProfile();
             else if (route === '#messages') renderNotificationsPage();
-            else if (route === '#sign_out') signOut();
+            else if (route === '#sign_out') await signOut();
             else if (route === '#forms') renderAgreements();
             else if (route === '#myprofile') renderSettingsPage();
             else if (route === '#support') renderSupportPage();
@@ -402,7 +406,9 @@ const userProfile = () => {
     });
 }
 
-const signOut = () => {
+export const signOut = async () => {
+    toggleNavbarMobileView();
+
     // Record a logout action and stop the DataDog session. This or 15 mins of inactivity will create a new session when the next action is taken.
     if (!isLocalDev && window.DD_RUM) {
         window.DD_RUM.addAction('user_logout', {
@@ -412,7 +418,11 @@ const signOut = () => {
         isDataDogUserSessionSet = false;
     }
 
-    firebase.auth().signOut();
+    console.log("signing current user out!");
+    localforage.clear();
+
+    await firebase.auth().signOut();
+
     window.location.hash = '#';
     document.title = translateText('shared.homeTitle');
 }

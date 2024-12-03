@@ -24,12 +24,7 @@ export const footerTemplate = () => {
                     <div class="footer-sub-heading pt-3" data-i18n="footer.vulnerability"><a class="footer-links" target="__blank" href="https://www.hhs.gov/vulnerability-disclosure-policy/index.html">HHS Vulnerability Disclosure</a></div>
                     <div class="footer-sub-heading pt-3" data-i18n="footer.siteMap"><a class="footer-links" target="__blank" href="https://dceg.cancer.gov/about/sitemap">Site Map</a></div>
                 </div>
-                ${location.host !== urls.stage && location.host !== urls.prod ? `
-                    <!--div class="col-lg-4 pt-3 content-wrapper text-center text-sm-center">
-                        <div class="footer-heading" data-i18n="footer.translate">TRANSLATE</div>
-                        <div class="footer-sub-heading pt-3" id="google_translate_element"></div>
-                    </div-->
-                `: ``}
+
             </div>
             <div class="row w-100 pt-5 align-center" style="margin:0">
                 <ul class="menu w-100" style="padding:0" data-i18n="footer.menuList">

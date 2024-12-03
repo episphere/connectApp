@@ -34,10 +34,8 @@ async function loadQuestConfig(moduleId) {
     const quest2ModuleActivatedTimestamp = appSettingsData.quest2ModuleActivatedTimestamp[moduleId] || '';
     const currentISOTimestamp = new Date().toISOString();
 
-    if (quest2ModuleActivatedTimestamp && quest2ModuleActivatedTimestamp <= currentISOTimestamp) {
-        if (!participantStartSurveyTimestamp || participantStartSurveyTimestamp >= quest2ModuleActivatedTimestamp) {
-            isQuest2 = true;
-        }
+    if (quest2ModuleActivatedTimestamp && quest2ModuleActivatedTimestamp <= currentISOTimestamp && (!participantStartSurveyTimestamp || participantStartSurveyTimestamp >= quest2ModuleActivatedTimestamp)) {
+        isQuest2 = true;
     }
 
     // TODO: Verify and update the CDN location for Quest 2.0+ when available.

@@ -14,8 +14,6 @@ a{
 #root {
     height: 100%;
     margin-top:1px;
-    margin-left:15px;
-    margin-right:15px;
 }
 
 #footer {
@@ -1485,12 +1483,12 @@ button.connect-secondary {
 }
 
 #languageSelector {
-    margin-bottom: .25rem;
+    margin-bottom: 0.25rem;
 }
 
 @media (max-width: 991.98px) {
     .navbar-collapse {
-        padding-top: .75rem;
+        padding-top: 0.75rem;
     }
 
     .navbar-toggler {
@@ -1501,8 +1499,8 @@ button.connect-secondary {
     .navbar-collapse.show~#languageSelectorContainer,
     .navbar-collapse.collapsing~#languageSelectorContainer {
         position: absolute;
-        right: .75rem;
-        top: .8rem;
+        right: 0.75rem;
+        top: 0.8rem;
     }
 }
 

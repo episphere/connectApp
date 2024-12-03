@@ -765,6 +765,12 @@ export const downtimeWarning = () => {
 }
 
 export const environmentWarningModal = () => {
+    // Ensure the warning modal is only shown once per login cycle (dev)
+    const devWarningShown = appState.getState()?.isDevWarningShown;
+    if (devWarningShown === true) return;
+
+    appState.setState({ isDevWarningShown: false });
+
     document.getElementById('connectWarningModalHeader').style.display = 'block'; 
     document.getElementById('connectWarningModalHeader').innerHTML = `
         <h4 style="text-align:center; color:red">WARNING</h4>
@@ -797,8 +803,10 @@ export const environmentWarningModal = () => {
         </div>
     `;
 
+    const signInBtn = document.getElementById('signInBtn');
     const modalElement = document.getElementById('connectWarningModal');
     const modal = new bootstrap.Modal(modalElement);
+    modalElement.inert = false;
     modal.show();
 
     const testingAccessCode = document.getElementById('testingAccessCode');
@@ -808,13 +816,37 @@ export const environmentWarningModal = () => {
         testingAccessCode.addEventListener('keyup', () => {
             if(warningCloseBtn) warningCloseBtn.disabled = !(testingAccessCode.value == 'agree')
         });
+
         // allow enter key if warningCloseBtn is enabled
         testingAccessCode.addEventListener('keydown', (e) => {
             if(e.key === 'Enter' && !warningCloseBtn.disabled) {
+                e.preventDefault();
                 warningCloseBtn.click();
             }
         });
+
+        setTimeout(() => {
+            testingAccessCode.focus();
+        }, 500);
+         
     }
+
+    warningCloseBtn.addEventListener('click', () => {
+        modalElement.inert = true;
+        modal.hide();
+
+        if (signInBtn) {
+            signInBtn.focus();
+        }
+
+        appState.setState({ isDevWarningShown: true });
+    });
+
+    modalElement.addEventListener('hidden.bs.modal', (event) => {
+        if (event.target === modal && signInBtn) {
+            signInBtn.focus();
+        }
+    });
 }
 
 export const removeAllErrors = () => {
@@ -1097,57 +1129,6 @@ const verifyUserDetails = (formData) => {
 
 }
 
-// TODO: this doesn't appear to be used anywhere
-export const addEventPreferredContactType = () => {
-    const p1 = document.getElementById('textPermissionYes');
-    const p2 = document.getElementById('textPermissionNo');
-    const email = document.getElementById('UPEmail');
-
-    p1.addEventListener('click', () => {
-        const div = document.getElementById('preferredEmailPhone');
-        div.classList = ['form-group row']
-        div.innerHTML = `
-        <div class="col">
-            <label class="col-form-label">
-                How do you prefer that we reach you?
-            </label>
-            <br>
-            <div class="btn-group btn-group-toggle col-md-4" style="margin-left:0px;">
-                <label><input type="radio" name="methodOfContact" value="127547625"> Text Message</label>
-                <label><input type="radio" name="methodOfContact" value="357184057" style="margin-left:10px;"> Email</label>
-            </div>
-        </div>
-        `;
-    });
-
-    p2.addEventListener('click', () => {
-        const div = document.getElementById('preferredEmailPhone');
-        div.classList = '';
-        div.innerHTML = '';
-    });
-
-    email.addEventListener('keyup', () => {
-        if(p1.classList.contains('active') && email.value){
-            const div = document.getElementById('preferredEmailPhone');
-            if(div.innerHTML === ''){
-                div.classList = ['form-group row']
-                div.innerHTML = `
-                    <label class="col-md-4 col-form-label">How do you prefer that we reach you?</label>
-                    <div class="btn-group btn-group-toggle col-md-4" data-bs-toggle="buttons">
-                        <label class="btn btn-light up-btns"><input type="radio" name="methodOfContact" value="127547625">Text Message</label>
-                        <label class="btn btn-light up-btns"><input type="radio" name="methodOfContact" value="357184057">Email</label>
-                    </div>
-                `;
-            }
-        }
-        else {
-            const div = document.getElementById('preferredEmailPhone');
-            div.classList = '';
-            div.innerHTML = '';
-        }
-    });
-}
-
 export const addEventPinAutoUpperCase = () => {
     const pin = document.getElementById('participantPIN')
     pin.addEventListener('input', () => {
@@ -1404,7 +1385,7 @@ export const addEventLanguageSelection = () => {
         console.warn('Language Selector Not Found');
         return;
     }
-    selector.addEventListener('change', (e) => { 
+    selector.addEventListener('change', async (e) => { 
         const selectedLanguage = parseInt(e.target.value, 10);
         window.localStorage.setItem('preferredLanguage', selectedLanguage);
         appState.setState({"language": selectedLanguage});
@@ -1413,9 +1394,9 @@ export const addEventLanguageSelection = () => {
         if (wrapperDiv && wrapperDiv.dataset.uiType === 'signIn' && 
             (wrapperDiv.dataset.accountType === 'phone' || wrapperDiv.dataset.accountType === 'email')) {
             const account = {type: wrapperDiv.dataset.accountType, value: wrapperDiv.dataset.accountValue};
-            firebaseSignInRender({account});
+            await firebaseSignInRender({account});
         } else if (wrapperDiv && wrapperDiv.dataset.uiType === 'signUp') {
-            signUpRender({signUpType: wrapperDiv.dataset.signupType})
+            await signUpRender({signUpType: wrapperDiv.dataset.signupType})
         }
     });
 }
