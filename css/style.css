@@ -1362,6 +1362,10 @@ button.connect-secondary {
     font-family: Montserrat;
 }
 
+.site-info-italic {
+    font-style: italic;
+}
+
 .site-info-underline {
     text-decoration: underline;
 }
@@ -1501,3 +1505,14 @@ button.connect-secondary {
     color: #fff;
     font-size: 0.8rem;
 }
+
+
+/* 
+<span class=\"site-info-bold\"> 
+<span class=\"site-info-underline\"> 
+<span class=\"messagesHeaderFont\">
+<span class=\"samples-text-underline\">
+<span class=\"site-info-italic\">
+
+*/
+
