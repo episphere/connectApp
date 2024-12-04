@@ -1391,6 +1391,10 @@ button.connect-secondary {
     margin-bottom: 1rem;
 }
 
+#donateMySamplesTable tbody tr td {
+    padding: 0.5rem;
+}
+
 .messagesHeaderFont .samples-page-text {
     font-size: 1.125rem; 
     color: #2E2E2E;
