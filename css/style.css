@@ -1360,6 +1360,10 @@ button.connect-secondary {
     font-family: Montserrat;
 }
 
+.site-info-italic {
+    font-style: italic;
+}
+
 .site-info-underline {
     text-decoration: underline;
 }
@@ -1383,6 +1387,10 @@ button.connect-secondary {
 
 .site-list-item-spacing {
     margin-bottom: 1rem;
+}
+
+#donateMySamplesTable tbody tr td {
+    padding: 0.5rem;
 }
 
 .messagesHeaderFont .samples-page-text {
