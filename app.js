@@ -10,7 +10,6 @@ import { renderSettingsPage } from "./js/pages/settings.js";
 import { renderSupportPage } from "./js/pages/support.js";
 import { renderPaymentPage } from "./js/pages/payment.js";
 import { renderSamplesPage } from "./js/pages/samples.js";
-import { footerTemplate } from "./js/pages/footer.js";
 import { renderVerifiedPage } from "./js/pages/verifiedPage.js";
 import { firebaseConfig as devFirebaseConfig } from "./dev/config.js";
 import { firebaseConfig as stageFirebaseConfig } from "./stage/config.js";
@@ -30,15 +29,16 @@ if ("serviceWorker" in navigator) {
 
     navigator.serviceWorker.ready.then(() => {
         if (navigator.serviceWorker.controller) {
-        navigator.serviceWorker.controller.postMessage({ action: "getAppVersion" });
+            navigator.serviceWorker.controller.postMessage({ action: "getAppVersion" });
         }
     });
 
     navigator.serviceWorker.addEventListener("message", (event) => {
         if (event.data.action === "sendAppVersion") {
-        document.getElementById("appVersion").textContent = event.data.payload;
+            document.getElementById("appVersion").textContent = event.data.payload;
         }
     });
+
 }
 
 let auth = '';
@@ -128,11 +128,6 @@ window.onload = async () => {
             inactivityTime();
         }
     });
-
-    const footer = document.getElementById('footer');
-    if (footer) {
-        footer.innerHTML = footerTemplate();
-    }
 }
 
 const handleVerifyEmail = (auth, actionCode) => {
@@ -417,8 +412,6 @@ export const signOut = async () => {
         window.DD_RUM.stopSession();
         isDataDogUserSessionSet = false;
     }
-
-    console.log("signing current user out!");
     localforage.clear();
 
     await firebase.auth().signOut();

@@ -769,7 +769,7 @@ export const environmentWarningModal = () => {
     const devWarningShown = appState.getState()?.isDevWarningShown;
     if (devWarningShown === true) return;
 
-    appState.setState({ isDevWarningShown: false });
+    appState.setState({ isDevWarningShown: true });
 
     document.getElementById('connectWarningModalHeader').style.display = 'block'; 
     document.getElementById('connectWarningModalHeader').innerHTML = `
@@ -838,8 +838,6 @@ export const environmentWarningModal = () => {
         if (signInBtn) {
             signInBtn.focus();
         }
-
-        appState.setState({ isDevWarningShown: true });
     });
 
     modalElement.addEventListener('hidden.bs.modal', (event) => {

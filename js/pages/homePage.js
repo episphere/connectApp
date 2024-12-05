@@ -1,4 +1,4 @@
-import { getMyData, hasUserData, urls, fragment, checkAccount, debounceClick, validEmailFormat, validPhoneNumberFormat, getCleanSearchString, firebaseSignInRender, signInAnonymously, usGov, translateHTML, translateText, getFirebaseUI, showAnimation, hideAnimation } from "../shared.js";
+import { getMyData, hasUserData, urls, fragment, checkAccount, validEmailFormat, validPhoneNumberFormat, getCleanSearchString, firebaseSignInRender, signInAnonymously, usGov, translateHTML, translateText, getFirebaseUI, showAnimation, hideAnimation } from "../shared.js";
 import { signInConfig } from "./signIn.js";
 import { environmentWarningModal, downtimeWarning } from "../event.js";
 
@@ -529,14 +529,31 @@ export function signInSignUpEntryRender() {
 
   document.getElementById('signInWrapperDiv').replaceChildren(df);
 
-  signInBtn.addEventListener('click', debounceClick(async (e) => {
+  signInBtn.addEventListener('click', async (e) => {
     e.preventDefault();
-    await signInCheckRender();
-  }));
-  signUpBtn.addEventListener('click', debounceClick(async (e) => {
+    signInBtn.disabled = true;
+
+    try {
+      await signInCheckRender();
+    } catch (error) {
+      console.error('Error during sign-in:', error);
+    } finally {
+      signInBtn.disabled = false;
+    }
+  });
+  
+  signUpBtn.addEventListener('click', async (e) => {
     e.preventDefault();
-    await signUpRender({ signUpType: "phone" });
-  }));
+    signUpBtn.disabled = true;
+
+    try {
+      await signUpRender({ signUpType: "phone" });
+    } catch (error) {
+      console.error('Error during sign-up:', error);
+    } finally {
+      signUpBtn.disabled = false;
+    }
+  });
 }
 
 export function signInCheckRender () {
@@ -576,8 +593,9 @@ export function signInCheckRender () {
 
   document.getElementById('signInWrapperDiv').replaceChildren(df);
 
-  signInBtn.addEventListener('click', debounceClick(async (e) => {
+  signInBtn.addEventListener('click', async (e) => {
     e.preventDefault();
+    signInBtn.disabled = true;
     const inputStr = accountInput.value.trim();
     const isEmail = !!inputStr.match(validEmailFormat);
     const isPhone = !!inputStr.match(validPhoneNumberFormat);
@@ -626,9 +644,9 @@ export function signInCheckRender () {
     } finally {
       hideAnimation();
       accountInput.value = '';
+      signInBtn.disabled = false;
     }
-    
-  }));
+  });
 
   signUpAnchor.addEventListener('click', async () => {
     await signUpRender({ signUpType: "phone" });

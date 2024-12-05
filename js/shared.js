@@ -2246,19 +2246,3 @@ export const getFirebaseUI = async () => {
         }
     }
 }
-
-/**
- * Set a short timeout to disallow multiple repetitive actions (button clicks).
- * @param {Function} func - Function to execute.
- * @param {number} delay - Delay in milliseconds.
- * @returns 
- */
-export const debounceClick = (func, delay) => {
-    let timeoutId;
-    return function(...args) {
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => {
-            func.apply(this, args);
-        }, delay);
-    }
-}
