@@ -1,7 +1,7 @@
-import { getParameters, validateToken, userLoggedIn, getMyData, hasUserData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, appState, processAuthWithFirebaseAdmin, successResponse, logDDRumError, translateHTML, translateText, languageAcronyms } from "./js/shared.js";
-import { userNavBar, homeNavBar, languageSelector } from "./js/components/navbar.js";
+import { getParameters, validateToken, userLoggedIn, getMyData, hasUserData, getMyCollections, showAnimation, hideAnimation, storeResponse, isBrowserCompatible, inactivityTime, urls, appState, processAuthWithFirebaseAdmin, successResponse, logDDRumError, translateHTML, translateText, languageAcronyms, toggleNavbarMobileView } from "./js/shared.js";
+import { userNavBar, homeNavBar, languageSelector, signOutNavBarTemplate } from "./js/components/navbar.js";
 import { homePage, joinNowBtn, whereAmIInDashboard, renderHomeAboutPage, renderHomeExpectationsPage, renderHomePrivacyPage } from "./js/pages/homePage.js";
-import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser, addEventToggleSubmit, addEventLanguageSelection } from "./js/event.js";
+import { addEventPinAutoUpperCase, addEventRequestPINForm, addEventRetrieveNotifications, toggleCurrentPage, toggleCurrentPageNoUser, addEventToggleSubmit, addEventLanguageSelection, environmentWarningModal } from "./js/event.js";
 import { requestPINTemplate, duplicateAccountReminderRender } from "./js/pages/healthCareProvider.js";
 import { myToDoList } from "./js/pages/myToDoList.js";
 import {renderNotificationsPage} from "./js/pages/notifications.js"
@@ -10,7 +10,6 @@ import { renderSettingsPage } from "./js/pages/settings.js";
 import { renderSupportPage } from "./js/pages/support.js";
 import { renderPaymentPage } from "./js/pages/payment.js";
 import { renderSamplesPage } from "./js/pages/samples.js";
-import { footerTemplate } from "./js/pages/footer.js";
 import { renderVerifiedPage } from "./js/pages/verifiedPage.js";
 import { firebaseConfig as devFirebaseConfig } from "./dev/config.js";
 import { firebaseConfig as stageFirebaseConfig } from "./stage/config.js";
@@ -19,6 +18,7 @@ import { firebaseConfig as prodFirebaseConfig } from "./prod/config.js";
 // Get the API key file from Box or the DevOps team
 // Do not accept PRs with the localDevFirebaseConfig import uncommented
 // import { firebaseConfig as  localDevFirebaseConfig} from "./local-dev/config.js";
+
 import conceptIdMap from "./js/fieldToConceptIdMapping.js";
 
 if ("serviceWorker" in navigator) {
@@ -29,15 +29,16 @@ if ("serviceWorker" in navigator) {
 
     navigator.serviceWorker.ready.then(() => {
         if (navigator.serviceWorker.controller) {
-        navigator.serviceWorker.controller.postMessage({ action: "getAppVersion" });
+            navigator.serviceWorker.controller.postMessage({ action: "getAppVersion" });
         }
     });
 
     navigator.serviceWorker.addEventListener("message", (event) => {
         if (event.data.action === "sendAppVersion") {
-        document.getElementById("appVersion").textContent = event.data.payload;
+            document.getElementById("appVersion").textContent = event.data.payload;
         }
     });
+
 }
 
 let auth = '';
@@ -109,31 +110,25 @@ window.onload = async () => {
     auth = firebase.auth();
 
     auth.onAuthStateChanged(async (user) => {
-      let idToken = '';
-      if (user) {
-        idToken = await user.getIdToken();
-        if (!user.isAnonymous) {
-          localforage.clear();
-          inactivityTime();
-          const firstSignInTime = new Date(user.metadata.creationTime).toISOString();
-          appState.setState({ participantData: { firstSignInTime } });
-        } 
-      }
+        let idToken = '';
+        if (user) {
+            idToken = await user.getIdToken();
+            if (!user.isAnonymous) {
+                localforage.clear();
+                const firstSignInTime = new Date(user.metadata.creationTime).toISOString();
+                appState.setState({ participantData: { firstSignInTime } }); // TODO: potential issue with firstSignInTimestamp
+            }
+        }
 
-      appState.setState({ idToken });
+        appState.setState({ idToken });
+
+        await router();
+
+        if (user && !user.isAnonymous) {
+            inactivityTime();
+        }
     });
-
-    const footer = document.getElementById('footer');
-    footer.innerHTML = footerTemplate();
-    // googleTranslateElementInit();
-    
-    router();
 }
-
-// TODO: 'google is not defined' datadog error - inspect loading sequence/timing.
-// const googleTranslateElementInit = () => {
-//     if(google) new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
-// }
 
 const handleVerifyEmail = (auth, actionCode) => {
     auth.applyActionCode(actionCode).then(function(resp) {
@@ -198,8 +193,8 @@ const handleResetPassword = (auth, actionCode) => {
     });
 }
 
-window.onhashchange = () => {
-    router();
+window.onhashchange = async () => {
+    await router();
 }
 
 const router = async () => {
@@ -233,7 +228,7 @@ const router = async () => {
         renderLanguageSelector();
 
         if (route === '#') {
-            homePage();
+            await homePage();
         } else if (route === '#about') {
             renderHomeAboutPage();
         } else if (route === '#expectations') {
@@ -270,7 +265,7 @@ const router = async () => {
             if (route === '#') userProfile();
             else if (route === '#dashboard') userProfile();
             else if (route === '#messages') renderNotificationsPage();
-            else if (route === '#sign_out') signOut();
+            else if (route === '#sign_out') await signOut();
             else if (route === '#forms') renderAgreements();
             else if (route === '#myprofile') renderSettingsPage();
             else if (route === '#support') renderSupportPage();
@@ -288,8 +283,8 @@ const renderLanguageSelector = () => {
        //Add the language Selector Container
        languageSelectorContainer = document.createElement('div');
        languageSelectorContainer.id = 'languageSelectorContainer';
-       let navBarAlt = document.getElementById('navbarNavAltMarkup')
-       navBarAlt.parentNode.insertBefore(languageSelectorContainer, navBarAlt);
+       let userNavBar = document.getElementById('userNavBarContainer');
+       userNavBar.parentNode.insertBefore(languageSelectorContainer, userNavBar);
     }
 
     languageSelectorContainer.innerHTML = languageSelector();
@@ -406,7 +401,9 @@ const userProfile = () => {
     });
 }
 
-const signOut = () => {
+export const signOut = async () => {
+    toggleNavbarMobileView();
+
     // Record a logout action and stop the DataDog session. This or 15 mins of inactivity will create a new session when the next action is taken.
     if (!isLocalDev && window.DD_RUM) {
         window.DD_RUM.addAction('user_logout', {
@@ -415,8 +412,10 @@ const signOut = () => {
         window.DD_RUM.stopSession();
         isDataDogUserSessionSet = false;
     }
+    localforage.clear();
 
-    firebase.auth().signOut();
+    await firebase.auth().signOut();
+
     window.location.hash = '#';
     document.title = translateText('shared.homeTitle');
 }
@@ -430,22 +429,23 @@ const toggleNavBar = (route, data) => {
     auth.onAuthStateChanged(async user => {
         if (user && !user.isAnonymous){
             showAnimation();
-            document.getElementById('navbarNavAltMarkup').innerHTML = userNavBar(data);
+            document.getElementById('userNavBarContainer').innerHTML = userNavBar(data);
+            document.getElementById('signOutContainer').innerHTML = signOutNavBarTemplate();
             document.getElementById('joinNow') ? document.getElementById('joinNow').innerHTML = joinNowBtn(false) : ``; 
             document.getElementById('signInWrapperDiv') ? document.getElementById('signInWrapperDiv').style.display = "none" :'';
             document.getElementById('nextStepWarning') ? document.getElementById('nextStepWarning').innerHTML = await whereAmIInDashboard() : '';
             document.getElementById('nextStepWarning') ? document.getElementById('nextStepWarning').style.display="block": '';
             addEventRetrieveNotifications();
-            toggleCurrentPage(route);
+            await toggleCurrentPage(route);
             hideAnimation();
-            
         }
         else{
             showAnimation();
-            document.getElementById('navbarNavAltMarkup').innerHTML = homeNavBar();
+            document.getElementById('userNavBarContainer').innerHTML = homeNavBar();
+            document.getElementById('signOutContainer').innerHTML = '';
             document.getElementById('joinNow') ? document.getElementById('joinNow').innerHTML = joinNowBtn(true) : ``;
             document.getElementById('nextStepWarning') ? document.getElementById('nextStepWarning').style.display="none": '';
-            toggleCurrentPageNoUser(route);
+            await toggleCurrentPageNoUser(route);
             hideAnimation();
         }
     });

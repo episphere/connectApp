@@ -309,7 +309,7 @@
         "firstName": "Nombre de pila <span class=\"required\">*</span>",
         "middleName": "Segundo nombre",
         "lastName": "Apellido<span class=\"required\">*</span>",
-        "navButtons": "<button class=\"btn btn-primary consentPrevButton\" type=\"button\" id=\"backToAgreements\" style=\"float:left;\">Atrás</button><div class=\"ml-auto\"><button type=\"submit\" class=\"btn btn-primary save-data consentNextButton\">Firmar y enviar</button></div>"
+        "navButtons": "<button class=\"btn btn-primary consentPrevButton w-100 w-sm-auto me-sm-5\" type=\"button\" id=\"backToAgreements\">Atrás</button><button type=\"submit\" class=\"btn btn-primary save-data consentNextButton w-100 w-sm-auto ms-sm-5\">Firmar y enviar</button>"
     },
     "consent": {
         "list0": "Le damos la bienvenida",
@@ -608,7 +608,7 @@
     },
     "footer": {
         "Questions": "¿TIENE ALGUNA PREGUNTA?",
-        "nci-dceg": "<div class=\"dceg-footer align-left text-center text-sm-left\">División de Epidemiología y Genética del Cáncer</div><div class=\"nci-dceg-footer align-left text-center text-sm-left\">del Instituto Nacional del Cáncer</div>",
+        "nci-dceg": "<div class=\"dceg-footer align-left text-center text-sm-center\">División de Epidemiología y Genética del Cáncer</div><div class=\"nci-dceg-footer align-left text-center text-sm-center\">del Instituto Nacional del Cáncer</div>",
         "contactLink": "<a class=\"footer-links\" target=\"__blank\" href=\"https://norcfedramp.servicenowservices.com/recruit\">Comuníquese con el Centro de Asistencia de Connect</a>",
         "emailUs": "<a class=\"footer-links\" href=\"mailto:ConnectAyuda@norc.org\">Escríbanos</a>",
         "policies": "POLÍTICAS",
@@ -1370,7 +1370,7 @@
         "fixesList": "<li>Revise si el mensaje se marcó como correo no deseado o se lo filtró.</li><li>Revise su conexión a Internet.</li><li>Revise que no haya escrito mal su dirección de correo electrónico.</li><li>Verifique que la bandeja de entrada no se esté quedando sin espacio y que haya otros problemas relacionados con la configuración de la bandeja de entrada.</li>",
         "resendEmail": "Si los pasos anteriores no funcionan, puede volver a enviar el mensaje. Tenga en cuenta que eso desactivará el enlace del mensaje anterior.",
         "resendText": "Reenviar",
-        "savingSpin": "<div class=\"spinner-border spinner-saving\" role=\"status\"><span class=\"sr-only\">Cargando…</span></div> Guardando",
+        "savingSpin": "<div class=\"spinner-border spinner-saving\" role=\"status\"><span class=\"visually-hidden\">Cargando…</span></div> Guardando",
         "stateAlabama": "Alabama",
         "stateAlaska": "Alaska",
         "stateArizona": "Arizona",
@@ -1700,7 +1700,7 @@
         "modQualityofLifeSurvey": "Encuesta sobre calidad de vida",
         "mod2024ConnectExperienceSurvey": "2024 Encuesta Sobre Experiencia de Connect",
         "sessionInactiveTitle": "Inactivo",
-        "sessionInactive": "Ha estado inactivo durante 20 minutos, ¿desea extender la sesión?<div class=\"modal-footer\"><button type=\"button\" title=\"Cerrar\" class=\"btn btn-dark log-out-user\" data-dismiss=\"modal\">Cerrar sesión</button><button type=\"button\" title=\"Continuar\" class=\"btn btn-primary extend-user-session\" data-dismiss=\"modal\">Continuar</button></div>",
+        "sessionInactive": "Ha estado inactivo durante 20 minutos, ¿desea extender la sesión?<div class=\"modal-footer\"><button type=\"button\" title=\"Cerrar\" class=\"btn btn-dark log-out-user\" data-bs-dismiss=\"modal\">Cerrar sesión</button><button type=\"button\" title=\"Continuar\" class=\"btn btn-primary extend-user-session\" data-bs-dismiss=\"modal\">Continuar</button></div>",
         "homeTitle": "My Connect - Inicio",
         "dashboardTitle": "My Connect - Panel",
         "signInPhone": "Iniciar sesión con el número de teléfono"

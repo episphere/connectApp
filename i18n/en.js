@@ -308,7 +308,7 @@ const en = {
         "firstName": "First name <span class=\"required\">*</span>",
         "middleName": "Middle name",
         "lastName": "Last name<span class=\"required\">*</span>",
-        "navButtons": "<button class=\"btn btn-primary consentPrevButton\" type=\"button\" id=\"backToAgreements\" style=\"float:left;\">Back</button><div class=\"ml-auto\"><button type=\"submit\" class=\"btn btn-primary save-data consentNextButton\">Sign and Submit</button></div>"
+        "navButtons": "<button class=\"btn btn-primary consentPrevButton w-100 w-sm-auto me-sm-5\" type=\"button\" id=\"backToAgreements\">Back</button><button type=\"submit\" class=\"btn btn-primary save-data consentNextButton w-100 w-sm-auto ms-sm-5\">Sign and Submit</button>"
     },
     "consent": {
         "list0": "Welcome",
@@ -603,7 +603,7 @@ const en = {
     },
     "footer": {
         "Questions": "HAVE QUESTIONS?",
-        "nci-dceg": "<div class=\"dceg-footer align-left text-center text-sm-left\">Division of Cancer Epidemiology and Genetics</div><div class=\"nci-dceg-footer align-left text-center text-sm-left\">at the National Cancer Institute</div>",
+        "nci-dceg": "<div class=\"dceg-footer align-left text-center text-sm-center\">Division of Cancer Epidemiology and Genetics</div><div class=\"nci-dceg-footer align-left text-center text-sm-center\">at the National Cancer Institute</div>",
         "contactLink": "<a class=\"footer-links\" target=\"__blank\" href=\"https://norcfedramp.servicenowservices.com/recruit\">Contact the Connect Support Center</a>",
         "emailUs": "<a class=\"footer-links\" href=\"mailto:ConnectStudy@norc.org\">Email Us</a>",
         "policies": "POLICIES",
@@ -1365,7 +1365,7 @@ const en = {
         "fixesList": "<li>Check if the email was marked as spam or filtered.</li><li>Check your internet connection.</li><li>Check that you did not misspell your email.</li><li>Check that your inbox space is not running out or other inbox settings related issues.</li>",
         "resendEmail": "If the steps above didn't work, you can resend the email. Note that this will deactivate the link in the older email.",
         "resendText": "Resend",
-        "savingSpin": "<div class=\"spinner-border spinner-saving\" role=\"status\"><span class=\"sr-only\">Loading...</span></div> Saving",
+        "savingSpin": "<div class=\"spinner-border spinner-saving\" role=\"status\"><span class=\"visually-hidden\">Loading...</span></div> Saving",
         "stateAlabama": "Alabama",
         "stateAlaska": "Alaska",
         "stateArizona": "Arizona",
@@ -1695,7 +1695,7 @@ const en = {
         "modQualityofLifeSurvey": "Quality of Life Survey",
         "mod2024ConnectExperienceSurvey": "2024 Connect Experience Survey",
         "sessionInactiveTitle": "Inactive",
-        "sessionInactive": "You were inactive for 20 minutes, would you like to extend your session?<div class=\"modal-footer\"><button type=\"button\" title=\"Close\" class=\"btn btn-dark log-out-user\" data-dismiss=\"modal\">Log Out</button><button type=\"button\" title=\"Continue\" class=\"btn btn-primary extend-user-session\" data-dismiss=\"modal\">Continue</button></div>",
+        "sessionInactive": "You were inactive for 20 minutes, would you like to extend your session?<div class=\"modal-footer\"><button type=\"button\" title=\"Close\" class=\"btn btn-dark log-out-user\" data-bs-dismiss=\"modal\">Log Out</button><button type=\"button\" title=\"Continue\" class=\"btn btn-primary extend-user-session\" data-bs-dismiss=\"modal\">Continue</button></div>",
         "homeTitle": "My Connect - Home",
         "dashboardTitle": "My Connect - Dashboard",
         "signInPhone": "Sign in with phone number"
