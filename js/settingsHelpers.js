@@ -973,7 +973,7 @@ export const formerNameOptions = [
 ];
 export const numberOfDefaultFormerNames = 2
 export const getFormerNameData = () => {
-  const result = []   
+  let object = null;
   const upEmail = document.getElementById("UPEmail");
   const formerNameItems = document.getElementsByClassName("former-name-item");
   Array.from(formerNameItems).forEach((_, index) => {
@@ -984,7 +984,7 @@ export const getFormerNameData = () => {
           `former-name-category-${index + 1}`
       );
       if (inputElement.value) {
-          const object = {
+          object = {
             [cId.profileChangeRequestedBy] : upEmail.value,
             [cId.userProfileUpdateTimestamp]: new Date().toISOString(),
           }
@@ -999,8 +999,7 @@ export const getFormerNameData = () => {
                 object[cId.lName] = inputElement.value
                   break;
           }
-          result.push(object)
       }
   });
-  return result
+  return object
 };
