@@ -1,4 +1,3 @@
-import { addEventHideNotification } from "./event.js";
 import fieldMapping from './fieldToConceptIdMapping.js'; 
 import { signInConfig } from "./pages/signIn.js";
 import { signInCheckRender, signUpRender } from "./pages/homePage.js";
@@ -931,80 +930,6 @@ export const checkAccount = async (data) => {
     return jsonResponse;
 }
 
-export const connectPushNotification = () => {
-    try {
-        const messaging = firebase.messaging();
-        Notification.requestPermission(async status => {
-            if(status !== "granted") return;
-            const token = await messaging.getToken();
-            manageNotificationTokens(token);
-            messaging.onTokenRefresh(async () => {
-                const refreshedToken = await messaging.getToken();
-                manageNotificationTokens(refreshedToken);
-            });
-            
-            messaging.onMessage(payload => {
-                let timesRun = 0;
-                let interval = setInterval(() => {
-                    timesRun += 1;
-                    if(timesRun === 10){
-                        const bellIcon = document.querySelectorAll('.fa-bell')[0];
-                        bellIcon.style.color = '#82a55a';
-                        clearInterval(interval);
-                    }else{
-                        animateNotificationBell();
-                    }
-                }, 300);
-                
-                const div = document.createElement('div');
-                div.classList = ["notification"];
-                div.innerHTML = `
-                    <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
-                        <div class="toast-header">
-                            <strong class="me-auto">${payload.notification.title}</strong>
-                            <button type="button" class="ms-2 mb-1 close hideNotification" data-bs-dismiss="toast" aria-label="${translateText('shared.closeText')}">&times;</button>
-                        </div>
-                        <div class="toast-body">
-                            ${payload.notification.body}
-                        </div>
-                    </div>
-                `
-                document.getElementById('showNotification').appendChild(div);
-                addEventHideNotification(div);
-            });
-        });
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-const animateNotificationBell = () => {
-    const bellIcon = document.querySelectorAll('.fa-bell')[0];
-    
-    if(bellIcon.classList.contains('fas')){
-        bellIcon.classList.remove('fas');
-        bellIcon.classList.add('far');
-    }
-    else if (bellIcon.classList.contains('far')){
-        bellIcon.classList.remove('far');
-        bellIcon.classList.add('fas');
-    }
-}
-
-const manageNotificationTokens = (token) => {
-    try {
-        const messaging = firebase.messaging();
-        subscribeForNotifications({token}).then(async res => {
-            if(res.status === 403){
-                const response = await messaging.deleteToken();
-                manageNotificationTokens(await messaging.getToken());
-            };
-        });
-    } catch (err) {
-        console.error(err);
-    }
-}
-
 export const toggleNavbarMobileView = () => {
     const navbarCollapse = document.querySelector('#navbarContent.show');
     const navbarToggler = document.querySelector('.navbar-toggler');
@@ -1017,13 +942,6 @@ export const toggleNavbarMobileView = () => {
         }
     }
 };
-
-export const getConceptVariableName = async (conceptId) => {
-    const response = await fetch(`https://raw.githubusercontent.com/episphere/conceptGithubActions/master/jsons/${conceptId}.json`);
-    //return (await response.json()).variableName;
-    let res = await response.json()
-    return res['Variable Name'];
-}
 
 export const questionnaireModules = () => {
     
@@ -1119,6 +1037,14 @@ export const questionnaireModules = () => {
                     es: 'prod/moduleQoLSpanish.txt'
                 },
                 moduleId: "PROMIS", 
+                enabled: false
+            },
+            'Cancer Screening History': {
+                path: {
+                    en: 'prod/moduleCancerScreeningHistory.txt', 
+                    es: 'prod/moduleCancerScreeningHistorySpanish.txt'
+                },
+                moduleId: "CancerScreeningHistory", 
                 enabled: false
             }
         }
@@ -1216,6 +1142,14 @@ export const questionnaireModules = () => {
             }, 
             moduleId:"PROMIS", 
             enabled:false
+        },
+        'Cancer Screening History': {
+            path: {
+                en: 'moduleCancerScreeningHistoryStage.txt',
+                es: 'moduleCancerScreeningHistoryStageSpanish.txt'
+            },
+            moduleId: "CancerScreeningHistory", 
+            enabled: false
         }
     };
 }
@@ -1539,45 +1473,18 @@ export function fragment(strings, ...values) {
   }
 
   transformedStringList.push(strings[N]);
-  const documentFragment = stringToFragment(transformedStringList.join(''));
+  const doc = new DOMParser().parseFromString(transformedStringList.join(""), "text/html");
+  const documentFragment = new DocumentFragment();
+  documentFragment.append(...doc.body.children);
 
   if (elementAndDocumentFragmentList.length > 0) {
-    const phEleList = documentFragment.querySelectorAll('#placeholder');
+    const phEleList = documentFragment.querySelectorAll("#placeholder");
     for (let i = 0; i < phEleList.length; i++) {
-      replaceElement(phEleList[i], elementAndDocumentFragmentList[i]);
+      phEleList[i].replaceWith(elementAndDocumentFragmentList[i]);
     }
   }
 
   return documentFragment;
-}
-
-export function stringToFragment(str) {
-  const doc = new DOMParser().parseFromString(str, 'text/html');
-  const fragment = new DocumentFragment();
-  fragment.append(...doc.body.children);
-
-  return fragment;
-}
-
-export function replaceElement(ele, ...nodes) {
-  const divEle = wrapToDiv(nodes);
-  ele.replaceWith(...divEle.children);
-  
-  return ele;
-}
-
-export function removeChildren(ele) {
-    const divEle = document.createElement('div');
-    divEle.append(...ele.children);
-  
-    return Array.from(divEle.children);
-}
-
-function wrapToDiv(nodes) {
-  let divEle = document.createElement('div');
-  divEle.replaceChildren(...nodes);
-
-  return divEle;
 }
 
 export const delay = async (ms) =>
@@ -1956,7 +1863,7 @@ export const updateStartSurveyParticipantData = async (sha, path, connectId, mod
  * @param {string} path - Path to the module file in the GitHub repository.
  * @param {string} connectID - Connect ID of the logged in participant.
  * @param {string} moduleID - Module ID of the module the participant is accessing.
- * @returns {Object} - { moduleText, surveyVersion } object.
+ * @returns {Promise<{moduleText: string, surveyVersion: string}>} Module text and version number.
  */
 export const getModuleText = async (sha, path, connectID, moduleID) => {
     try {
@@ -2246,3 +2153,20 @@ export const getFirebaseUI = async () => {
         }
     }
 }
+
+/**
+ * Create a new Date object with adjusted time
+ * @param {number | string | Date} inputTime - Input time to adjust
+ * @param {number} [days = 0] - Number of days to adjust
+ * @param {number} [hours = 0] - Number of hours to adjust
+ * @param {number} [minutes = 0] - Number of minutes to adjust
+ * @returns {Date} Adjusted time
+ */
+export const getAdjustedTime = (inputTime, days = 0, hours = 0, minutes = 0) => {
+    let adjustedTime = new Date(inputTime);
+    adjustedTime.setDate(adjustedTime.getDate() + days);
+    adjustedTime.setHours(adjustedTime.getHours() + hours);
+    adjustedTime.setMinutes(adjustedTime.getMinutes() + minutes);
+  
+    return adjustedTime;
+  };

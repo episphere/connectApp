@@ -733,7 +733,9 @@
         "mainBodyPROMISHeader": "Encuesta sobre calidad de vida",
         "mainBodyPROMISDescription": "Preguntas sobre su salud física, social y mental.",
         "mainBodyExperience2024Header": "2024 Encuesta Sobre Experiencia de Connect",
-        "mainBodyExperience2024Description": "Preguntas acerca de su experiencia con Connect, y sus preferencias para realizar actividades del estudio, utilizar MyConnect, y recibir mensajes."
+        "mainBodyExperience2024Description": "Preguntas acerca de su experiencia con Connect, y sus preferencias para realizar actividades del estudio, utilizar MyConnect, y recibir mensajes.",
+        "mainBodyCancerScreeningHistoryHeader":"Encuesta sobre historial de exámenes de detección de cáncer",
+        "mainBodyCancerScreeningHistoryDescription": "Preguntas sobre pruebas anteriores para detectar el cáncer. Se trata de pruebas que buscan cáncer en personas sin síntomas.",
     },
     "notifications": {
         "read": "Leídos",
@@ -1699,6 +1701,7 @@
         "modAtHomeMouthwashSampleSurvey": "Encuesta sobre muestra de enjuague bucal tomada en el hogar",
         "modQualityofLifeSurvey": "Encuesta sobre calidad de vida",
         "mod2024ConnectExperienceSurvey": "2024 Encuesta Sobre Experiencia de Connect",
+        "modCancerScreeningHistorySurvey": "Encuesta sobre historial de exámenes de detección de cáncer",
         "sessionInactiveTitle": "Inactivo",
         "sessionInactive": "Ha estado inactivo durante 20 minutos, ¿desea extender la sesión?<div class=\"modal-footer\"><button type=\"button\" title=\"Cerrar\" class=\"btn btn-dark log-out-user\" data-bs-dismiss=\"modal\">Cerrar sesión</button><button type=\"button\" title=\"Continuar\" class=\"btn btn-primary extend-user-session\" data-bs-dismiss=\"modal\">Continuar</button></div>",
         "homeTitle": "My Connect - Inicio",

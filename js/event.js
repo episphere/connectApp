@@ -1222,17 +1222,6 @@ export const addEventCancerFollowUp = () => {
     });
 }
 
-
-export const addEventHideNotification = (element) => {
-    const hideNotification = element.querySelectorAll('.hideNotification');
-    Array.from(hideNotification).forEach(btn => {
-        btn.addEventListener('click', () => {
-            btn.parentNode.parentNode.parentNode.parentNode.removeChild(btn.parentNode.parentNode.parentNode);
-        });
-        // setTimeout(() => { btn.dispatchEvent(new Event('click')) }, 5000);
-    });
-}
-
 export const addEventRetrieveNotifications = () => {
     const btn = document.getElementById('retrieveNotifications');
     if(!btn) return;
