@@ -540,7 +540,7 @@ export const renderMailingAddress = (type, id, required, showCountry) => {
                 <label class="col-form-label" data-i18n="form.mailAddressZipLabel" id="physicalAddressZipLabel">
                     Zip
                 </label>
-                <input data-i18n="form.mailAddressZipField" type=text id="physicalAddressZip" data-error-validation="Please enter a 5 digit zip code in this format: 12345." data-val-pattern="[0-9]{5}" title="5 characters long, numeric-only value." class="form-control required-field num-val" data-error-required='Please enter the zip field of your mailing address.' size="5" maxlength="5" placeholder="99999">
+                <input data-i18n="form.mailAddressZipField" type="text" id="physicalAddressZip" data-error-validation="Please enter a 5 digit zip code in this format: 12345." data-val-pattern="[0-9]{5}" title="5 characters long, numeric-only value." class="form-control required-field num-val" data-error-required='Please enter the zip field of your mailing address.' size="5" maxlength="5" placeholder="99999">
             </div>
         </div>
     </div>
