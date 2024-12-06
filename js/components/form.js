@@ -473,7 +473,7 @@ export const renderMailingAddress = (type, id, required, showCountry) => {
         </div>
         <div class="checkbox">
             <label>
-                <input style="" type=checkbox id="poBoxCheckbox">
+                <input type="checkbox" id="poBoxCheckbox">
                 <span  data-i18n="form.isPOBoxChecked">Please check if mailing address is a P.O. Box</span>
             </label> 
         </div>
