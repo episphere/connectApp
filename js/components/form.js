@@ -501,7 +501,7 @@ export const renderMailingAddress = (type, id, required, showCountry) => {
         <div class="form-group row">
             <div class="col">
                 <label class="col-form-label" data-i18n="form.mailAddressLine1Label">
-                    Line 1 (street, PO box, rural route)}
+                    Line 1 (street, PO box, rural route)
                 </label>
                 <br>
                 <input data-i18n="form.mailAddressLine1Field" style="margin-left:0px; max-width:301px;" type="text" id="physicalAddressLine1" autocomplete="off" class="form-control" placeholder="Enter street, PO box, rural route" maxlength="70">
