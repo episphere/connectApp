@@ -513,7 +513,7 @@ export const renderMailingAddress = (type, id, required, showCountry) => {
                     Line 2 (apartment, suite, unit, building)
                 </label>
                 <br>
-                <input data-i18n="form.mailAddressLine2Field" style="margin-left:0px; max-width:301px;" type=text id="physicalAddressLine2" autocomplete="off" class="form-control" placeholder="Enter apartment, suite, unit, building" maxlength="70">
+                <input data-i18n="form.mailAddressLine2Field" style="margin-left:0px; max-width:301px;" type="text" id="physicalAddressLine2" autocomplete="off" class="form-control" placeholder="Enter apartment, suite, unit, building" maxlength="70">
             </div>
         </div>
         <div class="form-group row">
