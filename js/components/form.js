@@ -522,7 +522,7 @@ export const renderMailingAddress = (type, id, required, showCountry) => {
                     City 
                 </label>
                 <br>
-                <input data-i18n="form.mailAddressCityField" style="margin-left:0px; max-width:301px;" type=text id="physicalAddressCity" class="form-control" data-error-required='Please enter the city field of your mailing address.' placeholder="Enter City">
+                <input data-i18n="form.mailAddressCityField" style="margin-left:0px; max-width:301px;" type="text" id="physicalAddressCity" class="form-control" data-error-required='Please enter the city field of your mailing address.' placeholder="Enter City">
             </div>
         </div>
         <div class="form-group row">
