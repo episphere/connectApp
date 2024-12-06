@@ -1,5 +1,5 @@
 import { allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, BirthMonths, getAge, getMyData, 
-    hasUserData, retrieveNotifications, toggleNavbarMobileView, appState, logDDRumError, translateHTML, translateText, firebaseSignInRender, emailAddressValidation } from "./shared.js";
+    hasUserData, retrieveNotifications, toggleNavbarMobileView, appState, logDDRumError, translateHTML, translateText, firebaseSignInRender, emailAddressValidation, emailAddressValidation } from "./shared.js";
 import { consentTemplate } from "./pages/consent.js";
 import { heardAboutStudy, healthCareProvider, duplicateAccountReminderRender } from "./pages/healthCareProvider.js";
 import { myToDoList } from "./pages/myToDoList.js";
@@ -617,7 +617,14 @@ export const addEventUPSubmit = async () => {
             focus = false;
             hasError = true;
         }
-        const _emailAddressValidation = await emailAddressValidation({
+        
+        /*if(city && !/^[a-zA-Z]+$/.test(city) ){
+            errorMessage('UPAddress1City', 'City name may only contain letters.');
+            if(focus) document.getElementById('UPAddress1City').focus();
+            focus = false;
+            hasError = true;
+        }*/
+        const emailValidation = await emailAddressValidation({
             emails: {
                 email,
                 email2: email2 ? email2.value : undefined,
@@ -626,8 +633,8 @@ export const addEventUPSubmit = async () => {
             },
         });
         if (
-            _emailAddressValidation.email &&
-            _emailAddressValidation.email.verdict.toLowerCase() === "invalid"
+            emailValidation.email &&
+            emailValidation.email.verdict.toLowerCase() === "invalid"
         ) {
             errorMessage(
                 "UPEmail",
@@ -641,8 +648,8 @@ export const addEventUPSubmit = async () => {
             hasError = true;
         }
         if (
-            _emailAddressValidation.email2 &&
-            _emailAddressValidation.email2.verdict.toLowerCase() === "invalid"
+            emailValidation.email2 &&
+            emailValidation.email2.verdict.toLowerCase() === "invalid"
         ) {
             errorMessage(
                 "UPEmail2",
@@ -656,8 +663,8 @@ export const addEventUPSubmit = async () => {
             hasError = true;
         }
         if (
-            _emailAddressValidation.email3 &&
-            _emailAddressValidation.email3.verdict.toLowerCase() === "invalid"
+            emailValidation.email3 &&
+            emailValidation.email3.verdict.toLowerCase() === "invalid"
         ) {
             errorMessage(
                 "UPAdditionalEmail2",
@@ -671,8 +678,8 @@ export const addEventUPSubmit = async () => {
             hasError = true;
         }
         if (
-            _emailAddressValidation.email4 &&
-            _emailAddressValidation.email4.verdict.toLowerCase() === "invalid"
+            emailValidation.email4 &&
+            emailValidation.email4.verdict.toLowerCase() === "invalid"
         ) {
             errorMessage(
                 "UPAdditionalEmail3",
