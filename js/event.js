@@ -1,5 +1,5 @@
 import { allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, BirthMonths, getAge, getMyData, 
-    hasUserData, retrieveNotifications, toggleNavbarMobileView, appState, logDDRumError, translateHTML, translateText, firebaseSignInRender, emailAddressValidation, emailAddressValidation } from "./shared.js";
+    hasUserData, retrieveNotifications, toggleNavbarMobileView, appState, logDDRumError, translateHTML, translateText, firebaseSignInRender, emailAddressValidation } from "./shared.js";
 import { consentTemplate } from "./pages/consent.js";
 import { heardAboutStudy, healthCareProvider, duplicateAccountReminderRender } from "./pages/healthCareProvider.js";
 import { myToDoList } from "./pages/myToDoList.js";
