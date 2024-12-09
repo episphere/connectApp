@@ -177,11 +177,6 @@
             "title": "Ingrese una dirección de correo electrónico con este formato: nombre@ejemplo.com.",
             "placeholder": "abc@mail.com"
         },
-        "confirmPreferredEmail": "Confirme su dirección de correo electrónico preferida<span class=\"required\">*</span>",
-        "confirmPreferredEmailField": {
-            "title": "Ingrese una dirección de correo electrónico con este formato: nombre@ejemplo.com.",
-            "placeholder": "Vuelva a escribir su dirección de correo electrónico preferida"
-        },
         "additionalEmail": "Correo electrónico adicional",
         "additionalEmailField": {
             "title": "Ingrese una dirección de correo electrónico con este formato: nombre@ejemplo.com.",
@@ -223,6 +218,7 @@
         "alternateContactPhoneNumberField": {
             "placeholder": "Ingrese el número de teléfono"
         },
+        "addresses": "Direcciones",
         "mailAddress": "Dirección postal",
         "mailAddressLine1Label": "Línea 1 (calle, apartado postal, ruta rural)",
         "mailAddressLine1LabelRequired": "Línea 1 (calle, apartado postal, ruta rural) <span class=\"required\">*</span>",
@@ -252,8 +248,11 @@
             "title": "5 caracteres de longitud, solo valor numérico.",
             "data-error-required": "Ingrese el campo de código postal de su dirección postal."
         },
+        "isPOBoxChecked": "Revise si la dirección postal es un apartado postal ",
         "mailAddressCountry": "País ",
-        "mailAddressCountryRequired": "País <span class=\"required\">*</span>"
+        "mailAddressCountryRequired": "País <span class=\"required\">*</span>",
+        "physicalAddress": "Dirección física (si es diferente de la dirección postal) ",
+        "physicalAddressDesc": "Se necesita una dirección física para que Connect pueda enviarle paquetes por FedEx para algunas actividades del estudio. FedEx no hace envíos a apartados postales. ",
     },
     "navbar": {
         "dashboardLink": " Panel",

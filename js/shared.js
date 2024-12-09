@@ -2154,6 +2154,20 @@ export const getFirebaseUI = async () => {
     }
 }
 
+export const emailAddressValidation = async (data) => {
+    const idToken = appState.getState().idToken;
+    const response = await fetch(`${api}?api=emailAddressValidation`, {
+        method: "POST",
+        headers: {
+            Authorization: "Bearer " + idToken
+        },
+        body: JSON.stringify(data)
+    });
+
+    const jsonResponse = await response.json();
+    return jsonResponse;
+}
+
 /**
  * Create a new Date object with adjusted time
  * @param {number | string | Date} inputTime - Input time to adjust
