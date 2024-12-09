@@ -14,35 +14,36 @@ import { renderVerifiedPage } from "./js/pages/verifiedPage.js";
 import { firebaseConfig as devFirebaseConfig } from "./dev/config.js";
 import { firebaseConfig as stageFirebaseConfig } from "./stage/config.js";
 import { firebaseConfig as prodFirebaseConfig } from "./prod/config.js";
-// When doing local development, uncomment this.
-// Get the API key file from Box or the DevOps team
-// Do not accept PRs with the localDevFirebaseConfig import uncommented
-// import { firebaseConfig as  localDevFirebaseConfig} from "./local-dev/config.js";
-
 import conceptIdMap from "./js/fieldToConceptIdMapping.js";
 
 if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("./serviceWorker.js").catch((error) => {
-        console.error("Service worker registration failed.", error);
-        return;
-    });
-
+    navigator.serviceWorker
+      .register("./serviceWorker.js")
+      .then((registration) => {
+        registration.onupdatefound = () => {
+          const sw = registration.installing;
+          if (sw) {
+            sw.onstatechange = () => sw.state === "activated" && sw.postMessage({ action: "getAppVersion" });
+          }
+        };
+      })
+      .catch((err) => {
+        console.error("Service worker registration failed.", err);
+      });
+      
     navigator.serviceWorker.ready.then(() => {
-        if (navigator.serviceWorker.controller) {
-            navigator.serviceWorker.controller.postMessage({ action: "getAppVersion" });
-        }
+      const sw = navigator.serviceWorker.controller;
+      sw && sw.postMessage({ action: "getAppVersion" });
     });
-
+  
     navigator.serviceWorker.addEventListener("message", (event) => {
-        if (event.data.action === "sendAppVersion") {
-            document.getElementById("appVersion").textContent = event.data.payload;
-        }
+      if (event.data.action === "sendAppVersion") {
+        document.getElementById("appVersion").textContent = event.data.payload;
+      }
     });
-
-}
+  }
 
 let auth = '';
-// DataDog session management -> tie Connect_ID to DataDog sessions
 let isDataDogUserSessionSet = false;
 
 const datadogConfig = {
@@ -93,8 +94,9 @@ window.onload = async () => {
         window.DD_RUM && window.DD_RUM.init({ ...datadogConfig, env: 'stage' });
     }
     else if (isLocalDev) {
-        if (typeof localDevFirebaseConfig === 'undefined') {
-            console.error('Local development requires a localDevFirebaseConfig function to be defined in ./local-dev/config.js.');
+        const { firebaseConfig: localDevFirebaseConfig } = await import("./local-dev/config.js");
+        if (!localDevFirebaseConfig) {
+            console.error('Local development requires a firebaseConfig variable defined in ./local-dev/config.js.');
             return;
         }
         !firebase.apps.length ? firebase.initializeApp(localDevFirebaseConfig) : firebase.app();

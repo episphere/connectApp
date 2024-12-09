@@ -728,7 +728,9 @@ const en = {
         "mainBodyPROMISHeader": "Quality of Life Survey",
         "mainBodyPROMISDescription": "Questions about your physical, social, and mental health.",
         "mainBodyExperience2024Header": "2024 Connect Experience Survey",
-        "mainBodyExperience2024Description": "Questions about your experience with Connect and your preferences for completing study activities, using MyConnect, and getting messages."
+        "mainBodyExperience2024Description": "Questions about your experience with Connect and your preferences for completing study activities, using MyConnect, and getting messages.",
+        "mainBodyCancerScreeningHistoryHeader": "Cancer Screening History Survey",
+        "mainBodyCancerScreeningHistoryDescription": "Questions about past tests you may have had to screen for cancer. These are tests that look for cancer in people without symptoms.",
     },
     "notifications": {
         "read": "Read",
@@ -1694,6 +1696,7 @@ const en = {
         "modAtHomeMouthwashSampleSurvey": "At-Home Mouthwash Sample Survey",
         "modQualityofLifeSurvey": "Quality of Life Survey",
         "mod2024ConnectExperienceSurvey": "2024 Connect Experience Survey",
+        "modCancerScreeningHistorySurvey": "Cancer Screening History Survey",
         "sessionInactiveTitle": "Inactive",
         "sessionInactive": "You were inactive for 20 minutes, would you like to extend your session?<div class=\"modal-footer\"><button type=\"button\" title=\"Close\" class=\"btn btn-dark log-out-user\" data-bs-dismiss=\"modal\">Log Out</button><button type=\"button\" title=\"Continue\" class=\"btn btn-primary extend-user-session\" data-bs-dismiss=\"modal\">Continue</button></div>",
         "homeTitle": "My Connect - Home",
