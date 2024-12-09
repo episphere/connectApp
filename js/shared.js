@@ -2260,3 +2260,39 @@ export const emailAddressValidation = async (data) => {
     const jsonResponse = await response.json();
     return jsonResponse;
 }
+
+export const emailValidationStatus = {
+    VALID: "valid",
+    INVALID: "invalid",
+    WARNING: "warning",
+};
+
+export const emailValidationAnalysis = (validation) => {
+    if (!validation) return;
+
+    const { verdict, checks, score } = validation
+    const { INVALID, VALID, WARNING } = emailValidationStatus;
+
+    const isInvalid =
+        verdict === INVALID ||
+        !checks.domain.has_valid_address_syntax ||
+        !checks.domain.has_mx_or_a_record ||
+        score < 0.45;
+
+    if (isInvalid) {
+        return INVALID;
+    }
+
+    const isWarning =
+        checks.domain.is_suspected_disposable_address ||
+        checks.local_part.is_suspected_role_address ||
+        checks.additional.has_known_bounces ||
+        checks.additional.has_suspected_bounces ||
+        score < 0.8;
+
+    if (isWarning) {
+        return WARNING;
+    }
+
+    return VALID;
+};
