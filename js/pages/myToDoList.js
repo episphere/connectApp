@@ -1,4 +1,4 @@
-import { hideAnimation, questionnaireModules, storeResponse, isParticipantDataDestroyed, translateHTML, getAdjustedTime } from "../shared.js";
+import { hideAnimation, questionnaireModules, storeResponse, isParticipantDataDestroyed, translateHTML, translateText, getAdjustedTime } from "../shared.js";
 import { blockParticipant, questionnaire } from "./questionnaire.js";
 import { renderUserProfile } from "../components/form.js";
 import { consentTemplate } from "./consent.js";
@@ -400,7 +400,8 @@ const renderMainBody = (data, collections, tab) => {
                         const moduleTitle = modules[thisKey]['header'] || thisKey;
                         const isEnabled = modules[thisKey].enabled && !modules[thisKey].unreleased;
                         const buttonAction = modules[thisKey].unreleased ? 'mytodolist.comingSoon' : data[fieldMapping[modules[thisKey].moduleId]?.statusFlag] === fieldMapping.moduleStatus.started ? 'mytodolist.continue' : 'mytodolist.start';
-                        const ariaLabelButton = `${buttonAction} ${moduleTitle}`;
+                        const strippedModuleTitle = moduleTitle?.replace(/(\s|[-._\(\),])/g, '') || '';
+                        const ariaLabelButton = translateText(buttonAction) + ' ' + translateText(`shared.mod${strippedModuleTitle}`);
 
                         started = true;
                         template += `
@@ -414,7 +415,7 @@ const renderMainBody = (data, collections, tab) => {
                                     <div class="${modules[thisKey]['hasIcon'] === false? 'col-9':'col-md-8'}">
                                         <p style="font-style:bold; font-size:24px; margin-left:10px">
                                             <b style="color:#5c2d93; font-size:18px;">
-                                            <span data-i18n="${`shared.mod${moduleTitle.replace(/(\s|[-._\(\),])/g,'')}`}">${moduleTitle}</span>
+                                            <span data-i18n="${`shared.mod${strippedModuleTitle}`}">${moduleTitle}</span>
                                             </b>
                                             <br> 
                                             <span data-i18n="${modules[thisKey].description}"></span>
@@ -440,7 +441,10 @@ const renderMainBody = (data, collections, tab) => {
                         const moduleTitle = modules[key]['header'] || key;
                         const isEnabled = modules[key].enabled && !modules[key].unreleased;
                         const buttonAction = modules[key].unreleased ? 'mytodolist.comingSoon' : (data[fieldMapping[modules[key].moduleId].statusFlag] === fieldMapping.moduleStatus.started ? 'mytodolist.continue' : 'mytodolist.start');
-                        const ariaLabelButton = `${buttonAction} ${moduleTitle}`;
+                        const strippedModuleTitle = moduleTitle?.replace(/(\s|[-._\(\),])/g, '') || '';
+                        const ariaLabelButton = translateText(buttonAction) + ' ' + translateText(`shared.mod${strippedModuleTitle}`);
+                        
+                        
                         template += `
                             <div class="w-95 mx-auto mb-3 border rounded" role="listitem" aria-label="${moduleTitle} details">
                                 <div class="row">
@@ -452,7 +456,7 @@ const renderMainBody = (data, collections, tab) => {
                                     <div class="${modules[key]['hasIcon'] === false ? 'col-9' : 'col-md-8'}">
                                     <p style="font-style:bold; font-size:24px; margin-left:10px">
                                         <b style="color:#5c2d93; font-size:18px;">
-                                        <span data-i18n="${`shared.mod${moduleTitle.replace(/(\s|[-._\(\),])/g,'')}`}">${moduleTitle}</span>
+                                        <span data-i18n="${`shared.mod${strippedModuleTitle}`}">${moduleTitle}</span>
                                         </b>
                                         <br> 
                                         <span data-i18n="${modules[key].description}"></span>
