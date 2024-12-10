@@ -109,7 +109,8 @@ const en = {
         "formerNameCategoryTitle": "Name Category",
         "formerNameValueTitle": "Former Name",
         "formerNameValue": {
-            "placeholder": "Enter former name"
+            "placeholder": "Enter former name",
+            "data-error-validation":"Your former name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters."
         },
         "formerNameCategory": {
             "data-error-required": "Please choose a name category. If you do not have a name to enter, please remove text from Former Name textbox"
@@ -121,6 +122,7 @@ const en = {
         "birthDateSubHeader": "Date of Birth",
         "birthPlaceSubHeader": "Place of Birth",
         "monthListLabel": "Month <span class=\"required\">*</span>",
+        "monthListLabelNotRequired": "Month",
         "monthListRequired": {
             "data-error-required": "Please complete required Date of Birth fields"
         },
@@ -137,10 +139,12 @@ const en = {
         "monthNovember": "November",
         "monthDecember": "December",
         "dayListLabel": "Day <span class=\"required\">*</span>",
+        "dayListLabelNotRequired": "Day",
         "dayListRequired": {
             "data-error-required": "Please complete required Date of Birth fields"
         },
         "yearListLabel": "Year <span class=\"required\">*</span>",
+        "yearListLabelNotRequired": "Year",
         "yearListField": {
             "data-error-required": "Please complete required Date of Birth fields",
             "data-error-validation": "The year you entered is outside of our expected range. Please check your entry.",
@@ -158,6 +162,7 @@ const en = {
             "data-error-confirmation":"Both the Day values do not match "
         },
         "birthPlaceIntroduction": "We collect this information so that we can match information we collect from other sources, like state health registries, to you.",
+        "dobConfirmation": "Please confirm your date of birth by re-entering your information.",
         "cityOfBirth":{
             "title": "City",
             "placeholder": "Enter City"
@@ -599,7 +604,7 @@ const en = {
         "profilePageHeader": "Thank you for your interest in the Connect for Cancer Prevention Study",
         "profilePageBody": ` Thank you for completing the consent process. We need some more information about you to confirm that you can be part of the study. After you complete this step, the Connect team at your health care system will use the information you share to check your eligibility.<br><br>
         Please enter your information carefully to ensure it is correct. This will help your healthcare system match it to your medical record and confirm your eligibility for Connect. If your healthcare system is unable to find a match, it might take longer to confirm your participation. After we confirm your eligibility for Connect, we’ll use the information you share to match any information we collect from other sources, like state health registries, to you. <br><br>
-        We will contact you within a few business days. We respect your privacy and protect the personal information you share with us. If you have questions, please contact the <a href=\"https://norcfedramp.servicenowservices.com/recruit\" target=\"_blank\">Connect Support Center</a> at MyConnect.cancer.gov/support.`
+        We will contact you within a few business days. We respect your privacy and protect the personal information you share with us. If you have questions, please contact the Connect Support Center at MyConnect.cancer.gov/support.`
     },
     "footer": {
         "Questions": "HAVE QUESTIONS?",
