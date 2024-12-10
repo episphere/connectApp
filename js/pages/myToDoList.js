@@ -1,4 +1,4 @@
-import { hideAnimation, questionnaireModules, storeResponse, isParticipantDataDestroyed, translateHTML} from "../shared.js";
+import { hideAnimation, questionnaireModules, storeResponse, isParticipantDataDestroyed, translateHTML, translateText, getAdjustedTime } from "../shared.js";
 import { blockParticipant, questionnaire } from "./questionnaire.js";
 import { renderUserProfile } from "../components/form.js";
 import { consentTemplate } from "./consent.js";
@@ -310,18 +310,14 @@ export const myToDoList = async (data, fromUserProfile, collections) => {
 }
 
 const addEventToDoList = () => {
-    const modules = document.getElementsByClassName('questionnaire-module');
-    
-    Array.from(modules).forEach(module => {
-        module.addEventListener('click',() => {
-            
-            if (!module.classList.contains("btn-disabled")) {
-                const moduleId = module.getAttribute("module_id");
-                questionnaire(moduleId);
-            }
-        });
+    const enabledButtons = document.querySelectorAll("button.questionnaire-module:not(.btn-disabled)");
+    enabledButtons.forEach((btn) => {
+      if (!btn.hasClickListener) {
+        btn.addEventListener("click", () => questionnaire(btn.getAttribute("module_id")));
+        btn.hasClickListener = true;
+      }
     });
-}
+  };
 
 const renderMainBody = (data, collections, tab) => {
     let template = `<ul class="questionnaire-module-list" role="list">`;
@@ -382,6 +378,8 @@ const renderMainBody = (data, collections, tab) => {
         toDisplaySystem.unshift({'body':['Connect Experience 2024']});
     }
 
+    modules["Cancer Screening History"].enabled && toDisplaySystem.unshift({ body: ["Cancer Screening History"] });
+
     if(tab === 'todo'){
         for(let obj of toDisplaySystem){
             let started = false;
@@ -402,7 +400,8 @@ const renderMainBody = (data, collections, tab) => {
                         const moduleTitle = modules[thisKey]['header'] || thisKey;
                         const isEnabled = modules[thisKey].enabled && !modules[thisKey].unreleased;
                         const buttonAction = modules[thisKey].unreleased ? 'mytodolist.comingSoon' : data[fieldMapping[modules[thisKey].moduleId]?.statusFlag] === fieldMapping.moduleStatus.started ? 'mytodolist.continue' : 'mytodolist.start';
-                        const ariaLabelButton = `${buttonAction} ${moduleTitle}`;
+                        const strippedModuleTitle = moduleTitle?.replace(/(\s|[-._\(\),])/g, '') || '';
+                        const ariaLabelButton = translateText(buttonAction) + ' ' + translateText(`shared.mod${strippedModuleTitle}`);
 
                         started = true;
                         template += `
@@ -416,7 +415,7 @@ const renderMainBody = (data, collections, tab) => {
                                     <div class="${modules[thisKey]['hasIcon'] === false? 'col-9':'col-md-8'}">
                                         <p style="font-style:bold; font-size:24px; margin-left:10px">
                                             <b style="color:#5c2d93; font-size:18px;">
-                                            <span data-i18n="${`shared.mod${moduleTitle.replace(/(\s|[-._\(\),])/g,'')}`}">${moduleTitle}</span>
+                                            <span data-i18n="${`shared.mod${strippedModuleTitle}`}">${moduleTitle}</span>
                                             </b>
                                             <br> 
                                             <span data-i18n="${modules[thisKey].description}"></span>
@@ -442,7 +441,10 @@ const renderMainBody = (data, collections, tab) => {
                         const moduleTitle = modules[key]['header'] || key;
                         const isEnabled = modules[key].enabled && !modules[key].unreleased;
                         const buttonAction = modules[key].unreleased ? 'mytodolist.comingSoon' : (data[fieldMapping[modules[key].moduleId].statusFlag] === fieldMapping.moduleStatus.started ? 'mytodolist.continue' : 'mytodolist.start');
-                        const ariaLabelButton = `${buttonAction} ${moduleTitle}`;
+                        const strippedModuleTitle = moduleTitle?.replace(/(\s|[-._\(\),])/g, '') || '';
+                        const ariaLabelButton = translateText(buttonAction) + ' ' + translateText(`shared.mod${strippedModuleTitle}`);
+                        
+                        
                         template += `
                             <div class="w-95 mx-auto mb-3 border rounded" role="listitem" aria-label="${moduleTitle} details">
                                 <div class="row">
@@ -454,7 +456,7 @@ const renderMainBody = (data, collections, tab) => {
                                     <div class="${modules[key]['hasIcon'] === false ? 'col-9' : 'col-md-8'}">
                                     <p style="font-style:bold; font-size:24px; margin-left:10px">
                                         <b style="color:#5c2d93; font-size:18px;">
-                                        <span data-i18n="${`shared.mod${moduleTitle.replace(/(\s|[-._\(\),])/g,'')}`}">${moduleTitle}</span>
+                                        <span data-i18n="${`shared.mod${strippedModuleTitle}`}">${moduleTitle}</span>
                                         </b>
                                         <br> 
                                         <span data-i18n="${modules[key].description}"></span>
@@ -644,7 +646,7 @@ const checkForNewSurveys = async (data, collections) => {
 
     if(newSurvey) {
         template += `
-            <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;" data-i18n="mytodolist.newSurvey">>
+            <div class="alert alert-warning" id="verificationMessage" style="margin-top:10px;" data-i18n="mytodolist.newSurvey">
                 You have a new survey to complete.
             </div>
         `;
@@ -730,6 +732,12 @@ const setModuleAttributes = (data, modules, collections) => {
     modules['Connect Experience 2024'].header = '2024 Connect Experience Survey';
     modules['Connect Experience 2024'].description = 'mytodolist.mainBodyExperience2024Description';
     modules['Connect Experience 2024'].estimatedTime = 'mytodolist.15_20minutes';
+
+    modules['Cancer Screening History'].header = 'Cancer Screening History Survey';
+    modules['Cancer Screening History'].description = 'mytodolist.mainBodyCancerScreeningHistoryDescription';
+    modules['Cancer Screening History'].estimatedTime = 'mytodolist.15_20minutes';
+
+    const currentTime = new Date();
     
     if(data['331584571']?.['266600170']?.['840048338']) {
         modules['Biospecimen Survey'].enabled = true;
@@ -857,5 +865,19 @@ const setModuleAttributes = (data, modules, collections) => {
         modules['Connect Experience 2024'].completed = true;
     }
 
+    if (
+      data[fieldMapping.verification] === fieldMapping.verified &&
+      data[fieldMapping.verifiedDate] &&
+      currentTime > getAdjustedTime(data[fieldMapping.verifiedDate], 270)
+    ) {
+      if (data[fieldMapping.CancerScreeningHistory.statusFlag]) {
+        modules["Cancer Screening History"].enabled = true;
+      }
+      
+      if (data[fieldMapping.CancerScreeningHistory.statusFlag] === fieldMapping.moduleStatus.submitted) {
+        modules["Cancer Screening History"].completed = true;
+      }
+    }
+      
     return modules;
 };

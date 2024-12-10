@@ -127,7 +127,8 @@ export default
         "D_793330426":      "ModuleCovid19",
         "D_390351864":      "Mouthwash",
         "D_601305072":      "PROMIS",
-        "D_506648060":      "Experience2024"
+        "D_506648060":      "Experience2024",
+        "D_369168474":      "CancerScreeningHistory"
     },
 
     "Module1_OLD": {
@@ -254,6 +255,16 @@ export default
         "version":          "905236593"
     },
 
+    CancerScreeningHistory: {
+        "conceptId": "D_369168474",
+        "startTs": "609630315",
+        "completeTs": "389890053",
+        "statusFlag": "176068627",
+        "standaloneSurvey": true,
+        "version": "350996955",
+        "questVersion": "562804752",
+    },
+    
     // @deprecated. Retain until migration to Quest2 is complete. External variables passed into Quest that require extra async/await handling.
     delayedParameterArray: [
         "D_761310265",
