@@ -330,7 +330,7 @@ export const renderUserProfile = async () => {
                     <input type="checkbox" id="poBoxCheckbox">
                     <span  data-i18n="form.isPOBoxChecked">Please check if mailing address is a P.O. Box</span>
                 </label> 
-            </div>
+            </div><br/>
             <div id="physicalAddressSection" style="display:none">
                 <div style="font-weight:bold" data-i18n="form.physicalAddress">
                     Physical Address (if different from Mailing Address)
@@ -457,7 +457,7 @@ export const renderMailingAddress = (type, id, required, showCountry) => {
                     Line 1 (street, PO box, rural route) ${required ? '<span class="required">*</span>': ''}
                 </label>
                 <br>
-                <input data-i18n="form.mailAddressLine1Field" style="margin-left:0px; max-width:301px;" type=text id="UPAddress${id}Line1" autocomplete="off" class="form-control required-field" data-error-required='Please enter the first line of your mailing address.' placeholder="Enter street, PO box, rural route" maxlength="70">
+                <input data-i18n="form.mailAddressLine1Field" style="margin-left:0px; max-width:301px;" type=text id="UPAddress${id}Line1" autocomplete="off" class="form-control ${required ? 'required-field': ''}" data-error-required='Please enter the first line of your mailing address.' placeholder="Enter street, PO box, rural route" maxlength="70">
             </div>
         </div>
         <div class="form-group row">
@@ -475,7 +475,7 @@ export const renderMailingAddress = (type, id, required, showCountry) => {
                     City  ${required ? '<span class="required">*</span>': ''}
                 </label>
                 <br>
-                <input data-i18n="form.mailAddressCityField" style="margin-left:0px; max-width:301px;" type=text id="UPAddress${id}City" class="form-control required-field" data-error-required='Please enter the city field of your mailing address.' placeholder="Enter City">
+                <input data-i18n="form.mailAddressCityField" style="margin-left:0px; max-width:301px;" type=text id="UPAddress${id}City" class="form-control ${required ? 'required-field': ''}" data-error-required='Please enter the city field of your mailing address.' placeholder="Enter City">
             </div>
         </div>
         <div class="form-group row">
@@ -484,7 +484,7 @@ export const renderMailingAddress = (type, id, required, showCountry) => {
                     State ${required ? '<span class="required">*</span>': ''}
                 </label>
                 <br>
-                <select style="margin-left:0px; max-width:301px;" class="form-control required-field" data-error-required='${translateText('form.mailAddressStateRequired')}' id="UPAddress${id}State">
+                <select style="margin-left:0px; max-width:301px;" class="form-control ${required ? 'required-field': ''}" data-error-required='${translateText('form.mailAddressStateRequired')}' id="UPAddress${id}State">
                     <option class="option-dark-mode" value="" data-i18n="form.selectOption">-- Select --</option>
                     ${renderStates()}
                 </select>
@@ -493,7 +493,7 @@ export const renderMailingAddress = (type, id, required, showCountry) => {
                 <label class="col-form-label" id="UPAddress${id}ZipLabel" data-i18n="form.mailAddressZipLabel${required ? 'Required': ''}">
                     Zip ${required ? '<span class="required">*</span>': ''}
                 </label>
-                <input data-i18n="form.mailAddressZipField" style="margin-left:0px; max-width:301px;" type=text id="UPAddress${id}Zip" data-error-validation="Please enter a 5 digit zip code in this format: 12345." data-val-pattern="[0-9]{5}" title="5 characters long, numeric-only value." class="form-control required-field num-val" data-error-required='Please enter the zip field of your mailing address.' size="5" maxlength="5" placeholder="99999">
+                <input data-i18n="form.mailAddressZipField" style="margin-left:0px; max-width:301px;" type=text id="UPAddress${id}Zip" data-error-validation="Please enter a 5 digit zip code in this format: 12345." data-val-pattern="[0-9]{5}" title="5 characters long, numeric-only value." class="form-control ${required ? 'required-field': ''} num-val" data-error-required='Please enter the zip field of your mailing address.' size="5" maxlength="5" placeholder="99999">
             </div>
         </div>
         <div class="form-group row">

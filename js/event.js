@@ -264,6 +264,7 @@ export const addEventPOBox = () => {
 };
 
 const onBlurPhysicalAddressLine = (event, id) => {
+    console.log("onBlurPhysicalAddressLine")
     const UPAddressCity = document.getElementById(`UPAddress${id}City`);
     const UPAddressState = document.getElementById(
         `UPAddress${id}State`
@@ -1068,19 +1069,19 @@ const verifyUserDetails = (formData, emailValidation) => {
         `: ``}
         ${formerdata && formerdata.length ? `
             <div class="row">
-                <div class="col"><strong data-i18n="">Former Names</strong></div>
+                <div class="col"><strong data-i18n="form.formerNameSubHeader">Former Names</strong></div>
             </div>
                 `: ``}`;
         if (formerdata && formerdata.length) {
             formerdata.forEach((item) => {
                 bodyHtml += `<div class="row">
-                                    <div class="col" data-i18n="">
+                                    <div class="col">
                                         ${
                                             item[fieldMapping.fName]
-                                                ? "First Name"
+                                                ? translateText("settings.firstName")
                                                 : item[fieldMapping.mName]
-                                                ? "Middle Name"
-                                                : "Last Name"
+                                                ? translateText("settings.middleName")
+                                                : translateText("settings.lastName")
                                         }
                                     </div>
                                     <div class="col">${
@@ -1112,15 +1113,15 @@ const verifyUserDetails = (formData, emailValidation) => {
             <div class="col"><strong data-i18n="form.birthPlaceSubHeader">Place of birth</strong></div>
         </div>
          <div class="row">
-            <div class="col" data-i18n="form.cityOfBirth">City</div>
+            <div class="col" data-i18n="form.cityOfBirth.title">City</div>
             <div class="col">${formData['876546260']}</div>
         </div>
          <div class="row">
-            <div class="col" data-i18n="form.stateOfBirth">State</div>
+            <div class="col" data-i18n="form.stateOfBirth.title">State</div>
             <div class="col">${formData['337485417']}</div>
         </div>
          <div class="row">
-            <div class="col" data-i18n="form.countryOfBirth">Country</div>
+            <div class="col" data-i18n="form.countryOfBirth.title">Country</div>
             <div class="col">${formData['384576626']}</div>
         </div>
         <div class="row">
