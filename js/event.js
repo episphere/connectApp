@@ -30,12 +30,12 @@ export const addEventsConsentSign = () => {
 
 export const addEventAddressAutoComplete = (id, country) => {
     let autocomplete = {};
-    const UPAddress1Line1 = document.getElementById(`UPAddress${id}Line1`);
-    const UPAddress1City = document.getElementById(`UPAddress${id}City`);
-    const UPAddress1State = document.getElementById(`UPAddress${id}State`);
-    const UPAddress1Zip = document.getElementById(`UPAddress${id}Zip`);
-    if(!UPAddress1Line1) return;
-    UPAddress1Line1.addEventListener('focus', () => {
+    const UPAddressLine1 = document.getElementById(`UPAddress${id}Line1`);
+    const UPAddressCity = document.getElementById(`UPAddress${id}City`);
+    const UPAddressState = document.getElementById(`UPAddress${id}State`);
+    const UPAddressZip = document.getElementById(`UPAddress${id}Zip`);
+    if(!UPAddressLine1) return;
+    UPAddressLine1.addEventListener('focus', () => {
         autocomplete = new google.maps.places.Autocomplete(document.getElementById(`UPAddress${id}Line1`), {types: ['geocode']});
         autocomplete.setFields(['address_component']);
         let addressLine1 = '';
@@ -54,10 +54,10 @@ export const addEventAddressAutoComplete = (id, country) => {
                 if(value.types.indexOf('postal_code') !== -1) addressZip = value.long_name;
                 if(value.types.indexOf('country') !== -1) addressCountry = value.long_name;
             });
-            UPAddress1Line1.value = addressLine1;
-            UPAddress1City.value = addressCity;
-            UPAddress1State.value = addressState;
-            UPAddress1Zip.value = addressZip;
+            UPAddressLine1.value = addressLine1;
+            UPAddressCity.value = addressCity;
+            UPAddressState.value = addressState;
+            UPAddressZip.value = addressZip;
             
             if(country){
                 const UPAddress1Country = document.getElementById(`UPAddress${id}Country`);
@@ -263,64 +263,64 @@ export const addEventPOBox = () => {
     });
 };
 
-const onBlurPhysicalAddressLine = (event) => {
-    const physicalAddressCity = document.getElementById("physicalAddressCity");
-    const physicalAddressState = document.getElementById(
-        "physicalAddressState"
+const onBlurPhysicalAddressLine = (event, id) => {
+    const UPAddressCity = document.getElementById(`UPAddress${id}City`);
+    const UPAddressState = document.getElementById(
+        `UPAddress${id}State`
     );
-    const physicalAddressZip = document.getElementById("physicalAddressZip");
+    const UPAddressZip = document.getElementById(`UPAddress${id}Zip`);
 
-    const physicalAddressCityLabel = document.getElementById(
-        "physicalAddressCityLabel"
+    const UPAddressCityLabel = document.getElementById(
+        `UPAddress${id}CityLabel`
     );
-    const physicalAddressStateLabel = document.getElementById(
-        "physicalAddressStateLabel"
+    const UPAddressStateLabel = document.getElementById(
+        `UPAddress${id}StateLabel`
     );
-    const physicalAddressZipLabel = document.getElementById(
-        "physicalAddressZipLabel"
+    const UPAddressZipLabel = document.getElementById(
+        `UPAddress${id}ZipLabel`
     );
 
-    physicalAddressCity.classList.remove("required-field");
-    physicalAddressState.classList.remove("required-field");
-    physicalAddressZip.classList.remove("required-field");
-    physicalAddressCityLabel.setAttribute(
+    UPAddressCity.classList.remove("required-field");
+    UPAddressState.classList.remove("required-field");
+    UPAddressZip.classList.remove("required-field");
+    UPAddressCityLabel.setAttribute(
         "data-i18n",
         "form.mailAddressCityLabel"
     );
-    physicalAddressStateLabel.setAttribute(
+    UPAddressStateLabel.setAttribute(
         "data-i18n",
         "form.mailAddressStateLabel"
     );
-    physicalAddressZipLabel.setAttribute(
+    UPAddressZipLabel.setAttribute(
         "data-i18n",
         "form.mailAddressZipLabel"
     );
 
     if (event.target.value) {
-        physicalAddressCity.classList.add("required-field");
-        physicalAddressState.classList.add("required-field");
-        physicalAddressZip.classList.add("required-field");
-        physicalAddressCityLabel.setAttribute(
+        UPAddressCity.classList.add("required-field");
+        UPAddressState.classList.add("required-field");
+        UPAddressZip.classList.add("required-field");
+        UPAddressCityLabel.setAttribute(
             "data-i18n",
             "form.mailAddressCityLabelRequired"
         );
-        physicalAddressStateLabel.setAttribute(
+        UPAddressStateLabel.setAttribute(
             "data-i18n",
             "form.mailAddressStateLabelRequired"
         );
-        physicalAddressZipLabel.setAttribute(
+        UPAddressZipLabel.setAttribute(
             "data-i18n",
             "form.mailAddressZipLabelRequired"
         );
     }
 };
 
-export const addEventPhysicalAddressLine = () => {
-    const physicalAddressLine1 = document.getElementById(
-        "physicalAddressLine1"
+export const addEventPhysicalAddressLine = (id) => {
+    const UPAddressLine1 = document.getElementById(
+        `UPAddress${id}Line1`
     );
 
-    physicalAddressLine1.addEventListener("blur", onBlurPhysicalAddressLine);
+    UPAddressLine1.addEventListener("blur", (event) => onBlurPhysicalAddressLine(event, id));
 };
 
 export const addEventFormerName = () => {
@@ -517,6 +517,7 @@ export const addEventUPSubmit = async () => {
                 hasError = true;
             }
         });
+        
         if(!(document.getElementById('UPCancer1').checked|| document.getElementById('UPCancer2').checked)){
             errorMessage('UPCancerBtnGroup', '<span data-i18n="event.provideResponse">'+translateText('event.provideResponse')+'</span>', focus);
             focus = false;
@@ -836,36 +837,36 @@ export const addEventUPSubmit = async () => {
             // Update formData with physical address details
             formData[fieldMapping.isPOBox] = fieldMapping.yes;
             formData[fieldMapping.physicalAddress1] = getFieldValue(
-                "physicalAddressLine1"
+                "UPAddress2Line1"
             );
             formData[fieldMapping.physicalAddress2] = getFieldValue(
-                "physicalAddressLine2"
+                "UPAddress2Line1"
             );
             formData[fieldMapping.physicalCity] = getFieldValue(
-                "physicalAddressCity"
+                "UPAddress2City"
             );
             formData[fieldMapping.physicalState] = getFieldValue(
-                "physicalAddressState"
+                "UPAddress2State"
             );
             formData[fieldMapping.physicalZip] =
-                getFieldValue("physicalAddressZip");
+                getFieldValue("UPAddress2Zip");
 
             // Create a physicalAddress object
             const physicalAddress = {
                 [fieldMapping.isPOBox]: fieldMapping.yes,
                 [fieldMapping.physicalAddress1]: getFieldValue(
-                    "physicalAddressLine1"
+                    "UPAddress2Line1"
                 ),
                 [fieldMapping.physicalAddress2]: getFieldValue(
-                    "physicalAddressLine2"
+                    "UPAddress2Line1"
                 ),
                 [fieldMapping.physicalCity]: getFieldValue(
-                    "physicalAddressCity"
+                    "UPAddress2City"
                 ),
                 [fieldMapping.physicalState]: getFieldValue(
-                    "physicalAddressState"
+                    "UPAddress2State"
                 ),
-                [fieldMapping.physicalZip]: getFieldValue("physicalAddressZip"),
+                [fieldMapping.physicalZip]: getFieldValue("UPAddress2Zip"),
                 [fieldMapping.profileChangeRequestedBy]:
                     getFieldValue("UPEmail"),
                 [fieldMapping.userProfileUpdateTimestamp]:

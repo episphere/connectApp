@@ -1353,8 +1353,8 @@
         "phoneRequired": "Debe ingresar al menos un número de teléfono. Ingrese al menos un número de teléfono de 10 dígitos con este formato: 999-999-9999.",
         "phoneFormat": "Ingrese un número de teléfono de 10 dígitos con este formato: 999-999-9999.",
         "emailFormat": "Ingrese una dirección de correo electrónico con este formato: nombre@ejemplo.com.",
-        "emailInvalid": "The Spanish error text",
-        "emailWarning": "The Spanish warning text",
+        "emailInvalid": "The Spanish error text", // Will update when information is available
+        "emailWarning": "The Spanish warning text", // Will update when information is available
         "addressNotEmpty": "El campo “Dirección” no puede quedar en blanco. Por favor, ingrese su dirección.",
         "cityNotEmpty": "El campo “Ciudad” no puede quedar vacío. Seleccione una ciudad.",
         "stateNotEmpty": "El campo “Estado” no puede quedar vacío. Seleccione un estado.",

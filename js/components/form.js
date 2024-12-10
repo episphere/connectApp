@@ -318,8 +318,28 @@ export const renderUserProfile = async () => {
                     </div>
                 </div>
             </div>
-
+            <hr>
+            <div class="userProfileSubHeaders" data-i18n="form.addresses">Addresses</div>
+            <br/>
+            <div style="font-weight:bold" data-i18n="form.mailAddress">
+                Mailing Address
+            </div>
             ${renderMailingAddress('', 1, true)}
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="poBoxCheckbox">
+                    <span  data-i18n="form.isPOBoxChecked">Please check if mailing address is a P.O. Box</span>
+                </label> 
+            </div>
+            <div id="physicalAddressSection" style="display:none">
+                <div style="font-weight:bold" data-i18n="form.physicalAddress">
+                    Physical Address (if different from Mailing Address)
+                </div><br/>
+                <div data-i18n="form.physicalAddressDesc">
+                    Physical address is needed so Connect can mail you packages via FedEx for some study activities. FedEx does not deliver to P.O. Boxes.
+                </div>
+                ${renderMailingAddress('', 2)}
+            </div>
             <br>
             <hr>
             <div class="userProfileSubHeaders" data-i18n="form.cancerHistorySubheader">Cancer History</div>
@@ -363,10 +383,11 @@ export const renderUserProfile = async () => {
     addEventFormerName();
     addEventAdditionalEmail();
     addEventAddressAutoComplete(1);
+    addEventAddressAutoComplete(2);
     addEventCheckCanText();
     addEventUPSubmit();
     addEventPOBox();
-    addEventPhysicalAddressLine();
+    addEventPhysicalAddressLine(2);
 
     for (let i = 0; i < numberOfDefaultFormerNames; i++) {
         addMoreFormerName();
@@ -423,16 +444,13 @@ export const renderAlternateContact = (id, required) => {
                 <input data-i18n="form.alternateContactPhoneNumberField" type="text" class="form-control" id="UPPhoneNumber${id}" ${required ? 'required' : ''} data-val-pattern="[1-9]{1}[0-9]{9}" size="10" maxlength="10" Placeholder="Enter phone number">
             </label><br>
         </div>
+        <div style="font-weight:bold" data-i18n="form.mailAddress">Mailing Address</div>
         ${renderMailingAddress('', id, required, true)}
     `);
 }
 
 export const renderMailingAddress = (type, id, required, showCountry) => {
     return translateHTML(`
-        <hr>
-        <div class="userProfileSubHeaders" data-i18n="form.addresses">Addresses</div>
-        <br/>
-        <div style="font-weight:bold" data-i18n="form.mailAddress">Mailing Address</div>
         <div class="form-group row">
             <div class="col">
                 <label class="col-form-label" data-i18n="form.mailAddressLine1Label${required ? 'Required': ''}">
@@ -453,8 +471,8 @@ export const renderMailingAddress = (type, id, required, showCountry) => {
         </div>
         <div class="form-group row">
             <div class="col">
-                <label class="col-form-label" data-i18n="form.mailAddressCityLabel${required ? 'Required': ''}">
-                    City 
+                <label class="col-form-label" id="UPAddress${id}CityLabel" data-i18n="form.mailAddressCityLabel${required ? 'Required': ''}">
+                    City  ${required ? '<span class="required">*</span>': ''}
                 </label>
                 <br>
                 <input data-i18n="form.mailAddressCityField" style="margin-left:0px; max-width:301px;" type=text id="UPAddress${id}City" class="form-control required-field" data-error-required='Please enter the city field of your mailing address.' placeholder="Enter City">
@@ -462,7 +480,7 @@ export const renderMailingAddress = (type, id, required, showCountry) => {
         </div>
         <div class="form-group row">
             <div class="col-lg-2">
-                <label class="col-form-label" data-i18n="form.mailAddressStateLabel${required ? 'Required': ''}">
+                <label class="col-form-label" id="UPAddress${id}StateLabel" data-i18n="form.mailAddressStateLabel${required ? 'Required': ''}">
                     State ${required ? '<span class="required">*</span>': ''}
                 </label>
                 <br>
@@ -472,17 +490,11 @@ export const renderMailingAddress = (type, id, required, showCountry) => {
                 </select>
             </div>
             <div class="col-lg-2">
-                <label class="col-form-label" data-i18n="form.mailAddressZipLabel${required ? 'Required': ''}">
+                <label class="col-form-label" id="UPAddress${id}ZipLabel" data-i18n="form.mailAddressZipLabel${required ? 'Required': ''}">
                     Zip ${required ? '<span class="required">*</span>': ''}
                 </label>
                 <input data-i18n="form.mailAddressZipField" style="margin-left:0px; max-width:301px;" type=text id="UPAddress${id}Zip" data-error-validation="Please enter a 5 digit zip code in this format: 12345." data-val-pattern="[0-9]{5}" title="5 characters long, numeric-only value." class="form-control required-field num-val" data-error-required='Please enter the zip field of your mailing address.' size="5" maxlength="5" placeholder="99999">
             </div>
-        </div>
-        <div class="checkbox">
-            <label>
-                <input type="checkbox" id="poBoxCheckbox">
-                <span  data-i18n="form.isPOBoxChecked">Please check if mailing address is a P.O. Box</span>
-            </label> 
         </div>
         <div class="form-group row">
             
@@ -497,72 +509,6 @@ export const renderMailingAddress = (type, id, required, showCountry) => {
                 ${renderCountries()}
             </select>
         </div>
-        `:``}
-    <div id="physicalAddressSection" style="display:none">
-        <div style="font-weight:bold" data-i18n="form.physicalAddress">
-            Physical Address (if different from Mailing Address)
-        </div><br/>
-        <div data-i18n="form.physicalAddressDesc">
-            Physical address is needed so Connect can mail you packages via FedEx for some study activities. FedEx does not deliver to P.O. Boxes.
-        </div>
-        <div class="form-group row">
-            <div class="col">
-                <label class="col-form-label" data-i18n="form.mailAddressLine1Label">
-                    Line 1 (street, PO box, rural route)
-                </label>
-                <br>
-                <input data-i18n="form.mailAddressLine1Field" style="margin-left:0px; max-width:301px;" type="text" id="physicalAddressLine1" autocomplete="off" class="form-control" placeholder="Enter street, PO box, rural route" maxlength="70">
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col">
-                <label class="col-form-label" data-i18n="form.mailAddressLine2Label">
-                    Line 2 (apartment, suite, unit, building)
-                </label>
-                <br>
-                <input data-i18n="form.mailAddressLine2Field" style="margin-left:0px; max-width:301px;" type="text" id="physicalAddressLine2" autocomplete="off" class="form-control" placeholder="Enter apartment, suite, unit, building" maxlength="70">
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col">
-                <label class="col-form-label" data-i18n="form.mailAddressCityLabel" id="physicalAddressCityLabel">
-                    City 
-                </label>
-                <br>
-                <input data-i18n="form.mailAddressCityField" style="margin-left:0px; max-width:301px;" type="text" id="physicalAddressCity" class="form-control" data-error-required='Please enter the city field of your mailing address.' placeholder="Enter City">
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-lg-2">
-                <label class="col-form-label" data-i18n="form.mailAddressStateLabel" id="physicalAddressStateLabel">
-                    State
-                </label>
-                <br>
-                <select style="margin-left:0px;" class="form-control required-field" data-error-required='${translateText('form.mailAddressStateRequired')}' id="physicalAddressState">
-                    <option class="option-dark-mode" value="" data-i18n="form.selectOption">-- Select --</option>
-                    ${renderStates()}
-                </select>
-            </div>
-            <div class="col-lg-2">
-                <label class="col-form-label" data-i18n="form.mailAddressZipLabel" id="physicalAddressZipLabel">
-                    Zip
-                </label>
-                <input data-i18n="form.mailAddressZipField" type="text" id="physicalAddressZip" data-error-validation="Please enter a 5 digit zip code in this format: 12345." data-val-pattern="[0-9]{5}" title="5 characters long, numeric-only value." class="form-control required-field num-val" data-error-required='Please enter the zip field of your mailing address.' size="5" maxlength="5" placeholder="99999">
-            </div>
-        </div>
-    </div>
-    <div class="form-group row"></div>
-    ${showCountry ? `<br>
-    <div class="form-group row">
-        <label class="col-md-4 col-form-label" data-i18n="form.mailAddressCountry${required ? 'Required': ''}">
-            Country ${required ? '<span class="required">*</span>': ''}
-        </label>
-        <select class="form-control col-md-4" ${required ? 'required' : ''} id="UPAddress${id}Country">
-            <option class="option-dark-mode" value="">-- Select Country --
-            </option>
-                ${renderCountries()}
-        </select>
-    </div>
         `:``}
     `);
 };
