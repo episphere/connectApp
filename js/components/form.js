@@ -193,6 +193,13 @@ export const renderUserProfile = async () => {
             </br>
             <div class="form-group row" style="padding-top:0; padding-bottom:0;">
                 <div class="col">
+                    <label data-i18n="form.confirmPreferredEmail" class="col-form-label">Confirm Preferred Email <span class="required">*</span></label>
+                    <input data-i18n="form.confirmPreferredEmailField" style="margin-left:0px; max-width:382px;" type="text" class="form-control" id="confirmUPEmail" title="Please enter an email address in this format: name@example.com." Placeholder="Retype preferred email">
+                </div>
+            </div>
+            </br>
+            <div class="form-group row" style="padding-top:0; padding-bottom:0;">
+                <div class="col">
                     <label data-i18n="form.additionalEmail" class="col-form-label">Additional Email</label>
                     <input data-i18n="form.additionalEmailField" style="margin-left:0px; max-width:382px;" type="text" class="form-control col-md-4" id="UPEmail2" title="Please enter an email address in this format: name@example.com." Placeholder="Enter additional email">
                 </div>

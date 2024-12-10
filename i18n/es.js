@@ -177,6 +177,11 @@
             "title": "Ingrese una dirección de correo electrónico con este formato: nombre@ejemplo.com.",
             "placeholder": "abc@mail.com"
         },
+        "confirmPreferredEmail": "Confirme su dirección de correo electrónico preferida<span class=\"required\">*</span>",
+        "confirmPreferredEmailField": {
+            "title": "Ingrese una dirección de correo electrónico con este formato: nombre@ejemplo.com.",
+            "placeholder": "Vuelva a escribir su dirección de correo electrónico preferida"
+        },
         "additionalEmail": "Correo electrónico adicional",
         "additionalEmailField": {
             "title": "Ingrese una dirección de correo electrónico con este formato: nombre@ejemplo.com.",

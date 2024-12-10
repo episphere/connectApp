@@ -176,6 +176,11 @@ const en = {
             "title": "Please enter an email address in this format: name@example.com.",
             "placeholder": "abc@mail.com"
         },
+        "confirmPreferredEmail": "Confirm Preferred Email <span class=\"required\">*</span>",
+        "confirmPreferredEmailField": {
+            "title": "Please enter an email address in this format: name@example.com.",
+            "placeholder": "Retype preferred email"
+        },
         "additionalEmail": "Additional Email",
         "additionalEmailField": {
             "title": "Please enter an email address in this format: name@example.com.",

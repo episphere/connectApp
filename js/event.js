@@ -685,6 +685,22 @@ export const addEventUPSubmit = async () => {
             hasError = true;
         }
 
+        const confirmedEmail = document.getElementById('confirmUPEmail').value;
+        if(!confirmedEmail){
+            errorMessage('confirmUPEmail', '<span data-i18n="event.confirmEmail">'+translateText('event.confirmEmail')+'</span>', focus);
+            if(focus) document.getElementById('confirmUPEmail').focus();
+            focus = false;
+            hasError = true;
+            
+        }
+        else if(confirmedEmail !== document.getElementById('UPEmail').value){
+            errorMessage('confirmUPEmail', '<span data-i18n="event.emailsDoNotMatch">'+translateText('event.emailsDoNotMatch')+'</span>', focus);
+            if(focus) document.getElementById('confirmUPEmail').focus();
+            focus = false;
+            hasError = true;
+            
+        }
+
         if(hasError) return false;
         let formData = {};
         formData['507120821'] = 602439976;
