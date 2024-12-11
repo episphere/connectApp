@@ -1,5 +1,5 @@
 import { allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, BirthMonths, getAge, getMyData, 
-    hasUserData, retrieveNotifications, toggleNavbarMobileView, appState, logDDRumError, translateHTML, translateText, firebaseSignInRender, emailAddressValidation } from "./shared.js";
+    hasUserData, retrieveNotifications, toggleNavbarMobileView, appState, logDDRumError, translateHTML, translateText, firebaseSignInRender, emailAddressValidation, emailValidationStatus, emailValidationAnalysis } from "./shared.js";
 import { consentTemplate } from "./pages/consent.js";
 import { heardAboutStudy, healthCareProvider, duplicateAccountReminderRender } from "./pages/healthCareProvider.js";
 import { myToDoList } from "./pages/myToDoList.js";
@@ -30,12 +30,12 @@ export const addEventsConsentSign = () => {
 
 export const addEventAddressAutoComplete = (id, country) => {
     let autocomplete = {};
-    const UPAddress1Line1 = document.getElementById(`UPAddress${id}Line1`);
-    const UPAddress1City = document.getElementById(`UPAddress${id}City`);
-    const UPAddress1State = document.getElementById(`UPAddress${id}State`);
-    const UPAddress1Zip = document.getElementById(`UPAddress${id}Zip`);
-    if(!UPAddress1Line1) return;
-    UPAddress1Line1.addEventListener('focus', () => {
+    const UPAddressLine1 = document.getElementById(`UPAddress${id}Line1`);
+    const UPAddressCity = document.getElementById(`UPAddress${id}City`);
+    const UPAddressState = document.getElementById(`UPAddress${id}State`);
+    const UPAddressZip = document.getElementById(`UPAddress${id}Zip`);
+    if(!UPAddressLine1) return;
+    UPAddressLine1.addEventListener('focus', () => {
         autocomplete = new google.maps.places.Autocomplete(document.getElementById(`UPAddress${id}Line1`), {types: ['geocode']});
         autocomplete.setFields(['address_component']);
         let addressLine1 = '';
@@ -54,10 +54,10 @@ export const addEventAddressAutoComplete = (id, country) => {
                 if(value.types.indexOf('postal_code') !== -1) addressZip = value.long_name;
                 if(value.types.indexOf('country') !== -1) addressCountry = value.long_name;
             });
-            UPAddress1Line1.value = addressLine1;
-            UPAddress1City.value = addressCity;
-            UPAddress1State.value = addressState;
-            UPAddress1Zip.value = addressZip;
+            UPAddressLine1.value = addressLine1;
+            UPAddressCity.value = addressCity;
+            UPAddressState.value = addressState;
+            UPAddressZip.value = addressZip;
             
             if(country){
                 const UPAddress1Country = document.getElementById(`UPAddress${id}Country`);
@@ -263,64 +263,65 @@ export const addEventPOBox = () => {
     });
 };
 
-const onBlurPhysicalAddressLine = (event) => {
-    const physicalAddressCity = document.getElementById("physicalAddressCity");
-    const physicalAddressState = document.getElementById(
-        "physicalAddressState"
+const onBlurPhysicalAddressLine = (event, id) => {
+    console.log("onBlurPhysicalAddressLine")
+    const UPAddressCity = document.getElementById(`UPAddress${id}City`);
+    const UPAddressState = document.getElementById(
+        `UPAddress${id}State`
     );
-    const physicalAddressZip = document.getElementById("physicalAddressZip");
+    const UPAddressZip = document.getElementById(`UPAddress${id}Zip`);
 
-    const physicalAddressCityLabel = document.getElementById(
-        "physicalAddressCityLabel"
+    const UPAddressCityLabel = document.getElementById(
+        `UPAddress${id}CityLabel`
     );
-    const physicalAddressStateLabel = document.getElementById(
-        "physicalAddressStateLabel"
+    const UPAddressStateLabel = document.getElementById(
+        `UPAddress${id}StateLabel`
     );
-    const physicalAddressZipLabel = document.getElementById(
-        "physicalAddressZipLabel"
+    const UPAddressZipLabel = document.getElementById(
+        `UPAddress${id}ZipLabel`
     );
 
-    physicalAddressCity.classList.remove("required-field");
-    physicalAddressState.classList.remove("required-field");
-    physicalAddressZip.classList.remove("required-field");
-    physicalAddressCityLabel.setAttribute(
+    UPAddressCity.classList.remove("required-field");
+    UPAddressState.classList.remove("required-field");
+    UPAddressZip.classList.remove("required-field");
+    UPAddressCityLabel.setAttribute(
         "data-i18n",
         "form.mailAddressCityLabel"
     );
-    physicalAddressStateLabel.setAttribute(
+    UPAddressStateLabel.setAttribute(
         "data-i18n",
         "form.mailAddressStateLabel"
     );
-    physicalAddressZipLabel.setAttribute(
+    UPAddressZipLabel.setAttribute(
         "data-i18n",
         "form.mailAddressZipLabel"
     );
 
     if (event.target.value) {
-        physicalAddressCity.classList.add("required-field");
-        physicalAddressState.classList.add("required-field");
-        physicalAddressZip.classList.add("required-field");
-        physicalAddressCityLabel.setAttribute(
+        UPAddressCity.classList.add("required-field");
+        UPAddressState.classList.add("required-field");
+        UPAddressZip.classList.add("required-field");
+        UPAddressCityLabel.setAttribute(
             "data-i18n",
             "form.mailAddressCityLabelRequired"
         );
-        physicalAddressStateLabel.setAttribute(
+        UPAddressStateLabel.setAttribute(
             "data-i18n",
             "form.mailAddressStateLabelRequired"
         );
-        physicalAddressZipLabel.setAttribute(
+        UPAddressZipLabel.setAttribute(
             "data-i18n",
             "form.mailAddressZipLabelRequired"
         );
     }
 };
 
-export const addEventPhysicalAddressLine = () => {
-    const physicalAddressLine1 = document.getElementById(
-        "physicalAddressLine1"
+export const addEventPhysicalAddressLine = (id) => {
+    const UPAddressLine1 = document.getElementById(
+        `UPAddress${id}Line1`
     );
 
-    physicalAddressLine1.addEventListener("blur", onBlurPhysicalAddressLine);
+    UPAddressLine1.addEventListener("blur", (event) => onBlurPhysicalAddressLine(event, id));
 };
 
 export const addEventFormerName = () => {
@@ -517,6 +518,7 @@ export const addEventUPSubmit = async () => {
                 hasError = true;
             }
         });
+        
         if(!(document.getElementById('UPCancer1').checked|| document.getElementById('UPCancer2').checked)){
             errorMessage('UPCancerBtnGroup', '<span data-i18n="event.provideResponse">'+translateText('event.provideResponse')+'</span>', focus);
             focus = false;
@@ -626,20 +628,18 @@ export const addEventUPSubmit = async () => {
         }*/
         const emailValidation = await emailAddressValidation({
             emails: {
-                email,
-                email2: email2 ? email2.value : undefined,
-                email3: email3 ? email3.value : undefined,
-                email4: email4 ? email4.value : undefined,
+                upEmail:email,
+                upEmail2: email2 ? email2.value : undefined,
+                upAdditionalEmail2: email3 ? email3.value : undefined,
+                upAdditionalEmail3: email4 ? email4.value : undefined,
             },
         });
-        if (
-            emailValidation.email &&
-            emailValidation.email.verdict.toLowerCase() === "invalid"
-        ) {
+        
+        if (emailValidationAnalysis(emailValidation.upEmail) === emailValidationStatus.INVALID) {
             errorMessage(
                 "UPEmail",
-                '<span data-i18n="settingsHelpers.emailFormat">' +
-                    translateText("settingsHelpers.emailFormat") +
+                '<span data-i18n="settingsHelpers.emailInvalid">' +
+                    translateText("settingsHelpers.emailInvalid") +
                     "</span>",
                 focus
             );
@@ -647,14 +647,12 @@ export const addEventUPSubmit = async () => {
             focus = false;
             hasError = true;
         }
-        if (
-            emailValidation.email2 &&
-            emailValidation.email2.verdict.toLowerCase() === "invalid"
-        ) {
+
+        if (emailValidationAnalysis(emailValidation.upEmail2) === emailValidationStatus.INVALID) {
             errorMessage(
                 "UPEmail2",
-                '<span data-i18n="settingsHelpers.emailFormat">' +
-                    translateText("settingsHelpers.emailFormat") +
+                '<span data-i18n="settingsHelpers.emailInvalid">' +
+                    translateText("settingsHelpers.emailInvalid") +
                     "</span>",
                 focus
             );
@@ -662,14 +660,12 @@ export const addEventUPSubmit = async () => {
             focus = false;
             hasError = true;
         }
-        if (
-            emailValidation.email3 &&
-            emailValidation.email3.verdict.toLowerCase() === "invalid"
-        ) {
+
+        if (emailValidationAnalysis(emailValidation.upAdditionalEmail2) === emailValidationStatus.INVALID) {
             errorMessage(
                 "UPAdditionalEmail2",
-                '<span data-i18n="settingsHelpers.emailFormat">' +
-                    translateText("settingsHelpers.emailFormat") +
+                '<span data-i18n="settingsHelpers.emailInvalid">' +
+                    translateText("settingsHelpers.emailInvalid") +
                     "</span>",
                 focus
             );
@@ -677,20 +673,34 @@ export const addEventUPSubmit = async () => {
             focus = false;
             hasError = true;
         }
-        if (
-            emailValidation.email4 &&
-            emailValidation.email4.verdict.toLowerCase() === "invalid"
-        ) {
+        
+        if (emailValidationAnalysis(emailValidation.upAdditionalEmail3) === emailValidationStatus.INVALID) {
             errorMessage(
                 "UPAdditionalEmail3",
-                '<span data-i18n="settingsHelpers.emailFormat">' +
-                    translateText("settingsHelpers.emailFormat") +
+                '<span data-i18n="settingsHelpers.emailInvalid">' +
+                    translateText("settingsHelpers.emailInvalid") +
                     "</span>",
                 focus
             );
             if (focus) document.getElementById("UPAdditionalEmail3").focus();
             focus = false;
             hasError = true;
+        }
+
+        const confirmedEmail = document.getElementById('confirmUPEmail').value;
+        if(!confirmedEmail){
+            errorMessage('confirmUPEmail', '<span data-i18n="event.confirmEmail">'+translateText('event.confirmEmail')+'</span>', focus);
+            if(focus) document.getElementById('confirmUPEmail').focus();
+            focus = false;
+            hasError = true;
+            
+        }
+        else if(confirmedEmail !== document.getElementById('UPEmail').value){
+            errorMessage('confirmUPEmail', '<span data-i18n="event.emailsDoNotMatch">'+translateText('event.emailsDoNotMatch')+'</span>', focus);
+            if(focus) document.getElementById('confirmUPEmail').focus();
+            focus = false;
+            hasError = true;
+            
         }
 
         if(hasError) return false;
@@ -726,10 +736,12 @@ export const addEventUPSubmit = async () => {
             }
         }
 
-        formData[fieldMapping.userProfileHistory] = [];
+        formData[fieldMapping.userProfileHistory] = {};
         // User Profile Former Name
         const formerNameData = getFormerNameData();
-        if (formerNameData) formData[fieldMapping.userProfileHistory].push(formerNameData);
+        if (formerNameData)
+            formData[fieldMapping.userProfileHistory].formerdata =
+                formerNameData;
 
         // User Profile Place of Birth
         formData['876546260'] = document.getElementById('cityOfBirth').value;
@@ -817,24 +829,52 @@ export const addEventUPSubmit = async () => {
         formData['892050548'] = document.getElementById('UPAddress1Zip').value;
 
         // Physical address
+        formData[fieldMapping.isPOBox] = fieldMapping.no
         const poBoxCheckbox = document.getElementById("poBoxCheckbox");
         if (poBoxCheckbox && poBoxCheckbox.checked) {
-            formData['250235523'] = poBoxCheckbox.checked ? fieldMapping.yes : fieldMapping.no;
+            const getFieldValue = (id) =>
+                document.getElementById(id)?.value || "";
+
+            // Update formData with physical address details
+            formData[fieldMapping.isPOBox] = fieldMapping.yes;
+            formData[fieldMapping.physicalAddress1] = getFieldValue(
+                "UPAddress2Line1"
+            );
+            formData[fieldMapping.physicalAddress2] = getFieldValue(
+                "UPAddress2Line1"
+            );
+            formData[fieldMapping.physicalCity] = getFieldValue(
+                "UPAddress2City"
+            );
+            formData[fieldMapping.physicalState] = getFieldValue(
+                "UPAddress2State"
+            );
+            formData[fieldMapping.physicalZip] =
+                getFieldValue("UPAddress2Zip");
+
+            // Create a physicalAddress object
             const physicalAddress = {
-                207908218: document.getElementById("physicalAddressLine1")
-                    .value,
-                224392018: document.getElementById("physicalAddressLine2")
-                    .value,
-                451993790: document.getElementById("physicalAddressCity").value,
-                187799450: document.getElementById("physicalAddressState")
-                    .value,
-                449168732: document.getElementById("physicalAddressZip").value,
+                [fieldMapping.isPOBox]: fieldMapping.yes,
+                [fieldMapping.physicalAddress1]: getFieldValue(
+                    "UPAddress2Line1"
+                ),
+                [fieldMapping.physicalAddress2]: getFieldValue(
+                    "UPAddress2Line1"
+                ),
+                [fieldMapping.physicalCity]: getFieldValue(
+                    "UPAddress2City"
+                ),
+                [fieldMapping.physicalState]: getFieldValue(
+                    "UPAddress2State"
+                ),
+                [fieldMapping.physicalZip]: getFieldValue("UPAddress2Zip"),
                 [fieldMapping.profileChangeRequestedBy]:
-                    document.getElementById("UPEmail").value,
+                    getFieldValue("UPEmail"),
                 [fieldMapping.userProfileUpdateTimestamp]:
                     new Date().toISOString(),
             };
-            formData[fieldMapping.userProfileHistory].push(physicalAddress);
+
+            formData[fieldMapping.userProfileHistory].physicalAddress = physicalAddress;
         }
 
         const cancer = document.getElementsByName('cancerHistory');
@@ -859,7 +899,7 @@ export const addEventUPSubmit = async () => {
         const ageToday = getAge(`${formData['544150384']}-${formData['564964481']}-${formData['795827569']}`);
 
         formData['117249500'] = ageToday;
-        verifyUserDetails(formData);
+        verifyUserDetails(formData, emailValidation);
     });
 }
 
@@ -991,13 +1031,13 @@ export const removeAllErrors = () => {
     })
 }
 
-const verifyUserDetails = (formData) => {
+const verifyUserDetails = (formData, emailValidation) => {
     if(!document.getElementById('connectMainModal').classList.contains('show')) openModal();
     document.getElementById('connectModalHeader').innerHTML = translateHTML(`
     <h4 data-i18n="event.reviewProfile">Review your profile details</h4>
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     `);
-
+    const { formerdata, physicalAddress } = formData[fieldMapping.userProfileHistory];
     let bodyHtml = `
         <div class="row">
             <div class="col" data-i18n="event.firstName">First name</div>
@@ -1027,29 +1067,32 @@ const verifyUserDetails = (formData) => {
             <div class="col">${formData['153211406']}</div>
         </div>
         `: ``}
-        ${formData[fieldMapping.userProfileHistory].length ? `
+        ${formerdata && formerdata.length ? `
             <div class="row">
-                <div class="col"><strong data-i18n="">Former Names</strong></div>
+                <div class="col"><strong data-i18n="form.formerNameSubHeader">Former Names</strong></div>
             </div>
                 `: ``}`;
-    formData[fieldMapping.userProfileHistory].forEach((item) => {
-        bodyHtml += `<div class="row">
-                            <div class="col" data-i18n="">
-                                ${
-                                    item[fieldMapping.fName]
-                                        ? "First Name"
-                                        : item[fieldMapping.mName]
-                                        ? "Middle Name"
-                                        : "Last Name"
-                                }
-                            </div>
-                            <div class="col">${
-                                item[fieldMapping.fName] ||
-                                item[fieldMapping.mName] ||
-                                item[fieldMapping.lName || ""]
-                            }</div>
-                        </div>`;
-    });
+        if (formerdata && formerdata.length) {
+            formerdata.forEach((item) => {
+                bodyHtml += `<div class="row">
+                                    <div class="col">
+                                        ${
+                                            item[fieldMapping.fName]
+                                                ? translateText("settings.firstName")
+                                                : item[fieldMapping.mName]
+                                                ? translateText("settings.middleName")
+                                                : translateText("settings.lastName")
+                                        }
+                                    </div>
+                                    <div class="col">${
+                                        item[fieldMapping.fName] ||
+                                        item[fieldMapping.mName] ||
+                                        item[fieldMapping.lName || ""]
+                                    }</div>
+                                </div>`;
+            });
+        }
+                
     bodyHtml += `
         <div class="row">   
             <div class="col"><strong data-i18n="event.birthDate">Date of birth</strong></div>
@@ -1070,15 +1113,15 @@ const verifyUserDetails = (formData) => {
             <div class="col"><strong data-i18n="form.birthPlaceSubHeader">Place of birth</strong></div>
         </div>
          <div class="row">
-            <div class="col" data-i18n="form.cityOfBirth">City</div>
+            <div class="col" data-i18n="form.cityOfBirth.title">City</div>
             <div class="col">${formData['876546260']}</div>
         </div>
          <div class="row">
-            <div class="col" data-i18n="form.stateOfBirth">State</div>
+            <div class="col" data-i18n="form.stateOfBirth.title">State</div>
             <div class="col">${formData['337485417']}</div>
         </div>
          <div class="row">
-            <div class="col" data-i18n="form.countryOfBirth">Country</div>
+            <div class="col" data-i18n="form.countryOfBirth.title">Country</div>
             <div class="col">${formData['384576626']}</div>
         </div>
         <div class="row">
@@ -1136,28 +1179,48 @@ const verifyUserDetails = (formData) => {
         ${formData['869588347'] ? `
         <div class="row">
             <div class="col" data-i18n="event.preferredEmail">Preferred Email</div>
-            <div class="col">${formData['869588347']}</div>
+            <div class="col">
+                ${formData['869588347']} <br />
+                 ${emailValidationAnalysis(emailValidation.upEmail) === emailValidationStatus.WARNING ? `
+                <i style="color:red" data-i18n="settingsHelpers.emailWarning">The English warning text</i>
+                `:``}
+            </div>
         </div>
         `:``}
         
         ${formData['849786503'] ? `
         <div class="row">
             <div class="col" data-i18n="event.additionalEmail">Additional Email</div>
-            <div class="col">${formData['849786503']}</div>
+            <div class="col">
+                ${formData['849786503']}<br />
+                 ${emailValidationAnalysis(emailValidation.upEmail2) === emailValidationStatus.WARNING ? `
+                <i style="color:red" data-i18n="settingsHelpers.emailWarning">The English warning text</i>
+                `:``}    
+            </div>
         </div>
         `:``}
 
         ${formData['635101039'] ? `
         <div class="row">
             <div class="col" data-i18n="event.additionalEmail2">Additional Email 2</div>
-            <div class="col">${formData['635101039']}</div>
+            <div class="col">
+                ${formData['635101039']}<br />
+                ${emailValidationAnalysis(emailValidation.upAdditionalEmail2) === emailValidationStatus.WARNING ? `
+                <i style="color:red" data-i18n="settingsHelpers.emailWarning">The English warning text</i>
+                `:``}
+            </div>
         </div>
         `:``}
 
         ${formData['714419972'] ? `
         <div class="row">
-            <div class="col" data-i18n="event.additionalEmail3">Additional Email 3</div>
-            <div class="col">${formData['714419972']}</div>
+            <div class="col" data-i18n="event.additionalEmail3">Additional Email 3</div> 
+            <div class="col">
+                ${formData['714419972']}<br />
+                ${emailValidationAnalysis(emailValidation.upAdditionalEmail3) === emailValidationStatus.WARNING ? `
+                <i style="color:red" data-i18n="settingsHelpers.emailWarning">The English warning text</i>
+                `:``}
+            </div>
         </div>
         `:``}
 
@@ -1199,6 +1262,52 @@ const verifyUserDetails = (formData) => {
             <div class="col" data-i18n="event.zip">Zip</div>
             <div class="col">${formData['892050548']}</div>
         </div>
+        
+        ${formData[fieldMapping.isPOBox] === fieldMapping.yes ? `
+        <div class="row">
+            <div class="col"><strong data-i18n="settings.physicalMailAddress">Physical Mailing address</strong></div>
+        </div>
+        `:``}
+
+        <div class="row">
+            <div class="col" data-i18n="event.poBox">Mailing address is PO Box</div>
+            <div class="col">${formData[fieldMapping.isPOBox] === fieldMapping.yes ? "Yes" : "No"}</div>
+        </div>
+
+        ${formData[fieldMapping.isPOBox] === fieldMapping.yes && physicalAddress[fieldMapping.physicalAddress1] ? `
+        <div class="row">
+            <div class="col" data-i18n="event.line1">Line 1 (street, PO box, rural route)</div>
+            <div class="col">${physicalAddress[fieldMapping.physicalAddress1]}</div>
+        </div>
+        `:``}
+ 
+        ${formData[fieldMapping.isPOBox] === fieldMapping.yes && physicalAddress[fieldMapping.physicalAddress2] ? `
+        <div class="row">
+            <div class="col" data-i18n="event.line2">Line 2 (apartment, suite, unit, building)</div>
+            <div class="col">${physicalAddress[fieldMapping.physicalAddress2]}</div>
+        </div>
+        `:``}
+
+        ${formData[fieldMapping.isPOBox] === fieldMapping.yes && physicalAddress[fieldMapping.physicalCity] ? `
+        <div class="row">
+            <div class="col" data-i18n="event.city">City</div>
+            <div class="col">${physicalAddress[fieldMapping.physicalCity]}</div>
+        </div>
+        `:``}
+
+        ${formData[fieldMapping.isPOBox] === fieldMapping.yes && physicalAddress[fieldMapping.physicalState] ? `
+        <div class="row">
+            <div class="col" data-i18n="event.state">State</div>
+            <div class="col">${physicalAddress[fieldMapping.physicalState]}</div>
+        </div>
+        `:``}
+
+        ${formData[fieldMapping.isPOBox] === fieldMapping.yes && physicalAddress[fieldMapping.physicalZip] ? `
+        <div class="row">
+            <div class="col" data-i18n="event.zip">Zip</div>
+            <div class="col">${physicalAddress[fieldMapping.physicalZip]}</div>
+        </div>
+        `:``}   
 
         ${formData['452166062'] ? `
         <div class="row">
@@ -1245,6 +1354,13 @@ const verifyUserDetails = (formData) => {
         dataSavingBtn('save-data');
         formData['699625233'] = 353358909;
         formData['430551721'] = new Date().toISOString();
+
+        const { formerdata, physicalAddress } =
+            formData[fieldMapping.userProfileHistory];
+        formData[fieldMapping.userProfileHistory] = formerdata || [];
+        if (physicalAddress)
+            formData[fieldMapping.userProfileHistory].push(physicalAddress);
+        
         showAnimation();
         const response = await storeResponse(formData);
         if(response.code === 200) {
