@@ -110,7 +110,8 @@
         "formerNameCategoryTitle": "Categoría de nombre",
         "formerNameValueTitle": "Nombre anterior",
         "formerNameValue": {
-            "placeholder": "Ingrese el nombre anterior"
+            "placeholder": "Ingrese el nombre anterior",
+            "data-error-validation": "The Spanish text" // Will update later
         },
         "formerNameCategory": {
             "data-error-required": "Por favor, elija una categoría de nombre. Si no tiene un nombre para ingresar, por favor, elimine el texto del cuadro de texto Nombre anterior"
@@ -122,6 +123,7 @@
         "birthDateSubHeader": "Fecha de nacimiento",
         "birthPlaceSubHeader": "Lugar de nacimiento",
         "monthListLabel": "Mes <span class=\"required\">*</span>",
+        "monthListLabelNotRequired": "Mes",
         "monthListRequired": {
             "data-error-required": "Por favor complete los campos requeridos de fecha de nacimiento"
         },
@@ -138,10 +140,12 @@
         "monthNovember": "Noviembre",
         "monthDecember": "Diciembre",
         "dayListLabel": "Día <span class=\"required\">*</span>",
+        "dayListLabelNotRequired": "Día",
         "dayListRequired": {
             "data-error-required": "Por favor complete los campos requeridos de fecha de nacimiento"
         },
         "yearListLabel": " Año <span class=\"required\">*</span>",
+        "yearListLabelNotRequired": " Año",
         "yearListField": {
             "data-error-required": "Por favor complete los campos requeridos de fecha de nacimiento",
             "data-error-validation": "El año que ha ingresado está fuera de los límites esperados. Por favor, revise sus datos.",
@@ -159,6 +163,7 @@
             "data-error-confirmation":"Los valores de los dos días no coinciden "
         },
         "birthPlaceIntroduction": "Recopilamos esta información para poder vincular la información que recopilamos de otras fuentes, como los registros de salud estatales, con la suya. ",
+        "dobConfirmation": "Por favor, confirme su fecha de nacimiento volviendo a ingresar su información.",
         "cityOfBirth":{
             "title": "Ciudad",
             "placeholder": "Ingrese la ciudad"
@@ -608,7 +613,7 @@
         "profilePageHeader": "Gracias por su interés en el Estudio Connect para la Prevención del Cáncer",
         "profilePageBody": `Gracias por completar el proceso de consentimiento. Necesitamos más información sobre usted para confirmar que puede participar en el estudio. Después de completar este paso, el equipo de Connect de su sistema de atención médica utilizará la información que nos haya dado para ver si cumple con los requisitos de participación. <br><br>
         Ingrese la información con cuidado para asegurarse de que sea correcta. Eso ayudará a su sistema de atención médica a asignársela a su historia clínica y a confirmar que cumple con los requisitos para participar en Connect. Si su sistema de atención médica no puede encontrar una historia clínica que coincida con sus datos, es posible que tarde más en confirmar su participación. Una vez que confirmemos que cumple con los requisitos para participar en Connect, usaremos la información que comparta para vincular con usted toda información que reunamos de otras fuentes, como los registros de salud estatales.<br><br>
-        Nos pondremos en contacto con usted dentro de unos días hábiles. Respetamos su privacidad y protegemos la información personal que comparte con nosotros. Si tiene alguna pregunta, comuníquese con el Centro de <a href=\"https://norcfedramp.servicenowservices.com/recruit\" target=\"_blank\">Connect desde MyConnect.cancer.gov/support.</a>`
+        Nos pondremos en contacto con usted dentro de unos días hábiles. Respetamos su privacidad y protegemos la información personal que comparte con nosotros. Si tiene alguna pregunta, comuníquese con el Centro de Asistencia de Connect desde MyConnect.cancer.gov/support.`
     },
     "footer": {
         "Questions": "¿TIENE ALGUNA PREGUNTA?",
@@ -1314,7 +1319,7 @@
         "city": "Ciudad",
         "state": "Estado",
         "zip": "Código postal",
-        "poBox": "Mailing address is PO Box",
+        "poBox": "The Spanish text", // Will update later
         "invasiveCancer": "¿Ha tenido alguna vez cáncer invasivo?",
         "yearDiagnosed": "¿En qué año se lo diagnosticaron?",
         "typeOfCancer": "¿Qué tipo de cáncer tenía?",
@@ -1355,8 +1360,8 @@
         "phoneRequired": "Debe ingresar al menos un número de teléfono. Ingrese al menos un número de teléfono de 10 dígitos con este formato: 999-999-9999.",
         "phoneFormat": "Ingrese un número de teléfono de 10 dígitos con este formato: 999-999-9999.",
         "emailFormat": "Ingrese una dirección de correo electrónico con este formato: nombre@ejemplo.com.",
-        "emailInvalid": "The Spanish error text", // Will update when information is available
-        "emailWarning": "The Spanish warning text", // Will update when information is available
+        "emailInvalid": "Esta dirección de correo electrónico no es válida. Por favor, introduzca un correo electrónico válido antes de continuar.",
+        "emailWarning": "Advertencia: esta dirección de correo electrónico puede no ser válida. Por favor, vuelva a revisar su entrada antes de continuar.",
         "addressNotEmpty": "El campo “Dirección” no puede quedar en blanco. Por favor, ingrese su dirección.",
         "cityNotEmpty": "El campo “Ciudad” no puede quedar vacío. Seleccione una ciudad.",
         "stateNotEmpty": "El campo “Estado” no puede quedar vacío. Seleccione un estado.",

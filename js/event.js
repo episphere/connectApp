@@ -264,7 +264,6 @@ export const addEventPOBox = () => {
 };
 
 const onBlurPhysicalAddressLine = (event, id) => {
-    console.log("onBlurPhysicalAddressLine")
     const UPAddressCity = document.getElementById(`UPAddress${id}City`);
     const UPAddressState = document.getElementById(
         `UPAddress${id}State`
@@ -329,6 +328,19 @@ export const addEventFormerName = () => {
     addMoreFormerNameDiv.addEventListener("click", addMoreFormerName);
 };
 
+const getFormerNameCategoryTitleElement = () => {
+    const label = document.createElement('label');	
+    label.classList.add('col-form-label', 'col-md-3')
+    label.setAttribute('data-i18n', "form.formerNameCategoryTitle");
+    return label
+}
+const getFormerNameValueTitleElement = () => {
+    const label = document.createElement('label');	
+    label.classList.add('col-form-label', 'col-md-3')
+    label.setAttribute('data-i18n', "form.formerNameValueTitle");
+    return label
+}
+
 export const addMoreFormerName = () => {
     const div = document.getElementById("former-name-group");
     const formerNameItems = document.getElementsByClassName("former-name-item");
@@ -336,16 +348,16 @@ export const addMoreFormerName = () => {
     const selectId = `former-name-category-${formerNameItems.length + 1}`;
 
     const div1 = document.createElement('div');	
-    div1.classList.add('form-group', 'row', 'former-name-item')
+    div1.classList.add('former-name-item')
 
-    const div1_1 = document.createElement('div');	
-    div1_1.classList.add('col-md-3');
-
+    const div1_1 = document.createElement('div');
+    div1_1.classList.add('form-group', 'row')
+	
     const select = document.createElement('select');	
-    select.classList.add('form-control');
+    select.classList.add('form-control', 'col-md-3');
     select.setAttribute('data-i18n', "form.formerNameCategory");
-    select.setAttribute('data-error-required', "Please choose a name category. If you do not have a name to enter, please remove text from Former Name textbox");
-    select.style = "margin-left:0px; max-width:188px"
+    select.setAttribute('data-error-required', translateText('form.formerNameCategory'));
+    select.style = "max-width:190px"
     select.id = selectId;	
 
     formerNameOptions.forEach((option) => {
@@ -357,24 +369,28 @@ export const addMoreFormerName = () => {
         select.appendChild(translateHTML(opt));
     });
 
+    div1_1.appendChild(translateHTML(getFormerNameCategoryTitleElement()));
     div1_1.appendChild(translateHTML(select));
     div1.appendChild(div1_1);
 
     const div1_2 = document.createElement('div');	
-    div1_2.classList.add('col-md-4');
+    div1_2.classList.add('form-group', 'row')
 
     const input = document.createElement('input');	
-    input.classList.add('form-control');
+    input.classList.add('form-control', 'col-md-3', 'input-validation');
     input.setAttribute('data-i18n', "form.formerNameValue");
+    input.setAttribute('data-validation-pattern', "alphabets");
+    input.setAttribute('data-error-validation', "Your former name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters.");
     input.placeholder = 'Enter former name';	
-    input.style = "margin-left:0px; max-width:170px"
+    input.style = "max-width:190px"
     input.type = 'text';	
     input.id = inputId;	
 
+    div1_2.appendChild(translateHTML(getFormerNameValueTitleElement()));
     div1_2.appendChild(translateHTML(input));
     div1.appendChild(div1_2);
-    div.appendChild(div1);
 
+    div.appendChild(div1);
     const inputElement = document.getElementById(inputId);
     inputElement.addEventListener("blur", () => {
         const selectElement = document.getElementById(selectId);
@@ -528,7 +544,7 @@ export const addEventUPSubmit = async () => {
         Array.from(radios).forEach(element => {
             if(element.checked) radioChecked = true;
         });
-        
+
         const phoneNo = `${document.getElementById('UPPhoneNumber11').value}${document.getElementById('UPPhoneNumber12').value}${document.getElementById('UPPhoneNumber13').value}`;
         const phoneNo2 = `${document.getElementById('UPPhoneNumber21').value}${document.getElementById('UPPhoneNumber22').value}${document.getElementById('UPPhoneNumber23').value}`;
         const phoneNo3 = `${document.getElementById('UPPhoneNumber31').value}${document.getElementById('UPPhoneNumber32').value}${document.getElementById('UPPhoneNumber33').value}`;
@@ -1182,7 +1198,7 @@ const verifyUserDetails = (formData, emailValidation) => {
             <div class="col">
                 ${formData['869588347']} <br />
                  ${emailValidationAnalysis(emailValidation.upEmail) === emailValidationStatus.WARNING ? `
-                <i style="color:red" data-i18n="settingsHelpers.emailWarning">The English warning text</i>
+                <i style="color:red" data-i18n="settingsHelpers.emailWarning">Warning- this email address may be invalid. Please double check your entry before continuing.</i>
                 `:``}
             </div>
         </div>
@@ -1194,7 +1210,7 @@ const verifyUserDetails = (formData, emailValidation) => {
             <div class="col">
                 ${formData['849786503']}<br />
                  ${emailValidationAnalysis(emailValidation.upEmail2) === emailValidationStatus.WARNING ? `
-                <i style="color:red" data-i18n="settingsHelpers.emailWarning">The English warning text</i>
+                <i style="color:red" data-i18n="settingsHelpers.emailWarning">Warning- this email address may be invalid. Please double check your entry before continuing.</i>
                 `:``}    
             </div>
         </div>
@@ -1206,7 +1222,7 @@ const verifyUserDetails = (formData, emailValidation) => {
             <div class="col">
                 ${formData['635101039']}<br />
                 ${emailValidationAnalysis(emailValidation.upAdditionalEmail2) === emailValidationStatus.WARNING ? `
-                <i style="color:red" data-i18n="settingsHelpers.emailWarning">The English warning text</i>
+                <i style="color:red" data-i18n="settingsHelpers.emailWarning">Warning- this email address may be invalid. Please double check your entry before continuing.</i>
                 `:``}
             </div>
         </div>
@@ -1218,7 +1234,7 @@ const verifyUserDetails = (formData, emailValidation) => {
             <div class="col">
                 ${formData['714419972']}<br />
                 ${emailValidationAnalysis(emailValidation.upAdditionalEmail3) === emailValidationStatus.WARNING ? `
-                <i style="color:red" data-i18n="settingsHelpers.emailWarning">The English warning text</i>
+                <i style="color:red" data-i18n="settingsHelpers.emailWarning">Warning- this email address may be invalid. Please double check your entry before continuing.</i>
                 `:``}
             </div>
         </div>
@@ -1271,7 +1287,8 @@ const verifyUserDetails = (formData, emailValidation) => {
 
         <div class="row">
             <div class="col" data-i18n="event.poBox">Mailing address is PO Box</div>
-            <div class="col">${formData[fieldMapping.isPOBox] === fieldMapping.yes ? "Yes" : "No"}</div>
+            <div class="col" data-i18n="settings.${formData[fieldMapping.isPOBox] === fieldMapping.yes ? 'optYes': 'optNo'}">
+            ${formData[fieldMapping.isPOBox] === fieldMapping.yes ? "Yes" : "No"}</div>
         </div>
 
         ${formData[fieldMapping.isPOBox] === fieldMapping.yes && physicalAddress[fieldMapping.physicalAddress1] ? `

@@ -67,14 +67,14 @@ export const renderUserProfile = async () => {
 
             <p class="userProfileSubHeaders" data-i18n="form.formerNameSubHeader">Former Names</p> 
             <span data-i18n="form.formerNameIntroduction">Former names are other name(s) you have used in the past for paperwork and administrative purposes (for example, legal name changes, unmarried or “maiden name”, married name). We collect this information so that we can match information we collect from other sources, like state health registries, to you.</span>
-            <div class="form-group row">
+            <!--<div class="form-group row">
                 <div class="col-md-3">
                     <label class="col-form-label" data-i18n="form.formerNameCategoryTitle">Name Category</label>
                 </div>
                 <div class="col-md-4">
                     <label class="col-form-label" data-i18n="form.formerNameValueTitle">Former Name</label>
                 </div>
-            </div>
+            </div> -->
             <div id="former-name-group">
                <!-- Use function addMoreFormerName to generate default content -->
             </div>
@@ -87,10 +87,9 @@ export const renderUserProfile = async () => {
             
             <p class="userProfileSubHeaders" data-i18n="form.birthDateSubHeader">Date of Birth</p> 
             <div class="form-group row">
-                <div class="col-md-3">
-                
+                <div class="col-md-3 col-lg-2">
                     <label class="col-form-label" data-i18n="form.monthListLabel">Month <span class="required">*</span></label>
-                    <select style="margin-left:0px; max-width:188px;" id="UPMonth" class="form-control required-field" data-i18n="form.monthListRequired" data-error-required='Please select your birth month.'>
+                    <select style="margin-left:0px;" id="UPMonth" class="form-control required-field" data-i18n="form.monthListRequired" data-error-required='Please select your birth month.'>
                         <option class="option-dark-mode" value="" data-i18n="form.selectOption">-- Select --</option>
                         <option class="option-dark-mode" value="01" data-i18n="form.monthJanuary">January</option>
                         <option class="option-dark-mode" value="02" data-i18n="form.monthFebruary">February</option>
@@ -106,15 +105,27 @@ export const renderUserProfile = async () => {
                         <option class="option-dark-mode" value="12" data-i18n="form.monthDecember">December</option>
                     </select>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3 col-lg-2">
                     <label class="col-form-label" data-i18n="form.dayListLabel">Day <span class="required">*</span></label>
-                    <select style="margin-left:0px; max-width:129px;"class="form-control required-field" data-i18n="form.dayListRequired" id="UPDay"></select>
+                    <select style="margin-left:0px;"class="form-control required-field" data-i18n="form.dayListRequired" id="UPDay"></select>
                 </div>
+                <div class="col-md-3 col-lg-2">
+                    <label class="col-form-label" data-i18n="form.yearListLabel">Year <span class="required">*</span></label>
+                    <input data-i18n="form.yearListField" style="margin-left:0px;" type="text" class="form-control required-field input-validation" data-error-required='Please select your birth year.' data-validation-pattern="year" data-error-validation="The year you entered is outside of our expected range. Please check your entry." maxlength="4" id="UPYear" title="Birth year, must be in 1900s" Placeholder="Enter birth year">
+                    <!--<datalist id="yearsOption"></datalist>-->
+                </div>
+
             </div>
 
-            <div class="form-group row">
-                <div class="col-md-3">
-                    <select style="margin-left:0px; max-width:188px;" id="UPMonthConfirmation" class="form-control confirmation-field" target="UPMonth" data-i18n="form.monthFieldConfirmation" data-error-confirmation="Both the Month of Birth's do not match">
+             <div class="form-group row">
+                <div data-i18n="form.dobConfirmation">
+                    Please confirm your date of birth by re-entering your information.
+                </div>
+            </div>        
+            <div class="form-group row" style="margin-top: -20px">
+                <div class="col-md-3 col-lg-2">
+                    <label class="col-form-label" data-i18n="form.monthListLabelNotRequired">Month</label>
+                    <select style="margin-left:0px;" id="UPMonthConfirmation" class="form-control confirmation-field" target="UPMonth" data-i18n="form.monthFieldConfirmation" data-error-confirmation="Both the Month of Birth's do not match">
                         <option class="option-dark-mode" value="" data-i18n="form.selectOptionConfirmation">-- Select --</option>
                         <option class="option-dark-mode" value="01" data-i18n="form.monthJanuary">January</option>
                         <option class="option-dark-mode" value="02" data-i18n="form.monthFebruary">February</option>
@@ -130,26 +141,16 @@ export const renderUserProfile = async () => {
                         <option class="option-dark-mode" value="12" data-i18n="form.monthDecember">December</option>
                     </select>
                 </div>
-                <div class="col-md-4">
-                    <select style="margin-left:0px; max-width:129px;" class="form-control confirmation-field" id="UPDayConfirmation" target="UPDay" data-i18n="form.dayFieldConfirmation" data-error-confirmation="Both the Day of Birth's do not match"></select>
+                <div class="col-md-3 col-lg-2">
+                    <label class="col-form-label" data-i18n="form.dayListLabelNotRequired">Day</label>
+                    <select style="margin-left:0px;" class="form-control confirmation-field" id="UPDayConfirmation" target="UPDay" data-i18n="form.dayFieldConfirmation" data-error-confirmation="Both the Day of Birth's do not match"></select>
                 </div>
-            </div>
-
-            <div class="form-group row">
-                <div class="col-md-4">
-                    <label class="col-form-label" style="padding:0;" data-i18n="form.yearListLabel">Year <span class="required">*</span></label>
-                    <br>
-                    <input data-i18n="form.yearListField" style="margin-left:0px; max-width:170px;" type="text" class="form-control required-field input-validation" data-error-required='Please select your birth year.' data-validation-pattern="year" data-error-validation="The year you entered is outside of our expected range. Please check your entry." maxlength="4" id="UPYear" title="Birth year, must be in 1900s" Placeholder="Enter birth year">
-                    <!--<datalist id="yearsOption"></datalist>-->
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-md-4">
-                    <input data-i18n="form.yearListFieldConfirmation" style="margin-left:0px; max-width:170px;" type="text" class="form-control confirmation-field" id="UPYearConfirmation" Placeholder="Re-enter birth year" target="UPYear" data-error-confirmation="Both the Year of Birth's do not match">
+                    <div class="col-md-3 col-lg-2">
+                     <label class="col-form-label" data-i18n="form.yearListLabelNotRequired">Year</label>
+                    <input data-i18n="form.yearListFieldConfirmation" style="margin-left:0px;" type="text" class="form-control confirmation-field" id="UPYearConfirmation" Placeholder="Re-enter birth year" target="UPYear" data-error-confirmation="Both the Year of Birth's do not match">
                     <!--<datalist id="yearsOptionConfirmation"></datalist>-->
                 </div>
             </div>
-            <br>
             <hr>
             <p class="userProfileSubHeaders" data-i18n="form.birthPlaceSubHeader">Place of birth</p>
             <span data-i18n="form.birthPlaceIntroduction">We collect this information so that we can match any information we collect from other sources, like state health registries, to you. </span>
