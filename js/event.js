@@ -1198,7 +1198,7 @@ const verifyUserDetails = (formData, emailValidation) => {
             <div class="col">
                 ${formData['869588347']} <br />
                  ${emailValidationAnalysis(emailValidation.upEmail) === emailValidationStatus.WARNING ? `
-                <i style="color:red" data-i18n="settingsHelpers.emailWarning">The English warning text</i>
+                <i style="color:red" data-i18n="settingsHelpers.emailWarning">Warning- this email address may be invalid. Please double check your entry before continuing.</i>
                 `:``}
             </div>
         </div>
@@ -1210,7 +1210,7 @@ const verifyUserDetails = (formData, emailValidation) => {
             <div class="col">
                 ${formData['849786503']}<br />
                  ${emailValidationAnalysis(emailValidation.upEmail2) === emailValidationStatus.WARNING ? `
-                <i style="color:red" data-i18n="settingsHelpers.emailWarning">The English warning text</i>
+                <i style="color:red" data-i18n="settingsHelpers.emailWarning">Warning- this email address may be invalid. Please double check your entry before continuing.</i>
                 `:``}    
             </div>
         </div>
@@ -1222,7 +1222,7 @@ const verifyUserDetails = (formData, emailValidation) => {
             <div class="col">
                 ${formData['635101039']}<br />
                 ${emailValidationAnalysis(emailValidation.upAdditionalEmail2) === emailValidationStatus.WARNING ? `
-                <i style="color:red" data-i18n="settingsHelpers.emailWarning">The English warning text</i>
+                <i style="color:red" data-i18n="settingsHelpers.emailWarning">Warning- this email address may be invalid. Please double check your entry before continuing.</i>
                 `:``}
             </div>
         </div>
@@ -1234,7 +1234,7 @@ const verifyUserDetails = (formData, emailValidation) => {
             <div class="col">
                 ${formData['714419972']}<br />
                 ${emailValidationAnalysis(emailValidation.upAdditionalEmail3) === emailValidationStatus.WARNING ? `
-                <i style="color:red" data-i18n="settingsHelpers.emailWarning">The English warning text</i>
+                <i style="color:red" data-i18n="settingsHelpers.emailWarning">Warning- this email address may be invalid. Please double check your entry before continuing.</i>
                 `:``}
             </div>
         </div>
@@ -1287,7 +1287,8 @@ const verifyUserDetails = (formData, emailValidation) => {
 
         <div class="row">
             <div class="col" data-i18n="event.poBox">Mailing address is PO Box</div>
-            <div class="col">${formData[fieldMapping.isPOBox] === fieldMapping.yes ? "Yes" : "No"}</div>
+            <div class="col" data-i18n="settings.${formData[fieldMapping.isPOBox] === fieldMapping.yes ? 'optYes': 'optNo'}">
+            ${formData[fieldMapping.isPOBox] === fieldMapping.yes ? "Yes" : "No"}</div>
         </div>
 
         ${formData[fieldMapping.isPOBox] === fieldMapping.yes && physicalAddress[fieldMapping.physicalAddress1] ? `

@@ -111,7 +111,7 @@
         "formerNameValueTitle": "Nombre anterior",
         "formerNameValue": {
             "placeholder": "Ingrese el nombre anterior",
-            "data-error-validation":"The Spanish text" // Will update later
+            "data-error-validation": "The Spanish text" // Will update later
         },
         "formerNameCategory": {
             "data-error-required": "Por favor, elija una categoría de nombre. Si no tiene un nombre para ingresar, por favor, elimine el texto del cuadro de texto Nombre anterior"
@@ -1319,7 +1319,7 @@
         "city": "Ciudad",
         "state": "Estado",
         "zip": "Código postal",
-        "poBox": "Mailing address is PO Box",
+        "poBox": "The Spanish text", // Will update later
         "invasiveCancer": "¿Ha tenido alguna vez cáncer invasivo?",
         "yearDiagnosed": "¿En qué año se lo diagnosticaron?",
         "typeOfCancer": "¿Qué tipo de cáncer tenía?",
@@ -1360,8 +1360,8 @@
         "phoneRequired": "Debe ingresar al menos un número de teléfono. Ingrese al menos un número de teléfono de 10 dígitos con este formato: 999-999-9999.",
         "phoneFormat": "Ingrese un número de teléfono de 10 dígitos con este formato: 999-999-9999.",
         "emailFormat": "Ingrese una dirección de correo electrónico con este formato: nombre@ejemplo.com.",
-        "emailInvalid": "The Spanish error text", // Will update when information is available
-        "emailWarning": "The Spanish warning text", // Will update when information is available
+        "emailInvalid": "Esta dirección de correo electrónico no es válida. Por favor, introduzca un correo electrónico válido antes de continuar.",
+        "emailWarning": "Advertencia: esta dirección de correo electrónico puede no ser válida. Por favor, vuelva a revisar su entrada antes de continuar.",
         "addressNotEmpty": "El campo “Dirección” no puede quedar en blanco. Por favor, ingrese su dirección.",
         "cityNotEmpty": "El campo “Ciudad” no puede quedar vacío. Seleccione una ciudad.",
         "stateNotEmpty": "El campo “Estado” no puede quedar vacío. Seleccione un estado.",
