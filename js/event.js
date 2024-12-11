@@ -264,7 +264,6 @@ export const addEventPOBox = () => {
 };
 
 const onBlurPhysicalAddressLine = (event, id) => {
-    console.log("onBlurPhysicalAddressLine")
     const UPAddressCity = document.getElementById(`UPAddress${id}City`);
     const UPAddressState = document.getElementById(
         `UPAddress${id}State`
