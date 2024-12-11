@@ -52,7 +52,7 @@ async function loadQuestConfig(moduleId) {
         questConfig = {
             "myconnect.cancer.gov": `https://cdn.jsdelivr.net/gh/episphere/quest@v${questVersion}/replace2.js`,
             "myconnect-stage.cancer.gov": `https://cdn.jsdelivr.net/gh/episphere/quest@v${questVersion}/replace2.js`,
-            "episphere.github.io": "https://episphere.github.io/quest-dev/replace2.js",
+            "episphere.github.io": "https://episphere.github.io/quest/replace2.js",
             "localhost:5000": `https://cdn.jsdelivr.net/gh/episphere/quest@v${questVersion}/replace2.js`
         };
     }
@@ -462,7 +462,7 @@ function externalListeners(language){
  */
 function buildSoccerHTML(soccerResults, question) {
     let fieldset = question.querySelector('fieldset');
-    fieldset.innerHTML = translateHTML('<span data-i18n="questionnaire.identifyOccupation">Please identify the occupation category that best describes this job.</span>');
+    fieldset.innerHTML = translateHTML('<span data-i18n="questionnaire.identifyOccupation">Please identify the occupation category that best describes this job.</span><br aria-hidden="true">');
 
     soccerResults.forEach((soc, indx) => {
         // Create a div.response for each radio button
