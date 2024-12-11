@@ -42,10 +42,10 @@ async function loadQuestConfig(moduleId) {
     if (isQuest2) {
         questVersion = appSettingsData.currentQuest2Version;
         questConfig = {
-            "myconnect.cancer.gov": `https://cdn.jsdelivr.net/gh/episphere/quest2-dev@v${questVersion}/main.js`, // TODO: implement
-            "myconnect-stage.cancer.gov": `https://cdn.jsdelivr.net/gh/episphere/quest2-dev@v${questVersion}/main.js`, // TODO: implement
-            "episphere.github.io": "https://episphere.github.io/quest2-dev/main.js", // TODO: Confirm or update path.
-            "localhost:5000": `https://cdn.jsdelivr.net/gh/episphere/quest2-dev@v${questVersion}/main.js`, // TODO: implement
+            "myconnect.cancer.gov": `https://cdn.jsdelivr.net/gh/episphere/quest@v${questVersion}/main.js`, // TODO: verify
+            "myconnect-stage.cancer.gov": `https://cdn.jsdelivr.net/gh/episphere/quest@v${questVersion}/main.js`, // TODO: verify
+            "episphere.github.io": "https://episphere.github.io/quest-dev/main.js",
+            "localhost:5000": "https://episphere.github.io/quest-dev/main.js", // TODO: update to CDN when available
         }
     } else {
         questVersion = appSettingsData.currentQuestVersion;
