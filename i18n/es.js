@@ -182,6 +182,11 @@
             "title": "Ingrese una dirección de correo electrónico con este formato: nombre@ejemplo.com.",
             "placeholder": "abc@mail.com"
         },
+        "confirmPreferredEmail": "Confirme su dirección de correo electrónico preferida<span class=\"required\">*</span>",
+        "confirmPreferredEmailField": {
+            "title": "Ingrese una dirección de correo electrónico con este formato: nombre@ejemplo.com.",
+            "placeholder": "Vuelva a escribir su dirección de correo electrónico preferida"
+        },
         "additionalEmail": "Correo electrónico adicional",
         "additionalEmailField": {
             "title": "Ingrese una dirección de correo electrónico con este formato: nombre@ejemplo.com.",
@@ -1096,6 +1101,7 @@
         "failContactUpdate": "¡Error al modificar la información de contacto!",
         "chargesMayApply": "*Es posible que se le cobren los mensajes de texto",
         "mailAddress": "Dirección postal",
+        "physicalMailAddress": "Dirección física",
         "updateAddressText": "Modificar dirección",
         "mailAddressLine1": "Línea 1 (calle, apartado postal, ruta rural) <span class=\"required\">*</span>",
         "mailAddressLine1Field": {
@@ -1313,6 +1319,7 @@
         "city": "Ciudad",
         "state": "Estado",
         "zip": "Código postal",
+        "poBox": "Mailing address is PO Box",
         "invasiveCancer": "¿Ha tenido alguna vez cáncer invasivo?",
         "yearDiagnosed": "¿En qué año se lo diagnosticaron?",
         "typeOfCancer": "¿Qué tipo de cáncer tenía?",
@@ -1353,6 +1360,8 @@
         "phoneRequired": "Debe ingresar al menos un número de teléfono. Ingrese al menos un número de teléfono de 10 dígitos con este formato: 999-999-9999.",
         "phoneFormat": "Ingrese un número de teléfono de 10 dígitos con este formato: 999-999-9999.",
         "emailFormat": "Ingrese una dirección de correo electrónico con este formato: nombre@ejemplo.com.",
+        "emailInvalid": "The Spanish error text", // Will update when information is available
+        "emailWarning": "The Spanish warning text", // Will update when information is available
         "addressNotEmpty": "El campo “Dirección” no puede quedar en blanco. Por favor, ingrese su dirección.",
         "cityNotEmpty": "El campo “Ciudad” no puede quedar vacío. Seleccione una ciudad.",
         "stateNotEmpty": "El campo “Estado” no puede quedar vacío. Seleccione un estado.",

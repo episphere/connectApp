@@ -181,6 +181,11 @@ const en = {
             "title": "Please enter an email address in this format: name@example.com.",
             "placeholder": "abc@mail.com"
         },
+        "confirmPreferredEmail": "Confirm Preferred Email <span class=\"required\">*</span>",
+        "confirmPreferredEmailField": {
+            "title": "Please enter an email address in this format: name@example.com.",
+            "placeholder": "Retype preferred email"
+        },
         "additionalEmail": "Additional Email",
         "additionalEmailField": {
             "title": "Please enter an email address in this format: name@example.com.",
@@ -1092,6 +1097,7 @@ const en = {
         "failContactUpdate": "Contact Information Update Failed!",
         "chargesMayApply": "*Text message charges may apply",
         "mailAddress": "Mailing Address",
+        "physicalMailAddress": "Physical Mailing Address",
         "updateAddressText": "Update Address",
         "mailAddressLine1": "Line 1 (street, PO box, rural route) <span class=\"required\">*</span>",
         "mailAddressLine1Field": {
@@ -1309,6 +1315,7 @@ const en = {
         "city": "City",
         "state": "State",
         "zip": "Zip",
+        "poBox": "Mailing address is PO Box",
         "invasiveCancer": "Have you ever had invasive cancer?",
         "yearDiagnosed": "What year were you diagnosed?",
         "typeOfCancer": "What type of cancer did you have?",
@@ -1349,6 +1356,8 @@ const en = {
         "phoneRequired": "At least one phone number is required. Please enter at least one 10-digit phone number in this format: 999-999-9999.",
         "phoneFormat": "Please enter a 10-digit phone number in this format: 999-999-9999.",
         "emailFormat": "Please enter an email address in this format: name@example.com.",
+        "emailInvalid": "This email address is invalid. Please enter a valid email before continuing.",
+        "emailWarning": "Warning- this email address may be invalid. Please double check your entry before continuing.",
         "addressNotEmpty": "Address cannot be blank. Please enter your address.",
         "cityNotEmpty": "City must not be empty. Please select a City.",
         "stateNotEmpty": "State must not be empty. Please select a state.",
