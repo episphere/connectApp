@@ -609,7 +609,7 @@ const en = {
         "profilePageHeader": "Thank you for your interest in the Connect for Cancer Prevention Study",
         "profilePageBody": ` Thank you for completing the consent process. We need some more information about you to confirm that you can be part of the study. After you complete this step, the Connect team at your health care system will use the information you share to check your eligibility.<br><br>
         Please enter your information carefully to ensure it is correct. This will help your healthcare system match it to your medical record and confirm your eligibility for Connect. If your healthcare system is unable to find a match, it might take longer to confirm your participation. After we confirm your eligibility for Connect, we’ll use the information you share to match any information we collect from other sources, like state health registries, to you. <br><br>
-        We will contact you within a few business days. We respect your privacy and protect the personal information you share with us. If you have questions, please contact the Connect Support Center at MyConnect.cancer.gov/support.`
+        We will contact you within a few business days. We respect your privacy and protect the personal information you share with us. If you have questions, please contact the Connect Support Center at <a href="https://myconnect.cancer.gov/support" target="_blank">MyConnect.cancer.gov/support</a>.`
     },
     "footer": {
         "Questions": "HAVE QUESTIONS?",

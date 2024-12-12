@@ -225,8 +225,8 @@ const showMajorFormDivs = () => {
   document.getElementById('mailingAddressDiv').style.display = 'block';
   document.getElementById('signInInformationDiv').style.display = 'block';
   if (userData[cId.isPOBox].toString() === cId.yes.toString()) {
-      document.getElementById("physicalMailingAddressDiv").style.display =
-          "block";
+    const addrDiv = document.getElementById("physicalMailingAddressDiv");
+    if(addrDiv) addrDiv.style.display = "block";
   }
 };
 
@@ -454,7 +454,8 @@ const submitNewMailingAddress = async (id, addressLine1, addressLine2, city, sta
     } else {
       document.getElementById(`profileMailingAddress${id}`).innerHTML = `${addressLine1}</br>${addressLine2}</br>${city}, ${state} ${zip}`;
     }
-    document.getElementById("physicalMailingAddressDiv").style.display = isPOBox ? 'block' : 'none' ;
+    const addrDiv = document.getElementById("physicalMailingAddressDiv");
+    if(addrDiv) addrDiv.style.display = isPOBox ? 'block' : 'none' ;
     successMessageElement = document.getElementById(`mailingAddressSuccess${id}`);
     successMessageElement.style.display = 'block';
     refreshUserDataAfterEdit();
@@ -469,7 +470,7 @@ const loadPhysicalMailingAddressElements = () => {
 const handleEditPhysicalMailingAddressSection = () => {
   btnObj.changePhysicalMailingAddressButton.addEventListener('click', () => {
     successMessageElement = hideSuccessMessage(successMessageElement);
-    formVisBools.isPhysicalMailingAddressFormDisplayed = toggleElementVisibility(physicalMailingAddressElementArray, formVisBools.isPhysicalMailingAddressFormDisplayed);
+    formVisBools.isPhysicalMailingAddressFormDisplayed = true;
     if (formVisBools.isPhysicalMailingAddressFormDisplayed) {
       toggleActiveForm(FormTypes.PHYSICAL_MAILING);
       addEventAddressAutoComplete(2);
