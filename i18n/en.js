@@ -69,7 +69,7 @@ const en = {
         "notFoundTitle": "Not Found",
         "accountNotFoundemail": "Your email (",
         "accountNotFoundphonenumber": "Your phone (",
-        "accountNotFoundEnd": ") cannot be found.",
+        "accountNotFoundemailEnd": ") cannot be found.",
         "signInTrouble": "If you’re having trouble signing in or don’t remember your account information, please contact the Connect Support Center at <a href=\"tel:+18664626621\">1-866-462-6621</a> or <a href=\"mailto:ConnectStudy@norc.org\">ConnectStudy@norc.org</a> before creating a new account.",
         "anotherAccount": "Use another account? ",
         "anotherAccountClick": "Click here",
