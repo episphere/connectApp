@@ -111,7 +111,7 @@
         "formerNameValueTitle": "Nombre anterior",
         "formerNameValue": {
             "placeholder": "Ingrese el nombre anterior",
-            "data-error-validation":"Your former name should contain only uppercase and lowercase letters. Please do not use any numbers or special characters."
+            "data-error-validation":"Su antiguo nombre debe contener sólo letras mayúsculas y minúsculas. No utilice números ni caracteres especiales."
         },
         "formerNameCategory": {
             "data-error-required": "Por favor, elija una categoría de nombre. Si no tiene un nombre para ingresar, por favor, elimine el texto del cuadro de texto Nombre anterior"
@@ -258,7 +258,7 @@
             "title": "5 caracteres de longitud, solo valor numérico.",
             "data-error-required": "Ingrese el campo de código postal de su dirección postal."
         },
-        "isPOBoxChecked": "Revise si la dirección postal es un apartado postal ",
+        "isPOBoxChecked": "La dirección postal es PO Box",
         "mailAddressCountry": "País ",
         "mailAddressCountryRequired": "País <span class=\"required\">*</span>",
         "physicalAddress": "Dirección física (si es diferente de la dirección postal) ",
