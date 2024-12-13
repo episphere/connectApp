@@ -990,7 +990,7 @@ export const formerNameOptions = [
   { value: "middle", text: "Middle" ,i18n: 'form.formerNameCategoryOption.middle'},
   { value: "last", text: "Last" ,i18n: 'form.formerNameCategoryOption.last'},
 ];
-export const numberOfDefaultFormerNames = 2
+export const numberOfDefaultFormerNames = 1
 export const getFormerNameData = () => {
     const result = [];
     const upEmail = document.getElementById("UPEmail");

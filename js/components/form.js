@@ -1,5 +1,5 @@
 import { allStates, allCountries, getMyData, hasUserData, translateHTML, translateText } from "../shared.js";
-import { addEventMonthSelection, addEventMonthConfirmationSelection, addEventUPSubmit, addEventCancerFollowUp, addEventChangeFocus, addEventAddressAutoComplete, addEventAdditionalEmail, addEventCheckCanText, addEventFormerName, addMoreFormerName, addEventPOBox, addEventPhysicalAddressLine } from "../event.js";
+import { addEventMonthSelection, addEventMonthConfirmationSelection, addEventUPSubmit, addEventCancerFollowUp, addEventChangeFocus, addEventAddressAutoComplete, addEventAdditionalEmail, addEventCheckCanText, addEventFormerName, addMoreFormerName, addEventPhysicalAddressLine } from "../event.js";
 import cId from '../fieldToConceptIdMapping.js';
 import { suffixList, suffixToTextMapDropdown, suffixToTextMap, numberOfDefaultFormerNames } from "../settingsHelpers.js";
 
@@ -332,7 +332,7 @@ export const renderUserProfile = async () => {
                     <span  data-i18n="form.isPOBoxChecked">Please check if mailing address is a P.O. Box</span>
                 </label> 
             </div><br/>
-            <div id="physicalAddressSection" style="display:none">
+            <div id="physicalAddressSection" style="display:block">
                 <div style="font-weight:bold" data-i18n="form.physicalAddress">
                     Physical Address (if different from Mailing Address)
                 </div><br/>
@@ -387,7 +387,6 @@ export const renderUserProfile = async () => {
     addEventAddressAutoComplete(2);
     addEventCheckCanText();
     addEventUPSubmit();
-    addEventPOBox();
     addEventPhysicalAddressLine(2);
 
     for (let i = 0; i < numberOfDefaultFormerNames; i++) {

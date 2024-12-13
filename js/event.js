@@ -1,5 +1,5 @@
 import { allCountries, dataSavingBtn, storeResponse, validatePin, generateNewToken, showAnimation, hideAnimation, sites, errorMessage, BirthMonths, getAge, getMyData, 
-    hasUserData, retrieveNotifications, toggleNavbarMobileView, appState, logDDRumError, translateHTML, translateText, firebaseSignInRender, emailAddressValidation, emailValidationStatus, emailValidationAnalysis } from "./shared.js";
+    hasUserData, retrieveNotifications, toggleNavbarMobileView, appState, logDDRumError, translateHTML, translateText, firebaseSignInRender, emailAddressValidation, emailValidationStatus, emailValidationAnalysis, validNameFormat } from "./shared.js";
 import { consentTemplate } from "./pages/consent.js";
 import { heardAboutStudy, healthCareProvider, duplicateAccountReminderRender } from "./pages/healthCareProvider.js";
 import { myToDoList } from "./pages/myToDoList.js";
@@ -251,18 +251,6 @@ export const addEventSaveConsentBtn = () => {
     })
 }
 
-export const addEventPOBox = () => {
-    const poBoxCheckbox = document.getElementById("poBoxCheckbox");
-    const physicalAddressSection = document.getElementById(
-        "physicalAddressSection"
-    );
-    poBoxCheckbox.addEventListener("change", () => {
-        physicalAddressSection.style.display = "none";
-        if (poBoxCheckbox.checked)
-            physicalAddressSection.style.display = "block";
-    });
-};
-
 const onBlurPhysicalAddressLine = (event, id) => {
     const UPAddressCity = document.getElementById(`UPAddress${id}City`);
     const UPAddressState = document.getElementById(
@@ -478,7 +466,7 @@ export const addEventUPSubmit = async () => {
             if(element.value){
                 const validationPattern = element.dataset.validationPattern;
                 if(validationPattern && validationPattern === 'alphabets') {
-                    if(!/^[A-Za-z ]+$/.test(element.value)) {
+                    if(!validNameFormat.test(element.value)) {
                         errorMessage(element.id, element.dataset.errorValidation, focus)
                         focus = false;
                         hasError = true;
@@ -659,6 +647,8 @@ export const addEventUPSubmit = async () => {
                     "</span>",
                 focus
             );
+            // Clear the "Confirm Preferred Email" field here
+            document.getElementById('confirmUPEmail').value = '';
             if (focus) document.getElementById("UPEmail").focus();
             focus = false;
             hasError = true;
@@ -844,54 +834,33 @@ export const addEventUPSubmit = async () => {
         formData['634434746'] = document.getElementById('UPAddress1State').value;
         formData['892050548'] = document.getElementById('UPAddress1Zip').value;
 
-        // Physical address
-        formData[fieldMapping.isPOBox] = fieldMapping.no
         const poBoxCheckbox = document.getElementById("poBoxCheckbox");
-        if (poBoxCheckbox && poBoxCheckbox.checked) {
-            const getFieldValue = (id) =>
-                document.getElementById(id)?.value || "";
 
-            // Update formData with physical address details
-            formData[fieldMapping.isPOBox] = fieldMapping.yes;
-            formData[fieldMapping.physicalAddress1] = getFieldValue(
-                "UPAddress2Line1"
-            );
-            formData[fieldMapping.physicalAddress2] = getFieldValue(
-                "UPAddress2Line1"
-            );
-            formData[fieldMapping.physicalCity] = getFieldValue(
-                "UPAddress2City"
-            );
-            formData[fieldMapping.physicalState] = getFieldValue(
-                "UPAddress2State"
-            );
-            formData[fieldMapping.physicalZip] =
-                getFieldValue("UPAddress2Zip");
+        // Physical address
+        formData[fieldMapping.isPOBox] = poBoxCheckbox && poBoxCheckbox.checked ?
+            fieldMapping.yes :
+            fieldMapping.no
 
-            // Create a physicalAddress object
-            const physicalAddress = {
-                [fieldMapping.isPOBox]: fieldMapping.yes,
-                [fieldMapping.physicalAddress1]: getFieldValue(
-                    "UPAddress2Line1"
-                ),
-                [fieldMapping.physicalAddress2]: getFieldValue(
-                    "UPAddress2Line1"
-                ),
-                [fieldMapping.physicalCity]: getFieldValue(
-                    "UPAddress2City"
-                ),
-                [fieldMapping.physicalState]: getFieldValue(
-                    "UPAddress2State"
-                ),
-                [fieldMapping.physicalZip]: getFieldValue("UPAddress2Zip"),
-                [fieldMapping.profileChangeRequestedBy]:
-                    getFieldValue("UPEmail"),
-                [fieldMapping.userProfileUpdateTimestamp]:
-                    new Date().toISOString(),
-            };
+        // Physical address info is saved regardless of whether PO Box is checked
+        
+        const getFieldValue = (id) =>
+            document.getElementById(id)?.value || "";
 
-            formData[fieldMapping.userProfileHistory].physicalAddress = physicalAddress;
-        }
+        // Update formData with physical address details
+        formData[fieldMapping.physicalAddress1] = getFieldValue(
+            "UPAddress2Line1"
+        );
+        formData[fieldMapping.physicalAddress2] = getFieldValue(
+            "UPAddress2Line2"
+        );
+        formData[fieldMapping.physicalCity] = getFieldValue(
+            "UPAddress2City"
+        );
+        formData[fieldMapping.physicalState] = getFieldValue(
+            "UPAddress2State"
+        );
+        formData[fieldMapping.physicalZip] =
+            getFieldValue("UPAddress2Zip");
 
         const cancer = document.getElementsByName('cancerHistory');
         Array.from(cancer).forEach(radioBtn => {
