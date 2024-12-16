@@ -326,7 +326,8 @@ export const renderUserProfile = async () => {
                 Mailing Address
             </div>
             ${renderMailingAddress('', 1, true)}
-            <div class="checkbox">
+
+            <!--<div class="checkbox">
                 <label>
                     <input type="checkbox" id="poBoxCheckbox">
                     <span  data-i18n="form.isPOBoxChecked">Please check if mailing address is a P.O. Box</span>
@@ -341,7 +342,7 @@ export const renderUserProfile = async () => {
                 </div>
                 ${renderMailingAddress('', 2)}
             </div>
-            <br>
+            <br>-->
             <hr>
             <div class="userProfileSubHeaders" data-i18n="form.cancerHistorySubheader">Cancer History</div>
             <div class="form-group row">
@@ -384,10 +385,10 @@ export const renderUserProfile = async () => {
     addEventFormerName();
     addEventAdditionalEmail();
     addEventAddressAutoComplete(1);
-    addEventAddressAutoComplete(2);
+    // addEventAddressAutoComplete(2);
     addEventCheckCanText();
     addEventUPSubmit();
-    addEventPhysicalAddressLine(2);
+    // addEventPhysicalAddressLine(2);
 
     for (let i = 0; i < numberOfDefaultFormerNames; i++) {
         addMoreFormerName();
