@@ -1260,35 +1260,35 @@ const verifyUserDetails = (formData, emailValidation) => {
             ${formData[fieldMapping.isPOBox] === fieldMapping.yes ? "Yes" : "No"}</div>
         </div>
 
-        ${formData[fieldMapping.isPOBox] === fieldMapping.yes && physicalAddress[fieldMapping.physicalAddress1] ? `
+        ${formData[fieldMapping.isPOBox] === fieldMapping.yes && physicalAddress && physicalAddress[fieldMapping.physicalAddress1] ? `
         <div class="row">
             <div class="col" data-i18n="event.line1">Line 1 (street, PO box, rural route)</div>
             <div class="col">${physicalAddress[fieldMapping.physicalAddress1]}</div>
         </div>
         `:``}
  
-        ${formData[fieldMapping.isPOBox] === fieldMapping.yes && physicalAddress[fieldMapping.physicalAddress2] ? `
+        ${formData[fieldMapping.isPOBox] === fieldMapping.yes && physicalAddress && physicalAddress[fieldMapping.physicalAddress2] ? `
         <div class="row">
             <div class="col" data-i18n="event.line2">Line 2 (apartment, suite, unit, building)</div>
             <div class="col">${physicalAddress[fieldMapping.physicalAddress2]}</div>
         </div>
         `:``}
 
-        ${formData[fieldMapping.isPOBox] === fieldMapping.yes && physicalAddress[fieldMapping.physicalCity] ? `
+        ${formData[fieldMapping.isPOBox] === fieldMapping.yes && physicalAddress && physicalAddress[fieldMapping.physicalCity] ? `
         <div class="row">
             <div class="col" data-i18n="event.city">City</div>
             <div class="col">${physicalAddress[fieldMapping.physicalCity]}</div>
         </div>
         `:``}
 
-        ${formData[fieldMapping.isPOBox] === fieldMapping.yes && physicalAddress[fieldMapping.physicalState] ? `
+        ${formData[fieldMapping.isPOBox] === fieldMapping.yes && physicalAddress && physicalAddress[fieldMapping.physicalState] ? `
         <div class="row">
             <div class="col" data-i18n="event.state">State</div>
             <div class="col">${physicalAddress[fieldMapping.physicalState]}</div>
         </div>
         `:``}
 
-        ${formData[fieldMapping.isPOBox] === fieldMapping.yes && physicalAddress[fieldMapping.physicalZip] ? `
+        ${formData[fieldMapping.isPOBox] === fieldMapping.yes && physicalAddress && physicalAddress[fieldMapping.physicalZip] ? `
         <div class="row">
             <div class="col" data-i18n="event.zip">Zip</div>
             <div class="col">${physicalAddress[fieldMapping.physicalZip]}</div>

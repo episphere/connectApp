@@ -1319,7 +1319,7 @@
         "city": "Ciudad",
         "state": "Estado",
         "zip": "Código postal",
-        "poBox": "The Spanish text", // Will update later
+        "poBox": "La dirección postal es PO Box",
         "invasiveCancer": "¿Ha tenido alguna vez cáncer invasivo?",
         "yearDiagnosed": "¿En qué año se lo diagnosticaron?",
         "typeOfCancer": "¿Qué tipo de cáncer tenía?",
