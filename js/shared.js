@@ -1181,13 +1181,14 @@ export const isBrowserCompatible = () => {
  */
 
 export const inactivityTime = () => {
+    const activityKey = 'lastMyConnectActivityTimestamp';
+    const warningKey = 'myConnectInactivityWarning';   
     const inactivityTimeout = 1200000; // 20 minutes (show inactivity warning after 20 minutes)
-    const maxResponseTime = 300000; // 5 minutes (after no activity for 20 minutes)
-    const checkInterval = 60000; // 1 minute (check for inactivity every minute)
+    const maxResponseTime = 300000;    // 5 minutes (additional time after warning)
+    const checkInterval = 60000;       // 1 minute checks
 
     let responseTimeout;
     let modal;
-    let lastActivityTimestamp = Date.now();
     let isInactiveModalShown = false;
     let intervalId;
     let loadListener;
@@ -1195,15 +1196,37 @@ export const inactivityTime = () => {
     const modalElement = document.getElementById('connectMainModal');
     if (!modalElement) return;
 
+    // Update the global last activity timestamp in localStorage
+    const updateLastActivity = () => {
+        localStorage.setItem(activityKey, Date.now().toString());
+    };
+
+    // Reset the timer only if the modal is not shown. This represents user activity.
     const resetTimer = () => {
         if (!isInactiveModalShown) {
-            lastActivityTimestamp = Date.now();
+            updateLastActivity();
         }
     };
 
     const checkInactivity = () => {
+        const lastActivity = parseInt(localStorage.getItem(activityKey), 10) || Date.now();
         const now = Date.now();
-        if (!isInactiveModalShown && now - lastActivityTimestamp > inactivityTimeout) {
+
+        console.log("lastActivity", lastActivity);
+        console.log('TIME ELAPSED', now - lastActivity);
+        console.log('SHOW MODAL', now - lastActivity > inactivityTimeout);
+
+        const isWarningShownGlobally = localStorage.getItem(warningKey) === 'true';
+
+        // Only show warning if none is currently shown globally (for management with multiple tabs open)
+        // Ensure it's shown in the active tab if a tab is active.
+        if (
+            document.visibilityState === 'visible' &&
+            document.hasFocus() &&
+            !isInactiveModalShown &&
+            !isWarningShownGlobally &&
+            now - lastActivity > inactivityTimeout
+        ) {
             showInactivityWarning();
         }
     };
@@ -1228,6 +1251,9 @@ export const inactivityTime = () => {
         clearInterval(intervalId);
         hideModal();
         detachDocumentEventListeners();
+
+        localStorage.setItem(warningKey, 'false');
+
         await signOut();
     }
 
@@ -1245,7 +1271,12 @@ export const inactivityTime = () => {
         if (continueButton) {
             continueButton.addEventListener('click', () => {
                 clearTimeout(responseTimeout);
-                lastActivityTimestamp = Date.now();
+
+                // Reset activity on continue
+                updateLastActivity();
+
+                // Clear the warning state on continue click
+                localStorage.setItem(warningKey, 'false');
                 hideModal();
             });
         }
@@ -1272,6 +1303,8 @@ export const inactivityTime = () => {
         // Reset the inactivity timer on user activity
         document.addEventListener('mousemove', resetTimer);
         document.addEventListener('keydown', resetTimer);
+
+        window.addEventListener('storage', handleLocalStorageStateChange);
     }
 
     const detachDocumentEventListeners = () => {
@@ -1282,11 +1315,36 @@ export const inactivityTime = () => {
         if (signOutButton) {
             signOutButton.replaceWith(signOutButton.cloneNode(true));
         }
+
+        window.removeEventListener('storage', handleLocalStorageStateChange);
     };
 
-    // Activate the response timeout, show the warning modal, and log out the user if there's no response.
+    const handleLocalStorageStateChange = (event) => {
+        if (event.key === warningKey) {
+            const warningState = localStorage.getItem(warningKey);
+            if (warningState === 'false' && isInactiveModalShown) {
+                // Another tab cleared the warning, hide modal if it's visible
+                hideModal();
+            }
+        }
+
+        if (event.key === activityKey) {
+            const lastActivity = parseInt(localStorage.getItem(activityKey), 10) || Date.now();
+            const now = Date.now();
+            if ((now - lastActivity < inactivityTimeout) && isInactiveModalShown) {
+                // The user became active again in another tab. Hide this modal and clear the warning
+                hideModal();
+                localStorage.setItem(warningKey, 'false');
+            }
+        }
+    };
+
+    // Show inactivity warning modal and start response timeout
     const showInactivityWarning = async () => {
         if (!firebase.auth().currentUser) return;
+
+        // Set the global warning state so other tabs know not to show it
+        localStorage.setItem(warningKey, 'true');
 
         isInactiveModalShown = true;
 
@@ -1298,7 +1356,6 @@ export const inactivityTime = () => {
         modal = new bootstrap.Modal(modalElement);
         showModal();
 
-        // Update modal content
         const header = document.getElementById('connectModalHeader');
         const body = document.getElementById('connectModalBody');
         const footer = document.getElementById('connectModalFooter');
@@ -1310,12 +1367,19 @@ export const inactivityTime = () => {
         }
 
         console.log("initial timeout has been reached!");
-
         attachModalEventListeners(modalElement);
     };
 
-    // Magage the inactivity timer
+    // Start inactivity checks
     intervalId = setInterval(checkInactivity, checkInterval);
+
+    // Update on initial load so we have a baseline timestamp
+    if (!localStorage.getItem(activityKey)) {
+        updateLastActivity();
+    }
+
+    // Reset the warning key on load
+    localStorage.setItem(warningKey, 'false');
 
     // Handle window load event
     if (document.readyState !== 'complete') {
@@ -1330,10 +1394,14 @@ export const inactivityTime = () => {
         attachDocumentEventListeners();
     }
 
+    // Cleanup function to stop checks and clear timeouts.
     return () => {
         if (intervalId) clearInterval(intervalId);
         if (responseTimeout) clearTimeout(responseTimeout);
         if (loadListener) window.removeEventListener('load', loadListener);
+        detachDocumentEventListeners();
+        hideModal();
+        localStorage.setItem(warningKey, 'false');
     };
 };
 
