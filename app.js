@@ -111,6 +111,8 @@ window.onload = async () => {
     document.body.appendChild(script)
     auth = firebase.auth();
 
+    let inactivityCleanupFunction = null;
+
     auth.onAuthStateChanged(async (user) => {
         let idToken = '';
         if (user) {
@@ -119,17 +121,39 @@ window.onload = async () => {
                 localforage.clear();
                 const firstSignInTime = new Date(user.metadata.creationTime).toISOString();
                 appState.setState({ participantData: { firstSignInTime } }); // TODO: potential issue with firstSignInTimestamp
+
+                // Reset to a clean activity state on auth update
+                localStorage.setItem('myConnectInactivityWarning', 'false');
+                localStorage.setItem('lastMyConnectActivityTimestamp', Date.now().toString());
+
+                // Clean up the old timer if it exists
+                if (inactivityCleanupFunction && typeof inactivityCleanupFunction === 'function') {
+                    inactivityCleanupFunction();
+                }
+
+                // Start the inactivity timer and store the cleanup function
+                inactivityCleanupFunction = inactivityTime();
+            } else {
+                // User is anonymous or logged out, stop the timer if it exists
+                if (inactivityCleanupFunction && typeof inactivityCleanupFunction === 'function') {
+                    inactivityCleanupFunction();
+                    inactivityCleanupFunction = null;
+                }
+                localStorage.setItem('myConnectInactivityWarning', 'false');
             }
+        } else {
+            // No user logged in (or user just logged out)
+            if (inactivityCleanupFunction && typeof inactivityCleanupFunction === 'function') {
+                inactivityCleanupFunction();
+                inactivityCleanupFunction = null;
+            }
+            localStorage.setItem('myConnectInactivityWarning', 'false');
         }
 
         appState.setState({ idToken });
-
-        await router();
-
-        if (user && !user.isAnonymous) {
-            inactivityTime();
-        }
     });
+
+    await router();
 }
 
 const handleVerifyEmail = (auth, actionCode) => {
