@@ -2263,7 +2263,7 @@ export const emailValidationStatus = {
 export const emailValidationAnalysis = (validation) => {
     if (!validation) return;
 
-    const { verdict, checks, score } = validation
+    const { verdict, checks, score } = validation;
     const { INVALID, VALID, WARNING } = emailValidationStatus;
 
     const isInvalid =
@@ -2273,6 +2273,11 @@ export const emailValidationAnalysis = (validation) => {
         score < 0.45;
 
     if (isInvalid) {
+        // it's for testing with the test email such as *.mailinator
+        if (location.host !== urls.prod) {
+            console.error("Invalid Email", validation);
+            return VALID;
+        }
         return INVALID;
     }
 
@@ -2284,6 +2289,11 @@ export const emailValidationAnalysis = (validation) => {
         score < 0.8;
 
     if (isWarning) {
+         // it's for testing with the test email such as *.mailinator
+         if (location.host !== urls.prod) {
+            console.error("Risky Email", validation);
+            return VALID;
+        }
         return WARNING;
     }
 
