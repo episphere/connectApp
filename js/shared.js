@@ -1212,10 +1212,6 @@ export const inactivityTime = () => {
         const lastActivity = parseInt(localStorage.getItem(activityKey), 10) || Date.now();
         const now = Date.now();
 
-        console.log("lastActivity", lastActivity);
-        console.log('TIME ELAPSED', now - lastActivity);
-        console.log('SHOW MODAL', now - lastActivity > inactivityTimeout);
-
         const isWarningShownGlobally = localStorage.getItem(warningKey) === 'true';
 
         // Only show warning if none is currently shown globally (for management with multiple tabs open)
