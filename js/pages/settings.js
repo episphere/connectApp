@@ -432,18 +432,19 @@ const handleEditMailingAddressSection = () => {
     const city = document.getElementById('UPAddress1City').value.trim();
     const state = document.getElementById('UPAddress1State').value.trim();
     const zip = document.getElementById('UPAddress1Zip').value.trim();
-    const isPOBox = document.getElementById('poBoxCheckbox').checked;
+    // const isPOBox = document.getElementById('poBoxCheckbox').checked;
 
     const isMailingAddressValid = validateMailingAddress(1, addressLine1, city, state, zip);
     if (isMailingAddressValid) {
       formVisBools.isMailingAddressFormDisplayed = toggleElementVisibility(mailingAddressElementArray, formVisBools.isMailingAddressFormDisplayed);
       toggleButtonText();
-      submitNewMailingAddress(1, addressLine1, addressLine2, city, state, zip, isPOBox);
+    //   submitNewMailingAddress(1, addressLine1, addressLine2, city, state, zip, isPOBox);
+      submitNewMailingAddress(1, addressLine1, addressLine2, city, state, zip);
     }
   });
 };
 
-const submitNewMailingAddress = async (id, addressLine1, addressLine2, city, state, zip, isPOBox) => {
+const submitNewMailingAddress = async (id, addressLine1, addressLine2, city, state, zip, isPOBox = false) => {
   const isSuccess = await changeMailingAddress(id, addressLine1, addressLine2, city, state, zip, userData, isPOBox).catch(function (error) {
     document.getElementById(`mailingAddressFail${id}`).style.display = 'block';
     document.getElementById(`mailingAddressError${id}`).innerHTML = error.message;
@@ -1518,14 +1519,14 @@ export const renderChangeMailingAddressGroup = (id ) => {
                    <input type=text style="max-width:301px;" id="UPAddress${id}Zip" data-i18n="settings.zipField" data-error-validation="${translateText('settings.zipValidator')}" data-val-pattern="[0-9]{5}" title="${translateHTML('settings.zipTitle')}" class="form-control required-field num-val" data-error-required="${translateText('settings.zipRequired')}" size="5" maxlength="5" placeholder="99999">
                 </div>
             </div>
-            ${id === 1 ? `
+            <!--${id === 1 ? `
                 <div class="checkbox">
                     <label>
                         <input type="checkbox" id="poBoxCheckbox">
                         <span  data-i18n="form.isPOBoxChecked">Please check if mailing address is a P.O. Box</span>
                     </label> 
                 </div>
-            `:``}
+            `:``} -->
             <div class="form-group row">
                 
             </div>
