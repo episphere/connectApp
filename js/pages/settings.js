@@ -224,7 +224,7 @@ const showMajorFormDivs = () => {
   document.getElementById('contactInformationDiv').style.display = 'block';
   document.getElementById('mailingAddressDiv').style.display = 'block';
   document.getElementById('signInInformationDiv').style.display = 'block';
-  if (userData[cId.isPOBox].toString() === cId.yes.toString()) {
+  if (userData[cId.isPOBox]?.toString() === cId.yes.toString()) {
     const addrDiv = document.getElementById("physicalMailingAddressDiv");
     if(addrDiv) addrDiv.style.display = "block";
   }
